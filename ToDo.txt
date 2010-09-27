@@ -1,0 +1,4 @@
+Put limiter on downloads. Maximum of 8.
+Fix Orientation Screen Layout.
+Add TouchScreen support.
+Merge files into better compile builds.
