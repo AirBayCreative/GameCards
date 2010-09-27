@@ -21,7 +21,6 @@ MAUIMoblet::MAUIMoblet() {
 	MAExtent screenSize = maGetScrSize();
 	scrWidth = EXTENT_X(screenSize);
 	scrHeight = EXTENT_Y(screenSize);
-;
 	feed = Feed();
 	feed.setAll(getData(FEED));
 	feed.setAlbum(getData(ALBUM));
