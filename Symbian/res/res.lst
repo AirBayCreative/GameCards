@@ -1,0 +1,72 @@
+.res RES_IMAGE
+.image "crosslogo.png"
+
+.res RES_FONT_GREY
+.bin
+.include "nobilegrey.mof"  
+
+.res RES_FONT_BLUE
+.bin
+.include "nobileblue.mof" 
+
+.res RES_FONT_BLACK
+.bin  
+.include "nobileblack.mof"
+ 
+.res RES_FONT_WHITE
+.bin
+.include "nobilewhite.mof"  
+
+.res RES_SELECTED_EDITBOX 
+.image "background_editbox_sel.png" 
+
+.res RES_UNSELECTED_EDITBOX 
+.image "background_editbox_unsel.png" 
+ 
+.res RES_SELECTED_BUTTON
+.image "background_button_sel.png" 
+
+.res RES_UNSELECTED_BUTTON
+.image "background_button_unsel.png"
+
+.res RES_TEXT_BOX 
+.image "background_text_sel.png"
+
+.res RES_BACKGROUND
+.image "background.jpg"
+
+.res RES_SELECTED_LIST
+.image "background_list_sel.png"  
+
+.res RES_UNSELECTED_LIST
+.image "background_list_unsel.png"
+
+.res RES_SELECTED_ALBUM
+.image "background_album_sel.png"
+
+.res RES_UNSELECTED_ALBUM
+.image "background_album_unsel.png"  
+
+.res RESP_DATA
+.placeholder
+
+.res RESP_IMAGE
+.placeholder
+
+.res RES_TEMPTHUMB
+.image "emptythumb.png"
+
+.res RES_SOON
+.image "coming soon.png"
+
+.res RES_TEMP
+.image "empty.png"
+
+.res RES_LOGOUT
+.image "log out.png"
+
+.res RES_LOADINGTHUMB
+.image "loadingthumb.png"
+
+.res RES_LOADING
+.image "loading.png"
