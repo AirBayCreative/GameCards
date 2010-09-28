@@ -127,14 +127,14 @@ void Login::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			errorLabel->setCaption(loggingin);
 			if (editBoxLogin->getText()==blank) {
-				editBoxLogin->setText("m24demo");
-				editBoxPass->setText("m24demo");
+				editBoxLogin->setText("wouter");
+				editBoxPass->setText("wjgrove");
 			}
 
 			if (editBoxLogin->getText()!=blank & editBoxPass->getText()!=blank) {
 
 				editBoxPass->setPasswordMode(false);
-				editBoxPass->setText("m24demo");
+				editBoxPass->setText("wjgrove");
 				conCatenation = editBoxPass->getText().c_str();
 
 				editBoxPass->setText(convertAsterisk.c_str());
