@@ -3,9 +3,12 @@
 
 #include "MAUI.h"
 #include "Header.h"
+#include "UI/MobKeyboard.h"
 
 using namespace MAUI;
 using namespace MAUtil;
+
+class MobKeyboard;
 
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:

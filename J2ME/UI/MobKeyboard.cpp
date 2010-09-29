@@ -3,6 +3,8 @@
 
 #include <MAUI/EditBox.h>
 
+#include <conprint.h> //TODO rem
+
 MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	: Widget(x, y, width, height, NULL)
 {
@@ -55,7 +57,8 @@ void MobKeyboard::show()
 void MobKeyboard::hide()
 {
 	m_isShown = false;
-	Environment::getEnvironment().removePointerListener(this);
+	if (m_isShown)
+		Environment::getEnvironment().removePointerListener(this);
 	m_attachedWidget = NULL;
 }
 
@@ -66,6 +69,8 @@ void MobKeyboard::drawWidget()
 
 	if ((m_activeLayout < 0) || (m_activeLayout >= m_layouts->size()))
 		return;
+
+	Engine::getSingleton().showOverlay(0, 0, this);
 
 	Rect l_bounds = this->getBounds();
 	maSetClipRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);

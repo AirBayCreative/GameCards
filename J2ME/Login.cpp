@@ -31,7 +31,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	MAExtent screenSize = maGetScrSize();
 	int scrWidth = EXTENT_X(screenSize);
 	int scrHeight = EXTENT_Y(screenSize);
-	keyboard = new MobKeyboard(0, 0, scrWidth, scrHeight / 2);
+	keyboard = new MobKeyboard(0, scrHeight - 135, scrWidth, 135);
 
 	listBox->add(label);
 	listBox->add(labelPass);
@@ -81,19 +81,19 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 	}
 
 	int index = listBox->getSelectedIndex();
-	if (index == 1 || index == 3) {
+	if (list && (index == 1 || index == 3)) {
 		if (index == 1) {
-			keyboard.attachWidget(editBoxLogin);
+			keyboard->attachWidget(editBoxLogin);
 		}
 		else if (index == 3) {
-			keyboard.attachWidget(editBoxPass);
+			keyboard->attachWidget(editBoxPass);
 		}
-		keyboard.show();
-		keyboard.drawWidget();
+		keyboard->show();
+		keyboard->drawWidget();
 	}
 	else {
-		keyboard.deAttachEditBox();
-		keyboard.hide();
+		keyboard->deAttachEditBox();
+		keyboard->hide();
 	}
 }
 
