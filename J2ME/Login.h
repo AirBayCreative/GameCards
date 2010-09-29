@@ -27,6 +27,7 @@ private:
 	Layout *mainLayout;
 	Label *labelLogin,*labelPass,*errorLabel,*label;
 	EditBox *editBoxLogin,*editBoxPass;
+	MobKeyboard *keyboard;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

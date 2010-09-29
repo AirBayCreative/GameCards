@@ -19,3 +19,5 @@
 #define RES_SOON 19
 #define RES_TEMP 20
 #define RES_LOGOUT 21
+#define RES_KEYBOARD_SEL 22
+#define RES_KEYBOARD_UNSEL 23

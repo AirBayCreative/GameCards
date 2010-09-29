@@ -1,6 +1,5 @@
-#include "Header.h"
+#include "Login.h"
 #include <mastdlib.h>
-
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout = createMainLayout(exit, login);
@@ -28,6 +27,11 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	editBoxPass->setDrawBackground(false);
 	editBoxPass->setPasswordMode(true);
 	labelPass->addWidgetListener(this);
+
+	MAExtent screenSize = maGetScrSize();
+	int scrWidth = EXTENT_X(screenSize);
+	int scrHeight = EXTENT_Y(screenSize);
+	keyboard = new MobKeyboard(0, 0, scrWidth, scrHeight / 2);
 
 	listBox->add(label);
 	listBox->add(labelPass);
@@ -74,6 +78,22 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (list) {
 		keyPressEvent(MAK_FIRE);
+	}
+
+	int index = listBox->getSelectedIndex();
+	if (index == 1 || index == 3) {
+		if (index == 1) {
+			keyboard.attachWidget(editBoxLogin);
+		}
+		else if (index == 3) {
+			keyboard.attachWidget(editBoxPass);
+		}
+		keyboard.show();
+		keyboard.drawWidget();
+	}
+	else {
+		keyboard.deAttachEditBox();
+		keyboard.hide();
 	}
 }
 

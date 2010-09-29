@@ -64,3 +64,9 @@
 
 .res RES_LOGOUT
 .image "log out.png"
+
+.res RES_KEYBOARD_SEL
+.image "keyboard_sel.png"
+
+.res RES_KEYBOARD_UNSEL
+.image "keyboard_unsel.png"
