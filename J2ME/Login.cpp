@@ -3,6 +3,10 @@
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout = createMainLayout(exit, login);
+
+	//need to make this black! setBackgroundColor doesn't seem to work... but it should be fine for now
+	mainLayout->setDrawBackground(TRUE);
+
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
@@ -72,28 +76,35 @@ void Login::pointerMoveEvent(MAPoint2d point)
 
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
+	//printf("BEFORE");
+	if (!(keyboard->isShown()) && right) {
+		//printf("WTF");
 		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
+	} else if (!(keyboard->isShown()) && left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (list) {
 		keyPressEvent(MAK_FIRE);
 	}
+
+	int yClick = point.y;
+	int keyboardY = keyboard->getPosition().y;
 
 	int index = listBox->getSelectedIndex();
 	if (list && (index == 1 || index == 3)) {
 		if (index == 1) {
 			keyboard->attachWidget(editBoxLogin);
 		}
-		else if (index == 3) {
+		else if (index == 3 && yClick < keyboardY) {
 			keyboard->attachWidget(editBoxPass);
 		}
 		keyboard->show();
-		keyboard->drawWidget();
+		//keyboard->drawWidget();
 	}
-	else {
+	else if (keyboard->isShown() && yClick < keyboardY) {
 		keyboard->deAttachEditBox();
 		keyboard->hide();
+
+		mainLayout->draw(true);
 	}
 }
 
@@ -143,6 +154,7 @@ void Login::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
+			break;
 		case MAK_SOFTRIGHT:
 			errorLabel->setCaption(loggingin);
 			if (editBoxLogin->getText()==blank) {

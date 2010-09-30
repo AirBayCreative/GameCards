@@ -48,17 +48,26 @@ void MobKeyboard::addLanguage(MobKeyboardLayout* a_lowercase, MobKeyboardLayout*
 	m_layouts->add(a_num2);
 }
 
+bool MobKeyboard::isShown()
+{
+	return m_isShown;
+}
+
 void MobKeyboard::show()
 {
 	m_isShown = true;
 	Environment::getEnvironment().addPointerListener(this);
+
+	drawWidget();
 }
 
 void MobKeyboard::hide()
 {
-	m_isShown = false;
-	if (m_isShown)
+	if (m_isShown) {
 		Environment::getEnvironment().removePointerListener(this);
+		Engine::getSingleton().hideOverlay();
+	}
+	m_isShown = false;
 	m_attachedWidget = NULL;
 }
 
@@ -140,6 +149,10 @@ void MobKeyboard::drawWidget()
 		gFontBlack->drawString(l_button->getCharacter().pointer(),
 				l_button->getCharLocation().x + (l_rect.width / 2) - (EXTENT_X(l_strDimensions) / 2),
 				l_button->getCharLocation().y + (l_rect.height / 2) - (EXTENT_Y(l_strDimensions) / 2));
+
+		/*printf("l_button->getCharLocation().y: %d", l_button->getCharLocation().y);
+		printf("l_rect.height / 2: %d", l_rect.height / 2);
+		printf("EXTENT_Y(l_strDimensions) / 2: %d", (EXTENT_Y(l_strDimensions) / 2));*/
 	}
 }
 
@@ -147,6 +160,7 @@ void MobKeyboard::addButtonLine(MobKeyboardLayout* a_layout, int a_lineHeight, i
 		int a_buttonWidth, int a_buttonHeight, int a_leftLinePadding, int a_rightLinePadding)
 {
 	Rect l_bounds = this->getBounds();
+	l_bounds.y = 0; //hack
 
 	//todo the scaling here was commented out to try get it running, should be worked out still
 	int l_buttonWidth = a_buttonWidth;//(int) floor(((double) a_buttonWidth) * MobileApplication::Instance()->getHorzScale());
@@ -197,6 +211,7 @@ void MobKeyboard::addButtonLine(MobKeyboardLayout* a_layout, int a_lineHeight, i
 
 		l_currentWidth += l_button->getBounds().width + l_singleSpacingWidth;
 	}
+	//printf("l_currentHeight: %d\nl_bounds.y: %d", l_currentHeight, l_bounds.y);
 }
 
 String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint)
@@ -248,7 +263,7 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 	{
 		//MobileApplication::Instance()->hideKeyboard();
 		this->hide();
-		Engine::getSingleton().hideOverlay();
+		//Engine::getSingleton().hideOverlay();
 	}
 	else if (l_char == "Lang")
 	{

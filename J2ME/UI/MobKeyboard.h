@@ -25,6 +25,7 @@ public:
 
 	enum LayoutType {LT_LOWERCASE , LT_UPPERCASE, LT_NUM1, LT_NUM2};
 
+	bool isShown();
 	void show();
 	void hide();
 
@@ -42,10 +43,10 @@ public:
 	void addButtonLine(MobKeyboardLayout* a_layout, int a_lineHeight, int a_buttonCount, String a_lineChars[],
 			int a_buttonWidth, int a_buttonHeight, int a_leftLinePadding, int a_rightLinePadding);
 
-	virtual void drawWidget();
+	//virtual void drawWidget();
 protected:
 
-	//virtual void drawWidget();
+	virtual void drawWidget();
 	void pointerPressEvent(MAPoint2d p);
 	void pointerMoveEvent(MAPoint2d p);
 	void pointerReleaseEvent(MAPoint2d p);
