@@ -76,9 +76,7 @@ void Login::pointerMoveEvent(MAPoint2d point)
 
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
-	//printf("BEFORE");
 	if (!(keyboard->isShown()) && right) {
-		//printf("WTF");
 		keyPressEvent(MAK_SOFTRIGHT);
 	} else if (!(keyboard->isShown()) && left) {
 		keyPressEvent(MAK_SOFTLEFT);
@@ -94,7 +92,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		if (index == 1) {
 			keyboard->attachWidget(editBoxLogin);
 		}
-		else if (index == 3 && yClick < keyboardY) {
+		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
 		}
 		keyboard->show();

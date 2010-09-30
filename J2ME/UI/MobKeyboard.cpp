@@ -236,6 +236,16 @@ String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint)
 
 void MobKeyboard::pointerPressEvent(MAPoint2d p)
 {
+
+}
+
+void MobKeyboard::pointerMoveEvent(MAPoint2d p)
+{
+
+}
+
+void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
+{
 	// if the click is outside the keyboard do nothing and return
 	if ((p.y < getBounds().y) || (p.y > getBounds().y + getBounds().height))
 		return;
@@ -315,6 +325,9 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 			if (isPasswordMode) {
 				((MobEditBox*) m_attachedWidget)->setPasswordMode(FALSE);
 			}
+
+			//printf("l_char: %s", l_char.pointer());
+
 			((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + l_char);
 			((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
 
@@ -323,16 +336,6 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 			}
 		}
 	}
-}
-
-void MobKeyboard::pointerMoveEvent(MAPoint2d p)
-{
-
-}
-
-void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
-{
-
 }
 
 void MobKeyboard::attachWidget(Widget* a_widget)
