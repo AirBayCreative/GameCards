@@ -16,7 +16,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	label->setSkin(gSkinBack);
 
 	labelLogin = createEditLabel(blank);
-	editBoxLogin = new EditBox(0, 6, labelLogin->getWidth()-PADDING*2, labelLogin->getHeight()-PADDING*2, labelLogin, blank, 0, gFontBlack, true, false);
+	editBoxLogin = new MobEditBox(0, 6, labelLogin->getWidth()-PADDING*2, labelLogin->getHeight()-PADDING*2, labelLogin, blank, 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
 	labelLogin->addWidgetListener(this);
 
@@ -27,7 +27,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	label->setSkin(gSkinBack);
 
 	labelPass = createEditLabel(blank);
-	editBoxPass = new EditBox(0, 6, labelPass->getWidth()-PADDING*2, labelPass->getHeight()-PADDING*2, labelPass, blank, 0, gFontBlack, true, false);
+	editBoxPass = new MobEditBox(0, 6, labelPass->getWidth()-PADDING*2, labelPass->getHeight()-PADDING*2, labelPass, blank, 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
 	editBoxPass->setPasswordMode(true);
 	labelPass->addWidgetListener(this);

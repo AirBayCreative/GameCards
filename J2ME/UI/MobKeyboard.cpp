@@ -1,7 +1,7 @@
 #include "MobKeyboard.h"
 //#include "../MobileApplication.h"
 
-#include <MAUI/EditBox.h>
+#include "Widgets/MobEditBox.h"
 
 #include <conprint.h> //TODO rem
 
@@ -248,14 +248,23 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 	}
 	else if (l_char == "Bs")
 	{
-		/*if (m_attachedWidget->getClassName() == "EditBox")
+		/*if (m_attachedWidget->getClassName() == "MobEditBox")
 		{*/
-			String s = ((EditBox*) m_attachedWidget)->getText();
+			String s = ((MobEditBox*) m_attachedWidget)->getText();
 			if (s.length() > 0)
 			{
-				((EditBox*) m_attachedWidget)->moveCursorHorizontal(-1, true);
-				s.remove(((EditBox*) m_attachedWidget)->getText().length()-1, 1);
-				((EditBox*) m_attachedWidget)->setText(s);
+				bool isPasswordMode = ((MobEditBox*) m_attachedWidget)->isPasswordMode();
+				if (isPasswordMode) {
+					((MobEditBox*) m_attachedWidget)->setPasswordMode(FALSE);
+				}
+
+				((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(-1, true);
+				s.remove(((MobEditBox*) m_attachedWidget)->getText().length()-1, 1);
+				((MobEditBox*) m_attachedWidget)->setText(s);
+
+				if (isPasswordMode) {
+					((MobEditBox*) m_attachedWidget)->setPasswordMode(TRUE);
+				}
 			}
 		//}
 	}
@@ -275,8 +284,8 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 		{
 			/*if (m_attachedWidget->getClassName() == "MobEditBox")
 			{*/
-				((EditBox*) m_attachedWidget)->setText(((EditBox*) m_attachedWidget)->getText() + " ");
-				((EditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
+				((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + " ");
+				((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
 			//}
 		}
 	}
@@ -284,29 +293,34 @@ void MobKeyboard::pointerPressEvent(MAPoint2d p)
 	{
 		toggleNum();
 	}
-	/*else if (l_char == "Enter")
+	else if (l_char == "Enter")
 	{
 		if (m_attachedWidget != NULL)
 		{
-			if (m_attachedWidget->getClassName() == "MobEditBox")
-			{
-				if (((EditBox*) m_attachedWidget)->getMultiline())
+			//if (m_attachedWidget->getClassName() == "MobEditBox")
+			//{
+				if (((MobEditBox*) m_attachedWidget)->isMultiLine())
 				{
-					((EditBox*) m_attachedWidget)->setText(((EditBox*) m_attachedWidget)->getText() + "\n");
-					((EditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
+					((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + "\n");
+					((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
 				}
-			}
+			//}
 		}
-	}*/ //todo the enterkey only applies multi line, must implement later
+	}
 	else
 	{
 		if (m_attachedWidget != NULL)
 		{
-			/*if (m_attachedWidget->getClassName() == "MobEditBox")
-			{*/
-				((EditBox*) m_attachedWidget)->setText(((EditBox*) m_attachedWidget)->getText() + l_char);
-				((EditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
-			//}
+			bool isPasswordMode = ((MobEditBox*) m_attachedWidget)->isPasswordMode();
+			if (isPasswordMode) {
+				((MobEditBox*) m_attachedWidget)->setPasswordMode(FALSE);
+			}
+			((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + l_char);
+			((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
+
+			if (isPasswordMode) {
+				((MobEditBox*) m_attachedWidget)->setPasswordMode(TRUE);
+			}
 		}
 	}
 }

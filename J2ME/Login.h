@@ -4,11 +4,13 @@
 #include "MAUI.h"
 #include "Header.h"
 #include "UI/MobKeyboard.h"
+#include "UI/Widgets/MobEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
 class MobKeyboard;
+class MobEditBox;
 
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
@@ -29,7 +31,7 @@ private:
 	ListBox *listBox;
 	Layout *mainLayout;
 	Label *labelLogin,*labelPass,*errorLabel,*label;
-	EditBox *editBoxLogin,*editBoxPass;
+	MobEditBox *editBoxLogin,*editBoxPass;
 	MobKeyboard *keyboard;
 
 	HttpConnection mHttp;
