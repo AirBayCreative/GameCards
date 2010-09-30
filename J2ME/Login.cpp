@@ -89,16 +89,18 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 	int index = listBox->getSelectedIndex();
 	if (list && (index == 1 || index == 3)) {
-		if (index == 1) {
+		if (index == 1 && (yClick > keyboardY + 135 || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxLogin);
+			keyboard->setPosition(0, scrHeight - 135);
 		}
 		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
+			keyboard->setPosition(0, 0);
 		}
 		keyboard->show();
 		//keyboard->drawWidget();
 	}
-	else if (keyboard->isShown() && yClick < keyboardY) {
+	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + 135)) {
 		keyboard->deAttachEditBox();
 		keyboard->hide();
 
