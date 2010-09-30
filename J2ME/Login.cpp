@@ -35,7 +35,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	MAExtent screenSize = maGetScrSize();
 	int scrWidth = EXTENT_X(screenSize);
 	int scrHeight = EXTENT_Y(screenSize);
-	keyboard = new MobKeyboard(0, scrHeight - 135, scrWidth, 135);
+	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
 	listBox->add(label);
 	listBox->add(labelPass);
@@ -89,9 +89,9 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 	int index = listBox->getSelectedIndex();
 	if (list && (index == 1 || index == 3)) {
-		if (index == 1 && (yClick > keyboardY + 135 || !(keyboard->isShown()))) {
+		if (index == 1 && (yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxLogin);
-			keyboard->setPosition(0, scrHeight - 135);
+			keyboard->setPosition(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT);
 		}
 		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
@@ -100,7 +100,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		keyboard->show();
 		//keyboard->drawWidget();
 	}
-	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + 135)) {
+	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT)) {
 		keyboard->deAttachEditBox();
 		keyboard->hide();
 
