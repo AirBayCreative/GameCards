@@ -99,6 +99,8 @@ static const char* truesz = "true";
 static const char* no_connect = "Unable to connect, try again later...";
 static const char* no_user = "Ensure that you have entered your username and password.";
 static const char* no_contact = "Ensure that you have entered\n your friend's ";
+static const char* sure_you_want_to_send = "Are you sure you want to send your ";
+static const char* friend_with = " to your friend with ";
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";
 static const char* xml_albumid = "albumid";

@@ -7,7 +7,7 @@ TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, C
 	layout = createMainLayout(back, confirm);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	String confirmLabel = "Are you sure you want to send your " + card.getText() + " to your friend with " + method + " " + friendDetail;
+	String confirmLabel = sure_you_want_to_send + card.getText() + friend_with + method + " " + friendDetail + "?";
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
