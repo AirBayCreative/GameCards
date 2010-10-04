@@ -6,9 +6,12 @@
 #include "Feed.h"
 #include "Header.h"
 #include "UI/Widgets/MobEditBox.h"
+#include "UI/MobKeyboard.h"
 
 using namespace MAUI;
 using namespace MAUtil;
+
+class MobKeyboard;
 
 class TradeFriendDetailScreen : public Screen, WidgetListener {
 public:
@@ -32,6 +35,7 @@ private:
 	Card card;
 	bool list, left, right;
 	String method;
+	MobKeyboard *keyboard;
 };
 
 #endif

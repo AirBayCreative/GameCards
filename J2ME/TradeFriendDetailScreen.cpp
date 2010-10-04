@@ -1,10 +1,13 @@
 #include "TradeFriendDetailScreen.h"
+#include "TradeConfirmationScreen.h"
 #include <madmath.h>
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card card, String method) :previous(previous),
 	feed(feed), card(card), method(method) {
 	layout = createMainLayout(back, continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+
+	layout->setDrawBackground(TRUE);
 
 	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
 	errorLabel->setSkin(gSkinBack);
@@ -21,6 +24,11 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	listBox->add(lbl);
 	listBox->add(lblMethod);
 	listBox->add(errorLabel);
+
+	MAExtent screenSize = maGetScrSize();
+	int scrWidth = EXTENT_X(screenSize);
+	int scrHeight = EXTENT_Y(screenSize);
+	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
 	contactEditBox->setText(blank);
 
@@ -43,12 +51,27 @@ void TradeFriendDetailScreen::pointerMoveEvent(MAPoint2d point)
 
 void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
+	if (!(keyboard->isShown()) && right) {
 		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
+	} else if (!(keyboard->isShown()) && left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (list) {
 		keyPressEvent(MAK_FIRE);
+	}
+
+	int yClick = point.y;
+	int keyboardY = keyboard->getPosition().y;
+
+	if (list && !(keyboard->isShown())) {
+		keyboard->attachWidget(contactEditBox);
+		//keyboard->setPosition(0, 0);
+		keyboard->show();
+	}
+	else if (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT) {
+		keyboard->deAttachEditBox();
+		keyboard->hide();
+
+		layout->draw(true);
 	}
 }
 
@@ -103,7 +126,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			}
 			else {
 				errorLabel->setCaption(blank);
-
+				menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
+				menu->show();
 			}
 			break;
 		case MAK_SOFTLEFT:

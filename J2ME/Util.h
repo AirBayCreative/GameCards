@@ -64,6 +64,7 @@ static const char* done = "Done";
 static const char* flipit = "Flip";
 static const char* zoomin = "Zoom";
 static const char* select = "Select";
+static const char* confirm = "Confirm";
 static const char* success = "Success";
 static const char* login = "Log In";
 static const char* logout = "Log Out";
