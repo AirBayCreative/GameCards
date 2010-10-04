@@ -11,6 +11,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 
 	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
 	errorLabel->setSkin(gSkinBack);
+	errorLabel->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 	label->setSkin(gSkinBack);

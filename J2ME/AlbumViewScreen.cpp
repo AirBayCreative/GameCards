@@ -2,7 +2,7 @@
 #include <mastdlib.h>
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
-	Layout *mainLayout = createMainLayout(back,auction,select);
+	Layout *mainLayout = createMainLayout(back,tradelbl,select);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	userNotice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	userNotice->setCaption(checking_cards);
@@ -172,7 +172,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			next = new ImageScreen(this, RES_SOON, RES_SOON, false, NULL, false, mImageCache);
+			//next = new ImageScreen(this, RES_SOON, RES_SOON, false, NULL, false, mImageCache);
+			//next->show();
+			next = new TradeOptionsScreen(this, feed, cards.find(index[selected])->second);
 			next->show();
 			break;
 	}

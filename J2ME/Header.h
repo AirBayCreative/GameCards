@@ -15,4 +15,5 @@
 #include "ImageScreen.h"
 #include "ImageCache.h"
 #include "Constants.h"
+#include "TradeOptionsScreen.h"
 #include <conprint.h>
