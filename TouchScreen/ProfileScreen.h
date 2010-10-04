@@ -22,11 +22,11 @@ public:
 
 
 private:
-	Layout *layout;
+	//Layout *layout;
 	Screen *previous;
-	ListBox *listBox;
+	//ListBox *listBox;
 	EditBox *editBox;
-	Label *labelContain,*label,*userNotice;
+	Label *labelContain, *lbl/*,*label,*userNotice*/;
 	bool list, left, right;
 
 	HttpConnection mHttp;

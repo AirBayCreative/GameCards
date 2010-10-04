@@ -2,10 +2,10 @@
 #include <mastdlib.h>
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
-	Layout *mainLayout = createMainLayout(back,auction,select);
+	mainLayout = createMainLayout(back,auction,select);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	userNotice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	userNotice->setCaption(checking_cards);
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice->setCaption(checking_cards);
 
 	mImageCache = new ImageCache();
 	loadFile();
@@ -93,7 +93,6 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 void AlbumViewScreen::drawList() {
 	Layout *feedlayout;
 	Image *tempImage;
-
 	listBox->getChildren().clear();
 	index.clear();
 	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
@@ -102,26 +101,23 @@ void AlbumViewScreen::drawList() {
 		cardText += "\nQuantity: ";
 		cardText += itr->second.getQuantity();
 
-		feedlayout = new Layout(0, 0, scrWidth-(PADDING*2), 74, listBox, 2, 1);
+		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
+		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
 
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-		tempImage->setSkin(gSkinBack);
-		//setPadding(tempImage);
 
 		Card *tmp;
 		tmp = &itr->second;
 
 		retrieveThumb(tempImage, tmp, mImageCache);
 
-		lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontGrey);
-		//lbl->setHorizontalAlignment(Label::HA_CENTER);
-		lbl->setVerticalAlignment(Label::VA_CENTER);
-		lbl->setSkin(gSkinBack);
-		lbl->setAutoSizeY();
-		lbl->setMultiLine(true);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontGrey);
+		label->setVerticalAlignment(Label::VA_CENTER);
+		label->setAutoSizeY();
+		label->setMultiLine(true);
 	}
 	if (cards.size() >= 1) {
 		listBox->setSelectedIndex(0);
@@ -184,15 +180,13 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 	}
 }
 
 void AlbumViewScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumViewScreen::xcConnError(int code) {
-	maUpdateScreen();
-
 	if (code == -6) {
 		return;
 	} else {
@@ -201,13 +195,9 @@ void AlbumViewScreen::xcConnError(int code) {
 }
 
 void AlbumViewScreen::mtxEncoding(const char* ) {
-	maUpdateScreen();
-
 }
 
 void AlbumViewScreen::mtxTagStart(const char* name, int len) {
-	maUpdateScreen();
-
 	parentTag = name;
 }
 
@@ -216,8 +206,6 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {
-	maUpdateScreen();
-
 	if(!strcmp(parentTag.c_str(), xml_cardid)) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
@@ -241,7 +229,7 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
 		cards.insert(card.getId(),card);
 		id = blank;
@@ -253,13 +241,13 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		rate = blank;
 		value = blank;
 	} else if(!strcmp(name, xml_error)) {
-		userNotice->setCaption(error_msg.c_str());
+		notice->setCaption(error_msg.c_str());
 	}
 	if (!strcmp(name, xml_carddone)) {
 		drawList();
 		saveData(filename.c_str(), getAll().c_str());
 	} else {
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 	}
 }
 String AlbumViewScreen::getAll() {

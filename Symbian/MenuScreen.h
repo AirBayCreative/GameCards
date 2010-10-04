@@ -19,14 +19,12 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 private:
+	Layout *mainLayout;
+	ListBox *listBox;
+	Label *label;
 	Feed *feed;
-	Layout *layout;
-	ListBox* listBox;
-	Label *lbl;
 	Screen *menu;
 	bool list, left, right;
-
-	int index;
 };
 
 #endif

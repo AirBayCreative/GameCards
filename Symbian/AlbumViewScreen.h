@@ -29,16 +29,17 @@ public:
 	void loadImages(const char *text);
 
 private:
-	ListBox* listBox;
 	Screen *previous;
 	Screen *next;
-	Label *userNotice, *lbl;
 	ImageCache *mImageCache;
+	Label *notice, *label;
+	ListBox *listBox;
+	Layout *mainLayout;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,notice,cardText;
+	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
 	int size, i;
 	bool list, left, right;

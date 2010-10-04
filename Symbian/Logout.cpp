@@ -1,33 +1,11 @@
-/*
- * MoTweet
- * Logout.cpp
- *
- * This screen is to confirm if the user is logging out of MoTweet.
- *
- * Done by Tay Yu Jie (0701038B) & Khairul Adlee (0704044G)
- */
-
 #include "Header.h"
-#include <MAUtil/Vector.h>
-#include <MAUtil/String.h>
 
 using namespace MAUtil;
 
 Logout::Logout(Screen *previous, Feed *feed) : previous(previous), feed(feed) {
-	mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 3);
-	setPadding(mainLayout);
-	mainLayout->setSkin(gSkinBack);
-
-	Widget *softKeys = createSoftKeyBar(42, logout, back);
-
-	Image *head = new Image(0, 0, scrWidth,  scrHeight/6, NULL, false, false, RES_IMAGE);
-	head->setSkin(gSkinBack);
-
-	int height = scrHeight-(head->getHeight()+softKeys->getHeight());
-	mainLayout->add(head);
-	imge = new Image(0, 0, scrWidth-PADDING*2, height, mainLayout, false, false, resize(RES_LOGOUT, height-PADDING*2));
-	imge->setSkin(gSkinBack);
-	mainLayout->add(softKeys);
+	mainLayout = createMainLayout(logout, back);
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, resize(RES_LOGOUT, listBox->getHeight()-PADDING*2));
 	this->setMain(mainLayout);
 }
 

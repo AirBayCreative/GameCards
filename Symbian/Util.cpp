@@ -1,7 +1,3 @@
-#include <MAUI/Label.h>
-#include <MAUI/Layout.h>
-#include <MAUI/ListBox.h>
-#include <MAUI/Image.h>
 #include "MAHeaders.h"
 #include "Util.h"
 #include <conprint.h>
@@ -16,11 +12,10 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-
 Font *gFontGrey;
+Font *gFontBlue;
 Font *gFontBlack;
 Font *gFontWhite;
-Font *gFontBlue;
 WidgetSkin *gSkinEditBox;
 WidgetSkin *gSkinButton;
 WidgetSkin *gSkinBack;
@@ -29,48 +24,43 @@ WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
 int scrWidth;
 int scrHeight;
+/*Label *label;
+Layout *mainLayout;
+Layout *layout;
+ListBox* listBox;
+Widget *softKeys;
+ListBox *mBox;
+Image *image;
+MAHandle imageh;
+MAHandle store;
+MAHandle tmp;
+MAHandle hValue;
+MAHandle cacheimage;
+int *texture;
+int *tmpimg;*/
 
 void setPadding(Widget *w) {
 	w->setPaddingLeft(PADDING);
-	w->setPaddingBottom(PADDING);
-	w->setPaddingRight(PADDING);
-	w->setPaddingTop(PADDING);
 }
 
 Label* createLabel(String str, int height) {
-	Label *label;
-	label = new Label(0,0, scrWidth-PADDING*2, height, NULL, str, 0, gFontWhite);
-	//label->setSkin(gSkinEditBox);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
 	label->setSkin(gSkinText);
 	setPadding(label);
 	return label;
 }
 Label* createEditLabel(String str, int height) {
-	Label *label;
-	label = new Label(0,0, scrWidth-PADDING*2, height, NULL, str, 0, gFontWhite);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
 	label->setSkin(gSkinEditBox);
-	//label->setSkin(gSkinText);
-	setPadding(label);
-	return label;
-}
-
-Label* createUserBox(String str, int height) {
-	Label *label;
-	label = new Label(0,0, scrWidth-PADDING*2, height, NULL, str, 0, gFontWhite);
-	label->setSkin(gSkinEditBox);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	//label->setAutoSizeY(true);
 	setPadding(label);
 	return label;
 }
 
 Label* createSubLabel(String str, int height) {
-	Label *label;
-	label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontGrey);
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontGrey);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(gSkinList);
-	//setPadding(label);
 	return label;
 }
 Widget* createSoftKeyBar(int height, const char *left, const char *right) {
@@ -78,41 +68,29 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 }
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
-	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	layout->setSkin(gSkinBack);
-	Label *label;
-
-	label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
+	Layout* layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(left) == 0) {
-		label->setSkin(gSkinBack);
-	} else {
+	if (strlen(left) != 0) {
 		label->setSkin(gSkinButton);
 	}
-	setPadding(label);
 	layout->add(label);
 
 	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(centre) == 0) {
-		label->setSkin(gSkinBack);
-	} else {
+	if (strlen(centre) != 0) {
 		label->setSkin(gSkinButton);
 	}
-	setPadding(label);
 	layout->add(label);
 
 	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(right) == 0) {
-		label->setSkin(gSkinBack);
-	} else {
+	if (strlen(right) != 0) {
 		label->setSkin(gSkinButton);
 	}
-	setPadding(label);
 	layout->add(label);
 
 	return layout;
@@ -185,40 +163,60 @@ void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int 
 			dheight--;
 			v+=deltay;
 	}
-
 }
-
 
 // first child is listbox
 Layout* createMainLayout(const char *left, const char *right) {
 	return createMainLayout(left, right, blank);
 }
+
+Layout* createNoHeaderLayout() {
+	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	return mainLayout;
+}
+
 Layout* createMainLayout(const char *left, const char *right, const char *centre) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	setPadding(mainLayout);
-	mainLayout->setSkin(gSkinBack);
-
 	Widget *softKeys = createSoftKeyBar(42, left, right, centre);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,blank,0,gFontWhite);
 
-	Image *image = new Image(0, 0, scrWidth,  scrHeight/6, NULL, false, false, RES_IMAGE);
-	Label *notice = new Label(0,0,scrWidth,scrHeight/4,NULL,blank,0,gFontWhite);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
-	ListBox* listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-	listBox->setSkin(gSkinBack);
+	MAExtent imgSize = maGetImageSize(RES_IMAGE);
+	int imgWidth = EXTENT_X(imgSize);
+	int imgHeight = EXTENT_Y(imgSize);
 
-	image->setSkin(gSkinBack);
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
 
-	notice->setAutoSizeY();
-	notice->setSkin(gSkinBack);
-	notice->setMultiLine(true);
-	setPadding(notice);
-	listBox->add(notice);
+	label->setAutoSizeY();
+	label->setMultiLine(true);
+	listBox->add(label);
 
-	ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+/*image->getHeight()+*/notice->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-	mBox->setSkin(gSkinBack);
+	ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+/*image->getHeight()+*/label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 	listBox->add(mBox);
+	setPadding(listBox);
+
+	mainLayout->add(softKeys);
+
+	return mainLayout;
+}
+
+Layout* createImageLayout(const char *left, const char *right, const char *centre) {
+	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+	Widget *softKeys = createSoftKeyBar(42, left, right, centre);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	MAExtent imgSize = maGetImageSize(RES_IMAGE);
+	int imgWidth = EXTENT_X(imgSize);
+	int imgHeight = EXTENT_Y(imgSize);
+
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	listBox->add(image);
+	ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+	listBox->add(mBox);
+	setPadding(listBox);
 
 	mainLayout->add(softKeys);
 
@@ -288,8 +286,8 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 			}
 		}
 	} else {
+		//TODO implement listener for connections
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
-		//Get the ImageCache from the AppController, and process the request
 		(new ImageCache())->request(req1);
 	}
 }
@@ -306,8 +304,6 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 		MAHandle store = maOpenStore(card->getFront().c_str(), 0);
 		if(store != STERR_NONEXISTENT)
 		{
-			//Found in cache
-			//LOG("Found image in storage cache");
 			maReadStore(store, cacheimage);
 			maCloseStore(store, 0);
 
@@ -317,7 +313,6 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 		}
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
-		//Get the ImageCache from the AppController, and process the request
 		(new ImageCache())->request(req1);
 	}
 }
@@ -331,8 +326,6 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 		MAHandle store = maOpenStore(card->getBack().c_str(), 0);
 		if(store != STERR_NONEXISTENT)
 		{
-			//Found in cache
-			//LOG("Found image in storage cache");
 			maReadStore(store, cacheimage);
 			maCloseStore(store, 0);
 
@@ -342,7 +335,6 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 		}
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
-		//Get the ImageCache from the AppController, and process the request
 		(new ImageCache())->request(req1);
 	}
 }
@@ -427,15 +419,15 @@ MAHandle resize(MAHandle img, int height) {
 
 			int newWidth = (int)((double)(newHeight) / (double)origRatio);
 
-			MAHandle image = maCreatePlaceholder();
+			MAHandle imageh = maCreatePlaceholder();
 			int *tmpimg = new int[newWidth*newHeight];
 			bilinearScale( tmpimg, newWidth, newHeight, newWidth, texture, sTextureWidth, sTextureHeight, sTextureWidth);
 
-			maCreateImageRaw(image,tmpimg, EXTENT(newWidth, newHeight),0);
+			maCreateImageRaw(imageh,tmpimg, EXTENT(newWidth, newHeight),0);
 
 			delete texture;
 			delete tmpimg;
-			return image;
+			return imageh;
 		}
 	}
 	return img;

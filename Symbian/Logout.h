@@ -24,11 +24,11 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Layout *mainLayout;
 	Image *imge;
+	Layout *mainLayout;
+	ListBox *listBox;
 	Screen *previous;
 	bool list, left, right;
-
 	Feed *feed;
 };
 

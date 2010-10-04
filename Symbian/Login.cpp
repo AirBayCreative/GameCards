@@ -6,34 +6,26 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout = createMainLayout(exit, login);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
-	errorLabel->setSkin(gSkinBack);
-
-	int val = 48;
-
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
-
-	labelLogin = createEditLabel(blank, val);
-	editBoxLogin = new EditBox(0, 6, labelLogin->getWidth()-PADDING*2, val-PADDING*2, labelLogin, blank, 0, gFontBlack, true, false);
-	editBoxLogin->setDrawBackground(false);
-	labelLogin->addWidgetListener(this);
-
 	listBox->add(label);
-	listBox->add(labelLogin);
+
+	label = createEditLabel(blank);
+	editBoxLogin = new EditBox(0, 10, label->getWidth(), label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	editBoxLogin->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
-
-	labelPass = createEditLabel(blank, val);
-	editBoxPass = new EditBox(0, 6, labelPass->getWidth()-PADDING*2, val-PADDING*2, labelPass, blank, 0, gFontBlack, true, false);
-	editBoxPass->setDrawBackground(false);
-	editBoxPass->setPasswordMode(true);
-	labelPass->addWidgetListener(this);
-
 	listBox->add(label);
-	listBox->add(labelPass);
-	listBox->add(errorLabel);
+
+	label = createEditLabel(blank);
+	editBoxPass = new EditBox(0, 10, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	editBoxPass->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
+	listBox->add(label);
 
 	editBoxLogin->setText(blank);
 	editBoxPass->setText(blank);
@@ -41,7 +33,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	listBox->setSelectedIndex(1);
 
 	if (feed->getUnsuccessful() != success) {
-		errorLabel->setCaption(feed->getUnsuccessful());
+		label->setCaption(feed->getUnsuccessful());
 	}
 
 	this->setMain(mainLayout);
@@ -126,16 +118,13 @@ void Login::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			errorLabel->setCaption(loggingin);
+			label->setCaption(loggingin);
 			if (editBoxLogin->getText()==blank) {
 			}
-			editBoxPass->setPasswordMode(false);
 			if (editBoxLogin->getText()!=blank & editBoxPass->getText()!=blank) {
 
-				editBoxPass->setPasswordMode(false);
 				conCatenation = editBoxPass->getText().c_str();
 				editBoxPass->setText(convertAsterisk.c_str());
-				editBoxPass->setPasswordMode(true);
 				ret = blank;
 				value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 				feed->setEncrypt(value.c_str());
@@ -145,8 +134,8 @@ void Login::keyPressEvent(int keyCode) {
 				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 				if(res < 0) {
-					errorLabel->setCaption(no_connect);
-					errorLabel->setMultiLine(true);
+					label->setCaption(no_connect);
+					label->setMultiLine(true);
 				} else {
 					mHttp.finish();
 				}
@@ -154,10 +143,9 @@ void Login::keyPressEvent(int keyCode) {
 				value = blank;
 			} else {
 				maVibrate(1000);
-				errorLabel->setCaption(no_user);
-				errorLabel->setMultiLine(true);
+				label->setCaption(no_user);
+				label->setMultiLine(true);
 			}
-			editBoxPass->setPasswordMode(true);
 			break;
 		case MAK_SOFTLEFT:
 			maExit(0);
@@ -181,7 +169,7 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		errorLabel->setCaption(no_connect);
+		label->setCaption(no_connect);
 	}
 }
 
@@ -234,7 +222,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		menu->show();
 	} else {
 		if (!error) {
-			errorLabel->setCaption(blank);
+			label->setCaption(blank);
 		}
 	}
 }
@@ -303,6 +291,5 @@ String Login::base64(unsigned char const* bytes_to_encode, unsigned int in_len) 
 		while((i++ < 3))
 		ret += '=';
 	}
-	lprintfln("5");
 	return ret;
 }

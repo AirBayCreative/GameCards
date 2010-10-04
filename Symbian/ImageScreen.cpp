@@ -1,52 +1,45 @@
 #include "Header.h"
-#include <MAUI/Image.h>
-#include "Util.h"
-#include "MAHeaders.h"
-#include "maapi.h"
 #include <conprint.h>
 
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, MAHandle bimg, bool flip, Card *card, bool full, ImageCache *mImgCache) : previous(previous), bimg(bimg), img(img), flip(flip), card(card), full(full), mImageCache(mImgCache) {
-	mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 3);
-	setPadding(mainLayout);
-	mainLayout->setSkin(gSkinBack);
-
-	Widget *softKeys;
-	if (card == NULL) {
-		softKeys = createSoftKeyBar(42, back, blank);
-	} else {
-		softKeys = createSoftKeyBar(42, back, zoomin, flipit);
+	mainLayout = createImageLayout(back, blank, blank);
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+	if ((card != NULL)&&(!full)) {
+		mainLayout = createImageLayout(back, zoomin, flipit);
+		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+	} else if (full) {
+		mainLayout = createNoHeaderLayout();
+		listBox = (ListBox*) mainLayout->getChildren()[0];
 	}
 
-	Image *head = new Image(0, 0, scrWidth,  scrHeight/6, NULL, false, false, RES_IMAGE);
-	head->setSkin(gSkinBack);
+	int height = listBox->getHeight()-70;
+	lprintfln("height %d", listBox->getHeight());
+	if (full) {
+		height = scrHeight;
+	}
+	imge = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, resize(img, height-PADDING*2));
 
-	int height = scrHeight-(head->getHeight()+softKeys->getHeight());
-	if (!full) {
-		if (card != NULL) {
-			height = scrHeight-(softKeys->getHeight());
-		} else {
-			mainLayout->add(head);
-		}
-	} else {
-		height = scrHeight-10;
-	}
-	imge = new Image(0, 0, scrWidth-PADDING*2, height, mainLayout, false, false, resize(img, height-PADDING*2));
-	imge->setSkin(gSkinBack);
-	//mainLayout->add(imge);
-	if (!full) {
-		mainLayout->add(softKeys);
-	}
 	this->setMain(mainLayout);
-
 	if (card != NULL) {
 		if (flip) {
-			retrieveBack(imge, card, height, mImageCache);
+			retrieveBack(imge, card, height-PADDING*2, mImageCache);
 		} else {
-			retrieveFront(imge, card, height, mImageCache);
+			retrieveFront(imge, card, height-PADDING*2, mImageCache);
 		}
 	}
 }
+
+/*ImageScreen::~ImageScreen() {
+	delete previous;
+	maDestroyObject(img);
+	maDestroyObject(bimg);
+	maDestroyObject(image);
+	delete mainLayout;
+	delete listBox;
+	delete imge;
+	delete mImageCache;
+}*/
 
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {

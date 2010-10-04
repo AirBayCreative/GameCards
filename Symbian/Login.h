@@ -23,10 +23,10 @@ public:
 
 private:
 	Screen *menu;
-	ListBox *listBox;
-	Layout *mainLayout;
-	Label *labelLogin,*labelPass,*errorLabel,*label;
 	EditBox *editBoxLogin,*editBoxPass;
+	Layout *mainLayout;
+	ListBox *listBox;
+	Label *label;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

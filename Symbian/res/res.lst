@@ -9,7 +9,7 @@
 .bin
 .include "nobileblue.mof" 
 
-.res RES_FONT_BLACK
+.res RES_FONT_BLACK 
 .bin  
 .include "nobileblack.mof"
  
@@ -21,10 +21,7 @@
 .image "background_editbox_sel.png" 
 
 .res RES_UNSELECTED_EDITBOX 
-.image "background_editbox_unsel.png" 
- 
-.res RES_SELECTED_BUTTON
-.image "background_button_sel.png" 
+.image "background_editbox_unsel.png"  
 
 .res RES_UNSELECTED_BUTTON
 .image "background_button_unsel.png"

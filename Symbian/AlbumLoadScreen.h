@@ -27,18 +27,21 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	ListBox* listBox;
+
 	Screen *previous;
 	Screen *next;
-	Label *userNotice;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,notice;
+	String parentTag;
 	String temp,temp1,error_msg;
 	int size, i;
 	bool list, left, right, empt;
+
+	Layout *mainLayout;
+	ListBox *listBox;
+	Label *notice, *label;
 
 	Feed *feed;
 	Albums *album;

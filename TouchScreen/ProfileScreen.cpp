@@ -2,15 +2,15 @@
 #include <mastdlib.h>
 
 ProfileScreen::ProfileScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
-	layout = createMainLayout(back, blank);
+	mainLayout = createMainLayout(back, blank);
 	listBox = (ListBox*) layout->getChildren()[0]->getChildren()[2];
-	userNotice = (Label *) layout->getChildren()[0]->getChildren()[1];
+	label = (Label *) layout->getChildren()[0]->getChildren()[1];
 
-	userNotice->setCaption(checking_info);
+	label->setCaption(checking_info);
 
 	//USERNAME
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+	lbl->setSkin(gSkinBack);
 
 	labelContain = createLabel(blank);
 
@@ -19,31 +19,31 @@ ProfileScreen::ProfileScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 	editBox->setEnabled(false);
 	labelContain->addWidgetListener(this);
 
-	listBox->add(label);
+	listBox->add(lbl);
 	listBox->add(labelContain);
 
 	//EMAIL
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
+	lbl->setSkin(gSkinBack);
 	labelContain = createLabel(blank);
 
 	editBox = new EditBox(0, 6, labelContain->getWidth()-PADDING*2, labelContain->getHeight()-PADDING*2, labelContain, feed->getEmail(), 0, gFontWhite, true, false, 45);
 	editBox->setDrawBackground(false);
 	labelContain->addWidgetListener(this);
 
-	listBox->add(label);
+	listBox->add(lbl);
 	listBox->add(labelContain);
 
 	//HANDLE
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontWhite);
+	lbl->setSkin(gSkinBack);
 	labelContain = createLabel(blank);
 
 	editBox = new EditBox(0, 6, labelContain->getWidth()-PADDING*2, labelContain->getHeight()-PADDING*2, labelContain, feed->getHandle(), 0, gFontWhite, true, false, 45);
 	editBox->setDrawBackground(false);
 	labelContain->addWidgetListener(this);
 
-	listBox->add(label);
+	listBox->add(lbl);
 	listBox->add(labelContain);
 
 	int res = mHttp.create(USER.c_str(), HTTP_GET);
@@ -55,7 +55,7 @@ ProfileScreen::ProfileScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 	} else {
 		mHttp.finish();
 	}
-	this->setMain(layout);
+	this->setMain(mainLayout);
 }
 
 ProfileScreen::~ProfileScreen() {
@@ -156,7 +156,7 @@ void ProfileScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		userNotice->setCaption(blank);
+		label->setCaption(blank);
 	}
 }
 
@@ -194,7 +194,7 @@ void ProfileScreen::mtxTagData(const char* data, int len) {
 
 void ProfileScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_status)) {
-		userNotice->setCaption(blank);
+		label->setCaption(blank);
 		feed->setCredits(credits.c_str());
 		feed->setHandle(handle.c_str());
 		feed->setEmail(email.c_str());
@@ -202,9 +202,9 @@ void ProfileScreen::mtxTagEnd(const char* name, int len) {
 		username,error_msg= blank;
 		saveData(FEED, feed->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
-		userNotice->setCaption(error_msg.c_str());
+		label->setCaption(error_msg.c_str());
 	} else {
-		userNotice->setCaption(blank);
+		label->setCaption(blank);
 	}
 }
 

@@ -6,6 +6,7 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Font.h>
 #include <MAUI/Image.h>
+#include <MAUI/ListBox.h>
 #include "Card.h"
 #include "ImageCache.h"
 
@@ -14,16 +15,19 @@
 using namespace MAUI;
 
 #define PADDING 5
+#define SHOWCREDIT 1
+#define SHOWUSER 0
 
 void setPadding(Widget *w);
 Label* createLabel(String str, int height=48);
 Label* createEditLabel(String str, int height=48);
-Label* createUserBox(String str, int height=48);
 Label* createSubLabel(String str, int height=48);
 Widget* createSoftKeyBar(int height, const char *left, const char *right);
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
+Layout* createNoHeaderLayout();
 Layout* createMainLayout(const char *left, const char *right);
 Layout* createMainLayout(const char *left, const char *right, const char *centre);
+Layout* createImageLayout(const char *left, const char *right, const char *centre);
 char* getData(const char* storefile);
 void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
@@ -34,6 +38,34 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache);
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache);
 void returnImage(Image *img, MAHandle i, int height);
 MAHandle resize(MAHandle img, int height);
+
+//UI Components
+extern Font *gFontGrey;
+extern Font *gFontBlue;
+extern Font *gFontBlack;
+extern Font *gFontWhite;
+extern WidgetSkin *gSkinEditBox;
+extern WidgetSkin *gSkinButton;
+extern WidgetSkin *gSkinBack;
+extern WidgetSkin *gSkinList;
+extern WidgetSkin *gSkinAlbum;
+extern WidgetSkin *gSkinText;
+extern int scrWidth;
+extern int scrHeight;
+/*extern Label *label;
+extern Layout *mainLayout;
+extern Layout *layout;
+extern ListBox* listBox;
+extern Widget *softKeys;
+extern ListBox *mBox;
+extern Image *image;
+extern MAHandle imageh;
+extern MAHandle store;
+extern MAHandle tmp;
+extern MAHandle hValue;
+extern MAHandle cacheimage;
+extern int *texture;
+extern int *tmpimg;*/
 
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
@@ -114,19 +146,5 @@ static const char* xml_status = "status";
 static const char* ALBUMEND = "-lst.sav";
 static const char* FEED = "fd.sav";
 static const char* ALBUM = "lb.sav";
-
-extern Font *gFontGrey;
-extern Font *gFontBlue;
-extern Font *gFontBlack;
-extern Font *gFontWhite;
-extern WidgetSkin *gSkinEditBox;
-extern WidgetSkin *gSkinButton;
-extern WidgetSkin *gSkinBack;
-extern WidgetSkin *gSkinList;
-extern WidgetSkin *gSkinAlbum;
-extern WidgetSkin *gSkinText;
-extern int scrWidth;
-extern int scrHeight;
-
 
 #endif	//_UTIL_H_

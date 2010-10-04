@@ -3,10 +3,11 @@
 
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
-	Layout *mainLayout = createMainLayout(back,select);
+	mainLayout = createMainLayout(back,select);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	userNotice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	userNotice->setCaption(checking_albums);
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+
+	notice->setCaption(checking_albums);
 	album = this->feed->getAlbum();
 	drawList();
 	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
@@ -75,20 +76,19 @@ void AlbumLoadScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
 	Vector<String> display = album->getNames();
-	Label *lbl;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
-		lbl = createSubLabel(itr->c_str());
-		lbl->addWidgetListener(this);
-		listBox->add(lbl);
+		label = createSubLabel(itr->c_str());
+		label->addWidgetListener(this);
+		listBox->add(label);
 	}
 
 	if (album->size() >= 1) {
 		listBox->setSelectedIndex(0);
 	} else {
 		empt = true;
-		lbl = createSubLabel(empty);
-		lbl->addWidgetListener(this);
-		listBox->add(lbl);
+		label = createSubLabel(empty);
+		label->addWidgetListener(this);
+		listBox->add(label);
 	}
 
 }
@@ -129,9 +129,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
-				//next = new AlbumViewScreen(this, feed, );
 				String val= (album->getId(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
-
 				next = new AlbumViewScreen(this, feed, val);
 				next->show();
 			}
@@ -145,7 +143,7 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 	}
 }
 
@@ -183,18 +181,18 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_albumname)) {
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 		album->addAlbum(temp1.c_str(), temp.c_str());
 		temp1 = blank;
 		temp = blank;
 	} else if (!strcmp(name, xml_albumdone)) {
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 		drawList();
 		saveData(ALBUM, album->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
-		userNotice->setCaption(error_msg.c_str());
+		notice->setCaption(error_msg.c_str());
 	} else {
-		userNotice->setCaption(blank);
+		notice->setCaption(blank);
 	}
 }
 

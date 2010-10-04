@@ -39,11 +39,11 @@ public:
 
 private:
 	Screen *previous;
-	ListBox *listBox;
-	Layout *mainLayout;
 	MAHandle img, bimg, image;
 	Card *card;
 	bool flip, full;
+	Layout *mainLayout;
+	ListBox *listBox;
 	Image *imge;
 	bool left, right, list;
 	ImageCache *mImageCache;

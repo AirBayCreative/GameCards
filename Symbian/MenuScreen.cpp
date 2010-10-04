@@ -3,30 +3,29 @@
 #include <madmath.h>
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
-	layout = createMainLayout(exit, select);
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-
-	lbl = createSubLabel(albumlbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(shoplbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(auctionlbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(ballbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(proflbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(logout);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
+	mainLayout = createMainLayout(exit, select);
+	listBox = (ListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	label = createSubLabel(albumlbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(shoplbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(auctionlbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(ballbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(proflbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(logout);
+	label->addWidgetListener(this);
+	listBox->add(label);
 	listBox->setSelectedIndex(0);
-
-	this->setMain(layout);
+	//label = createSubLabel(blank);
+	this->setMain(mainLayout);
 }
 
 MenuScreen::~MenuScreen() {
@@ -95,7 +94,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			index = listBox->getSelectedIndex();
+			int index = listBox->getSelectedIndex();
 			if(index == 0) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
@@ -106,10 +105,10 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
 				menu->show();
 			} else if(index == 3) {
-				menu = new CreditScreen(this, feed);
+				menu = new DetailScreen(this, feed, SHOWCREDIT);
 				menu->show();
 			} else if(index == 4) {
-				menu = new ProfileScreen(this, feed);
+				menu = new DetailScreen(this, feed, SHOWUSER);
 				menu->show();
 			} else if (index == 5) {
 				menu = new Logout(this, feed);

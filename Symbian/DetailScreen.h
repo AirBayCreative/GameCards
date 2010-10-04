@@ -1,5 +1,5 @@
-#ifndef _PROFILESCREEN_H_
-#define _PROFILESCREEN_H_
+#ifndef _DETAILSCREEN_H_
+#define _DETAILSCREEN_H_
 
 #include "MAUI.h"
 #include "Header.h"
@@ -7,10 +7,10 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class ProfileScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ProfileScreen(Screen *previous, Feed *feed);
-	~ProfileScreen();
+	DetailScreen(Screen *previous, Feed *feed, int screenType);
+	~DetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
@@ -22,18 +22,18 @@ public:
 
 
 private:
-	Layout *layout;
 	Screen *previous;
-	ListBox *listBox;
 	EditBox *editBox;
-	Label *labelContain,*label,*userNotice;
+	Layout *mainLayout;
+	Label *label;
+	ListBox *listBox;
 	bool list, left, right;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String username, credits, encrypt, error_msg, parentTag, handle, email;
-	int i,j,val;
+	int i,j;
 
 	Feed *feed;
 
@@ -50,4 +50,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_PROFILESCREEN_H_
+#endif	//_DETAILSCREEN_H_
