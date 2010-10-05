@@ -14,7 +14,7 @@ MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	m_attachedWidget = NULL;
 	m_activeLayout = -1;
 
-	m_backgroundColor = 0xe3e5e6;
+	m_backgroundColor = 0x262626;
 	m_buttonColor = 0xDADAEB;
 	m_buttonPressedColor = 0xAEAED2;
 	m_buttonBorderColor = 0x7873A8;
@@ -63,6 +63,7 @@ void MobKeyboard::show()
 
 void MobKeyboard::hide()
 {
+	last_pressed->setPressed(false);
 	if (m_isShown) {
 		Environment::getEnvironment().removePointerListener(this);
 		Engine::getSingleton().hideOverlay();
@@ -84,12 +85,15 @@ void MobKeyboard::drawWidget()
 	Rect l_bounds = this->getBounds();
 	maSetClipRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
 
-	maSetColor(m_backgroundColor);
-	maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
+	if (shouldDrawBackground) {
+		maSetColor(m_backgroundColor);
+		maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
+	}
 
-	maSetColor(m_buttonBorderColor);
+
+	/*maSetColor(m_buttonBorderColor);
 	maLine(l_bounds.x, l_bounds.y, l_bounds.x + l_bounds.width, l_bounds.y);
-	maLine(l_bounds.x, l_bounds.y + l_bounds.height-1, l_bounds.x + l_bounds.width, l_bounds.y + l_bounds.height-1);
+	maLine(l_bounds.x, l_bounds.y + l_bounds.height-1, l_bounds.x + l_bounds.width, l_bounds.y + l_bounds.height-1);*/
 
 	for (int i=0; i<(*m_layouts)[m_activeLayout]->getButtons()->size(); i++)
 	{
@@ -114,6 +118,9 @@ void MobKeyboard::drawWidget()
 		{
 			l_isPressed = true;
 		}
+		else if (l_button->isPressed()) {
+			l_isPressed = true;
+		}
 
 		// draw button background
 		if (m_keyboardSkin != NULL)
@@ -121,11 +128,11 @@ void MobKeyboard::drawWidget()
 			if (l_isPressed)
 				m_keyboardSkin->draw(
 						l_rect.x - l_bounds.x, l_rect.y - l_bounds.y,
-						l_rect.width, l_rect.height, WidgetSkin::SELECTED);
+						l_rect.width, l_rect.height - 1, WidgetSkin::SELECTED);
 			else
 				m_keyboardSkin->draw(
 						l_rect.x - l_bounds.x, l_rect.y - l_bounds.y,
-						l_rect.width, l_rect.height, WidgetSkin::UNSELECTED);
+						l_rect.width, l_rect.height - 1, WidgetSkin::UNSELECTED);
 		}
 		else
 		{
@@ -144,9 +151,9 @@ void MobKeyboard::drawWidget()
 		}
 
 		// draw text (x, y are local)
-		MAExtent l_strDimensions = gFontBlack->getStringDimensions(
+		MAExtent l_strDimensions = gFontWhite->getStringDimensions(
 				l_button->getCharacter().pointer(), l_button->getCharacter().length());
-		gFontBlack->drawString(l_button->getCharacter().pointer(),
+		gFontWhite->drawString(l_button->getCharacter().pointer(),
 				l_button->getCharLocation().x + (l_rect.width / 2) - (EXTENT_X(l_strDimensions) / 2),
 				l_button->getCharLocation().y + (l_rect.height / 2) - (EXTENT_Y(l_strDimensions) / 2));
 
@@ -214,7 +221,7 @@ void MobKeyboard::addButtonLine(MobKeyboardLayout* a_layout, int a_lineHeight, i
 	//printf("l_currentHeight: %d\nl_bounds.y: %d", l_currentHeight, l_bounds.y);
 }
 
-String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint)
+String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint, bool setLastClicked)
 {
 	for (int i=0; i<(*m_layouts)[m_activeLayout]->getButtons()->size(); i++)
 	{
@@ -227,6 +234,10 @@ String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint)
 			(a_clickPoint.y >= l_rect.y) &&
 			(a_clickPoint.y <= l_rect.y + l_rect.height))
 		{
+			if (setLastClicked) {
+				last_pressed = l_button;
+				last_pressed->setPressed(true);
+			}
 			return l_button->getCharacter();
 		}
 	}
@@ -236,7 +247,8 @@ String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint)
 
 void MobKeyboard::pointerPressEvent(MAPoint2d p)
 {
-
+	getClickedCharacter(p, true);
+	requestRepaint();
 }
 
 void MobKeyboard::pointerMoveEvent(MAPoint2d p)
@@ -249,6 +261,8 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	// if the click is outside the keyboard do nothing and return
 	if ((p.y < getBounds().y) || (p.y > getBounds().y + getBounds().height))
 		return;
+
+	last_pressed->setPressed(false);
 
 	String l_char = getClickedCharacter(p);
 
@@ -305,16 +319,13 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	}
 	else if (l_char == "Enter")
 	{
-		if (m_attachedWidget != NULL)
+		if (m_attachedWidget != NULL && ((MobEditBox*) m_attachedWidget)->isMultiLine())
 		{
-			//if (m_attachedWidget->getClassName() == "MobEditBox")
-			//{
-				if (((MobEditBox*) m_attachedWidget)->isMultiLine())
-				{
-					((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + "\n");
-					((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
-				}
-			//}
+			((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + "\n");
+			((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
+		}
+		else {
+			requestRepaint();
 		}
 	}
 	else

@@ -65,8 +65,10 @@ private:
 	Widget* m_attachedWidget;
 	WidgetSkin* m_keyboardSkin;
 
+	MobKeyboardButton* last_pressed;
+
 	void setupKeys();
-	String getClickedCharacter(MAPoint2d a_clickPoint);
+	String getClickedCharacter(MAPoint2d a_clickPoint, bool setLastClicked = false);
 };
 
 
@@ -76,6 +78,7 @@ private:
 	Rect m_bounds;
 	String m_character;
 	Point m_charLocation;
+	bool pressed;
 
 public:
 	MobKeyboardButton(const Rect& a_bounds, const String& a_character, const Point& a_charLocation)
@@ -83,6 +86,8 @@ public:
 		m_bounds = a_bounds;
 		m_character = a_character;
 		m_charLocation = a_charLocation;
+
+		pressed = false;
 	}
 
 	~MobKeyboardButton() {}
@@ -109,6 +114,14 @@ public:
 
 		m_charLocation.x = a_characterPosition.x;
 		m_charLocation.y = a_characterPosition.y;
+	}
+
+	void setPressed(const bool isPressed) {
+		pressed = isPressed;
+	}
+
+	bool isPressed() {
+		return pressed;
 	}
 };
 

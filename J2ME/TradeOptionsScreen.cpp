@@ -69,7 +69,6 @@ void TradeOptionsScreen::locateItem(MAPoint2d point)
 	}
 }
 
-
 void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
@@ -87,9 +86,12 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
 				menu->show();
 			} else if(index == 1) {
-				//menu = new AlbumLoadScreen(this, feed);
+				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
+				//menu = new TradeFriendMethodScreen(this, feed, card);
 				//menu->show();
-				menu = new TradeFriendMethodScreen(this, feed, card);
+
+				//this is just temporary. The full solution is the commented one above.
+				menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
 				menu->show();
 			}
 			break;

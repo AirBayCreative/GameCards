@@ -50,6 +50,8 @@ static String USER = URL+"?userdetails=1";
 static String ALBUMS = URL+"?usercategories=1";
 //GET Cards in album
 static String CARDS = URL+"?cardsincategory=";
+//Trade Card in album
+static String TRADE = URL+"?tradecard=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -101,6 +103,9 @@ static const char* no_user = "Ensure that you have entered your username and pas
 static const char* no_contact = "Ensure that you have entered\n your friend's ";
 static const char* sure_you_want_to_send = "Are you sure you want to send your ";
 static const char* friend_with = " to your friend with ";
+static const char* sending_card_message = "Sending card...";
+static const char* card_sent_message = "Card sent successfully.";
+static const char* error_sending_card_message = "Error sending card.";
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";
 static const char* xml_albumid = "albumid";
@@ -126,6 +131,13 @@ static const char* xml_status = "status";
 static const char* ALBUMEND = "-lst.sav";
 static const char* FEED = "fd.sav";
 static const char* ALBUM = "lb.sav";
+//Trade card
+static const char* trade_cardid = "cardid";
+static const char* trade_by = "trade_by";
+static const char* by_email = "email";
+static const char* by_username = "username";
+static const char* by_phone_number = "phone_number";
+static const char* trade_by_detail = "detail";
 
 extern Font *gFontGrey;
 extern Font *gFontBlue;
