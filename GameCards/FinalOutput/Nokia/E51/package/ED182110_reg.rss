@@ -1,0 +1,138 @@
+# 1 "E:/My Dropbox/workspace/GameCards/Symbian/FinalOutput/Nokia/E51/package/ED182110_reg.prs"
+# 1 "<built-in>"
+# 1 "<command line>"
+# 1 "E:/My Dropbox/workspace/GameCards/Symbian/FinalOutput/Nokia/E51/package/ED182110_reg.prs"
+# 1 "../../runtimes/cpp/platforms/symbian/data-ed3/MoSync_reg_template.rss"
+# 1 "<built-in>"
+# 1 "<command line>"
+# 1 "../../runtimes/cpp/platforms/symbian/data-ed3/MoSync_reg_template.rss"
+# 1 "/Symbian/9.2/S60_3rd_FP1/Epoc32/include/appinfo.rh" 1
+# 83 "/Symbian/9.2/S60_3rd_FP1/Epoc32/include/appinfo.rh"
+STRUCT APP_REGISTRATION_INFO
+ {
+ LONG reserved_long = 0;
+ LLINK reserved_llink = 0;
+
+ LTEXT app_file(256) = "";
+ LONG attributes = 0;
+
+ LTEXT localisable_resource_file(256) = "";
+ LONG localisable_resource_id = 1;
+
+ BYTE hidden = 0;
+ BYTE embeddability = 0;
+ BYTE newfile = 0;
+ BYTE launch = 0;
+ LTEXT group_name(16) = "";
+
+ BYTE default_screen_number = 0;
+
+ LEN WORD STRUCT datatype_list[];
+
+ LEN WORD STRUCT file_ownership_list[];
+
+ LEN WORD STRUCT service_list[];
+
+ LLINK opaque_data = 0;
+ }
+# 122 "/Symbian/9.2/S60_3rd_FP1/Epoc32/include/appinfo.rh"
+enum
+ {
+ EDataTypePrioritySystem = 0xFFF9,
+ EDataTypePriorityHigh = 10000,
+ EDataTypePriorityNormal = 0,
+ EDataTypePriorityLow = -10000,
+ EDataTypePriorityLastResort = -20000
+ };
+
+
+
+
+
+STRUCT DATATYPE
+ {
+ LONG priority;
+ LTEXT8 type(256);
+ }
+
+
+
+
+
+STRUCT FILE_OWNERSHIP_INFO
+ {
+ LTEXT file_name(256);
+ }
+
+
+
+
+
+STRUCT SERVICE_INFO
+ {
+ LONG uid = 0;
+ LEN WORD STRUCT datatype_list[];
+ LLINK opaque_data = 0;
+ }
+# 176 "/Symbian/9.2/S60_3rd_FP1/Epoc32/include/appinfo.rh"
+STRUCT LOCALISABLE_APP_INFO
+ {
+ LONG reserved_long = 0;
+ LLINK reserved_llink = 0;
+
+ LTEXT short_caption(256) = "";
+ STRUCT caption_and_icon;
+
+ LEN WORD STRUCT view_list[];
+
+ LTEXT group_name(16) = "";
+ }
+
+
+
+
+
+STRUCT CAPTION_AND_ICON_INFO
+ {
+ LONG reserved_long = 0;
+ LLINK reserved_llink = 0;
+
+ LTEXT caption(256) = "";
+
+ WORD number_of_icons = 0;
+ LTEXT icon_file(256) = "";
+ }
+
+
+
+
+
+STRUCT VIEW_DATA
+ {
+ LONG reserved_long = 0;
+ LLINK reserved_llink = 0;
+
+ LONG uid = 0;
+
+ LONG screen_mode = 0;
+
+ STRUCT caption_and_icon;
+ }
+# 2 "../../runtimes/cpp/platforms/symbian/data-ed3/MoSync_reg_template.rss" 2
+# 1 "E:/My Dropbox/workspace/GameCards/Symbian/FinalOutput/Nokia/E51/package/ED182110.rsg" 1
+# 3 "../../runtimes/cpp/platforms/symbian/data-ed3/MoSync_reg_template.rss" 2
+
+UID2 0x101f8021
+
+
+UID3 0xED182110
+
+RESOURCE APP_REGISTRATION_INFO
+{
+ app_file = "ED182110";
+ localisable_resource_file = "\\resource\\apps\\ED182110";
+ localisable_resource_id = 0x41451004;
+ embeddability = 0;
+ newfile = 0;
+ hidden = 0;
+}

@@ -1,0 +1,241 @@
+PerformanceFrequency: 1948271
+StartCount: 873300033978
+d:\MoSync\bin\mdb.exe -p E:\My Dropbox\workspace\GameCards\Symbian\Output\program -sld E:\My Dropbox\workspace\GameCards\Symbian\Output\Sld.tab -stabs E:\My Dropbox\workspace\GameCards\Symbian\Output\stabs.tab 
+c++filt dir: d:\MoSync/bin/c++filt
+loadSLD: 128.078178 ms
+parseStabs: 559.489414 ms
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type XCListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type MtxListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type Pair<const MAUtil::BasicString<char>,MAUtil::BasicString<char> > found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type WidgetListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type HttpConnectionListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type BasicString<char> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type TimerListener found.
+Multiple instances of type CloseListener found.
+Multiple instances of type ConnListener found.
+Multiple instances of type BasicString<wchar_t> found.
+Multiple instances of type MtxListener found.
+Multiple instances of type MtxListener found.
+resolveAll: 299.942872 ms
+remoteReadThreadFunc start
+(gdb) 
+Starting main loop...
+Command: 1-gdb-set confirm off
+1^done
+(gdb) 
+Command: 2-gdb-set width 0
+2^done
+(gdb) 
+Command: 3-gdb-set height 0
+3^done
+(gdb) 
+Command: 4-interpreter-exec console echo
+4^error,msg="Unknown console command"
+(gdb) 
+Command: 5-target-select remote localhost:50000
+sIdle = false;
+Send: $g#67
+Recv Ack
+Recv packet(1032): '00000000001f3fe400000000000000000000000000000000000000000000000000000000000000000000000000000000001f400000008000000fa000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001ffffffff00000002fffffffe00000003fffffffd00000004fffffffc00000005fffffffb00000006fffffffa00000007fffffff900000008fffffff800000009fffffff70000000afffffff60000000bfffffff50000000cfffffff40000000dfffffff30000000efffffff20000000ffffffff100000010fffffff00000001f000000200000003f000000400000007f00000080000000ff00000100000001ff00000200000003ff00000400000007ff0000080000000fff0000100000001fff0000200000003fff0000400000007fff000080000000ffff000100000001ffff000200000003ffff000400000007ffff00080000000fffff00100000001fffff00200000003fffff00400000007fffff0080000000ffffff0100000001ffffff0200000003ffffff0400000007ffffff080000000fffffff100000001fffffff200000003fffffff400000007fffffff80000000ffffffefffffffdfffffffbfffffff7ffffffefffffffdfffffffbfffffff7ffffffefffffffdfff0001cfde'
+Send: +
+sIdle = true;
+5^connected,addr="0x0001cfde",func="crt0_startup",args=[]
+(gdb) 
+Command: 6-environment-directory
+6^error,msg="Unimplemented MI command: environment_directory"
+(gdb) 
+Command: 7-thread-info
+7^done,threads=[{id="1",target-id="The One",state="stopped",frame={addr="0x1CFDE",func="crt0_startup",args=[],file="crtlib.s",fullname="crtlib.s",line="1"}}],current-thread-id="1"
+(gdb) 
+Command: 8-data-list-register-names
+8^done,register-names=["zr","sp","rt","fr","d0","d1","d2","d3","d4","d5","d6","d7","i0","i1","i2","i3","r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","r13","r14","r15","k0","k1","k2","k3","k4","k5","k6","k7","k8","k9","k10","k11","k12","k13","k14","k15","k16","k17","k18","k19","k20","k21","k22","k23","k24","k25","k26","k27","k28","k29","k30","k31","k32","k33","k34","k35","k36","k37","k38","k39","k40","k41","k42","k43","k44","k45","k46","k47","k48","k49","k50","k51","k52","k53","k54","k55","k56","k57","k58","k59","k60","k61","k62","k63","k64","k65","k66","k67","k68","k69","k70","k71","k72","k73","k74","k75","k76","k77","k78","k79","k80","k81","k82","k83","k84","k85","k86","k87","k88","k89","k90","k91","k92","k93","k94","k95"]
+(gdb) 
+Command: 9-exec-continue
+OpQueue: 0 levels
+OpQueue: executing 1: 
+sRunning = true;
+Send: $c#63
+OpQueue: 1 levels
+ 1 elements:
+  1: 
+OpQueue: 1 levels
+ 1 elements:
+  1: 
+OpQueue: 1 levels
+ 2 elements:
+  1: 
+  2: 
+Recv Ack
+OpQueue: 1 levels
+ 2 elements:
+  1: 
+  2: 
+OpQueue: executing 2: 
+9^running
+(gdb) 
+OpQueue: 1 levels
+ 1 elements:
+  2: 
+OpQueue: 1 levels
+ 0 elements:
+OpQueue: 1 levels
+ 0 elements:
+Recv packet(3): 'W4c'
+Send: +
+sIdle = false;
+Send: $g#67
+Recv Ack
+Recv packet(1032): '00000000001f3ee8000080ee001f3ef0fffffffd0014d35c000000dc0014adb400000000000f451c001f3f180014ade8fffffffd00000e10000f5d74000000dcfffffffd000000000014d3440005b4d8001f3e50001f3e4c0000000100000001001f3e88001f3e8c00000000000000000000000000000000000f5d740000729c00000001ffffffff00000002fffffffe00000003fffffffd00000004fffffffc00000005fffffffb00000006fffffffa00000007fffffff900000008fffffff800000009fffffff70000000afffffff60000000bfffffff50000000cfffffff40000000dfffffff30000000efffffff20000000ffffffff100000010fffffff00000001f000000200000003f000000400000007f00000080000000ff00000100000001ff00000200000003ff00000400000007ff0000080000000fff0000100000001fff0000200000003fff0000400000007fff000080000000ffff000100000001ffff000200000003ffff000400000007ffff00080000000fffff00100000001fffff00200000003fffff00400000007fffff0080000000ffffff0100000001ffffff0200000003ffffff0400000007ffffff080000000fffffff100000001fffffff200000003fffffff400000007fffffff80000000ffffffefffffffdfffffffbfffffff7ffffffefffffffdfffffffbfffffff7ffffffefffffffdfff0002b882'
+Send: +
+sIdle = true;
+*stopped,reason="exited",exit-code="4c",frame={addr="0x2B882",func="_ZN6MAUtil14HttpConnection16setRequestHeaderEPKcS2_",args=[],file="Connection.cpp",fullname="c:/mb/mosync-trunk/libs/MAUtil/Connection.cpp",line="167"}
+(gdb) 
+Command: 10-gdb-exit
+10^exit
+Send: $e#65
+remoteReadThreadFunc end

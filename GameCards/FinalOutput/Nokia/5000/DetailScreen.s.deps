@@ -1,0 +1,56 @@
+ \
+ E:\My\ Dropbox\workspace\GameCards\Symbian\FinalOutput\Nokia\5000\DetailScreen.s:  \
+ E:\My\ Dropbox\workspace\GameCards\Symbian\DetailScreen.cpp \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Header.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/GameCards.h \
+  d:/MoSync/include/ma.h d:/MoSync/include/maapi.h \
+  d:/MoSync/include/maapi_defs.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Header.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Login.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/MAUI.h \
+  d:/MoSync/include/MAUI/Screen.h d:/MoSync/include/MAUI/Widget.h \
+  d:/MoSync/include/MAUtil/Vector.h d:/MoSync/include/MAUtil/RefCounted.h \
+  d:/MoSync/include/MAUtil/String.h d:/MoSync/include/MAUtil/RefCounted.h \
+  d:/MoSync/include/MAUtil/Vector.h d:/MoSync/include/MAUtil/Geometry.h \
+  d:/MoSync/include/MAUI/WidgetSkin.h d:/MoSync/include/MAUtil/HashMap.h \
+  d:/MoSync/include/maassert.h d:/MoSync/include/ma.h \
+  d:/MoSync/include/maheap.h d:/MoSync/include/kazlib/hash.h \
+  d:/MoSync/include/limits.h d:/MoSync/include/MAUtil/collection_common.h \
+  d:/MoSync/include/MAUtil/String.h \
+  d:/MoSync/include/MAUtil/HashMap_impl.h \
+  d:/MoSync/include/MAUI/InputManager.h \
+  d:/MoSync/include/MAUtil/Environment.h \
+  d:/MoSync/include/MAUtil/ListenerSet.h d:/MoSync/include/MAUI/Engine.h \
+  d:/MoSync/include/MAUI/Font.h d:/MoSync/include/MAUI/Layout.h \
+  d:/MoSync/include/MAUI/ListBox.h d:/MoSync/include/MAUI/Engine.h \
+  d:/MoSync/include/MAUI/Font.h d:/MoSync/include/MAUI/EditBox.h \
+  d:/MoSync/include/MAUtil/CharInput.h \
+  d:/MoSync/include/MAUtil/Environment.h d:/MoSync/include/MAUI/Label.h \
+  d:/MoSync/include/MAUI/Image.h d:/MoSync/include/MAUI/Label.h \
+  d:/MoSync/include/MAUtil/Connection.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/MAHeaders.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Feed.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Albums.h \
+  d:/MoSync/include/MAUtil/Map.h d:/MoSync/include/MAUtil/Dictionary.h \
+  d:/MoSync/include/kazlib/dict.h \
+  d:/MoSync/include/MAUtil/Dictionary_impl.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/MenuScreen.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/AlbumLoadScreen.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/AlbumViewScreen.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/XmlConnection.h \
+  d:/MoSync/include/MTXml/MTXml.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/DetailScreen.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Util.h \
+  d:/MoSync/include/MAUI/Widget.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Card.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/ImageCache.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/ImageCacheRequest.h \
+  d:/MoSync/include/MAUtil/Downloader.h \
+  d:/MoSync/include/MAUtil/Connection.h d:/MoSync/include/MAUtil/util.h \
+  d:/MoSync/include/mavsprintf.h d:/MoSync/include/maarg.h \
+  d:/MoSync/include/mastring.h d:/MoSync/include/mactype.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/Logout.h \
+  E:\My\ Dropbox\workspace\GameCards\Symbian\/ImageScreen.h \
+  d:/MoSync/include/conprint.h d:/MoSync/include/mavsprintf.h \
+  d:/MoSync/include/MAUtil/Moblet.h d:/MoSync/include/mastdlib.h \
+  d:/MoSync/include/maxtoa.h

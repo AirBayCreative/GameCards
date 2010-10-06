@@ -1,0 +1,30 @@
+; LauncherApp.pkg
+;
+;Language - standard language definitions
+&EN
+
+; standard SIS file header
+#{"GameCards"},(0xED182110),1,2,0, TYPE=SA
+
+;Localised Vendor name
+%{"Built with MoSync SDK"}
+
+;Unique Vendor name
+:"Built with MoSync SDK"
+
+;Supports S60 3rd Edition
+[0x101F7961], 0, 0, 0, {"S60ProductID"};
+
+;Requires the MoSync Server, v1.2.0
+@"d:\MoSync/profiles/runtimes/s60v3/1//MoSyncServer.sis",(0x20022A9D)
+(0x20022A9D), 1, 2, 0, {"MoSync Server"}
+
+;Files to install
+"E:/My Dropbox/workspace/GameCards/GameCards/Output/s60v3/1//ED182110.exe" -"!:\sys\bin\ED182110.exe"
+"E:/My Dropbox/workspace/GameCards/GameCards/Output/s60v3/1/program.comb" -"!:\resource\apps\ED182110.comb"
+"E:/My Dropbox/workspace/GameCards/GameCards/Output/s60v3/1//ED182110.rsc" -"!:\resource\apps\ED182110.rsc"
+; "E:/My Dropbox/workspace/GameCards/GameCards/Output/s60v3/1//ED182110_icon.mif" -"!:\resource\apps\ED182110_icon.mif"
+"E:/My Dropbox/workspace/GameCards/GameCards/Output/s60v3/1//ED182110_reg.rsc" -"!:\private\10003a3f\import\apps\ED182110_reg.rsc"
+
+;required for application to be covered by backup/restore facility
+;"backup_registration.xml" -"!:\private\ED182110\backup_registration.xml"
