@@ -1,5 +1,6 @@
-#include "Header.h"
-#include <mastdlib.h>
+#include "AlbumLoadScreen.h"
+#include "AlbumViewScreen.h"
+#include "Util.h"
 
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {

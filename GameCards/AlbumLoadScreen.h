@@ -1,10 +1,12 @@
 #ifndef _ALBUMLOADSCREEN_H_
 #define _ALBUMLOADSCREEN_H_
 
-#include "MAUI.h"
-#include "Header.h"
+#include <MAUI/Screen.h>
+#include <MAUI/ListBox.h>
+#include <MAUI/Label.h>
+
+#include "Feed.h"
 #include "XmlConnection.h"
-#include <MAUtil/Downloader.h>
 
 using namespace MAUI;
 using namespace MAUtil;

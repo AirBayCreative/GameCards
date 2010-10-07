@@ -1,5 +1,4 @@
 #include "XmlConnection.h"
-#include "conprint.h"
 
 XmlConnection::XmlConnection(){
 }

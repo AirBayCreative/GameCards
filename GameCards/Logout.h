@@ -2,7 +2,9 @@
 #define _LOGOUT_H_
 
 #include <MAUI/Screen.h>
+#include <MAUI/Image.h>
 #include <MAUI/ListBox.h>
+
 #include "Feed.h"
 
 using namespace MAUI;

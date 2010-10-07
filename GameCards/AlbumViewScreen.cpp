@@ -1,5 +1,8 @@
-#include "Header.h"
-#include <mastdlib.h>
+#include <conprint.h>
+#include "AlbumViewScreen.h"
+#include "Util.h"
+#include "MAHeaders.h"
+#include "ImageScreen.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {

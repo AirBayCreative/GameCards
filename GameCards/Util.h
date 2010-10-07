@@ -7,10 +7,11 @@
 #include <MAUI/Font.h>
 #include <MAUI/Image.h>
 #include <MAUI/ListBox.h>
+
 #include "Card.h"
 #include "ImageCache.h"
 
-#include <mavsprintf.h>
+
 
 using namespace MAUI;
 

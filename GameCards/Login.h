@@ -1,8 +1,13 @@
 #ifndef _LOGIN_H_
 #define _LOGIN_H_
 
-#include "MAUI.h"
-#include "Header.h"
+#include <MAUI/Screen.h>
+#include <MAUI/EditBox.h>
+#include <MAUI/ListBox.h>
+#include <MAUI/Layout.h>
+
+#include "Feed.h"
+#include "XmlConnection.h"
 
 using namespace MAUI;
 using namespace MAUtil;

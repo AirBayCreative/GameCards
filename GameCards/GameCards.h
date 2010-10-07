@@ -1,12 +1,10 @@
 #ifndef _MOBILEGAMECARDS_H_
 #define _MOBILEGAMECARDS_H_
 
-#include <ma.h>
-#include "Header.h"
-#include "MAHeaders.h"
-#include "Feed.h"
-#include "MAUI.h"
 #include <MAUtil/Moblet.h>
+#include <MAUI/Screen.h>
+
+#include "Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;

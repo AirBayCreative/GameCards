@@ -1,8 +1,13 @@
 #ifndef _DETAILSCREEN_H_
 #define _DETAILSCREEN_H_
 
-#include "MAUI.h"
-#include "Header.h"
+#include <MAUI/Screen.h>
+#include <MAUI/EditBox.h>
+#include <MAUI/ListBox.h>
+
+#include "XmlConnection.h"
+#include "Feed.h"
+
 
 using namespace MAUI;
 using namespace MAUtil;

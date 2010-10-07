@@ -1,6 +1,10 @@
+#include <mavsprintf.h>
+
+#include "ImageCacheRequest.h"
 #include "MAHeaders.h"
 #include "Util.h"
-#include <conprint.h>
+
+
 
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)

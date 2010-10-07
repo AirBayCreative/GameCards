@@ -1,4 +1,5 @@
-#include "Header.h"
+#include "Card.h"
+#include "Util.h"
 
 void Card::setLoaded(bool load) {
 	loaded = load;
