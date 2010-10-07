@@ -1,8 +1,9 @@
 #ifndef _MENUSCREEN_H_
 #define _MENUSCREEN_H_
+#include <MAUI/Screen.h>
+#include <MAUI/ListBox.h>
+#include <MAUI/Label.h>
 
-#include <ma.h>
-#include "MAUI.h"
 #include "Feed.h"
 
 using namespace MAUI;

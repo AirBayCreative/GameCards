@@ -1,4 +1,5 @@
-#include "Header.h"
+#include "Feed.h"
+#include "Util.h"
 
 void Feed::setLoaded(bool load) {
 	loaded = load;

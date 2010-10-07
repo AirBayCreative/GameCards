@@ -2,7 +2,11 @@
 #define _TRADECOMPLETESCREEN_H_
 
 #include <ma.h>
-#include "MAUI.h"
+#include <MAUI/ListBox.h>
+#include <MAUI/Label.h>
+#include <MAUI/Layout.h>
+#include <MAUI/Screen.h>
+
 #include "Feed.h"
 
 using namespace MAUI;

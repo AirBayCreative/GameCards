@@ -1,9 +1,10 @@
-#include "MobKeyboard.h"
-//#include "../MobileApplication.h"
-
-#include "Widgets/MobEditBox.h"
-
+#include <MAUtil/Moblet.h>
 #include <conprint.h> //TODO rem
+
+#include "MobKeyboard.h"
+#include "Widgets/MobEditBox.h"
+#include "../MAHeaders.h"
+#include "../Util.h"
 
 MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	: Widget(x, y, width, height, NULL)

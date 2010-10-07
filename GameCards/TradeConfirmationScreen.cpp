@@ -1,9 +1,8 @@
-#include "Header.h"
+#include <conprint.h>
+
 #include "TradeConfirmationScreen.h"
 #include "TradeCompleteScreen.h"
-#include <madmath.h>
-
-#include <conprint.h> //TODO rem
+#include "Util.h"
 
 TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, Card card, String method, String friendDetail)
 		:previous(previous), feed(feed), card(card), method(method), friendDetail(friendDetail), mHttp(this) {

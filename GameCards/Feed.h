@@ -1,7 +1,6 @@
 #ifndef _FEED_H_
 #define _FEED_H_
 
-#include <MAUtil/String.h>
 #include "Albums.h"
 
 using namespace MAUtil;

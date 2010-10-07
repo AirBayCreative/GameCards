@@ -1,5 +1,5 @@
-#include "Header.h"
-#include <conprint.h>
+#include "ImageScreen.h"
+#include "Util.h"
 
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, MAHandle bimg, bool flip, Card *card, bool full, ImageCache *mImgCache, Feed *feed) : previous(previous), bimg(bimg), img(img), flip(flip), card(card), full(full), mImageCache(mImgCache), feed(feed) {

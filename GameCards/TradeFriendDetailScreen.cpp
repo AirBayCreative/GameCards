@@ -1,6 +1,6 @@
 #include "TradeFriendDetailScreen.h"
 #include "TradeConfirmationScreen.h"
-#include <madmath.h>
+#include "Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card card, String method) :previous(previous),
 	feed(feed), card(card), method(method) {

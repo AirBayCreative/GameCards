@@ -1,8 +1,7 @@
-#include "Header.h"
 #include "AlbumLoadScreen.h"
 #include "MenuScreen.h"
 #include "TradeCompleteScreen.h"
-#include <madmath.h>
+#include "Util.h"
 
 TradeCompleteScreen::TradeCompleteScreen(Feed *feed) :feed(feed) {
 	layout = createMainLayout(blank, continuelbl);

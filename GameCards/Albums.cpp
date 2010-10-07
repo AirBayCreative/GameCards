@@ -1,4 +1,5 @@
-#include "Header.h"
+#include "Albums.h"
+#include "Util.h"
 
 void Albums::setLoaded(bool load) {
 	loaded = load;

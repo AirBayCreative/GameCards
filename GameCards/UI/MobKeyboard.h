@@ -1,8 +1,6 @@
 #ifndef MOBKEYBOARD_H_
 #define MOBKEYBOARD_H_
 
-#include "../Header.h"
-
 #include <MAUtil/Moblet.h>
 #include <MAUI/Widget.h>
 #include <MAUtil/util.h>

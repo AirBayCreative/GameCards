@@ -2,7 +2,6 @@
 #define _CARD_H_
 
 #include <MAUtil/String.h>
-#include <MAUtil/Map.h>
 
 using namespace MAUtil;
 

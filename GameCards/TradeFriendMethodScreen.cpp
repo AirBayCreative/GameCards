@@ -1,5 +1,6 @@
 #include "TradeFriendMethodScreen.h"
-#include <madmath.h>
+#include "TradeFriendDetailScreen.h"
+#include "Util.h"
 
 TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, Card card) :previous(previous), feed(feed), card(card) {
 	layout = createMainLayout(back, select);

@@ -2,11 +2,15 @@
 #define _TRADEFRIENDDETAILSCREEN_H_
 
 #include <ma.h>
-#include "MAUI.h"
+#include <MAUI/ListBox.h>
+#include <MAUI/Label.h>
+#include <MAUI/Layout.h>
+#include <MAUI/Screen.h>
+
 #include "Feed.h"
-#include "Header.h"
 #include "UI/Widgets/MobEditBox.h"
 #include "UI/MobKeyboard.h"
+#include "Card.h"
 
 using namespace MAUI;
 using namespace MAUtil;

@@ -1,6 +1,11 @@
-#include "Header.h"
+
+#include "AlbumLoadScreen.h"
+#include "DetailScreen.h"
+#include "ImageScreen.h"
+#include "MenuScreen.h"
+#include "MAHeaders.h"
+#include "Logout.h"
 #include "Util.h"
-#include <madmath.h>
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	if (feed->getTouchEnabled()) {

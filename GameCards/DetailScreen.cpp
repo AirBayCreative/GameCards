@@ -1,5 +1,5 @@
-#include "Header.h"
-#include <mastdlib.h>
+#include "DetailScreen.h"
+#include "Util.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed) {
 	mainLayout = createMainLayout(back, blank);

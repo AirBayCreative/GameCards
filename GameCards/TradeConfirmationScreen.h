@@ -2,9 +2,14 @@
 #define _TRADECONFIRMATIONSCREEN_H_
 
 #include <ma.h>
-#include "MAUI.h"
+#include <MAUI/ListBox.h>
+#include <MAUI/Label.h>
+#include <MAUI/Layout.h>
+#include <MAUI/Screen.h>
+
 #include "Feed.h"
 #include "XmlConnection.h"
+#include "Card.h"
 
 using namespace MAUI;
 using namespace MAUtil;
