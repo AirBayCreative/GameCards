@@ -83,6 +83,8 @@ static String USER = URL+"?userdetails=1";
 static String ALBUMS = URL+"?usercategories=1";
 //GET Cards in album
 static String CARDS = URL+"?cardsincategory=";
+//Trade Card in album
+static String TRADE = URL+"?tradecard=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -97,6 +99,7 @@ static const char* done = "Done";
 static const char* flipit = "Flip";
 static const char* zoomin = "Zoom";
 static const char* select = "Select";
+static const char* confirm = "Confirm";
 static const char* success = "Success";
 static const char* login = "Log In";
 static const char* logout = "Log Out";
@@ -106,8 +109,16 @@ static const char* exit = "Exit";
 static const char* userlbl = "Username:";
 static const char* passlbl = "Password:";
 static const char* emaillbl = "Email:";
+static const char* phoneNumlbl = "Phone Number";
+static const char* emaillblNoColon = "Email";
+static const char* userlblNoColon = "Username";
+static const char* continuelbl = "Continue";
+static const char* selectFriendBy = "Select friend by:";
 static const char* handlelbl = "Handle:";
 static const char* albumlbl = "Albums";
+static const char* tradelbl = "Trade";
+static const char* sendToAuctionlbl = "Send card to auction";
+static const char* sendToFriendlbl = "Send card to friend";
 static const char* auctionlbl = "My Auctions";
 static const char* shoplbl = "Shop";
 static const char* ballbl = "My Balance";
@@ -123,6 +134,13 @@ static const char* truesz = "true";
 static const char* falsesz = "false";
 static const char* no_connect = "Unable to connect, try again later...";
 static const char* no_user = "Ensure that you have entered your username and password.";
+static const char* no_contact = "Ensure that you have entered\n your friend's ";
+static const char* sure_you_want_to_send = "Are you sure you want to send your ";
+static const char* friend_with = " to your friend with ";
+static const char* sending_card_message = "Sending card...";
+static const char* card_sent_message = "Card sent successfully.";
+static const char* error_sending_card_message = "Error sending card.";
+
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";
 static const char* xml_albumid = "albumid";
@@ -148,5 +166,12 @@ static const char* xml_status = "status";
 static const char* ALBUMEND = "-lst.sav";
 static const char* FEED = "fd.sav";
 static const char* ALBUM = "lb.sav";
+//Trade card
+static const char* trade_cardid = "cardid";
+static const char* trade_by = "trade_by";
+static const char* by_email = "email";
+static const char* by_username = "username";
+static const char* by_phone_number = "phone_number";
+static const char* trade_by_detail = "detail";
 
 #endif	//_UTIL_H_

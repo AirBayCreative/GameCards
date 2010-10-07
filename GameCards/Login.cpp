@@ -1,31 +1,44 @@
-#include "Header.h"
+#include "Login.h"
 #include <mastdlib.h>
-
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout = createMainLayout(exit, login);
+
+	mainLayout->setDrawBackground(TRUE);
+
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
-	listBox->add(label);
+	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
+	errorLabel->setSkin(gSkinBack);
+	errorLabel->setMultiLine(true);
 
-	label = createEditLabel(blank);
-	editBoxLogin = new EditBox(0, 10, label->getWidth(), label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+	label->setSkin(gSkinBack);
+
+	labelLogin = createEditLabel(blank);
+	editBoxLogin = new MobEditBox(0, 6, labelLogin->getWidth()-PADDING*2, labelLogin->getHeight()-PADDING*2, labelLogin, blank, 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
-	label->addWidgetListener(this);
+	labelLogin->addWidgetListener(this);
+
 	listBox->add(label);
+	listBox->add(labelLogin);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
-	listBox->add(label);
+	label->setSkin(gSkinBack);
 
-	label = createEditLabel(blank);
-	editBoxPass = new EditBox(0, 10, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	labelPass = createEditLabel(blank);
+	editBoxPass = new MobEditBox(0, 6, labelPass->getWidth()-PADDING*2, labelPass->getHeight()-PADDING*2, labelPass, blank, 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
+	labelPass->addWidgetListener(this);
 
-	label = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
+	MAExtent screenSize = maGetScrSize();
+	int scrWidth = EXTENT_X(screenSize);
+	int scrHeight = EXTENT_Y(screenSize);
+	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
+
 	listBox->add(label);
+	listBox->add(labelPass);
+	listBox->add(errorLabel);
 
 	editBoxLogin->setText(blank);
 	editBoxPass->setText(blank);
@@ -33,7 +46,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	listBox->setSelectedIndex(1);
 
 	if (feed->getUnsuccessful() != success) {
-		label->setCaption(feed->getUnsuccessful());
+		errorLabel->setCaption(feed->getUnsuccessful());
 	}
 	touch = falsesz;
 	this->setMain(mainLayout);
@@ -62,12 +75,35 @@ void Login::pointerMoveEvent(MAPoint2d point)
 
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
+	if (!(keyboard->isShown()) && right) {
 		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
+	} else if (!(keyboard->isShown()) && left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (list) {
 		keyPressEvent(MAK_FIRE);
+	}
+
+	int yClick = point.y;
+	int keyboardY = keyboard->getPosition().y;
+
+	int index = listBox->getSelectedIndex();
+	if (list && (index == 1 || index == 3)) {
+		if (index == 1 && (yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT || !(keyboard->isShown()))) {
+			keyboard->attachWidget(editBoxLogin);
+			keyboard->setPosition(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT);
+		}
+		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
+			keyboard->attachWidget(editBoxPass);
+			keyboard->setPosition(0, 0);
+		}
+		keyboard->show();
+		//keyboard->drawWidget();
+	}
+	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT)) {
+		keyboard->deAttachEditBox();
+		keyboard->hide();
+
+		mainLayout->draw(true);
 	}
 }
 
@@ -121,8 +157,9 @@ void Login::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
+			break;
 		case MAK_SOFTRIGHT:
-			label->setCaption(loggingin);
+			errorLabel->setCaption(loggingin);
 			if (editBoxLogin->getText()==blank) {
 			}
 			if (editBoxLogin->getText()!=blank & editBoxPass->getText()!=blank) {
@@ -137,8 +174,8 @@ void Login::keyPressEvent(int keyCode) {
 				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 				if(res < 0) {
-					label->setCaption(no_connect);
-					label->setMultiLine(true);
+					errorLabel->setCaption(no_connect);
+					errorLabel->setMultiLine(true);
 				} else {
 					mHttp.finish();
 				}
@@ -146,8 +183,8 @@ void Login::keyPressEvent(int keyCode) {
 				value = blank;
 			} else {
 				maVibrate(1000);
-				label->setCaption(no_user);
-				label->setMultiLine(true);
+				errorLabel->setCaption(no_user);
+				errorLabel->setMultiLine(true);
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -297,4 +334,3 @@ String Login::base64(unsigned char const* bytes_to_encode, unsigned int in_len) 
 	}
 	return ret;
 }
-

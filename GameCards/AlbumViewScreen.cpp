@@ -1,11 +1,12 @@
 #include "Header.h"
+#include "TradeOptionsScreen.h"
 #include <mastdlib.h>
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back,auction,blank);
+		mainLayout = createMainLayout(back,tradelbl,blank);
 	} else {
-		mainLayout = createMainLayout(back,auction,select);
+		mainLayout = createMainLayout(back,tradelbl,select);
 	}
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -179,7 +180,8 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			next = new ImageScreen(this, RES_SOON, RES_SOON, false, NULL, false, mImageCache, feed);
+			//next = new ImageScreen(this, RES_SOON, RES_SOON, false, NULL, false, mImageCache, feed);
+			next = new TradeOptionsScreen(this, feed, cards.find(index[selected])->second);
 			next->show();
 			break;
 	}
