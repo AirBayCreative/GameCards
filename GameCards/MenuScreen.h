@@ -1,9 +1,10 @@
 #ifndef _MENUSCREEN_H_
 #define _MENUSCREEN_H_
+
 #include <MAUI/Screen.h>
-#include <MAUI/ListBox.h>
 #include <MAUI/Label.h>
 
+#include "UI/KineticListBox.h"
 #include "Feed.h"
 
 using namespace MAUI;
@@ -21,13 +22,12 @@ public:
 	void locateItem(MAPoint2d point);
 private:
 	Layout *mainLayout;
-	ListBox *listBox;
+	KineticListBox *listBox;
 	Label *label;
 	Feed *feed;
 	Screen *menu;
-	int index;
 	int c;
-	bool list, left, right;
+	bool list, left, right, movedList;
 };
 
 #endif

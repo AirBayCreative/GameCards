@@ -12,11 +12,11 @@
 MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	c=0;
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(exit, blank);
+		mainLayout = createMainLayout(exit, blank, true);
 	} else {
-		mainLayout = createMainLayout(exit, select);
+		mainLayout = createMainLayout(exit, select, true);
 	}
-	listBox = (ListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -35,12 +35,16 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	label = createSubLabel(logout);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	listBox->setSelectedIndex(0);
 	this->setMain(mainLayout);
+
+	listBox->setSelectedIndex(0);
+
+	movedList = false;
 }
 
 MenuScreen::~MenuScreen() {
 }
+
 void MenuScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -48,18 +52,22 @@ void MenuScreen::pointerPressEvent(MAPoint2d point)
 
 void MenuScreen::pointerMoveEvent(MAPoint2d point)
 {
+	movedList = true;
     locateItem(point);
 }
 
 void MenuScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (!movedList) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
+	movedList = false;
 }
 
 void MenuScreen::locateItem(MAPoint2d point)
@@ -77,7 +85,6 @@ void MenuScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;
         }
     }

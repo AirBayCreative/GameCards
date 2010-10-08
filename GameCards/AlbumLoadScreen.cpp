@@ -1,16 +1,17 @@
+#include <conprint.h>
+
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "Util.h"
 
-
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back,blank);
+		mainLayout = createMainLayout(back, blank, true);
 	} else {
-		mainLayout = createMainLayout(back,select);
+		mainLayout = createMainLayout(back, select, true);
 	}
 
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	notice->setCaption(checking_albums);
@@ -25,6 +26,8 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
+
+	movedList = false;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {}
@@ -36,18 +39,22 @@ void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 
 void AlbumLoadScreen::pointerMoveEvent(MAPoint2d point)
 {
+	movedList = true;
     locateItem(point);
 }
 
 void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (!movedList) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
+	movedList = false;
 }
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
@@ -66,7 +73,7 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -102,7 +109,6 @@ void AlbumLoadScreen::drawList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
-
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
@@ -125,6 +131,7 @@ void AlbumLoadScreen::hide() {
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
+
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();

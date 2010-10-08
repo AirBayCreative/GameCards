@@ -3,15 +3,19 @@
 .image "crosslogo.png"
 
 .res RES_FONT_GREY
+.ubin
 .include "nobilegrey.mof"  
 
 .res RES_FONT_BLUE
+.ubin
 .include "nobileblue.mof" 
 
 .res RES_FONT_BLACK
+.ubin
 .include "nobileblack.mof"
  
 .res RES_FONT_WHITE
+.ubin
 .include "nobilewhite.mof"  
 
 .res RES_SELECTED_EDITBOX
