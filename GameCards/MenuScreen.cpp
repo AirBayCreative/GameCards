@@ -115,7 +115,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			index = listBox->getSelectedIndex();
+			int index = listBox->getSelectedIndex();
 			if(index == 0) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
