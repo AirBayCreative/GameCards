@@ -10,7 +10,6 @@ class ImageCache
     ~ImageCache();
 
     void process();
-    void decrease();
     void request(ImageCacheRequest* req);
 
   private:

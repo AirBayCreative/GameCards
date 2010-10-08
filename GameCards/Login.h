@@ -30,13 +30,12 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-
 private:
-	Screen *menu;
+	Screen *previous;
 	Layout *mainLayout;
 	ListBox *listBox;
-	Label *labelLogin,*labelPass,*errorLabel,*label;
-	MobEditBox *editBoxLogin,*editBoxPass;
+	Label *label;
+	MobEditBox *editBoxLogin, *editBoxPass;
 	MobKeyboard *keyboard;
 
 	HttpConnection mHttp;
@@ -49,8 +48,12 @@ private:
 
 	Feed *feed;
 
+	Screen *next;
+	bool isBusy;
+
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
+	void cleanup();
 	void xcConnError(int code);
 	void mtxEncoding(const char*);
 	void mtxTagStart(const char*, int);

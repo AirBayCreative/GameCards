@@ -9,10 +9,7 @@ MobEditBox::MobEditBox(int x, int y, int width, int height, Widget* parent, cons
 
 }
 
-MobEditBox::~MobEditBox()
-{
-
-}
+MobEditBox::~MobEditBox() {}
 
 bool MobEditBox::getMultiline()
 {

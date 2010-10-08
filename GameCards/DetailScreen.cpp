@@ -67,6 +67,20 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 }
 
 DetailScreen::~DetailScreen() {
+	mainLayout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+	delete listBox;
+	delete mainLayout;
+	delete image;
+	delete softKeys;
+	username = "";
+	credits = "";
+	encrypt = "";
+	error_msg = "";
+	parentTag = "";
+	handle = "";
+	email = "";
 }
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
@@ -170,10 +184,7 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void DetailScreen::connReadFinished(Connection* conn, int result) {}
 
 void DetailScreen::xcConnError(int code) {
-	if (code == -6) {
-		return;
-	} else {
-	}
+	delete &xmlConn;
 }
 
 void DetailScreen::mtxEncoding(const char* ) {}
@@ -210,9 +221,13 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		username,error_msg= blank;
 		saveData(FEED, feed->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
-		label->setCaption(error_msg.c_str());
+		if (label != NULL) {
+			label->setCaption(error_msg.c_str());
+		}
 	} else {
-		label->setCaption(blank);
+		if (label != NULL) {
+			label->setCaption(blank);
+		}
 	}
 }
 

@@ -181,7 +181,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (index.size() >- 1) {
-				next = new ImageScreen(this, RES_LOADING, RES_LOADING, false, &cards.find(index[selected])->second, false, mImageCache, feed);
+				next = new ImageScreen(this, RES_LOADING, RES_LOADING, false, &cards.find(index[selected])->second, false, mImageCache);
 				next->show();
 			}
 			break;

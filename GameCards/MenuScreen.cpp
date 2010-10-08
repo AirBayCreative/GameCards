@@ -7,7 +7,10 @@
 #include "Logout.h"
 #include "Util.h"
 
+#include "MAP/MemoryMgr.h"
+
 MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
+	c=0;
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(exit, blank);
 	} else {
@@ -105,23 +108,33 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			int index = listBox->getSelectedIndex();
+			index = listBox->getSelectedIndex();
 			if(index == 0) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
 			} else if(index == 1) {
-				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL, feed);
+				lprintfln("c(%d)",c++);
+				delete menu;
+				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
 				menu->show();
 			} else if(index == 2) {
-				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL, feed);
+				lprintfln("c(%d)",c++);
+				delete menu;
+				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
 				menu->show();
 			} else if(index == 3) {
+				lprintfln("c(%d)",c++);
+				delete menu;
 				menu = new DetailScreen(this, feed, SHOWCREDIT);
 				menu->show();
 			} else if(index == 4) {
+				lprintfln("c(%d)",c++);
+				delete menu;
 				menu = new DetailScreen(this, feed, SHOWUSER);
 				menu->show();
 			} else if (index == 5) {
+				lprintfln("c(%d)",c++);
+				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
 			}

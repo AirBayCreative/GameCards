@@ -1,4 +1,5 @@
 #include "ImageCache.h"
+#include "Util.h"
 
 ImageCache::ImageCache(){}
 
@@ -10,17 +11,14 @@ void ImageCache::request(ImageCacheRequest* req)
 	mNextRequest = req;
 
 	//Process the queue
-	mCount++;
+	increase();
 	process();
-}
-
-void ImageCache::decrease() {
-	mCount--;
 }
 
 void ImageCache::process()
 {
-	if(mCount >= 6) {
+	while(getCount() >= 6) {
+		lprintfln("getCount %d", getCount());
 		maWait(1000);
 	}
     mNextRequest->runHttp();

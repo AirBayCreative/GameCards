@@ -35,7 +35,7 @@ void ImageCacheRequest::finishedDownloading()
 {
 	saveFile((getSaveName()).c_str(), mData);
 	returnImage(getImage(), mData, getHeight());
-	//cache->decrease();
+	decrease();
 }
 void ImageCacheRequest::httpFinished(MAUtil::HttpConnection* http, int result) {
 	MAUtil::String contentLengthStr;

@@ -8,7 +8,7 @@ using namespace MAUtil;
 Logout::Logout(Screen *previous, Feed *feed) : previous(previous), feed(feed) {
 	mainLayout = createMainLayout(logout, back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, resize(RES_LOGOUT, listBox->getHeight()-PADDING*2));
+	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOGOUT);//resize(RES_LOGOUT, listBox->getHeight()-PADDING*2));
 	this->setMain(mainLayout);
 }
 

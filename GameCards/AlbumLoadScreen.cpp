@@ -26,6 +26,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	}
 	this->setMain(mainLayout);
 }
+
+AlbumLoadScreen::~AlbumLoadScreen() {}
+
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -100,9 +103,6 @@ void AlbumLoadScreen::drawList() {
 		listBox->add(label);
 	}
 
-}
-
-AlbumLoadScreen::~AlbumLoadScreen() {
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {

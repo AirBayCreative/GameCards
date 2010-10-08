@@ -25,6 +25,8 @@ private:
 	Label *label;
 	Feed *feed;
 	Screen *menu;
+	int index;
+	int c;
 	bool list, left, right;
 };
 
