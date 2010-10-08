@@ -2,11 +2,11 @@
 #define _ALBUMLOADSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/ListBox.h>
 #include <MAUI/Label.h>
 
 #include "Feed.h"
 #include "XmlConnection.h"
+#include "UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -39,10 +39,10 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg;
 	int size, i;
-	bool list, left, right, empt;
+	bool list, left, right, empt, movedList;
 
 	Layout *mainLayout;
-	ListBox *listBox;
+	KineticListBox *listBox;
 	Label *notice, *label;
 
 	Feed *feed;

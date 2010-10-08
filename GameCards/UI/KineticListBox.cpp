@@ -105,6 +105,7 @@ namespace MAUI {
                                                 children[i-1]->getBounds().height;
                                 else
                                         y = 0;
+
                                 children[i]->setPosition(0, y);
 
                                 if(autoSize)
@@ -246,7 +247,6 @@ namespace MAUI {
 
         void KineticListBox::draw(bool forceDraw) {
             //Engine& engine = Engine::getSingleton();
-
             if(orientation == LBO_VERTICAL) {
             //      int x = paddedBounds.x;
             //      int y = paddedBounds.y+(yOffset>>16);
@@ -363,71 +363,71 @@ namespace MAUI {
     }
 
         void KineticListBox::pointerPressEvent( MAPoint2d point ) {
-				if(this->contains(point.x, point.y))
-				{
-					stop();
-					previousPoints.add(Point(0, point.y));
-					previousTimes.add(maGetMilliSecondCount());
+			if(this->contains(point.x, point.y))
+			{
+				stop();
+				previousPoints.add(Point(0, point.y));
+				previousTimes.add(maGetMilliSecondCount());
 
-					int y = point.y-(yOffset>>16);
-					for(int i = 0; i < children.size(); i++) {
-							Widget *widget = children[i];
-							if(widget->contains(point.x, y)) {
-									setSelectedIndex(i);
-									break;
-							}
-					}
-					requestRepaint();
+				int y = point.y-(yOffset>>16);
+				for(int i = 0; i < children.size(); i++) {
+						Widget *widget = children[i];
+						if(widget->contains(point.x, y)) {
+								setSelectedIndex(i);
+								break;
+						}
 				}
+				requestRepaint();
+			}
 		}
 
         void KineticListBox::pointerMoveEvent( MAPoint2d point ) {
-				if(this->contains(point.x, point.y))
+			if(this->contains(point.x, point.y))
+			{
+				if(previousPoints.size() > 0)
 				{
-					if(previousPoints.size() > 0)
-					{
-						Point currPoint(0, point.y);
-						float currTime = maGetMilliSecondCount();
+					Point currPoint(0, point.y);
+					float currTime = maGetMilliSecondCount();
 
-						Point previousPoint(previousPoints[previousPoints.size()-1]);
-						float previousTime(previousTimes[previousTimes.size()-1]);
-						Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
+					Point previousPoint(previousPoints[previousPoints.size()-1]);
+					float previousTime(previousTimes[previousTimes.size()-1]);
+					Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
 
-						previousPoints.add(currPoint);
-						previousTimes.add(currTime);
-						if (previousPoints.size() >= HISTORY_LENGTH) {
-								previousPoints.remove(0);
-								previousTimes.remove(0);
-						}
-
-						yOffset += (int)diff.y << 16;
-
-		/*	            if(point.y > getHeight() || point.y < 0) {
-								kineticTimer = true;
-								Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
-						}*/
-
-						requestRepaint();
+					previousPoints.add(currPoint);
+					previousTimes.add(currTime);
+					if (previousPoints.size() >= HISTORY_LENGTH) {
+							previousPoints.remove(0);
+							previousTimes.remove(0);
 					}
-					else
-					{
-						previousPoints.add(Point(0, point.y));
-						previousTimes.add(maGetMilliSecondCount());
-					}
+
+					yOffset += (int)diff.y << 16;
+
+	/*	            if(point.y > getHeight() || point.y < 0) {
+							kineticTimer = true;
+							Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
+					}*/
+
+					requestRepaint();
 				}
+				else
+				{
+					previousPoints.add(Point(0, point.y));
+					previousTimes.add(maGetMilliSecondCount());
+				}
+			}
         }
 
         void KineticListBox::pointerReleaseEvent( MAPoint2d point ) {
-				Point currPoint(0, point.y);
-				float currTime = maGetMilliSecondCount();
-				Point firstPoint = previousPoints[0];
-				float firstTime = previousTimes[0];
-				Point diff( currPoint.x-firstPoint.x, currPoint.y-firstPoint.y );
-				float time = (currTime - firstTime) / (1000 / 24);
-				velocity = Point((int)(diff.x / time), (int)(diff.y / time));
-				kineticTimer = true;
-				Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
-                requestRepaint();
+			Point currPoint(0, point.y);
+			float currTime = maGetMilliSecondCount();
+			Point firstPoint = previousPoints[0];
+			float firstTime = previousTimes[0];
+			Point diff( currPoint.x-firstPoint.x, currPoint.y-firstPoint.y );
+			float time = (currTime - firstTime) / (1000 / 24);
+			velocity = Point((int)(diff.x / time), (int)(diff.y / time));
+			kineticTimer = true;
+			Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
+			requestRepaint();
 		}
 
         void KineticListBox::stop() {
@@ -446,12 +446,12 @@ namespace MAUI {
                         maPanic(0, "KineticListBox::setSelectedIndex, index out of bounds");
                 }
 
-                if(selectedIndex == this->selectedIndex) {
+                /*if(selectedIndex == this->selectedIndex) {
                         Vector_each(KineticListBoxListener*, i, mKineticListBoxListeners) {
                                 (*i)->itemSelected(this, children[this->selectedIndex], children[this->selectedIndex]);
                         }
                         return;
-                }
+                }*/
 
                 Widget *unselectedWidget = children[this->selectedIndex];
                 unselectedWidget->setSelected(false);
@@ -670,9 +670,14 @@ namespace MAUI {
 								yOffset = 0;
 						}
 						Widget *c = children[getChildren().size()-1];
-						if(((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
+						if((c->getPosition().y+c->getHeight()-getHeight() > 0) &&
+								((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
 								stop();
 								yOffset = ((c->getPosition().y+c->getHeight()-getHeight()) << 16)*-1;
+						}
+						else if (c->getPosition().y+c->getHeight()-getHeight() <= 0) {
+							stop();
+							yOffset = 0;
 						}
 				}
 				else

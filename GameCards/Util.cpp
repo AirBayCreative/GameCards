@@ -1,11 +1,10 @@
 #include <mavsprintf.h>
+#include <conprint.h>
 
+#include "UI/KineticListBox.h"
 #include "ImageCacheRequest.h"
 #include "MAHeaders.h"
 #include "Util.h"
-
-
-
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)
 #define GREEN(x)                (((x)&0x0000ff00)>>8)
@@ -170,8 +169,8 @@ void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int 
 }
 
 // first child is listbox
-Layout* createMainLayout(const char *left, const char *right) {
-	return createMainLayout(left, right, blank);
+Layout* createMainLayout(const char *left, const char *right, bool useKinetic) {
+	return createMainLayout(left, right, blank, useKinetic);
 }
 
 Layout* createNoHeaderLayout() {
@@ -180,7 +179,7 @@ Layout* createNoHeaderLayout() {
 	return mainLayout;
 }
 
-Layout* createMainLayout(const char *left, const char *right, const char *centre) {
+Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	Widget *softKeys = createSoftKeyBar(42, left, right, centre);
@@ -199,8 +198,15 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	label->setMultiLine(true);
 	listBox->add(label);
 
-	ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+/*image->getHeight()+*/label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-	listBox->add(mBox);
+	if (useKinetic) {
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()),
+				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+		listBox->add(mKineticBox);
+	}
+	else {
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		listBox->add(mBox);
+	}
 	setPadding(listBox);
 
 	mainLayout->add(softKeys);

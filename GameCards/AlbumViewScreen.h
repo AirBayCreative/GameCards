@@ -2,7 +2,6 @@
 #define _ALBUMVIEWSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/ListBox.h>
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
@@ -10,6 +9,7 @@
 #include "Feed.h"
 #include "Card.h"
 #include "ImageCache.h"
+#include "UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -39,7 +39,7 @@ private:
 	Screen *next;
 	ImageCache *mImageCache;
 	Label *notice, *label;
-	ListBox *listBox;
+	KineticListBox *listBox;
 	Layout *mainLayout;
 
 	HttpConnection mHttp;
@@ -48,7 +48,7 @@ private:
 	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
 	int size, i;
-	bool list, left, right;
+	bool list, left, right, movedList;
 
 	Feed *feed;
 	Albums album;

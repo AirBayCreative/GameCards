@@ -10,11 +10,11 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back,tradelbl,blank);
+		mainLayout = createMainLayout(back, tradelbl, blank, true);
 	} else {
-		mainLayout = createMainLayout(back,tradelbl,select);
+		mainLayout = createMainLayout(back, tradelbl, select, true);
 	}
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_cards);
 
@@ -34,6 +34,8 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
+
+	movedList = false;
 }
 
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
@@ -62,17 +64,21 @@ void AlbumViewScreen::loadImages(const char *text) {
 void AlbumViewScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
+    movedList = true;
 }
 
 void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (!movedList) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
+	movedList = false;
 }
 
 void AlbumViewScreen::locateItem(MAPoint2d point)
@@ -90,7 +96,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
