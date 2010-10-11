@@ -10,7 +10,7 @@ bool Albums::getLoaded() {
 }
 
 String Albums::getAll() {
-	String all = blank;
+	String all = "";
 	for(Map<String,String>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		// The iterator needs to be dereferenced.
 		all+=itr->first.c_str();

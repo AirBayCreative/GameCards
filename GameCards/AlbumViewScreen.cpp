@@ -10,7 +10,7 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, tradelbl, blank, true);
+		mainLayout = createMainLayout(back, tradelbl, "", true);
 	} else {
 		mainLayout = createMainLayout(back, tradelbl, select, true);
 	}
@@ -35,7 +35,7 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	}
 	this->setMain(mainLayout);
 
-	movedList = false;
+	moved=0;
 }
 
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
@@ -64,12 +64,12 @@ void AlbumViewScreen::loadImages(const char *text) {
 void AlbumViewScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
-    movedList = true;
+    moved++;
 }
 
 void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (!movedList) {
+	if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
@@ -78,7 +78,7 @@ void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_FIRE);
 		}
 	}
-	movedList = false;
+	moved=0;
 }
 
 void AlbumViewScreen::locateItem(MAPoint2d point)
@@ -106,8 +106,10 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 		{
 			if (i == 0) {
 				left = true;
+				moved=0;
 			} else if (i == 2) {
 				right = true;
+				moved=0;
 			}
 			return;
 		}
@@ -187,7 +189,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (index.size() >- 1) {
-				next = new ImageScreen(this, RES_LOADING, RES_LOADING, false, &cards.find(index[selected])->second, false, mImageCache);
+				next = new ImageScreen(this, RES_LOADING, false, &cards.find(index[selected])->second);
 				next->show();
 			}
 			break;
@@ -205,7 +207,7 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption(blank);
+		notice->setCaption("");
 	}
 }
 
@@ -254,17 +256,17 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		notice->setCaption(blank);
+		notice->setCaption("");
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
 		cards.insert(card.getId(),card);
-		id = blank;
-		description = blank;
-		quantity = blank;
-		thumburl = blank;
-		fronturl = blank;
-		backurl = blank;
-		rate = blank;
-		value = blank;
+		id = "";
+		description = "";
+		quantity = "";
+		thumburl = "";
+		fronturl = "";
+		backurl = "";
+		rate = "";
+		value = "";
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	}
@@ -272,7 +274,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		drawList();
 		saveData(filename.c_str(), getAll().c_str());
 	} else {
-		notice->setCaption(blank);
+		notice->setCaption("");
 	}
 }
 String AlbumViewScreen::getAll() {

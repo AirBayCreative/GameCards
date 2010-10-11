@@ -83,7 +83,6 @@ static String TRADE = URL+"?tradecard=1";
 static const char* delim = ",";
 static const char* concat = ":";
 static const char* newline = "#";
-static const char* blank = "";
 static const char* demo = "Demo Deck";
 static const char* demoid = "-1";
 static const char* back = "Back";

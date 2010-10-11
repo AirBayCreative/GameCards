@@ -15,8 +15,8 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	listBox->add(label);
 
 
-	label = createEditLabel(blank);
-	editBoxLogin = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	label = createEditLabel("");
+	editBoxLogin = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -24,15 +24,15 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
 	listBox->add(label);
 
-	label = createEditLabel(blank);
-	editBoxPass = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, blank, 0, gFontBlack, true, false);
+	label = createEditLabel("");
+	editBoxPass = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
+	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -154,9 +154,9 @@ void Login::keyPressEvent(int keyCode) {
 			if (!isBusy) {
 				isBusy = true;
 				label->setCaption(loggingin);
-				if (editBoxLogin->getText()!=blank & editBoxPass->getText()!=blank) {
+				if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
 					conCatenation = editBoxPass->getText().c_str();
-					ret = blank;
+					ret = "";
 					value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 					feed->setEncrypt(value.c_str());
 					feed->setUsername(editBoxLogin->getText().c_str());
@@ -171,8 +171,8 @@ void Login::keyPressEvent(int keyCode) {
 					} else {
 						mHttp.finish();
 					}
-					conCatenation = blank;
-					value = blank;
+					conCatenation = "";
+					value = "";
 				} else {
 					isBusy = false;
 					maVibrate(1000);
@@ -247,7 +247,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful(success);
 		feed->setTouch(touch.c_str());
-		username,error_msg= blank;
+		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
 		next = new MenuScreen(feed);
@@ -259,7 +259,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 	} else {
 		if (!error) {
 			if (label != NULL) {
-				label->setCaption(blank);
+				label->setCaption("");
 			}
 		}
 	}
@@ -282,15 +282,11 @@ void Login::cleanup() {
 	listBox->getChildren().clear();
 	softKeys->getChildren().clear();
 
-	lprintfln("4");
 	delete editBoxLogin;
 	delete editBoxPass;
-	lprintfln("5");
 	delete keyboard;
-	lprintfln("6");
 	delete image;
-	delete softKeys;
-	lprintfln("7");*/
+	delete softKeys;*/
 	parentTag = "";
 	conCatenation = "";
 	ret = "";

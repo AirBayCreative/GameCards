@@ -67,7 +67,7 @@ Label* createSubLabel(String str, int height) {
 	return label;
 }
 Widget* createSoftKeyBar(int height, const char *left, const char *right) {
-	return createSoftKeyBar(height, left, right, blank);
+	return createSoftKeyBar(height, left, right, "");
 }
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
@@ -100,7 +100,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 }
 // first child is listbox
 Layout* createMainLayout(const char *left, const char *right, bool useKinetic) {
-	return createMainLayout(left, right, blank, useKinetic);
+	return createMainLayout(left, right, "", useKinetic);
 }
 
 Layout* createNoHeaderLayout() {
@@ -113,7 +113,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	softKeys = createSoftKeyBar(42, left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,blank,0,gFontWhite);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontWhite);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
@@ -147,7 +147,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 Layout* createImageLayout(const char *left) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(42, left, blank, blank);
+	softKeys = createSoftKeyBar(42, left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -188,8 +188,6 @@ void saveData(const char* storefile, const char *value) {
 	}
 	hValue = -1;
 	store = -1;
-
-	delete value;
 }
 
 void saveFile(const char* storefile, MAHandle data) {

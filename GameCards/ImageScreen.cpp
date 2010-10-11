@@ -2,34 +2,29 @@
 #include "Util.h"
 
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, MAHandle bimg, bool flip, Card *card, bool full, ImageCache *mImgCache) : previous(previous), bimg(bimg), img(img), flip(flip), card(card), full(full), mImageCache(mImgCache) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card) {
 	mainLayout = createImageLayout(back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-	int height = listBox->getHeight()-70;
-	/*if ((card != NULL)&&(!full)) {
-		mainLayout = createImageLayout(back, zoomin, flipit);
+	height = listBox->getHeight()-70;
+	if (card != NULL) {
+		mainLayout = createImageLayout(back, "", flipit);
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
-	} else if ((card != NULL) && (full)) {
-		mainLayout = createNoHeaderLayout();
-		listBox = (ListBox*) mainLayout->getChildren()[0];
-		height = scrHeight;
-	}*/
+	}
 	imge = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
 
-
-	//TESTING LEAK
-	//Layout *mainLayout = new Layout(0,0,scrWidth,scrHeight,NULL,1,1);
-	//Label *label = new Label(0,0,scrWidth,scrHeight,mainLayout,"test",0,gFontWhite);
-
 	this->setMain(mainLayout);
-	/*if (card != NULL) {
+
+	mImageCache = new ImageCache();
+
+	lprintfln("height-PADDING*2 %d", height-PADDING*2);
+	if (card != NULL) {
 		if (flip) {
 			retrieveBack(imge, card, height-PADDING*2, mImageCache);
 		} else {
 			retrieveFront(imge, card, height-PADDING*2, mImageCache);
 		}
-	}*/
+	}
 }
 
 void ImageScreen::pointerPressEvent(MAPoint2d point)
@@ -114,38 +109,32 @@ ImageScreen::~ImageScreen() {
 	delete image;
 	delete softKeys;
 	img = -1;
-	bimg = -1;
 	delete card;
-	delete mImageCache;
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
-		/*case MAK_SOFTRIGHT:
-			if (card != NULL) {
-				if (!full) {
-					Screen *next = new ImageScreen(this, img, bimg, flip, card, true, mImageCache);
-					next->show();
-				}
-			}
+		case MAK_SOFTRIGHT:
 			break;
 		case MAK_SOFTLEFT:
-			if (!flip) {
-				MAHandle tmp = img;
-				img = bimg;
-				bimg = tmp;
-			}
 			previous->show();
-			break;*/
+			break;
 		case MAK_FIRE:
-			/*if (card != NULL) {
+			if (card != NULL) {
 				flip=!flip;
-				Screen *next = new ImageScreen(previous, bimg, img, flip, card, full, mImageCache);
-				next->show();
-			} else {*/
+				imge->setResource(RES_LOADING);
+				imge->update();
+				imge->requestRepaint();
+				maUpdateScreen();
+				if (flip) {
+					retrieveBack(imge, card, height-PADDING*2, mImageCache);
+				} else {
+					retrieveFront(imge, card, height-PADDING*2, mImageCache);
+				}
+			} else {
 				previous->show();
-			/*}
-			break;*/
+			}
+			break;
 	}
 }
 

@@ -11,8 +11,9 @@
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	c=0;
+	menu = new Screen();
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(exit, blank, true);
+		mainLayout = createMainLayout(exit, "", true);
 	} else {
 		mainLayout = createMainLayout(exit, select, true);
 	}
@@ -39,7 +40,7 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 
 	listBox->setSelectedIndex(0);
 
-	movedList = false;
+	moved=0;
 }
 
 MenuScreen::~MenuScreen() {
@@ -52,13 +53,13 @@ void MenuScreen::pointerPressEvent(MAPoint2d point)
 
 void MenuScreen::pointerMoveEvent(MAPoint2d point)
 {
-	movedList = true;
+	moved++;
     locateItem(point);
 }
 
 void MenuScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (!movedList) {
+	if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
@@ -67,7 +68,7 @@ void MenuScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_FIRE);
 		}
 	}
-	movedList = false;
+	moved = 0;
 }
 
 void MenuScreen::locateItem(MAPoint2d point)
@@ -92,9 +93,12 @@ void MenuScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
 		{
+
 			if (i == 0) {
+				moved=0;
 				left = true;
 			} else if (i == 2) {
+				moved=0;
 				right = true;
 			}
 			return;
@@ -120,27 +124,27 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
 			} else if(index == 1) {
-				lprintfln("c(%d)",c++);
+				//lprintfln("c(%d)",c++);
 				delete menu;
-				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
+				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			} else if(index == 2) {
-				lprintfln("c(%d)",c++);
+				//lprintfln("c(%d)",c++);
 				delete menu;
-				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL);
+				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			} else if(index == 3) {
-				lprintfln("c(%d)",c++);
+				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWCREDIT);
 				menu->show();
 			} else if(index == 4) {
-				lprintfln("c(%d)",c++);
+				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWUSER);
 				menu->show();
 			} else if (index == 5) {
-				lprintfln("c(%d)",c++);
+				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();

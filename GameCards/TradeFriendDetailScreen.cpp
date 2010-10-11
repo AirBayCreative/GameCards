@@ -9,15 +9,15 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	layout->setDrawBackground(TRUE);
 
-	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
+	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
 	errorLabel->setSkin(gSkinBack);
 	errorLabel->setMultiLine(true);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, method+":", 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod = createEditLabel(blank);
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, blank, 0, gFontBlack, true, false);
+	lblMethod = createEditLabel("");
+	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
 
@@ -30,7 +30,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	int scrHeight = EXTENT_Y(screenSize);
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
-	contactEditBox->setText(blank);
+	contactEditBox->setText("");
 
 	this->setMain(layout);
 
@@ -121,11 +121,11 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			//listBox->setSelectedIndex(1);
 			break;
 		case MAK_SOFTRIGHT:
-			if (contactEditBox->getText() == blank) {
+			if (contactEditBox->getText() == "") {
 				errorLabel->setCaption(no_contact + method + ".");
 			}
 			else {
-				errorLabel->setCaption(blank);
+				errorLabel->setCaption("");
 				menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
 				menu->show();
 			}

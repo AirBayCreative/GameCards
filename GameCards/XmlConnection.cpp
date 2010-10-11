@@ -25,7 +25,7 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
 
     mPtr[result] = 0;
     mPtr = mBuffer;
-    lprintfln("mBuffer %s", mBuffer);
+    //lprintfln("mBuffer %s", mBuffer);
    	mContext.feed(mBuffer);
    	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 }

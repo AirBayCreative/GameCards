@@ -8,11 +8,14 @@ using namespace MAUtil;
 Logout::Logout(Screen *previous, Feed *feed) : previous(previous), feed(feed) {
 	mainLayout = createMainLayout(logout, back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOGOUT);//resize(RES_LOGOUT, listBox->getHeight()-PADDING*2));
+	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOGOUT);
 	this->setMain(mainLayout);
 }
 
 Logout::~Logout() {
+	delete listBox;
+	delete softKeys;
+	delete image;
 }
 
 void Logout::pointerPressEvent(MAPoint2d point)
@@ -109,12 +112,13 @@ void Logout::cleanup() {
 	for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
 		String s = itr->c_str();
 		s+="-lst.sav";
-		saveData(s.c_str(),blank);
+		saveData(s.c_str(),"");
 	}
-	feed->setAll(blank);
-	saveData(FEED,blank);
-	saveData(ALBUM,blank);
+	feed->setAll("");
+	saveData(FEED,"");
+	saveData(ALBUM,"");
 
-	previous = new Login(feed);
-	previous->show();
+	maExit(0);
+	/*previous = new Login(feed);
+	previous->show();*/
 }

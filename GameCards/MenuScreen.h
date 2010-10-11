@@ -27,7 +27,8 @@ private:
 	Feed *feed;
 	Screen *menu;
 	int c;
-	bool list, left, right, movedList;
+	bool list, left, right;
+	int moved;
 };
 
 #endif
