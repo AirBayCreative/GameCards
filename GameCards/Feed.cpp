@@ -135,6 +135,9 @@ MAUtil::String Feed::getAll() {
 }
 
 void Feed::setAll(const char* allch) {
+	if (strlen(allch) <= 0) {
+		allch = "";
+	}
 	String all = allch;
 	int indexof = all.find(delim);
 	if (indexof > -1) {

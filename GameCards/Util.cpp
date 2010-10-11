@@ -177,16 +177,19 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 }
 
 void saveData(const char* storefile, const char *value) {
-	MAHandle hValue = maCreatePlaceholder();
+
 	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
-	if (store > 0) {
+	if (strlen(value) == 0) {
+		maCloseStore(store, 1);
+	} else if (store > 0) {
+		MAHandle hValue = maCreatePlaceholder();
 		if (maCreateData(hValue, strlen(value)) == RES_OK) {
 			maWriteData(hValue, value, 0, strlen(value));
 			maWriteStore(store, hValue);
 		}
 		maCloseStore(store, 0);
+		hValue = -1;
 	}
-	hValue = -1;
 	store = -1;
 }
 
@@ -204,11 +207,15 @@ char* getData(const char* storefile) {
 	if (store > 0) {
 		maReadStore(store, tmp);
 		int size = maGetDataSize(tmp);
-		char *ret = new char[size+1];
-		memset(ret,'\0',size+1);
-		maReadData(tmp, ret, 0, size);
-		maCloseStore(store, 0);
-		return ret;
+		if (size > 0) {
+			char *ret = new char[size+1];
+			memset(ret,'\0',size+1);
+			maReadData(tmp, ret, 0, size);
+			maCloseStore(store, 0);
+			return ret;
+		} else {
+			return "";
+		}
 	}
 	return "";
 }

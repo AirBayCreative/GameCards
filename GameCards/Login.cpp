@@ -16,7 +16,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 
 
 	label = createEditLabel("");
-	editBoxLogin = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -25,7 +25,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxPass = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 

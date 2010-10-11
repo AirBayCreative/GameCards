@@ -45,16 +45,13 @@ void ImageCache::process()
 	//Not in memory, and not in storage
 	if(mDownloader->isDownloading())
 		return;
-	lprintfln("started downloading(%s)", mNextRequest->getUrl().c_str());
 	mDownloader->beginDownloading(mNextRequest->getUrl().c_str());
 }
 
 void ImageCache::finishedDownloading(Downloader* downloader, MAHandle data)
 {
 	//Save to storage
-	lprintfln("saveFile %s", mNextRequest->getSaveName().c_str());
 	saveFile((mNextRequest->getSaveName()).c_str(), data);
-	lprintfln("returnImage %s", mNextRequest->getSaveName().c_str());
 	returnImage(mNextRequest->getImage(), data, mNextRequest->getHeight());
 
 	delete mNextRequest;

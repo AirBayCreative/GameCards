@@ -124,27 +124,22 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
 			} else if(index == 1) {
-				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			} else if(index == 2) {
-				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			} else if(index == 3) {
-				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWCREDIT);
 				menu->show();
 			} else if(index == 4) {
-				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWUSER);
 				menu->show();
 			} else if (index == 5) {
-				//lprintfln("c(%d)",c++);
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();

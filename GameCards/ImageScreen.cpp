@@ -17,7 +17,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, bool flip, Card *card) 
 
 	mImageCache = new ImageCache();
 
-	lprintfln("height-PADDING*2 %d", height-PADDING*2);
+	//lprintfln("height-PADDING*2 %d", height-PADDING*2);
 	if (card != NULL) {
 		if (flip) {
 			retrieveBack(imge, card, height-PADDING*2, mImageCache);

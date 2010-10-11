@@ -7,7 +7,6 @@
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
-    //gFontGrey = new MAUI::Font(RES_FONT_GREY);
 	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
 	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
     gFontBlue = new MAUI::Font(RES_FONT_BLUE);

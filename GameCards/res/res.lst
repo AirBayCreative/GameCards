@@ -2,10 +2,6 @@
 .ubin
 .image "crosslogo.png"
 
-.res RES_FONT_GREY
-.bin
-.include "nobilegrey.mof"  
-
 .res RES_FONT_BLUE
 .bin
 .include "nobileblue.mof" 
