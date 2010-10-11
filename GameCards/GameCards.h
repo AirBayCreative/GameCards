@@ -15,6 +15,7 @@ class MAUIMoblet : public Moblet  {
 		~MAUIMoblet();
 		void keyPressEvent(int keyCode);
 		void keyReleaseEvent(int keyCode);
+		//void customEvent(const MAEvent&);
 		void closeEvent();
 		Feed feed;
 		Screen *next;
