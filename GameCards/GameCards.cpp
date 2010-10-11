@@ -41,6 +41,14 @@ MAUIMoblet::MAUIMoblet() {
 MAUIMoblet::~MAUIMoblet() {
 }
 
+/*void MAUIMoblet::customEvent(const MAEvent& event)
+{
+	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
+	{
+		login->getMain()->requestRepaint();
+	}
+}*/
+
 void MAUIMoblet::keyPressEvent(int keyCode) {
 }
 

@@ -275,6 +275,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption(blank);
 	}
 }
+
 String AlbumViewScreen::getAll() {
 	String all;
 	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
@@ -282,7 +283,6 @@ String AlbumViewScreen::getAll() {
 	}
 	return all;
 }
-
 
 void AlbumViewScreen::mtxParseError() {
 }
