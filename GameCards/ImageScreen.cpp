@@ -17,7 +17,6 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, bool flip, Card *card) 
 
 	mImageCache = new ImageCache();
 
-	//lprintfln("height-PADDING*2 %d", height-PADDING*2);
 	if (card != NULL) {
 		if (flip) {
 			retrieveBack(imge, card, height-PADDING*2, mImageCache);
@@ -103,13 +102,16 @@ void ImageScreen::locateItem(MAPoint2d point)
 }
 
 ImageScreen::~ImageScreen() {
+	if (imge->getResource() != RES_LOADING) {
+		maDestroyObject(imge->getResource());
+	}
 	this->getMain()->getChildren().clear();
 	delete listBox;
 	delete mainLayout;
 	delete image;
 	delete softKeys;
 	img = -1;
-	delete card;
+	delete mImageCache;
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {

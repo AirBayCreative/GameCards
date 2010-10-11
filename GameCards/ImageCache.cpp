@@ -45,6 +45,7 @@ void ImageCache::process()
 	//Not in memory, and not in storage
 	if(mDownloader->isDownloading())
 		return;
+
 	mDownloader->beginDownloading(mNextRequest->getUrl().c_str());
 }
 

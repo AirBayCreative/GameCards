@@ -199,6 +199,7 @@ void saveFile(const char* storefile, MAHandle data) {
 		maWriteStore(store, data);
 	}
 	maCloseStore(store, 0);
+	store = -1;
 }
 
 char* getData(const char* storefile) {
@@ -228,6 +229,8 @@ void returnImage(Image *img, MAHandle i, int height)
 	img->update();
 	img->requestRepaint();
 	maUpdateScreen();
+	imageh = -1;
+	i = -1;
 }
 
 void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
@@ -247,8 +250,9 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 				returnImage(img, cacheimage, 64);
 			}
 		}
+		cacheimage = -1;
+		store = -1;
 	} else {
-		//TODO implement listener for connections
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
@@ -273,6 +277,8 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 				returnImage(img, cacheimage, height);
 			}
 		}
+		cacheimage = -1;
+		store = -1;
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
 		mImageCache->request(req1);
@@ -295,6 +301,8 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 				returnImage(img, cacheimage, height);
 			}
 		}
+		cacheimage = -1;
+		store = -1;
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
 		mImageCache->request(req1);
