@@ -5,58 +5,47 @@
 #include "MenuScreen.h"
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
+	isBusy = false;
 	mainLayout = createMainLayout(exit, login);
 
 	mainLayout->setDrawBackground(TRUE);
-
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, blank, 0, gFontWhite);
-	errorLabel->setSkin(gSkinBack);
-	errorLabel->setMultiLine(true);
-
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
-
-	labelLogin = createEditLabel(blank);
-	editBoxLogin = new MobEditBox(0, 6, labelLogin->getWidth()-PADDING*2, labelLogin->getHeight()-PADDING*2, labelLogin, blank, 0, gFontBlack, true, false);
-	editBoxLogin->setDrawBackground(false);
-	labelLogin->addWidgetListener(this);
-
 	listBox->add(label);
-	listBox->add(labelLogin);
+
+
+	label = createEditLabel("");
+	editBoxLogin = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
-	label->setSkin(gSkinBack);
-
-	labelPass = createEditLabel(blank);
-	editBoxPass = new MobEditBox(0, 6, labelPass->getWidth()-PADDING*2, labelPass->getHeight()-PADDING*2, labelPass, blank, 0, gFontBlack, true, false);
-	editBoxPass->setDrawBackground(false);
-	labelPass->addWidgetListener(this);
-
-	MAExtent screenSize = maGetScrSize();
-	int scrWidth = EXTENT_X(screenSize);
-	int scrHeight = EXTENT_Y(screenSize);
-	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
-
 	listBox->add(label);
-	listBox->add(labelPass);
-	listBox->add(errorLabel);
 
-	editBoxLogin->setText(blank);
-	editBoxPass->setText(blank);
+	label = createEditLabel("");
+	editBoxPass = new MobEditBox(0, 6, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxPass->setDrawBackground(false);
+	label->addWidgetListener(this);
+
+	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
+	label->setMultiLine(true);
+	listBox->add(label);
 
 	listBox->setSelectedIndex(1);
 
 	if (feed->getUnsuccessful() != success) {
-		errorLabel->setCaption(feed->getUnsuccessful());
+		label->setCaption(feed->getUnsuccessful());
 	}
 	touch = falsesz;
 	this->setMain(mainLayout);
 }
 
-Login::~Login() {
-}
+Login::~Login() {}
 
 void Login::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
@@ -162,32 +151,34 @@ void Login::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			break;
 		case MAK_SOFTRIGHT:
-			errorLabel->setCaption(loggingin);
-			if (editBoxLogin->getText()==blank) {
-			}
-			if (editBoxLogin->getText()!=blank & editBoxPass->getText()!=blank) {
-				conCatenation = editBoxPass->getText().c_str();
-				editBoxPass->setText(convertAsterisk.c_str());
-				ret = blank;
-				value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
-				feed->setEncrypt(value.c_str());
-				feed->setUsername(editBoxLogin->getText().c_str());
-				feed->setUnsuccessful(truesz);
-				int res = mHttp.create(USER.c_str(), HTTP_GET);
-				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-				if(res < 0) {
-					errorLabel->setCaption(no_connect);
-					errorLabel->setMultiLine(true);
+			if (!isBusy) {
+				isBusy = true;
+				label->setCaption(loggingin);
+				if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
+					conCatenation = editBoxPass->getText().c_str();
+					ret = "";
+					value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
+					feed->setEncrypt(value.c_str());
+					feed->setUsername(editBoxLogin->getText().c_str());
+					feed->setUnsuccessful(truesz);
+					mHttp = HttpConnection(this);
+					int res = mHttp.create(USER.c_str(), HTTP_GET);
+					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+					if(res < 0) {
+						label->setCaption(no_connect);
+						label->setMultiLine(true);
+					} else {
+						mHttp.finish();
+					}
+					conCatenation = "";
+					value = "";
 				} else {
-					mHttp.finish();
+					isBusy = false;
+					maVibrate(1000);
+					label->setCaption(no_user);
+					label->setMultiLine(true);
 				}
-				conCatenation = blank;
-				value = blank;
-			} else {
-				maVibrate(1000);
-				errorLabel->setCaption(no_user);
-				errorLabel->setMultiLine(true);
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -213,13 +204,16 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 		label->setCaption(no_connect);
+		isBusy = false;
 	}
 }
 
 void Login::connReadFinished(Connection* conn, int result) {}
 
 void Login::xcConnError(int code) {
-
+	isBusy = false;
+	//cleanup();
+	//delete &xmlConn;
 }
 
 void Login::mtxEncoding(const char* ) {
@@ -234,15 +228,15 @@ void Login::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void Login::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_username)) {
-		username += data;
+		username = data;
 	} else if(!strcmp(parentTag.c_str(), xml_credits)) {
-		credits += data;
+		credits = data;
 	} else if(!strcmp(parentTag.c_str(), xml_email)) {
-		email += data;
+		email = data;
 	} else if(!strcmp(parentTag.c_str(), xml_handle)) {
-		handle += data;
+		handle = data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
-		error_msg += data;
+		error_msg = data;
 	}
 }
 
@@ -253,22 +247,62 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful(success);
 		feed->setTouch(touch.c_str());
-		username,error_msg= blank;
+		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
-		menu = new MenuScreen(feed);
-		menu->show();
+		next = new MenuScreen(feed);
+		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
-		//errorLabel->setCaption(error_msg.c_str());
 		feed->setUnsuccessful(error_msg.c_str());
-		menu = new Login(feed);
-		menu->show();
+		label->setCaption(error_msg.c_str());
 	} else {
 		if (!error) {
-			label->setCaption(blank);
+			if (label != NULL) {
+				label->setCaption("");
+			}
 		}
 	}
+}
+void Login::cleanup() {
+	//delete label;
+	//delete editBoxLogin;
+	//delete editBoxPass;
+	delete keyboard;
+	//delete listBox;
+	delete mainLayout;
+	//delete image;
+	//delete softKeys;
+
+
+
+
+
+	/*mainLayout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+
+	delete editBoxLogin;
+	delete editBoxPass;
+	delete keyboard;
+	delete image;
+	delete softKeys;*/
+	parentTag = "";
+	conCatenation = "";
+	ret = "";
+	value = "";
+	value1 = "";
+	value2 = "";
+	convertAsterisk = "";
+	underscore = "";
+	username = "";
+	credits = "";
+	encrypt = "";
+	error_msg = "";
+	email = "";
+	handle = "";
+	touch = "";
+	j = 0;
 }
 
 void Login::mtxParseError() {

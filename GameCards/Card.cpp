@@ -104,19 +104,19 @@ void Card::setAll(const char* allch) {
 			all=all.substr(indexof);
 			setLoaded(true);
 			if ((getText().length() <= 0)||(getQuantity().length() <= 0)) {
-				setQuantity(blank);
-				setText(blank);
+				setQuantity("");
+				setText("");
 				setLoaded(false);
 			}
 		} else {
-			setQuantity(blank);
-			setText(blank);
-			setThumb(blank);
-			setFront(blank);
-			setBack(blank);
-			setId(blank);
-			setRate(blank);
-			setValue(blank);
+			setQuantity("");
+			setText("");
+			setThumb("");
+			setFront("");
+			setBack("");
+			setId("");
+			setRate("");
+			setValue("");
 			setLoaded(false);
 		}
 }

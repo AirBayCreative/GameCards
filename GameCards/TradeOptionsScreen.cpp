@@ -87,7 +87,7 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
 			if(index == 0) {
-				menu = new ImageScreen(this,RES_SOON,RES_SOON,false,NULL,false,NULL, feed);
+				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			} else if(index == 1) {
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number

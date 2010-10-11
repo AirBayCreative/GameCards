@@ -26,7 +26,9 @@ private:
 	Label *label;
 	Feed *feed;
 	Screen *menu;
-	bool list, left, right, movedList;
+	int c;
+	bool list, left, right;
+	int moved;
 };
 
 #endif

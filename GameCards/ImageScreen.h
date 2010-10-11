@@ -5,9 +5,10 @@
 #include <MAUI/ListBox.h>
 #include <MAUI/Image.h>
 
-#include "ImageCache.h"
 #include "Card.h"
 #include "Feed.h"
+#include "MAHeaders.h"
+#include "ImageCache.h"
 
 using namespace MAUI;
 
@@ -17,7 +18,7 @@ using namespace MAUI;
  */
 class ImageScreen : public Screen {
 public:
-	ImageScreen(Screen *previous, MAHandle image, MAHandle back, bool flip, Card *card, bool full, ImageCache *mImageCache, Feed *feed);
+	ImageScreen(Screen *previous, MAHandle image, bool flip, Card *card);
 	~ImageScreen();
 	void keyPressEvent(int keyCode);
 	void pointerPressEvent(MAPoint2d point);
@@ -27,16 +28,15 @@ public:
 
 private:
 	Screen *previous;
-	Screen *next;
-	MAHandle img, bimg, image;
+	MAHandle img;
 	Card *card;
-	bool flip, full;
+	Image *imge;
 	Layout *mainLayout;
 	ListBox *listBox;
-	Image *imge;
+	int height;
+	bool flip;
 	bool left, right, list;
 	ImageCache *mImageCache;
-	Feed *feed;
 };
 
 #endif	//_IMAGESCREEN_H_

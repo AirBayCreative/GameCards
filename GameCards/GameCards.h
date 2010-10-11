@@ -17,13 +17,8 @@ class MAUIMoblet : public Moblet  {
 		void keyReleaseEvent(int keyCode);
 		//void customEvent(const MAEvent&);
 		void closeEvent();
-
-		Screen *login;
-		Screen *exit;
-		Screen *mainScreen;
-		Screen *main;
-		Screen *next;
 		Feed feed;
+		Screen *next;
 };
 
 #endif /* _MOBILEGAMECARDS_H_ */

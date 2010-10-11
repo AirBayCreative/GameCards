@@ -38,8 +38,8 @@ private:
 
 	String parentTag;
 	String temp,temp1,error_msg;
-	int size, i;
-	bool list, left, right, empt, movedList;
+	int size, i, moved;
+	bool list, left, right, empt;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;

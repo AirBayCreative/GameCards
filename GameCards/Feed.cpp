@@ -166,20 +166,20 @@ void Feed::setAll(const char* allch) {
 		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
-			setUsername(blank);
-			setEncrypt(blank);
+			setUsername("");
+			setEncrypt("");
 			setLoaded(false);
 		}
 	} else {
 		setLoaded(false);
-		setUsername(blank);
-		setEncrypt(blank);
-		setUnsuccessful(blank);
-		setReplaceWhiteSpaces(blank);
-		setReplaceSpecialCharacters(blank);
-		setCredits(blank);
-		setEmail(blank);
-		setHandle(blank);
+		setUsername("");
+		setEncrypt("");
+		setUnsuccessful("");
+		setReplaceWhiteSpaces("");
+		setReplaceSpecialCharacters("");
+		setCredits("");
+		setEmail("");
+		setHandle("");
 		setTouch(falsesz);
 	}
 }

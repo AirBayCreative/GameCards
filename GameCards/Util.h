@@ -7,6 +7,7 @@
 #include <MAUI/Font.h>
 #include <MAUI/Image.h>
 #include <MAUI/ListBox.h>
+#include <conprint.h>
 
 #include "Card.h"
 #include "ImageCache.h"
@@ -40,7 +41,9 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache);
 void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache);
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache);
 void returnImage(Image *img, MAHandle i, int height);
-MAHandle resize(MAHandle img, int height);
+void increase();
+void decrease();
+int getCount();
 
 //UI Components
 extern Font *gFontGrey;
@@ -55,20 +58,9 @@ extern WidgetSkin *gSkinAlbum;
 extern WidgetSkin *gSkinText;
 extern int scrWidth;
 extern int scrHeight;
-/*extern Label *label;
-extern Layout *mainLayout;
-extern Layout *layout;
-extern ListBox* listBox;
-extern Widget *softKeys;
-extern ListBox *mBox;
+extern int mCount;
 extern Image *image;
-extern MAHandle imageh;
-extern MAHandle store;
-extern MAHandle tmp;
-extern MAHandle hValue;
-extern MAHandle cacheimage;
-extern int *texture;
-extern int *tmpimg;*/
+extern Widget *softKeys;
 
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
@@ -91,7 +83,6 @@ static String TRADE = URL+"?tradecard=1";
 static const char* delim = ",";
 static const char* concat = ":";
 static const char* newline = "#";
-static const char* blank = "";
 static const char* demo = "Demo Deck";
 static const char* demoid = "-1";
 static const char* back = "Back";

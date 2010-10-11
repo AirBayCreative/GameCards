@@ -79,6 +79,7 @@ namespace MAUI {
                 mustRebuild = true;
 
         }
+        KineticListBox::~KineticListBox() {}
 
         void KineticListBox::setEnabled(bool e) {
 				Environment& env = Environment::getEnvironment();
@@ -495,9 +496,6 @@ namespace MAUI {
 
         bool    KineticListBox::isWrapping() const {
                 return wrapping;
-        }
-
-        KineticListBox::~KineticListBox() {
         }
 
         void KineticListBox::selectPreviousItem(bool shouldFireListeners) {

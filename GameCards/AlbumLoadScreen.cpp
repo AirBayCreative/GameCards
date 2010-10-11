@@ -6,7 +6,7 @@
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, blank, true);
+		mainLayout = createMainLayout(back, "", true);
 	} else {
 		mainLayout = createMainLayout(back, select, true);
 	}
@@ -27,8 +27,11 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	}
 	this->setMain(mainLayout);
 
-	movedList = false;
+	moved = 0;
 }
+
+AlbumLoadScreen::~AlbumLoadScreen() {}
+
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -36,13 +39,13 @@ void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 
 void AlbumLoadScreen::pointerMoveEvent(MAPoint2d point)
 {
-	movedList = true;
+	moved++;
     locateItem(point);
 }
 
 void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (!movedList) {
+	if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
@@ -51,7 +54,7 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_FIRE);
 		}
 	}
-	movedList = false;
+	moved=0;
 }
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
@@ -79,8 +82,10 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
 		{
 			if (i == 0) {
+				moved=0;
 				left = true;
 			} else if (i == 2) {
+				moved=0;
 				right = true;
 			}
 			return;
@@ -106,9 +111,6 @@ void AlbumLoadScreen::drawList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
-}
-
-AlbumLoadScreen::~AlbumLoadScreen() {
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
@@ -159,7 +161,7 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption(blank);
+		notice->setCaption("");
 	}
 }
 
@@ -197,18 +199,18 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_albumname)) {
-		notice->setCaption(blank);
+		notice->setCaption("");
 		album->addAlbum(temp1.c_str(), temp.c_str());
-		temp1 = blank;
-		temp = blank;
+		temp1 = "";
+		temp = "";
 	} else if (!strcmp(name, xml_albumdone)) {
-		notice->setCaption(blank);
+		notice->setCaption("");
 		drawList();
 		saveData(ALBUM, album->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
-		notice->setCaption(blank);
+		notice->setCaption("");
 	}
 }
 

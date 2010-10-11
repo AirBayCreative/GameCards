@@ -2,7 +2,7 @@
 #include "Util.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed) {
-	mainLayout = createMainLayout(back, blank);
+	mainLayout = createMainLayout(back, "");
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	switch (screenType) {
@@ -11,7 +11,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel(blank);
+			label = createLabel("");
 			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontWhite, true, false, 45);
 			editBox->setDrawBackground(false);
 			label->addWidgetListener(this);
@@ -21,7 +21,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel(blank);
+			label = createLabel("");
 			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontWhite, true, false, 45);
 			editBox->setDrawBackground(false);
 			label->addWidgetListener(this);
@@ -31,7 +31,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel(blank);
+			label = createLabel("");
 			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getHandle(), 0, gFontWhite, true, false, 45);
 			editBox->setDrawBackground(false);
 			label->addWidgetListener(this);
@@ -41,7 +41,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel(blank);
+			label = createLabel("");
 			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontWhite, true, false, 45);
 			editBox->setDrawBackground(false);
 			editBox->setEnabled(false);
@@ -67,6 +67,20 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 }
 
 DetailScreen::~DetailScreen() {
+	mainLayout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+	delete listBox;
+	delete mainLayout;
+	delete image;
+	delete softKeys;
+	username = "";
+	credits = "";
+	encrypt = "";
+	error_msg = "";
+	parentTag = "";
+	handle = "";
+	email = "";
 }
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
@@ -163,17 +177,14 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		label->setCaption(blank);
+		label->setCaption("");
 	}
 }
 
 void DetailScreen::connReadFinished(Connection* conn, int result) {}
 
 void DetailScreen::xcConnError(int code) {
-	if (code == -6) {
-		return;
-	} else {
-	}
+	delete &xmlConn;
 }
 
 void DetailScreen::mtxEncoding(const char* ) {}
@@ -202,17 +213,21 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	//TODO not currently updating screen components. Only on screen recreate.
 	if(!strcmp(name, xml_status)) {
-		label->setCaption(blank);
+		label->setCaption("");
 		feed->setCredits(credits.c_str());
 		feed->setHandle(handle.c_str());
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful(success);
-		username,error_msg= blank;
+		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
-		label->setCaption(error_msg.c_str());
+		if (label != NULL) {
+			label->setCaption(error_msg.c_str());
+		}
 	} else {
-		label->setCaption(blank);
+		if (label != NULL) {
+			label->setCaption("");
+		}
 	}
 }
 

@@ -4,7 +4,7 @@
 #include "Util.h"
 
 TradeCompleteScreen::TradeCompleteScreen(Feed *feed) :feed(feed) {
-	layout = createMainLayout(blank, continuelbl);
+	layout = createMainLayout("", continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, card_sent_message, 0, gFontGrey);

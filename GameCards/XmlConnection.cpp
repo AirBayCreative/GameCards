@@ -1,4 +1,6 @@
 #include "XmlConnection.h"
+#include <conprint.h>
+#include <mastdlib.h>
 
 XmlConnection::XmlConnection(){
 }
@@ -12,6 +14,7 @@ void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlList
     mPtr = mBuffer;
     mConn->recv(mBuffer, sizeof(mBuffer)-1);
 }
+XmlConnection::~XmlConnection() {}
 
 void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     MAASSERT(conn == mConn);
@@ -22,8 +25,9 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
 
     mPtr[result] = 0;
     mPtr = mBuffer;
-    mContext.feed(mBuffer);
-    mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
+    //lprintfln("mBuffer %s", mBuffer);
+   	mContext.feed(mBuffer);
+   	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 }
 
 void XmlConnection::mtxDataRemains(const char* data, int len) {

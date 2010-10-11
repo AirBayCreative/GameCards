@@ -7,9 +7,9 @@
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
-    gFontGrey = new MAUI::Font(RES_FONT_GREY);
+    //gFontGrey = new MAUI::Font(RES_FONT_GREY);
 	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
-    gFontWhite = new MAUI::Font(RES_FONT_WHITE);
+	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
     gFontBlue = new MAUI::Font(RES_FONT_BLUE);
 
 	gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 16, 32, true, true);
@@ -18,28 +18,25 @@ MAUIMoblet::MAUIMoblet() {
 	gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
 	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 16, 32, 16, 32, true, true);
 	gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
-
 	Engine& engine = Engine::getSingleton();
 	engine.setDefaultFont(gFontWhite);
 	engine.setDefaultSkin(gSkinBack);
 	MAExtent screenSize = maGetScrSize();
 	scrWidth = EXTENT_X(screenSize);
 	scrHeight = EXTENT_Y(screenSize);
-
 	feed = Feed();
 	feed.setAll(getData(FEED));
 	feed.setAlbum(getData(ALBUM));
 	if (feed.getLoaded()) {
-		login = new MenuScreen(&feed);
-		login->show();
+		next = new MenuScreen(&feed);
+		next->show();
 	} else {
-		login = new Login(&feed);
-		login->show();
+		next = new Login(&feed);
+		next->show();
 	}
 }
 
-MAUIMoblet::~MAUIMoblet() {
-}
+MAUIMoblet::~MAUIMoblet() {}
 
 /*void MAUIMoblet::customEvent(const MAEvent& event)
 {
