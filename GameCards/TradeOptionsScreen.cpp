@@ -10,9 +10,9 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card card) 
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = createSubLabel(sendToAuctionlbl);
+	/*lbl = createSubLabel(sendToAuctionlbl);
 	lbl->addWidgetListener(this);
-	listBox->add(lbl);
+	listBox->add(lbl);*/
 	lbl = createSubLabel(sendToFriendlbl);
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
@@ -90,11 +90,11 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
-			if(index == 0) {
+			/*if(index == 0) {
 				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
 			}
-			else if(index == 1) {
+			else */if(index == 0) {
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
 				//menu = new TradeFriendMethodScreen(this, feed, card);
 				//menu->show();
@@ -103,7 +103,7 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 				menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
 				menu->show();
 			}
-			else if (index == 2) {
+			else if (index == 1) {
 				menu = new RedeemConfirmationScreen(this, feed, card);
 				menu->show();
 			}

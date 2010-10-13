@@ -21,7 +21,7 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(shoplbl);
+	/*label = createSubLabel(shoplbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = createSubLabel(auctionlbl);
@@ -29,7 +29,7 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	listBox->add(label);
 	label = createSubLabel(ballbl);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	listBox->add(label);*/
 	label = createSubLabel(proflbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -123,7 +123,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if(index == 0) {
 				menu = new AlbumLoadScreen(this, feed);
 				menu->show();
-			} else if(index == 1) {
+			} /*else if(index == 1) {
 				delete menu;
 				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
@@ -135,11 +135,11 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWCREDIT);
 				menu->show();
-			} else if(index == 4) {
+			} else */if(index == 1) {
 				delete menu;
 				menu = new DetailScreen(this, feed, SHOWUSER);
 				menu->show();
-			} else if (index == 5) {
+			} else if (index == 2) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
