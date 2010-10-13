@@ -1,6 +1,7 @@
 #include "TradeOptionsScreen.h"
 #include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "RedeemConfirmationScreen.h"
 #include "Util.h"
 #include "MAHeaders.h"
 #include "ImageScreen.h"
@@ -13,6 +14,9 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card card) 
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
 	lbl = createSubLabel(sendToFriendlbl);
+	lbl->addWidgetListener(this);
+	listBox->add(lbl);
+	lbl = createSubLabel(redeemlbl);
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
 	listBox->setSelectedIndex(0);
@@ -89,13 +93,18 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 			if(index == 0) {
 				menu = new ImageScreen(this,RES_SOON,false,NULL);
 				menu->show();
-			} else if(index == 1) {
+			}
+			else if(index == 1) {
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
 				//menu = new TradeFriendMethodScreen(this, feed, card);
 				//menu->show();
 
 				//this is just temporary. The full solution is the commented one above.
 				menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
+				menu->show();
+			}
+			else if (index == 2) {
+				menu = new RedeemConfirmationScreen(this, feed, card);
 				menu->show();
 			}
 			break;

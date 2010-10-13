@@ -35,7 +35,8 @@ private:
 	Layout *mainLayout;
 	ListBox *listBox;
 	Label *label;
-	MobEditBox *editBoxLogin, *editBoxPass;
+	MobEditBox *editBoxLogin;
+	//MobEditBox *editBoxPass;
 	MobKeyboard *keyboard;
 
 	HttpConnection mHttp;

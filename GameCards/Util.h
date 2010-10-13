@@ -70,7 +70,8 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"/";						  // 63
 
 //URL info
-static String URL = "http://www.mytcg.net/_phone/";
+//static String URL = "http://www.mytcg.net/_phone/";
+static String URL = "http://voucher.mytcg.net/_phone/";
 //Get user details
 static String USER = URL+"?userdetails=1";
 //Get user categories
@@ -112,6 +113,7 @@ static const char* albumlbl = "Albums";
 static const char* tradelbl = "Trade";
 static const char* sendToAuctionlbl = "Send card to auction";
 static const char* sendToFriendlbl = "Send card to friend";
+static const char* redeemlbl = "Redeem card";
 static const char* auctionlbl = "My Auctions";
 static const char* shoplbl = "Shop";
 static const char* ballbl = "My Balance";
@@ -126,12 +128,15 @@ static const char* auth_pw = "AUTH_PW";
 static const char* truesz = "true";
 static const char* falsesz = "false";
 static const char* no_connect = "Unable to connect, try again later...";
-static const char* no_user = "Ensure that you have entered your username and password.";
+static const char* no_user = "Ensure that you have entered your username.";
 static const char* no_contact = "Ensure that you have entered\n your friend's ";
 static const char* sure_you_want_to_send = "Are you sure you want to send your ";
+static const char* sure_you_want_to_redeem = "Are you sure you want to redeem your ";
+static const char* voucherlbl = "voucher";
 static const char* friend_with = " to your friend with ";
 static const char* sending_card_message = "Sending card...";
 static const char* card_sent_message = "Card sent successfully.";
+static const char* voucher_redeemed = "Voucher redeemed successfully.";
 static const char* error_sending_card_message = "Error sending card.";
 
 //XML constants <ALBUM>
@@ -166,5 +171,9 @@ static const char* by_email = "email";
 static const char* by_username = "username";
 static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
+
+//voucher constants
+static const char* voucher_pass = "1337";
+static const char* redeem_number = "0720535447";
 
 #endif	//_UTIL_H_

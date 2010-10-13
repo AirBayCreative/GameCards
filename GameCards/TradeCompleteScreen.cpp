@@ -3,11 +3,12 @@
 #include "TradeCompleteScreen.h"
 #include "Util.h"
 
-TradeCompleteScreen::TradeCompleteScreen(Feed *feed) :feed(feed) {
+TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage)
+	:feed(feed), completeMessage(completeMessage) {
 	layout = createMainLayout("", continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, card_sent_message, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, completeMessage.length()==0?card_sent_message:completeMessage, 0, gFontGrey);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);

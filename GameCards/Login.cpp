@@ -21,16 +21,16 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
-	listBox->add(label);
+	//label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
+	//listBox->add(label);
 
-	label = createEditLabel("");
+	/*label = createEditLabel("");
 	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
+	listBox->add(label);*/
 
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
-	listBox->add(label);
 
 	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
 	label->setMultiLine(true);
@@ -84,10 +84,10 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 			keyboard->attachWidget(editBoxLogin);
 			keyboard->setPosition(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT);
 		}
-		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
+		/*else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
 			keyboard->setPosition(0, 0);
-		}
+		}*/
 		keyboard->show();
 		//keyboard->drawWidget();
 	}
@@ -154,8 +154,8 @@ void Login::keyPressEvent(int keyCode) {
 			if (!isBusy) {
 				isBusy = true;
 				label->setCaption(loggingin);
-				if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
-					conCatenation = editBoxPass->getText().c_str();
+				if (editBoxLogin->getText()!="" /*& editBoxPass->getText()!=""*/) {
+					conCatenation = voucher_pass;//editBoxPass->getText().c_str();
 					ret = "";
 					value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 					feed->setEncrypt(value.c_str());
