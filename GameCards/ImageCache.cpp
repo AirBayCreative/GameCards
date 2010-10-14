@@ -72,9 +72,9 @@ void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mContentLength = atoi(contentLengthStr->c_str());
 	}
-	lprintfln("1");
+	//lprintfln("1");
 	delete contentLengthStr;
-	lprintfln("2");
+	//lprintfln("2");
 	if (maCreateData(mData, mContentLength) == RES_OK){
 
 	}
