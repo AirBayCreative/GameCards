@@ -9,7 +9,6 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card)
 	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-
 	lbl = createSubLabel(sendToFriendlbl);
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
@@ -102,7 +101,15 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
+<<<<<<< HEAD
 			if(index == 0) {
+=======
+			/*if(index == 0) {
+				menu = new ImageScreen(this,RES_SOON,false,NULL);
+				menu->show();
+			}
+			else */if(index == 0) {
+>>>>>>> f9612f9b459bd7f82d0273199b16f41882beab1a
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
 				//menu = new TradeFriendMethodScreen(this, feed, card);
 				//menu->show();
@@ -115,11 +122,15 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			}
 			else if (index == 1) {
+<<<<<<< HEAD
 				String message = sure_you_want_to_redeem + card->getText() + " " + voucherlbl + "?";
 				if (menu != NULL) {
 					delete menu;
 				}
 				menu = new TradeConfirmationScreen(this, feed, card, message, "Vendor&sms=No");
+=======
+				menu = new RedeemConfirmationScreen(this, feed, card);
+>>>>>>> f9612f9b459bd7f82d0273199b16f41882beab1a
 				menu->show();
 			}
 			break;
