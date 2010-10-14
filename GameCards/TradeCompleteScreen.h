@@ -27,7 +27,6 @@ private:
 	Layout *layout;
 	ListBox* listBox;
 	Label *lbl;
-	Screen *menu;
 	String completeMessage;
 	bool list, left, right;
 };

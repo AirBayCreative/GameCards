@@ -1,13 +1,20 @@
 #include "ImageScreen.h"
 #include "Util.h"
+#include "TradeOptionsScreen.h"
 
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card), feed(feed) {
+	//TODO add touch
+	next = new Screen();
 	mainLayout = createImageLayout(back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
-		mainLayout = createImageLayout(back, "", flipit);
+		if (feed->getTouchEnabled()) {
+			mainLayout =  createImageLayout(back, tradelbl, "");
+		} else {
+			mainLayout = createImageLayout(back, tradelbl, flipit);
+		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}
@@ -15,13 +22,11 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, bool flip, Card *card) 
 
 	this->setMain(mainLayout);
 
-	mImageCache = new ImageCache();
-
 	if (card != NULL) {
 		if (flip) {
-			retrieveBack(imge, card, height-PADDING*2, mImageCache);
+			retrieveBack(imge, card, height-PADDING*2, new ImageCache());
 		} else {
-			retrieveFront(imge, card, height-PADDING*2, mImageCache);
+			retrieveFront(imge, card, height-PADDING*2, new ImageCache());
 		}
 	}
 }
@@ -108,15 +113,28 @@ ImageScreen::~ImageScreen() {
 	this->getMain()->getChildren().clear();
 	delete listBox;
 	delete mainLayout;
-	delete image;
-	delete softKeys;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		delete softKeys;
+		image = NULL;
+	}
 	img = -1;
-	delete mImageCache;
+	delete next;
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
+			if (card != NULL) {
+				if (next != NULL) {
+					delete next;
+				}
+				next = new TradeOptionsScreen(this, feed, card);
+				next->show();
+			}
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();
@@ -124,14 +142,17 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			if (card != NULL) {
 				flip=!flip;
+				if (imge->getResource() != RES_LOADING) {
+					maDestroyObject(imge->getResource());
+				}
 				imge->setResource(RES_LOADING);
 				imge->update();
 				imge->requestRepaint();
 				maUpdateScreen();
 				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, mImageCache);
+					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
 				} else {
-					retrieveFront(imge, card, height-PADDING*2, mImageCache);
+					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
 				}
 			} else {
 				previous->show();

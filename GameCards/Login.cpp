@@ -2,7 +2,7 @@
 
 #include "Login.h"
 #include "Util.h"
-#include "MenuScreen.h"
+#include "AlbumLoadScreen.h"
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	isBusy = false;
@@ -16,25 +16,17 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 
 
 	label = createEditLabel("");
-	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlue, true, false);
+	editBoxLogin->setInputMode(EditBox::IM_NUMBERS);
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	//label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
-	//listBox->add(label);
-
-	/*label = createEditLabel("");
-	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxPass->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);*/
-
-	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
-
 	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
 	label->setMultiLine(true);
 	listBox->add(label);
+
+	keyboard = NULL;
 
 	listBox->setSelectedIndex(1);
 
@@ -57,6 +49,9 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 
 void Login::pointerPressEvent(MAPoint2d point)
 {
+	if (keyboard == NULL) {
+		keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
+	}
     locateItem(point);
 }
 
@@ -84,12 +79,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 			keyboard->attachWidget(editBoxLogin);
 			keyboard->setPosition(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT);
 		}
-		/*else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
-			keyboard->attachWidget(editBoxPass);
-			keyboard->setPosition(0, 0);
-		}*/
 		keyboard->show();
-		//keyboard->drawWidget();
 	}
 	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT)) {
 		keyboard->deAttachEditBox();
@@ -154,6 +144,7 @@ void Login::keyPressEvent(int keyCode) {
 			if (!isBusy) {
 				isBusy = true;
 				label->setCaption(loggingin);
+				editBoxLogin->setText("0720535447");
 				if (editBoxLogin->getText()!="" /*& editBoxPass->getText()!=""*/) {
 					conCatenation = voucher_pass;//editBoxPass->getText().c_str();
 					ret = "";
@@ -212,8 +203,6 @@ void Login::connReadFinished(Connection* conn, int result) {}
 
 void Login::xcConnError(int code) {
 	isBusy = false;
-	//cleanup();
-	//delete &xmlConn;
 }
 
 void Login::mtxEncoding(const char* ) {
@@ -230,11 +219,11 @@ void Login::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_username)) {
 		username = data;
 	} else if(!strcmp(parentTag.c_str(), xml_credits)) {
-		credits = data;
+
 	} else if(!strcmp(parentTag.c_str(), xml_email)) {
-		email = data;
+
 	} else if(!strcmp(parentTag.c_str(), xml_handle)) {
-		handle = data;
+
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg = data;
 	}
@@ -242,15 +231,12 @@ void Login::mtxTagData(const char* data, int len) {
 
 void Login::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_status)) {
-		feed->setCredits(credits.c_str());
-		feed->setHandle(handle.c_str());
-		feed->setEmail(email.c_str());
 		feed->setUnsuccessful(success);
 		feed->setTouch(touch.c_str());
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
-		next = new MenuScreen(feed);
+		next = new AlbumLoadScreen(feed);
 		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
@@ -263,46 +249,6 @@ void Login::mtxTagEnd(const char* name, int len) {
 			}
 		}
 	}
-}
-void Login::cleanup() {
-	//delete label;
-	//delete editBoxLogin;
-	//delete editBoxPass;
-	delete keyboard;
-	//delete listBox;
-	delete mainLayout;
-	//delete image;
-	//delete softKeys;
-
-
-
-
-
-	/*mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
-
-	delete editBoxLogin;
-	delete editBoxPass;
-	delete keyboard;
-	delete image;
-	delete softKeys;*/
-	parentTag = "";
-	conCatenation = "";
-	ret = "";
-	value = "";
-	value1 = "";
-	value2 = "";
-	convertAsterisk = "";
-	underscore = "";
-	username = "";
-	credits = "";
-	encrypt = "";
-	error_msg = "";
-	email = "";
-	handle = "";
-	touch = "";
-	j = 0;
 }
 
 void Login::mtxParseError() {

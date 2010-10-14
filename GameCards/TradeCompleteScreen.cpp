@@ -1,5 +1,4 @@
 #include "AlbumLoadScreen.h"
-#include "MenuScreen.h"
 #include "TradeCompleteScreen.h"
 #include "Util.h"
 
@@ -8,7 +7,7 @@ TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage)
 	layout = createMainLayout("", continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, completeMessage.length()==0?card_sent_message:completeMessage, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, completeMessage.length()==0?card_sent_message:completeMessage, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -19,6 +18,21 @@ TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage)
 }
 
 TradeCompleteScreen::~TradeCompleteScreen() {
+	layout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+	delete listBox;
+	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		delete softKeys;
+		softKeys = NULL;
+	}
+	completeMessage="";
+	delete lbl;
 }
 void TradeCompleteScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -75,15 +89,16 @@ void TradeCompleteScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
 void TradeCompleteScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
-			menu = new AlbumLoadScreen(new MenuScreen(feed), feed);
-			menu->show();
+			((AlbumLoadScreen *)orig)->refresh();
+			//menu = new AlbumLoadScreen(new MenuScreen(feed), feed);
+			//menu->show();
 			break;
 	}
 }

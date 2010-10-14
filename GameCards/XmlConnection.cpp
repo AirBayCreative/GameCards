@@ -2,8 +2,7 @@
 #include <conprint.h>
 #include <mastdlib.h>
 
-XmlConnection::XmlConnection(){
-}
+XmlConnection::XmlConnection(){}
 
 void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlListener* xml) {
     mConn = conn;
@@ -14,7 +13,9 @@ void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlList
     mPtr = mBuffer;
     mConn->recv(mBuffer, sizeof(mBuffer)-1);
 }
-XmlConnection::~XmlConnection() {}
+XmlConnection::~XmlConnection() {
+
+}
 
 void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     MAASSERT(conn == mConn);

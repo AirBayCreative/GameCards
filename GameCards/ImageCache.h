@@ -7,24 +7,26 @@
 
 using namespace MAUtil;
 
-class ImageCache : public DownloadListener
+class ImageCache : public HttpConnectionListener
 {
   public:
     ImageCache();
     ~ImageCache();
 
+    void process();
     void request(ImageCacheRequest* req);
-    void finishedDownloading(Downloader* downloader, MAHandle data);
-    void downloadCancelled(Downloader* downloader);
-    void error(Downloader* downloader, int errorCode);
-    void notifyProgress(Downloader* downloader, int downloadedBytes, int totalBytes);
+    void httpFinished(MAUtil::HttpConnection*, int);
+    void connRecvFinished(MAUtil::Connection* conn, int result);
+    void finishedDownloading();
 
   private:
     Vector<ImageCacheRequest*>  mRequests;
-    Downloader* mDownloader;
+    HttpConnection mHttp;
     bool mIsBusy;
-
-    void process();
+    char mBuffer[1024];
+	MAHandle mData;
+	int mDataOffset;
+	int mContentLength;
 
     ImageCacheRequest *mNextRequest;
 };

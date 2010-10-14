@@ -35,12 +35,12 @@ public:
 	void loadImages(const char *text);
 
 private:
-	Screen *previous;
-	Screen *next;
+	Screen *next, *previous;
 	ImageCache *mImageCache;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
+	//Image *tempImage;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

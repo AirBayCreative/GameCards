@@ -16,7 +16,7 @@ using namespace MAUtil;
 
 class TradeConfirmationScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
 public:
-	TradeConfirmationScreen(Screen *previous, Feed *feed, Card card, String method, String friendDetail);
+	TradeConfirmationScreen(Screen *previous, Feed *feed, Card *card, String message, String phoneNum);
 	~TradeConfirmationScreen();
 	void keyPressEvent(int keyCode);
 	void pointerPressEvent(MAPoint2d point);
@@ -29,15 +29,14 @@ private:
 	ListBox* listBox;
 	Label *lbl;
 	Screen *menu;
-	String method, friendDetail;
 	Screen *previous;
-	Card card;
+	Card *card;
 	bool list, left, right, sending;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,notice;
+	String parentTag,notice, phoneNum;
 	String temp,temp1,error_msg;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

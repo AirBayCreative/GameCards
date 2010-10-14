@@ -9,6 +9,7 @@
 #include "TradeOptionsScreen.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
+	next = new Screen();
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, tradelbl, "", true);
 	} else {
@@ -25,6 +26,7 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	memset(url,'\0',100);
 	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
 
+	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
@@ -118,14 +120,14 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 
 void AlbumViewScreen::drawList() {
 	Layout *feedlayout;
-	Image *tempImage;
 	listBox->getChildren().clear();
 	index.clear();
+	Image *tempImage;
 	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		index.add(itr->second.getId());
 		cardText = itr->second.getText();
 		cardText += "\nQuantity: ";
-		cardText += itr->second.getQuantity();
+		cardText += itr->second.getQuantity();// update me
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -140,7 +142,7 @@ void AlbumViewScreen::drawList() {
 
 		retrieveThumb(tempImage, tmp, mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontGrey);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -154,13 +156,42 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	mainLayout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+	delete listBox;
+	delete mainLayout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete label;
+	delete notice;
+	delete next;
+	delete mImageCache;
+	parentTag="";
+	cardText="";
+	id="";
+	description="";
+	quantity="";
+	thumburl="";
+	fronturl="";
+	backurl="";
+	filename="";
+	error_msg="";
+	rate="";
+	value="";
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontGrey);
+		((Label *)widget->getChildren()[1])->setFont(gFontWhite);
 	}
 }
 
@@ -192,13 +223,15 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ImageScreen(this, RES_LOADING, false, &cards.find(index[selected])->second);
+				next = new ImageScreen(this, RES_LOADING, feed, false, &cards.find(index[selected])->second);
 				next->show();
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			//next = new ImageScreen(this, RES_SOON, RES_SOON, false, NULL, false, mImageCache, feed);
-			next = new TradeOptionsScreen(this, feed, cards.find(index[selected])->second);
+			if (next != NULL) {
+				delete next;
+			}
+			next = new TradeOptionsScreen(this, feed, &cards.find(index[selected])->second);
 			next->show();
 			break;
 	}
@@ -217,11 +250,7 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumViewScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumViewScreen::xcConnError(int code) {
-	if (code == -6) {
-		return;
-	} else {
-		//TODO handle error
-	}
+
 }
 
 void AlbumViewScreen::mtxEncoding(const char* ) {

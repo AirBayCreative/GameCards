@@ -5,10 +5,6 @@
 .res RES_FONT_BLUE
 .bin
 .include "nobileblue.mof" 
-
-.res RES_FONT_BLACK
-.bin
-.include "nobileblack.mof"
  
 .res RES_FONT_WHITE
 .bin
@@ -18,17 +14,9 @@
 .ubin 
 .image "background_editbox_sel.png" 
 
-.res RES_UNSELECTED_EDITBOX
-.ubin 
-.image "background_editbox_unsel.png"  
-
 .res RES_UNSELECTED_BUTTON
 .ubin
 .image "background_button_unsel.png"
-
-.res RES_TEXT_BOX
-.ubin 
-.image "background_text_sel.png"
 
 .res RES_BACKGROUND
 .ubin
@@ -55,22 +43,6 @@
 
 .res RESP_IMAGE
 .placeholder
-
-.res RES_TEMPTHUMB
-.ubin
-.image "emptythumb.png"
-
-.res RES_SOON
-.ubin
-.image "coming soon.png"
-
-.res RES_TEMP
-.ubin
-.image "empty.png"
-
-.res RES_LOGOUT
-.ubin
-.image "log out.png"
 
 .res RES_LOADINGTHUMB
 .ubin

@@ -3,19 +3,15 @@
 #include <MAUI/Image.h>
 #include "Util.h"
 #include <conprint.h>
+#include <mastdlib.h>
 
-ImageCache::ImageCache()
+ImageCache::ImageCache() : mHttp(this)
 {
-  mDownloader = new Downloader();
-  mDownloader->addDownloadListener(this);
-  mIsBusy = false;
+	mIsBusy = false;
 }
 
 ImageCache::~ImageCache()
 {
-  if(mDownloader->isDownloading())
-    mDownloader->cancelDownloading();
-  delete mDownloader;
 }
 
 void ImageCache::request(ImageCacheRequest* req)
@@ -42,34 +38,71 @@ void ImageCache::process()
 	//Get the next image request from the queue
     mNextRequest = mRequests[0];
 
-	//Not in memory, and not in storage
-	if(mDownloader->isDownloading())
-		return;
+    mHttp = HttpConnection(this);
+	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
+	if(res < 0) {
 
-	mDownloader->beginDownloading(mNextRequest->getUrl().c_str());
+	} else {
+		mHttp.finish();
+	}
 }
 
-void ImageCache::finishedDownloading(Downloader* downloader, MAHandle data)
+void ImageCache::finishedDownloading()
 {
 	//Save to storage
-	saveFile((mNextRequest->getSaveName()).c_str(), data);
-	returnImage(mNextRequest->getImage(), data, mNextRequest->getHeight());
+	saveFile((mNextRequest->getSaveName()).c_str(), mData);
+	returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
 
 	delete mNextRequest;
 	mRequests.remove(0);
 
 	mIsBusy = false;
+	maDestroyObject(mData);
 	process();
 }
 
-void ImageCache::notifyProgress(Downloader* downloader, int d, int t)
-{
+void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
+	MAUtil::String *contentLengthStr = new MAUtil::String();
+	int responseBytes = mHttp.getResponseHeader("content-length", contentLengthStr);
+	mContentLength = 0;
+	mDataOffset = 0;
+	mData = maCreatePlaceholder();
+	if(responseBytes == CONNERR_NOHEADER) {
+
+	} else {
+		mContentLength = atoi(contentLengthStr->c_str());
+	}
+	lprintfln("1");
+	delete contentLengthStr;
+	lprintfln("2");
+	if (maCreateData(mData, mContentLength) == RES_OK){
+
+	}
+
+	if(mContentLength >= 1024 || mContentLength == 0) {
+		mHttp.recv(mBuffer, 1024);
+	} else {
+		mBuffer[mContentLength] = 0;
+		mHttp.recv(mBuffer, mContentLength);
+	}
 }
 
-void ImageCache::downloadCancelled(Downloader* downloader)
-{
-}
+void ImageCache::connRecvFinished(MAUtil::Connection* conn, int result) {
+	if (result >= 0) {
+		mDataOffset += result;
 
-void ImageCache::error(Downloader* downloader, int errorCode)
-{
+		if((mContentLength - mDataOffset)>=0)
+		{
+			maWriteData(mData, mBuffer, mDataOffset-result, result);
+			mHttp.recv(mBuffer, 1024);
+			//mHttp.recvToData(mData, mDataOffset, mContentLength - mDataOffset);
+		}
+	} else if(result == CONNERR_CLOSED) {
+		mContentLength = 0;
+		finishedDownloading();
+		mHttp.close();
+		mIsBusy = false;
+	} else {
+		mIsBusy = false;
+	}
 }

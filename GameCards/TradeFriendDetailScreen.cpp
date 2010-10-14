@@ -2,8 +2,9 @@
 #include "TradeConfirmationScreen.h"
 #include "Util.h"
 
-TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card card, String method) :previous(previous),
-	feed(feed), card(card), method(method) {
+TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous),
+	feed(feed), card(card) {
+	menu = new Screen();
 	layout = createMainLayout(back, continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -12,12 +13,13 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
 	errorLabel->setSkin(gSkinBack);
 	errorLabel->setMultiLine(true);
-
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, method+":", 0, gFontWhite);
+	String message = phoneNumlbl;
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, message+":", 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
+	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlue, true, false);
+	contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
 
@@ -25,9 +27,6 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	listBox->add(lblMethod);
 	listBox->add(errorLabel);
 
-	MAExtent screenSize = maGetScrSize();
-	int scrWidth = EXTENT_X(screenSize);
-	int scrHeight = EXTENT_Y(screenSize);
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
 	contactEditBox->setText("");
@@ -38,6 +37,24 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
+		layout->getChildren().clear();
+		listBox->getChildren().clear();
+		softKeys->getChildren().clear();
+		delete listBox;
+		delete layout;
+		if (image != NULL) {
+			delete image;
+			image = NULL;
+		}
+		if (softKeys != NULL) {
+			delete softKeys;
+			softKeys = NULL;
+		}
+		delete lbl;
+		delete lblMethod;
+		delete errorLabel;
+		delete keyboard;
+		delete menu;
 }
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -110,7 +127,7 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -122,11 +139,16 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_SOFTRIGHT:
 			if (contactEditBox->getText() == "") {
-				errorLabel->setCaption(no_contact + method + ".");
+				String message = no_contact;
+				errorLabel->setCaption(message + phoneNumlbl + ".");
 			}
 			else {
 				errorLabel->setCaption("");
-				menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
+				String message = sure_you_want_to_send + card->getText() + friend_with + phoneNumlbl + " " + contactEditBox->getText() + "?";
+				if (menu != NULL) {
+					delete menu;
+				}
+				menu = new TradeConfirmationScreen(this, feed, card, message, contactEditBox->getText());
 				menu->show();
 			}
 			break;

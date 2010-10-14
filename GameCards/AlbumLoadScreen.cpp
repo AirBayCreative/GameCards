@@ -4,11 +4,25 @@
 #include "AlbumViewScreen.h"
 #include "Util.h"
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
-	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, "", true);
+void AlbumLoadScreen::refresh() {
+	show();
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+	if(res < 0) {
+
 	} else {
-		mainLayout = createMainLayout(back, select, true);
+		mHttp.finish();
+	}
+}
+
+AlbumLoadScreen::AlbumLoadScreen(Feed *feed) : mHttp(this), feed(feed) {
+	next = new Screen();
+	if (feed->getTouchEnabled()) {
+		mainLayout = createMainLayout("Exit", "Logout", "", true);
+	} else {
+		mainLayout = createMainLayout("Exit", "Logout", select, true);
 	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -27,10 +41,32 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	}
 	this->setMain(mainLayout);
 
+	orig = this;
 	moved = 0;
 }
 
-AlbumLoadScreen::~AlbumLoadScreen() {}
+AlbumLoadScreen::~AlbumLoadScreen() {
+	mainLayout->getChildren().clear();
+	listBox->getChildren().clear();
+	softKeys->getChildren().clear();
+	delete listBox;
+	delete mainLayout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete label;
+	delete notice;
+	delete next;
+	parentTag="";
+	temp="";
+	temp1="";
+	error_msg="";
+}
 
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -117,7 +153,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -142,15 +178,30 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_SOFTLEFT:
-			previous->show();
+			maExit(0);
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
 			if (!empt) {
 				String val= (album->getId(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
+				if (next != NULL) {
+					delete next;
+				}
 				next = new AlbumViewScreen(this, feed, val);
 				next->show();
 			}
+			break;
+		case MAK_SOFTRIGHT:
+			Albums *albums = feed->getAlbum();
+			Vector<String> tmp = albums->getIDs();
+			for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
+				String s = itr->c_str();
+				s+="-lst.sav";
+				saveData(s.c_str(),"");
+			}
+			feed->setAll("");
+			saveData(FEED,"");
+			saveData(ALBUM,"");
+			maExit(0);
 			break;
 	}
 }
@@ -168,17 +219,16 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumLoadScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumLoadScreen::xcConnError(int code) {
-	if (code == -6) {
-		return;
-	} else {
-		//TODO handle error
-	}
+
 }
 
 void AlbumLoadScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
+	if (!strcmp(name, xml_albumdone)) {
+		album->clearAll();
+	}
 	parentTag = name;
 }
 
@@ -186,9 +236,7 @@ void AlbumLoadScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void AlbumLoadScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), xml_albumdone)) {
-		album->clearAll();
-	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
+	if(!strcmp(parentTag.c_str(), xml_albumname)) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
 		temp += data;

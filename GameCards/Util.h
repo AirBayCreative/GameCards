@@ -11,6 +11,7 @@
 
 #include "Card.h"
 #include "ImageCache.h"
+#include "AlbumLoadScreen.h"
 
 
 
@@ -35,20 +36,13 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 char* getData(const char* storefile);
 void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
-void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
-void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache);
 void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache);
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache);
 void returnImage(Image *img, MAHandle i, int height);
-void increase();
-void decrease();
-int getCount();
 
 //UI Components
-extern Font *gFontGrey;
 extern Font *gFontBlue;
-extern Font *gFontBlack;
 extern Font *gFontWhite;
 extern WidgetSkin *gSkinEditBox;
 extern WidgetSkin *gSkinButton;
@@ -61,6 +55,7 @@ extern int scrHeight;
 extern int mCount;
 extern Image *image;
 extern Widget *softKeys;
+extern Screen *orig;
 
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
@@ -100,9 +95,7 @@ static const char* logout = "Log Out";
 static const char* log_out = "Do you want to log out from Game Cards?";
 static const char* coming_soon = "Coming soon...";
 static const char* exit = "Exit";
-static const char* userlbl = "Username:";
-static const char* passlbl = "Password:";
-static const char* emaillbl = "Email:";
+static const char* userlbl = "Phone Number:";
 static const char* phoneNumlbl = "Phone Number";
 static const char* emaillblNoColon = "Email";
 static const char* userlblNoColon = "Username";

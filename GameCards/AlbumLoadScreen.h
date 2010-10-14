@@ -13,7 +13,7 @@ using namespace MAUtil;
 
 class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed);
+	AlbumLoadScreen(Feed *feed);
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -27,10 +27,10 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+	void refresh();
 
 private:
 
-	Screen *previous;
 	Screen *next;
 
 	HttpConnection mHttp;

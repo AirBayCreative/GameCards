@@ -6,41 +6,20 @@
 #include "MAHeaders.h"
 #include "Util.h"
 
-#define RED(x)                  (((x)&0x00ff0000)>>16)
-#define GREEN(x)                (((x)&0x0000ff00)>>8)
-#define BLUE(x)                 (((x)&0x000000ff))
-#define ALPHA(x)                (((x)&0xff000000)>>24)
-#define RGBA(r,g,b,a)    ((((a)&0xff)<<24)| \
-                                                 (((r)&0xff)<<16)| \
-                                                 (((g)&0xff)<<8)| \
-                                                 (((b)&0xff)));
-
-Font *gFontGrey;
 Font *gFontBlue;
-Font *gFontBlack;
 Font *gFontWhite;
 WidgetSkin *gSkinEditBox;
 WidgetSkin *gSkinButton;
 WidgetSkin *gSkinBack;
 WidgetSkin *gSkinList;
 WidgetSkin *gSkinAlbum;
-WidgetSkin *gSkinText;
+Screen *orig;
 int scrWidth;
 int scrHeight;
-int mCount;
 Image *image;
 Widget *softKeys;
 
 
-void increase() {
-	mCount++;
-}
-void decrease() {
-	mCount--;
-}
-int getCount() {
-	return mCount;
-}
 
 void setPadding(Widget *w) {
 	w->setPaddingLeft(PADDING);
@@ -48,7 +27,6 @@ void setPadding(Widget *w) {
 
 Label* createLabel(String str, int height) {
 	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
-	label->setSkin(gSkinText);
 	setPadding(label);
 	return label;
 }
@@ -60,7 +38,7 @@ Label* createEditLabel(String str, int height) {
 }
 
 Label* createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontGrey);
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(gSkinList);
@@ -80,7 +58,11 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
+	if (strlen(centre) == 0) {
+		label = new Label(0,0, scrWidth/3, height, NULL, "  ", 0, gFontWhite);
+	} else {
+		label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
+	}
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -177,7 +159,6 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 }
 
 void saveData(const char* storefile, const char *value) {
-
 	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
 	if (strlen(value) == 0) {
 		maCloseStore(store, 1);
@@ -199,7 +180,7 @@ void saveFile(const char* storefile, MAHandle data) {
 		maWriteStore(store, data);
 	}
 	maCloseStore(store, 0);
-	store = -1;
+	//store = -1;
 }
 
 char* getData(const char* storefile) {
@@ -239,16 +220,16 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 		return;
 	}
 	if (card->getThumb().find("http://") == -1) {
+		MAHandle store = maOpenStore(card->getThumb().c_str(), 0);
 		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getThumb().c_str(), -1);
-		if(store != STERR_NONEXISTENT)
+		if(store > 0)
 		{
 			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
+			int size = maGetDataSize(cacheimage);
+			if (size > 0) {
 				returnImage(img, cacheimage, 64);
 			}
+			maCloseStore(store, 0);
 		}
 		cacheimage = -1;
 		store = -1;

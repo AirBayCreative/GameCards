@@ -43,7 +43,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,ret,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch;
+	String username,encrypt,error_msg,touch;
 	bool list, left, right, error;
 	int j;
 
@@ -54,7 +54,6 @@ private:
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
-	void cleanup();
 	void xcConnError(int code);
 	void mtxEncoding(const char*);
 	void mtxTagStart(const char*, int);
