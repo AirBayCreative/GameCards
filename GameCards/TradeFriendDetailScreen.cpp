@@ -10,15 +10,15 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	layout->setDrawBackground(TRUE);
 
-	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
+	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "  ", 0, gFontWhite);
 	errorLabel->setSkin(gSkinBack);
 	errorLabel->setMultiLine(true);
 	String message = phoneNumlbl;
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, message+":", 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlue, true, false);
+	lblMethod = createEditLabel("  ");
+	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "  ", 0, gFontBlue, true, false);
 	contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
@@ -29,7 +29,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
-	contactEditBox->setText("");
+	contactEditBox->setText("  ");
 
 	this->setMain(layout);
 
@@ -138,12 +138,12 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			//listBox->setSelectedIndex(1);
 			break;
 		case MAK_SOFTRIGHT:
-			if (contactEditBox->getText() == "") {
+			if ((contactEditBox->getText() == "  ")||(contactEditBox->getText() == "")) {
 				String message = no_contact;
 				errorLabel->setCaption(message + phoneNumlbl + ".");
 			}
 			else {
-				errorLabel->setCaption("");
+				errorLabel->setCaption("  ");
 				String message = sure_you_want_to_send + card->getText() + friend_with + phoneNumlbl + " " + contactEditBox->getText() + "?";
 				if (menu != NULL) {
 					delete menu;
