@@ -19,6 +19,7 @@ public:
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
+	//void customEvent(const MAEvent&);
 	void locateItem(MAPoint2d point);
 private:
 	Layout *mainLayout;

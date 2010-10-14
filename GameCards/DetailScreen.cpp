@@ -2,8 +2,8 @@
 #include "Util.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed) {
-	mainLayout = createMainLayout(back, "");
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	mainLayout = createMainLayout(back, "", true);
+	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	switch (screenType) {
 		case 0:
@@ -64,6 +64,8 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 	label->setCaption(checking_info);
 	this->setMain(mainLayout);
+
+	moved = 0;
 }
 
 DetailScreen::~DetailScreen() {
@@ -91,17 +93,21 @@ void DetailScreen::pointerPressEvent(MAPoint2d point)
 void DetailScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved++;
 }
 
 void DetailScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (moved <= 8) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
+	moved = 0;
 }
 
 void DetailScreen::locateItem(MAPoint2d point)
@@ -119,7 +125,7 @@ void DetailScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+        	//((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;
         }
     }

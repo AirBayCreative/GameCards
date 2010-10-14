@@ -3,11 +3,10 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
-#include <MAUI/ListBox.h>
 
 #include "XmlConnection.h"
 #include "Feed.h"
-
+#include "UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -31,14 +30,14 @@ private:
 	EditBox *editBox;
 	Layout *mainLayout;
 	Label *label;
-	ListBox *listBox;
+	KineticListBox *listBox;
 	bool list, left, right;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String username, credits, encrypt, error_msg, parentTag, handle, email;
-	int i,j;
+	int i,j, moved;
 
 	Feed *feed;
 

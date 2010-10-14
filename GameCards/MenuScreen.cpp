@@ -1,3 +1,4 @@
+#include <conprint.h>
 
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
@@ -156,3 +157,12 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			break;
 	}
 }
+
+/*void MenuScreen::customEvent(const MAEvent& event)
+{
+	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
+	{
+		this->getMain()->requestRepaint();
+	}
+}*/
+

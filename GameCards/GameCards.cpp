@@ -1,3 +1,5 @@
+#include <conprint.h>
+
 #include "Util.h"
 #include "Login.h"
 #include "MAHeaders.h"
@@ -41,7 +43,7 @@ MAUIMoblet::~MAUIMoblet() {}
 {
 	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
 	{
-		login->getMain()->requestRepaint();
+		next->getMain()->requestRepaint();
 	}
 }*/
 
