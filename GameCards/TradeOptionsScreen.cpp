@@ -23,7 +23,6 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card)
 TradeOptionsScreen::~TradeOptionsScreen() {
 	layout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
 	delete listBox;
 	delete layout;
 	if (image != NULL) {
@@ -31,6 +30,7 @@ TradeOptionsScreen::~TradeOptionsScreen() {
 		image = NULL;
 	}
 	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
 	}

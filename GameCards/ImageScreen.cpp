@@ -119,7 +119,7 @@ ImageScreen::~ImageScreen() {
 	}
 	if (softKeys != NULL) {
 		delete softKeys;
-		image = NULL;
+		softKeys = NULL;
 	}
 	img = -1;
 	delete next;
