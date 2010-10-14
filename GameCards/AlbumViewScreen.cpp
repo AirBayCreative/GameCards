@@ -10,6 +10,7 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
 	next = new Screen();
+	error_msg = "  ";
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, tradelbl, "", true);
 	} else {
@@ -238,12 +239,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	error_msg = "  ";
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		notice->setCaption("  ");
 	}
 }
 
@@ -288,7 +290,7 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		notice->setCaption("");
+		notice->setCaption("  ");
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
 		cards.insert(card.getId(),card);
 		id = "";
@@ -306,7 +308,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		drawList();
 		saveData(filename.c_str(), getAll().c_str());
 	} else {
-		notice->setCaption("");
+		notice->setCaption("  ");
 	}
 }
 

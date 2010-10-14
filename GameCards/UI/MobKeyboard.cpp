@@ -105,7 +105,7 @@ void MobKeyboard::drawWidget()
 		Rect l_rect = l_button->getBounds();
 		l_rect.y = l_rect.y + l_bounds.y; // initially the keyboard was positioned at point 0, 0
 
-		if (l_button->getCharacter() == "")
+		if (l_button->getCharacter() == "  ")
 			continue;
 
 		bool l_isPressed = false;
@@ -246,7 +246,7 @@ String MobKeyboard::getClickedCharacter(MAPoint2d a_clickPoint, bool setLastClic
 		}
 	}
 
-	return "";
+	return "  ";
 }
 
 void MobKeyboard::pointerPressEvent(MAPoint2d p)

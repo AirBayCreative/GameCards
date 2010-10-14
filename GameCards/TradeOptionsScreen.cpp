@@ -102,11 +102,6 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
 			if (index == 0) {
-				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
-				//menu = new TradeFriendMethodScreen(this, feed, card);
-				//menu->show();
-
-				//this is just temporary. The full solution is the commented one above.
 				if (menu != NULL) {
 					delete menu;
 				}
