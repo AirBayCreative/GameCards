@@ -8,7 +8,7 @@
 #include "ImageScreen.h"
 #include "TradeOptionsScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed) {
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
 	next = new Screen();
 	error_msg = "  ";
 	if (feed->getTouchEnabled()) {
@@ -60,7 +60,9 @@ void AlbumViewScreen::loadImages(const char *text) {
 		card.setAll(tmp.c_str());
 		cards.insert(card.getId(), card);
 		all = all.substr(indexof);
+
 	}
+
 	drawList();
 }
 
@@ -292,7 +294,13 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
 		notice->setCaption("  ");
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
-		cards.insert(card.getId(),card);
+		cardExists = cards.find(card.getId());
+		if (cardExists != cards.end()) {
+			card.setThumb(cardExists->second.getThumb().c_str());
+			card.setBack(cardExists->second.getBack().c_str());
+			card.setFront(cardExists->second.getFront().c_str());
+		}
+		tmp.insert(card.getId(),card);
 		id = "";
 		description = "";
 		quantity = "";
@@ -305,6 +313,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption(error_msg.c_str());
 	}
 	if (!strcmp(name, xml_carddone)) {
+		cards.clear();
+		cards = tmp;
 		drawList();
 		saveData(filename.c_str(), getAll().c_str());
 	} else {

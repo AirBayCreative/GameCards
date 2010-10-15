@@ -107,6 +107,7 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 				char *url = new char[255];
 				memset(url, '\0', 255);
 				sprintf(url, "%s&%s=%s&%s=%s", TRADE.c_str(), trade_by_detail, phoneNum.c_str(), trade_cardid, card->getId().c_str());
+
 				int res = mHttp.create(url, HTTP_GET);
 
 				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());

@@ -17,7 +17,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, message+":", 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod = createEditLabel("  ");
+	lblMethod = createEditLabel("");
 	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "  ", 0, gFontBlue, true, false);
 	contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	contactEditBox->setDrawBackground(false);
@@ -29,7 +29,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
 
-	contactEditBox->setText("  ");
+	contactEditBox->setText("");
 
 	this->setMain(layout);
 
@@ -148,7 +148,9 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				if (menu != NULL) {
 					delete menu;
 				}
-				menu = new TradeConfirmationScreen(this, feed, card, message, contactEditBox->getText());
+				String number = contactEditBox->getText();
+				number.append("&sms=Yes", 8);
+				menu = new TradeConfirmationScreen(this, feed, card, message, number);
 				menu->show();
 			}
 			break;

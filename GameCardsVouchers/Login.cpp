@@ -144,7 +144,7 @@ void Login::keyPressEvent(int keyCode) {
 			if (!isBusy) {
 				isBusy = true;
 				label->setCaption(loggingin);
-				editBoxLogin->setText("0720535447");
+				//editBoxLogin->setText("0720535447");
 				if (editBoxLogin->getText()!="" /*& editBoxPass->getText()!=""*/) {
 					conCatenation = voucher_pass;//editBoxPass->getText().c_str();
 					ret = "";
@@ -177,11 +177,7 @@ void Login::keyPressEvent(int keyCode) {
 			break;
 		case MAK_UP:
 		case MAK_DOWN:
-			if (index == 1) {
-				listBox->setSelectedIndex(3);
-			} else if (index == 3) {
-				listBox->setSelectedIndex(1);
-			}
+			listBox->setSelectedIndex(1);
 			break;
 		case MAK_LEFT:
 			break;

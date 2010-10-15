@@ -34,6 +34,7 @@ public:
 	void loadFile();
 	void loadImages(const char *text);
 
+	typedef Map<String, Card> StringCardMap;
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
@@ -51,8 +52,14 @@ private:
 	bool list, left, right;
 
 	Feed *feed;
+
 	Albums album;
-	Map<String, Card> cards;
+	//fill tmp list with downloaded cards
+	//if done compare tmplist to cards
+	//update tmplist with cards info on match
+	//cards = tmplist
+	StringCardMap tmp, cards;
+	StringCardMap::Iterator cardExists;
 	Vector<String> index;
 	Card card;
 

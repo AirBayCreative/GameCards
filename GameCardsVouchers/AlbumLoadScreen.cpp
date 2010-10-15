@@ -258,7 +258,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
-		notice->setCaption("");
+		notice->setCaption("  ");
 	}
 }
 
