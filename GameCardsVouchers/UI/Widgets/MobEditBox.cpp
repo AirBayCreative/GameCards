@@ -35,7 +35,7 @@ void MobEditBox::setText(const String& text)
 void MobEditBox::moveCursorToEnd()
 {
 	String s = getText();
-	EditBox::setText("  ");
+	EditBox::setText("");
 	EditBox::setText(s);
 	moveCursorHorizontal(s.length(), false);
 }

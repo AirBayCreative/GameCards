@@ -10,7 +10,7 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
 	next = new Screen();
-	error_msg = "  ";
+	error_msg = "";
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, tradelbl, "", true);
 	} else {
@@ -19,14 +19,11 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_cards);
-
 	mImageCache = new ImageCache();
 	loadFile();
-
 	char *url = new char[100];
 	memset(url,'\0',100);
 	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
-
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
@@ -161,7 +158,7 @@ void AlbumViewScreen::drawList() {
 AlbumViewScreen::~AlbumViewScreen() {
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
+
 	delete listBox;
 	delete mainLayout;
 	if (image != NULL) {
@@ -169,6 +166,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 		image = NULL;
 	}
 	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
 	}
@@ -176,6 +174,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 	delete notice;
 	delete next;
 	delete mImageCache;
+
+	saveData(filename.c_str(), getAll().c_str());
+
 	parentTag="";
 	cardText="";
 	id="";
@@ -241,13 +242,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
-	error_msg = "  ";
+	error_msg = "";
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("  ");
+		notice->setCaption("");
 	}
 }
 
@@ -292,13 +293,16 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		notice->setCaption("  ");
+		notice->setCaption("");
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
 		cardExists = cards.find(card.getId());
 		if (cardExists != cards.end()) {
 			card.setThumb(cardExists->second.getThumb().c_str());
 			card.setBack(cardExists->second.getBack().c_str());
 			card.setFront(cardExists->second.getFront().c_str());
+			lprintfln("card.getThumb(%s)", card.getThumb().c_str());
+			lprintfln("card.getBack(%s)", card.getBack().c_str());
+			lprintfln("card.getFront(%s)", card.getFront().c_str());
 		}
 		tmp.insert(card.getId(),card);
 		id = "";
@@ -318,7 +322,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		drawList();
 		saveData(filename.c_str(), getAll().c_str());
 	} else {
-		notice->setCaption("  ");
+		notice->setCaption("");
 	}
 }
 

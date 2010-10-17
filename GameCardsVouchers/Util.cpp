@@ -52,11 +52,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
 
 	Label *label;
-	if (strlen(left) == 0) {
-		label = new Label(0,0, scrWidth/3, height, NULL, "  ", 0, gFontWhite);
-	} else {
-		label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
-	}
+	label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -64,11 +60,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	if (strlen(centre) == 0) {
-		label = new Label(0,0, scrWidth/3, height, NULL, "  ", 0, gFontWhite);
-	} else {
-		label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
-	}
+	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -76,11 +68,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	if (strlen(right) == 0) {
-		label = new Label(0,0, scrWidth/3, height, NULL, "  ", 0, gFontWhite);
-	} else {
-		label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
-	}
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -105,7 +93,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	softKeys = createSoftKeyBar(42, left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"  ",0,gFontWhite);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontWhite);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 

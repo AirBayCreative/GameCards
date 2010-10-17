@@ -48,7 +48,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed) : mHttp(this), feed(feed) {
 AlbumLoadScreen::~AlbumLoadScreen() {
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
+
 	delete listBox;
 	delete mainLayout;
 	if (image != NULL) {
@@ -56,6 +56,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 		image = NULL;
 	}
 	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
 	}
@@ -258,7 +259,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
-		notice->setCaption("  ");
+		notice->setCaption("");
 	}
 }
 

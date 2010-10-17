@@ -52,17 +52,15 @@ void ImageCache::finishedDownloading()
 	//Save to storage
 	saveFile((mNextRequest->getSaveName()).c_str(), mData);
 	returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
-
 	delete mNextRequest;
 	mRequests.remove(0);
-
 	mIsBusy = false;
 	maDestroyObject(mData);
 	process();
 }
 
 void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
-	MAUtil::String *contentLengthStr = new MAUtil::String();
+	MAUtil::String *contentLengthStr = new MAUtil::String("-1");
 	int responseBytes = mHttp.getResponseHeader("content-length", contentLengthStr);
 	mContentLength = 0;
 	mDataOffset = 0;
@@ -93,12 +91,11 @@ void ImageCache::connRecvFinished(MAUtil::Connection* conn, int result) {
 		{
 			maWriteData(mData, mBuffer, mDataOffset-result, result);
 			mHttp.recv(mBuffer, 1024);
-			//mHttp.recvToData(mData, mDataOffset, mContentLength - mDataOffset);
 		}
 	} else if(result == CONNERR_CLOSED) {
 		mContentLength = 0;
 		finishedDownloading();
-		mHttp.close();
+		//mHttp.close();
 		mIsBusy = false;
 	} else {
 		mIsBusy = false;

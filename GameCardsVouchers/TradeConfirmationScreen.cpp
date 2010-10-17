@@ -24,7 +24,7 @@ TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, C
 TradeConfirmationScreen::~TradeConfirmationScreen() {
 	layout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
+
 	delete listBox;
 	delete layout;
 	if (image != NULL) {
@@ -32,6 +32,7 @@ TradeConfirmationScreen::~TradeConfirmationScreen() {
 		image = NULL;
 	}
 	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
 	}

@@ -20,7 +20,7 @@ TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage)
 TradeCompleteScreen::~TradeCompleteScreen() {
 	layout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
+
 	delete listBox;
 	delete layout;
 	if (image != NULL) {
@@ -28,6 +28,7 @@ TradeCompleteScreen::~TradeCompleteScreen() {
 		image = NULL;
 	}
 	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
 	}
