@@ -300,9 +300,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			card.setThumb(cardExists->second.getThumb().c_str());
 			card.setBack(cardExists->second.getBack().c_str());
 			card.setFront(cardExists->second.getFront().c_str());
-			lprintfln("card.getThumb(%s)", card.getThumb().c_str());
-			lprintfln("card.getBack(%s)", card.getBack().c_str());
-			lprintfln("card.getFront(%s)", card.getFront().c_str());
 		}
 		tmp.insert(card.getId(),card);
 		id = "";

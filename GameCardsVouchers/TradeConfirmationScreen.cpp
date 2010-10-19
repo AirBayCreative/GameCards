@@ -109,6 +109,7 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 				memset(url, '\0', 255);
 				sprintf(url, "%s&%s=%s&%s=%s", TRADE.c_str(), trade_by_detail, phoneNum.c_str(), trade_cardid, card->getId().c_str());
 
+				mHttp = HttpConnection(this);
 				int res = mHttp.create(url, HTTP_GET);
 
 				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
@@ -162,6 +163,12 @@ void TradeConfirmationScreen::mtxTagData(const char* data, int len) {
 		}
 		menu = new TradeCompleteScreen(feed);
 		menu->show();
+	}
+	else if (strcmp(data, "-1") == 0) {
+		lbl->setCaption(error_number_card_message);
+	}
+	else if (strcmp(data, "-2") == 0) {
+		lbl->setCaption(error_numeric_card_message);
 	}
 	else {
 		lbl->setCaption(error_sending_card_message);

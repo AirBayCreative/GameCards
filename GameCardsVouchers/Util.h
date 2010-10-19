@@ -130,6 +130,8 @@ static const char* friend_with = " to your friend with ";
 static const char* sending_card_message = "Sending voucher...";
 static const char* card_sent_message = "Card sent successfully.";
 static const char* voucher_redeemed = "Voucher redeemed successfully.";
+static const char* error_number_card_message = "Not a valid number.";
+static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
 
 //XML constants <ALBUM>
