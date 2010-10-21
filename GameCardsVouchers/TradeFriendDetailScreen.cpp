@@ -36,25 +36,25 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
-		layout->getChildren().clear();
-		listBox->getChildren().clear();
+	layout->getChildren().clear();
+	listBox->getChildren().clear();
 
-		delete listBox;
-		delete layout;
-		if (image != NULL) {
-			delete image;
-			image = NULL;
-		}
-		if (softKeys != NULL) {
-			softKeys->getChildren().clear();
-			delete softKeys;
-			softKeys = NULL;
-		}
-		delete lbl;
-		delete lblMethod;
-		delete errorLabel;
-		delete keyboard;
-		delete menu;
+	delete listBox;
+	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete lbl;
+	delete lblMethod;
+	delete errorLabel;
+	delete keyboard;
+	delete menu;
 }
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point)
 {

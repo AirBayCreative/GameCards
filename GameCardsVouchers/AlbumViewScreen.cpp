@@ -19,8 +19,10 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_cards);
+
 	mImageCache = new ImageCache();
 	loadFile();
+
 	char *url = new char[100];
 	memset(url,'\0',100);
 	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
@@ -57,9 +59,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		card.setAll(tmp.c_str());
 		cards.insert(card.getId(), card);
 		all = all.substr(indexof);
-
 	}
-
 	drawList();
 }
 

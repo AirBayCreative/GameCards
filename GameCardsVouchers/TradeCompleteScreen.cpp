@@ -2,8 +2,7 @@
 #include "TradeCompleteScreen.h"
 #include "Util.h"
 
-TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage)
-	:feed(feed), completeMessage(completeMessage) {
+TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage):feed(feed), completeMessage(completeMessage) {
 	layout = createMainLayout("", continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 

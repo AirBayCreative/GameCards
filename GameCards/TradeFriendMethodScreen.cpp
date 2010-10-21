@@ -2,7 +2,8 @@
 #include "TradeFriendDetailScreen.h"
 #include "Util.h"
 
-TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, Card card) :previous(previous), feed(feed), card(card) {
+TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {
+	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -26,6 +27,24 @@ TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendMethodScreen::~TradeFriendMethodScreen() {
+	layout->getChildren().clear();
+	listBox->getChildren().clear();
+
+	delete listBox;
+	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete lbl;
+	delete menu;
+
+	filename = "";
 }
 void TradeFriendMethodScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -96,6 +115,9 @@ void TradeFriendMethodScreen::keyPressEvent(int keyCode) {
 				listBox->setSelectedIndex(1);
 			}
 			else {
+				if (menu != NULL) {
+					delete menu;
+				}
 				if(index == 1) {
 					menu = new TradeFriendDetailScreen(this, feed, card, userlblNoColon);
 				} else if(index == 2) {

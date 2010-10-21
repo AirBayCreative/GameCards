@@ -126,11 +126,11 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 1) {
 				delete menu;
-				menu = new ImageScreen(this,RES_SOON,false,NULL);
+				menu = new ImageScreen(this, RES_SOON, feed, false, NULL);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new ImageScreen(this,RES_SOON,false,NULL);
+				menu = new ImageScreen(this, RES_SOON, feed, false, NULL);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;

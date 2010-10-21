@@ -34,9 +34,9 @@ public:
 	void loadFile();
 	void loadImages(const char *text);
 
+	typedef Map<String, Card> StringCardMap;
 private:
-	Screen *previous;
-	Screen *next;
+	Screen *next, *previous;
 	ImageCache *mImageCache;
 	Label *notice, *label;
 	KineticListBox *listBox;
@@ -52,7 +52,8 @@ private:
 
 	Feed *feed;
 	Albums album;
-	Map<String, Card> cards;
+	StringCardMap tmp, cards;
+	StringCardMap::Iterator cardExists;
 	Vector<String> index;
 	Card card;
 

@@ -15,7 +15,7 @@ using namespace MAUtil;
 
 class TradeOptionsScreen : public Screen, WidgetListener {
 public:
-	TradeOptionsScreen(Screen *previous, Feed *feed, Card card);
+	TradeOptionsScreen(Screen *previous, Feed *feed, Card *card);
 	~TradeOptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,11 +29,9 @@ private:
 	ListBox* listBox;
 	Label *lbl;
 	Screen *menu;
-	String filename;
 	Screen *previous;
-	Card card;
+	Card *card;
 	bool list, left, right;
-
 	int index;
 };
 

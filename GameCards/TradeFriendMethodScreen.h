@@ -15,7 +15,7 @@ using namespace MAUtil;
 
 class TradeFriendMethodScreen : public Screen, WidgetListener {
 public:
-	TradeFriendMethodScreen(Screen *previous, Feed *feed, Card card);
+	TradeFriendMethodScreen(Screen *previous, Feed *feed, Card *card);
 	~TradeFriendMethodScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -31,7 +31,7 @@ private:
 	Screen *menu;
 	String filename;
 	Screen *previous;
-	Card card;
+	Card *card;
 	bool list, left, right;
 
 	int index;

@@ -2,7 +2,6 @@
 #include "Util.h"
 #include "TradeOptionsScreen.h"
 
-
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card), feed(feed) {
 	//TODO add touch
 	next = new Screen();

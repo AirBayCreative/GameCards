@@ -5,10 +5,10 @@
 #include "MAHeaders.h"
 #include "ImageScreen.h"
 
-TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card card) :previous(previous), feed(feed), card(card) {
+TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {
+	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-
 	lbl = createSubLabel(sendToAuctionlbl);
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
@@ -21,6 +21,21 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card card) 
 }
 
 TradeOptionsScreen::~TradeOptionsScreen() {
+	layout->getChildren().clear();
+	listBox->getChildren().clear();
+	delete listBox;
+	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete lbl;
+	delete menu;
 }
 void TradeOptionsScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -77,7 +92,7 @@ void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -87,7 +102,10 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
 			if(index == 0) {
-				menu = new ImageScreen(this,RES_SOON,false,NULL);
+				if (menu != NULL) {
+					delete menu;
+				}
+				menu = new ImageScreen(this,RES_SOON,feed,false,NULL);
 				menu->show();
 			} else if(index == 1) {
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
@@ -95,12 +113,14 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 				//menu->show();
 
 				//this is just temporary. The full solution is the commented one above.
+				if (menu != NULL) {
+					delete menu;
+				}
 				menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
 				menu->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
-			//maExit(0);
 			previous->show();
 			break;
 		case MAK_DOWN:

@@ -9,18 +9,6 @@ bool Feed::getLoaded() {
 	return loaded;
 }
 
-void Feed::setCredits(const char *creds) {
-	credits = creds;
-}
-
-MAUtil::String Feed::getCredits() {
-	return credits;
-}
-
-void Feed::setEmail(const char *eml) {
-	email = eml;
-}
-
 bool Feed::setTouch(const char *tch) {
 	touch = tch;
 	return setTouchEnabled(touch == truesz);
@@ -32,6 +20,18 @@ bool Feed::setTouchEnabled(bool tch) {
 		return true;
 	}
 	return false;
+}
+
+void Feed::setCredits(const char *creds) {
+	credits = creds;
+}
+
+MAUtil::String Feed::getCredits() {
+	return credits;
+}
+
+void Feed::setEmail(const char *eml) {
+	email = eml;
 }
 
 MAUtil::String Feed::getEmail() {

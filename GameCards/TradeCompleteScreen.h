@@ -14,7 +14,7 @@ using namespace MAUtil;
 
 class TradeCompleteScreen : public Screen, WidgetListener {
 public:
-	TradeCompleteScreen(Feed *feed);
+	TradeCompleteScreen(Feed *feed, String completeMessage = "");
 	~TradeCompleteScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -27,7 +27,7 @@ private:
 	Layout *layout;
 	ListBox* listBox;
 	Label *lbl;
-	Screen *menu;
+	String completeMessage;
 	bool list, left, right;
 };
 

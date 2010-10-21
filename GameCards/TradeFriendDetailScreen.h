@@ -19,7 +19,7 @@ class MobKeyboard;
 
 class TradeFriendDetailScreen : public Screen, WidgetListener {
 public:
-	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card card, String method);
+	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card, String method);
 	~TradeFriendDetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -34,9 +34,8 @@ private:
 	Label *lbl, *lblMethod, *errorLabel;
 	MobEditBox *contactEditBox;
 	Screen *menu;
-	String filename;
 	Screen *previous;
-	Card card;
+	Card *card;
 	bool list, left, right;
 	String method;
 	MobKeyboard *keyboard;

@@ -41,7 +41,6 @@ private:
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
-	//Image *tempImage;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -52,7 +51,6 @@ private:
 	bool list, left, right;
 
 	Feed *feed;
-
 	Albums album;
 	//fill tmp list with downloaded cards
 	//if done compare tmplist to cards

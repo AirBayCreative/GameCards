@@ -2,8 +2,9 @@
 #include "TradeConfirmationScreen.h"
 #include "Util.h"
 
-TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card card, String method) :previous(previous),
+TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card, String method) :previous(previous),
 	feed(feed), card(card), method(method) {
+	menu = new Screen();
 	layout = createMainLayout(back, continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -18,6 +19,9 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	lblMethod = createEditLabel("");
 	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
+	if (strcmp(method.c_str(), phoneNumlbl) == 0) {
+		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
+	}
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
 
@@ -25,11 +29,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	listBox->add(lblMethod);
 	listBox->add(errorLabel);
 
-	MAExtent screenSize = maGetScrSize();
-	int scrWidth = EXTENT_X(screenSize);
-	int scrHeight = EXTENT_Y(screenSize);
 	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
-
 	contactEditBox->setText("");
 
 	this->setMain(layout);
@@ -38,6 +38,25 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
+	layout->getChildren().clear();
+	listBox->getChildren().clear();
+
+	delete listBox;
+	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
+	delete lbl;
+	delete lblMethod;
+	delete errorLabel;
+	delete keyboard;
+	delete menu;
 }
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -110,7 +129,7 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -126,6 +145,9 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			}
 			else {
 				errorLabel->setCaption("");
+				if (menu != NULL) {
+					delete menu;
+				}
 				menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
 				menu->show();
 			}
