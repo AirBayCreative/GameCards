@@ -113,7 +113,7 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 				char *url = new char[255];
 				memset(url, '\0', 255);
 				//www.mytcg.net/_phone/tradecard=1&detail=072623672&cardid=40
-				sprintf(url, "%s&%s=%s&%s=%s", TRADE.c_str(), trade_by_detail, friendDetail.c_str(), trade_cardid, card->getId().c_str());
+				sprintf(url, "%s&%s=%s&%s=%s&sms=No", TRADE.c_str(), trade_by_detail, friendDetail.c_str(), trade_cardid, card->getId().c_str());
 				//url.append("&sms=Yes", 8);
 				int res = mHttp.create(url, HTTP_GET);
 
