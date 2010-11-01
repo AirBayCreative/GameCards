@@ -44,7 +44,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			label = createLabel("");
 			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontWhite, true, false, 45);
 			editBox->setDrawBackground(false);
-			editBox->setEnabled(false);
 			label->addWidgetListener(this);
 			listBox->add(label);
 			break;

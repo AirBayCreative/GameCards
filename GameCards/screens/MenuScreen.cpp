@@ -5,6 +5,7 @@
 #include "DetailScreen.h"
 #include "ImageScreen.h"
 #include "MenuScreen.h"
+#include "ShopCategoriesScreen.h"
 #include "../utils/MAHeaders.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
@@ -140,7 +141,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 1) {
 				delete menu;
-				menu = new ImageScreen(this, RES_SOON, feed, false, NULL);
+				menu = new ShopCategoriesScreen(this, feed);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
