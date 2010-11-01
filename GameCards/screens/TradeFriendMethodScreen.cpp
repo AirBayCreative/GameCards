@@ -1,6 +1,6 @@
 #include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {
 	menu = new Screen();

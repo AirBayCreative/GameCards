@@ -7,10 +7,10 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
-#include "Feed.h"
-#include "UI/Widgets/MobEditBox.h"
-#include "UI/MobKeyboard.h"
-#include "Card.h"
+#include "../utils/Feed.h"
+#include "../UI/Widgets/MobEditBox.h"
+#include "../UI/MobKeyboard.h"
+#include "../utils/Card.h"
 //#include "UI/Native/NativeEditBox.h"
 
 using namespace MAUI;

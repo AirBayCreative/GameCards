@@ -4,7 +4,7 @@
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
-#include "Feed.h"
+#include "../utils/Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;

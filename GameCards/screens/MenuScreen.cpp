@@ -5,10 +5,10 @@
 #include "DetailScreen.h"
 #include "ImageScreen.h"
 #include "MenuScreen.h"
-#include "MAHeaders.h"
+#include "../utils/MAHeaders.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	c=0;

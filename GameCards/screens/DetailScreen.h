@@ -4,9 +4,9 @@
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
 
-#include "XmlConnection.h"
-#include "Feed.h"
-#include "UI/KineticListBox.h"
+#include "../utils/XmlConnection.h"
+#include "../utils/Feed.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;

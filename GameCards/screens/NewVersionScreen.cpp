@@ -1,6 +1,6 @@
 #include <conprint.h>
 
-#include "Util.h"
+#include "../utils/Util.h"
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {

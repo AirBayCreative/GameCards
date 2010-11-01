@@ -2,7 +2,7 @@
 
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 void AlbumLoadScreen::refresh() {
 	show();

@@ -1,7 +1,7 @@
 #include <mastdlib.h>
 
 #include "Login.h"
-#include "Util.h"
+#include "../utils/Util.h"
 #include "MenuScreen.h"
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {

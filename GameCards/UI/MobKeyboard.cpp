@@ -3,8 +3,8 @@
 
 #include "MobKeyboard.h"
 #include "Widgets/MobEditBox.h"
-#include "../MAHeaders.h"
-#include "../Util.h"
+#include "../utils/MAHeaders.h"
+#include "../utils/Util.h"
 
 MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	: Widget(x, y, width, height, NULL)

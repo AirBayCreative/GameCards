@@ -1,7 +1,7 @@
 #include <conprint.h>
 
 #include "ImageScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 #include "TradeOptionsScreen.h"
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card), feed(feed) {

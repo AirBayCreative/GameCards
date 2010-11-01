@@ -1,10 +1,10 @@
 #include <conprint.h>
 
-#include "Util.h"
-#include "Login.h"
-#include "MAHeaders.h"
 #include "GameCards.h"
-#include "MenuScreen.h"
+#include "utils/Util.h"
+#include "utils/MAHeaders.h"
+#include "screens/Login.h"
+#include "screens/MenuScreen.h"
 
 MAUIMoblet *moblet;
 

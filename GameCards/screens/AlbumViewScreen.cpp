@@ -3,8 +3,8 @@
 #include <conprint.h>
 
 #include "AlbumViewScreen.h"
-#include "Util.h"
-#include "MAHeaders.h"
+#include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 #include "TradeOptionsScreen.h"
 

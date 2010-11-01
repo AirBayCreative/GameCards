@@ -78,7 +78,7 @@ static String USER = URL+"?userdetails=1";
 //Get user categories
 static String ALBUMS = URL+"?usercategories=1";
 //GET Cards in album
-static String CARDS = URL+"?cardsincategory=1";
+static String CARDS = URL+"?cardsincategory=";
 //Trade Card in album
 static String TRADE = URL+"?tradecard=1";
 //Check if there is an update available

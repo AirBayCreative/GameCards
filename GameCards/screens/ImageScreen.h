@@ -5,10 +5,10 @@
 #include <MAUI/ListBox.h>
 #include <MAUI/Image.h>
 
-#include "Card.h"
-#include "Feed.h"
-#include "MAHeaders.h"
-#include "ImageCache.h"
+#include "../utils/Card.h"
+#include "../utils/Feed.h"
+#include "../utils/MAHeaders.h"
+#include "../utils/ImageCache.h"
 
 using namespace MAUI;
 

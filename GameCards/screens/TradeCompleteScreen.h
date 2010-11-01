@@ -1,5 +1,5 @@
-#ifndef _TRADEFRIENDMETHODSCREEN_H_
-#define _TRADEFRIENDMETHODSCREEN_H_
+#ifndef _TRADECOMPLETESCREEN_H_
+#define _TRADECOMPLETESCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
@@ -7,16 +7,15 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
-#include "Feed.h"
-#include "Card.h"
+#include "../utils/Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendMethodScreen : public Screen, WidgetListener {
+class TradeCompleteScreen : public Screen, WidgetListener {
 public:
-	TradeFriendMethodScreen(Screen *previous, Feed *feed, Card *card);
-	~TradeFriendMethodScreen();
+	TradeCompleteScreen(Feed *feed, String completeMessage = "");
+	~TradeCompleteScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void pointerPressEvent(MAPoint2d point);
@@ -28,13 +27,8 @@ private:
 	Layout *layout;
 	ListBox* listBox;
 	Label *lbl;
-	Screen *menu;
-	String filename;
-	Screen *previous;
-	Card *card;
+	String completeMessage;
 	bool list, left, right;
-
-	int index;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "Logout.h"
-#include "Util.h"
-#include "MAHeaders.h"
+#include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "Login.h"
 
 using namespace MAUtil;
