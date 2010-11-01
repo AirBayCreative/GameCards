@@ -1,5 +1,5 @@
 #include "DetailScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed) {
 	mainLayout = createMainLayout(back, "", true);

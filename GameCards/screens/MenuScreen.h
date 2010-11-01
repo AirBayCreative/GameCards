@@ -1,55 +1,40 @@
-#ifndef _ALBUMLOADSCREEN_H_
-#define _ALBUMLOADSCREEN_H_
+#ifndef _MENUSCREEN_H_
+#define _MENUSCREEN_H_
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
-#include "Feed.h"
-#include "XmlConnection.h"
-#include "UI/KineticListBox.h"
+#include "../UI/KineticListBox.h"
+#include "../utils/XmlConnection.h"
+#include "../utils/Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class MenuScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed);
-	~AlbumLoadScreen();
+	MenuScreen(Feed *feed);
+	~MenuScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-	void show();
-	void hide();
-	int getCount();
-	void Add(const char* id, const char* name);
-	String *Retrieve(int id);
-	void AlbumLoadScreen::drawList();
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
+	//void customEvent(const MAEvent&);
 	void locateItem(MAPoint2d point);
-	void refresh();
-
 private:
-
-	Screen *previous;
-	Screen *next;
-
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag;
-	String temp,temp1,error_msg;
-	int size, i, moved;
-	bool list, left, right, empt;
-
 	Layout *mainLayout;
 	KineticListBox *listBox;
-	Label *notice, *label;
-
+	Label *label;
 	Feed *feed;
-	Albums *album;
+	Screen *menu;
+	int c;
+	bool list, left, right;
+	int moved;
 
-	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void xcConnError(int code);
@@ -63,4 +48,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_ALBUMLOADSCREEN_H_*/
+#endif

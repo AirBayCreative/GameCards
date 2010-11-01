@@ -23,7 +23,7 @@ void ImageCache::request(ImageCacheRequest* req)
 	process();
 }
 
-void ImageCache::process()
+void ImageCache::process(bool afterFin)
 {
 	//Check to see if the cache can process this request at this time
 	if(mIsBusy) return;
@@ -56,7 +56,7 @@ void ImageCache::finishedDownloading()
 	mRequests.remove(0);
 	mIsBusy = false;
 	maDestroyObject(mData);
-	process();
+	process(true);
 }
 
 void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {

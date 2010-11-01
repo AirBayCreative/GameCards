@@ -12,14 +12,16 @@
 #include "Card.h"
 #include "ImageCache.h"
 
-
-
 using namespace MAUI;
 
 #define PADDING 5
 #define SHOWCREDIT 1
 #define SHOWUSER 0
 #define VIRTUAL_KEYBOARD_HEIGHT 135
+#define VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER 0.33
+#define VIRTUAL_KEYBOARD_WIDTH 240
+//Version Var
+static const char* version_number = "1.02";
 
 void setPadding(Widget *w);
 Label* createLabel(String str, int height=48);
@@ -79,6 +81,8 @@ static String ALBUMS = URL+"?usercategories=1";
 static String CARDS = URL+"?cardsincategory=";
 //Trade Card in album
 static String TRADE = URL+"?tradecard=1";
+//Check if there is an update available
+static String UPDATE = URL+"?update=" + version_number;
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -86,6 +90,7 @@ static const char* newline = "#";
 static const char* demo = "Demo Deck";
 static const char* demoid = "-1";
 static const char* back = "Back";
+static const char* download = "Download";
 static const char* auction = "Auction";
 static const char* empty = "Empty";
 static const char* done = "Done";
@@ -135,6 +140,7 @@ static const char* card_sent_message = "Card sent successfully.";
 static const char* error_number_card_message = "Not a valid number.";
 static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
+static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
 
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";

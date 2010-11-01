@@ -3,8 +3,8 @@
 #include <conprint.h>
 
 #include "AlbumViewScreen.h"
-#include "Util.h"
-#include "MAHeaders.h"
+#include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 #include "TradeOptionsScreen.h"
 
@@ -122,8 +122,8 @@ void AlbumViewScreen::drawList() {
 	Layout *feedlayout;
 	listBox->getChildren().clear();
 	index.clear();
-	Image *tempImage;
-	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
+	//Image *tempImage;
+	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		index.add(itr->second.getId());
 		cardText = itr->second.getText();
 		cardText += "\nQuantity: ";
@@ -133,7 +133,6 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
-
 
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
@@ -174,6 +173,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	delete notice;
 	delete next;
 	delete mImageCache;
+	delete tempImage;
 
 	saveData(filename.c_str(), getAll().c_str());
 

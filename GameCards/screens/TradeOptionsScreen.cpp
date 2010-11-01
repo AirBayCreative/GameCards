@@ -1,8 +1,8 @@
 #include "TradeOptionsScreen.h"
 #include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
-#include "Util.h"
-#include "MAHeaders.h"
+#include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 
 TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {

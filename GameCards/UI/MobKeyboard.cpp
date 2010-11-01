@@ -3,8 +3,8 @@
 
 #include "MobKeyboard.h"
 #include "Widgets/MobEditBox.h"
-#include "../MAHeaders.h"
-#include "../Util.h"
+#include "../utils/MAHeaders.h"
+#include "../utils/Util.h"
 
 MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	: Widget(x, y, width, height, NULL)
@@ -174,11 +174,11 @@ void MobKeyboard::addButtonLine(MobKeyboardLayout* a_layout, int a_lineHeight, i
 	l_bounds.y = 0; //hack
 
 	//todo the scaling here was commented out to try get it running, should be worked out still
-	int l_buttonWidth = a_buttonWidth;//(int) floor(((double) a_buttonWidth) * MobileApplication::Instance()->getHorzScale());
-	int l_buttonHeight = a_buttonHeight;//(int) floor(((double) a_buttonHeight) * MobileApplication::Instance()->getVertScale());
-	int l_leftPadding = a_leftLinePadding;//(int) floor(((double) a_leftLinePadding) * MobileApplication::Instance()->getHorzScale());
-	int l_rightPadding = a_rightLinePadding;//(int) floor(((double) a_rightLinePadding) * MobileApplication::Instance()->getVertScale());
-	int l_currentHeight = a_lineHeight;//l_bounds.y + (int) floor(((double) a_lineHeight) * MobileApplication::Instance()->getVertScale());
+	int l_buttonWidth = (int) floor(((double) a_buttonWidth) * getHorzScale());
+	int l_buttonHeight = (int) floor(((double) a_buttonHeight) * getVertScale());
+	int l_leftPadding = (int) floor(((double) a_leftLinePadding) * getHorzScale());
+	int l_rightPadding = (int) floor(((double) a_rightLinePadding) * getVertScale());
+	int l_currentHeight = (int) floor(((double) a_lineHeight) * getVertScale());
 
 	int l_startingIndex = a_layout->getButtons()->size();
 
@@ -294,6 +294,9 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 					((MobEditBox*) m_attachedWidget)->setPasswordMode(TRUE);
 				}
 			}
+			else {
+				requestRepaint();
+			}
 		//}
 	}
 	else if (l_char == "Hide")
@@ -377,6 +380,16 @@ void MobKeyboard::attachWidget(Widget* a_widget)
 void MobKeyboard::deAttachEditBox()
 {
 	m_attachedWidget = NULL;
+}
+
+double MobKeyboard::getHorzScale() const
+{
+	return (double) getWidth() / (double) VIRTUAL_KEYBOARD_WIDTH;
+}
+
+double MobKeyboard::getVertScale() const
+{
+	return (double) getHeight() / (double) VIRTUAL_KEYBOARD_HEIGHT;
 }
 
 void MobKeyboard::setActiveLayout(const String& a_layoutName)

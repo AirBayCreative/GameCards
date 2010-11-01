@@ -1,7 +1,7 @@
 #include <mastdlib.h>
 
 #include "Login.h"
-#include "Util.h"
+#include "../utils/Util.h"
 #include "MenuScreen.h"
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
@@ -29,7 +29,8 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 
-	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
+	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
+			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
@@ -80,18 +81,21 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 	int index = listBox->getSelectedIndex();
 	if (list && (index == 1 || index == 3)) {
-		if (index == 1 && (yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT || !(keyboard->isShown()))) {
+		int dispY = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+		if (index == 1 && (yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxLogin);
-			keyboard->setPosition(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT);
 		}
 		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
-			keyboard->setPosition(0, 0);
+			if (!((scrHeight - (editBoxPass->getPosition().y + editBoxPass->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
+				dispY = 0;
+			}
 		}
+		keyboard->setPosition(0, dispY);
 		keyboard->show();
 		//keyboard->drawWidget();
 	}
-	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT)) {
+	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER))) {
 		keyboard->deAttachEditBox();
 		keyboard->hide();
 

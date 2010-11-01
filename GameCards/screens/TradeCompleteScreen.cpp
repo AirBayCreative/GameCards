@@ -1,6 +1,6 @@
 #include "AlbumLoadScreen.h"
 #include "TradeCompleteScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage):feed(feed), completeMessage(completeMessage) {
 	layout = createMainLayout("", continuelbl);

@@ -1,9 +1,9 @@
 #include "TradeFriendDetailScreen.h"
 #include "TradeConfirmationScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card, String method) :previous(previous),
-	feed(feed), card(card), method(method) {
+feed(feed), card(card), method(method) {
 	menu = new Screen();
 	layout = createMainLayout(back, continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
@@ -18,7 +18,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
+	contactEditBox = new MobEditBox(0, 12, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
 	if (strcmp(method.c_str(), phoneNumlbl) == 0) {
 		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	}
@@ -29,7 +29,8 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	listBox->add(lblMethod);
 	listBox->add(errorLabel);
 
-	keyboard = new MobKeyboard(0, scrHeight - VIRTUAL_KEYBOARD_HEIGHT, scrWidth, VIRTUAL_KEYBOARD_HEIGHT);
+	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
+			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 	contactEditBox->setText("");
 
 	this->setMain(layout);
@@ -60,12 +61,12 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 }
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point)
 {
-    locateItem(point);
+	locateItem(point);
 }
 
 void TradeFriendDetailScreen::pointerMoveEvent(MAPoint2d point)
 {
-    locateItem(point);
+	locateItem(point);
 }
 
 void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point)
@@ -100,17 +101,17 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point)
 	left = false;
 	right = false;
 
-    Point p;
-    p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-    {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-        {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
-        	list = true;
-        }
-    }
-    for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
+	Point p;
+	p.set(point.x, point.y);
+	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
+	{
+		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+		{
+			((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+			list = true;
+		}
+	}
+	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
 		{
@@ -135,30 +136,30 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
-		case MAK_FIRE:
-			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
-			break;
-		case MAK_SOFTRIGHT:
-			if (contactEditBox->getText() == "") {
-				errorLabel->setCaption(no_contact + method + ".");
+	case MAK_FIRE:
+		contactEditBox->setSelected(true);
+		//listBox->setSelectedIndex(1);
+		break;
+	case MAK_SOFTRIGHT:
+		if (contactEditBox->getText() == "") {
+			errorLabel->setCaption(no_contact + method + ".");
+		}
+		else {
+			errorLabel->setCaption("");
+			if (menu != NULL) {
+				delete menu;
 			}
-			else {
-				errorLabel->setCaption("");
-				if (menu != NULL) {
-					delete menu;
-				}
-				menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
-				menu->show();
-			}
-			break;
-		case MAK_SOFTLEFT:
-			previous->show();
-			break;
-		case MAK_DOWN:
-		case MAK_UP:
-			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
-			break;
+			menu = new TradeConfirmationScreen(this, feed, card, method, contactEditBox->getText());
+			menu->show();
+		}
+		break;
+	case MAK_SOFTLEFT:
+		previous->show();
+		break;
+	case MAK_DOWN:
+	case MAK_UP:
+		contactEditBox->setSelected(true);
+		//listBox->setSelectedIndex(1);
+		break;
 	}
 }

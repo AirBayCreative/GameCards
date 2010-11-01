@@ -13,7 +13,7 @@ class ImageCache : public HttpConnectionListener
     ImageCache();
     ~ImageCache();
 
-    void process();
+    void process(bool afterFin=false);
     void request(ImageCacheRequest* req);
     void httpFinished(MAUtil::HttpConnection*, int);
     void connRecvFinished(MAUtil::Connection* conn, int result);

@@ -2,7 +2,7 @@
 
 #include "TradeConfirmationScreen.h"
 #include "TradeCompleteScreen.h"
-#include "Util.h"
+#include "../utils/Util.h"
 
 TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, Card *card, String method, String friendDetail)
 		:previous(previous), feed(feed), card(card), method(method), friendDetail(friendDetail), mHttp(this) {

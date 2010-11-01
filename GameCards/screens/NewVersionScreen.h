@@ -1,35 +1,34 @@
-#ifndef _MENUSCREEN_H_
-#define _MENUSCREEN_H_
+#ifndef _NEWVERSIONSCREEN_H_
+#define _NEWVERSIONSCREEN_H_
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
-#include "UI/KineticListBox.h"
-#include "Feed.h"
+#include "../utils/Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class MenuScreen : public Screen, WidgetListener {
+class NewVersionScreen : public Screen, WidgetListener {
 public:
-	MenuScreen(Feed *feed);
-	~MenuScreen();
+	NewVersionScreen(Screen *previous, String url, Feed *feed);
+	~NewVersionScreen();
 	void keyPressEvent(int keyCode);
-	void selectionChanged(Widget *widget, bool selected);
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
-	//void customEvent(const MAEvent&);
 	void locateItem(MAPoint2d point);
 private:
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label;
+	Screen *previous;
+
+	String downloadUrl;
+
+	Layout *layout;
+	ListBox *listBox;
+	Label *lbl;
 	Feed *feed;
 	Screen *menu;
-	int c;
 	bool list, left, right;
-	int moved;
 };
 
 #endif

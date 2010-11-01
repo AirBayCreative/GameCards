@@ -7,10 +7,11 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
-#include "Feed.h"
-#include "UI/Widgets/MobEditBox.h"
-#include "UI/MobKeyboard.h"
-#include "Card.h"
+#include "../utils/Feed.h"
+#include "../UI/Widgets/MobEditBox.h"
+#include "../UI/MobKeyboard.h"
+#include "../utils/Card.h"
+//#include "UI/Native/NativeEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -32,12 +33,13 @@ private:
 	Layout *layout;
 	ListBox* listBox;
 	Label *lbl, *lblMethod, *errorLabel;
-	MobEditBox *contactEditBox;
+	//NativeEditBox *contactEditBox;
 	Screen *menu;
 	Screen *previous;
 	Card *card;
 	bool list, left, right;
 	String method;
+	MobEditBox *contactEditBox;
 	MobKeyboard *keyboard;
 };
 

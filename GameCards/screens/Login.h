@@ -6,10 +6,10 @@
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
 
-#include "Feed.h"
-#include "XmlConnection.h"
-#include "UI/MobKeyboard.h"
-#include "UI/Widgets/MobEditBox.h"
+#include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/MobKeyboard.h"
+#include "../UI/Widgets/MobEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;

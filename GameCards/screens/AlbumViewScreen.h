@@ -5,11 +5,11 @@
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
-#include "XmlConnection.h"
-#include "Feed.h"
-#include "Card.h"
-#include "ImageCache.h"
-#include "UI/KineticListBox.h"
+#include "../utils/XmlConnection.h"
+#include "../utils/Feed.h"
+#include "../utils/Card.h"
+#include "../utils/ImageCache.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -38,6 +38,7 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
+	Image *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;

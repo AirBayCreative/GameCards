@@ -7,9 +7,9 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
-#include "Feed.h"
-#include "XmlConnection.h"
-#include "Card.h"
+#include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
+#include "../utils/Card.h"
 
 using namespace MAUI;
 using namespace MAUtil;

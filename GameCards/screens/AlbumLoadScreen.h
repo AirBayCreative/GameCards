@@ -1,46 +1,55 @@
-#ifndef _DETAILSCREEN_H_
-#define _DETAILSCREEN_H_
+#ifndef _ALBUMLOADSCREEN_H_
+#define _ALBUMLOADSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/EditBox.h>
+#include <MAUI/Label.h>
 
-#include "XmlConnection.h"
-#include "Feed.h"
-#include "UI/KineticListBox.h"
+#include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType);
-	~DetailScreen();
+	AlbumLoadScreen(Screen *previous, Feed *feed);
+	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
+	int getCount();
+	void Add(const char* id, const char* name);
+	String *Retrieve(int id);
+	void AlbumLoadScreen::drawList();
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+	void refresh();
 
 private:
+
 	Screen *previous;
-	EditBox *editBox;
-	Layout *mainLayout;
-	Label *label;
-	KineticListBox *listBox;
-	bool list, left, right;
+	Screen *next;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, handle, email;
-	int i,j, moved;
+	String parentTag;
+	String temp,temp1,error_msg;
+	int size, i, moved;
+	bool list, left, right, empt;
+
+	Layout *mainLayout;
+	KineticListBox *listBox;
+	Label *notice, *label;
 
 	Feed *feed;
+	Albums *album;
 
+	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void xcConnError(int code);
@@ -54,4 +63,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_DETAILSCREEN_H_
+#endif	//_ALBUMLOADSCREEN_H_*/
