@@ -68,6 +68,8 @@ private:
 
 	MobKeyboardButton* last_pressed;
 
+	double getHorzScale() const;
+	double getVertScale() const;
 	void setupKeys();
 	String getClickedCharacter(MAPoint2d a_clickPoint, bool setLastClicked = false);
 

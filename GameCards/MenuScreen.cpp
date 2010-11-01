@@ -1,4 +1,5 @@
 #include <conprint.h>
+#include <MAP/MemoryMgr.h>
 
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
@@ -6,11 +7,10 @@
 #include "MenuScreen.h"
 #include "MAHeaders.h"
 #include "Logout.h"
+#include "NewVersionScreen.h"
 #include "Util.h"
 
-#include "MAP/MemoryMgr.h"
-
-MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
+MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	c=0;
 	menu = new Screen();
 	if (feed->getTouchEnabled()) {
@@ -37,11 +37,25 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed) {
 	label = createSubLabel(logout);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	this->setMain(mainLayout);
 
 	listBox->setSelectedIndex(0);
 
 	moved=0;
+
+	//when the page has loaded, check for a new version in the background
+	//www.mytcg.net/_phone/update=version_number
+	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
+
+	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
+	if(res < 0) {
+
+	} else {
+		mHttp.finish();
+	}
+
+	this->setMain(mainLayout);
 }
 
 MenuScreen::~MenuScreen() {
@@ -166,3 +180,46 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	}
 }*/
 
+void MenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	if (result == 200) {
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(http, this, this);
+	} else {
+		mHttp.close();
+	}
+}
+
+void MenuScreen::connReadFinished(Connection* conn, int result) {
+}
+
+void MenuScreen::xcConnError(int code) {
+}
+
+void MenuScreen::mtxEncoding(const char* ) {
+}
+
+void MenuScreen::mtxTagStart(const char* name, int len) {
+}
+
+void MenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+}
+
+void MenuScreen::mtxTagData(const char* data, int len) {
+	if (len > 0) {
+		delete menu;
+		menu = new NewVersionScreen(this, data, feed);
+		menu->show();
+	}
+}
+
+void MenuScreen::mtxTagEnd(const char* name, int len) {
+}
+
+void MenuScreen::mtxParseError() {
+}
+
+void MenuScreen::mtxEmptyTagEnd() {
+}
+
+void MenuScreen::mtxTagStartEnd() {
+}

@@ -5,12 +5,13 @@
 #include <MAUI/Label.h>
 
 #include "UI/KineticListBox.h"
+#include "XmlConnection.h"
 #include "Feed.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class MenuScreen : public Screen, WidgetListener {
+class MenuScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
 public:
 	MenuScreen(Feed *feed);
 	~MenuScreen();
@@ -22,6 +23,9 @@ public:
 	//void customEvent(const MAEvent&);
 	void locateItem(MAPoint2d point);
 private:
+	HttpConnection mHttp;
+	XmlConnection xmlConn;
+
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *label;
@@ -30,6 +34,18 @@ private:
 	int c;
 	bool list, left, right;
 	int moved;
+
+	void httpFinished(MAUtil::HttpConnection*, int);
+	void connReadFinished(Connection*, int);
+	void xcConnError(int code);
+	void mtxEncoding(const char*);
+	void mtxTagStart(const char*, int);
+	void mtxTagAttr(const char*, const char*);
+	void mtxTagData(const char*, int);
+	void mtxTagEnd(const char*, int);
+	void mtxParseError();
+	void mtxEmptyTagEnd();
+	void mtxTagStartEnd();
 };
 
 #endif
