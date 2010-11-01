@@ -190,7 +190,12 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		label->setCaption(no_connect);
+		char mBuffer[255];
+		sprintf(mBuffer, "%s %d", no_connect, result);
+		lprintfln(mBuffer);
+		label->setCaption(mBuffer);
+
+		//label->setCaption(no_connect);
 		isBusy = false;
 	}
 }

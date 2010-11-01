@@ -23,6 +23,7 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
         return;
     }
 
+    lprintfln("[%s]", mBuffer);
     mPtr[result] = 0;
     mPtr = mBuffer;
    	mContext.feed(mBuffer);
