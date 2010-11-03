@@ -17,9 +17,6 @@ public:
 	~ShopCategoriesScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-	int getCount();
-	void Add(const char* id, const char* name);
-	String *Retrieve(int id);
 	void drawList();
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
@@ -37,7 +34,7 @@ private:
 
 	String parentTag;
 	String temp,temp1,error_msg;
-	int size, i, moved;
+	int i, moved;
 	bool list, left, right, empt;
 
 	Layout *mainLayout;
@@ -47,7 +44,6 @@ private:
 	Feed *feed;
 	Map<String,String> categories;
 
-	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void xcConnError(int code);

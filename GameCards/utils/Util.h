@@ -10,13 +10,12 @@
 #include <conprint.h>
 
 #include "Card.h"
+#include "Product.h"
 #include "ImageCache.h"
 
 using namespace MAUI;
 
 #define PADDING 5
-#define SHOWCREDIT 1
-#define SHOWUSER 0
 #define VIRTUAL_KEYBOARD_HEIGHT 135
 #define VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER 0.33
 #define VIRTUAL_KEYBOARD_WIDTH 240
@@ -40,6 +39,7 @@ void saveFile(const char* storefile, MAHandle data);
 void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache);
+void retrieveProductThumb(Image *img, Product *product, ImageCache *mImageCache);
 void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache);
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache);
 void returnImage(Image *img, MAHandle i, int height);
@@ -75,12 +75,16 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 static String URL = "http://www.mytcg.net/_phone/";
 //Get user details
 static String USER = URL+"?userdetails=1";
+//get products in category
+static String PRODUCTS = URL+"?categoryproducts=1";
 //Get user categories
 static String ALBUMS = URL+"?usercategories=1";
 //GET Cards in album
 static String CARDS = URL+"?cardsincategory=";
 //Trade Card in album
 static String TRADE = URL+"?tradecard=1";
+//List all the categories
+static String ALLCATEGORIES = URL+"?allcategories=1";
 //Check if there is an update available
 static String UPDATE = URL+"?update=" + version_number;
 //constants
@@ -119,13 +123,15 @@ static const char* sendToAuctionlbl = "Send card to auction";
 static const char* sendToFriendlbl = "Send card to friend";
 static const char* auctionlbl = "My Auctions";
 static const char* shoplbl = "Shop";
+static const char* details = "Details";
 static const char* ballbl = "My Balance";
 static const char* proflbl = "My Profile";
 static const char* loggingin = "Please wait, logging in...";
 static const char* avail_credits = "Available Credits:";
 static const char* checking_albums = "Checking for new albums...";
 static const char* checking_categories = "Checking for shop categories...";
-static const char* choose_category = "Please choose a category.";
+static const char* choose_category = "Please choose a card category.";
+static const char* checking_products = "Checking for products...";
 static const char* checking_cards = "Checking for new cards...";
 static const char* checking_info = "Checking for updated info...";
 static const char* auth_user = "AUTH_USER";
@@ -158,6 +164,7 @@ static const char* xml_backurl = "backurl";
 static const char* xml_rate = "rate";
 static const char* xml_value = "value";
 static const char* xml_carddone = "cardsincategory";
+static const char* xml_cardcategories = "cardcategories";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";
@@ -176,5 +183,15 @@ static const char* by_email = "email";
 static const char* by_username = "username";
 static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
+//Shop
+static const char* purchase = "Purchase";
+static const char* categoryid = "categoryId";
+static const char* xml_product_done = "categoryproducts";
+static const char* xml_productid = "productid";
+static const char* xml_productname = "productname";
+static const char* xml_productdesc = "productdesc";
+static const char* xml_productprice = "productprice";
+static const char* xml_productcurrency = "productcurrency";
+static const char* xml_productthumb = "productthumb";
 
 #endif	//_UTIL_H_

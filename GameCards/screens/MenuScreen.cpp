@@ -149,11 +149,11 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
-				menu = new DetailScreen(this, feed, SHOWCREDIT);
+				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
 			} else if(index == 4) {
 				delete menu;
-				menu = new DetailScreen(this, feed, SHOWUSER);
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
 				menu->show();
 			} else if (index == 5) {
 				delete menu;

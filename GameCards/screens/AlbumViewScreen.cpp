@@ -38,6 +38,8 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	this->setMain(mainLayout);
 
 	moved=0;
+
+	emp = true;
 }
 
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
@@ -147,8 +149,10 @@ void AlbumViewScreen::drawList() {
 		label->setMultiLine(true);
 	}
 	if (cards.size() >= 1) {
+		emp = false;
 		listBox->setSelectedIndex(0);
 	} else {
+		emp = true;
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(0);
 	}
@@ -223,7 +227,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
-			if (index.size() >- 1) {
+			if (!emp) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -232,11 +236,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			if (next != NULL) {
-				delete next;
+			if (!emp) {
+				if (next != NULL) {
+					delete next;
+				}
+				next = new TradeOptionsScreen(this, feed, &cards.find(index[selected])->second);
+				next->show();
 			}
-			next = new TradeOptionsScreen(this, feed, &cards.find(index[selected])->second);
-			next->show();
 			break;
 	}
 }
@@ -312,8 +318,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		value = "";
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
-	}
-	if (!strcmp(name, xml_carddone)) {
+	} else if (!strcmp(name, xml_carddone)) {
+		notice->setCaption("");
 		cards.clear();
 		cards = tmp;
 		drawList();

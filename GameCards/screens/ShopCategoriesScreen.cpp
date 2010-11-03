@@ -1,12 +1,13 @@
 #include <conprint.h>
 
 #include "ShopCategoriesScreen.h"
+#include "ShopProductsScreen.h"
 #include "../utils/Util.h"
 
 void ShopCategoriesScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
@@ -17,20 +18,19 @@ void ShopCategoriesScreen::refresh() {
 }
 
 ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
-	lprintfln("ShopCategoriesScreen 1");
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
 	} else {
 		mainLayout = createMainLayout(back, select, true);
 	}
-	lprintfln("ShopCategoriesScreen 2");
+
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	lprintfln("ShopCategoriesScreen 3");
+
 	notice->setCaption(checking_categories);
-	lprintfln("ShopCategoriesScreen 4");
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+
+	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
@@ -39,7 +39,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
-	lprintfln("ShopCategoriesScreen 5");
+
 	moved = 0;
 }
 
@@ -94,10 +94,6 @@ void ShopCategoriesScreen::pointerReleaseEvent(MAPoint2d point)
 
 void ShopCategoriesScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
-		//saveData(FEED, feed->getAll().c_str());
-	}
-
 	list = false;
 	left = false;
 	right = false;
@@ -170,15 +166,16 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
-				/*String val= (album->getId(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
+				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+				String category = categories.find(selectedCaption)->second.c_str();
 				if (next != NULL) {
 					delete next;
 				}
-				next = new AlbumViewScreen(this, feed, val);
-				next->show();*/
-				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-				lprintfln("selectedCaption: %s\ncategories.find(selectedCaption)->second: %s", selectedCaption.c_str(),
-						categories.find(selectedCaption)->second.c_str());
+				next = new ShopProductsScreen(this, feed, category);
+				next->show();
+
+				//lprintfln("selectedCaption: %s\ncategories.find(selectedCaption)->second: %s", selectedCaption.c_str(),
+				//		categories.find(selectedCaption)->second.c_str());
 			}
 			break;
 	}
@@ -215,7 +212,7 @@ void ShopCategoriesScreen::mtxTagAttr(const char* attrName, const char* attrValu
 }
 
 void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), xml_albumdone)) {
+	if (!strcmp(parentTag.c_str(), xml_cardcategories)) {
 		categories.clear();
 	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
 		temp1 += data;
@@ -228,12 +225,10 @@ void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
 
 void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_albumname)) {
-		//notice->setCaption("");
 		categories.insert(temp1, temp);
-		//album->addAlbum(temp1.c_str(), temp.c_str());
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_albumdone)) {
+	} else if (!strcmp(name, xml_cardcategories)) {
 		notice->setCaption(choose_category);
 		drawList();
 	} else if(!strcmp(name, xml_error)) {
@@ -250,7 +245,4 @@ void ShopCategoriesScreen::mtxEmptyTagEnd() {
 }
 
 void ShopCategoriesScreen::mtxTagStartEnd() {
-}
-int ShopCategoriesScreen::getCount() {
-	return size;
 }

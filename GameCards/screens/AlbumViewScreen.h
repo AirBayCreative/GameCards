@@ -2,7 +2,6 @@
 #define _ALBUMVIEWSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
 #include "../utils/XmlConnection.h"
@@ -49,7 +48,7 @@ private:
 	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
 	int size, i, moved;
-	bool list, left, right;
+	bool list, left, right, emp;
 
 	Feed *feed;
 	Albums album;

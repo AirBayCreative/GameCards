@@ -219,6 +219,9 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
+	if (!strcmp(name, xml_albumdone)) {
+		album->clearAll();
+	}
 	parentTag = name;
 }
 
