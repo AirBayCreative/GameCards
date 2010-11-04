@@ -206,7 +206,7 @@ void saveFile(const char* storefile, MAHandle data) {
 char* getData(const char* storefile) {
 	MAHandle store = maOpenStore(storefile, 0);
 	MAHandle tmp = maCreatePlaceholder();
-	if (store > 0) {
+	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
 		int size = maGetDataSize(tmp);
 		if (size > 0) {
@@ -236,7 +236,6 @@ void returnImage(Image *img, MAHandle i, int height)
 
 void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 {
-	lprintfln("card->getThumb().c_str(): %s", card->getThumb().c_str());
 	if (card == NULL) {
 		return;
 	}

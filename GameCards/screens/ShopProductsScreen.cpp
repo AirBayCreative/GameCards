@@ -2,6 +2,7 @@
 
 #include "ShopProductsScreen.h"
 #include "ShopDetailsScreen.h"
+#include "ShopPurchaseScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -40,6 +41,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	price = "";
 	currency = "";
 	thumb = "";
+	cardsInPack = "";
 }
 
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
@@ -107,7 +109,7 @@ void ShopProductsScreen::drawList() {
 	for(ProductVector::iterator itr = products.begin(); itr != products.end(); itr++) {
 		cardText = itr->getName();
 		cardText += "\n";
-		cardText += itr->getDescription();
+		cardText += "Price: " + itr->getCurrency() + " " + itr->getFormattedPrice();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -164,6 +166,7 @@ ShopProductsScreen::~ShopProductsScreen() {
 	price = "";
 	currency = "";
 	thumb = "";
+	cardsInPack = "";
 }
 
 void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
@@ -196,6 +199,13 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTRIGHT:
+			if (!emp) {
+				if (next != NULL) {
+					delete next;
+				}
+				next = new ShopPurchaseScreen(this, feed, &(products[listBox->getSelectedIndex()]));
+				next->show();
+			}
 			break;
 	}
 }
@@ -235,15 +245,15 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productname)) {
 		productName += data;
-		lprintfln("productName: %s", data);
 	} else if(!strcmp(parentTag.c_str(), xml_productdesc)) {
 		description += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productprice)) {
 		price += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productcurrency)) {
 		currency += data;
+	} else if(!strcmp(parentTag.c_str(), xml_productnumcards)) {
+		cardsInPack += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productthumb)) {
-		lprintfln("thumb: %s", data);
 		thumb += data;
 	}
 }
@@ -251,7 +261,7 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_productthumb)) {
 		product = new Product(id.c_str(), productName.c_str(), description.c_str(),
-				thumb.c_str(), price.c_str(), currency.c_str());
+				thumb.c_str(), price.c_str(), currency.c_str(), cardsInPack.c_str());
 		products.add(*product);
 		id = "";
 		productName = "";
@@ -259,6 +269,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 		price = "";
 		currency = "";
 		thumb = "";
+		cardsInPack = "";
 	} else if (!strcmp(name, xml_product_done)) {
 		notice->setCaption("");
 		drawList();

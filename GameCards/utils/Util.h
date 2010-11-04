@@ -184,6 +184,9 @@ static const char* by_username = "username";
 static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
 //Shop
+static const char* not_enough_credits = "You do not have enough credits to make that purchase.";
+static const char* sure_you_want_to_purchase = "Are you sure you want to purchase a ";
+static const char* priceFor = " for ";
 static const char* purchase = "Purchase";
 static const char* categoryid = "categoryId";
 static const char* xml_product_done = "categoryproducts";
@@ -192,6 +195,7 @@ static const char* xml_productname = "productname";
 static const char* xml_productdesc = "productdesc";
 static const char* xml_productprice = "productprice";
 static const char* xml_productcurrency = "productcurrency";
+static const char* xml_productnumcards = "productnumcards";
 static const char* xml_productthumb = "productthumb";
 
 #endif	//_UTIL_H_

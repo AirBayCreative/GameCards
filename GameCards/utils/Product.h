@@ -10,7 +10,7 @@ public:
 	Product();
 	Product(const char *id, const char *name,
 			const char *description, const char *thumb,
-			const char *price, const char *currency);
+			const char *price, const char *currency, const char *cardsInPack);
 
 	String getId();
 	void setId(const char *id);
@@ -30,9 +30,14 @@ public:
 	String getCurrency();
 	void setCurrency(const char *currency);
 
+	String getCardsInPack();
+	void setCardsInPack(const char *cardsInPack);
+
+	String getFormattedPrice();
+
 	String getDetailsString();
 private:
-	String id, name, description, thumb, price, currency;
+	String id, name, description, thumb, price, currency, cardsInPack;
 };
 
 #endif	//_PRODUCT_H_

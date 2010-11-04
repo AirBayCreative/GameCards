@@ -173,9 +173,6 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				}
 				next = new ShopProductsScreen(this, feed, category);
 				next->show();
-
-				//lprintfln("selectedCaption: %s\ncategories.find(selectedCaption)->second: %s", selectedCaption.c_str(),
-				//		categories.find(selectedCaption)->second.c_str());
 			}
 			break;
 	}
