@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project supports-build-configs="true" version="1">
+<build.cfg id="Debug" types="Debug"/>
+<build.cfg id="Release" types="Release"/>
+<properties>
+<property key="build.prefs:additional.include.paths/Release" value=""/>
+<property key="build.prefs:additional.libraries" value="MAUtil.lib,MAUI.lib"/>
+<property key="build.prefs:additional.libraries/Debug" value="MAUtilD.lib,MAUID.lib"/>
+<property key="build.prefs:additional.libraries/Release" value="MAUtil.lib,MAUI.lib, MTXml.lib"/>
+<property key="build.prefs:additional.library.paths/Release" value=""/>
+<property key="build.prefs:app.permissions" value="Bluetooth File\ Storage File\ Storage/Read File\ Storage/Write Internet\ Access Vibrate"/>
+<property key="build.prefs:dead.code.elim/Release" value="true"/>
+<property key="build.prefs:extra.link.sw/Release" value=""/>
+<property key="build.prefs:extra.res.sw/Release" value=""/>
+<property key="build.prefs:gcc.warnings/Release" value="0"/>
+<property key="build.prefs:memory.data/Release" value="256"/>
+<property key="build.prefs:memory.heap/Release" value="128"/>
+<property key="build.prefs:memory.stack/Release" value="64"/>
+<property key="build.prefs:project.type" value=""/>
+<property key="dependency.strategy" value="0"/>
+<property key="symbian.uids:uid.s60v3uid" value="0xe37325f4"/>
+<property key="template.id" value="project.maui"/>
+</properties>
+</project>

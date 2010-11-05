@@ -1,0 +1,59 @@
+PerformanceFrequency: 1948271
+StartCount: 434111064554
+Hello World!
+argc: 12
+1:-program
+3:-resource
+5:-resolution
+8:-fd
+Emulator connected.
+10:-id
+fmt->BitsPerPixel: 32
+InitVM .. 
+LoadVM
+maxCustomEventSize: 0xc
+Head.DataSize: 0x40000
+Head.StackSize: 0x10000
+Head.HeapSize: 0x20000
+Head.EntryPoint: 0x15a9a
+Head.CodeLen: 0x29130
+CODE_SEGMENT_SIZE: 0x40000
+Head.DataLen: 0x357c
+Head.DataSize: 0x40000
+DATA_SEGMENT_SIZE: 0x40000
+Head.IntLen: 0x498
+Type 2, size 9168
+Type 4, size 6732
+Type 2, size 4449
+Type 2, size 3123
+Type 2, size 2893
+Type 2, size 3246
+Type 2, size 2901
+Type 2, size 3169
+Type 2, size 2922
+Type 1, size 0
+Type 1, size 0
+Type 2, size 8392
+ResLoad complete
+IDL version match!
+SDL_RWFromFile(stores/fd.sav, rb) = 00000000
+Couldn't open stores/fd.sav
+PrintConsole: Code[0]
+Exit 0
+DumpCallStackEx:
+reportCallStack
+0
+IP: 0x5c61
+Call stack: 5 frames
+0: 0x15ac4
+1: 0x8a44
+2: 0x1f714
+3: 0x18a56
+4: 0x5c63
+Exit @ IP 0x5c61  SP 0x3fe48
+InstCount: 643996
+IP: 0x15A9A
+Profile dumped.
+level: 5
+maxLevel: 23
+nodes: 3166
