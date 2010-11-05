@@ -1,47 +1,51 @@
-#ifndef _DETAILSCREEN_H_
-#define _DETAILSCREEN_H_
+#ifndef _SHOPPRODUCTSSCREEN_H_
+#define _SHOPPRODUCTSSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/EditBox.h>
+#include <MAUI/Label.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
+#include "../utils/Product.h"
+#include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopProductsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType);
-	~DetailScreen();
+	ShopProductsScreen(Screen *previous, Feed *feed, String category);
+	~ShopProductsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-	void show();
-	void hide();
+	void drawList();
+
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	enum screenType {PROFILE, BALANCE};
+	typedef Vector<Product> ProductVector;
 private:
-	Screen *previous;
-	EditBox *editBox;
-	Layout *mainLayout;
-	Label *label, *balanceLabel;
+	Screen *next, *previous;
+	ImageCache *mImageCache;
+	Image *tempImage;
+	Label *notice, *label;
 	KineticListBox *listBox;
-	bool list, left, right;
+	Layout *mainLayout;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, handle, email;
-	int i,j, moved, screenType;
+	String parentTag,cardText;
+	String id, description, productName, price, currency, thumb, cardsInPack, category;
+	int i, moved;
+	bool list, left, right, emp;
 
 	Feed *feed;
-
-	void refreshData();
+	ProductVector products;
+	Product *product;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -56,4 +60,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_DETAILSCREEN_H_
+#endif	//_SHOPPRODUCTSCREEN_H_*/

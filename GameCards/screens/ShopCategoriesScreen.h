@@ -1,47 +1,48 @@
-#ifndef _DETAILSCREEN_H_
-#define _DETAILSCREEN_H_
+#ifndef _SHOPCATEGORIESSCREEN_H_
+#define _SHOPCATEGORIESSCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/EditBox.h>
+#include <MAUI/Label.h>
 
-#include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopCategoriesScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType);
-	~DetailScreen();
+	ShopCategoriesScreen(Screen *previous, Feed *feed);
+	~ShopCategoriesScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-	void show();
-	void hide();
+	void drawList();
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+	void refresh();
 
-	enum screenType {PROFILE, BALANCE};
 private:
+
 	Screen *previous;
-	EditBox *editBox;
-	Layout *mainLayout;
-	Label *label, *balanceLabel;
-	KineticListBox *listBox;
-	bool list, left, right;
+	Screen *next;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, handle, email;
-	int i,j, moved, screenType;
+	String parentTag;
+	String temp,temp1,error_msg;
+	int i, moved;
+	bool list, left, right, empt;
+
+	Layout *mainLayout;
+	KineticListBox *listBox;
+	Label *notice, *label;
 
 	Feed *feed;
-
-	void refreshData();
+	Map<String,String> categories;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -56,4 +57,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_DETAILSCREEN_H_
+#endif	//_ALBUMLOADSCREEN_H_*/

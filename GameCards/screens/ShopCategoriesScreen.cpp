@@ -1,13 +1,13 @@
 #include <conprint.h>
 
-#include "AlbumLoadScreen.h"
-#include "AlbumViewScreen.h"
+#include "ShopCategoriesScreen.h"
+#include "ShopProductsScreen.h"
 #include "../utils/Util.h"
 
-void AlbumLoadScreen::refresh() {
+void ShopCategoriesScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
@@ -17,7 +17,7 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
+ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
@@ -28,10 +28,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	notice->setCaption(checking_albums);
-	album = this->feed->getAlbum();
-	drawList();
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	notice->setCaption(checking_categories);
+
+	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
@@ -41,11 +40,10 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	}
 	this->setMain(mainLayout);
 
-	orig = this;
 	moved = 0;
 }
 
-AlbumLoadScreen::~AlbumLoadScreen() {
+ShopCategoriesScreen::~ShopCategoriesScreen() {
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
 
@@ -69,18 +67,18 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	error_msg="";
 }
 
-void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
+void ShopCategoriesScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
 }
 
-void AlbumLoadScreen::pointerMoveEvent(MAPoint2d point)
+void ShopCategoriesScreen::pointerMoveEvent(MAPoint2d point)
 {
 	moved++;
     locateItem(point);
 }
 
-void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
+void ShopCategoriesScreen::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
 		if (right) {
@@ -94,12 +92,8 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 	moved=0;
 }
 
-void AlbumLoadScreen::locateItem(MAPoint2d point)
+void ShopCategoriesScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
-	}
-
 	list = false;
 	left = false;
 	right = false;
@@ -110,7 +104,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -130,17 +123,16 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	}
 }
 
-void AlbumLoadScreen::drawList() {
+void ShopCategoriesScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
-	Vector<String> display = album->getNames();
-	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
-		label = createSubLabel(itr->c_str());
+	for(Map<String, String>::Iterator categoryIter = categories.begin(); categoryIter != categories.end(); categoryIter++) {
+		label = createSubLabel(categoryIter->first);
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
 
-	if (album->size() >= 1) {
+	if (categories.size() >= 1) {
 		listBox->setSelectedIndex(0);
 	} else {
 		empt = true;
@@ -150,7 +142,7 @@ void AlbumLoadScreen::drawList() {
 	}
 }
 
-void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
+void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
@@ -158,17 +150,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
-void AlbumLoadScreen::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
-	Screen::show();
-}
-
-void AlbumLoadScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
-	Screen::hide();
-}
-
-void AlbumLoadScreen::keyPressEvent(int keyCode) {
+void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 
 	switch(keyCode) {
@@ -184,18 +166,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
-				String val= (album->getId(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
+				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+				String category = categories.find(selectedCaption)->second.c_str();
 				if (next != NULL) {
 					delete next;
 				}
-				next = new AlbumViewScreen(this, feed, val);
+				next = new ShopProductsScreen(this, feed, category);
 				next->show();
 			}
 			break;
 	}
 }
 
-void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
@@ -205,9 +188,9 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	}
 }
 
-void AlbumLoadScreen::connReadFinished(Connection* conn, int result) {}
+void ShopCategoriesScreen::connReadFinished(Connection* conn, int result) {}
 
-void AlbumLoadScreen::xcConnError(int code) {
+void ShopCategoriesScreen::xcConnError(int code) {
 	if (code == -6) {
 		return;
 	} else {
@@ -215,22 +198,19 @@ void AlbumLoadScreen::xcConnError(int code) {
 	}
 }
 
-void AlbumLoadScreen::mtxEncoding(const char* ) {
+void ShopCategoriesScreen::mtxEncoding(const char* ) {
 }
 
-void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_albumdone)) {
-		album->clearAll();
-	}
+void ShopCategoriesScreen::mtxTagStart(const char* name, int len) {
 	parentTag = name;
 }
 
-void AlbumLoadScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+void ShopCategoriesScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
-void AlbumLoadScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), xml_albumdone)) {
-		album->clearAll();
+void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
+	if (!strcmp(parentTag.c_str(), xml_cardcategories)) {
+		categories.clear();
 	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
@@ -240,16 +220,14 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
-void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
+void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_albumname)) {
-		notice->setCaption("");
-		album->addAlbum(temp1.c_str(), temp.c_str());
+		categories.insert(temp1, temp);
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_albumdone)) {
-		notice->setCaption("");
+	} else if (!strcmp(name, xml_cardcategories)) {
+		notice->setCaption(choose_category);
 		drawList();
-		saveData(ALBUM, album->getAll().c_str());
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
@@ -257,14 +235,11 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void AlbumLoadScreen::mtxParseError() {
+void ShopCategoriesScreen::mtxParseError() {
 }
 
-void AlbumLoadScreen::mtxEmptyTagEnd() {
+void ShopCategoriesScreen::mtxEmptyTagEnd() {
 }
 
-void AlbumLoadScreen::mtxTagStartEnd() {
-}
-int AlbumLoadScreen::getCount() {
-	return size;
+void ShopCategoriesScreen::mtxTagStartEnd() {
 }

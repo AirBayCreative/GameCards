@@ -1,52 +1,55 @@
 #include "DetailScreen.h"
 #include "../utils/Util.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed) {
+DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	mainLayout = createMainLayout(back, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	switch (screenType) {
-		case 0:
+		case PROFILE:
 			//USERNAME
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel("");
-			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontWhite, true, false, 45);
-			editBox->setDrawBackground(false);
-			label->addWidgetListener(this);
+			label = createLabel(feed->getUsername());
+			label->setVerticalAlignment(Label::VA_CENTER);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontWhite, true, false, 45);
+			//editBox->setDrawBackground(false);
+			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//EMAIL
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel("");
-			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontWhite, true, false, 45);
-			editBox->setDrawBackground(false);
-			label->addWidgetListener(this);
+			label = createLabel(feed->getEmail());
+			label->setVerticalAlignment(Label::VA_CENTER);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontWhite, true, false, 45);
+			//editBox->setDrawBackground(false);
+			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//HANDLE
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel("");
-			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getHandle(), 0, gFontWhite, true, false, 45);
-			editBox->setDrawBackground(false);
-			label->addWidgetListener(this);
+			label = createLabel(feed->getHandle());
+			label->setVerticalAlignment(Label::VA_CENTER);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getHandle(), 0, gFontWhite, true, false, 45);
+			//editBox->setDrawBackground(false);
+			//label->addWidgetListener(this);
 			listBox->add(label);
 			break;
-		case 1:
+		case BALANCE:
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontWhite);
 			listBox->add(label);
 
-			label = createLabel("");
-			editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontWhite, true, false, 45);
-			editBox->setDrawBackground(false);
-			editBox->setEnabled(false);
-			label->addWidgetListener(this);
-			listBox->add(label);
+			balanceLabel = createLabel(feed->getCredits());
+			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontWhite, true, false, 45);
+			//editBox->setDrawBackground(false);
+			//label->addWidgetListener(this);
+			listBox->add(balanceLabel);
 			break;
 	}
 
@@ -125,7 +128,6 @@ void DetailScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	//((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;
         }
     }
@@ -190,7 +192,6 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void DetailScreen::connReadFinished(Connection* conn, int result) {}
 
 void DetailScreen::xcConnError(int code) {
-	delete &xmlConn;
 }
 
 void DetailScreen::mtxEncoding(const char* ) {}
@@ -226,6 +227,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setUnsuccessful(success);
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
+
+		refreshData();
 	} else if(!strcmp(name, xml_error)) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
@@ -244,4 +247,14 @@ void DetailScreen::mtxEmptyTagEnd() {
 }
 
 void DetailScreen::mtxTagStartEnd() {
+}
+
+void DetailScreen::refreshData() {
+	switch (screenType) {
+		case PROFILE:
+			break;
+		case BALANCE:
+			balanceLabel->setCaption(feed->getCredits());
+			break;
+	}
 }
