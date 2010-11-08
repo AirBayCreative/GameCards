@@ -13,6 +13,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice->setDrawBackground(true);
 	notice->setCaption(checking_products);
 
 	mImageCache = new ImageCache();

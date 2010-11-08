@@ -7,13 +7,16 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
+#include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
+#include "../utils/Card.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopPurchaseScreen : public Screen, WidgetListener {
+class ShopPurchaseScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product);
 	~ShopPurchaseScreen();
@@ -25,15 +28,38 @@ public:
 private:
 	Feed *feed;
 	Layout *layout;
-	ListBox* listBox;
-	Label *lbl;
+	KineticListBox* listBox;
+	Label *lbl, *notice;
 	Screen *next;
 	Screen *previous;
-	Product *product;
-	bool list, left, right, canPurchase;
+	Image *imge;
 
-	String parentTag,notice;
+	Product *product;
+	Card *card;
+
+	bool list, left, right, canPurchase, purchased, flip;
+
+	HttpConnection mHttp;
+	XmlConnection xmlConn;
+
+	String parentTag;
 	String temp,temp1,error_msg;
+	String id, description, quality, quantity, urlfront, urlback;
+	int height, moved;
+
+	void drawPostPurchaseScreen();
+
+	void httpFinished(MAUtil::HttpConnection*, int);
+	void connReadFinished(Connection*, int);
+	void xcConnError(int code);
+	void mtxEncoding(const char*);
+	void mtxTagStart(const char*, int);
+	void mtxTagAttr(const char*, const char*);
+	void mtxTagData(const char*, int);
+	void mtxTagEnd(const char*, int);
+	void mtxParseError();
+	void mtxEmptyTagEnd();
+	void mtxTagStartEnd();
 };
 
 #endif

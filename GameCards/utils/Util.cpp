@@ -122,7 +122,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	image = new Image(0, 0, scrWidth, imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
 
 	label->setAutoSizeY();
@@ -146,7 +146,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left) {
+Layout* createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 	softKeys = createSoftKeyBar(42, left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
@@ -156,8 +156,15 @@ Layout* createImageLayout(const char *left) {
 
 	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
-	ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-	listBox->add(mBox);
+	if (useKinetic) {
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
+				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+		listBox->add(mKineticBox);
+	}
+	else {
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		listBox->add(mBox);
+	}
 	setPadding(listBox);
 
 	imgSize = -1;
@@ -166,11 +173,19 @@ Layout* createImageLayout(const char *left) {
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left, const char *right, const char *centre) {
+Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 	softKeys = createSoftKeyBar(42, left, right, centre);
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-	setPadding(listBox);
+
+	if (useKinetic) {
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
+				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+		setPadding(mKineticBox);
+	}
+	else {
+		ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+		setPadding(listBox);
+	}
 
 	mainLayout->add(softKeys);
 
