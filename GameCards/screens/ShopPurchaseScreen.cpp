@@ -28,16 +28,14 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 		layout = createMainLayout(back, "", true);
 		confirmLabel += not_enough_credits;
 	}
-	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	//notice = (Label*) layout->getChildren()[0]->getChildren()[1];
-	//notice->setCaption(confirmLabel);
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	this->setMain(layout);
 
@@ -45,17 +43,13 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	flip = true;
 	height = 0;
 	moved = 0;
-
-	//for testing. rem!
-	//purchased = true;
-	//drawPostPurchaseScreen();
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
 	layout->getChildren().clear();
-	listBox->getChildren().clear();
+	kinListBox->getChildren().clear();
 
-	delete listBox;
+	delete kinListBox;
 	delete layout;
 	delete image;
 	if (softKeys != NULL) {
@@ -70,48 +64,35 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 }
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
-	/*card = new Card();
-	card->setId("18");
-	card->setQuantity("");
-	card->setText("");
-	card->setFront("http://www.mytcg.net/images/cards/18_front.jpg");
-	card->setBack("http://www.mytcg.net/images/cards/18_back.jpg");
-	card->setValue("");*/
-	lprintfln("drawing post purchase screen");
-
-	listBox->getChildren().clear();
+	kinListBox->getChildren().clear();
 	layout->getChildren().clear();
 
 	layout = createImageLayout("", done, "", true);
-	listBox = (KineticListBox*)layout->getChildren()[0];
+	kinListBox = (KineticListBox*)layout->getChildren()[0];
 
-	height = listBox->getHeight()-70;
+	height = kinListBox->getHeight()-70;
 	if (card != NULL) {
-		height = scrHeight - 70 - 42 - PADDING*2;
+		height = kinListBox->getHeight();
 	}
 
-	//notice = (Label*) layout->getChildren()[0]->getChildren()[1];
-	//notice->setCaption(purchaseComplete);
-	lbl = new Label(0,0, scrWidth-PADDING*2, height, NULL, purchaseComplete, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, purchaseComplete, 0, gFontGrey);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	lbl->setAutoSizeY(true);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
-	imge = new Image(PADDING, 0, scrWidth-PADDING*2, height, listBox, true, true, RES_LOADING);
-	imge->setPaddingLeft(PADDING);
+	imge = new Image(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
 	this->setMain(layout);
-	listBox->requestRepaint();
 	if (card != NULL) {
-		retrieveFront(imge, card, height, new ImageCache());
+		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
 	}
 
 	maUpdateScreen();
 
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 
 	this->show();
 }
@@ -129,10 +110,6 @@ void ShopPurchaseScreen::pointerMoveEvent(MAPoint2d point)
 
 void ShopPurchaseScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	lprintfln("moved: %d",moved);
-	lprintfln("right: %s",right?"true":"false");
-	lprintfln("left: %s",left?"true":"false");
-	lprintfln("list: %s",list?"true":"false");
 	if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
@@ -177,7 +154,6 @@ void ShopPurchaseScreen::locateItem(MAPoint2d point)
 void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-			lprintfln("purchased: %s", purchased?"true":"false");
 			if (purchased) {
 				if (imge->getResource() != RES_LOADING) {
 					maDestroyObject(imge->getResource());
@@ -187,7 +163,6 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				imge->requestRepaint();
 				maUpdateScreen();
 
-				lprintfln("flip: %s", flip?"true":"false");
 				if (flip) {
 					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
 				}
@@ -201,7 +176,11 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
 
-				int res = mHttp.create((BUYPRODUCT + product->getId()).c_str(), HTTP_GET);
+				char *url = new char[100];
+				memset(url,'\0',100);
+				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(), product->getId().c_str(), scrHeight, scrWidth);
+
+				int res = mHttp.create(url, HTTP_GET);
 				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 				if(res < 0) {
@@ -221,10 +200,10 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 	}
 }

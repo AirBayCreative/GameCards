@@ -179,7 +179,7 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
-				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, true);
 		setPadding(mKineticBox);
 	}
 	else {

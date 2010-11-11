@@ -28,8 +28,8 @@ public:
 private:
 	Feed *feed;
 	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *notice;
+	KineticListBox* kinListBox;
+	Label *lbl;
 	Screen *next;
 	Screen *previous;
 	Image *imge;
