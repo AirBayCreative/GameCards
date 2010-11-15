@@ -14,7 +14,6 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 	listBox->add(label);
 
-
 	label = createEditLabel("");
 	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
@@ -88,12 +87,11 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxPass);
 			if (!((scrHeight - (editBoxPass->getPosition().y + editBoxPass->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
-				dispY = 0;
+				dispY = 70;
 			}
 		}
 		keyboard->setPosition(0, dispY);
 		keyboard->show();
-		//keyboard->drawWidget();
 	}
 	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER))) {
 		keyboard->deAttachEditBox();

@@ -382,6 +382,10 @@ void MobKeyboard::deAttachEditBox()
 	m_attachedWidget = NULL;
 }
 
+Widget* MobKeyboard::getAttachedWidget() {
+	return m_attachedWidget;
+}
+
 double MobKeyboard::getHorzScale() const
 {
 	return (double) getWidth() / (double) VIRTUAL_KEYBOARD_WIDTH;

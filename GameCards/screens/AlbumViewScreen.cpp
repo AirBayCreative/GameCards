@@ -9,6 +9,8 @@
 #include "TradeOptionsScreen.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
+	emp = true;
+
 	next = new Screen();
 	error_msg = "";
 	if (feed->getTouchEnabled()) {
@@ -38,8 +40,6 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	this->setMain(mainLayout);
 
 	moved=0;
-
-	emp = true;
 }
 
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
@@ -147,6 +147,7 @@ void AlbumViewScreen::drawList() {
 		label->setAutoSizeY();
 		label->setMultiLine(true);
 	}
+
 	if (cards.size() >= 1) {
 		emp = false;
 		listBox->setSelectedIndex(0);
