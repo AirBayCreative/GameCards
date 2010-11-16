@@ -31,6 +31,7 @@ public:
 	static int getDesignHeight() {return 135;};
 	void attachWidget(Widget* a_widget);
 	void deAttachEditBox();
+	Widget* getAttachedWidget();
 	void setActiveLayout(const String& a_layoutName);
 	void setActiveLayout(const String& a_language, MobKeyboard::LayoutType a_layoutType);
 	void toggleShift();

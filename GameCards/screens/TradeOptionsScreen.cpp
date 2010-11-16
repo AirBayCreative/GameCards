@@ -1,9 +1,9 @@
 #include "TradeOptionsScreen.h"
 #include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "AuctionCreateScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
-#include "ImageScreen.h"
 
 TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {
 	menu = new Screen();
@@ -105,7 +105,7 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 				if (menu != NULL) {
 					delete menu;
 				}
-				menu = new ImageScreen(this,RES_SOON,feed,false,NULL);
+				menu = new AuctionCreateScreen(this, feed, card);
 				menu->show();
 			} else if(index == 1) {
 				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number

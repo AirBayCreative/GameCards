@@ -31,8 +31,8 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 Layout* createNoHeaderLayout();
 Layout* createMainLayout(const char *left, const char *right, bool useKinetic = false);
 Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
-Layout* createImageLayout(const char *left);
-Layout* createImageLayout(const char *left, const char *right, const char *centre);
+Layout* createImageLayout(const char *left, bool useKinetic = false);
+Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
 char* getData(const char* storefile);
 void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
@@ -85,8 +85,12 @@ static String CARDS = URL+"?cardsincategory=";
 static String TRADE = URL+"?tradecard=1";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
+//use for making a purchase
+static String BUYPRODUCT = URL+"?buyproduct=";
 //Check if there is an update available
 static String UPDATE = URL+"?update=" + version_number;
+//create an auction
+static String CREATE_AUCTION = URL+"?createauction=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -187,8 +191,10 @@ static const char* trade_by_detail = "detail";
 static const char* not_enough_credits = "You do not have enough credits to make that purchase.";
 static const char* sure_you_want_to_purchase = "Are you sure you want to purchase a ";
 static const char* priceFor = " for ";
+static const char* purchaseComplete = "Purchase successful! The cards have been added to your album, and you received the following premium card:";
 static const char* purchase = "Purchase";
 static const char* categoryid = "categoryId";
+static const char* purchasing = "Purchasing...";
 static const char* xml_product_done = "categoryproducts";
 static const char* xml_productid = "productid";
 static const char* xml_productname = "productname";
@@ -197,5 +203,21 @@ static const char* xml_productprice = "productprice";
 static const char* xml_productcurrency = "productcurrency";
 static const char* xml_productnumcards = "productnumcards";
 static const char* xml_productthumb = "productthumb";
+static const char* xml_id = "id";
+static const char* xml_count = "count";
+static const char* xml_quality = "quality";
+static const char* xml_urlfront = "urlfront";
+static const char* xml_urlback = "urlback";
+static const char* xml_card = "card";
+//Auctions
+static const char* opening_bid = "Opening bid";
+static const char* buy_now_price = "Buy now price";
+static const char* auction_duration = "Auction duration(days)";
+static const char* auction_created = "Auction created!";
+static const char* auction_failed = "Error creating auction.";
+static const char* auction_created_successfully_result = "1";
+static const char* xml_opening = "bid";
+static const char* xml_buyout = "buynow";
+static const char* xml_days = "days";
 
 #endif	//_UTIL_H_

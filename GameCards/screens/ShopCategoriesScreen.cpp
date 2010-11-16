@@ -28,6 +28,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
+	notice->setDrawBackground(true);
 	notice->setCaption(checking_categories);
 
 	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
@@ -166,6 +167,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
+				orig = this;
 				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
 				String category = categories.find(selectedCaption)->second.c_str();
 				if (next != NULL) {
