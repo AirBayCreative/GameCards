@@ -3,6 +3,7 @@
 #include "TradeFriendDetailScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "AuctionCreateScreen.h"
+#include "AuctionListScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -146,7 +147,11 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 						menu->show();
 					}
 					else if (index == 1) {
-
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
+						menu->show();
 					}
 					break;
 			}

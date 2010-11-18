@@ -92,6 +92,10 @@ static String BUYPRODUCT = URL+"?buyproduct=";
 static String UPDATE = URL+"?update=" + version_number;
 //create an auction
 static String CREATE_AUCTION = URL+"?createauction=1";
+//get all auctions in a category
+static String CATEGORY_AUCTION = URL+"?categoryauction=1";
+//get all auctions for a user
+static String USER_AUCTION = URL+"?userauction=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -217,10 +221,20 @@ static const char* auction_duration = "Auction duration(days)";
 static const char* auction_created = "Auction created!";
 static const char* auction_failed = "Error creating auction.";
 static const char* auction_created_successfully_result = "1";
+static const char* my_auctions = "My Auctions";
+static const char* all_auctions = "All Auctions";
+static const char* bidOrBuy = "Bid/Buy Now";
+static const char* checking_auctions = "Getting auctions...";
 static const char* xml_opening = "bid";
 static const char* xml_buyout = "buynow";
 static const char* xml_days = "days";
-static const char* my_auctions = "My Auctions";
-static const char* all_auctions = "All Auctions";
+static const char* xml_opening_bid = "openingbid";
+static const char* xml_price = "price";
+static const char* xml_user_card_id = "usercardid";
+static const char* xml_auction_card_id = "auctioncardid";
+static const char* xml_buy_now_price = "buynowprice";
+static const char* xml_auctionsdone = "auctionsincategory";
+static const char* xml_end_date = "endDate";
+static const char* xml_last_bid_user = "lastBidUser";
 
 #endif	//_UTIL_H_

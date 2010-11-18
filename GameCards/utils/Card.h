@@ -33,13 +33,16 @@ public:
 	String getValue();
 	void setValue(const char *value);
 
+	String getFullDesc();
+	void setFullDesc(const char *fullDesc);
+
 	bool getLoaded();
 	void setLoaded(bool load);
 
 	String getAll();
 	void setAll(const char*);
 private:
-	String quantity, text, thumb, front, back, id, rate, value;
+	String quantity, text, thumb, front, back, id, rate, value, fullDesc;
 	bool loaded;
 };
 

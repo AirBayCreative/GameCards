@@ -2,7 +2,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, Product *product) : previous(previous), feed(feed), product(product) {
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
 	mainLayout = createMainLayout(back, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
@@ -15,14 +15,30 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, Product *prod
 
 	Image *tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-	retrieveProductThumb(tempImage, product, mImageCache);
+	String nameDesc = "";
+	String fullDesc = "";
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, product->getName(), 0, gFontWhite);
+	switch (screenType) {
+		case ST_PRODUCT:
+			retrieveProductThumb(tempImage, product, mImageCache);
+
+			nameDesc = product->getName();
+			fullDesc = product->getDetailsString();
+			break;
+		case ST_AUCTION:
+			retrieveThumb(tempImage, card, mImageCache);
+
+			nameDesc = card->getText();
+			fullDesc = card->getFullDesc();
+			break;
+	}
+
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontWhite);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, product->getDetailsString(), 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontWhite);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);

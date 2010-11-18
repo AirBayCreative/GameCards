@@ -10,6 +10,7 @@ Card::Card() {
 	id = "";
 	rate = "";
 	value = "";
+	fullDesc = "";
 	loaded = false;
 }
 
@@ -81,6 +82,14 @@ String Card::getValue() {
 
 void Card::setValue(const char *valu) {
 	value = valu;
+}
+
+String Card::getFullDesc() {
+	return fullDesc;
+}
+
+void Card::setFullDesc(const char *f) {
+	fullDesc = f;
 }
 
 String Card::getAll() {

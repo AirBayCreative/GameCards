@@ -195,7 +195,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, &(products[listBox->getSelectedIndex()]));
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, &(products[listBox->getSelectedIndex()]));
 				next->show();
 			}
 			break;

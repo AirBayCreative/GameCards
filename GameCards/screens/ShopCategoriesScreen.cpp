@@ -2,6 +2,7 @@
 
 #include "ShopCategoriesScreen.h"
 #include "ShopProductsScreen.h"
+#include "AuctionListScreen.h"
 #include "../utils/Util.h"
 
 void ShopCategoriesScreen::refresh() {
@@ -180,6 +181,16 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_AUCTIONS:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+						}
+						next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);
+						next->show();
+					}
 					break;
 			}
 			break;

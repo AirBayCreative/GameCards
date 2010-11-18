@@ -6,6 +6,7 @@
 
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
+#include "../utils/Card.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 
@@ -14,7 +15,7 @@ using namespace MAUtil;
 
 class ShopDetailsScreen : public Screen, WidgetListener {
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, Product *product);
+	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product = NULL, Card *card = NULL);
 	~ShopDetailsScreen();
 	void keyPressEvent(int keyCode);
 	void pointerPressEvent(MAPoint2d point);
@@ -22,6 +23,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
+	enum screenTypes {ST_PRODUCT, ST_AUCTION};
 private:
 	Screen *previous;
 	Layout *mainLayout;
@@ -31,9 +33,10 @@ private:
 
 	bool list, left, right;
 
-	int moved;
+	int moved, screenType;
 
 	Product *product;
+	Card *card;
 	Feed *feed;
 };
 

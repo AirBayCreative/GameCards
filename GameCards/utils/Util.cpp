@@ -287,7 +287,25 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 	if (card == NULL) {
 		return;
 	}
-	if (card->getThumb().find("http://") == -1) {
+
+	MAHandle store = maOpenStore((card->getId()+".sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT)
+	{
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 0);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	/*if (card->getThumb().find("http://") == -1) {
 		MAHandle cacheimage = maCreatePlaceholder();
 		MAHandle store = maOpenStore(card->getThumb().c_str(), -1);
 		if(store != STERR_NONEXISTENT)
@@ -301,7 +319,7 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 		}
 		cacheimage = -1;
 		store = -1;
-	} else {
+	}*/ else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
