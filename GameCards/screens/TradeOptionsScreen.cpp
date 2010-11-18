@@ -1,20 +1,35 @@
 #include "TradeOptionsScreen.h"
 #include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "ShopCategoriesScreen.h"
 #include "AuctionCreateScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card) {
+TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card, int screenType) :previous(previous), feed(feed), card(card), screenType(screenType) {
 	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-	lbl = createSubLabel(sendToAuctionlbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(sendToFriendlbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
+
+	switch(screenType) {
+		case ST_TRADE_OPTIONS:
+			lbl = createSubLabel(sendToAuctionlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(sendToFriendlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_AUCTION_OPTIONS:
+			lbl = createSubLabel(all_auctions);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(my_auctions);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+	}
+
 	listBox->setSelectedIndex(0);
 
 	this->setMain(layout);
@@ -101,23 +116,39 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			index = listBox->getSelectedIndex();
-			if(index == 0) {
-				if (menu != NULL) {
-					delete menu;
-				}
-				menu = new AuctionCreateScreen(this, feed, card);
-				menu->show();
-			} else if(index == 1) {
-				//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
-				//menu = new TradeFriendMethodScreen(this, feed, card);
-				//menu->show();
+			switch(screenType) {
+				case ST_TRADE_OPTIONS:
+					if(index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AuctionCreateScreen(this, feed, card);
+						menu->show();
+					} else if(index == 1) {
+						//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
+						//menu = new TradeFriendMethodScreen(this, feed, card);
+						//menu->show();
 
-				//this is just temporary. The full solution is the commented one above.
-				if (menu != NULL) {
-					delete menu;
-				}
-				menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
-				menu->show();
+						//this is just temporary. The full solution is the commented one above.
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
+						menu->show();
+					}
+					break;
+				case ST_AUCTION_OPTIONS:
+					if(index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
+						menu->show();
+					}
+					else if (index == 1) {
+
+					}
+					break;
 			}
 			break;
 		case MAK_SOFTLEFT:

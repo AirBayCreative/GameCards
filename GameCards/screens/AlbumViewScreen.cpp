@@ -240,7 +240,8 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new TradeOptionsScreen(this, feed, &cards.find(index[selected])->second);
+				next = new TradeOptionsScreen(this, feed,
+						&cards.find(index[selected])->second, TradeOptionsScreen::ST_TRADE_OPTIONS);
 				next->show();
 			}
 			break;

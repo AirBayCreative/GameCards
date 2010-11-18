@@ -134,7 +134,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new TradeOptionsScreen(this, feed, card);
+				next = new TradeOptionsScreen(this, feed, card,
+						TradeOptionsScreen::ST_TRADE_OPTIONS);
 				next->show();
 			}
 			break;

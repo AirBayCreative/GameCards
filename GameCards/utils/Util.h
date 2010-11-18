@@ -33,6 +33,7 @@ Layout* createMainLayout(const char *left, const char *right, bool useKinetic = 
 Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
 Layout* createImageLayout(const char *left, bool useKinetic = false);
 Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
+void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout);
 char* getData(const char* storefile);
 void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
@@ -219,5 +220,7 @@ static const char* auction_created_successfully_result = "1";
 static const char* xml_opening = "bid";
 static const char* xml_buyout = "buynow";
 static const char* xml_days = "days";
+static const char* my_auctions = "My Auctions";
+static const char* all_auctions = "All Auctions";
 
 #endif	//_UTIL_H_

@@ -192,6 +192,39 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 	return mainLayout;
 }
 
+void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
+	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
+
+	int height = 42;
+
+	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	if (strlen(left) != 0) {
+		label->setSkin(gSkinButton);
+	}
+	layout->add(label);
+
+	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	if (strlen(centre) != 0) {
+		label->setSkin(gSkinButton);
+	}
+	layout->add(label);
+
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	if (strlen(right) != 0) {
+		label->setSkin(gSkinButton);
+	}
+	layout->add(label);
+
+	mainLayout->add(layout);
+}
+
 void saveData(const char* storefile, const char *value) {
 
 	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);

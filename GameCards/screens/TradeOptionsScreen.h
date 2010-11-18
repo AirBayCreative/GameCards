@@ -15,7 +15,7 @@ using namespace MAUtil;
 
 class TradeOptionsScreen : public Screen, WidgetListener {
 public:
-	TradeOptionsScreen(Screen *previous, Feed *feed, Card *card);
+	TradeOptionsScreen(Screen *previous, Feed *feed, Card *card, int screenType);
 	~TradeOptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -23,6 +23,8 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+
+	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;
@@ -32,7 +34,7 @@ private:
 	Screen *previous;
 	Card *card;
 	bool list, left, right;
-	int index;
+	int index, screenType;
 };
 
 #endif

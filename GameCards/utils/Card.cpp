@@ -1,6 +1,18 @@
 #include "Card.h"
 #include "Util.h"
 
+Card::Card() {
+	quantity = "";
+	text = "";
+	thumb = "";
+	front = "";
+	back = "";
+	id = "";
+	rate = "";
+	value = "";
+	loaded = false;
+}
+
 void Card::setLoaded(bool load) {
 	loaded = load;
 }

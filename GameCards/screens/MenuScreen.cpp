@@ -6,6 +6,7 @@
 #include "ImageScreen.h"
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "TradeOptionsScreen.h"
 #include "../utils/MAHeaders.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
@@ -141,11 +142,11 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 1) {
 				delete menu;
-				menu = new ShopCategoriesScreen(this, feed);
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new ImageScreen(this, RES_SOON, feed, false, NULL);
+				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;

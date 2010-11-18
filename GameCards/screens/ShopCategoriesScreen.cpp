@@ -17,7 +17,7 @@ void ShopCategoriesScreen::refresh() {
 	}
 }
 
-ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
+ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
@@ -166,15 +166,21 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (!empt) {
-				orig = this;
-				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-				String category = categories.find(selectedCaption)->second.c_str();
-				if (next != NULL) {
-					delete next;
-				}
-				next = new ShopProductsScreen(this, feed, category);
-				next->show();
+			switch (screenType) {
+				case ST_SHOP:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+						}
+						next = new ShopProductsScreen(this, feed, category);
+						next->show();
+					}
+					break;
+				case ST_AUCTIONS:
+					break;
 			}
 			break;
 	}

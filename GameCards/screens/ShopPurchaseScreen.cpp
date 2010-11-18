@@ -65,10 +65,14 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	kinListBox->getChildren().clear();
-	layout->getChildren().clear();
 
-	layout = createImageLayout("", done, "", true);
-	kinListBox = (KineticListBox*)layout->getChildren()[0];
+	layout->getChildren()[0]->getChildren().remove(1);
+	layout->getChildren()[0]->getChildren().remove(0);
+
+	kinListBox->setPosition(0, 0);
+	kinListBox->setHeight(scrHeight - 42);
+
+	updateSoftKeyLayout("", done, "",layout);
 
 	height = kinListBox->getHeight()-70;
 	if (card != NULL) {
@@ -85,16 +89,13 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 
 	imge = new Image(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
-	this->setMain(layout);
 	if (card != NULL) {
 		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
 	}
 
-	maUpdateScreen();
-
 	kinListBox->setSelectedIndex(0);
 
-	this->show();
+	kinListBox->requestRepaint();
 }
 
 void ShopPurchaseScreen::pointerPressEvent(MAPoint2d point)
@@ -259,6 +260,7 @@ void ShopPurchaseScreen::mtxTagEnd(const char* name, int len) {
 		card->setFront(urlfront.c_str());
 		card->setBack(urlback.c_str());
 		card->setValue(quality.c_str());
+
 		id = "";
 		quantity = "";
 		description = "";

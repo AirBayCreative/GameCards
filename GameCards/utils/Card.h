@@ -7,6 +7,8 @@ using namespace MAUtil;
 
 class Card  {
 public:
+	Card();
+
 	String getQuantity();
 	void setQuantity(const char *name);
 
