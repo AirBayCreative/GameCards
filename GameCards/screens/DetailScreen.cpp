@@ -55,17 +55,18 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 
 	int res = mHttp.create(USER.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 
 	if(res < 0) {
 
 	} else {
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption(checking_info);
+
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 
-	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-	label->setCaption(checking_info);
 	this->setMain(mainLayout);
 
 	moved = 0;

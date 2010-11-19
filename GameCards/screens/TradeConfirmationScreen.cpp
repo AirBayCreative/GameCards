@@ -117,26 +117,12 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 				//url.append("&sms=Yes", 8);
 				int res = mHttp.create(url, HTTP_GET);
 
-				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-
-				//printf("feed->getEncrypt().c_str(): %s", feed->getEncrypt().c_str());
-				//printf("card.getId().c_str(): %s", card.getId().c_str());
-
-				/*if (strcmp(method.c_str(), userlblNoColon)) {
-					mHttp.setRequestHeader(trade_by, by_username);
-				}
-				else if (strcmp(method.c_str(), emaillblNoColon)) {
-					mHttp.setRequestHeader(trade_by, by_email);
-				}
-				else if (strcmp(method.c_str(), phoneNumlbl)) {
-					mHttp.setRequestHeader(trade_by, by_phone_number);
-				}*/
-				/*mHttp.setRequestHeader(trade_cardid, card.getId().c_str());
-				mHttp.setRequestHeader(trade_by_detail, friendDetail.c_str());*/
 				if(res < 0) {
 
 				} else {
+					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 					mHttp.finish();
 				}
 			}

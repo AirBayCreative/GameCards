@@ -31,8 +31,10 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
-
+		hasConnection = false;
+		notice->setCaption("");
 	} else {
+		hasConnection = true;
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
@@ -236,7 +238,10 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			if (!emp) {
+			if (!emp && !hasConnection) {
+				notice->setCaption(no_connect);
+			}
+			else if (!emp) {
 				if (next != NULL) {
 					delete next;
 				}

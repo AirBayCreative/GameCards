@@ -9,17 +9,19 @@ void ShopCategoriesScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 	if(res < 0) {
 
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 }
 
 ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	next = new Screen();
+	label = NULL;
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
 	} else {
@@ -33,11 +35,12 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	notice->setCaption(checking_categories);
 
 	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
-
+		drawList();
+		notice->setCaption(no_connect);
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
@@ -60,7 +63,10 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 		delete softKeys;
 		softKeys = NULL;
 	}
-	delete label;
+	if (label != NULL) {
+		delete label;
+		label = NULL;
+	}
 	delete notice;
 	delete next;
 	parentTag="";

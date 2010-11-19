@@ -34,6 +34,9 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 
 	next = new Screen();
 
+	label = NULL;
+	tempImage = NULL;
+
 	mImageCache = new ImageCache();
 
 	switch (screenType) {
@@ -62,7 +65,8 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
-
+		notice->setCaption(no_connect);
+		drawList();
 	} else {
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
@@ -180,7 +184,6 @@ void AuctionListScreen::drawList() {
 AuctionListScreen::~AuctionListScreen() {
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
-
 	delete listBox;
 	delete mainLayout;
 	if (image != NULL) {
@@ -192,11 +195,17 @@ AuctionListScreen::~AuctionListScreen() {
 		delete softKeys;
 		softKeys = NULL;
 	}
-	delete label;
+	if (label != NULL) {
+		delete label;
+		label = NULL;
+	}
 	delete notice;
 	delete next;
 	delete mImageCache;
-	delete tempImage;
+	if (tempImage != NULL) {
+		delete tempImage;
+		tempImage = NULL;
+	}
 
 	parentTag="";
 	cardText="";

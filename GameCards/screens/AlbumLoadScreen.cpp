@@ -8,11 +8,12 @@ void AlbumLoadScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 	if(res < 0) {
 
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 }
@@ -28,15 +29,17 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	notice->setCaption(checking_albums);
 	album = this->feed->getAlbum();
 	drawList();
 	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 	if(res < 0) {
 
 	} else {
+		notice->setCaption(checking_albums);
+
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);

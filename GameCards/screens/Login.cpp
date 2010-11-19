@@ -165,12 +165,13 @@ void Login::keyPressEvent(int keyCode) {
 					feed->setUnsuccessful(truesz);
 					mHttp = HttpConnection(this);
 					int res = mHttp.create(USER.c_str(), HTTP_GET);
-					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 					if(res < 0) {
 						label->setCaption(no_connect);
 						label->setMultiLine(true);
 					} else {
+						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 						mHttp.finish();
 					}
 					conCatenation = "";

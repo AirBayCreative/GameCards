@@ -24,11 +24,13 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	mHttp = HttpConnection(this);
 
 	int res = mHttp.create(url, HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-	if(res < 0) {
 
+	if(res < 0) {
+		notice->setCaption(no_connect);
+		drawList();
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);

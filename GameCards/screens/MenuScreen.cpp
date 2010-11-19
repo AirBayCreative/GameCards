@@ -48,12 +48,11 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	//www.mytcg.net/_phone/update=version_number
 	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
 
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-
 	if(res < 0) {
 
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 

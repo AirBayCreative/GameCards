@@ -48,7 +48,7 @@ private:
 	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
 	int size, i, moved;
-	bool list, left, right, emp;
+	bool list, left, right, emp, hasConnection;
 
 	Feed *feed;
 	Albums album;
