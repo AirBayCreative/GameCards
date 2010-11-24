@@ -403,3 +403,13 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 		mImageCache->request(req1);
 	}
 }
+
+bool isNumeric(String isValid) {
+	const char* isValArr = isValid.c_str();
+	for (int i = 0; i < isValid.length(); i++) {
+		if (!isdigit(isValArr[i])) {
+			return false;
+		}
+	}
+	return true;
+}

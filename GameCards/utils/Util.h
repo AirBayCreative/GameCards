@@ -47,6 +47,7 @@ void returnImage(Image *img, MAHandle i, int height);
 void increase();
 void decrease();
 int getCount();
+bool isNumeric(String isValid);
 
 //UI Components
 extern Font *gFontGrey;
@@ -96,6 +97,10 @@ static String CREATE_AUCTION = URL+"?createauction=1";
 static String CATEGORY_AUCTION = URL+"?categoryauction=1";
 //get all auctions for a user
 static String USER_AUCTION = URL+"?userauction=1";
+//buyout an auction now
+static String BUY_AUCTION_NOW = URL+"?buyauctionnow=1";
+//bid on an auction
+static String AUCTION_BID = URL+"?auctionbid=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -200,6 +205,8 @@ static const char* purchaseComplete = "Purchase successful! The cards have been 
 static const char* purchase = "Purchase";
 static const char* categoryid = "categoryId";
 static const char* purchasing = "Purchasing...";
+static const char* buyout_failed = "Buyout failed.";
+static const char* buyout_success = "Buyout success.";
 static const char* xml_product_done = "categoryproducts";
 static const char* xml_productid = "productid";
 static const char* xml_productname = "productname";
@@ -223,8 +230,12 @@ static const char* auction_failed = "Error creating auction.";
 static const char* auction_created_successfully_result = "1";
 static const char* my_auctions = "My Auctions";
 static const char* all_auctions = "All Auctions";
-static const char* bidOrBuy = "Bid/Buy";
+static const char* bidOrBuy = "Bid or Buy";
 static const char* checking_auctions = "Getting auctions...";
+static const char* place_bid = "Place bid";
+static const char* buy_now = "Buy now";
+static const char* bid = "Bid";
+static const char* sure_you_want_to_buy_now = "Are you sure you want to buy out the auction of ";
 static const char* xml_opening = "bid";
 static const char* xml_buyout = "buynow";
 static const char* xml_days = "days";
@@ -236,5 +247,7 @@ static const char* xml_buy_now_price = "buynowprice";
 static const char* xml_auctionsdone = "auctionsincategory";
 static const char* xml_end_date = "endDate";
 static const char* xml_last_bid_user = "lastBidUser";
+static const char* xml_buyout_success = "1";
+static const char* xml_bid_success = "1";
 
 #endif	//_UTIL_H_

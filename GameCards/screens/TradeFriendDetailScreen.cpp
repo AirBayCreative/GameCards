@@ -87,7 +87,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point)
 		//keyboard->setPosition(0, 0);
 		keyboard->show();
 	}
-	else if (yClick < keyboardY || yClick > keyboardY + VIRTUAL_KEYBOARD_HEIGHT) {
+	else if (yClick < keyboardY || yClick > keyboardY + keyboard->getHeight()) {
 		keyboard->deAttachEditBox();
 		keyboard->hide();
 

@@ -186,16 +186,6 @@ void AuctionCreateScreen::validateInput() {
 	}
 }
 
-bool AuctionCreateScreen::isNumeric(String isValid) {
-	const char* isValArr = isValid.c_str();
-	for (int i = 0; i < isValid.length(); i++) {
-		if (!isdigit(isValArr[i])) {
-			return false;
-		}
-	}
-	return true;
-}
-
 void AuctionCreateScreen::setSelectedEditBox() {
 	editBoxOpening->setSelected(false);
 	editBoxBuyNow->setSelected(false);

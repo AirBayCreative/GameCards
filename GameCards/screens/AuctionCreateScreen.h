@@ -52,8 +52,6 @@ private:
 	void drawCreatedScreen();
 	void drawInvalidInputScreen();
 
-	bool isNumeric(String isValid);
-
 	String openingText, buyNowText, daysText, errorString, parentTag, createResult;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

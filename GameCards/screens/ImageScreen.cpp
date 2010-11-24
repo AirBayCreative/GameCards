@@ -4,7 +4,7 @@
 #include "../utils/Util.h"
 #include "TradeOptionsScreen.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card), feed(feed) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection) {
 	//TODO add touch
 	next = new Screen();
 	mainLayout = createImageLayout(back);
@@ -12,9 +12,9 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
 		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, tradelbl, "");
+			mainLayout =  createImageLayout(back, hasConnection?tradelbl:"", "");
 		} else {
-			mainLayout = createImageLayout(back, tradelbl, flipit);
+			mainLayout = createImageLayout(back, hasConnection?tradelbl:"", flipit);
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
@@ -130,7 +130,7 @@ ImageScreen::~ImageScreen() {
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
-			if (card != NULL) {
+			if (card != NULL && hasConnection) {
 				if (next != NULL) {
 					delete next;
 				}

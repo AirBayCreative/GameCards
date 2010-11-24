@@ -2,6 +2,7 @@
 
 #include "AuctionListScreen.h"
 #include "ShopDetailsScreen.h"
+#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -65,8 +66,9 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
-		notice->setCaption(no_connect);
 		drawList();
+
+		notice->setCaption(no_connect);
 	} else {
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
@@ -200,7 +202,9 @@ AuctionListScreen::~AuctionListScreen() {
 		label = NULL;
 	}
 	delete notice;
-	delete next;
+	if (next != NULL) {
+		delete next;
+	}
 	delete mImageCache;
 	if (tempImage != NULL) {
 		delete tempImage;
@@ -256,7 +260,15 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_SOFTRIGHT:
 			if (!emp) {
-
+				switch (screenType) {
+					case ST_CATEGORY:
+						if (next != NULL) {
+							delete next;
+						}
+						next = new BidOrBuyScreen(this, feed, &auctions[listBox->getSelectedIndex()]);
+						next->show();
+						break;
+				}
 			}
 			break;
 	}

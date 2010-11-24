@@ -1,5 +1,3 @@
-//#include "Header.h"
-//#include <mastdlib.h>
 #include <conprint.h>
 
 #include "AlbumViewScreen.h"
