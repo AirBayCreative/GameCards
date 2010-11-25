@@ -23,8 +23,10 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	mImageCache = new ImageCache();
 	loadFile();
 
-	char *url = new char[100];
-	memset(url,'\0',100);
+	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+	int urlLength = CARDS.length() + filename.length() + 15 + intlen(scrHeight) + intlen(scrWidth);
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
@@ -37,6 +39,7 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	delete url;
 	this->setMain(mainLayout);
 
 	moved=0;

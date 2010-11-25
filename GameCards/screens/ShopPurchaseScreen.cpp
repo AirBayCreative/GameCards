@@ -51,7 +51,10 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 
 	delete kinListBox;
 	delete layout;
-	delete image;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
 	if (softKeys != NULL) {
 		softKeys->getChildren().clear();
 		delete softKeys;
@@ -177,8 +180,9 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
 
-				char *url = new char[100];
-				memset(url,'\0',100);
+				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
+				char *url = new char[urlLength];
+				memset(url,'\0',urlLength);
 				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(), product->getId().c_str(), scrHeight, scrWidth);
 
 				int res = mHttp.create(url, HTTP_GET);
@@ -190,6 +194,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 					mHttp.finish();
 				}
+				delete url;
 			}
 			else if (purchased) {
 				next = orig;

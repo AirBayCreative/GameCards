@@ -34,6 +34,10 @@ BidOrBuyScreen::~BidOrBuyScreen() {
 		delete softKeys;
 		softKeys = NULL;
 	}
+	if (image != NULL) {
+			delete image;
+			image = NULL;
+	}
 	if (editBoxLabel != NULL) {
 		delete editBoxLabel;
 		editBoxLabel = NULL;
@@ -280,8 +284,11 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 				case SP_BUY_NOW:
 					if (!busy) {
 						busy = true;
-						char *url = new char[100];
-						memset(url,'\0',100);
+						//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
+						int urlLength = BUY_AUCTION_NOW.length() + feed->getUsername().length() + auction->getBuyNowPrice().length() +
+								auction->getAuctionCardId().length() + auction->getUserCardId().length() + 50;
+						char *url = new char[urlLength];
+						memset(url,'\0',urlLength);
 						sprintf(url, "%s&username=%s&buynowprice=%s&auctioncardid=%s&usercardid=%s", BUY_AUCTION_NOW.c_str(),
 								feed->getUsername().c_str(), auction->getBuyNowPrice().c_str(), auction->getAuctionCardId().c_str(), auction->getUserCardId().c_str());
 						int res = mHttp.create(url, HTTP_GET);
@@ -293,6 +300,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 							mHttp.finish();
 						}
+						delete url;
 					}
 					break;
 				case SP_POST_SUBMIT:
@@ -305,8 +313,11 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 
 						if (valid.length() == 0) {
 							busy = true;
-							char *url = new char[100];
-							memset(url,'\0',100);
+							//work out how long the url will be, the number is for the & and = symbols and hard coded params
+							int urlLength = AUCTION_BID.length() + feed->getUsername().length() +  bidEditBox->getCaption().length() +
+									auction->getAuctionCardId().length() + 30;
+							char *url = new char[urlLength];
+							memset(url,'\0',urlLength);
 							sprintf(url, "%s&username=%s&bid=%s&auctioncardid=%s", AUCTION_BID.c_str(),
 									feed->getUsername().c_str(), bidEditBox->getCaption().c_str(), auction->getAuctionCardId().c_str());
 							int res = mHttp.create(url, HTTP_GET);
@@ -318,6 +329,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
+							delete url;
 						}
 					}
 					break;

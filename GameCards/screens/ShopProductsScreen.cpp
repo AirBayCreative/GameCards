@@ -18,8 +18,9 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 
 	mImageCache = new ImageCache();
 
-	char *url = new char[100];
-	memset(url,'\0',100);
+	int urlLength = PRODUCTS.length() + strlen(categoryid) + category.length() + 2;
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
 	sprintf(url, "%s&%s=%s", PRODUCTS.c_str(), categoryid, category.c_str());
 	mHttp = HttpConnection(this);
 
@@ -33,6 +34,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	delete url;
 	this->setMain(mainLayout);
 
 	moved=0;

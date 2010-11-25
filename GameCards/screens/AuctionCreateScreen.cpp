@@ -26,10 +26,17 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 AuctionCreateScreen::~AuctionCreateScreen() {
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
 	delete listBox;
 	delete mainLayout;
-	delete image;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
 	delete softKeys;
 }
 
@@ -105,8 +112,11 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 						if (errorString.length() == 0) {
 							busy = true;
 
-							char *url = new char[100];
-							memset(url,'\0',100);
+							//work out how long the url will be, the 8 is for the & and = symbols
+							int urlLength = CREATE_AUCTION.length() + strlen(xml_cardid) + card->getId().length() + strlen(xml_opening) +
+									openingText.length() + strlen(xml_buyout) + buyNowText.length() + strlen(xml_days) + daysText.length() + 8;
+							char *url = new char[urlLength];
+							memset(url,'\0',urlLength);
 							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&%s=%s", CREATE_AUCTION.c_str(), xml_cardid, card->getId().c_str(),
 									xml_opening, openingText.c_str(), xml_buyout, buyNowText.c_str(), xml_days, daysText.c_str());
 							mHttp = HttpConnection(this);
@@ -119,6 +129,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
+							delete url;
 						}
 						else {
 							screenMode = ST_INVALID;

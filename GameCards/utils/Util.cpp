@@ -413,3 +413,12 @@ bool isNumeric(String isValid) {
 	}
 	return true;
 }
+
+int intlen(float start) {
+	int end = 0;
+	while(start >= 1) {
+		start = start/10;
+		end++;
+	}
+	return end;
+}

@@ -52,8 +52,18 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_auctions);
 
-	char *url = new char[100];
-	memset(url,'\0',100);
+	//work out how long the url will be, the number is for the & and = symbols as well as hard coded params
+	int urlLength = 0;
+	switch (screenType) {
+		case ST_CATEGORY:
+			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+			break;
+		case ST_USER:
+			urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+			break;
+	}
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
 	switch (screenType) {
 		case ST_CATEGORY:
 			sprintf(url, "%s&category_id=%s&heigth=%d&width=%d", CATEGORY_AUCTION.c_str(), categoryId.c_str(), scrHeight, scrWidth);
@@ -62,7 +72,6 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 			sprintf(url, "%s&username=%s&heigth=%d&width=%d", USER_AUCTION.c_str(), feed->getUsername().c_str(), scrHeight, scrWidth);
 			break;
 	}
-
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -74,6 +83,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	delete url;
 
 	this->setMain(mainLayout);
 }

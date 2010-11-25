@@ -110,8 +110,9 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 
 				//make the http connection to trade the card
 
-				char *url = new char[255];
-				memset(url, '\0', 255);
+				int urlLength = TRADE.length() + strlen(trade_by_detail) + friendDetail.length() + strlen(trade_cardid) + card->getId().length() + 11;
+				char *url = new char[urlLength];
+				memset(url, '\0', urlLength);
 				//www.mytcg.net/_phone/tradecard=1&detail=072623672&cardid=40
 				sprintf(url, "%s&%s=%s&%s=%s&sms=No", TRADE.c_str(), trade_by_detail, friendDetail.c_str(), trade_cardid, card->getId().c_str());
 				//url.append("&sms=Yes", 8);
@@ -125,6 +126,7 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 
 					mHttp.finish();
 				}
+				delete url;
 			}
 
 			break;

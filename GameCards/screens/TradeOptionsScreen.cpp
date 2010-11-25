@@ -41,6 +41,10 @@ TradeOptionsScreen::~TradeOptionsScreen() {
 	listBox->getChildren().clear();
 	delete listBox;
 	delete layout;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
 	if (softKeys != NULL) {
 		softKeys->getChildren().clear();
 		delete softKeys;

@@ -14,8 +14,15 @@ Logout::Logout(Screen *previous, Feed *feed) : previous(previous), feed(feed) {
 
 Logout::~Logout() {
 	delete listBox;
-	delete softKeys;
-	delete image;
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}
 }
 
 void Logout::pointerPressEvent(MAPoint2d point)

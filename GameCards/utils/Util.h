@@ -48,6 +48,7 @@ void increase();
 void decrease();
 int getCount();
 bool isNumeric(String isValid);
+int intlen(float start);
 
 //UI Components
 extern Font *gFontGrey;
