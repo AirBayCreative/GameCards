@@ -300,7 +300,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 							mHttp.finish();
 						}
-						delete url;
+						delete [] url;
 					}
 					break;
 				case SP_POST_SUBMIT:
@@ -329,7 +329,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
-							delete url;
+							delete [] url;
 						}
 					}
 					break;

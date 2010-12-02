@@ -126,7 +126,7 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 
 					mHttp.finish();
 				}
-				delete url;
+				delete [] url;
 			}
 
 			break;

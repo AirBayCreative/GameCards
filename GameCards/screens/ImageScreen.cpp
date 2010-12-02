@@ -2,7 +2,8 @@
 
 #include "ImageScreen.h"
 #include "../utils/Util.h"
-#include "TradeOptionsScreen.h"
+#include "AuctionCreateScreen.h"
+//#include "TradeOptionsScreen.h"
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection) {
 	//TODO add touch
@@ -12,9 +13,9 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
 		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, hasConnection?tradelbl:"", "");
+			mainLayout =  createImageLayout(back, hasConnection?auction:"", "");
 		} else {
-			mainLayout = createImageLayout(back, hasConnection?tradelbl:"", flipit);
+			mainLayout = createImageLayout(back, hasConnection?auction:"", flipit);
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
@@ -131,11 +132,16 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
 			if (card != NULL && hasConnection) {
-				if (next != NULL) {
+				/*if (next != NULL) {
 					delete next;
 				}
 				next = new TradeOptionsScreen(this, feed, card,
 						TradeOptionsScreen::ST_TRADE_OPTIONS);
+				next->show();*/
+				if (next != NULL) {
+					delete next;
+				}
+				next = new AuctionCreateScreen(this, feed, card);
 				next->show();
 			}
 			break;

@@ -83,7 +83,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
-	delete url;
+	delete [] url;
 
 	this->setMain(mainLayout);
 }

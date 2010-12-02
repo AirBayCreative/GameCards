@@ -129,7 +129,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
-							delete url;
+							delete [] url;
 						}
 						else {
 							screenMode = ST_INVALID;

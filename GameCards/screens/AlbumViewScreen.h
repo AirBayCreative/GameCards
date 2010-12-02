@@ -41,13 +41,14 @@ private:
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
+	Layout **feedLayouts;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
-	int size, i, moved;
+	int size, i, moved, listSizes;
 	bool list, left, right, emp, hasConnection;
 
 	Feed *feed;
@@ -56,6 +57,7 @@ private:
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
 	Card card;
+	//Card **cardPointers;
 
 	String getAll();
 	void loadDemo();
@@ -70,6 +72,9 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearFeedLayouts();
+	//void clearCardPointers();
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

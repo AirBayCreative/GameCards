@@ -4,17 +4,22 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
-#include "TradeOptionsScreen.h"
+#include "AuctionCreateScreen.h"
+//#include "TradeOptionsScreen.h"
+
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
 	emp = true;
+	listSizes = 0;
+	feedLayouts = NULL;
+	//cardPointers = NULL;
 
 	next = new Screen();
 	error_msg = "";
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, tradelbl, "", true);
+		mainLayout = createMainLayout(back, auction, "", true);
 	} else {
-		mainLayout = createMainLayout(back, tradelbl, select, true);
+		mainLayout = createMainLayout(back, auction, select, true);
 	}
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -39,7 +44,7 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
-	delete url;
+	delete [] url;
 	this->setMain(mainLayout);
 
 	moved=0;
@@ -122,11 +127,49 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 	}
 }
 
+void AlbumViewScreen::clearFeedLayouts() {
+	if (feedLayouts != NULL && listSizes > 0) {
+		for (int i = 0; i < cards.size(); i++) {
+			delete feedLayouts[i];
+		}
+		delete [] feedLayouts;
+		feedLayouts = NULL;
+	}
+}
+
+/*void AlbumViewScreen::clearCardPointers() {
+	lprintfln("startClearCards cards.size(): %d", cards.size() );
+	if (cardPointers != NULL && listSizes > 0) {
+		lprintfln("before delete cards loop");
+		for (int i = 0; i < cards.size(); i++) {
+			if (cardPointers[i] != NULL) {
+				lprintfln("i: %d", i);
+				delete cardPointers[i];
+				cardPointers[i] = NULL;
+			}
+		}
+		lprintfln("after delete cards loop");
+		delete [] cardPointers;
+		cardPointers = NULL;
+		lprintfln("before delete cards list");
+	}
+	lprintfln("endClearCards");
+}*/
+
 void AlbumViewScreen::drawList() {
+	lprintfln("startDrawList");
 	Layout *feedlayout;
+	clearFeedLayouts();
+	feedLayouts = new Layout*[cards.size()];
+	lprintfln("create feedLayouts");
+	/*if (cardPointers != NULL) {
+		delete [] cardPointers;
+	}
+	cardPointers = new Card*[cards.size()];*/
+	listSizes = 0;
+	lprintfln("create cardPointers");
 	listBox->getChildren().clear();
 	index.clear();
-	//Image *tempImage;
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		index.add(itr->second.getId());
 		cardText = itr->second.getText();
@@ -138,10 +181,15 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
+		feedLayouts[listSizes] = feedlayout;
+
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		Card *tmp;
 		tmp = &itr->second;
+
+		//cardPointers[listSizes] = tmp;
+		listSizes++;
 
 		retrieveThumb(tempImage, tmp, mImageCache);
 
@@ -159,14 +207,17 @@ void AlbumViewScreen::drawList() {
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(0);
 	}
+	lprintfln("endDrawList");
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	lprintfln("startDelete");
 	mainLayout->getChildren().clear();
 	listBox->getChildren().clear();
 
 	delete listBox;
 	delete mainLayout;
+
 	if (image != NULL) {
 		delete image;
 		image = NULL;
@@ -176,14 +227,12 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete softKeys;
 		softKeys = NULL;
 	}
-	delete label;
 	delete notice;
 	delete next;
 	delete mImageCache;
-	delete tempImage;
-
+	clearFeedLayouts();
 	saveData(filename.c_str(), getAll().c_str());
-
+	//clearCardPointers();
 	parentTag="";
 	cardText="";
 	id="";
@@ -196,6 +245,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	error_msg="";
 	rate="";
 	value="";
+	lprintfln("endDelete");
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
@@ -243,11 +293,16 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				notice->setCaption(no_connect);
 			}
 			else if (!emp) {
-				if (next != NULL) {
+				/*if (next != NULL) {
 					delete next;
 				}
 				next = new TradeOptionsScreen(this, feed,
 						&cards.find(index[selected])->second, TradeOptionsScreen::ST_TRADE_OPTIONS);
+				next->show();*/
+				if (next != NULL) {
+					delete next;
+				}
+				next = new AuctionCreateScreen(this, feed, &cards.find(index[selected])->second);
 				next->show();
 			}
 			break;
