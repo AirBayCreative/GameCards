@@ -7,7 +7,7 @@
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection) {
 	//TODO add touch
-	next = new Screen();
+	next = NULL;
 	mainLayout = createImageLayout(back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 	height = listBox->getHeight()-70;
@@ -24,11 +24,15 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	this->setMain(mainLayout);
 
 	if (card != NULL) {
+		imageCache = new ImageCache();
 		if (flip) {
-			retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+			retrieveBack(imge, card, height-PADDING*2, imageCache);
 		} else {
-			retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+			retrieveFront(imge, card, height-PADDING*2, imageCache);
 		}
+	}
+	else {
+		imageCache = NULL;
 	}
 }
 
@@ -113,19 +117,26 @@ ImageScreen::~ImageScreen() {
 			maDestroyObject(imge->getResource());
 		}
 	}
-	this->getMain()->getChildren().clear();
-	delete listBox;
+	//this->getMain()->getChildren().clear();
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
 	if (softKeys != NULL) {
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 	img = -1;
-	delete next;
+	if (next != NULL) {
+		delete next;
+		next = NULL;
+	}
+	if (imageCache != NULL) {
+		delete imageCache;
+		imageCache = NULL;
+	}
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {

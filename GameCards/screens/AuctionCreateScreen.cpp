@@ -24,20 +24,20 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
+	/*if (softKeys != NULL) {
 		delete softKeys;
 		softKeys = NULL;
 	}
-	delete listBox;
-	delete mainLayout;
 	if (image != NULL) {
 		delete image;
 		image = NULL;
-	}
-	delete softKeys;
+	}*/
+	//delete listBox;
+	delete mainLayout;
+	delete keyboard;
+	delete mImageCache;
 }
 
 void AuctionCreateScreen::pointerPressEvent(MAPoint2d point)
@@ -98,6 +98,7 @@ void AuctionCreateScreen::locateItem(MAPoint2d point)
 void AuctionCreateScreen::keyPressEvent(int keyCode) {
 	switch(screenMode) {
 		case ST_DATA:
+			setSelectedEditBox();
 			switch(keyCode) {
 				case MAK_FIRE:
 					break;
@@ -168,8 +169,6 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 	}
-
-	setSelectedEditBox();
 }
 
 void AuctionCreateScreen::validateInput() {
@@ -216,11 +215,12 @@ void AuctionCreateScreen::setSelectedEditBox() {
 }
 
 void AuctionCreateScreen::drawDataInputScreen() {
-	if (listBox != NULL) {
+	/*if (listBox != NULL) {
 		listBox->getChildren().clear();
-	}
+	}*/
 	if (mainLayout != NULL) {
-		mainLayout->getChildren().clear();
+		//mainLayout->getChildren().clear();
+		delete mainLayout;
 	}
 
 	mainLayout = createMainLayout(back, auction, true);
@@ -282,11 +282,12 @@ void AuctionCreateScreen::drawDataInputScreen() {
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
-	if (listBox != NULL) {
+	/*if (listBox != NULL) {
 		listBox->getChildren().clear();
-	}
+	}*/
 	if (mainLayout != NULL) {
-		mainLayout->getChildren().clear();
+		//mainLayout->getChildren().clear();
+		delete mainLayout;
 	}
 
 	mainLayout = createMainLayout("", confirm, true);
@@ -311,11 +312,12 @@ void AuctionCreateScreen::drawCreatedScreen() {
 }
 
 void AuctionCreateScreen::drawInvalidInputScreen() {
-	if (listBox != NULL) {
+	/*if (listBox != NULL) {
 		listBox->getChildren().clear();
-	}
+	}*/
 	if (mainLayout != NULL) {
-		mainLayout->getChildren().clear();
+		//mainLayout->getChildren().clear();
+		delete mainLayout;
 	}
 
 	mainLayout = createMainLayout(back, "", true);

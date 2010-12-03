@@ -111,10 +111,10 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
 	listBox->getChildren().clear();
-	for(ProductVector::iterator itr = products.begin(); itr != products.end(); itr++) {
-		cardText = itr->getName();
+	for(int i = 0; i < products.size(); i++) {
+		cardText = products[i]->getName();
 		cardText += "\n";
-		cardText += "Price: " + itr->getCurrency() + " " + itr->getFormattedPrice();
+		cardText += "Price: " + products[i]->getCurrency() + " " + products[i]->getFormattedPrice();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -123,10 +123,7 @@ void ShopProductsScreen::drawList() {
 
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-		Product *tmp;
-		tmp = itr;
-
-		retrieveProductThumb(tempImage, tmp, mImageCache);
+		retrieveProductThumb(tempImage, products[i], mImageCache);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -143,12 +140,12 @@ void ShopProductsScreen::drawList() {
 }
 
 ShopProductsScreen::~ShopProductsScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
 
-	delete listBox;
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -156,12 +153,12 @@ ShopProductsScreen::~ShopProductsScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
-	delete label;
-	delete notice;
+	}*/
+	//delete label;
+	//delete notice;
 	delete next;
 	delete mImageCache;
-
+	clearProductsList();
 	parentTag="";
 	cardText="";
 	id="";
@@ -199,7 +196,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, &(products[listBox->getSelectedIndex()]));
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, (products[listBox->getSelectedIndex()]));
 				next->show();
 			}
 			break;
@@ -208,7 +205,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopPurchaseScreen(this, feed, &(products[listBox->getSelectedIndex()]));
+				next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]));
 				next->show();
 			}
 			break;
@@ -235,7 +232,7 @@ void ShopProductsScreen::mtxEncoding(const char* ) {
 
 void ShopProductsScreen::mtxTagStart(const char* name, int len) {
 	if (!strcmp(name, xml_product_done)) {
-		products.clear();
+		clearProductsList();
 	}
 
 	parentTag = name;
@@ -267,7 +264,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_productthumb)) {
 		product = new Product(id.c_str(), productName.c_str(), description.c_str(),
 				thumb.c_str(), price.c_str(), currency.c_str(), cardsInPack.c_str());
-		products.add(*product);
+		products.add(product);
 		id = "";
 		productName = "";
 		description = "";
@@ -281,6 +278,16 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	} else {
 		notice->setCaption("");
 	}
+}
+
+void ShopProductsScreen::clearProductsList() {
+	for (int i = 0; i < products.size(); i++) {
+		if (products[i] != NULL) {
+			delete products[i];
+			products[i] = NULL;
+		}
+	}
+	products.clear();
 }
 
 void ShopProductsScreen::mtxParseError() {

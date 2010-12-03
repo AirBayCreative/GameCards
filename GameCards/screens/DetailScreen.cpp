@@ -74,10 +74,10 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 DetailScreen::~DetailScreen() {
 	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	delete listBox;
+	//listBox->getChildren().clear();
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -85,7 +85,7 @@ DetailScreen::~DetailScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 	username = "";
 	credits = "";
 	encrypt = "";

@@ -32,6 +32,7 @@ private:
 	Card *card;
 	Feed *feed;
 	Image *imge;
+	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
 	int height;

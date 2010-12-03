@@ -45,6 +45,7 @@ private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *notice, *label;
+	Label **labelList;
 
 	Feed *feed;
 	Albums *album;
@@ -61,6 +62,8 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearLabelPointers();
 };
 
 #endif	//_ALBUMLOADSCREEN_H_*/

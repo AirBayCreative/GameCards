@@ -33,7 +33,7 @@ public:
 	void loadFile();
 	void loadImages(const char *text);
 
-	typedef Map<String, Card> StringCardMap;
+	typedef Map<String, Card*> StringCardMap;
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
@@ -56,8 +56,6 @@ private:
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
-	Card card;
-	//Card **cardPointers;
 
 	String getAll();
 	void loadDemo();
@@ -74,7 +72,7 @@ private:
 	void mtxTagStartEnd();
 
 	void clearFeedLayouts();
-	//void clearCardPointers();
+	void clearCardMap();
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

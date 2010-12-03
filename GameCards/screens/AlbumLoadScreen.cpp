@@ -46,15 +46,16 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 
 	orig = this;
 	moved = 0;
+	size = 0;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
 
-	delete listBox;
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -62,10 +63,11 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
-	delete label;
-	delete notice;
+	}*/
+	//delete label;
+	//delete notice;
 	delete next;
+	delete [] labelList;
 	parentTag="";
 	temp="";
 	temp1="";
@@ -133,14 +135,32 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	}
 }
 
+void AlbumLoadScreen::clearLabelPointers() {
+	for (int i = 0; i < size; i++) {
+		if (labelList[i] != NULL) {
+			delete labelList[i];
+			labelList[i] = NULL;
+		}
+	}
+	delete [] labelList;
+}
+
 void AlbumLoadScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
+
+	clearLabelPointers();
+
+	labelList = new Label*[album->size()];
 	Vector<String> display = album->getNames();
+	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		label = createSubLabel(itr->c_str());
 		label->addWidgetListener(this);
 		listBox->add(label);
+
+		labelList[size] = label;
+		size++;
 	}
 
 	if (album->size() >= 1) {
@@ -150,6 +170,9 @@ void AlbumLoadScreen::drawList() {
 		label = createSubLabel(empty);
 		label->addWidgetListener(this);
 		listBox->add(label);
+
+		labelList[size] = label;
+		size++;
 	}
 }
 
