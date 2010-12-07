@@ -29,8 +29,7 @@ private:
 	Feed *feed;
 	Layout *layout;
 	KineticListBox* kinListBox;
-	Label *lbl;
-	Screen *next;
+	Label *lbl, *notice;
 	Screen *previous;
 	Image *imge;
 

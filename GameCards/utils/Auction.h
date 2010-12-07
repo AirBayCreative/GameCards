@@ -10,6 +10,7 @@ using namespace MAUtil;
 class Auction  {
 public:
 	Auction();
+	~Auction();
 
 	String getOpeningBid();
 	void setOpeningBid(const char *openingBid);

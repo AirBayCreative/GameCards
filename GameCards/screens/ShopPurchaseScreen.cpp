@@ -8,7 +8,6 @@
 
 ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
-	next = new Screen();
 
 	//check that the user can afford the product
 	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
@@ -28,6 +27,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 		layout = createMainLayout(back, "", true);
 		confirmLabel += not_enough_credits;
 	}
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
@@ -46,12 +46,12 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
-	layout->getChildren().clear();
-	kinListBox->getChildren().clear();
+	//layout->getChildren().clear();
+	//kinListBox->getChildren().clear();
 
-	delete kinListBox;
+	//delete kinListBox;
 	delete layout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -59,7 +59,7 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 	parentTag="";
 	temp="";
 	temp1="";
@@ -68,9 +68,17 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	kinListBox->getChildren().clear();
+	delete lbl; // prepurchase, the screen only has the one label.
 
 	layout->getChildren()[0]->getChildren().remove(1);
 	layout->getChildren()[0]->getChildren().remove(0);
+
+	//once the image and notice objects have been removed, they must be deleted to avoid memory leaks
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	delete notice;
 
 	kinListBox->setPosition(0, 0);
 	kinListBox->setHeight(scrHeight - 42);
@@ -197,8 +205,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				delete [] url;
 			}
 			else if (purchased) {
-				next = orig;
-				next->show();
+				orig->show();
 			}
 			break;
 		case MAK_SOFTLEFT:

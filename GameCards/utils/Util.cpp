@@ -130,7 +130,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	listBox->add(label);
 
 	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()),
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+image->getHeight()),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		listBox->add(mKineticBox);
 	}
@@ -194,8 +194,11 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 
 void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
 	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
+	if (softKeys != NULL) {
+		delete softKeys;
+	}
 
-	int height = 42;
+	/*int height = 42;
 
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
 	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
@@ -220,9 +223,11 @@ void updateSoftKeyLayout(const char *left, const char *right, const char *centre
 	if (strlen(right) != 0) {
 		label->setSkin(gSkinButton);
 	}
-	layout->add(label);
+	layout->add(label);*/
 
-	mainLayout->add(layout);
+	softKeys = createSoftKeyBar(42, left, right, centre);
+
+	mainLayout->add(softKeys);
 }
 
 void saveData(const char* storefile, const char *value) {

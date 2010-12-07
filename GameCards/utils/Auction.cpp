@@ -13,6 +13,13 @@ Auction::Auction() {
 	card = NULL;
 }
 
+Auction::~Auction() {
+	if (card != NULL) {
+		delete card;
+		card = NULL;
+	}
+}
+
 String Auction::getOpeningBid() {
 	return openingBid;
 }

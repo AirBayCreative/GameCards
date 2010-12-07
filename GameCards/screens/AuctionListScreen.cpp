@@ -150,18 +150,18 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;
 	listBox->getChildren().clear();
-	for(auctionIter = auctions.begin(); auctionIter != auctions.end(); auctionIter++) {
-		cardText = auctionIter->getCard()->getText();
-		if (strcmp(auctionIter->getPrice().c_str(), "")) {
+	for(int i = 0; i < auctions.size(); i++) {
+		cardText = auctions[i]->getCard()->getText();
+		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
 			cardText += "\nCurrent bid: ";
-			cardText += auctionIter->getPrice();
+			cardText += auctions[i]->getPrice();
 		}
 		else {
 			cardText += "\nOpening bid: ";
-			cardText += auctionIter->getOpeningBid();
+			cardText += auctions[i]->getOpeningBid();
 		}
 		cardText += "\nBuy now price: ";
-		cardText += auctionIter->getBuyNowPrice();
+		cardText += auctions[i]->getBuyNowPrice();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -171,7 +171,7 @@ void AuctionListScreen::drawList() {
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		Card *tmp;
-		tmp = auctionIter->getCard();
+		tmp = auctions[i]->getCard();
 
 		retrieveThumb(tempImage, tmp, mImageCache);
 
@@ -194,11 +194,11 @@ void AuctionListScreen::drawList() {
 }
 
 AuctionListScreen::~AuctionListScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	delete listBox;
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -211,15 +211,14 @@ AuctionListScreen::~AuctionListScreen() {
 		delete label;
 		label = NULL;
 	}
-	delete notice;
+	delete notice;*/
 	if (next != NULL) {
 		delete next;
+		next = NULL;
 	}
 	delete mImageCache;
-	if (tempImage != NULL) {
-		delete tempImage;
-		tempImage = NULL;
-	}
+
+	clearAuctions();
 
 	parentTag="";
 	cardText="";
@@ -264,7 +263,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, NULL, auctions[listBox->getSelectedIndex()].getCard());
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, NULL, auctions[listBox->getSelectedIndex()]->getCard());
 				next->show();
 			}
 			break;
@@ -275,7 +274,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 						if (next != NULL) {
 							delete next;
 						}
-						next = new BidOrBuyScreen(this, feed, &auctions[listBox->getSelectedIndex()]);
+						next = new BidOrBuyScreen(this, feed, auctions[listBox->getSelectedIndex()]);
 						next->show();
 						break;
 				}
@@ -380,7 +379,7 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		auction->setEndDate(endDate.c_str());
 		auction->setLastBidUser(lastBidUser.c_str());
 
-		auctions.add(*auction);
+		auctions.add(auction);
 
 		cardId = "";
 		description = "";
@@ -401,6 +400,16 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption("Building list...");
 		drawList();
 	}
+}
+
+void AuctionListScreen::clearAuctions() {
+	for (int i = 0; i < auctions.size(); i++) {
+		if (auctions[i] != NULL) {
+			delete auctions[i];
+			auctions[i] = NULL;
+		}
+	}
+	auctions.clear();
 }
 
 void AuctionListScreen::mtxParseError() {

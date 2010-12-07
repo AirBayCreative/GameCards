@@ -49,11 +49,11 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	delete listBox;
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -61,7 +61,7 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 }
 
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)

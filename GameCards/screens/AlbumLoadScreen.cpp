@@ -19,6 +19,10 @@ void AlbumLoadScreen::refresh() {
 }
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
+	size = 0;
+	moved = 0;
+	labelList = NULL;
+
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
@@ -45,8 +49,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	this->setMain(mainLayout);
 
 	orig = this;
-	moved = 0;
-	size = 0;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
@@ -142,7 +144,9 @@ void AlbumLoadScreen::clearLabelPointers() {
 			labelList[i] = NULL;
 		}
 	}
-	delete [] labelList;
+	if (labelList != NULL) {
+		delete [] labelList;
+	}
 }
 
 void AlbumLoadScreen::drawList() {
@@ -195,8 +199,6 @@ void AlbumLoadScreen::hide() {
 }
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
-
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();

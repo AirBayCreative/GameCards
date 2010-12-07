@@ -25,11 +25,12 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):m
 }
 
 BidOrBuyScreen::~BidOrBuyScreen() {
-	layout->getChildren().clear();
-	listBox->getChildren().clear();
-	delete listBox;
+	//layout->getChildren().clear();
+	//listBox->getChildren().clear();
+	//delete listBox;
+
 	delete layout;
-	if (softKeys != NULL) {
+	/*if (softKeys != NULL) {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
@@ -41,17 +42,17 @@ BidOrBuyScreen::~BidOrBuyScreen() {
 	if (editBoxLabel != NULL) {
 		delete editBoxLabel;
 		editBoxLabel = NULL;
-	}
+	}*/
 	if (keyboard != NULL) {
 		delete keyboard;
 		keyboard = NULL;
 	}
-	delete lbl;
-	delete notice;
+	//delete lbl;
+	//delete notice;
 }
 
 void BidOrBuyScreen::drawChoosePhase() {
-	listBox->getChildren().clear();
+	clearListBox();
 
 	updateSoftKeyLayout(back, select, "", layout);
 
@@ -66,7 +67,7 @@ void BidOrBuyScreen::drawChoosePhase() {
 }
 
 void BidOrBuyScreen::drawBuyNowPhase() {
-	listBox->getChildren().clear();
+	clearListBox();
 
 	//check that the user can afford the buy out price
 	if (atof(feed->getCredits().c_str()) >= atof(auction->getBuyNowPrice().c_str())) {
@@ -97,7 +98,7 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 }
 
 void BidOrBuyScreen::drawPostSubmitPhase(String message) {
-	listBox->getChildren().clear();
+	clearListBox();
 
 	updateSoftKeyLayout("", confirm, "", layout);
 
@@ -110,7 +111,7 @@ void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 }
 
 void BidOrBuyScreen::drawPlaceBidPhase() {
-	listBox->getChildren().clear();
+	clearListBox();
 
 	updateSoftKeyLayout(back, bid, "", layout);
 
@@ -141,6 +142,19 @@ void BidOrBuyScreen::drawPlaceBidPhase() {
 	listBox->add(editBoxLabel);
 
 	bidEditBox->setSelected(true);
+}
+
+void BidOrBuyScreen::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 /**
@@ -283,6 +297,8 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					break;
 				case SP_BUY_NOW:
 					if (!busy) {
+						bidEditBox->setSelected(false);
+
 						busy = true;
 						//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
 						int urlLength = BUY_AUCTION_NOW.length() + feed->getUsername().length() + auction->getBuyNowPrice().length() +
@@ -345,6 +361,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					drawChoosePhase();
 					break;
 				case SP_PLACE_BID:
+					bidEditBox->setSelected(false);
 					screenPhase = SP_CHOOSE_ACTION;
 					drawChoosePhase();
 					break;

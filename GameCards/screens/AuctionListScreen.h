@@ -26,7 +26,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	typedef Vector<Auction> AuctionVector;
+	typedef Vector<Auction*> AuctionVector;
 
 	enum screenTypes {ST_CATEGORY, ST_USER};
 private:
@@ -62,6 +62,8 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearAuctions();
 };
 
 #endif	//_AUCTIONLISTSCREEN_H_*/

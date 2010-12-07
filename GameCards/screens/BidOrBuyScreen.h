@@ -36,6 +36,7 @@ private:
 	bool list, left, right, canPurchase, busy;
 	String parentTag, result;
 	int screenPhase;
+	Vector<Widget*> tempWidgets;
 
 	MobEditBox *bidEditBox;
 	MobKeyboard *keyboard;
@@ -63,6 +64,8 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearListBox();
 };
 
 #endif

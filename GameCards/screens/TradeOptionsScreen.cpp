@@ -37,11 +37,11 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card,
 }
 
 TradeOptionsScreen::~TradeOptionsScreen() {
-	layout->getChildren().clear();
-	listBox->getChildren().clear();
-	delete listBox;
+	//layout->getChildren().clear();
+	//listBox->getChildren().clear();
+	//delete listBox;
 	delete layout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -49,8 +49,8 @@ TradeOptionsScreen::~TradeOptionsScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
-	delete lbl;
+	}*/
+	//delete lbl;
 	delete menu;
 }
 void TradeOptionsScreen::pointerPressEvent(MAPoint2d point)

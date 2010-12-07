@@ -425,7 +425,11 @@ namespace MAUI {
 			float firstTime = previousTimes[0];
 			Point diff( currPoint.x-firstPoint.x, currPoint.y-firstPoint.y );
 			float time = (currTime - firstTime) / (1000 / 24);
-			velocity = Point((int)(diff.x / time), (int)(diff.y / time));
+
+			if (time != 0) {
+				velocity = Point((int)(diff.x / time), (int)(diff.y / time));
+			}
+
 			kineticTimer = true;
 			Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
 			requestRepaint();
@@ -680,14 +684,16 @@ namespace MAUI {
 				}
 				else
 				{
-					yOffset = (yOffsetFrom<<16) + (yOffsetTo-yOffsetFrom)*(((maGetMilliSecondCount()-animTimeStart)<<16)/DURATION);
-					if(yOffsetInc<0 && yOffset<=yOffsetTo<<16) {
-							yOffset = yOffsetTo<<16;
-							Environment::getEnvironment().removeTimer(this);
-					}
-					else if(yOffsetInc>0 && yOffset>=yOffsetTo<<16) {
-							yOffset = yOffsetTo<<16;
-							Environment::getEnvironment().removeTimer(this);
+					if (DURATION != 0) {
+						yOffset = (yOffsetFrom<<16) + (yOffsetTo-yOffsetFrom)*(((maGetMilliSecondCount()-animTimeStart)<<16)/DURATION);
+						if(yOffsetInc<0 && yOffset<=yOffsetTo<<16) {
+								yOffset = yOffsetTo<<16;
+								Environment::getEnvironment().removeTimer(this);
+						}
+						else if(yOffsetInc>0 && yOffset>=yOffsetTo<<16) {
+								yOffset = yOffsetTo<<16;
+								Environment::getEnvironment().removeTimer(this);
+						}
 					}
 				}
 

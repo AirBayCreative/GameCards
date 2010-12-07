@@ -20,7 +20,7 @@ void ShopCategoriesScreen::refresh() {
 }
 
 ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
-	next = new Screen();
+	next = NULL;
 	label = NULL;
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
@@ -49,12 +49,12 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
 
-	delete listBox;
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -62,13 +62,16 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
-	if (label != NULL) {
+	}*/
+	/*if (label != NULL) {
 		delete label;
 		label = NULL;
+	}*/
+	if (next != NULL) {
+		delete next;
+		next = NULL;
 	}
-	delete notice;
-	delete next;
+	//delete notice;
 	parentTag="";
 	temp="";
 	temp1="";
@@ -159,8 +162,6 @@ void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void ShopCategoriesScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
-
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();

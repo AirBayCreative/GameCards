@@ -156,7 +156,9 @@ ShopProductsScreen::~ShopProductsScreen() {
 	}*/
 	//delete label;
 	//delete notice;
-	delete next;
+	if (next != NULL) {
+		delete next;
+	}
 	delete mImageCache;
 	clearProductsList();
 	parentTag="";

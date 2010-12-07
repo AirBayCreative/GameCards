@@ -6,6 +6,8 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 	listBox = NULL;
 	mainLayout= NULL;
 
+	mImageCache = new ImageCache();
+
 	screenMode = ST_DATA;
 
 	errorString = "";
@@ -35,6 +37,11 @@ AuctionCreateScreen::~AuctionCreateScreen() {
 		image = NULL;
 	}*/
 	//delete listBox;
+
+	/*for (int i = 0; i < listBox->getChildren().size(); i++) {
+		listBox->getChildren()[i]->removeWidgetListener(this);
+	}*/
+
 	delete mainLayout;
 	delete keyboard;
 	delete mImageCache;
@@ -98,7 +105,6 @@ void AuctionCreateScreen::locateItem(MAPoint2d point)
 void AuctionCreateScreen::keyPressEvent(int keyCode) {
 	switch(screenMode) {
 		case ST_DATA:
-			setSelectedEditBox();
 			switch(keyCode) {
 				case MAK_FIRE:
 					break;
@@ -111,6 +117,10 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 						validateInput();
 
 						if (errorString.length() == 0) {
+							editBoxOpening->setSelected(false);
+							editBoxBuyNow->setSelected(false);
+							editBoxDays->setSelected(false);
+
 							busy = true;
 
 							//work out how long the url will be, the 8 is for the & and = symbols
@@ -139,17 +149,23 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case MAK_SOFTLEFT:
+					editBoxOpening->setSelected(false);
+					editBoxBuyNow->setSelected(false);
+					editBoxDays->setSelected(false);
+
 					previous->show();
 					break;
 				case MAK_UP:
 					if (listBox->getSelectedIndex() > 1) {
 						listBox->setSelectedIndex(listBox->getSelectedIndex() - 2);
 					}
+					setSelectedEditBox();
 					break;
 				case MAK_DOWN:
 					if (listBox->getSelectedIndex() < 5) {
 						listBox->setSelectedIndex(listBox->getSelectedIndex() + 2);
 					}
+					setSelectedEditBox();
 					break;
 			}
 			break;
@@ -274,11 +290,12 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	this->setMain(mainLayout);
 
-	this->show();
+	//this->show();
 
 	moved = 0;
 	editBoxOpening->setSelected(true);
 	listBox->setSelectedIndex(2);
+	//setSelectedEditBox();
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
@@ -312,6 +329,9 @@ void AuctionCreateScreen::drawCreatedScreen() {
 }
 
 void AuctionCreateScreen::drawInvalidInputScreen() {
+	editBoxOpening->setSelected(false);
+	editBoxBuyNow->setSelected(false);
+	editBoxDays->setSelected(false);
 	/*if (listBox != NULL) {
 		listBox->getChildren().clear();
 	}*/
