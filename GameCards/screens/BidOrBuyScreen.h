@@ -33,7 +33,7 @@ private:
 	Label *notice, *lbl, *editBoxLabel;
 	Screen *previous;
 	Auction *auction;
-	bool list, left, right, canPurchase, busy;
+	bool list, left, right, canPurchase, busy, fromChoose;
 	String parentTag, result;
 	int screenPhase;
 	Vector<Widget*> tempWidgets;

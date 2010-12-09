@@ -5,6 +5,7 @@
 #include "../utils/MAHeaders.h"
 
 BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):mHttp(this), previous(previous), feed(feed), auction(auction) {
+	fromChoose = false;
 	canPurchase = false;
 	busy = false;
 
@@ -206,23 +207,26 @@ void BidOrBuyScreen::pointerReleaseEvent(MAPoint2d point)
 		keyPressEvent(MAK_FIRE);
 	}
 
-	int yClick = point.y;
-	int keyboardY = keyboard->getPosition().y;
+	if (!fromChoose) {
+		int yClick = point.y;
+		int keyboardY = keyboard->getPosition().y;
 
-	switch (screenPhase) {
-		case SP_PLACE_BID:
-			if (list && !(keyboard->isShown())) {
-				keyboard->attachWidget(bidEditBox);
-				keyboard->show();
-			}
-			else if (yClick < keyboardY || yClick > keyboardY + keyboard->getHeight()) {
-				keyboard->deAttachEditBox();
-				keyboard->hide();
+		switch (screenPhase) {
+			case SP_PLACE_BID:
+				if (list && !(keyboard->isShown())) {
+					keyboard->attachWidget(bidEditBox);
+					keyboard->show();
+				}
+				else if (yClick < keyboardY || yClick > keyboardY + keyboard->getHeight()) {
+					keyboard->deAttachEditBox();
+					keyboard->hide();
 
-				layout->draw(true);
-			}
-			break;
+					layout->draw(true);
+				}
+				break;
+		}
 	}
+	fromChoose = false;
 }
 
 void BidOrBuyScreen::locateItem(MAPoint2d point)
@@ -275,6 +279,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					int index = listBox->getSelectedIndex();
 					if(index == 0) {
 						screenPhase = SP_PLACE_BID;
+						fromChoose = true;
 						drawPlaceBidPhase();
 					} else if(index == 1) {
 						screenPhase = SP_BUY_NOW;
@@ -297,8 +302,6 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					break;
 				case SP_BUY_NOW:
 					if (!busy) {
-						bidEditBox->setSelected(false);
-
 						busy = true;
 						//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
 						int urlLength = BUY_AUCTION_NOW.length() + feed->getUsername().length() + auction->getBuyNowPrice().length() +
@@ -328,6 +331,8 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 						notice->setCaption(valid);
 
 						if (valid.length() == 0) {
+							bidEditBox->setSelected(false);
+
 							busy = true;
 							//work out how long the url will be, the number is for the & and = symbols and hard coded params
 							int urlLength = AUCTION_BID.length() + feed->getUsername().length() +  bidEditBox->getCaption().length() +
