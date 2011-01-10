@@ -52,7 +52,6 @@ private:
 	bool list, left, right, emp, hasConnection;
 
 	Feed *feed;
-	Albums album;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;

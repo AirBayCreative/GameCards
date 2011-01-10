@@ -3,6 +3,7 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
+#include "../utils/Albums.h"
 
 void AlbumLoadScreen::refresh() {
 	show();
@@ -18,10 +19,12 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
+AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	size = 0;
 	moved = 0;
+	int res = -1;
 	labelList = NULL;
+	char *url = NULL;
 
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
@@ -33,9 +36,23 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	album = this->feed->getAlbum();
-	drawList();
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	switch(screenType) {
+		case ST_ALBUMS:
+			album = this->feed->getAlbum();
+			drawList();
+			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+			break;
+		case ST_PLAY:
+			album = new Albums();
+			drawList();
+			//work out how long the url will be, the 2 is for the & and = symbals
+			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
+			res = mHttp.create(url, HTTP_GET);
+			break;
+	}
 
 	if(res < 0) {
 
@@ -47,6 +64,10 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed) : mHttp(this), pr
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
+
+	if (url != NULL) {
+		delete url;
+	}
 
 	orig = this;
 }
@@ -74,6 +95,11 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	temp="";
 	temp1="";
 	error_msg="";
+
+	if (screenType == ST_PLAY) {
+		delete album;
+		album = NULL;
+	}
 }
 
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
@@ -103,7 +129,7 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
+	if (feed->setTouch(truesz) && screenType == ST_ALBUMS) {
 		saveData(FEED, feed->getAll().c_str());
 	}
 
@@ -215,9 +241,17 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				String val= (album->getId(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
 					delete next;
+					next = NULL;
 				}
-				next = new AlbumViewScreen(this, feed, val);
-				next->show();
+				switch (screenType) {
+					case ST_ALBUMS:
+						next = new AlbumViewScreen(this, feed, val);
+						next->show();
+						break;
+					case ST_PLAY:
+						//next = new AlbumViewScreen(this, feed, val);
+						break;
+				}
 			}
 			break;
 	}
@@ -247,7 +281,7 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_albumdone)) {
+	if (!strcmp(name, xml_albumdone) || !strcmp(name, categories)) {
 		album->clearAll();
 	}
 	parentTag = name;
@@ -265,19 +299,25 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		temp += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), category_name)) {
+		temp1 += data;
+	} else if(!strcmp(parentTag.c_str(), category_id)) {
+		temp += data;
 	}
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_albumname)) {
+	if(!strcmp(name, xml_albumname) || !strcmp(name, category_name)) {
 		notice->setCaption("");
 		album->addAlbum(temp1.c_str(), temp.c_str());
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_albumdone)) {
+	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories)) {
 		notice->setCaption("");
 		drawList();
-		saveData(ALBUM, album->getAll().c_str());
+		if (screenType == ST_ALBUMS) {
+			saveData(ALBUM, album->getAll().c_str());
+		}
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {

@@ -24,7 +24,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS};
+	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS, ST_PLAY_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;

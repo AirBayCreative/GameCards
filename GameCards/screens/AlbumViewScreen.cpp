@@ -136,10 +136,10 @@ void AlbumViewScreen::clearFeedLayouts() {
 
 void AlbumViewScreen::drawList() {
 	Layout *feedlayout;
+	listBox->clear();
 	clearFeedLayouts();
 	feedLayouts = new Layout*[cards.size()];
 	listSizes = 0;
-	listBox->getChildren().clear();
 	index.clear();
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		index.add(itr->second->getId());
@@ -154,11 +154,16 @@ void AlbumViewScreen::drawList() {
 
 		feedLayouts[listSizes] = feedlayout;
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-
 		listSizes++;
 
-		retrieveThumb(tempImage, itr->second, mImageCache);
+		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
+			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+
+			retrieveThumb(tempImage, itr->second, mImageCache);
+		}
+		else {
+			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_TEMPTHUMB);
+		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -199,6 +204,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	delete [] feedLayouts;
 	saveData(filename.c_str(), getAll().c_str());
 	clearCardMap();
+	tmp.clear();
 	parentTag="";
 	cardText="";
 	id="";
@@ -245,7 +251,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
-			if (!emp) {
+			if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -257,7 +263,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if (!emp && !hasConnection) {
 				notice->setCaption(no_connect);
 			}
-			else if (!emp) {
+			else if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				/*if (next != NULL) {
 					delete next;
 				}
@@ -288,7 +294,6 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumViewScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumViewScreen::xcConnError(int code) {
-
 }
 
 void AlbumViewScreen::mtxEncoding(const char* ) {
@@ -299,7 +304,6 @@ void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 }
 
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-
 }
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {

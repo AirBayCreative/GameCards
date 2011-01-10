@@ -34,6 +34,8 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	notice->setDrawBackground(true);
 	notice->setCaption(checking_categories);
 
+	listBox->setHeight(listBox->getHeight() - 20);
+
 	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
 	if(res < 0) {
 		drawList();

@@ -13,7 +13,7 @@ using namespace MAUtil;
 
 class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed);
+	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS);
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,6 +29,7 @@ public:
 	void locateItem(MAPoint2d point);
 	void refresh();
 
+	enum screenTypes {ST_ALBUMS, ST_PLAY};
 private:
 
 	Screen *previous;
@@ -39,7 +40,7 @@ private:
 
 	String parentTag;
 	String temp,temp1,error_msg;
-	int size, i, moved;
+	int size, i, moved, screenType;
 	bool list, left, right, empt;
 
 	Layout *mainLayout;

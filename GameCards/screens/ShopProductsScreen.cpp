@@ -267,6 +267,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 		product = new Product(id.c_str(), productName.c_str(), description.c_str(),
 				thumb.c_str(), price.c_str(), currency.c_str(), cardsInPack.c_str());
 		products.add(product);
+
 		id = "";
 		productName = "";
 		description = "";

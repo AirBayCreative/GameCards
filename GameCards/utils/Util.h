@@ -102,6 +102,8 @@ static String USER_AUCTION = URL+"?userauction=1";
 static String BUY_AUCTION_NOW = URL+"?buyauctionnow=1";
 //bid on an auction
 static String AUCTION_BID = URL+"?auctionbid=1";
+//get a list of albums with enough cards in to play with.
+static String PLAYABLE_CATEGORIES = URL+"?playablecategories=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -250,5 +252,13 @@ static const char* xml_end_date = "endDate";
 static const char* xml_last_bid_user = "lastBidUser";
 static const char* xml_buyout_success = "1";
 static const char* xml_bid_success = "1";
+//Play labels
+static const char* play = "Play";
+static const char* new_game = "New Game";
+static const char* existing_game = "Continue Game";
+static const char* category_id = "categoryid";
+static const char* category_name = "categoryname";
+static const char* playable_cards = "playablecards";
+static const char* categories = "categories";
 
 #endif	//_UTIL_H_

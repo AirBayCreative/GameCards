@@ -4,6 +4,7 @@
 #include "ShopCategoriesScreen.h"
 #include "AuctionCreateScreen.h"
 #include "AuctionListScreen.h"
+#include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -26,6 +27,14 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card,
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(my_auctions);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_PLAY_OPTIONS:
+			lbl = createSubLabel(new_game);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(existing_game);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -151,6 +160,15 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 							delete menu;
 						}
 						menu = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
+						menu->show();
+					}
+					break;
+				case ST_PLAY_OPTIONS:
+					if(index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_PLAY);
 						menu->show();
 					}
 					break;

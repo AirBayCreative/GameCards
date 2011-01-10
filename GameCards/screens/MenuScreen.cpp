@@ -23,6 +23,9 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
+	label = createSubLabel(play);
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = createSubLabel(shoplbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -136,9 +139,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			int index = listBox->getSelectedIndex();
 			if(index == 0) {
-				menu = new AlbumLoadScreen(this, feed);
+				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
-			} else if(index == 1) {
+			} /*else if(index == 1) {
 				delete menu;
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
@@ -155,6 +158,30 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
 				menu->show();
 			} else if (index == 5) {
+				delete menu;
+				menu = new Logout(this, feed);
+				menu->show();
+			}*/else if(index == 1) {
+				delete menu;
+				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_PLAY_OPTIONS);
+				menu->show();
+			} else if(index == 2) {
+				delete menu;
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
+				menu->show();
+			} else if(index == 3) {
+				delete menu;
+				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu->show();
+			} else if(index == 4) {
+				delete menu;
+				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				menu->show();
+			} else if(index == 5) {
+				delete menu;
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
+				menu->show();
+			} else if (index == 6) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
