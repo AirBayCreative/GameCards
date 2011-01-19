@@ -4,17 +4,16 @@
 Product::Product() {
 	name = "";
 	id = "";
-	description = "";
+	productType = "";
 	thumb = "";
 	price = "";
-	currency = "";
 	cardsInPack = "";
 }
 
 Product::Product(const char *id, const char *name,
-			const char *description, const char *thumb,
-			const char *price, const char *currency, const char *cardsInPack) : id(id), name(name),
-			description(description), thumb(thumb), price(price), currency(currency), cardsInPack(cardsInPack) {
+			const char *productType, const char *thumb,
+			const char *price, const char *cardsInPack) : id(id), name(name),
+			productType(productType), thumb(thumb), price(price), cardsInPack(cardsInPack) {
 }
 
 String Product::getId() {
@@ -33,12 +32,12 @@ void Product::setName(const char *n) {
 	name = n;
 }
 
-String Product::getDescription() {
-	return description;
+String Product::getProductType() {
+	return productType;
 }
 
-void Product::setDescription(const char *d) {
-	description = d;
+void Product::setProductType(const char *d) {
+	productType = d;
 }
 
 String Product::getThumb() {
@@ -55,14 +54,6 @@ String Product::getPrice() {
 
 void Product::setPrice(const char *p) {
 	price = p;
-}
-
-String Product::getCurrency() {
-	return currency;
-}
-
-void Product::setCurrency(const char *c) {
-	currency = c;
 }
 
 String Product::getCardsInPack() {
@@ -82,9 +73,9 @@ String Product::getFormattedPrice() {
 String Product::getDetailsString() {
 	String details = "Price: ";
 
-	details += currency + " " + getFormattedPrice();
+	details += price;
 	details += "\nCards in pack: " + cardsInPack;
-	details += "\nDescription: " + description;
+	details += "\nPack Type: " + productType;
 
 	return details;
 }

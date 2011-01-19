@@ -42,9 +42,8 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	emp = true;
 	id = "";
 	productName = "";
-	description = "";
+	productType = "";
 	price = "";
-	currency = "";
 	thumb = "";
 	cardsInPack = "";
 }
@@ -114,7 +113,7 @@ void ShopProductsScreen::drawList() {
 	for(int i = 0; i < products.size(); i++) {
 		cardText = products[i]->getName();
 		cardText += "\n";
-		cardText += "Price: " + products[i]->getCurrency() + " " + products[i]->getFormattedPrice();
+		cardText += "Price: " + products[i]->getPrice();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -164,11 +163,10 @@ ShopProductsScreen::~ShopProductsScreen() {
 	parentTag="";
 	cardText="";
 	id="";
-	description="";
+	productType="";
 	category="";
 	productName="";
 	price = "";
-	currency = "";
 	thumb = "";
 	cardsInPack = "";
 }
@@ -249,12 +247,10 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productname)) {
 		productName += data;
-	} else if(!strcmp(parentTag.c_str(), xml_productdesc)) {
-		description += data;
+	} else if(!strcmp(parentTag.c_str(), xml_producttype)) {
+		productType += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productprice)) {
 		price += data;
-	} else if(!strcmp(parentTag.c_str(), xml_productcurrency)) {
-		currency += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productnumcards)) {
 		cardsInPack += data;
 	} else if(!strcmp(parentTag.c_str(), xml_productthumb)) {
@@ -264,15 +260,14 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 
 void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_productthumb)) {
-		product = new Product(id.c_str(), productName.c_str(), description.c_str(),
-				thumb.c_str(), price.c_str(), currency.c_str(), cardsInPack.c_str());
+		product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
+				thumb.c_str(), price.c_str(), cardsInPack.c_str());
 		products.add(product);
 
 		id = "";
 		productName = "";
-		description = "";
+		productType = "";
 		price = "";
-		currency = "";
 		thumb = "";
 		cardsInPack = "";
 	} else if (!strcmp(name, xml_product_done)) {

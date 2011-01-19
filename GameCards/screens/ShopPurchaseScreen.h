@@ -43,7 +43,7 @@ private:
 
 	String parentTag;
 	String temp,temp1,error_msg;
-	String id, description, quality, quantity, urlfront, urlback;
+	String id, description, quality, urlfront, urlback;
 	int height, moved;
 
 	void drawPostPurchaseScreen();

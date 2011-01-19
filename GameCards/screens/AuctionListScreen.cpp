@@ -56,6 +56,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
+			lprintfln("categoryId: %s", categoryId.c_str());
 			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
 			break;
 		case ST_USER:

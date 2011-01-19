@@ -9,8 +9,8 @@ class Product  {
 public:
 	Product();
 	Product(const char *id, const char *name,
-			const char *description, const char *thumb,
-			const char *price, const char *currency, const char *cardsInPack);
+			const char *productType, const char *thumb,
+			const char *price, const char *cardsInPack);
 
 	String getId();
 	void setId(const char *id);
@@ -18,8 +18,8 @@ public:
 	String getName();
 	void setName(const char *name);
 
-	String getDescription();
-	void setDescription(const char *description);
+	String getProductType();
+	void setProductType(const char *productType);
 
 	String getThumb();
 	void setThumb(const char *thumb);
@@ -37,7 +37,7 @@ public:
 
 	String getDetailsString();
 private:
-	String id, name, description, thumb, price, currency, cardsInPack;
+	String id, name, productType, thumb, price, cardsInPack;
 };
 
 #endif	//_PRODUCT_H_

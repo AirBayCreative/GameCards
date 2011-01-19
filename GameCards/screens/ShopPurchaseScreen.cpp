@@ -21,7 +21,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	if (canPurchase) {
 		layout = createMainLayout(back, confirm, true);
 		confirmLabel += sure_you_want_to_purchase + product->getName() + priceFor +
-				product->getCurrency() + " " + product->getFormattedPrice() + "?";
+				product->getPrice() + " credits?";
 	}
 	else {
 		layout = createMainLayout(back, "", true);
@@ -187,7 +187,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
-				lprintfln("product->getId(): %s", product->getId().c_str());
+				//lprintfln("product->getId(): %s", product->getId().c_str());
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
@@ -251,8 +251,6 @@ void ShopPurchaseScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_count)) {
-		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), xml_urlfront)) {
 		urlfront += data;
 	} else if(!strcmp(parentTag.c_str(), xml_urlback)) {
@@ -268,14 +266,12 @@ void ShopPurchaseScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_card)) {
 		card = new Card();
 		card->setId(id.c_str());
-		card->setQuantity(quantity.c_str());
 		card->setText(description.c_str());
 		card->setFront(urlfront.c_str());
 		card->setBack(urlback.c_str());
 		card->setValue(quality.c_str());
 
 		id = "";
-		quantity = "";
 		description = "";
 		urlfront = "";
 		urlback = "";

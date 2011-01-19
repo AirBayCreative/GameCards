@@ -126,7 +126,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 
 void AlbumViewScreen::clearFeedLayouts() {
 	if (feedLayouts != NULL && listSizes > 0) {
-		for (int i = 0; i < cards.size(); i++) {
+		for (int i = 0; i < listSizes; i++) {
 			delete feedLayouts[i];
 		}
 		delete [] feedLayouts;
@@ -157,12 +157,14 @@ void AlbumViewScreen::drawList() {
 		listSizes++;
 
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
+			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 			retrieveThumb(tempImage, itr->second, mImageCache);
 		}
 		else {
-			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_TEMPTHUMB);
+			//we use the blank image for cards they dont have yet
+			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
