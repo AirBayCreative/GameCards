@@ -26,6 +26,7 @@ WidgetSkin *gSkinList;
 WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
 Screen *orig;
+Screen *origMenu;
 int scrWidth;
 int scrHeight;
 int mCount;
@@ -193,41 +194,17 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 }
 
 void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
+	//this function assumes the standard mainlayout format, with softkeys at the end.
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
+
 	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
-	if (softKeys != NULL) {
-		delete softKeys;
+	if (currentSoftKeys != NULL) {
+		delete currentSoftKeys;
 	}
 
-	/*int height = 42;
+	currentSoftKeys = createSoftKeyBar(42, left, right, centre);
 
-	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
-	label->setHorizontalAlignment(Label::HA_CENTER);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(left) != 0) {
-		label->setSkin(gSkinButton);
-	}
-	layout->add(label);
-
-	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
-	label->setHorizontalAlignment(Label::HA_CENTER);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(centre) != 0) {
-		label->setSkin(gSkinButton);
-	}
-	layout->add(label);
-
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
-	label->setHorizontalAlignment(Label::HA_CENTER);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	if (strlen(right) != 0) {
-		label->setSkin(gSkinButton);
-	}
-	layout->add(label);*/
-
-	softKeys = createSoftKeyBar(42, left, right, centre);
-
-	mainLayout->add(softKeys);
+	mainLayout->add(currentSoftKeys);
 }
 
 void saveData(const char* storefile, const char *value) {
@@ -295,8 +272,7 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 
 	MAHandle store = maOpenStore((card->getId()+".sav").c_str(), -1);
 	ImageCacheRequest* req1;
-	if(store != STERR_NONEXISTENT)
-	{
+	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
 		maReadStore(store, cacheimage);
 		maCloseStore(store, 0);
@@ -310,21 +286,7 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 		}
 		cacheimage = -1;
 	}
-	/*if (card->getThumb().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getThumb().c_str(), -1);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, 64);
-			}
-		}
-		cacheimage = -1;
-		store = -1;
-	}*/ else {
+	else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
@@ -365,6 +327,31 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 	if (card == NULL) {
 		return;
 	}
+
+	MAHandle store = maOpenStore((card->getId()+"f.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 1);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		mImageCache->request(req1);
+	}
+
+	/*if (card == NULL) {
+		return;
+	}
 	if (card->getFront().find("http://") == -1) {
 		MAHandle cacheimage = maCreatePlaceholder();
 		MAHandle store = maOpenStore(card->getFront().c_str(), 0);
@@ -382,11 +369,35 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
 		mImageCache->request(req1);
-	}
+	}*/
 }
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
+		return;
+	}
+
+	MAHandle store = maOpenStore((card->getId()+"b.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 2);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		mImageCache->request(req1);
+	}
+	/*if (card == NULL) {
 		return;
 	}
 	if (card->getBack().find("http://") == -1) {
@@ -406,7 +417,7 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
 		mImageCache->request(req1);
-	}
+	}*/
 }
 
 bool isNumeric(String isValid) {

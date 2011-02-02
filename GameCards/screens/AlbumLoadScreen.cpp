@@ -4,6 +4,7 @@
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
+#include "GamePlayScreen.h"
 
 void AlbumLoadScreen::refresh() {
 	show();
@@ -28,7 +29,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType) :
 
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, "", true);
+		mainLayout = createMainLayout(back, select, true);
 	} else {
 		mainLayout = createMainLayout(back, select, true);
 	}
@@ -38,27 +39,34 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType) :
 
 	switch(screenType) {
 		case ST_ALBUMS:
+			notice->setCaption(checking_albums);
 			album = this->feed->getAlbum();
 			drawList();
 			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
 			break;
 		case ST_PLAY:
+			notice->setCaption(checking_albums);
 			album = new Albums();
 			drawList();
-			//work out how long the url will be, the 2 is for the & and = symbals
+			//work out how long the url will be, the 2 is for the & and = symbols
 			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
 			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
+		case ST_GAMES:
+			listBox->setHeight(listBox->getHeight() - 20);
+			notice->setCaption(checking_games);
+			album = new Albums();
+			drawList();
+			res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+			break;
 	}
 
 	if(res < 0) {
-
+		notice->setCaption("");
 	} else {
-		notice->setCaption(checking_albums);
-
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
@@ -186,6 +194,7 @@ void AlbumLoadScreen::drawList() {
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		label = createSubLabel(itr->c_str());
+		label->setPaddingBottom(5);
 		label->addWidgetListener(this);
 		listBox->add(label);
 
@@ -249,7 +258,12 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						next->show();
 						break;
 					case ST_PLAY:
-						//next = new AlbumViewScreen(this, feed, val);
+						next = new GamePlayScreen(this, feed, true, val);
+						next->show();
+						break;
+					case ST_GAMES:
+						next = new GamePlayScreen(this, feed, false, val);
+						next->show();
 						break;
 				}
 			}
@@ -303,17 +317,31 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), category_id)) {
 		temp += data;
+	} else if(!strcmp(parentTag.c_str(), xml_game_description)) {
+		temp1 += data;
+	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
+		temp += data;
 	}
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_albumname) || !strcmp(name, category_name)) {
+	if(!strcmp(name, xml_albumname) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
 		notice->setCaption("");
 		album->addAlbum(temp1.c_str(), temp.c_str());
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories)) {
-		notice->setCaption("");
+	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
+		switch (screenType) {
+			case ST_PLAY:
+				notice->setCaption("Please choose the cards you want to play with.");
+				break;
+			case ST_GAMES:
+				notice->setCaption("Please choose a game to continue.");
+				break;
+			default:
+				notice->setCaption("");
+				break;
+		}
 		drawList();
 		if (screenType == ST_ALBUMS) {
 			saveData(ALBUM, album->getAll().c_str());

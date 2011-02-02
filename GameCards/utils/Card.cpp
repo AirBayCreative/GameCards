@@ -92,6 +92,14 @@ void Card::setFullDesc(const char *f) {
 	fullDesc = f;
 }
 
+String Card::getGamePlayerCardId() {
+	return gamePlayerCardId;
+}
+
+void Card::setGamePlayerCardId(const char *g) {
+	gamePlayerCardId = g;
+}
+
 String Card::getAll() {
 	return getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim;
 }

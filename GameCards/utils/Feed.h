@@ -19,6 +19,7 @@ public:
 	void setAll(const char*);
 	void setLoaded(bool load);
 	void setAlbum(const char*);
+	void setGameId(const char*);
 	bool setTouch(const char* touch);
 	bool setTouchEnabled(bool touch);
 	Albums* getAlbum();
@@ -33,6 +34,7 @@ public:
 	String getReplaceWhiteSpaces();
 	String getReplaceSpecialCharacters();
 	String getAll();
+	String getGameId();
 	Vector<String> getAlbumNames();
 	bool getTouchEnabled();
 	String getTouch();
@@ -47,6 +49,7 @@ private:
 	String email;
 	String handle;
 	String touch;
+	String gameId;
 	Albums *album;
 	Albums real_album;
 	bool touchEnabled;

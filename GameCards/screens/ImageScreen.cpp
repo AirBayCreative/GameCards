@@ -5,7 +5,8 @@
 #include "AuctionCreateScreen.h"
 //#include "TradeOptionsScreen.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection,
+		bool canAuction) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
 	//TODO add touch
 	next = NULL;
 	mainLayout = createImageLayout(back);
@@ -13,9 +14,9 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
 		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, hasConnection?auction:"", "");
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?auction:"", "");
 		} else {
-			mainLayout = createImageLayout(back, hasConnection?auction:"", flipit);
+			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?auction:"", flipit);
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
@@ -116,7 +117,7 @@ ImageScreen::~ImageScreen() {
 		if (imge->getResource() != RES_LOADING) {
 			maDestroyObject(imge->getResource());
 		}
-	}
+	} // <-- dont delete!
 	//this->getMain()->getChildren().clear();
 	//delete listBox;
 	delete mainLayout;
@@ -142,7 +143,7 @@ ImageScreen::~ImageScreen() {
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
-			if (card != NULL && hasConnection) {
+			if (card != NULL && hasConnection && canAuction) {
 				/*if (next != NULL) {
 					delete next;
 				}

@@ -67,6 +67,7 @@ extern int mCount;
 extern Image *image;
 extern Widget *softKeys;
 extern Screen *orig;
+extern Screen *origMenu;
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
@@ -104,6 +105,18 @@ static String BUY_AUCTION_NOW = URL+"?buyauctionnow=1";
 static String AUCTION_BID = URL+"?auctionbid=1";
 //get a list of albums with enough cards in to play with.
 static String PLAYABLE_CATEGORIES = URL+"?playablecategories=1";
+//create a new game and return a gameId
+static String NEWGAME = URL+"?newgame=1";
+//load a game
+static String LOADGAME = URL+"?loadgame=1";
+//list users incomplete games
+static String LISTGAMES = URL+"?getusergames=1";
+//get details on the users current games
+static String GAMEDETAILS = URL+"?viewgamedetails=1";
+//select a card to play, return a list of its stats
+static String SELECTCARD = URL+"?selectcard=1";
+//select a stat to play, return matchup results
+static String SELECTSTAT = URL+"?selectstat=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -257,8 +270,43 @@ static const char* play = "Play";
 static const char* new_game = "New Game";
 static const char* existing_game = "Continue Game";
 static const char* category_id = "categoryid";
+static const char* stat_id = "statid";
+static const char* game_id = "gameid";
+static const char* game_player_card_id = "gameplayercardid";
 static const char* category_name = "categoryname";
 static const char* playable_cards = "playablecards";
 static const char* categories = "categories";
+static const char* initialising_game = "Initialising new game...";
+static const char* loading_game = "Loading game...";
+static const char* select_card = "Please select a card to play";
+static const char* select_stat = "Please select a stat to play";
+static const char* options = "Options";
+static const char* checking_games = "Checking games...";
+static const char* leave_game = "Leave Game";
+static const char* view_details = "View Game Details";
+static const char* xml_game = "game";
+static const char* xml_games = "games";
+static const char* xml_phase = "phase";
+static const char* xml_game_id = "gameid";
+static const char* xml_gameplayercard_id = "gameplayercard_id";
+static const char* xml_game_description = "gamedescription";
+static const char* xml_game_details = "gamedetails";
+static const char* xml_turn = "turn";
+static const char* xml_player_score = "playerscore";
+static const char* xml_opponent_score = "opponentscore";
+static const char* xml_progress = "progress";
+static const char* xml_cardstats = "cardstats";
+static const char* xml_stat_type = "stat_type";
+static const char* xml_stat_description = "stat_description";
+static const char* xml_cardstat_id = "cardstat_id";
+static const char* xml_card_name = "card_name";
+static const char* xml_results = "results";
+static const char* xml_explanation = "explanation";
+static const char* xml_outcome = "outcome";
+//the following game phase string need to match the descriptions in the mytcg_gamephase table
+static const char* phase_card = "card";
+static const char* phase_stat = "stat";
+static const char* phase_result = "result";
+static const char* phase_finished = "finished";
 
 #endif	//_UTIL_H_

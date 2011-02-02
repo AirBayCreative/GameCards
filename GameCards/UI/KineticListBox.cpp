@@ -174,7 +174,7 @@ namespace MAUI {
                 //listen
                 child->addWidgetListener(this);
 
-                if(selectedIndex>children.size()) {
+                if(selectedIndex>=children.size()) {
                         selectedIndex = 0;
                         yOffset = 0;
                         /*
@@ -457,7 +457,6 @@ namespace MAUI {
                         }
                         return;
                 }*/
-
                 Widget *unselectedWidget = children[this->selectedIndex];
                 unselectedWidget->setSelected(false);
                 int lastIndex = this->selectedIndex;
@@ -474,11 +473,9 @@ namespace MAUI {
                 }
                 Widget *selectedWidget = children[this->selectedIndex];
                 selectedWidget->setSelected(true);
-
                 Vector_each(KineticListBoxListener*, i, mKineticListBoxListeners) {
                         (*i)->itemSelected(this, selectedWidget, unselectedWidget);
                 }
-
                 requestRepaint();
         }
 
@@ -671,15 +668,17 @@ namespace MAUI {
 								stop();
 								yOffset = 0;
 						}
-						Widget *c = children[getChildren().size()-1];
-						if((c->getPosition().y+c->getHeight()-getHeight() > 0) &&
-								((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
+						if (getChildren().size() > 0) {
+							Widget *c = children[getChildren().size()-1];
+							if((c->getPosition().y+c->getHeight()-getHeight() > 0) &&
+									((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
+									stop();
+									yOffset = ((c->getPosition().y+c->getHeight()-getHeight()) << 16)*-1;
+							}
+							else if (c->getPosition().y+c->getHeight()-getHeight() <= 0) {
 								stop();
-								yOffset = ((c->getPosition().y+c->getHeight()-getHeight()) << 16)*-1;
-						}
-						else if (c->getPosition().y+c->getHeight()-getHeight() <= 0) {
-							stop();
-							yOffset = 0;
+								yOffset = 0;
+							}
 						}
 				}
 				else

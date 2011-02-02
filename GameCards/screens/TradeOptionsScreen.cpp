@@ -5,10 +5,11 @@
 #include "AuctionCreateScreen.h"
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
+#include "GameDetailsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card, int screenType) :previous(previous), feed(feed), card(card), screenType(screenType) {
+TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :previous(previous), feed(feed), card(card), screenType(screenType) {
 	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
@@ -35,6 +36,14 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, Card *card,
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(existing_game);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_GAME_OPTIONS:
+			lbl = createSubLabel(leave_game);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(view_details);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -169,6 +178,25 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 							delete menu;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_PLAY);
+						menu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_GAMES);
+						menu->show();
+					}
+					break;
+				case ST_GAME_OPTIONS:
+					if(index == 0) {
+						origMenu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GameDetailsScreen(feed);
 						menu->show();
 					}
 					break;

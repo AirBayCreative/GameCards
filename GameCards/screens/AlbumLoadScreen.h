@@ -29,7 +29,7 @@ public:
 	void locateItem(MAPoint2d point);
 	void refresh();
 
-	enum screenTypes {ST_ALBUMS, ST_PLAY};
+	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES};
 private:
 
 	Screen *previous;

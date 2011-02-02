@@ -59,6 +59,8 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	}
 
 	this->setMain(mainLayout);
+
+	origMenu = this;
 }
 
 MenuScreen::~MenuScreen() {
@@ -163,7 +165,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			}*/else if(index == 1) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_PLAY_OPTIONS);
+				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_PLAY_OPTIONS);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
@@ -171,7 +173,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 4) {
 				delete menu;
