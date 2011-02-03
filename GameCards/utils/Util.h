@@ -284,6 +284,7 @@ static const char* options = "Options";
 static const char* checking_games = "Checking games...";
 static const char* leave_game = "Leave Game";
 static const char* view_details = "View Game Details";
+static const char* play_card = "Play Card";
 static const char* xml_game = "game";
 static const char* xml_games = "games";
 static const char* xml_phase = "phase";

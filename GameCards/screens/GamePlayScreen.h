@@ -30,10 +30,10 @@ public:
 
 	typedef Map<String, Card*> StringCardMap;
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_SELECT_CARD = 0, P_SELECT_STAT, P_RESULTS, P_LOADING, P_FINISHED};
+	enum phases {P_SELECT_CARD = 0, P_SELECT_STAT, P_RESULTS, P_LOADING, P_FINISHED, P_CARD_DETAILS};
 private:
 	Screen *next, *previous;
-	ImageCache *mImageCache;
+	ImageCache *imageCache;
 	Image *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
@@ -48,19 +48,21 @@ private:
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
 	String statType, statDescription, cardStatId, cardName;
 	String userScore, opponentScore, explanation, outcome;
-	int i, moved, phase;
-	bool list, left, right, hasConnection, newGame, busy;
+	int i, moved, phase, cardIndex, yOffset;
+	bool list, left, right, hasConnection, newGame, busy, flip;
+	Card *card;
 
 	Feed *feed;
 	StringCardMap cards;
 	CardStatVector cardStats;
 	Vector<String> index, stats;
 
-	void drawCardListScreen();
+	void drawCardListScreen(int index = 0, int yOffset = 0);
 	void drawStatListScreen();
 	void drawResultsScreen();
+	void drawCardDetailsScreen();
 
-	void drawCardList();
+	void drawCardList(int index = 0);
 	void drawStatList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
@@ -79,6 +81,9 @@ private:
 	void clearCardMap();
 	void clearCardStats();
 	void clearListBox();
+
+	void selectStat(int selected);
+	void selectCard(Card *selected);
 };
 
 #endif	//_GAMEPLAYSCREEN_H_*/

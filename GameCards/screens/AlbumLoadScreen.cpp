@@ -20,7 +20,8 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
+AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a) : mHttp(this),
+		previous(previous), feed(feed), screenType(screenType) {
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -57,10 +58,22 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType) :
 			break;
 		case ST_GAMES:
 			listBox->setHeight(listBox->getHeight() - 20);
-			notice->setCaption(checking_games);
-			album = new Albums();
-			drawList();
-			res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+
+			if (a != NULL) {
+				notice->setCaption("Please choose a game to continue.");
+				album = a;
+				drawList();
+				this->setMain(mainLayout);
+				orig = this;
+				return;
+			}
+			else {
+				notice->setCaption(checking_games);
+				album = new Albums();
+				drawList();
+				res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+			}
+
 			break;
 	}
 

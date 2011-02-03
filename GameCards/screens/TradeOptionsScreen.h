@@ -9,11 +9,12 @@
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
+#include "../utils/XmlConnection.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeOptionsScreen : public Screen, WidgetListener {
+class TradeOptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card = NULL);
 	~TradeOptionsScreen();
@@ -29,12 +30,32 @@ private:
 	Feed *feed;
 	Layout *layout;
 	ListBox* listBox;
-	Label *lbl;
+	Label *lbl, *notice;
 	Screen *menu;
 	Screen *previous;
 	Card *card;
 	bool list, left, right;
 	int index, screenType;
+	String parentTag, temp1, temp, error_msg;
+
+	Albums *album;
+
+	HttpConnection mHttp;
+	XmlConnection xmlConn;
+
+	void checkForGames();
+
+	void httpFinished(MAUtil::HttpConnection*, int);
+	void connReadFinished(Connection*, int);
+	void xcConnError(int code);
+	void mtxEncoding(const char*);
+	void mtxTagStart(const char*, int);
+	void mtxTagAttr(const char*, const char*);
+	void mtxTagData(const char*, int);
+	void mtxTagEnd(const char*, int);
+	void mtxParseError();
+	void mtxEmptyTagEnd();
+	void mtxTagStartEnd();
 };
 
 #endif

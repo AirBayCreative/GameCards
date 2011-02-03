@@ -137,6 +137,7 @@ namespace MAUI {
                 void setEnabled(bool e);
 
                 int getYOffset();
+                int setYOffset(int y);
 
         private:
 				void pointerPressEvent( MAPoint2d point );

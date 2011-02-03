@@ -32,8 +32,14 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	next = NULL;
 
 	busy = false;
+	flip = false;
 
-	mImageCache = new ImageCache();
+	cardIndex = 0;
+	yOffset = 0;
+
+	card = NULL;
+
+	imageCache = new ImageCache();
 
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", "", true);
@@ -66,10 +72,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption(loading_game);
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(listBox->getHeight()) + intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&heigth=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), listBox->getHeight(), scrWidth);
 	}
 
 	mHttp = HttpConnection(this);
@@ -105,7 +111,7 @@ void GamePlayScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
-void GamePlayScreen::drawCardList() {
+void GamePlayScreen::drawCardList(int selectedIndex) {
 	Layout *feedlayout;
 	index.clear();
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
@@ -119,15 +125,15 @@ void GamePlayScreen::drawCardList() {
 
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-		retrieveThumb(tempImage, itr->second, mImageCache);
+		retrieveThumb(tempImage, itr->second, imageCache);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
 	}
-	if (listBox->getChildren().size() > 0) {
-		listBox->setSelectedIndex(0);
+	if (listBox->getChildren().size() >= (selectedIndex+1)) {
+		listBox->setSelectedIndex(selectedIndex);
 	}
 }
 
@@ -148,7 +154,7 @@ void GamePlayScreen::drawStatList() {
 	}
 }
 
-void GamePlayScreen::drawCardListScreen() {
+void GamePlayScreen::drawCardListScreen(int index, int yOffset) {
 	phase = P_SELECT_CARD;
 
 	clearListBox();
@@ -157,7 +163,10 @@ void GamePlayScreen::drawCardListScreen() {
 
 	notice->setCaption(select_card);
 
-	drawCardList();
+	drawCardList(index);
+
+	listBox->setYOffset(yOffset);
+	listBox->requestRepaint();
 }
 
 void GamePlayScreen::drawStatListScreen() {
@@ -210,6 +219,27 @@ void GamePlayScreen::drawResultsScreen() {
 	explanation = "";
 }
 
+void GamePlayScreen::drawCardDetailsScreen() {
+	phase = P_CARD_DETAILS;
+
+	flip = true;
+
+	notice->setCaption("");
+
+	clearListBox();
+
+	updateSoftKeyLayout(back, play_card, "", mainLayout);
+
+	int height = listBox->getHeight();
+
+	lprintfln("height: %d", height);
+	lprintfln("PADDING: %d", PADDING);
+
+	tempImage = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
+
+	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
+}
+
 void GamePlayScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
@@ -239,13 +269,19 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 
 	Point p;
 	p.set(point.x, point.y);
-	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-	{
-		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+
+	//this is for if you want a click in the list to trigger an event
+	if (phase == P_SELECT_STAT || phase == P_CARD_DETAILS || phase == P_SELECT_CARD) {
+		for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
 		{
-			list = true;
+			if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+			{
+				list = true;
+			}
 		}
 	}
+
+	//this is for the buttons at the bottom
 	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
@@ -271,7 +307,7 @@ GamePlayScreen::~GamePlayScreen() {
 	delete mainLayout;
 
 	delete next;
-	delete mImageCache;
+	delete imageCache;
 
 	delete [] feedLayouts;
 
@@ -356,6 +392,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_LOADING:
 					previous->show();
 					break;
+				case P_CARD_DETAILS:
+					drawCardListScreen(cardIndex, yOffset);
+					break;
 				default:
 					if (next != NULL) {
 						delete next;
@@ -370,108 +409,149 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			switch (phase) {
 				case P_SELECT_CARD:
-					if (next != NULL) {
+					/*if (next != NULL) {
 						delete next;
 					}
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, true, false);
-					next->show();
+					next->show();*/
+					card = cards.find(index[selected])->second;
+					cardIndex = selected;
+					yOffset = listBox->getYOffset();
+					drawCardDetailsScreen();
+					break;
+				case P_SELECT_STAT:
+					this->selectStat(selected);
+					break;
+				case P_CARD_DETAILS:
+					flip = !flip;
+					int height = listBox->getHeight();
+					if (flip) {
+						retrieveBack(tempImage, card, height-PADDING*2, imageCache);
+					}
+					else {
+						retrieveFront(tempImage, card, height-PADDING*2, imageCache);
+					}
 					break;
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			char *url = NULL;
-			int urlLength = 0;
-			int res = 0;
-			switch (phase) {
-				case P_SELECT_CARD:
-					phase = P_SELECT_STAT;
+			if (!busy) {
+				busy = true;
 
-					notice->setCaption("Loading stats...");
+				switch (phase) {
+					case P_SELECT_CARD:
+						selectCard(cards.find(index[selected])->second);
+						break;
+					case P_CARD_DETAILS:
+						selectCard(card);
+						break;
+					case P_SELECT_STAT:
+						this->selectStat(selected);
+						break;
+					case P_RESULTS:
+						notice->setCaption("Loading remaining cards...");
 
-					cardName = "";
+						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+						int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+						char *url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
 
-					//work out how long the url will be, the 4 is for the & and = symbals
-					urlLength = SELECTCARD.length() + 4 + strlen(game_id) + gameId.length() +
-							strlen(game_player_card_id) + index[selected].length();
-					url = new char[urlLength];
-					memset(url,'\0',urlLength);
-					sprintf(url, "%s&%s=%s&%s=%s", SELECTCARD.c_str(), game_id, gameId.c_str(), game_player_card_id, index[selected].c_str());
+						clearCardMap();
+						clearListBox();
 
-					clearCardStats();
-					clearListBox();
+						mHttp = HttpConnection(this);
+						int res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							hasConnection = false;
+							notice->setCaption("Connection error.");
+						} else {
+							hasConnection = true;
+							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.finish();
+						}
 
-					mHttp = HttpConnection(this);
-					res = mHttp.create(url, HTTP_GET);
-					if(res < 0) {
-						hasConnection = false;
-						notice->setCaption("Connection error.");
-					} else {
-						hasConnection = true;
-						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-						mHttp.finish();
-					}
-					break;
-				case P_SELECT_STAT:
-					phase = P_RESULTS;
-
-					notice->setCaption("Checking outcome...");
-
-					//work out how long the url will be, the 4 is for the & and = symbals
-					urlLength = SELECTSTAT.length() + 4 + strlen(game_id) + gameId.length() +
-							strlen(stat_id) + cardStats[selected]->getCardStatId().length();
-					url = new char[urlLength];
-					memset(url,'\0',urlLength);
-					sprintf(url, "%s&%s=%s&%s=%s", SELECTSTAT.c_str(), game_id, gameId.c_str(), stat_id, cardStats[selected]->getCardStatId().c_str());
-
-					clearCardStats();
-					clearListBox();
-
-					mHttp = HttpConnection(this);
-					res = mHttp.create(url, HTTP_GET);
-					if(res < 0) {
-						hasConnection = false;
-						notice->setCaption("Connection error.");
-					} else {
-						hasConnection = true;
-						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-						mHttp.finish();
-					}
-					break;
-				case P_RESULTS:
-					notice->setCaption("Loading remaining cards...");
-
-					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-					urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
-					url = new char[urlLength];
-					memset(url,'\0',urlLength);
-					sprintf(url, "%s&%s=%s&heigth=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
-
-					clearCardMap();
-					clearListBox();
-
-					mHttp = HttpConnection(this);
-					res = mHttp.create(url, HTTP_GET);
-					if(res < 0) {
-						hasConnection = false;
-						notice->setCaption("Connection error.");
-					} else {
-						hasConnection = true;
-						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-						mHttp.finish();
-					}
-					break;
-				case P_FINISHED:
-					origMenu->show();
-					break;
-			}
-			if (url != NULL) {
-				delete url;
+						if (url != NULL) {
+							delete url;
+						}
+						break;
+					case P_FINISHED:
+						origMenu->show();
+						break;
+				}
 			}
 			break;
+
 	}
+}
+
+void GamePlayScreen::selectCard(Card *selected) {
+	char *url = NULL;
+	int urlLength = 0;
+	int res = 0;
+
+	phase = P_SELECT_STAT;
+
+	notice->setCaption("Loading stats...");
+
+	cardName = "";
+
+	//work out how long the url will be, the 4 is for the & and = symbals
+	urlLength = SELECTCARD.length() + 4 + strlen(game_id) + gameId.length() +
+			strlen(game_player_card_id) + selected->getGamePlayerCardId().length();
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%s&%s=%s", SELECTCARD.c_str(), game_id, gameId.c_str(), game_player_card_id, selected->getGamePlayerCardId().c_str());
+
+	clearCardStats();
+	clearListBox();
+
+	mHttp = HttpConnection(this);
+	res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		hasConnection = false;
+		notice->setCaption("Connection error.");
+	} else {
+		hasConnection = true;
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+}
+
+void GamePlayScreen::selectStat(int selected) {
+	char *url = NULL;
+	int urlLength = 0;
+	int res = 0;
+
+	phase = P_RESULTS;
+
+	notice->setCaption("Checking outcome...");
+
+	//work out how long the url will be, the 4 is for the & and = symbals
+	urlLength = SELECTSTAT.length() + 4 + strlen(game_id) + gameId.length() +
+			strlen(stat_id) + cardStats[selected]->getCardStatId().length();
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%s&%s=%s", SELECTSTAT.c_str(), game_id, gameId.c_str(), stat_id, cardStats[selected]->getCardStatId().c_str());
+
+	clearCardStats();
+	clearListBox();
+
+	mHttp = HttpConnection(this);
+	res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		hasConnection = false;
+		notice->setCaption("Connection error.");
+	} else {
+		hasConnection = true;
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+
+	delete url;
 }
 
 void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -498,10 +578,13 @@ void GamePlayScreen::xcConnError(int code) {
 		notice->setCaption(loading_game);
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(listBox->getHeight()) + intlen(scrWidth);
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&heigth=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), listBox->getHeight(), scrWidth);
+
+		lprintfln("scrWidth: %d", scrWidth);
+		lprintfln("listBox->getWidth(): %d", listBox->getWidth());
 
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
@@ -605,6 +688,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_game) || !strcmp(name, xml_cardstats) || !strcmp(name, xml_results)) {
 		if (!newGame) {
+			busy = false;
 			switch (phase) {
 				case P_SELECT_CARD:
 					drawCardListScreen();

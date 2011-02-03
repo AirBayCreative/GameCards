@@ -8,11 +8,17 @@
 #include "GameDetailsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
+#include "../utils/Albums.h"
 
-TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :previous(previous), feed(feed), card(card), screenType(screenType) {
+TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType) {
+	temp = "";
+	temp1 = "";
+	error_msg = "";
+
 	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
 		case ST_TRADE_OPTIONS:
@@ -32,13 +38,16 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 			listBox->add(lbl);
 			break;
 		case ST_PLAY_OPTIONS:
-			lbl = createSubLabel(new_game);
+			/*lbl = createSubLabel(new_game);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(existing_game);
 			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			break;
+			listBox->add(lbl);*/
+			checkForGames();
+			this->setMain(layout);
+			return;
+			//break;
 		case ST_GAME_OPTIONS:
 			lbl = createSubLabel(leave_game);
 			lbl->addWidgetListener(this);
@@ -55,22 +64,29 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 }
 
 TradeOptionsScreen::~TradeOptionsScreen() {
-	//layout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
+	temp = "";
+	temp1 = "";
+	error_msg = "";
+
 	delete layout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	//delete lbl;
 	delete menu;
 }
+
+void TradeOptionsScreen::checkForGames() {
+	album = new Albums();
+
+	notice->setCaption(checking_games);
+	int res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+
+	if(res < 0) {
+		notice->setCaption("Connection Error");
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+}
+
 void TradeOptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -184,7 +200,7 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_GAMES);
+						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_GAMES, album);
 						menu->show();
 					}
 					break;
@@ -212,4 +228,85 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 			listBox->selectPreviousItem();
 			break;
 	}
+}
+
+void TradeOptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	if (result == 200) {
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(http, this, this);
+	} else {
+		mHttp.close();
+		notice->setCaption("");
+	}
+}
+
+void TradeOptionsScreen::connReadFinished(Connection* conn, int result) {}
+
+void TradeOptionsScreen::xcConnError(int code) {
+	if (code == -6) {
+		return;
+	} else {
+		//TODO handle error
+	}
+}
+
+void TradeOptionsScreen::mtxEncoding(const char* ) {
+}
+
+void TradeOptionsScreen::mtxTagStart(const char* name, int len) {
+	if (!strcmp(name, xml_albumdone)) {
+		album->clearAll();
+	}
+	parentTag = name;
+}
+
+void TradeOptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+}
+
+void TradeOptionsScreen::mtxTagData(const char* data, int len) {
+	if(!strcmp(parentTag.c_str(), xml_game_description)) {
+		temp1 += data;
+	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
+		temp += data;
+	}
+}
+
+void TradeOptionsScreen::mtxTagEnd(const char* name, int len) {
+	if(!strcmp(name, xml_game_description)) {
+		album->addAlbum(temp1.c_str(), temp.c_str());
+		temp1 = "";
+		temp = "";
+	} else if (!strcmp(name, xml_games)) {
+		notice->setCaption("");
+		if (album->size() > 0) {
+			lbl = createSubLabel(new_game);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(existing_game);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+
+			listBox->setSelectedIndex(0);
+		}
+		else {
+			if (menu != NULL) {
+				delete menu;
+			}
+			menu = new AlbumLoadScreen(previous, feed, AlbumLoadScreen::ST_PLAY);
+			menu->show();
+		}
+	} else if(!strcmp(name, xml_error)) {
+		notice->setCaption(error_msg.c_str());
+	} else {
+		notice->setCaption("");
+	}
+}
+
+void TradeOptionsScreen::mtxParseError() {
+}
+
+void TradeOptionsScreen::mtxEmptyTagEnd() {
+}
+
+void TradeOptionsScreen::mtxTagStartEnd() {
 }

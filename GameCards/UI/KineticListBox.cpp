@@ -725,8 +725,11 @@ namespace MAUI {
                 }
         }
 
-        int KineticListBox::getYOffset()
-        {
+        int KineticListBox::getYOffset() {
 				return yOffset;
+        }
+
+        int KineticListBox::setYOffset(int y) {
+        	yOffset = y;
         }
 }
