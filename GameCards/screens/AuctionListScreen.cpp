@@ -56,7 +56,6 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			lprintfln("categoryId: %s", categoryId.c_str());
 			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
 			break;
 		case ST_USER:
@@ -291,7 +290,9 @@ void AuctionListScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		drawList();
+
+		notice->setCaption(no_connect);
 	}
 }
 

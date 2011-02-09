@@ -19,6 +19,7 @@ MAUIMoblet::MAUIMoblet() {
 	gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
 	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 16, 32, 16, 32, true, true);
 	gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
+	gSkinKeyboard = new WidgetSkin(RES_KEYBOARD_SEL, RES_KEYBOARD_UNSEL, 12, 13, 12, 13, true);
 	Engine& engine = Engine::getSingleton();
 	engine.setDefaultFont(gFontWhite);
 	engine.setDefaultSkin(gSkinBack);

@@ -163,7 +163,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			if (card != NULL) {
 				flip=!flip;
-				if (imge->getResource() != RES_LOADING) {
+				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 					maDestroyObject(imge->getResource());
 				}
 				imge->setResource(RES_LOADING);

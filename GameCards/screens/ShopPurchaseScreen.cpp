@@ -187,7 +187,6 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
-				//lprintfln("product->getId(): %s", product->getId().c_str());
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);

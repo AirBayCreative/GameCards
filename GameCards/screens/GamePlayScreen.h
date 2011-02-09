@@ -40,6 +40,7 @@ private:
 	Layout *mainLayout;
 	Layout **feedLayouts;
 	Vector<Widget*> tempWidgets;
+	Widget *widImage, *widNotice;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -48,7 +49,7 @@ private:
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
 	String statType, statDescription, cardStatId, cardName;
 	String userScore, opponentScore, explanation, outcome;
-	int i, moved, phase, cardIndex, yOffset;
+	int i, moved, phase, cardIndex, yOffset, storeHeight;
 	bool list, left, right, hasConnection, newGame, busy, flip;
 	Card *card;
 
@@ -84,6 +85,8 @@ private:
 
 	void selectStat(int selected);
 	void selectCard(Card *selected);
+
+	void resetHeights();
 };
 
 #endif	//_GAMEPLAYSCREEN_H_*/

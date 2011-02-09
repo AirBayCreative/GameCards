@@ -61,6 +61,7 @@ extern WidgetSkin *gSkinBack;
 extern WidgetSkin *gSkinList;
 extern WidgetSkin *gSkinAlbum;
 extern WidgetSkin *gSkinText;
+extern WidgetSkin *gSkinKeyboard;
 extern int scrWidth;
 extern int scrHeight;
 extern int mCount;
@@ -89,6 +90,10 @@ static String CARDS = URL+"?cardsincategory=";
 static String TRADE = URL+"?tradecard=1";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
+//Lists all categories with products assigned to them, or their children
+static String PRODUCTCATEGORIES = URL+"?productcategories=1";
+//Lists all categories with auctions assigned to them, or their children
+static String AUCTIONCATEGORIES = URL+"?auctioncategories=1";
 //use for making a purchase
 static String BUYPRODUCT = URL+"?buyproduct=";
 //Check if there is an update available

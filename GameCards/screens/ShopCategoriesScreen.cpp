@@ -8,8 +8,15 @@
 void ShopCategoriesScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
-
+	int res = -1;
+	switch(screenType) {
+		case ST_SHOP:
+			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			break;
+		case ST_AUCTIONS:
+			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			break;
+	}
 	if(res < 0) {
 
 	} else {
@@ -36,7 +43,15 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 
 	listBox->setHeight(listBox->getHeight() - 20);
 
-	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
+	int res = -1;
+	switch(screenType) {
+		case ST_SHOP:
+			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			break;
+		case ST_AUCTIONS:
+			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			break;
+	}
 	if(res < 0) {
 		drawList();
 		notice->setCaption(no_connect);
@@ -212,7 +227,8 @@ void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		drawList();
+		notice->setCaption(no_connect);
 	}
 }
 

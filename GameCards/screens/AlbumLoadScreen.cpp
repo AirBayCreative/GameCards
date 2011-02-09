@@ -76,7 +76,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 			break;
 	}
-
 	if(res < 0) {
 		notice->setCaption("");
 	} else {

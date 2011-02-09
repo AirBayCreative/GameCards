@@ -36,6 +36,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	cardIndex = 0;
 	yOffset = 0;
+	storeHeight = 0;
 
 	card = NULL;
 
@@ -72,10 +73,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption(loading_game);
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(listBox->getHeight()) + intlen(scrWidth);
+		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), listBox->getHeight(), scrWidth);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
 	}
 
 	mHttp = HttpConnection(this);
@@ -220,7 +221,15 @@ void GamePlayScreen::drawResultsScreen() {
 }
 
 void GamePlayScreen::drawCardDetailsScreen() {
+	imageCache->clearImageCache();
+
 	phase = P_CARD_DETAILS;
+
+	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
+	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
+	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
+	notice->setCaption("");
+	listBox->setPosition(0, 0);
 
 	flip = true;
 
@@ -232,12 +241,11 @@ void GamePlayScreen::drawCardDetailsScreen() {
 
 	int height = listBox->getHeight();
 
-	lprintfln("height: %d", height);
-	lprintfln("PADDING: %d", PADDING);
-
 	tempImage = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
 
 	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
+
+	listBox->setYOffset(0);
 }
 
 void GamePlayScreen::pointerPressEvent(MAPoint2d point) {
@@ -393,6 +401,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					previous->show();
 					break;
 				case P_CARD_DETAILS:
+					resetHeights();
 					drawCardListScreen(cardIndex, yOffset);
 					break;
 				default:
@@ -425,6 +434,13 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_CARD_DETAILS:
 					flip = !flip;
 					int height = listBox->getHeight();
+					if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
+						maDestroyObject(tempImage->getResource());
+					}
+					tempImage->setResource(RES_LOADING);
+					tempImage->update();
+					tempImage->requestRepaint();
+					maUpdateScreen();
 					if (flip) {
 						retrieveBack(tempImage, card, height-PADDING*2, imageCache);
 					}
@@ -443,6 +459,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						selectCard(cards.find(index[selected])->second);
 						break;
 					case P_CARD_DETAILS:
+						resetHeights();
 						selectCard(card);
 						break;
 					case P_SELECT_STAT:
@@ -484,6 +501,11 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			break;
 
 	}
+}
+
+void GamePlayScreen::resetHeights() {
+	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(storeHeight);
+	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()+storeHeight + 20));
 }
 
 void GamePlayScreen::selectCard(Card *selected) {
@@ -561,7 +583,8 @@ void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+
+		notice->setCaption(no_connect);
 	}
 }
 
@@ -582,9 +605,6 @@ void GamePlayScreen::xcConnError(int code) {
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), listBox->getHeight(), scrWidth);
-
-		lprintfln("scrWidth: %d", scrWidth);
-		lprintfln("listBox->getWidth(): %d", listBox->getWidth());
 
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);

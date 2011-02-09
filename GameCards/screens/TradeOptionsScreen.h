@@ -34,7 +34,7 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right;
+	bool list, left, right, connError;
 	int index, screenType;
 	String parentTag, temp1, temp, error_msg;
 

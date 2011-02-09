@@ -49,7 +49,6 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
 	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
-
 	if(res < 0) {
 
 	} else {

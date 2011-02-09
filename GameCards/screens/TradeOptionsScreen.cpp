@@ -15,6 +15,8 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 	temp1 = "";
 	error_msg = "";
 
+	connError = false;
+
 	menu = new Screen();
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
@@ -38,16 +40,9 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 			listBox->add(lbl);
 			break;
 		case ST_PLAY_OPTIONS:
-			/*lbl = createSubLabel(new_game);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = createSubLabel(existing_game);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);*/
 			checkForGames();
 			this->setMain(layout);
 			return;
-			//break;
 		case ST_GAME_OPTIONS:
 			lbl = createSubLabel(leave_game);
 			lbl->addWidgetListener(this);
@@ -73,6 +68,7 @@ TradeOptionsScreen::~TradeOptionsScreen() {
 }
 
 void TradeOptionsScreen::checkForGames() {
+	connError = true;
 	album = new Albums();
 
 	notice->setCaption(checking_games);
@@ -189,14 +185,14 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_PLAY_OPTIONS:
-					if(index == 0) {
+					if(index == 0 && !connError) {
 						if (menu != NULL) {
 							delete menu;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_PLAY);
 						menu->show();
 					}
-					else if (index == 1) {
+					else if (index == 1 && !connError) {
 						if (menu != NULL) {
 							delete menu;
 						}
@@ -232,11 +228,15 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 
 void TradeOptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
+		connError = false;
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
+		connError = true;
 		mHttp.close();
-		notice->setCaption("");
+		notice->setCaption(no_connect);
+
+		updateSoftKeyLayout(back, "", "", layout);
 	}
 }
 

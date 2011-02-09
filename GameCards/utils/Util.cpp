@@ -25,6 +25,7 @@ WidgetSkin *gSkinBack;
 WidgetSkin *gSkinList;
 WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
+WidgetSkin *gSkinKeyboard;
 Screen *orig;
 Screen *origMenu;
 int scrWidth;
