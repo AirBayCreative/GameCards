@@ -89,7 +89,7 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 		confirmLabel += not_enough_credits;
 	}
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, listBox, confirmLabel, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, listBox, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -103,7 +103,7 @@ void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 
 	updateSoftKeyLayout("", confirm, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setAutoSizeY(true);
 	lbl->setSkin(gSkinBack);
@@ -129,7 +129,7 @@ void BidOrBuyScreen::drawPlaceBidPhase() {
 	bidDetails += "\nEnd Date: " + auction->getEndDate();
 	bidDetails += "\nYour Bid: ";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, bidDetails, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, bidDetails, 0, gFontBlack);
 	lbl->setAutoSizeY(true);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
@@ -267,7 +267,7 @@ void BidOrBuyScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontWhite);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

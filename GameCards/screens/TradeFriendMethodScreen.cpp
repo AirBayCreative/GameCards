@@ -7,7 +7,7 @@ TradeFriendMethodScreen::TradeFriendMethodScreen(Screen *previous, Feed *feed, C
 	layout = createMainLayout(back, select);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -102,7 +102,7 @@ void TradeFriendMethodScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

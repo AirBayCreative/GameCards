@@ -88,8 +88,11 @@ void MobKeyboard::drawWidget()
 	maSetClipRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
 
 	if (shouldDrawBackground) {
-		maSetColor(m_backgroundColor);
-		maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
+		gSkinButton->draw(
+			0, 0,
+			l_bounds.width, l_bounds.height, WidgetSkin::UNSELECTED);
+		/*maSetColor(m_backgroundColor);
+		maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);*/
 	}
 
 

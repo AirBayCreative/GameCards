@@ -114,7 +114,7 @@ void ImageScreen::locateItem(MAPoint2d point)
 
 ImageScreen::~ImageScreen() {
 	if (card != NULL) {
-		if (imge->getResource() != RES_LOADING) {
+		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!

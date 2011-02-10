@@ -243,6 +243,7 @@ static const char* xml_urlfront = "urlfront";
 static const char* xml_urlback = "urlback";
 static const char* xml_card = "card";
 //Auctions
+static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";
 static const char* buy_now_price = "Buy now price";
 static const char* auction_duration = "Auction duration(days)";

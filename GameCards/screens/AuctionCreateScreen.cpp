@@ -253,12 +253,12 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	retrieveThumb(tempImage, card, mImageCache);
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, card->getText(), 0, gFontWhite);
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, card->getText(), 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, opening_bid, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, opening_bid, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -268,7 +268,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, buy_now_price, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, buy_now_price, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -278,7 +278,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, auction_duration, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, auction_duration, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -318,7 +318,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = auction_failed;
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, result, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, result, 0, gFontBlack);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);
@@ -343,7 +343,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	mainLayout = createMainLayout(back, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, gFontBlack);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);

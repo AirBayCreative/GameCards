@@ -138,7 +138,7 @@ void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontWhite);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

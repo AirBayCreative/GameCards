@@ -33,12 +33,12 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			break;
 	}
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontBlack);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);

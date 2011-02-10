@@ -6,7 +6,7 @@ TradeCompleteScreen::TradeCompleteScreen(Feed *feed, String completeMessage):fee
 	layout = createMainLayout("", continuelbl);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, card_sent_message, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, card_sent_message, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -89,7 +89,7 @@ void TradeCompleteScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

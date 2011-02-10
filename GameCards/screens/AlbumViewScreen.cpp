@@ -167,7 +167,7 @@ void AlbumViewScreen::drawList() {
 			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -225,7 +225,7 @@ void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontWhite);
+		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
 	}
 }
 

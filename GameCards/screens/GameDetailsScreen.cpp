@@ -173,6 +173,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 		lbl->setAutoSizeX(true);
 		lbl->setAutoSizeY(true);
 		lbl->setMultiLine(true);
+		lbl->setFont(gFontBlack);
 
 		display = "Progress: " + progress + "%\n";
 		display += "To play: " + toPlay;

@@ -11,22 +11,22 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
+	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
+	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 
@@ -34,7 +34,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
+	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontBlack);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -83,7 +83,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 	int index = listBox->getSelectedIndex();
 	if (list && (index == 1 || index == 3)) {
 		int dispY = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-		if (index == 1 && (yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
+		if (index == 1 && (yClick < keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
 			keyboard->attachWidget(editBoxLogin);
 		}
 		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {

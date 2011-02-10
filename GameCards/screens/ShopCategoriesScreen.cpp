@@ -39,16 +39,17 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	notice->setDrawBackground(true);
-	notice->setCaption(checking_categories);
 
 	listBox->setHeight(listBox->getHeight() - 20);
 
 	int res = -1;
 	switch(screenType) {
 		case ST_SHOP:
+			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
 			break;
 		case ST_AUCTIONS:
+			notice->setCaption(checking_auction_categories);
 			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
 			break;
 	}
@@ -174,7 +175,7 @@ void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

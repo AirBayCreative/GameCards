@@ -30,7 +30,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -90,7 +90,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 		height = kinListBox->getHeight();
 	}
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, purchaseComplete, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, purchaseComplete, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);

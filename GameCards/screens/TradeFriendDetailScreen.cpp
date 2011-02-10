@@ -10,11 +10,11 @@ feed(feed), card(card), method(method) {
 
 	layout->setDrawBackground(TRUE);
 
-	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontWhite);
+	errorLabel = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontBlack);
 	errorLabel->setSkin(gSkinBack);
 	errorLabel->setMultiLine(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, method+":", 0, gFontWhite);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, method+":", 0, gFontBlack);
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
@@ -130,7 +130,7 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontWhite);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 

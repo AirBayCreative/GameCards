@@ -40,7 +40,7 @@ void ImageCache::process(bool afterFin)
     mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
 	if(res < 0) {
-
+		//lprintfln("Error creating http connection in ImageCache.\nres = %d", res);
 	} else {
 		mHttp.finish();
 	}
@@ -50,8 +50,10 @@ void ImageCache::finishedDownloading()
 {
 	if (mData != NULL) {
 		//Save to storage
-		saveFile((mNextRequest->getSaveName()).c_str(), mData);
-		returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
+		if (mNextRequest != NULL) {
+			saveFile((mNextRequest->getSaveName()).c_str(), mData);
+			returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
+		}
 		maDestroyObject(mData);
 		mData = NULL;
 	}
@@ -71,8 +73,14 @@ void ImageCache::finishedDownloading()
 			process(true);
 		return;
 	}
-	delete mNextRequest;
-	mRequests.remove(0);
+
+	if (mNextRequest != NULL) {
+		delete mNextRequest;
+		mNextRequest = NULL;
+	}
+	if (mRequests.size() > 0) {
+		mRequests.remove(0);
+	}
 	mIsBusy = false;
 	process(true);
 }

@@ -8,45 +8,45 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 	switch (screenType) {
 		case PROFILE:
 			//USERNAME
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
 			listBox->add(label);
 
 			label = createLabel(feed->getUsername());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontWhite, true, false, 45);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontBlack, true, false, 45);
 			//editBox->setDrawBackground(false);
 			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//EMAIL
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
 			listBox->add(label);
 
 			label = createLabel(feed->getEmail());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontWhite, true, false, 45);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontBlack, true, false, 45);
 			//editBox->setDrawBackground(false);
 			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//HANDLE
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontBlack);
 			listBox->add(label);
 
 			label = createLabel(feed->getHandle());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getHandle(), 0, gFontWhite, true, false, 45);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getHandle(), 0, gFontBlack, true, false, 45);
 			//editBox->setDrawBackground(false);
 			//label->addWidgetListener(this);
 			listBox->add(label);
 			break;
 		case BALANCE:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontBlack);
 			listBox->add(label);
 
 			balanceLabel = createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontWhite, true, false, 45);
+			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontBlack, true, false, 45);
 			//editBox->setDrawBackground(false);
 			//label->addWidgetListener(this);
 			listBox->add(balanceLabel);

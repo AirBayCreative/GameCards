@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <icon>
   <instance size="default" src="res/icon.png" />
-	<instance size="default" src="res/icon.svg" />
+	<instance size="default" src="res/icon tiny.svg" />
 </icon>

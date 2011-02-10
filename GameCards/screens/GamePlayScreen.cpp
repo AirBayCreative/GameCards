@@ -99,6 +99,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 }
 
 void GamePlayScreen::clearListBox() {
+	imageCache->clearImageCache();
+
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -128,7 +130,7 @@ void GamePlayScreen::drawCardList(int selectedIndex) {
 
 		retrieveThumb(tempImage, itr->second, imageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -192,6 +194,7 @@ void GamePlayScreen::drawResultsScreen() {
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(gFontBlack);
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
@@ -210,6 +213,7 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(gFontBlack);
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 	lbl->setCaption(display);
@@ -341,14 +345,14 @@ void GamePlayScreen::selectionChanged(Widget *widget, bool selected) {
 		if(selected) {
 			((Label *)widget->getChildren()[1])->setFont(gFontBlue);
 		} else {
-			((Label *)widget->getChildren()[1])->setFont(gFontWhite);
+			((Label *)widget->getChildren()[1])->setFont(gFontBlack);
 		}
 	}
 	else if (phase == P_SELECT_STAT) {
 		if(selected) {
 			((Label *)widget)->setFont(gFontBlue);
 		} else {
-			((Label *)widget)->setFont(gFontGrey);
+			((Label *)widget)->setFont(gFontBlack);
 		}
 	}
 }

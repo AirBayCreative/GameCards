@@ -14,7 +14,7 @@ TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, C
 
 	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + method + " " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
