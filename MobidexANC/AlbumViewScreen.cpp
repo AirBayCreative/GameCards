@@ -6,16 +6,18 @@
 #include "Util.h"
 #include "MAHeaders.h"
 #include "ImageScreen.h"
-#include "TradeOptionsScreen.h"
+#include "TradeFriendDetailScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
-	lprintfln("filename: %s", filename.c_str());
+AlbumViewScreen::AlbumViewScreen(Feed *feed) : mHttp(this), feed(feed), cardExists(cards.end()) {
+	emp = true;
 	next = new Screen();
 	error_msg = "";
+	quantity = "0";
+
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, tradelbl, "", true);
+		mainLayout = createMainLayout(exit, tradelbl, "", true);
 	} else {
-		mainLayout = createMainLayout(back, tradelbl, select, true);
+		mainLayout = createMainLayout(exit, tradelbl, select, true);
 	}
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -26,7 +28,7 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 
 	char *url = new char[100];
 	memset(url,'\0',100);
-	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
+	sprintf(url, "%s&heigth=%d&width=%d", CARDS.c_str(), scrHeight, scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
@@ -38,6 +40,8 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	}
 	this->setMain(mainLayout);
 
+	orig = this;
+
 	moved=0;
 }
 
@@ -47,7 +51,7 @@ void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
 }
 
 void AlbumViewScreen::loadFile() {
-	loadImages(getData(filename.c_str()));
+	loadImages(getData("1"));
 }
 void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
@@ -120,6 +124,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 }
 
 void AlbumViewScreen::drawList() {
+	emp = true;
 	Layout *feedlayout;
 	listBox->getChildren().clear();
 	index.clear();
@@ -127,14 +132,11 @@ void AlbumViewScreen::drawList() {
 	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		index.add(itr->second.getId());
 		cardText = itr->second.getText();
-		cardText += "\nQuantity: ";
-		cardText += itr->second.getQuantity();// update me
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
-
 
 		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
@@ -143,40 +145,27 @@ void AlbumViewScreen::drawList() {
 
 		retrieveThumb(tempImage, tmp, mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlackBold);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
 	}
 	if (cards.size() >= 1) {
+		emp = false;
 		listBox->setSelectedIndex(0);
 	} else {
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(0);
 	}
+	notice->setCaption("");
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-
-	delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}
-	delete label;
-	delete notice;
 	delete next;
 	delete mImageCache;
 
-	saveData(filename.c_str(), getAll().c_str());
+	saveData("1", getAll().c_str());
 
 	parentTag="";
 	cardText="";
@@ -186,18 +175,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 	thumburl="";
 	fronturl="";
 	backurl="";
-	filename="";
 	error_msg="";
 	rate="";
 	value="";
-}
-
-void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
-	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontWhite);
-	}
 }
 
 void AlbumViewScreen::show() {
@@ -220,11 +200,11 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_SOFTLEFT:
-			saveData(filename.c_str(), getAll().c_str());
-			previous->show();
+			saveData("1", getAll().c_str());
+			maExit(0);
 			break;
 		case MAK_FIRE:
-			if (index.size() >- 1) {
+			if (!emp && index.size() >- 1) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -236,7 +216,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if (next != NULL) {
 				delete next;
 			}
-			next = new TradeOptionsScreen(this, feed, &cards.find(index[selected])->second);
+			next = new TradeFriendDetailScreen(this, feed);
 			next->show();
 			break;
 	}
@@ -275,8 +255,6 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_cardquantity)) {
-		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), xml_thumburl)) {
 		thumburl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
@@ -294,7 +272,6 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		notice->setCaption("");
 		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
 		cardExists = cards.find(card.getId());
 		if (cardExists != cards.end()) {
@@ -305,7 +282,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		tmp.insert(card.getId(),card);
 		id = "";
 		description = "";
-		quantity = "";
 		thumburl = "";
 		fronturl = "";
 		backurl = "";
@@ -318,7 +294,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		cards.clear();
 		cards = tmp;
 		drawList();
-		saveData(filename.c_str(), getAll().c_str());
+		saveData("1", getAll().c_str());
 	} else {
 		notice->setCaption("");
 	}
