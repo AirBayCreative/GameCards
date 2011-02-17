@@ -9,6 +9,7 @@
 #include "TradeOptionsScreen.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
+	lprintfln("filename: %s", filename.c_str());
 	next = new Screen();
 	error_msg = "";
 	if (feed->getTouchEnabled()) {

@@ -8,6 +8,8 @@
 
 #include <madmath.h>
 
+#include "../utils/MAHeaders.h"
+
 using namespace MAUtil;
 using namespace MAUI;
 
@@ -65,7 +67,6 @@ private:
 	int m_buttonBorderColor;
 
 	Widget* m_attachedWidget;
-	WidgetSkin* m_keyboardSkin;
 
 	MobKeyboardButton* last_pressed;
 
@@ -88,7 +89,7 @@ private:
 	bool pressed;
 
 public:
-	MobKeyboardButton(const Rect& a_bounds, const String& a_character, const Point& a_charLocation)
+	MobKeyboardButton(const Rect a_bounds, const String& a_character, const Point& a_charLocation)
 	{
 		m_bounds = a_bounds;
 		m_character = a_character;

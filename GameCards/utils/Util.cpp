@@ -25,7 +25,9 @@ WidgetSkin *gSkinBack;
 WidgetSkin *gSkinList;
 WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
+WidgetSkin *gSkinKeyboard;
 Screen *orig;
+Screen *origMenu;
 int scrWidth;
 int scrHeight;
 int mCount;
@@ -48,20 +50,20 @@ void setPadding(Widget *w) {
 }
 
 Label* createLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
 	label->setSkin(gSkinText);
 	setPadding(label);
 	return label;
 }
 Label* createEditLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
 	return label;
 }
 
 Label* createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontGrey);
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(gSkinList);
@@ -73,7 +75,10 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontWhite);
+	layout->setSkin(gSkinBack);
+	layout->setDrawBackground(true);
+
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -81,7 +86,8 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, centre, 0, gFontWhite);
+	//the %3 part is to make up for pixels lost due to int dropping fractions
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -89,7 +95,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontWhite);
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -114,7 +120,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	softKeys = createSoftKeyBar(42, left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontWhite);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
@@ -130,7 +136,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	listBox->add(label);
 
 	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()),
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+image->getHeight()),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		listBox->add(mKineticBox);
 	}
@@ -190,6 +196,20 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 	mainLayout->add(softKeys);
 
 	return mainLayout;
+}
+
+void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
+	//this function assumes the standard mainlayout format, with softkeys at the end.
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
+
+	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
+	if (currentSoftKeys != NULL) {
+		delete currentSoftKeys;
+	}
+
+	currentSoftKeys = createSoftKeyBar(42, left, right, centre);
+
+	mainLayout->add(currentSoftKeys);
 }
 
 void saveData(const char* storefile, const char *value) {
@@ -254,21 +274,24 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 	if (card == NULL) {
 		return;
 	}
-	if (card->getThumb().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getThumb().c_str(), -1);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
 
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, 64);
-			}
+	MAHandle store = maOpenStore((card->getId()+".sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 0);
+			mImageCache->request(req1);
 		}
 		cacheimage = -1;
-		store = -1;
-	} else {
+	}
+	else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
@@ -309,6 +332,31 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 	if (card == NULL) {
 		return;
 	}
+
+	MAHandle store = maOpenStore((card->getId()+"f.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 1);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		mImageCache->request(req1);
+	}
+
+	/*if (card == NULL) {
+		return;
+	}
 	if (card->getFront().find("http://") == -1) {
 		MAHandle cacheimage = maCreatePlaceholder();
 		MAHandle store = maOpenStore(card->getFront().c_str(), 0);
@@ -326,11 +374,35 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
 		mImageCache->request(req1);
-	}
+	}*/
 }
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
+		return;
+	}
+
+	MAHandle store = maOpenStore((card->getId()+"b.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 2);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		mImageCache->request(req1);
+	}
+	/*if (card == NULL) {
 		return;
 	}
 	if (card->getBack().find("http://") == -1) {
@@ -350,5 +422,24 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 	} else {
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
 		mImageCache->request(req1);
+	}*/
+}
+
+bool isNumeric(String isValid) {
+	const char* isValArr = isValid.c_str();
+	for (int i = 0; i < isValid.length(); i++) {
+		if (!isdigit(isValArr[i])) {
+			return false;
+		}
 	}
+	return true;
+}
+
+int intlen(float start) {
+	int end = 0;
+	while(start >= 1) {
+		start = start/10;
+		end++;
+	}
+	return end;
 }

@@ -5,7 +5,7 @@
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 
-#include "XmlConnection.h"
+#include "utils/XmlConnection.h"
 #include "Feed.h"
 #include "Card.h"
 #include "ImageCache.h"

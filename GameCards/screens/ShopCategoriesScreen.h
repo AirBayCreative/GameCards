@@ -13,7 +13,7 @@ using namespace MAUtil;
 
 class ShopCategoriesScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ShopCategoriesScreen(Screen *previous, Feed *feed);
+	ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType);
 	~ShopCategoriesScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -24,6 +24,7 @@ public:
 	void locateItem(MAPoint2d point);
 	void refresh();
 
+	enum screenTypes {ST_AUCTIONS, ST_SHOP};
 private:
 
 	Screen *previous;
@@ -34,7 +35,7 @@ private:
 
 	String parentTag;
 	String temp,temp1,error_msg;
-	int i, moved;
+	int i, moved, screenType;
 	bool list, left, right, empt;
 
 	Layout *mainLayout;

@@ -2,19 +2,21 @@
 
 #include "ImageScreen.h"
 #include "../utils/Util.h"
-#include "TradeOptionsScreen.h"
+#include "AuctionCreateScreen.h"
+//#include "TradeOptionsScreen.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card) : previous(previous), img(img), flip(flip), card(card), feed(feed) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection,
+		bool canAuction) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
 	//TODO add touch
-	next = new Screen();
+	next = NULL;
 	mainLayout = createImageLayout(back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
 		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, tradelbl, "");
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?auction:"", "");
 		} else {
-			mainLayout = createImageLayout(back, tradelbl, flipit);
+			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?auction:"", flipit);
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
@@ -23,11 +25,15 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	this->setMain(mainLayout);
 
 	if (card != NULL) {
+		imageCache = new ImageCache();
 		if (flip) {
-			retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+			retrieveBack(imge, card, height-PADDING*2, imageCache);
 		} else {
-			retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+			retrieveFront(imge, card, height-PADDING*2, imageCache);
 		}
+	}
+	else {
+		imageCache = NULL;
 	}
 }
 
@@ -108,33 +114,46 @@ void ImageScreen::locateItem(MAPoint2d point)
 
 ImageScreen::~ImageScreen() {
 	if (card != NULL) {
-		if (imge->getResource() != RES_LOADING) {
+		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 			maDestroyObject(imge->getResource());
 		}
-	}
-	this->getMain()->getChildren().clear();
-	delete listBox;
+	} // <-- dont delete!
+	//this->getMain()->getChildren().clear();
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
 	if (softKeys != NULL) {
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 	img = -1;
-	delete next;
+	if (next != NULL) {
+		delete next;
+		next = NULL;
+	}
+	if (imageCache != NULL) {
+		delete imageCache;
+		imageCache = NULL;
+	}
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
-			if (card != NULL) {
+			if (card != NULL && hasConnection && canAuction) {
+				/*if (next != NULL) {
+					delete next;
+				}
+				next = new TradeOptionsScreen(this, feed, card,
+						TradeOptionsScreen::ST_TRADE_OPTIONS);
+				next->show();*/
 				if (next != NULL) {
 					delete next;
 				}
-				next = new TradeOptionsScreen(this, feed, card);
+				next = new AuctionCreateScreen(this, feed, card);
 				next->show();
 			}
 			break;
@@ -144,7 +163,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			if (card != NULL) {
 				flip=!flip;
-				if (imge->getResource() != RES_LOADING) {
+				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 					maDestroyObject(imge->getResource());
 				}
 				imge->setResource(RES_LOADING);

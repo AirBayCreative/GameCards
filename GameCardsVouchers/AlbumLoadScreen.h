@@ -5,7 +5,7 @@
 #include <MAUI/Label.h>
 
 #include "Feed.h"
-#include "XmlConnection.h"
+#include "utils/XmlConnection.h"
 #include "UI/KineticListBox.h"
 
 using namespace MAUI;

@@ -7,6 +7,8 @@ using namespace MAUtil;
 
 class Card  {
 public:
+	Card();
+
 	String getQuantity();
 	void setQuantity(const char *name);
 
@@ -31,13 +33,19 @@ public:
 	String getValue();
 	void setValue(const char *value);
 
+	String getFullDesc();
+	void setFullDesc(const char *fullDesc);
+
+	String getGamePlayerCardId();
+	void setGamePlayerCardId(const char *gamePlayerCardId);
+
 	bool getLoaded();
 	void setLoaded(bool load);
 
 	String getAll();
 	void setAll(const char*);
 private:
-	String quantity, text, thumb, front, back, id, rate, value;
+	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId;
 	bool loaded;
 };
 

@@ -50,6 +50,14 @@ void Feed::setUsername(const char *username) {
 	uname = username;
 }
 
+MAUtil::String Feed::getGameId() {
+	return gameId;
+}
+
+void Feed::setGameId(const char *g) {
+	gameId = g;
+}
+
 MAUtil::String Feed::getUsername() {
 	return uname;
 }

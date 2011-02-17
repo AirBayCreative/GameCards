@@ -33,7 +33,7 @@ public:
 	void loadFile();
 	void loadImages(const char *text);
 
-	typedef Map<String, Card> StringCardMap;
+	typedef Map<String, Card*> StringCardMap;
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
@@ -41,21 +41,20 @@ private:
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
+	Layout **feedLayouts;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String parentTag,cardText;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
-	int size, i, moved;
-	bool list, left, right, emp;
+	int size, i, moved, listSizes;
+	bool list, left, right, emp, hasConnection;
 
 	Feed *feed;
-	Albums album;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
-	Card card;
 
 	String getAll();
 	void loadDemo();
@@ -70,6 +69,9 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearFeedLayouts();
+	void clearCardMap();
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

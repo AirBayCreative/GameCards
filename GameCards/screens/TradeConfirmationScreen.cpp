@@ -14,7 +14,7 @@ TradeConfirmationScreen::TradeConfirmationScreen(Screen *previous, Feed *feed, C
 
 	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + method + " " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -110,35 +110,23 @@ void TradeConfirmationScreen::keyPressEvent(int keyCode) {
 
 				//make the http connection to trade the card
 
-				char *url = new char[255];
-				memset(url, '\0', 255);
+				int urlLength = TRADE.length() + strlen(trade_by_detail) + friendDetail.length() + strlen(trade_cardid) + card->getId().length() + 11;
+				char *url = new char[urlLength];
+				memset(url, '\0', urlLength);
 				//www.mytcg.net/_phone/tradecard=1&detail=072623672&cardid=40
 				sprintf(url, "%s&%s=%s&%s=%s&sms=No", TRADE.c_str(), trade_by_detail, friendDetail.c_str(), trade_cardid, card->getId().c_str());
 				//url.append("&sms=Yes", 8);
 				int res = mHttp.create(url, HTTP_GET);
 
-				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-
-				//printf("feed->getEncrypt().c_str(): %s", feed->getEncrypt().c_str());
-				//printf("card.getId().c_str(): %s", card.getId().c_str());
-
-				/*if (strcmp(method.c_str(), userlblNoColon)) {
-					mHttp.setRequestHeader(trade_by, by_username);
-				}
-				else if (strcmp(method.c_str(), emaillblNoColon)) {
-					mHttp.setRequestHeader(trade_by, by_email);
-				}
-				else if (strcmp(method.c_str(), phoneNumlbl)) {
-					mHttp.setRequestHeader(trade_by, by_phone_number);
-				}*/
-				/*mHttp.setRequestHeader(trade_cardid, card.getId().c_str());
-				mHttp.setRequestHeader(trade_by_detail, friendDetail.c_str());*/
 				if(res < 0) {
 
 				} else {
+					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 					mHttp.finish();
 				}
+				delete [] url;
 			}
 
 			break;

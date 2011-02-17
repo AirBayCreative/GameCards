@@ -2,23 +2,33 @@
 
 #include "ShopCategoriesScreen.h"
 #include "ShopProductsScreen.h"
+#include "AuctionListScreen.h"
 #include "../utils/Util.h"
 
 void ShopCategoriesScreen::refresh() {
 	show();
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+	int res = -1;
+	switch(screenType) {
+		case ST_SHOP:
+			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			break;
+		case ST_AUCTIONS:
+			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			break;
+	}
 	if(res < 0) {
 
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 }
 
-ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
-	next = new Screen();
+ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
+	next = NULL;
+	label = NULL;
 	if (feed->getTouchEnabled()) {
 		mainLayout = createMainLayout(back, "", true);
 	} else {
@@ -29,14 +39,26 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	notice->setDrawBackground(true);
-	notice->setCaption(checking_categories);
 
-	int res = mHttp.create(ALLCATEGORIES.c_str(), HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+	listBox->setHeight(listBox->getHeight() - 20);
+
+	int res = -1;
+	switch(screenType) {
+		case ST_SHOP:
+			notice->setCaption(checking_categories);
+			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			break;
+		case ST_AUCTIONS:
+			notice->setCaption(checking_auction_categories);
+			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			break;
+	}
 	if(res < 0) {
-
+		drawList();
+		notice->setCaption(no_connect);
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
@@ -45,12 +67,12 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed) : mHttp
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
-	mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
 
-	delete listBox;
+	//delete listBox;
 	delete mainLayout;
-	if (image != NULL) {
+	/*if (image != NULL) {
 		delete image;
 		image = NULL;
 	}
@@ -58,10 +80,16 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
+	}*/
+	/*if (label != NULL) {
+		delete label;
+		label = NULL;
+	}*/
+	if (next != NULL) {
+		delete next;
+		next = NULL;
 	}
-	delete label;
-	delete notice;
-	delete next;
+	//delete notice;
 	parentTag="";
 	temp="";
 	temp1="";
@@ -147,13 +175,11 @@ void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 
 void ShopCategoriesScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
-
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -166,15 +192,31 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (!empt) {
-				orig = this;
-				String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-				String category = categories.find(selectedCaption)->second.c_str();
-				if (next != NULL) {
-					delete next;
-				}
-				next = new ShopProductsScreen(this, feed, category);
-				next->show();
+			switch (screenType) {
+				case ST_SHOP:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+						}
+						next = new ShopProductsScreen(this, feed, category);
+						next->show();
+					}
+					break;
+				case ST_AUCTIONS:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+						}
+						next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);
+						next->show();
+					}
+					break;
 			}
 			break;
 	}
@@ -186,7 +228,8 @@ void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		drawList();
+		notice->setCaption(no_connect);
 	}
 }
 

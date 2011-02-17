@@ -33,6 +33,7 @@ Layout* createMainLayout(const char *left, const char *right, bool useKinetic = 
 Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
 Layout* createImageLayout(const char *left, bool useKinetic = false);
 Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
+void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout);
 char* getData(const char* storefile);
 void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
@@ -46,6 +47,8 @@ void returnImage(Image *img, MAHandle i, int height);
 void increase();
 void decrease();
 int getCount();
+bool isNumeric(String isValid);
+int intlen(float start);
 
 //UI Components
 extern Font *gFontGrey;
@@ -58,12 +61,14 @@ extern WidgetSkin *gSkinBack;
 extern WidgetSkin *gSkinList;
 extern WidgetSkin *gSkinAlbum;
 extern WidgetSkin *gSkinText;
+extern WidgetSkin *gSkinKeyboard;
 extern int scrWidth;
 extern int scrHeight;
 extern int mCount;
 extern Image *image;
 extern Widget *softKeys;
 extern Screen *orig;
+extern Screen *origMenu;
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
@@ -85,12 +90,38 @@ static String CARDS = URL+"?cardsincategory=";
 static String TRADE = URL+"?tradecard=1";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
+//Lists all categories with products assigned to them, or their children
+static String PRODUCTCATEGORIES = URL+"?productcategories=1";
+//Lists all categories with auctions assigned to them, or their children
+static String AUCTIONCATEGORIES = URL+"?auctioncategories=1";
 //use for making a purchase
 static String BUYPRODUCT = URL+"?buyproduct=";
 //Check if there is an update available
 static String UPDATE = URL+"?update=" + version_number;
 //create an auction
 static String CREATE_AUCTION = URL+"?createauction=1";
+//get all auctions in a category
+static String CATEGORY_AUCTION = URL+"?categoryauction=1";
+//get all auctions for a user
+static String USER_AUCTION = URL+"?userauction=1";
+//buyout an auction now
+static String BUY_AUCTION_NOW = URL+"?buyauctionnow=1";
+//bid on an auction
+static String AUCTION_BID = URL+"?auctionbid=1";
+//get a list of albums with enough cards in to play with.
+static String PLAYABLE_CATEGORIES = URL+"?playablecategories=1";
+//create a new game and return a gameId
+static String NEWGAME = URL+"?newgame=1";
+//load a game
+static String LOADGAME = URL+"?loadgame=1";
+//list users incomplete games
+static String LISTGAMES = URL+"?getusergames=1";
+//get details on the users current games
+static String GAMEDETAILS = URL+"?viewgamedetails=1";
+//select a card to play, return a list of its stats
+static String SELECTCARD = URL+"?selectcard=1";
+//select a stat to play, return matchup results
+static String SELECTSTAT = URL+"?selectstat=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -125,7 +156,7 @@ static const char* albumlbl = "Albums";
 static const char* tradelbl = "Trade";
 static const char* sendToAuctionlbl = "Send card to auction";
 static const char* sendToFriendlbl = "Send card to friend";
-static const char* auctionlbl = "My Auctions";
+static const char* auctionlbl = "Auctions";
 static const char* shoplbl = "Shop";
 static const char* details = "Details";
 static const char* ballbl = "My Balance";
@@ -195,10 +226,12 @@ static const char* purchaseComplete = "Purchase successful! The cards have been 
 static const char* purchase = "Purchase";
 static const char* categoryid = "categoryId";
 static const char* purchasing = "Purchasing...";
+static const char* buyout_failed = "Buyout failed.";
+static const char* buyout_success = "Buyout success.";
 static const char* xml_product_done = "categoryproducts";
 static const char* xml_productid = "productid";
 static const char* xml_productname = "productname";
-static const char* xml_productdesc = "productdesc";
+static const char* xml_producttype = "producttype";
 static const char* xml_productprice = "productprice";
 static const char* xml_productcurrency = "productcurrency";
 static const char* xml_productnumcards = "productnumcards";
@@ -210,14 +243,77 @@ static const char* xml_urlfront = "urlfront";
 static const char* xml_urlback = "urlback";
 static const char* xml_card = "card";
 //Auctions
+static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";
 static const char* buy_now_price = "Buy now price";
 static const char* auction_duration = "Auction duration(days)";
 static const char* auction_created = "Auction created!";
 static const char* auction_failed = "Error creating auction.";
 static const char* auction_created_successfully_result = "1";
+static const char* my_auctions = "My Auctions";
+static const char* all_auctions = "All Auctions";
+static const char* bidOrBuy = "Bid or Buy";
+static const char* checking_auctions = "Getting auctions...";
+static const char* place_bid = "Place bid";
+static const char* buy_now = "Buy now";
+static const char* bid = "Bid";
+static const char* sure_you_want_to_buy_now = "Are you sure you want to buy out the auction of ";
 static const char* xml_opening = "bid";
 static const char* xml_buyout = "buynow";
 static const char* xml_days = "days";
+static const char* xml_opening_bid = "openingbid";
+static const char* xml_price = "price";
+static const char* xml_user_card_id = "usercardid";
+static const char* xml_auction_card_id = "auctioncardid";
+static const char* xml_buy_now_price = "buynowprice";
+static const char* xml_auctionsdone = "auctionsincategory";
+static const char* xml_end_date = "endDate";
+static const char* xml_last_bid_user = "lastBidUser";
+static const char* xml_buyout_success = "1";
+static const char* xml_bid_success = "1";
+//Play labels
+static const char* play = "Play";
+static const char* new_game = "New Game";
+static const char* existing_game = "Continue Game";
+static const char* category_id = "categoryid";
+static const char* stat_id = "statid";
+static const char* game_id = "gameid";
+static const char* game_player_card_id = "gameplayercardid";
+static const char* category_name = "categoryname";
+static const char* playable_cards = "playablecards";
+static const char* categories = "categories";
+static const char* initialising_game = "Initialising new game...";
+static const char* loading_game = "Loading game...";
+static const char* select_card = "Please select a card to play";
+static const char* select_stat = "Please select a stat to play";
+static const char* options = "Options";
+static const char* checking_games = "Checking games...";
+static const char* leave_game = "Leave Game";
+static const char* view_details = "View Game Details";
+static const char* play_card = "Play Card";
+static const char* xml_game = "game";
+static const char* xml_games = "games";
+static const char* xml_phase = "phase";
+static const char* xml_game_id = "gameid";
+static const char* xml_gameplayercard_id = "gameplayercard_id";
+static const char* xml_game_description = "gamedescription";
+static const char* xml_game_details = "gamedetails";
+static const char* xml_turn = "turn";
+static const char* xml_player_score = "playerscore";
+static const char* xml_opponent_score = "opponentscore";
+static const char* xml_progress = "progress";
+static const char* xml_cardstats = "cardstats";
+static const char* xml_stat_type = "stat_type";
+static const char* xml_stat_description = "stat_description";
+static const char* xml_cardstat_id = "cardstat_id";
+static const char* xml_card_name = "card_name";
+static const char* xml_results = "results";
+static const char* xml_explanation = "explanation";
+static const char* xml_outcome = "outcome";
+//the following game phase string need to match the descriptions in the mytcg_gamephase table
+static const char* phase_card = "card";
+static const char* phase_stat = "stat";
+static const char* phase_result = "result";
+static const char* phase_finished = "finished";
 
 #endif	//_UTIL_H_

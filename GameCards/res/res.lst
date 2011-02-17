@@ -87,3 +87,7 @@
 .res RES_KEYBOARD_UNSEL
 .ubin
 .image "keyboard_unsel.png"
+
+.res RES_MISSINGTHUMB
+.ubin
+.image "missingcardthumb.png"

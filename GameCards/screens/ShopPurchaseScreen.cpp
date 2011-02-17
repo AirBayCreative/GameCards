@@ -8,7 +8,6 @@
 
 ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
-	next = new Screen();
 
 	//check that the user can afford the product
 	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
@@ -22,15 +21,16 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	if (canPurchase) {
 		layout = createMainLayout(back, confirm, true);
 		confirmLabel += sure_you_want_to_purchase + product->getName() + priceFor +
-				product->getCurrency() + " " + product->getFormattedPrice() + "?";
+				product->getPrice() + " credits?";
 	}
 	else {
 		layout = createMainLayout(back, "", true);
 		confirmLabel += not_enough_credits;
 	}
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -46,17 +46,20 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
-	layout->getChildren().clear();
-	kinListBox->getChildren().clear();
+	//layout->getChildren().clear();
+	//kinListBox->getChildren().clear();
 
-	delete kinListBox;
+	//delete kinListBox;
 	delete layout;
-	delete image;
+	/*if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
 	if (softKeys != NULL) {
 		softKeys->getChildren().clear();
 		delete softKeys;
 		softKeys = NULL;
-	}
+	}*/
 	parentTag="";
 	temp="";
 	temp1="";
@@ -65,17 +68,29 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	kinListBox->getChildren().clear();
-	layout->getChildren().clear();
+	delete lbl; // prepurchase, the screen only has the one label.
 
-	layout = createImageLayout("", done, "", true);
-	kinListBox = (KineticListBox*)layout->getChildren()[0];
+	layout->getChildren()[0]->getChildren().remove(1);
+	layout->getChildren()[0]->getChildren().remove(0);
+
+	//once the image and notice objects have been removed, they must be deleted to avoid memory leaks
+	if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	delete notice;
+
+	kinListBox->setPosition(0, 0);
+	kinListBox->setHeight(scrHeight - 42);
+
+	updateSoftKeyLayout("", done, "",layout);
 
 	height = kinListBox->getHeight()-70;
 	if (card != NULL) {
 		height = kinListBox->getHeight();
 	}
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, purchaseComplete, 0, gFontGrey);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, purchaseComplete, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -85,16 +100,13 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 
 	imge = new Image(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
-	this->setMain(layout);
 	if (card != NULL) {
 		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
 	}
 
-	maUpdateScreen();
-
 	kinListBox->setSelectedIndex(0);
 
-	this->show();
+	kinListBox->requestRepaint();
 }
 
 void ShopPurchaseScreen::pointerPressEvent(MAPoint2d point)
@@ -175,23 +187,24 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
-
-				char *url = new char[100];
-				memset(url,'\0',100);
+				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
+				char *url = new char[urlLength];
+				memset(url,'\0',urlLength);
 				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(), product->getId().c_str(), scrHeight, scrWidth);
 
 				int res = mHttp.create(url, HTTP_GET);
-				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+
 				if(res < 0) {
 
 				} else {
+					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 					mHttp.finish();
 				}
+				delete [] url;
 			}
 			else if (purchased) {
-				next = orig;
-				next->show();
+				orig->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -237,8 +250,6 @@ void ShopPurchaseScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_count)) {
-		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), xml_urlfront)) {
 		urlfront += data;
 	} else if(!strcmp(parentTag.c_str(), xml_urlback)) {
@@ -254,13 +265,12 @@ void ShopPurchaseScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_card)) {
 		card = new Card();
 		card->setId(id.c_str());
-		card->setQuantity(quantity.c_str());
 		card->setText(description.c_str());
 		card->setFront(urlfront.c_str());
 		card->setBack(urlback.c_str());
 		card->setValue(quality.c_str());
+
 		id = "";
-		quantity = "";
 		description = "";
 		urlfront = "";
 		urlback = "";

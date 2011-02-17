@@ -18,7 +18,7 @@ using namespace MAUI;
  */
 class ImageScreen : public Screen {
 public:
-	ImageScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card);
+	ImageScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, bool hasConnection = true, bool canAuction = true);
 	~ImageScreen();
 	void keyPressEvent(int keyCode);
 	void pointerPressEvent(MAPoint2d point);
@@ -32,11 +32,12 @@ private:
 	Card *card;
 	Feed *feed;
 	Image *imge;
+	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
 	int height;
 	bool flip;
-	bool left, right, list;
+	bool left, right, list, hasConnection, canAuction;
 };
 
 #endif	//_IMAGESCREEN_H_

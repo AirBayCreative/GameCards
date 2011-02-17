@@ -26,7 +26,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	typedef Vector<Product> ProductVector;
+	typedef Vector<Product*> ProductVector;
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
@@ -39,7 +39,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,cardText;
-	String id, description, productName, price, currency, thumb, cardsInPack, category;
+	String id, productType, productName, price, thumb, cardsInPack, category;
 	int i, moved;
 	bool list, left, right, emp;
 
@@ -58,6 +58,8 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearProductsList();
 };
 
 #endif	//_SHOPPRODUCTSCREEN_H_*/

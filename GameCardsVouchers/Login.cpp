@@ -11,7 +11,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 18, NULL, userlbl, 0, gFontWhite);
 	listBox->add(label);
 
 

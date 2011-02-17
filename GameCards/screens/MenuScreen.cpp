@@ -1,11 +1,11 @@
 #include <conprint.h>
-#include <MAP/MemoryMgr.h>
 
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
 #include "ImageScreen.h"
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "TradeOptionsScreen.h"
 #include "../utils/MAHeaders.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
@@ -21,6 +21,9 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	}
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = createSubLabel(albumlbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(play);
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = createSubLabel(shoplbl);
@@ -46,17 +49,17 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
 	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
-
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-
 	if(res < 0) {
 
 	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 
 	this->setMain(mainLayout);
+
+	origMenu = this;
 }
 
 MenuScreen::~MenuScreen() {
@@ -127,7 +130,7 @@ void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontGrey);
+		((Label *)widget)->setFont(gFontBlack);
 	}
 }
 
@@ -137,15 +140,15 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			int index = listBox->getSelectedIndex();
 			if(index == 0) {
-				menu = new AlbumLoadScreen(this, feed);
+				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
-			} else if(index == 1) {
+			} /*else if(index == 1) {
 				delete menu;
-				menu = new ShopCategoriesScreen(this, feed);
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new ImageScreen(this, RES_SOON, feed, false, NULL);
+				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
@@ -156,6 +159,30 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
 				menu->show();
 			} else if (index == 5) {
+				delete menu;
+				menu = new Logout(this, feed);
+				menu->show();
+			}*/else if(index == 1) {
+				delete menu;
+				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_PLAY_OPTIONS);
+				menu->show();
+			} else if(index == 2) {
+				delete menu;
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
+				menu->show();
+			} else if(index == 3) {
+				delete menu;
+				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu->show();
+			} else if(index == 4) {
+				delete menu;
+				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				menu->show();
+			} else if(index == 5) {
+				delete menu;
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
+				menu->show();
+			} else if (index == 6) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();

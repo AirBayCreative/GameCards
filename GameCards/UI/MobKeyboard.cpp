@@ -20,8 +20,6 @@ MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	m_buttonPressedColor = 0xAEAED2;
 	m_buttonBorderColor = 0x7873A8;
 
-	m_keyboardSkin = new WidgetSkin(RES_KEYBOARD_SEL, RES_KEYBOARD_UNSEL, 8, 16, 8, 16, true, true);
-
 	setupKeys();
 	m_activeLayout = 0;
 
@@ -90,8 +88,11 @@ void MobKeyboard::drawWidget()
 	maSetClipRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
 
 	if (shouldDrawBackground) {
-		maSetColor(m_backgroundColor);
-		maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);
+		gSkinButton->draw(
+			0, 0,
+			l_bounds.width, l_bounds.height, WidgetSkin::UNSELECTED);
+		/*maSetColor(m_backgroundColor);
+		maFillRect(l_bounds.x, l_bounds.y, l_bounds.width, l_bounds.height);*/
 	}
 
 
@@ -127,14 +128,14 @@ void MobKeyboard::drawWidget()
 		}
 
 		// draw button background
-		if (m_keyboardSkin != NULL)
+		if (gSkinKeyboard != NULL)
 		{
 			if (l_isPressed)
-				m_keyboardSkin->draw(
+				gSkinKeyboard->draw(
 						l_rect.x - l_bounds.x, l_rect.y - l_bounds.y,
 						l_rect.width, l_rect.height - 1, WidgetSkin::SELECTED);
 			else
-				m_keyboardSkin->draw(
+				gSkinKeyboard->draw(
 						l_rect.x - l_bounds.x, l_rect.y - l_bounds.y,
 						l_rect.width, l_rect.height - 1, WidgetSkin::UNSELECTED);
 		}

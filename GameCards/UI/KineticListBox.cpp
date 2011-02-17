@@ -174,7 +174,7 @@ namespace MAUI {
                 //listen
                 child->addWidgetListener(this);
 
-                if(selectedIndex>children.size()) {
+                if(selectedIndex>=children.size()) {
                         selectedIndex = 0;
                         yOffset = 0;
                         /*
@@ -425,7 +425,11 @@ namespace MAUI {
 			float firstTime = previousTimes[0];
 			Point diff( currPoint.x-firstPoint.x, currPoint.y-firstPoint.y );
 			float time = (currTime - firstTime) / (1000 / 24);
-			velocity = Point((int)(diff.x / time), (int)(diff.y / time));
+
+			if (time != 0) {
+				velocity = Point((int)(diff.x / time), (int)(diff.y / time));
+			}
+
 			kineticTimer = true;
 			Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
 			requestRepaint();
@@ -453,7 +457,6 @@ namespace MAUI {
                         }
                         return;
                 }*/
-
                 Widget *unselectedWidget = children[this->selectedIndex];
                 unselectedWidget->setSelected(false);
                 int lastIndex = this->selectedIndex;
@@ -470,11 +473,9 @@ namespace MAUI {
                 }
                 Widget *selectedWidget = children[this->selectedIndex];
                 selectedWidget->setSelected(true);
-
                 Vector_each(KineticListBoxListener*, i, mKineticListBoxListeners) {
                         (*i)->itemSelected(this, selectedWidget, unselectedWidget);
                 }
-
                 requestRepaint();
         }
 
@@ -667,27 +668,31 @@ namespace MAUI {
 								stop();
 								yOffset = 0;
 						}
-						Widget *c = children[getChildren().size()-1];
-						if((c->getPosition().y+c->getHeight()-getHeight() > 0) &&
-								((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
+						if (getChildren().size() > 0) {
+							Widget *c = children[getChildren().size()-1];
+							if((c->getPosition().y+c->getHeight()-getHeight() > 0) &&
+									((yOffset>>16)*-1) > c->getPosition().y+c->getHeight()-getHeight()) {
+									stop();
+									yOffset = ((c->getPosition().y+c->getHeight()-getHeight()) << 16)*-1;
+							}
+							else if (c->getPosition().y+c->getHeight()-getHeight() <= 0) {
 								stop();
-								yOffset = ((c->getPosition().y+c->getHeight()-getHeight()) << 16)*-1;
-						}
-						else if (c->getPosition().y+c->getHeight()-getHeight() <= 0) {
-							stop();
-							yOffset = 0;
+								yOffset = 0;
+							}
 						}
 				}
 				else
 				{
-					yOffset = (yOffsetFrom<<16) + (yOffsetTo-yOffsetFrom)*(((maGetMilliSecondCount()-animTimeStart)<<16)/DURATION);
-					if(yOffsetInc<0 && yOffset<=yOffsetTo<<16) {
-							yOffset = yOffsetTo<<16;
-							Environment::getEnvironment().removeTimer(this);
-					}
-					else if(yOffsetInc>0 && yOffset>=yOffsetTo<<16) {
-							yOffset = yOffsetTo<<16;
-							Environment::getEnvironment().removeTimer(this);
+					if (DURATION != 0) {
+						yOffset = (yOffsetFrom<<16) + (yOffsetTo-yOffsetFrom)*(((maGetMilliSecondCount()-animTimeStart)<<16)/DURATION);
+						if(yOffsetInc<0 && yOffset<=yOffsetTo<<16) {
+								yOffset = yOffsetTo<<16;
+								Environment::getEnvironment().removeTimer(this);
+						}
+						else if(yOffsetInc>0 && yOffset>=yOffsetTo<<16) {
+								yOffset = yOffsetTo<<16;
+								Environment::getEnvironment().removeTimer(this);
+						}
 					}
 				}
 
@@ -720,8 +725,11 @@ namespace MAUI {
                 }
         }
 
-        int KineticListBox::getYOffset()
-        {
+        int KineticListBox::getYOffset() {
 				return yOffset;
+        }
+
+        int KineticListBox::setYOffset(int y) {
+        	yOffset = y;
         }
 }

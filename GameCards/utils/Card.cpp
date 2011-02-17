@@ -1,6 +1,19 @@
 #include "Card.h"
 #include "Util.h"
 
+Card::Card() {
+	quantity = "";
+	text = "";
+	thumb = "";
+	front = "";
+	back = "";
+	id = "";
+	rate = "";
+	value = "";
+	fullDesc = "";
+	loaded = false;
+}
+
 void Card::setLoaded(bool load) {
 	loaded = load;
 }
@@ -69,6 +82,22 @@ String Card::getValue() {
 
 void Card::setValue(const char *valu) {
 	value = valu;
+}
+
+String Card::getFullDesc() {
+	return fullDesc;
+}
+
+void Card::setFullDesc(const char *f) {
+	fullDesc = f;
+}
+
+String Card::getGamePlayerCardId() {
+	return gamePlayerCardId;
+}
+
+void Card::setGamePlayerCardId(const char *g) {
+	gamePlayerCardId = g;
 }
 
 String Card::getAll() {

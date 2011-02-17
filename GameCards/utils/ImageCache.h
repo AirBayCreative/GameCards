@@ -17,7 +17,9 @@ class ImageCache : public HttpConnectionListener
     void request(ImageCacheRequest* req);
     void httpFinished(MAUtil::HttpConnection*, int);
     void connRecvFinished(MAUtil::Connection* conn, int result);
+    void connectFinished();
     void finishedDownloading();
+    void clearImageCache();
 
   private:
     Vector<ImageCacheRequest*>  mRequests;
