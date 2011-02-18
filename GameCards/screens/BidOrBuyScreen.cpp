@@ -1,6 +1,7 @@
 #include <madmath.h>
 
 #include "BidOrBuyScreen.h"
+#include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -323,7 +324,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case SP_POST_SUBMIT:
-					orig->show();
+					((ShopCategoriesScreen *)orig)->refresh();
 					break;
 				case SP_PLACE_BID:
 					if (!busy) {

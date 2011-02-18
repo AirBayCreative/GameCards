@@ -7,13 +7,16 @@
 
 void ShopCategoriesScreen::refresh() {
 	show();
+	categories.clear();
 	mHttp = HttpConnection(this);
 	int res = -1;
 	switch(screenType) {
 		case ST_SHOP:
+			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
 			break;
 		case ST_AUCTIONS:
+			notice->setCaption(checking_auction_categories);
 			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
 			break;
 	}

@@ -124,20 +124,10 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point)
 	}
 }
 
-
-/*void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontWhite);
-	}
-}*/
-
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
 			break;
 		case MAK_SOFTRIGHT:
 			if (!busy) {
@@ -154,7 +144,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					char *url = new char[255];
 					memset(url, '\0', 255);
-					sprintf(url, "%s&%s=%s", TRADE.c_str(), trade_by_detail, phoneNum.c_str());
+					sprintf(url, "%s&%s=%s", TRADE.c_str(), trade_by_detail, contactEditBox->getText().c_str());
 
 					mHttp = HttpConnection(this);
 					int res = mHttp.create(url, HTTP_GET);
@@ -176,7 +166,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 		case MAK_UP:
 			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
 			break;
 	}
 }
