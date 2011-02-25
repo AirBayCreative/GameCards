@@ -5,11 +5,20 @@
 #include "MenuScreen.h"
 
 Login::Login(Feed *feed) : mHttp(this), feed(feed) {
+	moved = 0;
+	changed = false;
 	isBusy = false;
-	mainLayout = createMainLayout(exit, login);
+
+	responce = "";
+
+	screen = S_LOGIN;
+
+	mainLayout = createMainLayout(exit, login, reg, true);
 
 	mainLayout->setDrawBackground(TRUE);
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
 	listBox->add(label);
@@ -49,6 +58,99 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 
 Login::~Login() {}
 
+void Login::drawLoginScreen() {
+	listBox->setYOffset(0);
+	moved = 0;
+	changed = true;
+	screen = S_LOGIN;
+
+	keyboard->deAttachEditBox();
+	keyboard->hide();
+	clearListBox();
+
+	updateSoftKeyLayout(exit, login, reg, mainLayout);
+	notice->setCaption("");
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
+	editBoxLogin->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
+	editBoxPass->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	listBox->setSelectedIndex(1);
+}
+
+void Login::drawRegisterScreen() {
+	listBox->setYOffset(0);
+	moved = 0;
+	changed = true;
+	screen = S_REGISTER;
+
+	keyboard->deAttachEditBox();
+	keyboard->hide();
+	clearListBox();
+
+	updateSoftKeyLayout(cancellbl, apply, "", mainLayout);
+	notice->setCaption("");
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxPass->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	editBoxEmail = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxEmail->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	listBox->setSelectedIndex(1);
+}
+
+void Login::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		tempWidgets[j]->setSelected(false);
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
 void Login::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		widget->getChildren()[0]->setSelected(true);
@@ -65,41 +167,59 @@ void Login::pointerPressEvent(MAPoint2d point)
 void Login::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved++;
 }
 
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
-	if (!(keyboard->isShown()) && right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (!(keyboard->isShown()) && left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
-	}
-
-	int yClick = point.y;
-	int keyboardY = keyboard->getPosition().y;
-
-	int index = listBox->getSelectedIndex();
-	if (list && (index == 1 || index == 3)) {
-		int dispY = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-		if (index == 1 && (yClick < keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
-			keyboard->attachWidget(editBoxLogin);
+	if (moved <= 8) {
+		if (!(keyboard->isShown()) && right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (!(keyboard->isShown()) && left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (mid) {
+			keyPressEvent(MAK_FIRE);
 		}
-		else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
-			keyboard->attachWidget(editBoxPass);
-			if (!((scrHeight - (editBoxPass->getPosition().y + editBoxPass->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
-				dispY = 70;
+
+		if (!changed) {
+			int yClick = point.y;
+			int keyboardY = keyboard->getPosition().y;
+
+			int index = listBox->getSelectedIndex();
+			if (list && (index == 1 || index == 3 || index == 5)) {
+				int dispY = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+				if (index == 1 && (yClick < keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
+					keyboard->attachWidget(editBoxLogin);
+				}
+				else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
+					keyboard->attachWidget(editBoxPass);
+					if (!((scrHeight - (editBoxPass->getPosition().y + editBoxPass->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
+						dispY = 70;
+					}
+				}
+				else if (index == 5 && (yClick < keyboardY || !(keyboard->isShown()))) {
+					keyboard->attachWidget(editBoxEmail);
+					if (!((scrHeight - (editBoxEmail->getPosition().y + editBoxEmail->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
+						dispY = 70;
+					}
+				}
+				keyboard->setPosition(0, dispY);
+				keyboard->show();
+			}
+			else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER))) {
+				keyboard->deAttachEditBox();
+				keyboard->hide();
+
+				mainLayout->draw(true);
 			}
 		}
-		keyboard->setPosition(0, dispY);
-		keyboard->show();
+		else {
+			changed = false;
+		}
 	}
-	else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER))) {
-		keyboard->deAttachEditBox();
-		keyboard->hide();
-
-		mainLayout->draw(true);
+	else {
+		moved = 0;
+		changed = false;
 	}
 }
 
@@ -112,6 +232,7 @@ void Login::locateItem(MAPoint2d point)
 	list = false;
 	left = false;
 	right = false;
+	mid = false;
 
     Point p;
     p.set(point.x, point.y);
@@ -119,7 +240,7 @@ void Login::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+        	if (moved <= 1) listBox->setSelectedIndex(i);
         	list = true;
             return;
         }
@@ -130,6 +251,8 @@ void Login::locateItem(MAPoint2d point)
 		{
 			if (i == 0) {
 				left = true;
+			} else if (i == 1) {
+				mid = true;
 			} else if (i == 2) {
 				right = true;
 			}
@@ -153,48 +276,98 @@ void Login::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
+			switch (screen) {
+				case S_LOGIN:
+					drawRegisterScreen();
+					break;
+			}
 			break;
 		case MAK_SOFTRIGHT:
 			if (!isBusy) {
-				isBusy = true;
-				label->setCaption(loggingin);
-				if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
-					conCatenation = editBoxPass->getText().c_str();
-					ret = "";
-					value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
-					feed->setEncrypt(value.c_str());
-					feed->setUsername(editBoxLogin->getText().c_str());
-					feed->setUnsuccessful(truesz);
-					mHttp = HttpConnection(this);
-					int res = mHttp.create(USER.c_str(), HTTP_GET);
+				switch (screen) {
+					case S_LOGIN:
+						if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
+							isBusy = true;
+							notice->setCaption(loggingin);
+							conCatenation = editBoxPass->getText().c_str();
+							ret = "";
+							value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
+							feed->setEncrypt(value.c_str());
+							feed->setUsername(editBoxLogin->getText().c_str());
+							feed->setUnsuccessful(truesz);
+							mHttp = HttpConnection(this);
+							int res = mHttp.create(USER.c_str(), HTTP_GET);
 
-					if(res < 0) {
-						label->setCaption(no_connect);
-						label->setMultiLine(true);
-					} else {
-						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-						mHttp.finish();
-					}
-					conCatenation = "";
-					value = "";
-				} else {
-					isBusy = false;
-					maVibrate(1000);
-					label->setCaption(no_user);
-					label->setMultiLine(true);
+							if(res < 0) {
+								notice->setCaption(no_connect);
+							} else {
+								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+								mHttp.finish();
+							}
+							conCatenation = "";
+							value = "";
+						} else {
+							maVibrate(1000);
+							notice->setCaption(no_user);
+						}
+						break;
+					case S_REGISTER:
+						notice->setCaption("");
+						if (editBoxLogin->getText().length() < 6) {
+							notice->setCaption(username_too_short);
+							maVibrate(1000);
+						}
+						else if (editBoxPass->getText().length() < 6) {
+							notice->setCaption(password_too_short);
+							maVibrate(1000);
+						}
+						else if (editBoxEmail->getText().length() == 0) {
+							notice->setCaption(enter_email);
+							maVibrate(1000);
+						}
+						else if (!validateEmailAddress(editBoxEmail->getText())) {
+							notice->setCaption(valid_email);
+							maVibrate(1000);
+						}
+						char *url = NULL;
+						//work out how long the url will be, the 2 is for the & and = symbols
+						int urlLength = REGISTER.length() + strlen(xml_username) + editBoxLogin->getText().length()
+								+ strlen(password) + editBoxPass->getText().length() + strlen(xml_email) + editBoxEmail->getText().length() + 6;
+						url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), xml_username, editBoxLogin->getText().c_str(),
+								password, editBoxPass->getText().c_str(), xml_email, editBoxEmail->getText().c_str());
+						int res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							notice->setCaption(no_connect);
+						} else {
+							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.finish();
+						}
+						break;
 				}
 			}
 			break;
 		case MAK_SOFTLEFT:
-			maExit(0);
+			switch (screen) {
+				case S_LOGIN:
+					maExit(0);
+					break;
+				case S_REGISTER:
+					drawLoginScreen();
+					break;
+			}
 			break;
 		case MAK_UP:
+			if (index-2 > 0) {
+				listBox->setSelectedIndex(index-2);
+			}
+			break;
 		case MAK_DOWN:
-			if (index == 1) {
-				listBox->setSelectedIndex(3);
-			} else if (index == 3) {
-				listBox->setSelectedIndex(1);
+			if (index+2 < listBox->getChildren().size()) {
+				listBox->setSelectedIndex(index+2);
 			}
 			break;
 		case MAK_LEFT:
@@ -208,7 +381,7 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		label->setCaption(no_connect);
+		notice->setCaption(no_connect);
 		isBusy = false;
 	}
 }
@@ -217,8 +390,6 @@ void Login::connReadFinished(Connection* conn, int result) {}
 
 void Login::xcConnError(int code) {
 	isBusy = false;
-	//cleanup();
-	//delete &xmlConn;
 }
 
 void Login::mtxEncoding(const char* ) {
@@ -242,6 +413,8 @@ void Login::mtxTagData(const char* data, int len) {
 		handle = data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg = data;
+	} else if (!strcmp(parentTag.c_str(), xml_response)) {
+		responce += data;
 	}
 }
 
@@ -260,38 +433,21 @@ void Login::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
 		feed->setUnsuccessful(error_msg.c_str());
-		label->setCaption(error_msg.c_str());
+		notice->setCaption(error_msg.c_str());
+	} else if (!strcmp(name, xml_response)) {
+		notice->setCaption(responce);
 	} else {
 		if (!error) {
-			if (label != NULL) {
-				label->setCaption("");
+			if (notice != NULL) {
+				notice->setCaption("");
 			}
 		}
 	}
 }
 void Login::cleanup() {
-	//delete label;
-	//delete editBoxLogin;
-	//delete editBoxPass;
 	delete keyboard;
-	//delete listBox;
 	delete mainLayout;
-	//delete image;
-	//delete softKeys;
 
-
-
-
-
-	/*mainLayout->getChildren().clear();
-	listBox->getChildren().clear();
-	softKeys->getChildren().clear();
-
-	delete editBoxLogin;
-	delete editBoxPass;
-	delete keyboard;
-	delete image;
-	delete softKeys;*/
 	parentTag = "";
 	conCatenation = "";
 	ret = "";

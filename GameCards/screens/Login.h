@@ -10,6 +10,7 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/MobKeyboard.h"
 #include "../UI/Widgets/MobEditBox.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -31,25 +32,25 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Screen *previous;
 	Layout *mainLayout;
-	ListBox *listBox;
-	Label *label;
-	MobEditBox *editBoxLogin, *editBoxPass;
+	KineticListBox *listBox;
+	Label *label, *notice;
+	MobEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
 	MobKeyboard *keyboard;
+	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,ret,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch;
-	bool list, left, right, error;
-	int j;
+	String username,credits,encrypt,error_msg,email,handle, touch, responce;
+	bool list, left, right, mid, error;
+	int j, screen, moved;
 
 	Feed *feed;
 
 	Screen *next;
-	bool isBusy;
+	bool isBusy, changed;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -63,6 +64,13 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearListBox();
+
+	void drawLoginScreen();
+	void drawRegisterScreen();
+
+	enum screens {S_LOGIN, S_REGISTER};
 
 	String base64(unsigned char const* bytes_to_encode, unsigned int in_len);
 };

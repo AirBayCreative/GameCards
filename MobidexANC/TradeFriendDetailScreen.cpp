@@ -20,7 +20,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed) :
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlue, true, false);
+	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
 	contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
@@ -139,6 +139,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				}
 				else {
 					lbl->setCaption(sending_card_message);
+
+					maSendTextSMS(contactEditBox->getText().c_str(), sms_string);
 
 					busy = true;
 

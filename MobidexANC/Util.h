@@ -43,6 +43,7 @@ extern Font *gFontBlue;
 extern Font *gFontBlack;
 extern Font *gFontWhite;
 extern Font *gFontBlackBold;
+extern WidgetSkin *gSkinHeaderImage;
 extern WidgetSkin *gSkinEditBox;
 extern WidgetSkin *gSkinButton;
 extern WidgetSkin *gSkinBack;
@@ -102,7 +103,7 @@ static const char* continuelbl = "Continue";
 static const char* selectFriendBy = "Select friend by:";
 static const char* handlelbl = "Handle:";
 static const char* albumlbl = "Albums";
-static const char* tradelbl = "Send Album";
+static const char* tradelbl = "Share";
 static const char* auctionlbl = "My Auctions";
 static const char* shoplbl = "Shop";
 static const char* ballbl = "My Balance";
@@ -124,6 +125,7 @@ static const char* card_sent_message = "Album sent successfully.";
 static const char* error_number_card_message = "Not a valid number.";
 static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
+static const char* sms_string = "You have been recommended the Mobidex Application by a friend. You can download it for free at http://mobidex.mytcg.net/mobi";
 
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";

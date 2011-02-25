@@ -74,11 +74,13 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 }
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
-	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
+	int scaledHeight = ((height*0.1)>scrHeight?height:(int)(scrHeight*0.1));
+
+	Layout *layout = new Layout(0, 0, scrWidth, scaledHeight, NULL, 3, 1);
 	layout->setSkin(gSkinBack);
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth/3, scaledHeight, NULL, left, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -87,7 +89,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), scaledHeight, NULL, centre, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -95,7 +97,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3, scaledHeight, NULL, right, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -442,4 +444,19 @@ int intlen(float start) {
 		end++;
 	}
 	return end;
+}
+
+bool validateEmailAddress(String email) {
+	int atIndex = email.findFirstOf('@');
+	int lastDotIndex = email.findLastOf('.');
+	if (atIndex == email.npos || atIndex == 0 || atIndex == email.length()-1
+			|| atIndex != email.findLastOf('@')) {
+		//checks if there is an @, that there is something in front of it, after it, and only one
+		return false;
+	}
+	else if (lastDotIndex == email.length()-1 || atIndex > lastDotIndex) {
+		//checks that there is a character after the dot, and that it is after the @
+		return false;
+	}
+	return true;
 }
