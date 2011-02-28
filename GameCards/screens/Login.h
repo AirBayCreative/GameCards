@@ -43,7 +43,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,ret,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, responce;
+	String username,credits,encrypt,error_msg,email,handle, touch, response;
 	bool list, left, right, mid, error;
 	int j, screen, moved;
 

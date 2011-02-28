@@ -170,6 +170,7 @@ static const char* proflbl = "My Profile";
 static const char* loggingin = "Please wait, logging in...";
 static const char* username_too_short = "Your username needs to be at least 6 characters long";
 static const char* password_too_short = "Your password needs to be at least 6 characters long";
+static const char* registering = "Attempting to register user...";
 static const char* enter_email = "You need to enter an email address";
 static const char* valid_email = "Please enter a valid email address";
 static const char* avail_credits = "Available Credits:";

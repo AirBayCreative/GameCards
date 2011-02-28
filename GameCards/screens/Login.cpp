@@ -9,7 +9,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	changed = false;
 	isBusy = false;
 
-	responce = "";
+	response = "";
 
 	screen = S_LOGIN;
 
@@ -330,21 +330,29 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption(valid_email);
 							maVibrate(1000);
 						}
-						char *url = NULL;
-						//work out how long the url will be, the 2 is for the & and = symbols
-						int urlLength = REGISTER.length() + strlen(xml_username) + editBoxLogin->getText().length()
-								+ strlen(password) + editBoxPass->getText().length() + strlen(xml_email) + editBoxEmail->getText().length() + 6;
-						url = new char[urlLength];
-						memset(url,'\0',urlLength);
-						sprintf(url, "%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), xml_username, editBoxLogin->getText().c_str(),
-								password, editBoxPass->getText().c_str(), xml_email, editBoxEmail->getText().c_str());
-						int res = mHttp.create(url, HTTP_GET);
-						if(res < 0) {
-							notice->setCaption(no_connect);
-						} else {
-							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-							mHttp.finish();
+						else {
+							response = "";
+							isBusy = true;
+							notice->setCaption(registering);
+
+							char *url = NULL;
+							//work out how long the url will be, the 2 is for the & and = symbols
+							int urlLength = REGISTER.length() + strlen(xml_username) + editBoxLogin->getText().length()
+									+ strlen(password) + editBoxPass->getText().length() + strlen(xml_email) + editBoxEmail->getText().length() + 6;
+							url = new char[urlLength];
+							memset(url,'\0',urlLength);
+							sprintf(url, "%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), xml_username, editBoxLogin->getText().c_str(),
+									password, editBoxPass->getText().c_str(), xml_email, editBoxEmail->getText().c_str());
+							mHttp = HttpConnection(this);
+							int res = mHttp.create(url, HTTP_GET);
+							if(res < 0) {
+								notice->setCaption(no_connect);
+							} else {
+								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+								mHttp.finish();
+							}
+							delete url;
 						}
 						break;
 				}
@@ -414,7 +422,7 @@ void Login::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg = data;
 	} else if (!strcmp(parentTag.c_str(), xml_response)) {
-		responce += data;
+		response += data;
 	}
 }
 
@@ -435,7 +443,8 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setUnsuccessful(error_msg.c_str());
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_response)) {
-		notice->setCaption(responce);
+		isBusy = false;
+		notice->setCaption(response);
 	} else {
 		if (!error) {
 			if (notice != NULL) {
