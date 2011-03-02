@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="1.1">
-<target-profile device="Dream" vendor="HTC"/>
+<target-profile device="X3-00" vendor="Nokia"/>
 <properties/>
 </project>

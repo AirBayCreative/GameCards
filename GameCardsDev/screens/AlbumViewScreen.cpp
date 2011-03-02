@@ -1,23 +1,24 @@
-//#include "Header.h"
-//#include <mastdlib.h>
 #include <conprint.h>
 
 #include "AlbumViewScreen.h"
-#include "Util.h"
-#include "MAHeaders.h"
+#include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
-#include "TradeFriendDetailScreen.h"
+#include "AuctionCreateScreen.h"
+//#include "TradeOptionsScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Feed *feed) : mHttp(this), feed(feed), cardExists(cards.end()) {
+
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
 	emp = true;
+	listSizes = 0;
+	feedLayouts = NULL;
+
 	next = new Screen();
 	error_msg = "";
-	quantity = "0";
-
 	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(exit, tradelbl, "", true);
+		mainLayout = createMainLayout(back, auction, "", true);
 	} else {
-		mainLayout = createMainLayout(exit, tradelbl, select, true);
+		mainLayout = createMainLayout(back, auction, select, true);
 	}
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -26,33 +27,36 @@ AlbumViewScreen::AlbumViewScreen(Feed *feed) : mHttp(this), feed(feed), cardExis
 	mImageCache = new ImageCache();
 	loadFile();
 
-	char *url = new char[100];
-	memset(url,'\0',100);
-	sprintf(url, "%s&heigth=%d&width=%d", CARDS.c_str(), scrHeight, scrWidth);
+	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+	int urlLength = CARDS.length() + filename.length() + 15 + intlen(scrHeight) + intlen(scrWidth);
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
-	mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-	mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 	if(res < 0) {
-
+		hasConnection = false;
+		notice->setCaption("");
 	} else {
+		hasConnection = true;
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	delete [] url;
 	this->setMain(mainLayout);
-
-	orig = this;
 
 	moved=0;
 }
 
-void AlbumViewScreen::pointerPressEvent(MAPoint2d point)
-{
+void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
 
 void AlbumViewScreen::loadFile() {
-	loadImages(getData("1"));
+	loadImages(getData(filename.c_str()));
 }
+
 void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
 	int indexof = 0;
@@ -61,21 +65,20 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String id, name;
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
-		card.setAll(tmp.c_str());
-		cards.insert(card.getId(), card);
+		Card *newCard = new Card();
+		newCard->setAll(tmp.c_str());
+		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
 	}
 	drawList();
 }
 
-void AlbumViewScreen::pointerMoveEvent(MAPoint2d point)
-{
+void AlbumViewScreen::pointerMoveEvent(MAPoint2d point) {
     locateItem(point);
     moved++;
 }
 
-void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
-{
+void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point) {
 	if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
@@ -88,10 +91,9 @@ void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
 	moved=0;
 }
 
-void AlbumViewScreen::locateItem(MAPoint2d point)
-{
+void AlbumViewScreen::locateItem(MAPoint2d point) {
 	if (feed->setTouch(truesz)) {
-		saveData("1", getAll().c_str());
+		saveData(FEED, feed->getAll().c_str());
 	}
 	list = false;
 	left = false;
@@ -103,7 +105,6 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -123,50 +124,89 @@ void AlbumViewScreen::locateItem(MAPoint2d point)
 	}
 }
 
+void AlbumViewScreen::clearFeedLayouts() {
+	if (feedLayouts != NULL && listSizes > 0) {
+		for (int i = 0; i < listSizes; i++) {
+			delete feedLayouts[i];
+		}
+		delete [] feedLayouts;
+		feedLayouts = NULL;
+	}
+}
+
 void AlbumViewScreen::drawList() {
-	emp = true;
 	Layout *feedlayout;
-	listBox->getChildren().clear();
+	listBox->clear();
+	clearFeedLayouts();
+	feedLayouts = new Layout*[cards.size()];
+	listSizes = 0;
 	index.clear();
-	Image *tempImage;
-	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
-		index.add(itr->second.getId());
-		cardText = itr->second.getText();
+	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
+		index.add(itr->second->getId());
+		cardText = itr->second->getText();
+		cardText += "\nQuantity: ";
+		cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		feedLayouts[listSizes] = feedlayout;
 
-		Card *tmp;
-		tmp = &itr->second;
+		listSizes++;
 
-		retrieveThumb(tempImage, tmp, mImageCache);
+		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
+			//if the user has one or more of the card, the image must be downloaded
+			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlackBold);
+			retrieveThumb(tempImage, itr->second, mImageCache);
+		}
+		else {
+			//we use the blank image for cards they dont have yet
+			tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+		}
+
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
 	}
+
 	if (cards.size() >= 1) {
 		emp = false;
 		listBox->setSelectedIndex(0);
 	} else {
+		emp = true;
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(0);
 	}
-	notice->setCaption("");
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	//mainLayout->getChildren().clear();
+	//listBox->getChildren().clear();
+
+	//delete listBox;
 	delete mainLayout;
+
+	/*if (image != NULL) {
+		delete image;
+		image = NULL;
+	}
+	if (softKeys != NULL) {
+		softKeys->getChildren().clear();
+		delete softKeys;
+		softKeys = NULL;
+	}*/
+	//delete notice;
 	delete next;
 	delete mImageCache;
-
-	saveData("1", getAll().c_str());
-
+	//clearFeedLayouts();
+	delete [] feedLayouts;
+	saveData(filename.c_str(), getAll().c_str());
+	clearCardMap();
+	tmp.clear();
 	parentTag="";
 	cardText="";
 	id="";
@@ -175,9 +215,18 @@ AlbumViewScreen::~AlbumViewScreen() {
 	thumburl="";
 	fronturl="";
 	backurl="";
+	filename="";
 	error_msg="";
 	rate="";
 	value="";
+}
+
+void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
+	} else {
+		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
+	}
 }
 
 void AlbumViewScreen::show() {
@@ -200,24 +249,35 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_SOFTLEFT:
-			saveData("1", getAll().c_str());
-			maExit(0);
+			saveData(filename.c_str(), getAll().c_str());
+			previous->show();
 			break;
 		case MAK_FIRE:
-			if (!emp && index.size() >- 1) {
+			if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ImageScreen(this, RES_LOADING, feed, false, &cards.find(index[selected])->second);
+				next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
 				next->show();
 			}
 			break;
 		case MAK_SOFTRIGHT:
-			if (next != NULL) {
-				delete next;
+			if (!emp && !hasConnection) {
+				notice->setCaption(no_connect);
 			}
-			next = new TradeFriendDetailScreen(this, feed);
-			next->show();
+			else if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
+				/*if (next != NULL) {
+					delete next;
+				}
+				next = new TradeOptionsScreen(this, feed,
+						&cards.find(index[selected])->second, TradeOptionsScreen::ST_TRADE_OPTIONS);
+				next->show();*/
+				if (next != NULL) {
+					delete next;
+				}
+				next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
+				next->show();
+			}
 			break;
 	}
 }
@@ -236,7 +296,6 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumViewScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumViewScreen::xcConnError(int code) {
-
 }
 
 void AlbumViewScreen::mtxEncoding(const char* ) {
@@ -247,7 +306,6 @@ void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 }
 
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-
 }
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {
@@ -255,6 +313,8 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
+	} else if(!strcmp(parentTag.c_str(), xml_cardquantity)) {
+		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), xml_thumburl)) {
 		thumburl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
@@ -272,16 +332,19 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_backurl)) {
-		card.setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
-		cardExists = cards.find(card.getId());
+		notice->setCaption("");
+		Card *newCard = new Card();
+		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
+		cardExists = cards.find(newCard->getId());
 		if (cardExists != cards.end()) {
-			card.setThumb(cardExists->second.getThumb().c_str());
-			card.setBack(cardExists->second.getBack().c_str());
-			card.setFront(cardExists->second.getFront().c_str());
+			newCard->setThumb(cardExists->second->getThumb().c_str());
+			newCard->setBack(cardExists->second->getBack().c_str());
+			newCard->setFront(cardExists->second->getFront().c_str());
 		}
-		tmp.insert(card.getId(),card);
+		tmp.insert(newCard->getId(),newCard);
 		id = "";
 		description = "";
+		quantity = "";
 		thumburl = "";
 		fronturl = "";
 		backurl = "";
@@ -289,12 +352,12 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		value = "";
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
-	}
-	if (!strcmp(name, xml_carddone)) {
-		cards.clear();
+	} else if (!strcmp(name, xml_carddone)) {
+		notice->setCaption("");
+		clearCardMap();
 		cards = tmp;
 		drawList();
-		saveData("1", getAll().c_str());
+		saveData(filename.c_str(), getAll().c_str());
 	} else {
 		notice->setCaption("");
 	}
@@ -302,10 +365,20 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 
 String AlbumViewScreen::getAll() {
 	String all;
-	for(Map<String, Card>::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
-		all += itr->second.getAll() + "#";
+	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
+		all += itr->second->getAll() + "#";
 	}
 	return all;
+}
+
+void AlbumViewScreen::clearCardMap() {
+	for (StringCardMap::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
+		if (iter->second != NULL) {
+			delete iter->second;
+			iter->second = NULL;
+		}
+	}
+	cards.clear();
 }
 
 void AlbumViewScreen::mtxParseError() {
