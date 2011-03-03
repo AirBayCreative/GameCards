@@ -26,14 +26,12 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	size = 0;
 	moved = 0;
 	int res = -1;
-	labelList = NULL;
 	char *url = NULL;
 
 	hasCards = "";
 	temp = "";
 	temp1 = "";
 
-	currentAlbum = "";
 
 	next = new Screen();
 	if (feed->getTouchEnabled()) {
@@ -45,16 +43,17 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
+	album = new Albums();
 	switch(screenType) {
 		case ST_ALBUMS:
 			notice->setCaption(checking_albums);
-			album = this->feed->getAlbum();
+			album->setAll(this->feed->getAlbum()->getAll().c_str());
 			drawList();
 			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
 			break;
 		case ST_PLAY:
 			notice->setCaption(checking_albums);
-			album = new Albums();
+
 			drawList();
 			//work out how long the url will be, the 2 is for the & and = symbols
 			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
@@ -76,7 +75,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			}
 			else {
 				notice->setCaption(checking_games);
-				album = new Albums();
 				drawList();
 				res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
 			}
@@ -117,7 +115,6 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	//delete label;
 	//delete notice;
 	delete next;
-	delete [] labelList;
 	parentTag="";
 	temp="";
 	temp1="";
@@ -149,6 +146,8 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
 		}
 	}
@@ -164,6 +163,7 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	list = false;
 	left = false;
 	right = false;
+	mid = false;
 
 	Point p;
 	p.set(point.x, point.y);
@@ -182,6 +182,9 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 			if (i == 0) {
 				moved=0;
 				left = true;
+			} else if (i == 1) {
+				moved=0;
+				mid = true;
 			} else if (i == 2) {
 				moved=0;
 				right = true;
@@ -191,25 +194,12 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	}
 }
 
-void AlbumLoadScreen::clearLabelPointers() {
-	for (int i = 0; i < size; i++) {
-		if (labelList[i] != NULL) {
-			delete labelList[i];
-			labelList[i] = NULL;
-		}
-	}
-	if (labelList != NULL) {
-		delete [] labelList;
-	}
-}
-
 void AlbumLoadScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
 
-	clearLabelPointers();
+	//clearListBox();
 
-	labelList = new Label*[album->size()];
 	Vector<String> display = album->getNames();
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
@@ -218,7 +208,6 @@ void AlbumLoadScreen::drawList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		labelList[size] = label;
 		size++;
 	}
 
@@ -230,14 +219,11 @@ void AlbumLoadScreen::drawList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		labelList[size] = label;
 		size++;
 	}
 }
 
 void AlbumLoadScreen::clearListBox() {
-	album->clearAll();
-
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -281,6 +267,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
+			switch (screenType) {
+				case ST_ALBUMS:
+					if (path.size() > 0) {
+						path.remove(path.size()-1);
+						loadCategory();
+					}
+					break;
+			}
+			break;
 		case MAK_SOFTRIGHT:
 			if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
@@ -290,8 +285,17 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 				switch (screenType) {
 					case ST_ALBUMS:
-						next = new AlbumViewScreen(this, feed, val->getId());
-						next->show();
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId());
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
 						break;
 					case ST_PLAY:
 						next = new GamePlayScreen(this, feed, true, val->getId());
@@ -304,6 +308,59 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 			}
 			break;
+	}
+}
+
+void AlbumLoadScreen::loadCategory() {
+	if (path.size() == 0) {
+		updateSoftKeyLayout(back, select, "", mainLayout);
+	}
+	else {
+		updateSoftKeyLayout(back, select, previouslbl, mainLayout);
+	}
+
+	//the list needs to be cleared
+	album->clearAll();
+	clearListBox();
+	//then if the category has been loaded before, we need to load from the file
+	notice->setCaption(checking_albums);
+	if (path.size() == 0) {
+		album->setAll(this->feed->getAlbum()->getAll().c_str());
+	}
+	else {
+		char *file = new char[path.end()->length() + 5];
+		sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
+		album->setAll(getData(file));
+	}
+	drawList();
+	//then request up to date info
+	int res;
+	char *url = NULL;
+	mHttp = HttpConnection(this);
+	if (path.size() == 0) {
+		//if path is empty, the list is at the top level
+		res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	}
+	else {
+		//work out how long the url will be, the 2 is for the & and = symbols
+		int urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + 2;
+		url = new char[urlLength];
+		memset(url,'\0',urlLength);
+		sprintf(url, "%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str());
+		res = mHttp.create(url, HTTP_GET);
+	}
+
+	if(res < 0) {
+		notice->setCaption("");
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+
+	if (url != NULL) {
+		delete url;
+		url = NULL;
 	}
 }
 
@@ -383,7 +440,15 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		}
 		drawList();
 		if (screenType == ST_ALBUMS) {
-			saveData(ALBUM, album->getAll().c_str());
+			if (path.size() == 0) {
+				this->feed->getAlbum()->setAll(album->getAll().c_str());
+				saveData(ALBUM, album->getAll().c_str());
+			}
+			else {
+				char *file = new char[path.end()->length() + 5];
+				sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
+				saveData(file, album->getAll().c_str());
+			}
 		}
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());

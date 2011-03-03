@@ -38,16 +38,16 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
+	Vector<String> path;
 	Vector<Widget*> tempWidgets;
-	String parentTag, currentAlbum;
+	String parentTag;
 	String temp,temp1,error_msg,hasCards;
 	int size, i, moved, screenType;
-	bool list, left, right, empt;
+	bool list, left, right, mid, empt;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *notice, *label;
-	Label **labelList;
 
 	Feed *feed;
 	Albums *album;
@@ -65,9 +65,8 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	void clearLabelPointers();
-
 	void clearListBox();
+	void loadCategory();
 };
 
 #endif	//_ALBUMLOADSCREEN_H_*/

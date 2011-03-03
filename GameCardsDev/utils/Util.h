@@ -86,6 +86,8 @@ static String USER = URL+"?userdetails=1";
 static String PRODUCTS = URL+"?categoryproducts=1";
 //Get user categories
 static String ALBUMS = URL+"?usercategories=1";
+//Get user sub categories
+static String SUBCATEGORIES = URL+"?usersubcategories=1";
 //GET Cards in album
 static String CARDS = URL+"?cardsincategory=";
 //Trade Card in album
@@ -140,6 +142,7 @@ static const char* done = "Done";
 static const char* flipit = "Flip";
 static const char* zoomin = "Zoom";
 static const char* select = "Select";
+static const char* previouslbl = "Previous";
 static const char* confirm = "Confirm";
 static const char* success = "Success";
 static const char* login = "Log In";
@@ -202,6 +205,7 @@ static const char* xml_albumname = "albumname";
 static const char* xml_albumid = "albumid";
 static const char* xml_albumdone = "usercategories";
 static const char* xml_hascards = "hascards";
+static const char* category = "category";
 //<CARD>
 static const char* xml_cardid = "cardid";
 static const char* xml_carddescription = "description";
