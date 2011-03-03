@@ -98,22 +98,8 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	//delete label;
-	//delete notice;
+
 	delete next;
 	parentTag="";
 	temp="";
@@ -121,7 +107,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	error_msg="";
 	hasCards="";
 
-	if (screenType == ST_PLAY) {
+	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		delete album;
 		album = NULL;
 	}
