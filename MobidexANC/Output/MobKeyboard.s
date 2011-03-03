@@ -1,6 +1,6 @@
 .model full
-	.sourcedir 'C:\GameCards Core\GameCards\MobidexANC/'
-	.sourcefile 'C:\GameCards Core\GameCards\MobidexANC\UI\MobKeyboard.cpp'
+	.sourcedir 'E:\My Dropbox\workspace\GameCards\MobidexANC/'
+	.sourcefile 'E:\My Dropbox\workspace\GameCards\MobidexANC\UI\MobKeyboard.cpp'
 	.stabs	"gcc2_compiled.",60,0,0,0
 	.stabs	"__vtbl_ptr_type:t(0,1)=*(0,2)=f(0,3)=r(0,3);-2147483648;2147483647;",128,0,0,0
 	.stabs	"bool:t(0,4)=@s8;-16;",128,0,0,0
@@ -25,12 +25,12 @@
 	.stabs	"complex double:t(0,22)=R3;16;0;",128,0,0,0
 	.stabs	"complex float:t(0,23)=R3;8;0;",128,0,0,0
 	.stabs	"complex int:t(0,24)=s8real:(0,3),0,32;imag:(0,3),32,32;;",128,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Moblet.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/ma.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/maapi.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/maapi_defs.h",130,0,0,0
-	.stabs	"MA_DV:Tt(4,1)=u8:(4,2)=s8hi:(0,3),0,32;lo:(0,3),32,32;;,0,64;ll:(0,15),0,64;d:(0,8),0,64;operator=::(4,3)=#(4,1),(4,4)=&(4,1),(4,5)=*(4,1),(4,6)=&(4,7)=k(4,1),(0,6);:_ZN5MA_DVaSERKS_;2A.;__base_ctor::(4,8)=#(4,1),(0,6),(4,5),(4,6),(0,6);:_ZN5MA_DVC2ERKS_;2A.;__comp_ctor::(4,8):_ZN5MA_DVC1ERKS_;2A.;__base_ctor::(4,9)=#(4,1),(0,6),(4,5),(0,6);:_ZN5MA_DVC2Ev;2A.;__comp_ctor::(4,9):_ZN5MA_DVC1Ev;2A.;;",128,0,37,0
-	.stabs	"MA_FV:Tt(4,10)=u4f:(0,9),0,32;i:(0,3),0,32;operator=::(4,11)=#(4,10),(4,12)=&(4,10),(4,13)=*(4,10),(4,14)=&(4,15)=k(4,10),(0,6);:_ZN5MA_FVaSERKS_;2A.;__base_ctor::(4,16)=#(4,10),(0,6),(4,13),(4,14),(0,6);:_ZN5MA_FVC2ERKS_;2A.;__comp_ctor::(4,16):_ZN5MA_FVC1ERKS_;2A.;__base_ctor::(4,17)=#(4,10),(0,6),(4,13),(0,6);:_ZN5MA_FVC2Ev;2A.;__comp_ctor::(4,17):_ZN5MA_FVC1Ev;2A.;;",128,0,50,0
+	.stabs	"c:/MoSync/include/MAUtil/Moblet.h",130,0,0,0
+	.stabs	"c:/MoSync/include/ma.h",130,0,0,0
+	.stabs	"c:/MoSync/include/maapi.h",130,0,0,0
+	.stabs	"c:/MoSync/include/maapi_defs.h",130,0,0,0
+	.stabs	"MA_DV:Tt(4,1)=u8:(4,2)=s8hi:(0,3),0,32;lo:(0,3),32,32;;,0,64;ll:(0,15),0,64;d:(0,8),0,64;operator=::(4,3)=#(4,1),(4,4)=&(4,1),(4,5)=*(4,1),(4,6)=&(4,7)=k(4,1),(0,6);:_ZN5MA_DVaSERKS_;2A.;__base_ctor::(4,8)=#(4,1),(0,6),(4,5),(4,6),(0,6);:_ZN5MA_DVC2ERKS_;2A.;__comp_ctor::(4,8):_ZN5MA_DVC1ERKS_;2A.;__base_ctor::(4,9)=#(4,1),(0,6),(4,5),(0,6);:_ZN5MA_DVC2Ev;2A.;__comp_ctor::(4,9):_ZN5MA_DVC1Ev;2A.;;",128,0,54,0
+	.stabs	"MA_FV:Tt(4,10)=u4f:(0,9),0,32;i:(0,3),0,32;operator=::(4,11)=#(4,10),(4,12)=&(4,10),(4,13)=*(4,10),(4,14)=&(4,15)=k(4,10),(0,6);:_ZN5MA_FVaSERKS_;2A.;__base_ctor::(4,16)=#(4,10),(0,6),(4,13),(4,14),(0,6);:_ZN5MA_FVC2ERKS_;2A.;__comp_ctor::(4,16):_ZN5MA_FVC1ERKS_;2A.;__base_ctor::(4,17)=#(4,10),(0,6),(4,13),(0,6);:_ZN5MA_FVC2Ev;2A.;__comp_ctor::(4,17):_ZN5MA_FVC1Ev;2A.;;",128,0,72,0
 	.stabn	162,0,0,0
 	.stabs	"wchar:t(3,1)=(0,5)",128,0,84,0
 	.stabs	"ushort:t(3,2)=(0,12)",128,0,96,0
@@ -43,91 +43,91 @@
 	.stabs	"byte:t(3,12)=(0,10)",128,0,105,0
 	.stabs	"ulong:t(3,13)=(0,16)",128,0,106,0
 	.stabs	"longlong:t(3,14)=(0,15)",128,0,107,0
-	.stabs	"MAPoint2d:Tt(3,15)=s8x:(0,3),0,32;y:(0,3),32,32;operator=::(3,16)=#(3,15),(3,17)=&(3,15),(3,18)=*(3,15),(3,19)=&(3,20)=k(3,15),(0,6);:_ZN9MAPoint2daSERKS_;2A.;__base_ctor::(3,21)=#(3,15),(0,6),(3,18),(3,19),(0,6);:_ZN9MAPoint2dC2ERKS_;2A.;__comp_ctor::(3,21):_ZN9MAPoint2dC1ERKS_;2A.;__base_ctor::(3,22)=#(3,15),(0,6),(3,18),(0,6);:_ZN9MAPoint2dC2Ev;2A.;__comp_ctor::(3,22):_ZN9MAPoint2dC1Ev;2A.;;",128,0,550,0
-	.stabs	"MAPoint2d:t(3,23)=(3,15)",128,0,553,0
-	.stabs	"MARect:Tt(3,24)=s16left:(0,3),0,32;top:(0,3),32,32;width:(0,3),64,32;height:(0,3),96,32;operator=::(3,25)=#(3,24),(3,26)=&(3,24),(3,27)=*(3,24),(3,28)=&(3,29)=k(3,24),(0,6);:_ZN6MARectaSERKS_;2A.;__base_ctor::(3,30)=#(3,24),(0,6),(3,27),(3,28),(0,6);:_ZN6MARectC2ERKS_;2A.;__comp_ctor::(3,30):_ZN6MARectC1ERKS_;2A.;__base_ctor::(3,31)=#(3,24),(0,6),(3,27),(0,6);:_ZN6MARectC2Ev;2A.;__comp_ctor::(3,31):_ZN6MARectC1Ev;2A.;;",128,0,561,0
-	.stabs	"MARect:t(3,32)=(3,24)",128,0,566,0
-	.stabs	"MACopyData:Tt(3,33)=s20dst:(3,10),0,32;dstOffset:(0,3),32,32;src:(3,10),64,32;srcOffset:(0,3),96,32;size:(0,3),128,32;operator=::(3,34)=#(3,33),(3,35)=&(3,33),(3,36)=*(3,33),(3,37)=&(3,38)=k(3,33),(0,6);:_ZN10MACopyDataaSERKS_;2A.;__base_ctor::(3,39)=#(3,33),(0,6),(3,36),(3,37),(0,6);:_ZN10MACopyDataC2ERKS_;2A.;__comp_ctor::(3,39):_ZN10MACopyDataC1ERKS_;2A.;__base_ctor::(3,40)=#(3,33),(0,6),(3,36),(0,6);:_ZN10MACopyDataC2Ev;2A.;__comp_ctor::(3,40):_ZN10MACopyDataC1Ev;2A.;;",128,0,571,0
-	.stabs	"MACopyData:t(3,41)=(3,33)",128,0,577,0
-	.stabs	"MAConnAddrInet4:Tt(3,42)=s8addr:(0,3),0,32;port:(0,3),32,32;operator=::(3,43)=#(3,42),(3,44)=&(3,42),(3,45)=*(3,42),(3,46)=&(3,47)=k(3,42),(0,6);:_ZN15MAConnAddrInet4aSERKS_;2A.;__base_ctor::(3,48)=#(3,42),(0,6),(3,45),(3,46),(0,6);:_ZN15MAConnAddrInet4C2ERKS_;2A.;__comp_ctor::(3,48):_ZN15MAConnAddrInet4C1ERKS_;2A.;__base_ctor::(3,49)=#(3,42),(0,6),(3,45),(0,6);:_ZN15MAConnAddrInet4C2Ev;2A.;__comp_ctor::(3,49):_ZN15MAConnAddrInet4C1Ev;2A.;;",128,0,582,0
-	.stabs	"MAConnAddrInet4:t(3,50)=(3,42)",128,0,585,0
-	.stabs	"MABtAddr:Tt(3,51)=s6a:(3,52)=ar(3,53)=r(3,53);0000000000000;0037777777777;;0;5;(3,12),0,48;operator=::(3,54)=#(3,51),(3,55)=&(3,51),(3,56)=*(3,51),(3,57)=&(3,58)=k(3,51),(0,6);:_ZN8MABtAddraSERKS_;2A.;__base_ctor::(3,59)=#(3,51),(0,6),(3,56),(3,57),(0,6);:_ZN8MABtAddrC2ERKS_;2A.;__comp_ctor::(3,59):_ZN8MABtAddrC1ERKS_;2A.;__base_ctor::(3,60)=#(3,51),(0,6),(3,56),(0,6);:_ZN8MABtAddrC2Ev;2A.;__comp_ctor::(3,60):_ZN8MABtAddrC1Ev;2A.;;",128,0,590,0
-	.stabs	"MABtAddr:t(3,61)=(3,51)",128,0,592,0
-	.stabs	"MAConnAddrBt:Tt(3,62)=s12port:(0,3),0,32;addr:(3,61),32,48;operator=::(3,63)=#(3,62),(3,64)=&(3,62),(3,65)=*(3,62),(3,66)=&(3,67)=k(3,62),(0,6);:_ZN12MAConnAddrBtaSERKS_;2A.;__base_ctor::(3,68)=#(3,62),(0,6),(3,65),(3,66),(0,6);:_ZN12MAConnAddrBtC2ERKS_;2A.;__comp_ctor::(3,68):_ZN12MAConnAddrBtC1ERKS_;2A.;__base_ctor::(3,69)=#(3,62),(0,6),(3,65),(0,6);:_ZN12MAConnAddrBtC2Ev;2A.;__comp_ctor::(3,69):_ZN12MAConnAddrBtC1Ev;2A.;;",128,0,597,0
-	.stabs	"MAConnAddrBt:t(3,70)=(3,62)",128,0,600,0
-	.stabs	"MAConnAddr:Tt(3,71)=s16family:(0,3),0,32;:(3,72)=u12inet4:(3,50),0,64;bt:(3,70),0,96;;,32,96;operator=::(3,73)=#(3,71),(3,74)=&(3,71),(3,75)=*(3,71),(3,76)=&(3,77)=k(3,71),(0,6);:_ZN10MAConnAddraSERKS_;2A.;__base_ctor::(3,78)=#(3,71),(0,6),(3,75),(3,76),(0,6);:_ZN10MAConnAddrC2ERKS_;2A.;__comp_ctor::(3,78):_ZN10MAConnAddrC1ERKS_;2A.;__base_ctor::(3,79)=#(3,71),(0,6),(3,75),(0,6);:_ZN10MAConnAddrC2Ev;2A.;__comp_ctor::(3,79):_ZN10MAConnAddrC1Ev;2A.;;",128,0,605,0
-	.stabs	"MAConnAddr:t(3,80)=(3,71)",128,0,614,0
-	.stabs	"MAConnEventData:Tt(3,81)=s12handle:(3,10),0,32;opType:(0,3),32,32;result:(0,3),64,32;operator=::(3,82)=#(3,81),(3,83)=&(3,81),(3,84)=*(3,81),(3,85)=&(3,86)=k(3,81),(0,6);:_ZN15MAConnEventDataaSERKS_;2A.;__base_ctor::(3,87)=#(3,81),(0,6),(3,84),(3,85),(0,6);:_ZN15MAConnEventDataC2ERKS_;2A.;__comp_ctor::(3,87):_ZN15MAConnEventDataC1ERKS_;2A.;__base_ctor::(3,88)=#(3,81),(0,6),(3,84),(0,6);:_ZN15MAConnEventDataC2Ev;2A.;__comp_ctor::(3,88):_ZN15MAConnEventDataC1Ev;2A.;;",128,0,619,0
-	.stabs	"MAConnEventData:t(3,89)=(3,81)",128,0,628,0
-	.stabs	"MAEvent:Tt(3,90)=s16type:(0,3),0,32;:(3,91)=u12:(3,92)=s8key:(0,3),0,32;nativeKey:(0,3),32,32;;,0,64;character:(3,3),0,32;point:(3,23),0,64;state:(0,3),0,32;conn:(3,89),0,96;:(3,93)=s8textboxResult:(0,3),0,32;textboxLength:(0,3),32,32;;,0,64;data:(3,9),0,32;;,32,96;operator=::(3,94)=#(3,90),(3,95)=&(3,90),(3,96)=*(3,90),(3,97)=&(3,98)=k(3,90),(0,6);:_ZN7MAEventaSERKS_;2A.;__base_ctor::(3,99)=#(3,90),(0,6),(3,96),(3,97),(0,6);:_ZN7MAEventC2ERKS_;2A.;__comp_ctor::(3,99):_ZN7MAEventC1ERKS_;2A.;__base_ctor::(3,100)=#(3,90),(0,6),(3,96),(0,6);:_ZN7MAEventC2Ev;2A.;__comp_ctor::(3,100):_ZN7MAEventC1Ev;2A.;;",128,0,633,0
-	.stabs	"MAEvent:t(3,101)=(3,90)",128,0,691,0
-	.stabs	"MAPanicReport:Tt(3,102)=s24runtimeId:(0,3),0,32;reportType:(0,3),32,32;time:(0,3),64,32;ip:(0,3),96,32;code:(0,3),128,32;string:(3,103)=ar(3,53);0;0;(0,19),160,8;operator=::(3,104)=#(3,102),(3,105)=&(3,102),(3,106)=*(3,102),(3,107)=&(3,108)=k(3,102),(0,6);:_ZN13MAPanicReportaSERKS_;2A.;__base_ctor::(3,109)=#(3,102),(0,6),(3,106),(3,107),(0,6);:_ZN13MAPanicReportC2ERKS_;2A.;__comp_ctor::(3,109):_ZN13MAPanicReportC1ERKS_;2A.;__base_ctor::(3,110)=#(3,102),(0,6),(3,106),(0,6);:_ZN13MAPanicReportC2Ev;2A.;__comp_ctor::(3,110):_ZN13MAPanicReportC1Ev;2A.;;",128,0,712,0
-	.stabs	"MAPanicReport:t(3,111)=(3,102)",128,0,734,0
-	.stabs	"MABtDevice:Tt(3,112)=s20name:(3,5),0,32;nameBufSize:(0,3),32,32;actualNameLength:(0,3),64,32;address:(3,61),96,48;operator=::(3,113)=#(3,112),(3,114)=&(3,112),(3,115)=*(3,112),(3,116)=&(3,117)=k(3,112),(0,6);:_ZN10MABtDeviceaSERKS_;2A.;__base_ctor::(3,118)=#(3,112),(0,6),(3,115),(3,116),(0,6);:_ZN10MABtDeviceC2ERKS_;2A.;__comp_ctor::(3,118):_ZN10MABtDeviceC1ERKS_;2A.;__base_ctor::(3,119)=#(3,112),(0,6),(3,115),(0,6);:_ZN10MABtDeviceC2Ev;2A.;__comp_ctor::(3,119):_ZN10MABtDeviceC1Ev;2A.;;",128,0,759,0
-	.stabs	"MABtDevice:t(3,120)=(3,112)",128,0,771,0
-	.stabs	"MAUUID:Tt(3,121)=s16i:(3,122)=ar(3,53);0;3;(0,3),0,128;operator=::(3,123)=#(3,121),(3,124)=&(3,121),(3,125)=*(3,121),(3,126)=&(3,127)=k(3,121),(0,6);:_ZN6MAUUIDaSERKS_;2A.;__base_ctor::(3,128)=#(3,121),(0,6),(3,125),(3,126),(0,6);:_ZN6MAUUIDC2ERKS_;2A.;__comp_ctor::(3,128):_ZN6MAUUIDC1ERKS_;2A.;__base_ctor::(3,129)=#(3,121),(0,6),(3,125),(0,6);:_ZN6MAUUIDC2Ev;2A.;__comp_ctor::(3,129):_ZN6MAUUIDC1Ev;2A.;;",128,0,778,0
-	.stabs	"MAUUID:t(3,130)=(3,121)",128,0,780,0
-	.stabs	"MABtServiceSize:Tt(3,131)=s8nameBufSize:(0,3),0,32;nUuids:(0,3),32,32;operator=::(3,132)=#(3,131),(3,133)=&(3,131),(3,134)=*(3,131),(3,135)=&(3,136)=k(3,131),(0,6);:_ZN15MABtServiceSizeaSERKS_;2A.;__base_ctor::(3,137)=#(3,131),(0,6),(3,134),(3,135),(0,6);:_ZN15MABtServiceSizeC2ERKS_;2A.;__comp_ctor::(3,137):_ZN15MABtServiceSizeC1ERKS_;2A.;__base_ctor::(3,138)=#(3,131),(0,6),(3,134),(0,6);:_ZN15MABtServiceSizeC2Ev;2A.;__comp_ctor::(3,138):_ZN15MABtServiceSizeC1Ev;2A.;;",128,0,785,0
-	.stabs	"MABtServiceSize:t(3,139)=(3,131)",128,0,796,0
-	.stabs	"MABtService:Tt(3,140)=s16port:(0,3),0,32;name:(3,5),32,32;nameBufSize:(0,3),64,32;uuids:(3,141)=*(3,130),96,32;operator=::(3,142)=#(3,140),(3,143)=&(3,140),(3,144)=*(3,140),(3,145)=&(3,146)=k(3,140),(0,6);:_ZN11MABtServiceaSERKS_;2A.;__base_ctor::(3,147)=#(3,140),(0,6),(3,144),(3,145),(0,6);:_ZN11MABtServiceC2ERKS_;2A.;__comp_ctor::(3,147):_ZN11MABtServiceC1ERKS_;2A.;__base_ctor::(3,148)=#(3,140),(0,6),(3,144),(0,6);:_ZN11MABtServiceC2Ev;2A.;__comp_ctor::(3,148):_ZN11MABtServiceC1Ev;2A.;;",128,0,801,0
-	.stabs	"MABtService:t(3,149)=(3,140)",128,0,824,0
-	.stabs	"MALocation:Tt(3,150)=s40state:(0,3),0,32;lat:(0,8),32,64;lon:(0,8),96,64;horzAcc:(0,8),160,64;vertAcc:(0,8),224,64;alt:(0,9),288,32;operator=::(3,151)=#(3,150),(3,152)=&(3,150),(3,153)=*(3,150),(3,154)=&(3,155)=k(3,150),(0,6);:_ZN10MALocationaSERKS_;2A.;__base_ctor::(3,156)=#(3,150),(0,6),(3,153),(3,154),(0,6);:_ZN10MALocationC2ERKS_;2A.;__comp_ctor::(3,156):_ZN10MALocationC1ERKS_;2A.;__base_ctor::(3,157)=#(3,150),(0,6),(3,153),(0,6);:_ZN10MALocationC2Ev;2A.;__comp_ctor::(3,157):_ZN10MALocationC1Ev;2A.;;",128,0,844,0
-	.stabs	"MALocation:t(3,158)=(3,150)",128,0,860,0
-	.stabs	"MAFrameBufferInfo:Tt(3,159)=s64sizeInBytes:(0,3),0,32;bytesPerPixel:(0,3),32,32;bitsPerPixel:(0,3),64,32;redMask:(0,3),96,32;redShift:(0,3),128,32;redBits:(0,3),160,32;greenMask:(0,3),192,32;greenShift:(0,3),224,32;greenBits:(0,3),256,32;blueMask:(0,3),288,32;blueShift:(0,3),320,32;blueBits:(0,3),352,32;width:(0,3),384,32;height:(0,3),416,32;pitch:(0,3),448,32;supportsGfxSyscalls:(0,3),480,32;operator=::(3,160)=#(3,159),(3,161)=&(3,159),(3,162)=*(3,159),(3,163)=&(3,164)=k(3,159),(0,6);:_ZN17MAFrameBufferInfoaSERKS_;2A.;__base_ctor::(3,165)=#(3,159),(0,6),(3,162),(3,163),(0,6);:_ZN17MAFrameBufferInfoC2ERKS_;2A.;__comp_ctor::(3,165):_ZN17MAFrameBufferInfoC1ERKS_;2A.;__base_ctor::(3,166)=#(3,159),(0,6),(3,162),(0,6);:_ZN17MAFrameBufferInfoC2Ev;2A.;__comp_ctor::(3,166):_ZN17MAFrameBufferInfoC1Ev;2A.;;",128,0,867,0
-	.stabs	"MAFrameBufferInfo:t(3,167)=(3,159)",128,0,884,0
-	.stabs	"MA_CAMERA_FORMAT:Tt(3,168)=s8width:(0,3),0,32;height:(0,3),32,32;operator=::(3,169)=#(3,168),(3,170)=&(3,168),(3,171)=*(3,168),(3,172)=&(3,173)=k(3,168),(0,6);:_ZN16MA_CAMERA_FORMATaSERKS_;2A.;__base_ctor::(3,174)=#(3,168),(0,6),(3,171),(3,172),(0,6);:_ZN16MA_CAMERA_FORMATC2ERKS_;2A.;__comp_ctor::(3,174):_ZN16MA_CAMERA_FORMATC1ERKS_;2A.;__base_ctor::(3,175)=#(3,168),(0,6),(3,171),(0,6);:_ZN16MA_CAMERA_FORMATC2Ev;2A.;__comp_ctor::(3,175):_ZN16MA_CAMERA_FORMATC1Ev;2A.;;",128,0,889,0
-	.stabs	"MA_CAMERA_FORMAT:t(3,176)=(3,168)",128,0,892,0
+	.stabs	"MAPoint2d:Tt(3,15)=s8x:(0,3),0,32;y:(0,3),32,32;operator=::(3,16)=#(3,15),(3,17)=&(3,15),(3,18)=*(3,15),(3,19)=&(3,20)=k(3,15),(0,6);:_ZN9MAPoint2daSERKS_;2A.;__base_ctor::(3,21)=#(3,15),(0,6),(3,18),(3,19),(0,6);:_ZN9MAPoint2dC2ERKS_;2A.;__comp_ctor::(3,21):_ZN9MAPoint2dC1ERKS_;2A.;__base_ctor::(3,22)=#(3,15),(0,6),(3,18),(0,6);:_ZN9MAPoint2dC2Ev;2A.;__comp_ctor::(3,22):_ZN9MAPoint2dC1Ev;2A.;;",128,0,626,0
+	.stabs	"MAPoint2d:t(3,23)=(3,15)",128,0,629,0
+	.stabs	"MARect:Tt(3,24)=s16left:(0,3),0,32;top:(0,3),32,32;width:(0,3),64,32;height:(0,3),96,32;operator=::(3,25)=#(3,24),(3,26)=&(3,24),(3,27)=*(3,24),(3,28)=&(3,29)=k(3,24),(0,6);:_ZN6MARectaSERKS_;2A.;__base_ctor::(3,30)=#(3,24),(0,6),(3,27),(3,28),(0,6);:_ZN6MARectC2ERKS_;2A.;__comp_ctor::(3,30):_ZN6MARectC1ERKS_;2A.;__base_ctor::(3,31)=#(3,24),(0,6),(3,27),(0,6);:_ZN6MARectC2Ev;2A.;__comp_ctor::(3,31):_ZN6MARectC1Ev;2A.;;",128,0,637,0
+	.stabs	"MARect:t(3,32)=(3,24)",128,0,642,0
+	.stabs	"MACopyData:Tt(3,33)=s20dst:(3,10),0,32;dstOffset:(0,3),32,32;src:(3,10),64,32;srcOffset:(0,3),96,32;size:(0,3),128,32;operator=::(3,34)=#(3,33),(3,35)=&(3,33),(3,36)=*(3,33),(3,37)=&(3,38)=k(3,33),(0,6);:_ZN10MACopyDataaSERKS_;2A.;__base_ctor::(3,39)=#(3,33),(0,6),(3,36),(3,37),(0,6);:_ZN10MACopyDataC2ERKS_;2A.;__comp_ctor::(3,39):_ZN10MACopyDataC1ERKS_;2A.;__base_ctor::(3,40)=#(3,33),(0,6),(3,36),(0,6);:_ZN10MACopyDataC2Ev;2A.;__comp_ctor::(3,40):_ZN10MACopyDataC1Ev;2A.;;",128,0,647,0
+	.stabs	"MACopyData:t(3,41)=(3,33)",128,0,653,0
+	.stabs	"MAConnAddrInet4:Tt(3,42)=s8addr:(0,3),0,32;port:(0,3),32,32;operator=::(3,43)=#(3,42),(3,44)=&(3,42),(3,45)=*(3,42),(3,46)=&(3,47)=k(3,42),(0,6);:_ZN15MAConnAddrInet4aSERKS_;2A.;__base_ctor::(3,48)=#(3,42),(0,6),(3,45),(3,46),(0,6);:_ZN15MAConnAddrInet4C2ERKS_;2A.;__comp_ctor::(3,48):_ZN15MAConnAddrInet4C1ERKS_;2A.;__base_ctor::(3,49)=#(3,42),(0,6),(3,45),(0,6);:_ZN15MAConnAddrInet4C2Ev;2A.;__comp_ctor::(3,49):_ZN15MAConnAddrInet4C1Ev;2A.;;",128,0,658,0
+	.stabs	"MAConnAddrInet4:t(3,50)=(3,42)",128,0,661,0
+	.stabs	"MABtAddr:Tt(3,51)=s6a:(3,52)=ar(3,53)=r(3,53);0000000000000;0037777777777;;0;5;(3,12),0,48;operator=::(3,54)=#(3,51),(3,55)=&(3,51),(3,56)=*(3,51),(3,57)=&(3,58)=k(3,51),(0,6);:_ZN8MABtAddraSERKS_;2A.;__base_ctor::(3,59)=#(3,51),(0,6),(3,56),(3,57),(0,6);:_ZN8MABtAddrC2ERKS_;2A.;__comp_ctor::(3,59):_ZN8MABtAddrC1ERKS_;2A.;__base_ctor::(3,60)=#(3,51),(0,6),(3,56),(0,6);:_ZN8MABtAddrC2Ev;2A.;__comp_ctor::(3,60):_ZN8MABtAddrC1Ev;2A.;;",128,0,666,0
+	.stabs	"MABtAddr:t(3,61)=(3,51)",128,0,668,0
+	.stabs	"MAConnAddrBt:Tt(3,62)=s12port:(0,3),0,32;addr:(3,61),32,48;operator=::(3,63)=#(3,62),(3,64)=&(3,62),(3,65)=*(3,62),(3,66)=&(3,67)=k(3,62),(0,6);:_ZN12MAConnAddrBtaSERKS_;2A.;__base_ctor::(3,68)=#(3,62),(0,6),(3,65),(3,66),(0,6);:_ZN12MAConnAddrBtC2ERKS_;2A.;__comp_ctor::(3,68):_ZN12MAConnAddrBtC1ERKS_;2A.;__base_ctor::(3,69)=#(3,62),(0,6),(3,65),(0,6);:_ZN12MAConnAddrBtC2Ev;2A.;__comp_ctor::(3,69):_ZN12MAConnAddrBtC1Ev;2A.;;",128,0,673,0
+	.stabs	"MAConnAddrBt:t(3,70)=(3,62)",128,0,676,0
+	.stabs	"MAConnAddr:Tt(3,71)=s16family:(0,3),0,32;:(3,72)=u12inet4:(3,50),0,64;bt:(3,70),0,96;;,32,96;operator=::(3,73)=#(3,71),(3,74)=&(3,71),(3,75)=*(3,71),(3,76)=&(3,77)=k(3,71),(0,6);:_ZN10MAConnAddraSERKS_;2A.;__base_ctor::(3,78)=#(3,71),(0,6),(3,75),(3,76),(0,6);:_ZN10MAConnAddrC2ERKS_;2A.;__comp_ctor::(3,78):_ZN10MAConnAddrC1ERKS_;2A.;__base_ctor::(3,79)=#(3,71),(0,6),(3,75),(0,6);:_ZN10MAConnAddrC2Ev;2A.;__comp_ctor::(3,79):_ZN10MAConnAddrC1Ev;2A.;;",128,0,681,0
+	.stabs	"MAConnAddr:t(3,80)=(3,71)",128,0,690,0
+	.stabs	"MAConnEventData:Tt(3,81)=s12handle:(3,10),0,32;opType:(0,3),32,32;result:(0,3),64,32;operator=::(3,82)=#(3,81),(3,83)=&(3,81),(3,84)=*(3,81),(3,85)=&(3,86)=k(3,81),(0,6);:_ZN15MAConnEventDataaSERKS_;2A.;__base_ctor::(3,87)=#(3,81),(0,6),(3,84),(3,85),(0,6);:_ZN15MAConnEventDataC2ERKS_;2A.;__comp_ctor::(3,87):_ZN15MAConnEventDataC1ERKS_;2A.;__base_ctor::(3,88)=#(3,81),(0,6),(3,84),(0,6);:_ZN15MAConnEventDataC2Ev;2A.;__comp_ctor::(3,88):_ZN15MAConnEventDataC1Ev;2A.;;",128,0,695,0
+	.stabs	"MAConnEventData:t(3,89)=(3,81)",128,0,704,0
+	.stabs	"MAEvent:Tt(3,90)=s16type:(0,3),0,32;:(3,91)=u12:(3,92)=s8key:(0,3),0,32;nativeKey:(0,3),32,32;;,0,64;character:(3,3),0,32;:(3,93)=s12point:(3,23),0,64;touchId:(0,3),64,32;;,0,96;state:(0,3),0,32;conn:(3,89),0,96;:(3,94)=s8textboxResult:(0,3),0,32;textboxLength:(0,3),32,32;;,0,64;data:(3,9),0,32;;,32,96;operator=::(3,95)=#(3,90),(3,96)=&(3,90),(3,97)=*(3,90),(3,98)=&(3,99)=k(3,90),(0,6);:_ZN7MAEventaSERKS_;2A.;__base_ctor::(3,100)=#(3,90),(0,6),(3,97),(3,98),(0,6);:_ZN7MAEventC2ERKS_;2A.;__comp_ctor::(3,100):_ZN7MAEventC1ERKS_;2A.;__base_ctor::(3,101)=#(3,90),(0,6),(3,97),(0,6);:_ZN7MAEventC2Ev;2A.;__comp_ctor::(3,101):_ZN7MAEventC1Ev;2A.;;",128,0,709,0
+	.stabs	"MAEvent:t(3,102)=(3,90)",128,0,774,0
+	.stabs	"MAPanicReport:Tt(3,103)=s24runtimeId:(0,3),0,32;reportType:(0,3),32,32;time:(0,3),64,32;ip:(0,3),96,32;code:(0,3),128,32;string:(3,104)=ar(3,53);0;0;(0,19),160,8;operator=::(3,105)=#(3,103),(3,106)=&(3,103),(3,107)=*(3,103),(3,108)=&(3,109)=k(3,103),(0,6);:_ZN13MAPanicReportaSERKS_;2A.;__base_ctor::(3,110)=#(3,103),(0,6),(3,107),(3,108),(0,6);:_ZN13MAPanicReportC2ERKS_;2A.;__comp_ctor::(3,110):_ZN13MAPanicReportC1ERKS_;2A.;__base_ctor::(3,111)=#(3,103),(0,6),(3,107),(0,6);:_ZN13MAPanicReportC2Ev;2A.;__comp_ctor::(3,111):_ZN13MAPanicReportC1Ev;2A.;;",128,0,795,0
+	.stabs	"MAPanicReport:t(3,112)=(3,103)",128,0,817,0
+	.stabs	"MABtDevice:Tt(3,113)=s20name:(3,5),0,32;nameBufSize:(0,3),32,32;actualNameLength:(0,3),64,32;address:(3,61),96,48;operator=::(3,114)=#(3,113),(3,115)=&(3,113),(3,116)=*(3,113),(3,117)=&(3,118)=k(3,113),(0,6);:_ZN10MABtDeviceaSERKS_;2A.;__base_ctor::(3,119)=#(3,113),(0,6),(3,116),(3,117),(0,6);:_ZN10MABtDeviceC2ERKS_;2A.;__comp_ctor::(3,119):_ZN10MABtDeviceC1ERKS_;2A.;__base_ctor::(3,120)=#(3,113),(0,6),(3,116),(0,6);:_ZN10MABtDeviceC2Ev;2A.;__comp_ctor::(3,120):_ZN10MABtDeviceC1Ev;2A.;;",128,0,822,0
+	.stabs	"MABtDevice:t(3,121)=(3,113)",128,0,834,0
+	.stabs	"MAUUID:Tt(3,122)=s16i:(3,123)=ar(3,53);0;3;(0,3),0,128;operator=::(3,124)=#(3,122),(3,125)=&(3,122),(3,126)=*(3,122),(3,127)=&(3,128)=k(3,122),(0,6);:_ZN6MAUUIDaSERKS_;2A.;__base_ctor::(3,129)=#(3,122),(0,6),(3,126),(3,127),(0,6);:_ZN6MAUUIDC2ERKS_;2A.;__comp_ctor::(3,129):_ZN6MAUUIDC1ERKS_;2A.;__base_ctor::(3,130)=#(3,122),(0,6),(3,126),(0,6);:_ZN6MAUUIDC2Ev;2A.;__comp_ctor::(3,130):_ZN6MAUUIDC1Ev;2A.;;",128,0,841,0
+	.stabs	"MAUUID:t(3,131)=(3,122)",128,0,843,0
+	.stabs	"MABtServiceSize:Tt(3,132)=s8nameBufSize:(0,3),0,32;nUuids:(0,3),32,32;operator=::(3,133)=#(3,132),(3,134)=&(3,132),(3,135)=*(3,132),(3,136)=&(3,137)=k(3,132),(0,6);:_ZN15MABtServiceSizeaSERKS_;2A.;__base_ctor::(3,138)=#(3,132),(0,6),(3,135),(3,136),(0,6);:_ZN15MABtServiceSizeC2ERKS_;2A.;__comp_ctor::(3,138):_ZN15MABtServiceSizeC1ERKS_;2A.;__base_ctor::(3,139)=#(3,132),(0,6),(3,135),(0,6);:_ZN15MABtServiceSizeC2Ev;2A.;__comp_ctor::(3,139):_ZN15MABtServiceSizeC1Ev;2A.;;",128,0,848,0
+	.stabs	"MABtServiceSize:t(3,140)=(3,132)",128,0,859,0
+	.stabs	"MABtService:Tt(3,141)=s16port:(0,3),0,32;name:(3,5),32,32;nameBufSize:(0,3),64,32;uuids:(3,142)=*(3,131),96,32;operator=::(3,143)=#(3,141),(3,144)=&(3,141),(3,145)=*(3,141),(3,146)=&(3,147)=k(3,141),(0,6);:_ZN11MABtServiceaSERKS_;2A.;__base_ctor::(3,148)=#(3,141),(0,6),(3,145),(3,146),(0,6);:_ZN11MABtServiceC2ERKS_;2A.;__comp_ctor::(3,148):_ZN11MABtServiceC1ERKS_;2A.;__base_ctor::(3,149)=#(3,141),(0,6),(3,145),(0,6);:_ZN11MABtServiceC2Ev;2A.;__comp_ctor::(3,149):_ZN11MABtServiceC1Ev;2A.;;",128,0,864,0
+	.stabs	"MABtService:t(3,150)=(3,141)",128,0,887,0
+	.stabs	"MALocation:Tt(3,151)=s40state:(0,3),0,32;lat:(0,8),32,64;lon:(0,8),96,64;horzAcc:(0,8),160,64;vertAcc:(0,8),224,64;alt:(0,9),288,32;operator=::(3,152)=#(3,151),(3,153)=&(3,151),(3,154)=*(3,151),(3,155)=&(3,156)=k(3,151),(0,6);:_ZN10MALocationaSERKS_;2A.;__base_ctor::(3,157)=#(3,151),(0,6),(3,154),(3,155),(0,6);:_ZN10MALocationC2ERKS_;2A.;__comp_ctor::(3,157):_ZN10MALocationC1ERKS_;2A.;__base_ctor::(3,158)=#(3,151),(0,6),(3,154),(0,6);:_ZN10MALocationC2Ev;2A.;__comp_ctor::(3,158):_ZN10MALocationC1Ev;2A.;;",128,0,907,0
+	.stabs	"MALocation:t(3,159)=(3,151)",128,0,923,0
+	.stabs	"MAFrameBufferInfo:Tt(3,160)=s64sizeInBytes:(0,3),0,32;bytesPerPixel:(0,3),32,32;bitsPerPixel:(0,3),64,32;redMask:(0,3),96,32;redShift:(0,3),128,32;redBits:(0,3),160,32;greenMask:(0,3),192,32;greenShift:(0,3),224,32;greenBits:(0,3),256,32;blueMask:(0,3),288,32;blueShift:(0,3),320,32;blueBits:(0,3),352,32;width:(0,3),384,32;height:(0,3),416,32;pitch:(0,3),448,32;supportsGfxSyscalls:(0,3),480,32;operator=::(3,161)=#(3,160),(3,162)=&(3,160),(3,163)=*(3,160),(3,164)=&(3,165)=k(3,160),(0,6);:_ZN17MAFrameBufferInfoaSERKS_;2A.;__base_ctor::(3,166)=#(3,160),(0,6),(3,163),(3,164),(0,6);:_ZN17MAFrameBufferInfoC2ERKS_;2A.;__comp_ctor::(3,166):_ZN17MAFrameBufferInfoC1ERKS_;2A.;__base_ctor::(3,167)=#(3,160),(0,6),(3,163),(0,6);:_ZN17MAFrameBufferInfoC2Ev;2A.;__comp_ctor::(3,167):_ZN17MAFrameBufferInfoC1Ev;2A.;;",128,0,930,0
+	.stabs	"MAFrameBufferInfo:t(3,168)=(3,160)",128,0,947,0
+	.stabs	"MA_CAMERA_FORMAT:Tt(3,169)=s8width:(0,3),0,32;height:(0,3),32,32;operator=::(3,170)=#(3,169),(3,171)=&(3,169),(3,172)=*(3,169),(3,173)=&(3,174)=k(3,169),(0,6);:_ZN16MA_CAMERA_FORMATaSERKS_;2A.;__base_ctor::(3,175)=#(3,169),(0,6),(3,172),(3,173),(0,6);:_ZN16MA_CAMERA_FORMATC2ERKS_;2A.;__comp_ctor::(3,175):_ZN16MA_CAMERA_FORMATC1ERKS_;2A.;__base_ctor::(3,176)=#(3,169),(0,6),(3,172),(0,6);:_ZN16MA_CAMERA_FORMATC2Ev;2A.;__comp_ctor::(3,176):_ZN16MA_CAMERA_FORMATC1Ev;2A.;;",128,0,952,0
+	.stabs	"MA_CAMERA_FORMAT:t(3,177)=(3,169)",128,0,955,0
 	.stabn	162,0,0,0
 	.stabs	"size_t:t(2,1)=(0,16)",128,0,32,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Environment.h",130,0,0,0
-	.stabs	"Environment::TimerEventInstance:Tt(5,1)=s20e:(5,2)=*(5,3)=xsTimerListener:,0,32;addTime:(0,3),32,32;period:(0,3),64,32;numTimes:(0,3),96,32;nextInvoke:(0,3),128,32;__base_ctor::(5,4)=#(5,1),(0,6),(5,5)=*(5,1),(5,2),(0,3),(0,3),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2EPNS_13TimerListenerEii;2A.;__comp_ctor::(5,4):_ZN6MAUtil11Environment18TimerEventInstanceC1EPNS_13TimerListenerEii;2A.;operator=::(5,6)=#(5,1),(5,7)=&(5,1),(5,5),(5,8)=&(5,9)=k(5,1),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceaSERKS1_;2A.;__base_ctor::(5,10)=#(5,1),(0,6),(5,5),(5,8),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2ERKS1_;2A.;__comp_ctor::(5,10):_ZN6MAUtil11Environment18TimerEventInstanceC1ERKS1_;2A.;;",128,0,396,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::KeyListener>::Combo>:Tt(5,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,12)=*(5,13)=xsCombo:,64,32;__base_ctor::(5,14)=#(5,11),(0,6),(5,15)=*(5,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,16)=#(5,11),(0,6),(5,15),(5,17)=&(5,18)=k(5,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,19)=#(5,11),(0,6),(5,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED1Ev;2A.;operator=::(5,20)=#(5,11),(5,21)=&(5,11),(5,15),(5,17),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEaSERKS5_;2A.;add::(5,22)=#(5,11),(0,6),(5,15),(5,23)=&(5,24)=k(5,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addERKS4_;2A.(5,25)=#(5,11),(0,6),(5,15),(5,26)=*(5,24),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,27)=#(5,11),(0,6),(5,15),(5,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEPS4_;2A.(5,28)=#(5,11),(0,6),(5,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEi;2A.(5,29)=#(5,11),(0,6),(5,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEii;2A.;insert::(5,30)=#(5,11),(0,6),(5,15),(0,3),(5,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6insertEiS4_;2A.;size::(5,31)=#(5,11),(0,3),(5,32)=*(5,18),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE4sizeEv;2B.;resize::(5,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6resizeEi;2A.;reserve::(5,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7reserveEi;2A.;clear::(5,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5clearEv;2A.;empty::(5,33)=#(5,11),(0,4),(5,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5emptyEv;2B.;capacity::(5,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE8capacityEv;2B.;begin::(5,34)=#(5,11),(5,12),(5,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2A.;end::(5,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2A.;begin::(5,35)=#(5,11),(5,26),(5,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2B.;end::(5,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2B.;operator[]::(5,36)=#(5,11),(5,37)=&(5,13),(5,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2A.(5,38)=#(5,11),(5,23),(5,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2B.;pointer::(5,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2B.(5,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::KeyListener>:Tt(5,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,11),32,96;__base_ctor::(5,40)=#(5,39),(0,6),(5,41)=*(5,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2Eb;2A.;__comp_ctor::(5,40):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1Eb;2A.;begin::(5,42)=#(5,39),(5,43)=xsiterator:,(5,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE5beginEv;2A.;add::(5,44)=#(5,39),(0,6),(5,41),(5,45)=*(5,46)=xsKeyListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE3addEPS1_;2A.;remove::(5,44):_ZN6MAUtil11ListenerSetINS_11KeyListenerEE6removeEPS1_;2A.;contains::(5,47)=#(5,39),(0,4),(5,41),(5,45),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE8containsEPS1_;2A.;setRunning::(5,48)=#(5,39),(0,6),(5,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE10setRunningEb;2A.;size::(5,49)=#(5,39),(0,3),(5,50)=*(5,51)=k(5,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_11KeyListenerEE4sizeEv;2B.;operator=::(5,52)=#(5,39),(5,53)=&(5,39),(5,41),(5,54)=&(5,51),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEaSERKS2_;2A.;__base_ctor::(5,55)=#(5,39),(0,6),(5,41),(5,54),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2ERKS2_;2A.;__comp_ctor::(5,55):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1ERKS2_;2A.;__base_dtor::(5,56)=#(5,39),(0,6),(5,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEED2Ev;2A.;__comp_dtor::(5,56):_ZN6MAUtil11ListenerSetINS_11KeyListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::PointerListener>::Combo>:Tt(5,57)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,58)=*(5,59)=xsCombo:,64,32;__base_ctor::(5,60)=#(5,57),(0,6),(5,61)=*(5,57),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,60):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,62)=#(5,57),(0,6),(5,61),(5,63)=&(5,64)=k(5,57),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,65)=#(5,57),(0,6),(5,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED1Ev;2A.;operator=::(5,66)=#(5,57),(5,67)=&(5,57),(5,61),(5,63),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEaSERKS5_;2A.;add::(5,68)=#(5,57),(0,6),(5,61),(5,69)=&(5,70)=k(5,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addERKS4_;2A.(5,71)=#(5,57),(0,6),(5,61),(5,72)=*(5,70),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,73)=#(5,57),(0,6),(5,61),(5,58),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEPS4_;2A.(5,74)=#(5,57),(0,6),(5,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEi;2A.(5,75)=#(5,57),(0,6),(5,61),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEii;2A.;insert::(5,76)=#(5,57),(0,6),(5,61),(0,3),(5,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6insertEiS4_;2A.;size::(5,77)=#(5,57),(0,3),(5,78)=*(5,64),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE4sizeEv;2B.;resize::(5,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6resizeEi;2A.;reserve::(5,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7reserveEi;2A.;clear::(5,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5clearEv;2A.;empty::(5,79)=#(5,57),(0,4),(5,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5emptyEv;2B.;capacity::(5,77):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE8capacityEv;2B.;begin::(5,80)=#(5,57),(5,58),(5,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2A.;end::(5,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2A.;begin::(5,81)=#(5,57),(5,72),(5,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2B.;end::(5,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2B.;operator[]::(5,82)=#(5,57),(5,83)=&(5,59),(5,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2A.(5,84)=#(5,57),(5,69),(5,78),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2B.;pointer::(5,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2B.(5,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::PointerListener>:Tt(5,85)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,57),32,96;__base_ctor::(5,86)=#(5,85),(0,6),(5,87)=*(5,85),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2Eb;2A.;__comp_ctor::(5,86):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1Eb;2A.;begin::(5,88)=#(5,85),(5,89)=xsiterator:,(5,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE5beginEv;2A.;add::(5,90)=#(5,85),(0,6),(5,87),(5,91)=*(5,92)=xsPointerListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE3addEPS1_;2A.;remove::(5,90):_ZN6MAUtil11ListenerSetINS_15PointerListenerEE6removeEPS1_;2A.;contains::(5,93)=#(5,85),(0,4),(5,87),(5,91),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE8containsEPS1_;2A.;setRunning::(5,94)=#(5,85),(0,6),(5,87),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE10setRunningEb;2A.;size::(5,95)=#(5,85),(0,3),(5,96)=*(5,97)=k(5,85),(0,6);:_ZNK6MAUtil11ListenerSetINS_15PointerListenerEE4sizeEv;2B.;operator=::(5,98)=#(5,85),(5,99)=&(5,85),(5,87),(5,100)=&(5,97),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEaSERKS2_;2A.;__base_ctor::(5,101)=#(5,85),(0,6),(5,87),(5,100),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2ERKS2_;2A.;__comp_ctor::(5,101):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1ERKS2_;2A.;__base_dtor::(5,102)=#(5,85),(0,6),(5,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEED2Ev;2A.;__comp_dtor::(5,102):_ZN6MAUtil11ListenerSetINS_15PointerListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::CloseListener*>:Tt(5,103)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,104)=*(5,105)=*(5,106)=xsCloseListener:,64,32;__base_ctor::(5,107)=#(5,103),(0,6),(5,108)=*(5,103),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2Ei;2A.;__comp_ctor::(5,107):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1Ei;2A.;__base_ctor::(5,109)=#(5,103),(0,6),(5,108),(5,110)=&(5,111)=k(5,103),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2ERKS3_;2A.;__comp_ctor::(5,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1ERKS3_;2A.;__base_dtor::(5,112)=#(5,103),(0,6),(5,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEED2Ev;2A.;__comp_dtor::(5,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEED1Ev;2A.;operator=::(5,113)=#(5,103),(5,114)=&(5,103),(5,108),(5,110),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEaSERKS3_;2A.;add::(5,115)=#(5,103),(0,6),(5,108),(5,116)=&(5,117)=k(5,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addERKS2_;2A.(5,118)=#(5,103),(0,6),(5,108),(5,119)=*(5,117),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addEPKS2_i;2A.;remove::(5,120)=#(5,103),(0,6),(5,108),(5,104),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEPS2_;2A.(5,121)=#(5,103),(0,6),(5,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEi;2A.(5,122)=#(5,103),(0,6),(5,108),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEii;2A.;insert::(5,123)=#(5,103),(0,6),(5,108),(0,3),(5,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6insertEiS2_;2A.;size::(5,124)=#(5,103),(0,3),(5,125)=*(5,111),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE4sizeEv;2B.;resize::(5,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE6resizeEi;2A.;reserve::(5,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7reserveEi;2A.;clear::(5,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEE5clearEv;2A.;empty::(5,126)=#(5,103),(0,4),(5,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5emptyEv;2B.;capacity::(5,124):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE8capacityEv;2B.;begin::(5,127)=#(5,103),(5,104),(5,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2A.;end::(5,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2A.;begin::(5,128)=#(5,103),(5,119),(5,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2B.;end::(5,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2B.;operator[]::(5,129)=#(5,103),(5,130)=&(5,105),(5,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEixEi;2A.(5,131)=#(5,103),(5,116),(5,125),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEEixEi;2B.;pointer::(5,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2B.(5,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::ConnListener>::Combo>:Tt(5,132)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,133)=*(5,134)=xsCombo:,64,32;__base_ctor::(5,135)=#(5,132),(0,6),(5,136)=*(5,132),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,135):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,137)=#(5,132),(0,6),(5,136),(5,138)=&(5,139)=k(5,132),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,140)=#(5,132),(0,6),(5,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED1Ev;2A.;operator=::(5,141)=#(5,132),(5,142)=&(5,132),(5,136),(5,138),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEaSERKS5_;2A.;add::(5,143)=#(5,132),(0,6),(5,136),(5,144)=&(5,145)=k(5,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addERKS4_;2A.(5,146)=#(5,132),(0,6),(5,136),(5,147)=*(5,145),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,148)=#(5,132),(0,6),(5,136),(5,133),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEPS4_;2A.(5,149)=#(5,132),(0,6),(5,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEi;2A.(5,150)=#(5,132),(0,6),(5,136),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEii;2A.;insert::(5,151)=#(5,132),(0,6),(5,136),(0,3),(5,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6insertEiS4_;2A.;size::(5,152)=#(5,132),(0,3),(5,153)=*(5,139),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE4sizeEv;2B.;resize::(5,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6resizeEi;2A.;reserve::(5,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7reserveEi;2A.;clear::(5,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5clearEv;2A.;empty::(5,154)=#(5,132),(0,4),(5,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5emptyEv;2B.;capacity::(5,152):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE8capacityEv;2B.;begin::(5,155)=#(5,132),(5,133),(5,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2A.;end::(5,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2A.;begin::(5,156)=#(5,132),(5,147),(5,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2B.;end::(5,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2B.;operator[]::(5,157)=#(5,132),(5,158)=&(5,134),(5,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2A.(5,159)=#(5,132),(5,144),(5,153),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2B.;pointer::(5,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2B.(5,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::ConnListener>:Tt(5,160)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,132),32,96;__base_ctor::(5,161)=#(5,160),(0,6),(5,162)=*(5,160),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2Eb;2A.;__comp_ctor::(5,161):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1Eb;2A.;begin::(5,163)=#(5,160),(5,164)=xsiterator:,(5,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE5beginEv;2A.;add::(5,165)=#(5,160),(0,6),(5,162),(5,166)=*(5,167)=xsConnListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE3addEPS1_;2A.;remove::(5,165):_ZN6MAUtil11ListenerSetINS_12ConnListenerEE6removeEPS1_;2A.;contains::(5,168)=#(5,160),(0,4),(5,162),(5,166),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE8containsEPS1_;2A.;setRunning::(5,169)=#(5,160),(0,6),(5,162),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE10setRunningEb;2A.;size::(5,170)=#(5,160),(0,3),(5,171)=*(5,172)=k(5,160),(0,6);:_ZNK6MAUtil11ListenerSetINS_12ConnListenerEE4sizeEv;2B.;operator=::(5,173)=#(5,160),(5,174)=&(5,160),(5,162),(5,175)=&(5,172),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEaSERKS2_;2A.;__base_ctor::(5,176)=#(5,160),(0,6),(5,162),(5,175),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2ERKS2_;2A.;__comp_ctor::(5,176):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1ERKS2_;2A.;__base_dtor::(5,177)=#(5,160),(0,6),(5,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEED2Ev;2A.;__comp_dtor::(5,177):_ZN6MAUtil11ListenerSetINS_12ConnListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::IdleListener>::Combo>:Tt(5,178)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,179)=*(5,180)=xsCombo:,64,32;__base_ctor::(5,181)=#(5,178),(0,6),(5,182)=*(5,178),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,181):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,183)=#(5,178),(0,6),(5,182),(5,184)=&(5,185)=k(5,178),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,186)=#(5,178),(0,6),(5,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED1Ev;2A.;operator=::(5,187)=#(5,178),(5,188)=&(5,178),(5,182),(5,184),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEaSERKS5_;2A.;add::(5,189)=#(5,178),(0,6),(5,182),(5,190)=&(5,191)=k(5,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addERKS4_;2A.(5,192)=#(5,178),(0,6),(5,182),(5,193)=*(5,191),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,194)=#(5,178),(0,6),(5,182),(5,179),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEPS4_;2A.(5,195)=#(5,178),(0,6),(5,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEi;2A.(5,196)=#(5,178),(0,6),(5,182),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEii;2A.;insert::(5,197)=#(5,178),(0,6),(5,182),(0,3),(5,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6insertEiS4_;2A.;size::(5,198)=#(5,178),(0,3),(5,199)=*(5,185),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE4sizeEv;2B.;resize::(5,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6resizeEi;2A.;reserve::(5,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7reserveEi;2A.;clear::(5,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5clearEv;2A.;empty::(5,200)=#(5,178),(0,4),(5,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5emptyEv;2B.;capacity::(5,198):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE8capacityEv;2B.;begin::(5,201)=#(5,178),(5,179),(5,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2A.;end::(5,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2A.;begin::(5,202)=#(5,178),(5,193),(5,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2B.;end::(5,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2B.;operator[]::(5,203)=#(5,178),(5,204)=&(5,180),(5,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2A.(5,205)=#(5,178),(5,190),(5,199),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2B.;pointer::(5,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2B.(5,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::IdleListener>:Tt(5,206)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,178),32,96;__base_ctor::(5,207)=#(5,206),(0,6),(5,208)=*(5,206),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2Eb;2A.;__comp_ctor::(5,207):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1Eb;2A.;begin::(5,209)=#(5,206),(5,210)=xsiterator:,(5,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE5beginEv;2A.;add::(5,211)=#(5,206),(0,6),(5,208),(5,212)=*(5,213)=xsIdleListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE3addEPS1_;2A.;remove::(5,211):_ZN6MAUtil11ListenerSetINS_12IdleListenerEE6removeEPS1_;2A.;contains::(5,214)=#(5,206),(0,4),(5,208),(5,212),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE8containsEPS1_;2A.;setRunning::(5,215)=#(5,206),(0,6),(5,208),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE10setRunningEb;2A.;size::(5,216)=#(5,206),(0,3),(5,217)=*(5,218)=k(5,206),(0,6);:_ZNK6MAUtil11ListenerSetINS_12IdleListenerEE4sizeEv;2B.;operator=::(5,219)=#(5,206),(5,220)=&(5,206),(5,208),(5,221)=&(5,218),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEaSERKS2_;2A.;__base_ctor::(5,222)=#(5,206),(0,6),(5,208),(5,221),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2ERKS2_;2A.;__comp_ctor::(5,222):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1ERKS2_;2A.;__base_dtor::(5,223)=#(5,206),(0,6),(5,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEED2Ev;2A.;__comp_dtor::(5,223):_ZN6MAUtil11ListenerSetINS_12IdleListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::Environment::TimerEventInstance>::Combo>:Tt(5,224)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,225)=*(5,226)=xsCombo:,64,32;__base_ctor::(5,227)=#(5,224),(0,6),(5,228)=*(5,224),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2Ei;2A.;__comp_ctor::(5,227):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1Ei;2A.;__base_ctor::(5,229)=#(5,224),(0,6),(5,228),(5,230)=&(5,231)=k(5,224),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2ERKS6_;2A.;__comp_ctor::(5,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1ERKS6_;2A.;__base_dtor::(5,232)=#(5,224),(0,6),(5,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED2Ev;2A.;__comp_dtor::(5,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED1Ev;2A.;operator=::(5,233)=#(5,224),(5,234)=&(5,224),(5,228),(5,230),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEaSERKS6_;2A.;add::(5,235)=#(5,224),(0,6),(5,228),(5,236)=&(5,237)=k(5,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addERKS5_;2A.(5,238)=#(5,224),(0,6),(5,228),(5,239)=*(5,237),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addEPKS5_i;2A.;remove::(5,240)=#(5,224),(0,6),(5,228),(5,225),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEPS5_;2A.(5,241)=#(5,224),(0,6),(5,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEi;2A.(5,242)=#(5,224),(0,6),(5,228),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEii;2A.;insert::(5,243)=#(5,224),(0,6),(5,228),(0,3),(5,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6insertEiS5_;2A.;size::(5,244)=#(5,224),(0,3),(5,245)=*(5,231),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE4sizeEv;2B.;resize::(5,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6resizeEi;2A.;reserve::(5,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7reserveEi;2A.;clear::(5,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5clearEv;2A.;empty::(5,246)=#(5,224),(0,4),(5,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5emptyEv;2B.;capacity::(5,244):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE8capacityEv;2B.;begin::(5,247)=#(5,224),(5,225),(5,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2A.;end::(5,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2A.;begin::(5,248)=#(5,224),(5,239),(5,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2B.;end::(5,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2B.;operator[]::(5,249)=#(5,224),(5,250)=&(5,226),(5,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2A.(5,251)=#(5,224),(5,236),(5,245),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2B.;pointer::(5,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2B.(5,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::Environment::TimerEventInstance>:Tt(5,252)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,224),32,96;__base_ctor::(5,253)=#(5,252),(0,6),(5,254)=*(5,252),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2Eb;2A.;__comp_ctor::(5,253):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1Eb;2A.;begin::(5,255)=#(5,252),(5,256)=xsiterator:,(5,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE5beginEv;2A.;add::(5,257)=#(5,252),(0,6),(5,254),(5,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE3addEPS2_;2A.;remove::(5,257):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE6removeEPS2_;2A.;contains::(5,258)=#(5,252),(0,4),(5,254),(5,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE8containsEPS2_;2A.;setRunning::(5,259)=#(5,252),(0,6),(5,254),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE10setRunningEb;2A.;size::(5,260)=#(5,252),(0,3),(5,261)=*(5,262)=k(5,252),(0,6);:_ZNK6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE4sizeEv;2B.;operator=::(5,263)=#(5,252),(5,264)=&(5,252),(5,254),(5,265)=&(5,262),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEaSERKS3_;2A.;__base_ctor::(5,266)=#(5,252),(0,6),(5,254),(5,265),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2ERKS3_;2A.;__comp_ctor::(5,266):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1ERKS3_;2A.;__base_dtor::(5,267)=#(5,252),(0,6),(5,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED2Ev;2A.;__comp_dtor::(5,267):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::FocusListener>::Combo>:Tt(5,268)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,269)=*(5,270)=xsCombo:,64,32;__base_ctor::(5,271)=#(5,268),(0,6),(5,272)=*(5,268),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,271):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,273)=#(5,268),(0,6),(5,272),(5,274)=&(5,275)=k(5,268),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,276)=#(5,268),(0,6),(5,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED1Ev;2A.;operator=::(5,277)=#(5,268),(5,278)=&(5,268),(5,272),(5,274),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEaSERKS5_;2A.;add::(5,279)=#(5,268),(0,6),(5,272),(5,280)=&(5,281)=k(5,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addERKS4_;2A.(5,282)=#(5,268),(0,6),(5,272),(5,283)=*(5,281),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,284)=#(5,268),(0,6),(5,272),(5,269),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEPS4_;2A.(5,285)=#(5,268),(0,6),(5,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEi;2A.(5,286)=#(5,268),(0,6),(5,272),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEii;2A.;insert::(5,287)=#(5,268),(0,6),(5,272),(0,3),(5,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6insertEiS4_;2A.;size::(5,288)=#(5,268),(0,3),(5,289)=*(5,275),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE4sizeEv;2B.;resize::(5,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6resizeEi;2A.;reserve::(5,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7reserveEi;2A.;clear::(5,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5clearEv;2A.;empty::(5,290)=#(5,268),(0,4),(5,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5emptyEv;2B.;capacity::(5,288):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE8capacityEv;2B.;begin::(5,291)=#(5,268),(5,269),(5,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2A.;end::(5,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2A.;begin::(5,292)=#(5,268),(5,283),(5,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2B.;end::(5,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2B.;operator[]::(5,293)=#(5,268),(5,294)=&(5,270),(5,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2A.(5,295)=#(5,268),(5,280),(5,289),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2B.;pointer::(5,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2B.(5,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::FocusListener>:Tt(5,296)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,268),32,96;__base_ctor::(5,297)=#(5,296),(0,6),(5,298)=*(5,296),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2Eb;2A.;__comp_ctor::(5,297):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1Eb;2A.;begin::(5,299)=#(5,296),(5,300)=xsiterator:,(5,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE5beginEv;2A.;add::(5,301)=#(5,296),(0,6),(5,298),(5,302)=*(5,303)=xsFocusListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE3addEPS1_;2A.;remove::(5,301):_ZN6MAUtil11ListenerSetINS_13FocusListenerEE6removeEPS1_;2A.;contains::(5,304)=#(5,296),(0,4),(5,298),(5,302),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE8containsEPS1_;2A.;setRunning::(5,305)=#(5,296),(0,6),(5,298),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE10setRunningEb;2A.;size::(5,306)=#(5,296),(0,3),(5,307)=*(5,308)=k(5,296),(0,6);:_ZNK6MAUtil11ListenerSetINS_13FocusListenerEE4sizeEv;2B.;operator=::(5,309)=#(5,296),(5,310)=&(5,296),(5,298),(5,311)=&(5,308),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEaSERKS2_;2A.;__base_ctor::(5,312)=#(5,296),(0,6),(5,298),(5,311),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2ERKS2_;2A.;__comp_ctor::(5,312):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1ERKS2_;2A.;__base_dtor::(5,313)=#(5,296),(0,6),(5,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEED2Ev;2A.;__comp_dtor::(5,313):_ZN6MAUtil11ListenerSetINS_13FocusListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CustomEventListener>::Combo>:Tt(5,314)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,315)=*(5,316)=xsCombo:,64,32;__base_ctor::(5,317)=#(5,314),(0,6),(5,318)=*(5,314),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,317):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,319)=#(5,314),(0,6),(5,318),(5,320)=&(5,321)=k(5,314),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,322)=#(5,314),(0,6),(5,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED1Ev;2A.;operator=::(5,323)=#(5,314),(5,324)=&(5,314),(5,318),(5,320),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEaSERKS5_;2A.;add::(5,325)=#(5,314),(0,6),(5,318),(5,326)=&(5,327)=k(5,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addERKS4_;2A.(5,328)=#(5,314),(0,6),(5,318),(5,329)=*(5,327),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,330)=#(5,314),(0,6),(5,318),(5,315),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEPS4_;2A.(5,331)=#(5,314),(0,6),(5,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEi;2A.(5,332)=#(5,314),(0,6),(5,318),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEii;2A.;insert::(5,333)=#(5,314),(0,6),(5,318),(0,3),(5,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6insertEiS4_;2A.;size::(5,334)=#(5,314),(0,3),(5,335)=*(5,321),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE4sizeEv;2B.;resize::(5,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6resizeEi;2A.;reserve::(5,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7reserveEi;2A.;clear::(5,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5clearEv;2A.;empty::(5,336)=#(5,314),(0,4),(5,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5emptyEv;2B.;capacity::(5,334):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE8capacityEv;2B.;begin::(5,337)=#(5,314),(5,315),(5,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2A.;end::(5,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2A.;begin::(5,338)=#(5,314),(5,329),(5,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2B.;end::(5,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2B.;operator[]::(5,339)=#(5,314),(5,340)=&(5,316),(5,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2A.(5,341)=#(5,314),(5,326),(5,335),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2B.;pointer::(5,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2B.(5,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::CustomEventListener>:Tt(5,342)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,314),32,96;__base_ctor::(5,343)=#(5,342),(0,6),(5,344)=*(5,342),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2Eb;2A.;__comp_ctor::(5,343):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1Eb;2A.;begin::(5,345)=#(5,342),(5,346)=xsiterator:,(5,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE5beginEv;2A.;add::(5,347)=#(5,342),(0,6),(5,344),(5,348)=*(5,349)=xsCustomEventListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE3addEPS1_;2A.;remove::(5,347):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE6removeEPS1_;2A.;contains::(5,350)=#(5,342),(0,4),(5,344),(5,348),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE8containsEPS1_;2A.;setRunning::(5,351)=#(5,342),(0,6),(5,344),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE10setRunningEb;2A.;size::(5,352)=#(5,342),(0,3),(5,353)=*(5,354)=k(5,342),(0,6);:_ZNK6MAUtil11ListenerSetINS_19CustomEventListenerEE4sizeEv;2B.;operator=::(5,355)=#(5,342),(5,356)=&(5,342),(5,344),(5,357)=&(5,354),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEaSERKS2_;2A.;__base_ctor::(5,358)=#(5,342),(0,6),(5,344),(5,357),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2ERKS2_;2A.;__comp_ctor::(5,358):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1ERKS2_;2A.;__base_dtor::(5,359)=#(5,342),(0,6),(5,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED2Ev;2A.;__comp_dtor::(5,359):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::TextBoxListener>::Combo>:Tt(5,360)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,361)=*(5,362)=xsCombo:,64,32;__base_ctor::(5,363)=#(5,360),(0,6),(5,364)=*(5,360),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,363):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,365)=#(5,360),(0,6),(5,364),(5,366)=&(5,367)=k(5,360),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,368)=#(5,360),(0,6),(5,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED1Ev;2A.;operator=::(5,369)=#(5,360),(5,370)=&(5,360),(5,364),(5,366),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEaSERKS5_;2A.;add::(5,371)=#(5,360),(0,6),(5,364),(5,372)=&(5,373)=k(5,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addERKS4_;2A.(5,374)=#(5,360),(0,6),(5,364),(5,375)=*(5,373),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,376)=#(5,360),(0,6),(5,364),(5,361),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEPS4_;2A.(5,377)=#(5,360),(0,6),(5,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEi;2A.(5,378)=#(5,360),(0,6),(5,364),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEii;2A.;insert::(5,379)=#(5,360),(0,6),(5,364),(0,3),(5,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6insertEiS4_;2A.;size::(5,380)=#(5,360),(0,3),(5,381)=*(5,367),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE4sizeEv;2B.;resize::(5,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6resizeEi;2A.;reserve::(5,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7reserveEi;2A.;clear::(5,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5clearEv;2A.;empty::(5,382)=#(5,360),(0,4),(5,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5emptyEv;2B.;capacity::(5,380):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE8capacityEv;2B.;begin::(5,383)=#(5,360),(5,361),(5,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2A.;end::(5,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2A.;begin::(5,384)=#(5,360),(5,375),(5,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2B.;end::(5,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2B.;operator[]::(5,385)=#(5,360),(5,386)=&(5,362),(5,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2A.(5,387)=#(5,360),(5,372),(5,381),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2B.;pointer::(5,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2B.(5,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::TextBoxListener>:Tt(5,388)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,360),32,96;__base_ctor::(5,389)=#(5,388),(0,6),(5,390)=*(5,388),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2Eb;2A.;__comp_ctor::(5,389):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1Eb;2A.;begin::(5,391)=#(5,388),(5,392)=xsiterator:,(5,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE5beginEv;2A.;add::(5,393)=#(5,388),(0,6),(5,390),(5,394)=*(5,395)=xsTextBoxListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE3addEPS1_;2A.;remove::(5,393):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE6removeEPS1_;2A.;contains::(5,396)=#(5,388),(0,4),(5,390),(5,394),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE8containsEPS1_;2A.;setRunning::(5,397)=#(5,388),(0,6),(5,390),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE10setRunningEb;2A.;size::(5,398)=#(5,388),(0,3),(5,399)=*(5,400)=k(5,388),(0,6);:_ZNK6MAUtil11ListenerSetINS_15TextBoxListenerEE4sizeEv;2B.;operator=::(5,401)=#(5,388),(5,402)=&(5,388),(5,390),(5,403)=&(5,400),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEaSERKS2_;2A.;__base_ctor::(5,404)=#(5,388),(0,6),(5,390),(5,403),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2ERKS2_;2A.;__comp_ctor::(5,404):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1ERKS2_;2A.;__base_dtor::(5,405)=#(5,388),(0,6),(5,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED2Ev;2A.;__comp_dtor::(5,405):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED1Ev;2A.;;",128,0,37,0
+	.stabs	"c:/MoSync/include/MAUtil/Environment.h",130,0,0,0
+	.stabs	"Environment::TimerEventInstance:Tt(5,1)=s20e:(5,2)=*(5,3)=xsTimerListener:,0,32;addTime:(0,3),32,32;period:(0,3),64,32;numTimes:(0,3),96,32;nextInvoke:(0,3),128,32;__base_ctor::(5,4)=#(5,1),(0,6),(5,5)=*(5,1),(5,2),(0,3),(0,3),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2EPNS_13TimerListenerEii;2A.;__comp_ctor::(5,4):_ZN6MAUtil11Environment18TimerEventInstanceC1EPNS_13TimerListenerEii;2A.;operator=::(5,6)=#(5,1),(5,7)=&(5,1),(5,5),(5,8)=&(5,9)=k(5,1),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceaSERKS1_;2A.;__base_ctor::(5,10)=#(5,1),(0,6),(5,5),(5,8),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2ERKS1_;2A.;__comp_ctor::(5,10):_ZN6MAUtil11Environment18TimerEventInstanceC1ERKS1_;2A.;;",128,0,409,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::KeyListener>::Combo>:Tt(5,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,12)=*(5,13)=xsCombo:,64,32;__base_ctor::(5,14)=#(5,11),(0,6),(5,15)=*(5,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,16)=#(5,11),(0,6),(5,15),(5,17)=*(5,18)=k(5,13),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,19)=#(5,11),(0,6),(5,15),(5,20)=&(5,21)=k(5,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,22)=#(5,11),(0,6),(5,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED1Ev;2A.;operator=::(5,23)=#(5,11),(5,24)=&(5,11),(5,15),(5,20),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEaSERKS5_;2A.;add::(5,25)=#(5,11),(0,6),(5,15),(5,26)=&(5,18),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addERKS4_;2A.(5,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,27)=#(5,11),(0,6),(5,15),(5,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEPS4_;2A.(5,28)=#(5,11),(0,6),(5,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEi;2A.(5,29)=#(5,11),(0,6),(5,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEii;2A.;insert::(5,30)=#(5,11),(0,6),(5,15),(0,3),(5,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6insertEiS4_;2A.;size::(5,31)=#(5,11),(0,3),(5,32)=*(5,21),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE4sizeEv;2B.;resize::(5,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6resizeEi;2A.;reserve::(5,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7reserveEi;2A.;clear::(5,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5clearEv;2A.;empty::(5,33)=#(5,11),(0,4),(5,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5emptyEv;2B.;capacity::(5,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE8capacityEv;2B.;begin::(5,34)=#(5,11),(5,12),(5,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2A.;end::(5,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2A.;begin::(5,35)=#(5,11),(5,17),(5,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2B.;end::(5,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2B.;operator[]::(5,36)=#(5,11),(5,37)=&(5,13),(5,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2A.(5,38)=#(5,11),(5,26),(5,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2B.;pointer::(5,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2B.(5,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::KeyListener>:Tt(5,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,11),32,96;__base_ctor::(5,40)=#(5,39),(0,6),(5,41)=*(5,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2Eb;2A.;__comp_ctor::(5,40):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1Eb;2A.;begin::(5,42)=#(5,39),(5,43)=xsiterator:,(5,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE5beginEv;2A.;add::(5,44)=#(5,39),(0,6),(5,41),(5,45)=*(5,46)=xsKeyListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE3addEPS1_;2A.;remove::(5,44):_ZN6MAUtil11ListenerSetINS_11KeyListenerEE6removeEPS1_;2A.;contains::(5,47)=#(5,39),(0,4),(5,41),(5,45),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE8containsEPS1_;2A.;setRunning::(5,48)=#(5,39),(0,6),(5,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE10setRunningEb;2A.;size::(5,49)=#(5,39),(0,3),(5,50)=*(5,51)=k(5,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_11KeyListenerEE4sizeEv;2B.;operator=::(5,52)=#(5,39),(5,53)=&(5,39),(5,41),(5,54)=&(5,51),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEaSERKS2_;2A.;__base_ctor::(5,55)=#(5,39),(0,6),(5,41),(5,54),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2ERKS2_;2A.;__comp_ctor::(5,55):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1ERKS2_;2A.;__base_dtor::(5,56)=#(5,39),(0,6),(5,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEED2Ev;2A.;__comp_dtor::(5,56):_ZN6MAUtil11ListenerSetINS_11KeyListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::PointerListener>::Combo>:Tt(5,57)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,58)=*(5,59)=xsCombo:,64,32;__base_ctor::(5,60)=#(5,57),(0,6),(5,61)=*(5,57),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,60):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,62)=#(5,57),(0,6),(5,61),(5,63)=*(5,64)=k(5,59),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,65)=#(5,57),(0,6),(5,61),(5,66)=&(5,67)=k(5,57),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,68)=#(5,57),(0,6),(5,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,68):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED1Ev;2A.;operator=::(5,69)=#(5,57),(5,70)=&(5,57),(5,61),(5,66),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEaSERKS5_;2A.;add::(5,71)=#(5,57),(0,6),(5,61),(5,72)=&(5,64),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addERKS4_;2A.(5,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,73)=#(5,57),(0,6),(5,61),(5,58),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEPS4_;2A.(5,74)=#(5,57),(0,6),(5,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEi;2A.(5,75)=#(5,57),(0,6),(5,61),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEii;2A.;insert::(5,76)=#(5,57),(0,6),(5,61),(0,3),(5,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6insertEiS4_;2A.;size::(5,77)=#(5,57),(0,3),(5,78)=*(5,67),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE4sizeEv;2B.;resize::(5,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6resizeEi;2A.;reserve::(5,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7reserveEi;2A.;clear::(5,68):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5clearEv;2A.;empty::(5,79)=#(5,57),(0,4),(5,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5emptyEv;2B.;capacity::(5,77):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE8capacityEv;2B.;begin::(5,80)=#(5,57),(5,58),(5,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2A.;end::(5,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2A.;begin::(5,81)=#(5,57),(5,63),(5,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2B.;end::(5,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2B.;operator[]::(5,82)=#(5,57),(5,83)=&(5,59),(5,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2A.(5,84)=#(5,57),(5,72),(5,78),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2B.;pointer::(5,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2B.(5,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::PointerListener>:Tt(5,85)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,57),32,96;__base_ctor::(5,86)=#(5,85),(0,6),(5,87)=*(5,85),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2Eb;2A.;__comp_ctor::(5,86):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1Eb;2A.;begin::(5,88)=#(5,85),(5,89)=xsiterator:,(5,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE5beginEv;2A.;add::(5,90)=#(5,85),(0,6),(5,87),(5,91)=*(5,92)=xsPointerListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE3addEPS1_;2A.;remove::(5,90):_ZN6MAUtil11ListenerSetINS_15PointerListenerEE6removeEPS1_;2A.;contains::(5,93)=#(5,85),(0,4),(5,87),(5,91),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE8containsEPS1_;2A.;setRunning::(5,94)=#(5,85),(0,6),(5,87),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE10setRunningEb;2A.;size::(5,95)=#(5,85),(0,3),(5,96)=*(5,97)=k(5,85),(0,6);:_ZNK6MAUtil11ListenerSetINS_15PointerListenerEE4sizeEv;2B.;operator=::(5,98)=#(5,85),(5,99)=&(5,85),(5,87),(5,100)=&(5,97),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEaSERKS2_;2A.;__base_ctor::(5,101)=#(5,85),(0,6),(5,87),(5,100),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2ERKS2_;2A.;__comp_ctor::(5,101):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1ERKS2_;2A.;__base_dtor::(5,102)=#(5,85),(0,6),(5,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEED2Ev;2A.;__comp_dtor::(5,102):_ZN6MAUtil11ListenerSetINS_15PointerListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::CloseListener*>:Tt(5,103)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,104)=*(5,105)=*(5,106)=xsCloseListener:,64,32;__base_ctor::(5,107)=#(5,103),(0,6),(5,108)=*(5,103),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2Ei;2A.;__comp_ctor::(5,107):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1Ei;2A.;__base_ctor::(5,109)=#(5,103),(0,6),(5,108),(5,110)=*(5,111)=k(5,105),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2EPKS2_i;2A.;__comp_ctor::(5,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1EPKS2_i;2A.;__base_ctor::(5,112)=#(5,103),(0,6),(5,108),(5,113)=&(5,114)=k(5,103),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2ERKS3_;2A.;__comp_ctor::(5,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1ERKS3_;2A.;__base_dtor::(5,115)=#(5,103),(0,6),(5,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEED2Ev;2A.;__comp_dtor::(5,115):_ZN6MAUtil6VectorIPNS_13CloseListenerEED1Ev;2A.;operator=::(5,116)=#(5,103),(5,117)=&(5,103),(5,108),(5,113),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEaSERKS3_;2A.;add::(5,118)=#(5,103),(0,6),(5,108),(5,119)=&(5,111),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addERKS2_;2A.(5,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addEPKS2_i;2A.;remove::(5,120)=#(5,103),(0,6),(5,108),(5,104),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEPS2_;2A.(5,121)=#(5,103),(0,6),(5,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEi;2A.(5,122)=#(5,103),(0,6),(5,108),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEii;2A.;insert::(5,123)=#(5,103),(0,6),(5,108),(0,3),(5,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6insertEiS2_;2A.;size::(5,124)=#(5,103),(0,3),(5,125)=*(5,114),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE4sizeEv;2B.;resize::(5,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE6resizeEi;2A.;reserve::(5,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7reserveEi;2A.;clear::(5,115):_ZN6MAUtil6VectorIPNS_13CloseListenerEE5clearEv;2A.;empty::(5,126)=#(5,103),(0,4),(5,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5emptyEv;2B.;capacity::(5,124):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE8capacityEv;2B.;begin::(5,127)=#(5,103),(5,104),(5,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2A.;end::(5,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2A.;begin::(5,128)=#(5,103),(5,110),(5,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2B.;end::(5,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2B.;operator[]::(5,129)=#(5,103),(5,130)=&(5,105),(5,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEixEi;2A.(5,131)=#(5,103),(5,119),(5,125),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEEixEi;2B.;pointer::(5,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2B.(5,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::ConnListener>::Combo>:Tt(5,132)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,133)=*(5,134)=xsCombo:,64,32;__base_ctor::(5,135)=#(5,132),(0,6),(5,136)=*(5,132),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,135):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,137)=#(5,132),(0,6),(5,136),(5,138)=*(5,139)=k(5,134),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,140)=#(5,132),(0,6),(5,136),(5,141)=&(5,142)=k(5,132),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,143)=#(5,132),(0,6),(5,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,143):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED1Ev;2A.;operator=::(5,144)=#(5,132),(5,145)=&(5,132),(5,136),(5,141),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEaSERKS5_;2A.;add::(5,146)=#(5,132),(0,6),(5,136),(5,147)=&(5,139),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addERKS4_;2A.(5,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,148)=#(5,132),(0,6),(5,136),(5,133),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEPS4_;2A.(5,149)=#(5,132),(0,6),(5,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEi;2A.(5,150)=#(5,132),(0,6),(5,136),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEii;2A.;insert::(5,151)=#(5,132),(0,6),(5,136),(0,3),(5,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6insertEiS4_;2A.;size::(5,152)=#(5,132),(0,3),(5,153)=*(5,142),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE4sizeEv;2B.;resize::(5,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6resizeEi;2A.;reserve::(5,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7reserveEi;2A.;clear::(5,143):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5clearEv;2A.;empty::(5,154)=#(5,132),(0,4),(5,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5emptyEv;2B.;capacity::(5,152):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE8capacityEv;2B.;begin::(5,155)=#(5,132),(5,133),(5,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2A.;end::(5,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2A.;begin::(5,156)=#(5,132),(5,138),(5,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2B.;end::(5,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2B.;operator[]::(5,157)=#(5,132),(5,158)=&(5,134),(5,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2A.(5,159)=#(5,132),(5,147),(5,153),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2B.;pointer::(5,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2B.(5,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::ConnListener>:Tt(5,160)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,132),32,96;__base_ctor::(5,161)=#(5,160),(0,6),(5,162)=*(5,160),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2Eb;2A.;__comp_ctor::(5,161):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1Eb;2A.;begin::(5,163)=#(5,160),(5,164)=xsiterator:,(5,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE5beginEv;2A.;add::(5,165)=#(5,160),(0,6),(5,162),(5,166)=*(5,167)=xsConnListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE3addEPS1_;2A.;remove::(5,165):_ZN6MAUtil11ListenerSetINS_12ConnListenerEE6removeEPS1_;2A.;contains::(5,168)=#(5,160),(0,4),(5,162),(5,166),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE8containsEPS1_;2A.;setRunning::(5,169)=#(5,160),(0,6),(5,162),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE10setRunningEb;2A.;size::(5,170)=#(5,160),(0,3),(5,171)=*(5,172)=k(5,160),(0,6);:_ZNK6MAUtil11ListenerSetINS_12ConnListenerEE4sizeEv;2B.;operator=::(5,173)=#(5,160),(5,174)=&(5,160),(5,162),(5,175)=&(5,172),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEaSERKS2_;2A.;__base_ctor::(5,176)=#(5,160),(0,6),(5,162),(5,175),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2ERKS2_;2A.;__comp_ctor::(5,176):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1ERKS2_;2A.;__base_dtor::(5,177)=#(5,160),(0,6),(5,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEED2Ev;2A.;__comp_dtor::(5,177):_ZN6MAUtil11ListenerSetINS_12ConnListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::IdleListener>::Combo>:Tt(5,178)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,179)=*(5,180)=xsCombo:,64,32;__base_ctor::(5,181)=#(5,178),(0,6),(5,182)=*(5,178),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,181):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,183)=#(5,178),(0,6),(5,182),(5,184)=*(5,185)=k(5,180),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,186)=#(5,178),(0,6),(5,182),(5,187)=&(5,188)=k(5,178),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,189)=#(5,178),(0,6),(5,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,189):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED1Ev;2A.;operator=::(5,190)=#(5,178),(5,191)=&(5,178),(5,182),(5,187),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEaSERKS5_;2A.;add::(5,192)=#(5,178),(0,6),(5,182),(5,193)=&(5,185),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addERKS4_;2A.(5,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,194)=#(5,178),(0,6),(5,182),(5,179),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEPS4_;2A.(5,195)=#(5,178),(0,6),(5,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEi;2A.(5,196)=#(5,178),(0,6),(5,182),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEii;2A.;insert::(5,197)=#(5,178),(0,6),(5,182),(0,3),(5,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6insertEiS4_;2A.;size::(5,198)=#(5,178),(0,3),(5,199)=*(5,188),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE4sizeEv;2B.;resize::(5,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6resizeEi;2A.;reserve::(5,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7reserveEi;2A.;clear::(5,189):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5clearEv;2A.;empty::(5,200)=#(5,178),(0,4),(5,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5emptyEv;2B.;capacity::(5,198):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE8capacityEv;2B.;begin::(5,201)=#(5,178),(5,179),(5,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2A.;end::(5,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2A.;begin::(5,202)=#(5,178),(5,184),(5,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2B.;end::(5,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2B.;operator[]::(5,203)=#(5,178),(5,204)=&(5,180),(5,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2A.(5,205)=#(5,178),(5,193),(5,199),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2B.;pointer::(5,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2B.(5,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::IdleListener>:Tt(5,206)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,178),32,96;__base_ctor::(5,207)=#(5,206),(0,6),(5,208)=*(5,206),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2Eb;2A.;__comp_ctor::(5,207):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1Eb;2A.;begin::(5,209)=#(5,206),(5,210)=xsiterator:,(5,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE5beginEv;2A.;add::(5,211)=#(5,206),(0,6),(5,208),(5,212)=*(5,213)=xsIdleListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE3addEPS1_;2A.;remove::(5,211):_ZN6MAUtil11ListenerSetINS_12IdleListenerEE6removeEPS1_;2A.;contains::(5,214)=#(5,206),(0,4),(5,208),(5,212),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE8containsEPS1_;2A.;setRunning::(5,215)=#(5,206),(0,6),(5,208),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE10setRunningEb;2A.;size::(5,216)=#(5,206),(0,3),(5,217)=*(5,218)=k(5,206),(0,6);:_ZNK6MAUtil11ListenerSetINS_12IdleListenerEE4sizeEv;2B.;operator=::(5,219)=#(5,206),(5,220)=&(5,206),(5,208),(5,221)=&(5,218),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEaSERKS2_;2A.;__base_ctor::(5,222)=#(5,206),(0,6),(5,208),(5,221),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2ERKS2_;2A.;__comp_ctor::(5,222):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1ERKS2_;2A.;__base_dtor::(5,223)=#(5,206),(0,6),(5,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEED2Ev;2A.;__comp_dtor::(5,223):_ZN6MAUtil11ListenerSetINS_12IdleListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::Environment::TimerEventInstance>::Combo>:Tt(5,224)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,225)=*(5,226)=xsCombo:,64,32;__base_ctor::(5,227)=#(5,224),(0,6),(5,228)=*(5,224),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2Ei;2A.;__comp_ctor::(5,227):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1Ei;2A.;__base_ctor::(5,229)=#(5,224),(0,6),(5,228),(5,230)=*(5,231)=k(5,226),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2EPKS5_i;2A.;__comp_ctor::(5,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1EPKS5_i;2A.;__base_ctor::(5,232)=#(5,224),(0,6),(5,228),(5,233)=&(5,234)=k(5,224),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2ERKS6_;2A.;__comp_ctor::(5,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1ERKS6_;2A.;__base_dtor::(5,235)=#(5,224),(0,6),(5,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED2Ev;2A.;__comp_dtor::(5,235):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED1Ev;2A.;operator=::(5,236)=#(5,224),(5,237)=&(5,224),(5,228),(5,233),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEaSERKS6_;2A.;add::(5,238)=#(5,224),(0,6),(5,228),(5,239)=&(5,231),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addERKS5_;2A.(5,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addEPKS5_i;2A.;remove::(5,240)=#(5,224),(0,6),(5,228),(5,225),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEPS5_;2A.(5,241)=#(5,224),(0,6),(5,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEi;2A.(5,242)=#(5,224),(0,6),(5,228),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEii;2A.;insert::(5,243)=#(5,224),(0,6),(5,228),(0,3),(5,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6insertEiS5_;2A.;size::(5,244)=#(5,224),(0,3),(5,245)=*(5,234),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE4sizeEv;2B.;resize::(5,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6resizeEi;2A.;reserve::(5,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7reserveEi;2A.;clear::(5,235):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5clearEv;2A.;empty::(5,246)=#(5,224),(0,4),(5,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5emptyEv;2B.;capacity::(5,244):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE8capacityEv;2B.;begin::(5,247)=#(5,224),(5,225),(5,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2A.;end::(5,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2A.;begin::(5,248)=#(5,224),(5,230),(5,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2B.;end::(5,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2B.;operator[]::(5,249)=#(5,224),(5,250)=&(5,226),(5,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2A.(5,251)=#(5,224),(5,239),(5,245),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2B.;pointer::(5,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2B.(5,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::Environment::TimerEventInstance>:Tt(5,252)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,224),32,96;__base_ctor::(5,253)=#(5,252),(0,6),(5,254)=*(5,252),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2Eb;2A.;__comp_ctor::(5,253):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1Eb;2A.;begin::(5,255)=#(5,252),(5,256)=xsiterator:,(5,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE5beginEv;2A.;add::(5,257)=#(5,252),(0,6),(5,254),(5,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE3addEPS2_;2A.;remove::(5,257):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE6removeEPS2_;2A.;contains::(5,258)=#(5,252),(0,4),(5,254),(5,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE8containsEPS2_;2A.;setRunning::(5,259)=#(5,252),(0,6),(5,254),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE10setRunningEb;2A.;size::(5,260)=#(5,252),(0,3),(5,261)=*(5,262)=k(5,252),(0,6);:_ZNK6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE4sizeEv;2B.;operator=::(5,263)=#(5,252),(5,264)=&(5,252),(5,254),(5,265)=&(5,262),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEaSERKS3_;2A.;__base_ctor::(5,266)=#(5,252),(0,6),(5,254),(5,265),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2ERKS3_;2A.;__comp_ctor::(5,266):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1ERKS3_;2A.;__base_dtor::(5,267)=#(5,252),(0,6),(5,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED2Ev;2A.;__comp_dtor::(5,267):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::FocusListener>::Combo>:Tt(5,268)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,269)=*(5,270)=xsCombo:,64,32;__base_ctor::(5,271)=#(5,268),(0,6),(5,272)=*(5,268),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,271):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,273)=#(5,268),(0,6),(5,272),(5,274)=*(5,275)=k(5,270),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,276)=#(5,268),(0,6),(5,272),(5,277)=&(5,278)=k(5,268),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,279)=#(5,268),(0,6),(5,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,279):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED1Ev;2A.;operator=::(5,280)=#(5,268),(5,281)=&(5,268),(5,272),(5,277),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEaSERKS5_;2A.;add::(5,282)=#(5,268),(0,6),(5,272),(5,283)=&(5,275),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addERKS4_;2A.(5,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,284)=#(5,268),(0,6),(5,272),(5,269),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEPS4_;2A.(5,285)=#(5,268),(0,6),(5,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEi;2A.(5,286)=#(5,268),(0,6),(5,272),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEii;2A.;insert::(5,287)=#(5,268),(0,6),(5,272),(0,3),(5,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6insertEiS4_;2A.;size::(5,288)=#(5,268),(0,3),(5,289)=*(5,278),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE4sizeEv;2B.;resize::(5,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6resizeEi;2A.;reserve::(5,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7reserveEi;2A.;clear::(5,279):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5clearEv;2A.;empty::(5,290)=#(5,268),(0,4),(5,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5emptyEv;2B.;capacity::(5,288):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE8capacityEv;2B.;begin::(5,291)=#(5,268),(5,269),(5,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2A.;end::(5,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2A.;begin::(5,292)=#(5,268),(5,274),(5,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2B.;end::(5,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2B.;operator[]::(5,293)=#(5,268),(5,294)=&(5,270),(5,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2A.(5,295)=#(5,268),(5,283),(5,289),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2B.;pointer::(5,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2B.(5,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::FocusListener>:Tt(5,296)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,268),32,96;__base_ctor::(5,297)=#(5,296),(0,6),(5,298)=*(5,296),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2Eb;2A.;__comp_ctor::(5,297):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1Eb;2A.;begin::(5,299)=#(5,296),(5,300)=xsiterator:,(5,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE5beginEv;2A.;add::(5,301)=#(5,296),(0,6),(5,298),(5,302)=*(5,303)=xsFocusListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE3addEPS1_;2A.;remove::(5,301):_ZN6MAUtil11ListenerSetINS_13FocusListenerEE6removeEPS1_;2A.;contains::(5,304)=#(5,296),(0,4),(5,298),(5,302),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE8containsEPS1_;2A.;setRunning::(5,305)=#(5,296),(0,6),(5,298),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE10setRunningEb;2A.;size::(5,306)=#(5,296),(0,3),(5,307)=*(5,308)=k(5,296),(0,6);:_ZNK6MAUtil11ListenerSetINS_13FocusListenerEE4sizeEv;2B.;operator=::(5,309)=#(5,296),(5,310)=&(5,296),(5,298),(5,311)=&(5,308),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEaSERKS2_;2A.;__base_ctor::(5,312)=#(5,296),(0,6),(5,298),(5,311),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2ERKS2_;2A.;__comp_ctor::(5,312):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1ERKS2_;2A.;__base_dtor::(5,313)=#(5,296),(0,6),(5,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEED2Ev;2A.;__comp_dtor::(5,313):_ZN6MAUtil11ListenerSetINS_13FocusListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CustomEventListener>::Combo>:Tt(5,314)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,315)=*(5,316)=xsCombo:,64,32;__base_ctor::(5,317)=#(5,314),(0,6),(5,318)=*(5,314),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,317):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,319)=#(5,314),(0,6),(5,318),(5,320)=*(5,321)=k(5,316),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,322)=#(5,314),(0,6),(5,318),(5,323)=&(5,324)=k(5,314),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,325)=#(5,314),(0,6),(5,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,325):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED1Ev;2A.;operator=::(5,326)=#(5,314),(5,327)=&(5,314),(5,318),(5,323),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEaSERKS5_;2A.;add::(5,328)=#(5,314),(0,6),(5,318),(5,329)=&(5,321),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addERKS4_;2A.(5,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,330)=#(5,314),(0,6),(5,318),(5,315),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEPS4_;2A.(5,331)=#(5,314),(0,6),(5,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEi;2A.(5,332)=#(5,314),(0,6),(5,318),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEii;2A.;insert::(5,333)=#(5,314),(0,6),(5,318),(0,3),(5,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6insertEiS4_;2A.;size::(5,334)=#(5,314),(0,3),(5,335)=*(5,324),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE4sizeEv;2B.;resize::(5,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6resizeEi;2A.;reserve::(5,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7reserveEi;2A.;clear::(5,325):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5clearEv;2A.;empty::(5,336)=#(5,314),(0,4),(5,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5emptyEv;2B.;capacity::(5,334):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE8capacityEv;2B.;begin::(5,337)=#(5,314),(5,315),(5,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2A.;end::(5,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2A.;begin::(5,338)=#(5,314),(5,320),(5,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2B.;end::(5,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2B.;operator[]::(5,339)=#(5,314),(5,340)=&(5,316),(5,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2A.(5,341)=#(5,314),(5,329),(5,335),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2B.;pointer::(5,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2B.(5,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::CustomEventListener>:Tt(5,342)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,314),32,96;__base_ctor::(5,343)=#(5,342),(0,6),(5,344)=*(5,342),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2Eb;2A.;__comp_ctor::(5,343):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1Eb;2A.;begin::(5,345)=#(5,342),(5,346)=xsiterator:,(5,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE5beginEv;2A.;add::(5,347)=#(5,342),(0,6),(5,344),(5,348)=*(5,349)=xsCustomEventListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE3addEPS1_;2A.;remove::(5,347):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE6removeEPS1_;2A.;contains::(5,350)=#(5,342),(0,4),(5,344),(5,348),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE8containsEPS1_;2A.;setRunning::(5,351)=#(5,342),(0,6),(5,344),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE10setRunningEb;2A.;size::(5,352)=#(5,342),(0,3),(5,353)=*(5,354)=k(5,342),(0,6);:_ZNK6MAUtil11ListenerSetINS_19CustomEventListenerEE4sizeEv;2B.;operator=::(5,355)=#(5,342),(5,356)=&(5,342),(5,344),(5,357)=&(5,354),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEaSERKS2_;2A.;__base_ctor::(5,358)=#(5,342),(0,6),(5,344),(5,357),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2ERKS2_;2A.;__comp_ctor::(5,358):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1ERKS2_;2A.;__base_dtor::(5,359)=#(5,342),(0,6),(5,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED2Ev;2A.;__comp_dtor::(5,359):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::TextBoxListener>::Combo>:Tt(5,360)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(5,361)=*(5,362)=xsCombo:,64,32;__base_ctor::(5,363)=#(5,360),(0,6),(5,364)=*(5,360),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(5,363):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1Ei;2A.;__base_ctor::(5,365)=#(5,360),(0,6),(5,364),(5,366)=*(5,367)=k(5,362),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(5,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(5,368)=#(5,360),(0,6),(5,364),(5,369)=&(5,370)=k(5,360),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(5,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(5,371)=#(5,360),(0,6),(5,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED2Ev;2A.;__comp_dtor::(5,371):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED1Ev;2A.;operator=::(5,372)=#(5,360),(5,373)=&(5,360),(5,364),(5,369),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEaSERKS5_;2A.;add::(5,374)=#(5,360),(0,6),(5,364),(5,375)=&(5,367),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addERKS4_;2A.(5,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addEPKS4_i;2A.;remove::(5,376)=#(5,360),(0,6),(5,364),(5,361),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEPS4_;2A.(5,377)=#(5,360),(0,6),(5,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEi;2A.(5,378)=#(5,360),(0,6),(5,364),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEii;2A.;insert::(5,379)=#(5,360),(0,6),(5,364),(0,3),(5,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6insertEiS4_;2A.;size::(5,380)=#(5,360),(0,3),(5,381)=*(5,370),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE4sizeEv;2B.;resize::(5,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6resizeEi;2A.;reserve::(5,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7reserveEi;2A.;clear::(5,371):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5clearEv;2A.;empty::(5,382)=#(5,360),(0,4),(5,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5emptyEv;2B.;capacity::(5,380):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE8capacityEv;2B.;begin::(5,383)=#(5,360),(5,361),(5,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2A.;end::(5,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2A.;begin::(5,384)=#(5,360),(5,366),(5,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2B.;end::(5,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2B.;operator[]::(5,385)=#(5,360),(5,386)=&(5,362),(5,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2A.(5,387)=#(5,360),(5,375),(5,381),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2B.;pointer::(5,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2B.(5,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::TextBoxListener>:Tt(5,388)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(5,360),32,96;__base_ctor::(5,389)=#(5,388),(0,6),(5,390)=*(5,388),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2Eb;2A.;__comp_ctor::(5,389):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1Eb;2A.;begin::(5,391)=#(5,388),(5,392)=xsiterator:,(5,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE5beginEv;2A.;add::(5,393)=#(5,388),(0,6),(5,390),(5,394)=*(5,395)=xsTextBoxListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE3addEPS1_;2A.;remove::(5,393):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE6removeEPS1_;2A.;contains::(5,396)=#(5,388),(0,4),(5,390),(5,394),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE8containsEPS1_;2A.;setRunning::(5,397)=#(5,388),(0,6),(5,390),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE10setRunningEb;2A.;size::(5,398)=#(5,388),(0,3),(5,399)=*(5,400)=k(5,388),(0,6);:_ZNK6MAUtil11ListenerSetINS_15TextBoxListenerEE4sizeEv;2B.;operator=::(5,401)=#(5,388),(5,402)=&(5,388),(5,390),(5,403)=&(5,400),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEaSERKS2_;2A.;__base_ctor::(5,404)=#(5,388),(0,6),(5,390),(5,403),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2ERKS2_;2A.;__comp_ctor::(5,404):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1ERKS2_;2A.;__base_dtor::(5,405)=#(5,388),(0,6),(5,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED2Ev;2A.;__comp_dtor::(5,405):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED1Ev;2A.;;",128,0,46,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/conprint.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/maarg.h",130,0,0,0
+	.stabs	"c:/MoSync/include/conprint.h",130,0,0,0
+	.stabs	"c:/MoSync/include/maarg.h",130,0,0,0
 	.stabs	"__gnuc_va_list:t(7,1)=(0,20)",128,0,34,0
 	.stabs	"va_list:t(7,2)=(7,1)",128,0,35,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Widget.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/RefCounted.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Widget.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/RefCounted.h",130,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/String.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/String.h",130,0,0,0
 	.stabs	"String:t(11,1)=(11,2)=xsBasicString<char>:",128,0,273,0
 	.stabs	"WString:t(11,3)=(11,4)=xsBasicString<wchar_t>:",128,0,274,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Geometry.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",130,0,0,0
 	.stabs	"Point:Tt(12,1)=s8!1,020,(3,15);__base_ctor::(12,2)=#(12,1),(0,6),(12,3)=*(12,1),(0,6);:_ZN6MAUtil5PointC2Ev;2A.;__comp_ctor::(12,2):_ZN6MAUtil5PointC1Ev;2A.;__base_ctor::(12,4)=#(12,1),(0,6),(12,3),(0,3),(0,3),(0,6);:_ZN6MAUtil5PointC2Eii;2A.;__comp_ctor::(12,4):_ZN6MAUtil5PointC1Eii;2A.;set::(12,4):_ZN6MAUtil5Point3setEii;2A.;operator=::(12,5)=#(12,1),(12,6)=&(12,1),(12,3),(12,7)=&(12,8)=k(12,1),(0,6);:_ZN6MAUtil5PointaSERKS0_;2A.;__base_ctor::(12,9)=#(12,1),(0,6),(12,3),(12,7),(0,6);:_ZN6MAUtil5PointC2ERKS0_;2A.;__comp_ctor::(12,9):_ZN6MAUtil5PointC1ERKS0_;2A.;;",128,0,37,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/WidgetSkin.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/HashMap.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/maheap.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/WidgetSkin.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/HashMap.h",130,0,0,0
+	.stabs	"c:/MoSync/include/maheap.h",130,0,0,0
 	.stabs	"malloc_handler:t(15,1)=(15,2)=*(15,3)=f(0,6)",128,0,106,0
 	.stabs	"malloc_hook:t(15,4)=(15,5)=*(15,6)=f(3,9)",128,0,107,0
 	.stabs	"free_hook:t(15,7)=(15,8)=*(15,9)=f(0,6)",128,0,108,0
 	.stabs	"realloc_hook:t(15,10)=(15,11)=*(15,12)=f(3,9)",128,0,109,0
 	.stabs	"block_size_hook:t(15,13)=(15,14)=*(15,15)=f(0,3)",128,0,110,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/kazlib/hash.h",130,0,0,0
+	.stabs	"c:/MoSync/include/kazlib/hash.h",130,0,0,0
 	.stabs	"hashcount_t:t(16,1)=(0,16)",128,0,37,0
 	.stabs	"hash_val_t:t(16,2)=(0,16)",128,0,40,0
 	.stabs	"hnode_t:Tt(16,3)=s16hash_next:(16,4)=*(16,3),0,32;hash_key:(16,5)=*(16,6)=k(0,6),32,32;hash_data:(3,9),64,32;hash_hkey:(16,2),96,32;operator=::(16,7)=#(16,3),(16,8)=&(16,3),(16,4),(16,9)=&(16,10)=k(16,3),(0,6);:_ZN7hnode_taSERKS_;2A.;__base_ctor::(16,11)=#(16,3),(0,6),(16,4),(16,9),(0,6);:_ZN7hnode_tC2ERKS_;2A.;__comp_ctor::(16,11):_ZN7hnode_tC1ERKS_;2A.;__base_ctor::(16,12)=#(16,3),(0,6),(16,4),(0,6);:_ZN7hnode_tC2Ev;2A.;__comp_ctor::(16,12):_ZN7hnode_tC1Ev;2A.;;",128,0,73,0
@@ -147,71 +147,71 @@
 	.stabs	"WidgetSkin::CacheElement:Tt(13,15)=s8image:(3,10),0,32;lastUsed:(0,3),32,32;operator=::(13,16)=#(13,15),(13,17)=&(13,15),(13,18)=*(13,15),(13,19)=&(13,20)=k(13,15),(0,6);:_ZN4MAUI10WidgetSkin12CacheElementaSERKS1_;2A.;__base_ctor::(13,21)=#(13,15),(0,6),(13,18),(13,19),(0,6);:_ZN4MAUI10WidgetSkin12CacheElementC2ERKS1_;2A.;__comp_ctor::(13,21):_ZN4MAUI10WidgetSkin12CacheElementC1ERKS1_;2A.;__base_ctor::(13,22)=#(13,15),(0,6),(13,18),(0,6);:_ZN4MAUI10WidgetSkin12CacheElementC2Ev;2A.;__comp_ctor::(13,22):_ZN4MAUI10WidgetSkin12CacheElementC1Ev;2A.;;",128,0,195,0
 	.stabs	"WidgetSkin:Tt(13,4)=s196maxCacheSize:/0(0,3):_ZN4MAUI10WidgetSkin12maxCacheSizeE;useCache:/0(0,4):_ZN4MAUI10WidgetSkin8useCacheE;sCache:/0(13,23)=xsHashMap<MAUI::WidgetSkin::CacheKey,MAUI::WidgetSkin::CacheElement>::_ZN4MAUI10WidgetSkin6sCacheE;selectedImageWidth:/0(0,3),0,32;selectedImageHeight:/0(0,3),32,32;unselectedImageWidth:/0(0,3),64,32;unselectedImageHeight:/0(0,3),96,32;selectedImage:/0(3,10),128,32;unselectedImage:/0(3,10),160,32;topLeft:/0(3,32),192,128;top:/0(3,32),320,128;topRight:/0(3,32),448,128;left:/0(3,32),576,128;center:/0(3,32),704,128;right:/0(3,32),832,128;bottomLeft:/0(3,32),960,128;bottom:/0(3,32),1088,128;bottomRight:/0(3,32),1216,128;startX:/0(0,3),1344,32;endX:/0(0,3),1376,32;startY:/0(0,3),1408,32;endY:/0(0,3),1440,32;imageWidth:/0(0,3),1472,32;imageHeight:/0(0,3),1504,32;selectedTransparent:/0(0,4),1536,8;unselectedTransparent:/0(0,4),1544,8;__base_ctor::(13,24)=#(13,4),(0,6),(13,3),(0,6);:_ZN4MAUI10WidgetSkinC2Ev;2A.;__comp_ctor::(13,24):_ZN4MAUI10WidgetSkinC1Ev;2A.;__base_ctor::(13,25)=#(13,4),(0,6),(13,3),(3,10),(3,10),(0,3),(0,3),(0,3),(0,3),(0,4),(0,4),(0,6);:_ZN4MAUI10WidgetSkinC2Eiiiiiibb;2A.;__comp_ctor::(13,25):_ZN4MAUI10WidgetSkinC1Eiiiiiibb;2A.;setStartX::(13,26)=#(13,4),(0,6),(13,3),(0,3),(0,6);:_ZN4MAUI10WidgetSkin9setStartXEi;2A.;setEndX::(13,26):_ZN4MAUI10WidgetSkin7setEndXEi;2A.;setStartY::(13,26):_ZN4MAUI10WidgetSkin9setStartYEi;2A.;setEndY::(13,26):_ZN4MAUI10WidgetSkin7setEndYEi;2A.;getStartX::(13,27)=#(13,4),(0,3),(13,28)=*(13,29)=k(13,4),(0,6);:_ZNK4MAUI10WidgetSkin9getStartXEv;2B.;getStartY::(13,27):_ZNK4MAUI10WidgetSkin9getStartYEv;2B.;getEndX::(13,27):_ZNK4MAUI10WidgetSkin7getEndXEv;2B.;getEndY::(13,27):_ZNK4MAUI10WidgetSkin7getEndYEv;2B.;getUnselectedImage::(13,30)=#(13,4),(3,10),(13,28),(0,6);:_ZNK4MAUI10WidgetSkin18getUnselectedImageEv;2B.;getSelectedImage::(13,30):_ZNK4MAUI10WidgetSkin16getSelectedImageEv;2B.;setSelectedImage::(13,31)=#(13,4),(0,6),(13,3),(3,10),(0,6);:_ZN4MAUI10WidgetSkin16setSelectedImageEi;2A.;setUnselectedImage::(13,31):_ZN4MAUI10WidgetSkin18setUnselectedImageEi;2A.;draw::(13,32)=#(13,4),(0,6),(13,3),(0,3),(0,3),(0,3),(0,3),(13,1),(0,6);:_ZN4MAUI10WidgetSkin4drawEiiiiNS0_5eTypeE;2A.;drawDirect::(13,32):_ZN4MAUI10WidgetSkin10drawDirectEiiiiNS0_5eTypeE;2A.;drawToData::(13,33)=#(13,4),(0,6),(13,3),(13,34)=*(0,3),(0,3),(0,3),(0,3),(0,3),(13,1),(0,6);:_ZN4MAUI10WidgetSkin10drawToDataEPiiiiiNS0_5eTypeE;2A.;calculateNumTiles::(13,35)=#(13,4),(0,3),(13,3),(0,3),(0,3),(0,6);:_ZN4MAUI10WidgetSkin17calculateNumTilesEii;2A.;drawRegion::(13,36)=#(13,4),(0,6),(13,3),(3,10),(13,34),(0,3),(13,37)=*(13,38)=k(3,32),(13,39)=*(13,40)=k(3,23),(0,6);:_ZN4MAUI10WidgetSkin10drawRegionEiPiiPK6MARectPK9MAPoint2d;2A.;getImageHeight::(13,27):_ZNK4MAUI10WidgetSkin14getImageHeightEv;2B.;getImageWidth::(13,27):_ZNK4MAUI10WidgetSkin13getImageWidthEv;2B.;isSelectedTransparent::(13,41)=#(13,4),(0,4),(13,28),(0,6);:_ZNK4MAUI10WidgetSkin21isSelectedTransparentEv;2B.;isUnselectedTransparent::(13,41):_ZNK4MAUI10WidgetSkin23isUnselectedTransparentEv;2B.;setMaxCacheSize::(15,3):_ZN4MAUI10WidgetSkin15setMaxCacheSizeEi;2A?;setCacheEnabled::(13,42)=f(0,6):_ZN4MAUI10WidgetSkin15setCacheEnabledEb;2A?;flushCache::(13,43)=f(0,6):_ZN4MAUI10WidgetSkin10flushCacheEv;2A?;flushCacheUntilNewImageFits::(15,3):_ZN4MAUI10WidgetSkin27flushCacheUntilNewImageFitsEi;2A?;addToCache::(13,44)=f(0,6):_ZN4MAUI10WidgetSkin10addToCacheERKNS0_8CacheKeyERKNS0_12CacheElementE;2A?;getFromCache::(13,45)=f(3,10):_ZN4MAUI10WidgetSkin12getFromCacheERKNS0_8CacheKeyE;2A?;rebuildRects::(13,24):_ZN4MAUI10WidgetSkin12rebuildRectsEv;0A.;operator=::(13,46)=#(13,4),(13,47)=&(13,4),(13,3),(13,48)=&(13,29),(0,6);:_ZN4MAUI10WidgetSkinaSERKS0_;2A.;__base_ctor::(13,49)=#(13,4),(0,6),(13,3),(13,48),(0,6);:_ZN4MAUI10WidgetSkinC2ERKS0_;2A.;__comp_ctor::(13,49):_ZN4MAUI10WidgetSkinC1ERKS0_;2A.;;",128,0,47,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/InputManager.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/InputManager.h",130,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<MAUI::Widget*>:Tt(9,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(9,2)=*(9,3)=*(9,4)=xsWidget:,64,32;__base_ctor::(9,5)=#(9,1),(0,6),(9,6)=*(9,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2Ei;2A.;__comp_ctor::(9,5):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1Ei;2A.;__base_ctor::(9,7)=#(9,1),(0,6),(9,6),(9,8)=&(9,9)=k(9,1),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2ERKS4_;2A.;__comp_ctor::(9,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1ERKS4_;2A.;__base_dtor::(9,10)=#(9,1),(0,6),(9,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEED2Ev;2A.;__comp_dtor::(9,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEED1Ev;2A.;operator=::(9,11)=#(9,1),(9,12)=&(9,1),(9,6),(9,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEaSERKS4_;2A.;add::(9,13)=#(9,1),(0,6),(9,6),(9,14)=&(9,15)=k(9,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addERKS3_;2A.(9,16)=#(9,1),(0,6),(9,6),(9,17)=*(9,15),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addEPKS3_i;2A.;remove::(9,18)=#(9,1),(0,6),(9,6),(9,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEPS3_;2A.(9,19)=#(9,1),(0,6),(9,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEi;2A.(9,20)=#(9,1),(0,6),(9,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEii;2A.;insert::(9,21)=#(9,1),(0,6),(9,6),(0,3),(9,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6insertEiS3_;2A.;size::(9,22)=#(9,1),(0,3),(9,23)=*(9,9),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE4sizeEv;2B.;resize::(9,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6resizeEi;2A.;reserve::(9,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7reserveEi;2A.;clear::(9,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5clearEv;2A.;empty::(9,24)=#(9,1),(0,4),(9,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5emptyEv;2B.;capacity::(9,22):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE8capacityEv;2B.;begin::(9,25)=#(9,1),(9,2),(9,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2A.;end::(9,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2A.;begin::(9,26)=#(9,1),(9,17),(9,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2B.;end::(9,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2B.;operator[]::(9,27)=#(9,1),(9,28)=&(9,3),(9,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2A.(9,29)=#(9,1),(9,14),(9,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2B.;pointer::(9,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2B.(9,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"Vector<MAUI::WidgetListener*>:Tt(9,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(9,31)=*(9,32)=*(9,33)=xsWidgetListener:,64,32;__base_ctor::(9,34)=#(9,30),(0,6),(9,35)=*(9,30),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2Ei;2A.;__comp_ctor::(9,34):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1Ei;2A.;__base_ctor::(9,36)=#(9,30),(0,6),(9,35),(9,37)=&(9,38)=k(9,30),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2ERKS4_;2A.;__comp_ctor::(9,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1ERKS4_;2A.;__base_dtor::(9,39)=#(9,30),(0,6),(9,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED2Ev;2A.;__comp_dtor::(9,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED1Ev;2A.;operator=::(9,40)=#(9,30),(9,41)=&(9,30),(9,35),(9,37),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEaSERKS4_;2A.;add::(9,42)=#(9,30),(0,6),(9,35),(9,43)=&(9,44)=k(9,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addERKS3_;2A.(9,45)=#(9,30),(0,6),(9,35),(9,46)=*(9,44),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addEPKS3_i;2A.;remove::(9,47)=#(9,30),(0,6),(9,35),(9,31),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEPS3_;2A.(9,48)=#(9,30),(0,6),(9,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEi;2A.(9,49)=#(9,30),(0,6),(9,35),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEii;2A.;insert::(9,50)=#(9,30),(0,6),(9,35),(0,3),(9,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6insertEiS3_;2A.;size::(9,51)=#(9,30),(0,3),(9,52)=*(9,38),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE4sizeEv;2B.;resize::(9,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6resizeEi;2A.;reserve::(9,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7reserveEi;2A.;clear::(9,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5clearEv;2A.;empty::(9,53)=#(9,30),(0,4),(9,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5emptyEv;2B.;capacity::(9,51):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE8capacityEv;2B.;begin::(9,54)=#(9,30),(9,31),(9,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2A.;end::(9,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2A.;begin::(9,55)=#(9,30),(9,46),(9,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2B.;end::(9,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2B.;operator[]::(9,56)=#(9,30),(9,57)=&(9,32),(9,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2A.(9,58)=#(9,30),(9,43),(9,52),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2B.;pointer::(9,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2B.(9,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::Widget*>:Tt(9,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(9,2)=*(9,3)=*(9,4)=xsWidget:,64,32;__base_ctor::(9,5)=#(9,1),(0,6),(9,6)=*(9,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2Ei;2A.;__comp_ctor::(9,5):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1Ei;2A.;__base_ctor::(9,7)=#(9,1),(0,6),(9,6),(9,8)=*(9,9)=k(9,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2EPKS3_i;2A.;__comp_ctor::(9,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1EPKS3_i;2A.;__base_ctor::(9,10)=#(9,1),(0,6),(9,6),(9,11)=&(9,12)=k(9,1),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2ERKS4_;2A.;__comp_ctor::(9,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1ERKS4_;2A.;__base_dtor::(9,13)=#(9,1),(0,6),(9,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEED2Ev;2A.;__comp_dtor::(9,13):_ZN6MAUtil6VectorIPN4MAUI6WidgetEED1Ev;2A.;operator=::(9,14)=#(9,1),(9,15)=&(9,1),(9,6),(9,11),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEaSERKS4_;2A.;add::(9,16)=#(9,1),(0,6),(9,6),(9,17)=&(9,9),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addERKS3_;2A.(9,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addEPKS3_i;2A.;remove::(9,18)=#(9,1),(0,6),(9,6),(9,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEPS3_;2A.(9,19)=#(9,1),(0,6),(9,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEi;2A.(9,20)=#(9,1),(0,6),(9,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEii;2A.;insert::(9,21)=#(9,1),(0,6),(9,6),(0,3),(9,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6insertEiS3_;2A.;size::(9,22)=#(9,1),(0,3),(9,23)=*(9,12),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE4sizeEv;2B.;resize::(9,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6resizeEi;2A.;reserve::(9,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7reserveEi;2A.;clear::(9,13):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5clearEv;2A.;empty::(9,24)=#(9,1),(0,4),(9,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5emptyEv;2B.;capacity::(9,22):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE8capacityEv;2B.;begin::(9,25)=#(9,1),(9,2),(9,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2A.;end::(9,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2A.;begin::(9,26)=#(9,1),(9,8),(9,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2B.;end::(9,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2B.;operator[]::(9,27)=#(9,1),(9,28)=&(9,3),(9,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2A.(9,29)=#(9,1),(9,17),(9,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2B.;pointer::(9,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2B.(9,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::WidgetListener*>:Tt(9,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(9,31)=*(9,32)=*(9,33)=xsWidgetListener:,64,32;__base_ctor::(9,34)=#(9,30),(0,6),(9,35)=*(9,30),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2Ei;2A.;__comp_ctor::(9,34):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1Ei;2A.;__base_ctor::(9,36)=#(9,30),(0,6),(9,35),(9,37)=*(9,38)=k(9,32),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2EPKS3_i;2A.;__comp_ctor::(9,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1EPKS3_i;2A.;__base_ctor::(9,39)=#(9,30),(0,6),(9,35),(9,40)=&(9,41)=k(9,30),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2ERKS4_;2A.;__comp_ctor::(9,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1ERKS4_;2A.;__base_dtor::(9,42)=#(9,30),(0,6),(9,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED2Ev;2A.;__comp_dtor::(9,42):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED1Ev;2A.;operator=::(9,43)=#(9,30),(9,44)=&(9,30),(9,35),(9,40),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEaSERKS4_;2A.;add::(9,45)=#(9,30),(0,6),(9,35),(9,46)=&(9,38),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addERKS3_;2A.(9,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addEPKS3_i;2A.;remove::(9,47)=#(9,30),(0,6),(9,35),(9,31),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEPS3_;2A.(9,48)=#(9,30),(0,6),(9,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEi;2A.(9,49)=#(9,30),(0,6),(9,35),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEii;2A.;insert::(9,50)=#(9,30),(0,6),(9,35),(0,3),(9,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6insertEiS3_;2A.;size::(9,51)=#(9,30),(0,3),(9,52)=*(9,41),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE4sizeEv;2B.;resize::(9,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6resizeEi;2A.;reserve::(9,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7reserveEi;2A.;clear::(9,42):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5clearEv;2A.;empty::(9,53)=#(9,30),(0,4),(9,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5emptyEv;2B.;capacity::(9,51):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE8capacityEv;2B.;begin::(9,54)=#(9,30),(9,31),(9,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2A.;end::(9,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2A.;begin::(9,55)=#(9,30),(9,37),(9,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2B.;end::(9,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2B.;operator[]::(9,56)=#(9,30),(9,57)=&(9,32),(9,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2A.(9,58)=#(9,30),(9,46),(9,52),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2B.;pointer::(9,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2B.(9,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"MobKeyboard::LayoutType:t(8,1)=eLT_LOWERCASE:0,LT_UPPERCASE:1,LT_NUM1:2,LT_NUM2:3,;",128,0,24,0
 	.stabs	"BasicString<char>:Tt(11,2)=s4sd:/1(8,2)=*(8,3)=xsStringData<char>:,0,32;__base_ctor::(8,4)=#(11,2),(0,6),(8,5)=*(11,2),(0,6);:_ZN6MAUtil11BasicStringIcEC2Ev;2A.;__comp_ctor::(8,4):_ZN6MAUtil11BasicStringIcEC1Ev;2A.;__base_ctor::(8,6)=#(11,2),(0,6),(8,5),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEC2Ei;2A.;__comp_ctor::(8,6):_ZN6MAUtil11BasicStringIcEC1Ei;2A.;__base_ctor::(8,7)=#(11,2),(0,6),(8,5),(8,8)=*(8,9)=k(0,19),(0,6);:_ZN6MAUtil11BasicStringIcEC2EPKc;2A.;__comp_ctor::(8,7):_ZN6MAUtil11BasicStringIcEC1EPKc;2A.;__base_ctor::(8,10)=#(11,2),(0,6),(8,5),(8,8),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEC2EPKci;2A.;__comp_ctor::(8,10):_ZN6MAUtil11BasicStringIcEC1EPKci;2A.;__base_ctor::(8,11)=#(11,2),(0,6),(8,5),(8,12)=&(8,13)=k(11,2),(0,6);:_ZN6MAUtil11BasicStringIcEC2ERKS1_;2A.;__comp_ctor::(8,11):_ZN6MAUtil11BasicStringIcEC1ERKS1_;2A.;c_str::(8,14)=#(11,2),(8,8),(8,15)=*(8,13),(0,6);:_ZNK6MAUtil11BasicStringIcE5c_strEv;2B.;operator=::(8,16)=#(11,2),(8,17)=&(11,2),(8,5),(8,12),(0,6);:_ZN6MAUtil11BasicStringIcEaSERKS1_;2A.;operator[]::(8,18)=#(11,2),(8,19)=&(0,19),(8,5),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEixEi;2A.(8,20)=#(11,2),(8,21)=&(8,9),(8,15),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcEixEi;2B.;operator==::(8,22)=#(11,2),(0,4),(8,15),(8,12),(0,6);:_ZNK6MAUtil11BasicStringIcEeqERKS1_;2B.;operator!=::(8,22):_ZNK6MAUtil11BasicStringIcEneERKS1_;2B.;operator<::(8,22):_ZNK6MAUtil11BasicStringIcEltERKS1_;2B.;operator>::(8,22):_ZNK6MAUtil11BasicStringIcEgtERKS1_;2B.;operator<=::(8,22):_ZNK6MAUtil11BasicStringIcEleERKS1_;2B.;operator>=::(8,22):_ZNK6MAUtil11BasicStringIcEgeERKS1_;2B.;operator+::(8,23)=#(11,2),(11,2),(8,15),(8,12),(0,6);:_ZNK6MAUtil11BasicStringIcEplERKS1_;2B.;operator+=::(8,16):_ZN6MAUtil11BasicStringIcEpLERKS1_;2A.;operator+::(8,24)=#(11,2),(11,2),(8,15),(0,19),(0,6);:_ZNK6MAUtil11BasicStringIcEplEc;2B.;operator+=::(8,25)=#(11,2),(8,17),(8,5),(0,19),(0,6);:_ZN6MAUtil11BasicStringIcEpLEc;2A.;find::(8,26)=#(11,2),(0,3),(8,15),(8,12),(0,17),(0,6);:_ZNK6MAUtil11BasicStringIcE4findERKS1_j;2B.;findLastOf::(8,27)=#(11,2),(0,3),(8,15),(0,19),(0,6);:_ZNK6MAUtil11BasicStringIcE10findLastOfEc;2B.;findFirstOf::(8,28)=#(11,2),(0,3),(8,15),(0,19),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcE11findFirstOfEci;2B.;findFirstNotOf::(8,28):_ZNK6MAUtil11BasicStringIcE14findFirstNotOfEci;2B.;insert::(8,29)=#(11,2),(0,6),(8,5),(0,3),(8,12),(0,6);:_ZN6MAUtil11BasicStringIcE6insertEiRKS1_;2A.(8,30)=#(11,2),(0,6),(8,5),(0,3),(0,19),(0,6);:_ZN6MAUtil11BasicStringIcE6insertEic;2A.;remove::(8,31)=#(11,2),(0,6),(8,5),(0,3),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcE6removeEii;2A.;substr::(8,32)=#(11,2),(11,2),(8,15),(0,3),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcE6substrEii;2B.;capacity::(8,33)=#(11,2),(0,3),(8,15),(0,6);:_ZNK6MAUtil11BasicStringIcE8capacityEv;2B.;size::(8,33):_ZNK6MAUtil11BasicStringIcE4sizeEv;2B.;length::(8,33):_ZNK6MAUtil11BasicStringIcE6lengthEv;2B.;resize::(8,6):_ZN6MAUtil11BasicStringIcE6resizeEi;2A.;reserve::(8,6):_ZN6MAUtil11BasicStringIcE7reserveEi;2A.;clear::(8,4):_ZN6MAUtil11BasicStringIcE5clearEv;2A.;append::(8,10):_ZN6MAUtil11BasicStringIcE6appendEPKci;2A.;setData::(8,34)=#(11,2),(0,6),(8,5),(8,2),(0,6);:_ZN6MAUtil11BasicStringIcE7setDataEPNS_10StringDataIcEE;2A.;pointer::(8,35)=#(11,2),(3,5),(8,5),(0,6);:_ZN6MAUtil11BasicStringIcE7pointerEv;2A.;__base_dtor::(8,4):_ZN6MAUtil11BasicStringIcED2Ev;2A.;__comp_dtor::(8,4):_ZN6MAUtil11BasicStringIcED1Ev;2A.;allocStringData::(8,10):_ZN6MAUtil11BasicStringIcE15allocStringDataEPKci;1A.;;",128,0,104,0
 	.stabs	"MobKeyboardButton:Tt(8,36)=s36m_bounds:/0(8,37)=xsRect:,0,160;m_character:/0(11,1),160,32;m_charLocation:/0(12,1),192,64;pressed:/0(0,4),256,8;__base_ctor::(8,38)=#(8,36),(0,6),(8,39)=*(8,36),(8,40)=&(8,41)=k(8,37),(8,42)=&(8,43)=k(11,1),(12,7),(0,6);:_ZN17MobKeyboardButtonC2ERKN6MAUtil4RectERKNS0_11BasicStringIcEERKNS0_5PointE;2A.;__comp_ctor::(8,38):_ZN17MobKeyboardButtonC1ERKN6MAUtil4RectERKNS0_11BasicStringIcEERKNS0_5PointE;2A.;__base_dtor::(8,44)=#(8,36),(0,6),(8,39),(0,6);:_ZN17MobKeyboardButtonD2Ev;2A.;__comp_dtor::(8,44):_ZN17MobKeyboardButtonD1Ev;2A.;getBounds::(8,45)=#(8,36),(8,37),(8,46)=*(8,47)=k(8,36),(0,6);:_ZNK17MobKeyboardButton9getBoundsEv;2B.;getCharacter::(8,48)=#(8,36),(11,1),(8,46),(0,6);:_ZNK17MobKeyboardButton12getCharacterEv;2B.;getCharLocation::(8,49)=#(8,36),(12,1),(8,46),(0,6);:_ZNK17MobKeyboardButton15getCharLocationEv;2B.;updatePosition::(8,50)=#(8,36),(0,6),(8,39),(12,7),(12,7),(0,6);:_ZN17MobKeyboardButton14updatePositionERKN6MAUtil5PointES3_;2A.;setPressed::(8,51)=#(8,36),(0,6),(8,39),(0,4),(0,6);:_ZN17MobKeyboardButton10setPressedEb;2A.;isPressed::(8,52)=#(8,36),(0,4),(8,39),(0,6);:_ZN17MobKeyboardButton9isPressedEv;2A.;operator=::(8,53)=#(8,36),(8,54)=&(8,36),(8,39),(8,55)=&(8,47),(0,6);:_ZN17MobKeyboardButtonaSERKS_;2A.;__base_ctor::(8,56)=#(8,36),(0,6),(8,39),(8,55),(0,6);:_ZN17MobKeyboardButtonC2ERKS_;2A.;__comp_ctor::(8,56):_ZN17MobKeyboardButtonC1ERKS_;2A.;;",128,0,80,0
 	.stabs	"MobKeyboardLayout:Tt(8,57)=s16m_uniqueIdentifier:/0(11,1),0,32;m_language:/0(11,1),32,32;m_layoutType:/0(8,1),64,32;m_buttons:/0(8,58)=*(8,59)=xsVector<MobKeyboardButton*>:,96,32;__base_ctor::(8,60)=#(8,57),(0,6),(8,61)=*(8,57),(8,42),(8,42),(8,1),(0,6);:_ZN17MobKeyboardLayoutC2ERKN6MAUtil11BasicStringIcEES4_N11MobKeyboard10LayoutTypeE;2A.;__comp_ctor::(8,60):_ZN17MobKeyboardLayoutC1ERKN6MAUtil11BasicStringIcEES4_N11MobKeyboard10LayoutTypeE;2A.;__base_dtor::(8,62)=#(8,57),(0,6),(8,61),(0,6);:_ZN17MobKeyboardLayoutD2Ev;2A.;__comp_dtor::(8,62):_ZN17MobKeyboardLayoutD1Ev;2A.;getUniqueIdentifier::(8,63)=#(8,57),(11,1),(8,64)=*(8,65)=k(8,57),(0,6);:_ZNK17MobKeyboardLayout19getUniqueIdentifierEv;2B.;getLanguage::(8,63):_ZNK17MobKeyboardLayout11getLanguageEv;2B.;getLayoutType::(8,66)=#(8,57),(8,1),(8,64),(0,6);:_ZNK17MobKeyboardLayout13getLayoutTypeEv;2B.;getButtons::(8,67)=#(8,57),(8,58),(8,64),(0,6);:_ZNK17MobKeyboardLayout10getButtonsEv;2B.;operator=::(8,68)=#(8,57),(8,69)=&(8,57),(8,61),(8,70)=&(8,65),(0,6);:_ZN17MobKeyboardLayoutaSERKS_;2A.;__base_ctor::(8,71)=#(8,57),(0,6),(8,61),(8,70),(0,6);:_ZN17MobKeyboardLayoutC2ERKS_;2A.;__comp_ctor::(8,71):_ZN17MobKeyboardLayoutC1ERKS_;2A.;;",128,0,134,0
-	.stabs	"Vector<MobKeyboardButton*>:Tt(8,59)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(8,72)=*(8,39),64,32;__base_ctor::(8,73)=#(8,59),(0,6),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEC2Ei;2A.;__comp_ctor::(8,73):_ZN6MAUtil6VectorIP17MobKeyboardButtonEC1Ei;2A.;__base_ctor::(8,74)=#(8,59),(0,6),(8,58),(8,75)=&(8,76)=k(8,59),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEC2ERKS3_;2A.;__comp_ctor::(8,74):_ZN6MAUtil6VectorIP17MobKeyboardButtonEC1ERKS3_;2A.;__base_dtor::(8,77)=#(8,59),(0,6),(8,58),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonED2Ev;2A.;__comp_dtor::(8,77):_ZN6MAUtil6VectorIP17MobKeyboardButtonED1Ev;2A.;operator=::(8,78)=#(8,59),(8,79)=&(8,59),(8,58),(8,75),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEaSERKS3_;2A.;add::(8,80)=#(8,59),(0,6),(8,58),(8,81)=&(8,82)=k(8,39),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE3addERKS2_;2A.(8,83)=#(8,59),(0,6),(8,58),(8,84)=*(8,82),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE3addEPKS2_i;2A.;remove::(8,85)=#(8,59),(0,6),(8,58),(8,72),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEPS2_;2A.(8,86)=#(8,59),(0,6),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEi;2A.(8,87)=#(8,59),(0,6),(8,58),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEii;2A.;insert::(8,88)=#(8,59),(0,6),(8,58),(0,3),(8,39),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6insertEiS2_;2A.;size::(8,89)=#(8,59),(0,3),(8,90)=*(8,76),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE4sizeEv;2B.;resize::(8,86):_ZN6MAUtil6VectorIP17MobKeyboardButtonE6resizeEi;2A.;reserve::(8,86):_ZN6MAUtil6VectorIP17MobKeyboardButtonE7reserveEi;2A.;clear::(8,77):_ZN6MAUtil6VectorIP17MobKeyboardButtonE5clearEv;2A.;empty::(8,91)=#(8,59),(0,4),(8,90),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE5emptyEv;2B.;capacity::(8,89):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE8capacityEv;2B.;begin::(8,92)=#(8,59),(8,72),(8,58),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE5beginEv;2A.;end::(8,92):_ZN6MAUtil6VectorIP17MobKeyboardButtonE3endEv;2A.;begin::(8,93)=#(8,59),(8,84),(8,90),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE5beginEv;2B.;end::(8,93):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE3endEv;2B.;operator[]::(8,94)=#(8,59),(8,95)=&(8,39),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEixEi;2A.(8,96)=#(8,59),(8,81),(8,90),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonEixEi;2B.;pointer::(8,93):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE7pointerEv;2B.(8,92):_ZN6MAUtil6VectorIP17MobKeyboardButtonE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MobKeyboardButton*>:Tt(8,59)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(8,72)=*(8,39),64,32;__base_ctor::(8,73)=#(8,59),(0,6),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEC2Ei;2A.;__comp_ctor::(8,73):_ZN6MAUtil6VectorIP17MobKeyboardButtonEC1Ei;2A.;__base_ctor::(8,74)=#(8,59),(0,6),(8,58),(8,75)=*(8,76)=k(8,39),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEC2EPKS2_i;2A.;__comp_ctor::(8,74):_ZN6MAUtil6VectorIP17MobKeyboardButtonEC1EPKS2_i;2A.;__base_ctor::(8,77)=#(8,59),(0,6),(8,58),(8,78)=&(8,79)=k(8,59),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEC2ERKS3_;2A.;__comp_ctor::(8,77):_ZN6MAUtil6VectorIP17MobKeyboardButtonEC1ERKS3_;2A.;__base_dtor::(8,80)=#(8,59),(0,6),(8,58),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonED2Ev;2A.;__comp_dtor::(8,80):_ZN6MAUtil6VectorIP17MobKeyboardButtonED1Ev;2A.;operator=::(8,81)=#(8,59),(8,82)=&(8,59),(8,58),(8,78),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEaSERKS3_;2A.;add::(8,83)=#(8,59),(0,6),(8,58),(8,84)=&(8,76),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE3addERKS2_;2A.(8,74):_ZN6MAUtil6VectorIP17MobKeyboardButtonE3addEPKS2_i;2A.;remove::(8,85)=#(8,59),(0,6),(8,58),(8,72),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEPS2_;2A.(8,86)=#(8,59),(0,6),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEi;2A.(8,87)=#(8,59),(0,6),(8,58),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6removeEii;2A.;insert::(8,88)=#(8,59),(0,6),(8,58),(0,3),(8,39),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE6insertEiS2_;2A.;size::(8,89)=#(8,59),(0,3),(8,90)=*(8,79),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE4sizeEv;2B.;resize::(8,86):_ZN6MAUtil6VectorIP17MobKeyboardButtonE6resizeEi;2A.;reserve::(8,86):_ZN6MAUtil6VectorIP17MobKeyboardButtonE7reserveEi;2A.;clear::(8,80):_ZN6MAUtil6VectorIP17MobKeyboardButtonE5clearEv;2A.;empty::(8,91)=#(8,59),(0,4),(8,90),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE5emptyEv;2B.;capacity::(8,89):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE8capacityEv;2B.;begin::(8,92)=#(8,59),(8,72),(8,58),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonE5beginEv;2A.;end::(8,92):_ZN6MAUtil6VectorIP17MobKeyboardButtonE3endEv;2A.;begin::(8,93)=#(8,59),(8,75),(8,90),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonE5beginEv;2B.;end::(8,93):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE3endEv;2B.;operator[]::(8,94)=#(8,59),(8,95)=&(8,39),(8,58),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardButtonEixEi;2A.(8,96)=#(8,59),(8,84),(8,90),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardButtonEixEi;2B.;pointer::(8,93):_ZNK6MAUtil6VectorIP17MobKeyboardButtonE7pointerEv;2B.(8,92):_ZN6MAUtil6VectorIP17MobKeyboardButtonE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/Widgets/MobEditBox.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/EditBox.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Font.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/Widgets/MobEditBox.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/EditBox.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Font.h",130,0,0,0
 	.stabs	"CharDescriptor:Tt(20,1)=s16x:(0,12),0,16;y:(0,12),16,16;width:(0,12),32,16;height:(0,12),48,16;xOffset:(0,13),64,16;yOffset:(0,13),80,16;xAdvance:(0,13),96,16;page:(0,12),112,16;operator=::(20,2)=#(20,1),(20,3)=&(20,1),(20,4)=*(20,1),(20,5)=&(20,6)=k(20,1),(0,6);:_ZN4MAUI14CharDescriptoraSERKS0_;2A.;__base_ctor::(20,7)=#(20,1),(0,6),(20,4),(20,5),(0,6);:_ZN4MAUI14CharDescriptorC2ERKS0_;2A.;__comp_ctor::(20,7):_ZN4MAUI14CharDescriptorC1ERKS0_;2A.;__base_ctor::(20,8)=#(20,1),(0,6),(20,4),(0,6);:_ZN4MAUI14CharDescriptorC2Ev;2A.;__comp_ctor::(20,8):_ZN4MAUI14CharDescriptorC1Ev;2A.;;",128,0,40,0
 	.stabs	"Charset:Tt(20,9)=s4122lineHeight:(0,12),0,16;base:(0,12),16,16;width:(0,12),32,16;height:(0,12),48,16;pages:(0,12),64,16;chars:(20,10)=ar(3,53);0;255;(20,1),80,32768;name:(20,11)=ar(3,53);0;15;(0,19),32848,128;operator=::(20,12)=#(20,9),(20,13)=&(20,9),(20,14)=*(20,9),(20,15)=&(20,16)=k(20,9),(0,6);:_ZN4MAUI7CharsetaSERKS0_;2A.;__base_ctor::(20,17)=#(20,9),(0,6),(20,14),(20,15),(0,6);:_ZN4MAUI7CharsetC2ERKS0_;2A.;__comp_ctor::(20,17):_ZN4MAUI7CharsetC1ERKS0_;2A.;__base_ctor::(20,18)=#(20,9),(0,6),(20,14),(0,6);:_ZN4MAUI7CharsetC2Ev;2A.;__comp_ctor::(20,18):_ZN4MAUI7CharsetC1Ev;2A.;;",128,0,55,0
-	.stabs	"Font:Tt(20,19)=s12fontImage:/1(3,10),0,32;charset:/1(20,14),32,32;mLineSpacing:/1(0,3),64,32;__base_ctor::(20,20)=#(20,19),(0,6),(20,21)=*(20,19),(3,10),(0,6);:_ZN4MAUI4FontC2Ei;2A.;__comp_ctor::(20,20):_ZN4MAUI4FontC1Ei;2A.;__base_dtor::(20,22)=#(20,19),(0,6),(20,21),(0,6);:_ZN4MAUI4FontD2Ev;2A.;__comp_dtor::(20,22):_ZN4MAUI4FontD1Ev;2A.;setResource::(20,20):_ZN4MAUI4Font11setResourceEi;2A.;getHandle::(20,23)=#(20,19),(3,10),(20,24)=*(20,25)=k(20,19),(0,6);:_ZNK4MAUI4Font9getHandleEv;2B.;getName::(20,26)=#(20,19),(8,8),(20,24),(0,6);:_ZNK4MAUI4Font7getNameEv;2B.;setLineSpacing::(20,27)=#(20,19),(0,6),(20,21),(0,3),(0,6);:_ZN4MAUI4Font14setLineSpacingEi;2A.;getLineSpacing::(20,28)=#(20,19),(0,3),(20,24),(0,6);:_ZNK4MAUI4Font14getLineSpacingEv;2B.;getStringDimensions::(20,29)=#(20,19),(3,11),(20,24),(8,8),(0,3),(0,6);:_ZNK4MAUI4Font19getStringDimensionsEPKci;2B.;getBoundedStringDimensions::(20,30)=#(20,19),(3,11),(20,24),(8,8),(8,40),(0,3),(0,6);:_ZNK4MAUI4Font26getBoundedStringDimensionsEPKcRKN6MAUtil4RectEi;2B.;getLineBreak::(20,31)=#(20,19),(0,3),(20,24),(0,3),(8,8),(8,40),(0,6);:_ZNK4MAUI4Font12getLineBreakEiPKcRKN6MAUtil4RectE;2B.;calculateLine::(20,31):_ZNK4MAUI4Font13calculateLineEiPKcRKN6MAUtil4RectE;2B.;calculateRectOfIndex::(20,32)=#(20,19),(8,37),(20,24),(0,3),(8,8),(8,40),(0,6);:_ZNK4MAUI4Font20calculateRectOfIndexEiPKcRKN6MAUtil4RectE;2B.;drawString::(20,33)=#(20,19),(0,6),(20,21),(8,8),(0,3),(0,3),(0,6);:_ZN4MAUI4Font10drawStringEPKcii;2A.;drawBoundedString::(20,34)=#(20,19),(0,6),(20,21),(8,8),(0,3),(0,3),(8,40),(0,6);:_ZN4MAUI4Font17drawBoundedStringEPKciiRKN6MAUtil4RectE;2A.;getCharset::(20,35)=#(20,19),(20,15),(20,24),(0,6);:_ZNK4MAUI4Font10getCharsetEv;2B.;calcCharPos::(20,36)=#(20,19),(0,6),(20,21),(0,19),(13,34),(13,34),(0,6);:_ZN4MAUI4Font11calcCharPosEcPiS1_;1A.;calcLineBreaks::(20,37)=#(20,19),(0,6),(20,24),(8,8),(0,3),(0,3),(8,40),(0,6);:_ZNK4MAUI4Font14calcLineBreaksEPKciiRKN6MAUtil4RectE;1B.;operator=::(20,38)=#(20,19),(20,39)=&(20,19),(20,21),(20,40)=&(20,25),(0,6);:_ZN4MAUI4FontaSERKS0_;2A.;__base_ctor::(20,41)=#(20,19),(0,6),(20,21),(20,40),(0,6);:_ZN4MAUI4FontC2ERKS0_;2A.;__comp_ctor::(20,41):_ZN4MAUI4FontC1ERKS0_;2A.;;",128,0,70,0
+	.stabs	"Font:Tt(20,19)=s12mFontImage:/1(3,10),0,32;mCharset:/1(20,14),32,32;mLineSpacing:/1(0,3),64,32;__base_ctor::(20,20)=#(20,19),(0,6),(20,21)=*(20,19),(3,10),(0,6);:_ZN4MAUI4FontC2Ei;2A.;__comp_ctor::(20,20):_ZN4MAUI4FontC1Ei;2A.;__base_dtor::(20,22)=#(20,19),(0,6),(20,21),(0,6);:_ZN4MAUI4FontD2Ev;2A.;__comp_dtor::(20,22):_ZN4MAUI4FontD1Ev;2A.;setResource::(20,20):_ZN4MAUI4Font11setResourceEi;2A.;getHandle::(20,23)=#(20,19),(3,10),(20,24)=*(20,25)=k(20,19),(0,6);:_ZNK4MAUI4Font9getHandleEv;2B.;getName::(20,26)=#(20,19),(8,8),(20,24),(0,6);:_ZNK4MAUI4Font7getNameEv;2B.;setLineSpacing::(20,27)=#(20,19),(0,6),(20,21),(0,3),(0,6);:_ZN4MAUI4Font14setLineSpacingEi;2A.;getLineSpacing::(20,28)=#(20,19),(0,3),(20,24),(0,6);:_ZNK4MAUI4Font14getLineSpacingEv;2B.;getStringDimensions::(20,29)=#(20,19),(3,11),(20,24),(8,8),(0,3),(0,6);:_ZNK4MAUI4Font19getStringDimensionsEPKci;2B.;getBoundedStringDimensions::(20,30)=#(20,19),(3,11),(20,24),(8,8),(8,40),(0,3),(0,6);:_ZNK4MAUI4Font26getBoundedStringDimensionsEPKcRKN6MAUtil4RectEi;2B.;getLineBreak::(20,31)=#(20,19),(0,3),(20,24),(0,3),(8,8),(8,40),(0,6);:_ZNK4MAUI4Font12getLineBreakEiPKcRKN6MAUtil4RectE;2B.;calculateLine::(20,31):_ZNK4MAUI4Font13calculateLineEiPKcRKN6MAUtil4RectE;2B.;calculateRectOfIndex::(20,32)=#(20,19),(8,37),(20,24),(0,3),(8,8),(8,40),(0,6);:_ZNK4MAUI4Font20calculateRectOfIndexEiPKcRKN6MAUtil4RectE;2B.;drawString::(20,33)=#(20,19),(0,6),(20,21),(8,8),(0,3),(0,3),(0,6);:_ZN4MAUI4Font10drawStringEPKcii;2A.;drawBoundedString::(20,34)=#(20,19),(0,6),(20,21),(8,8),(0,3),(0,3),(8,40),(0,6);:_ZN4MAUI4Font17drawBoundedStringEPKciiRKN6MAUtil4RectE;2A.;getCharset::(20,35)=#(20,19),(20,15),(20,24),(0,6);:_ZNK4MAUI4Font10getCharsetEv;2B.;calcCharPos::(20,36)=#(20,19),(0,6),(20,21),(0,19),(13,34),(13,34),(0,6);:_ZN4MAUI4Font11calcCharPosEcPiS1_;1A.;calcLineBreaks::(20,37)=#(20,19),(0,6),(20,24),(8,8),(0,3),(0,3),(8,40),(0,6);:_ZNK4MAUI4Font14calcLineBreaksEPKciiRKN6MAUtil4RectE;1B.;operator=::(20,38)=#(20,19),(20,39)=&(20,19),(20,21),(20,40)=&(20,25),(0,6);:_ZN4MAUI4FontaSERKS0_;2A.;__base_ctor::(20,41)=#(20,19),(0,6),(20,21),(20,40),(0,6);:_ZN4MAUI4FontC2ERKS0_;2A.;__comp_ctor::(20,41):_ZN4MAUI4FontC1ERKS0_;2A.;;",128,0,70,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/CharInput.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/CharInput.h",130,0,0,0
 	.stabs	"CharInputCallback:t(21,1)=(21,2)=*(13,43)",128,0,64,0
 	.stabs	"StartTimerCallback:t(21,3)=(21,4)=*(21,5)=f(0,6)",128,0,70,0
 	.stabs	"StopTimerCallback:t(21,6)=(21,2)",128,0,75,0
 	.stabs	"CharCallback:t(21,7)=(21,8)=*(21,9)=f(0,6)",128,0,110,0
 	.stabs	"CharInput::CharMode:t(21,10)=eLOWERCASE:0,UPPERCASE:1,NUMBERS:2,;",128,0,182,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CharInputListener>::Combo>:Tt(21,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(21,12)=*(21,13)=xsCombo:,64,32;__base_ctor::(21,14)=#(21,11),(0,6),(21,15)=*(21,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(21,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1Ei;2A.;__base_ctor::(21,16)=#(21,11),(0,6),(21,15),(21,17)=&(21,18)=k(21,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(21,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(21,19)=#(21,11),(0,6),(21,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED2Ev;2A.;__comp_dtor::(21,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED1Ev;2A.;operator=::(21,20)=#(21,11),(21,21)=&(21,11),(21,15),(21,17),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEaSERKS5_;2A.;add::(21,22)=#(21,11),(0,6),(21,15),(21,23)=&(21,24)=k(21,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addERKS4_;2A.(21,25)=#(21,11),(0,6),(21,15),(21,26)=*(21,24),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addEPKS4_i;2A.;remove::(21,27)=#(21,11),(0,6),(21,15),(21,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEPS4_;2A.(21,28)=#(21,11),(0,6),(21,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEi;2A.(21,29)=#(21,11),(0,6),(21,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEii;2A.;insert::(21,30)=#(21,11),(0,6),(21,15),(0,3),(21,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6insertEiS4_;2A.;size::(21,31)=#(21,11),(0,3),(21,32)=*(21,18),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE4sizeEv;2B.;resize::(21,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6resizeEi;2A.;reserve::(21,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7reserveEi;2A.;clear::(21,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5clearEv;2A.;empty::(21,33)=#(21,11),(0,4),(21,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5emptyEv;2B.;capacity::(21,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE8capacityEv;2B.;begin::(21,34)=#(21,11),(21,12),(21,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2A.;end::(21,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2A.;begin::(21,35)=#(21,11),(21,26),(21,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2B.;end::(21,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2B.;operator[]::(21,36)=#(21,11),(21,37)=&(21,13),(21,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2A.(21,38)=#(21,11),(21,23),(21,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2B.;pointer::(21,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2B.(21,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::CharInputListener>:Tt(21,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(21,11),32,96;__base_ctor::(21,40)=#(21,39),(0,6),(21,41)=*(21,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2Eb;2A.;__comp_ctor::(21,40):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1Eb;2A.;begin::(21,42)=#(21,39),(21,43)=xsiterator:,(21,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE5beginEv;2A.;add::(21,44)=#(21,39),(0,6),(21,41),(21,45)=*(21,46)=xsCharInputListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE3addEPS1_;2A.;remove::(21,44):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE6removeEPS1_;2A.;contains::(21,47)=#(21,39),(0,4),(21,41),(21,45),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE8containsEPS1_;2A.;setRunning::(21,48)=#(21,39),(0,6),(21,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE10setRunningEb;2A.;size::(21,49)=#(21,39),(0,3),(21,50)=*(21,51)=k(21,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_17CharInputListenerEE4sizeEv;2B.;operator=::(21,52)=#(21,39),(21,53)=&(21,39),(21,41),(21,54)=&(21,51),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEaSERKS2_;2A.;__base_ctor::(21,55)=#(21,39),(0,6),(21,41),(21,54),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2ERKS2_;2A.;__comp_ctor::(21,55):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1ERKS2_;2A.;__base_dtor::(21,56)=#(21,39),(0,6),(21,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED2Ev;2A.;__comp_dtor::(21,56):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED1Ev;2A.;;",128,0,37,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CharInputListener>::Combo>:Tt(21,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(21,12)=*(21,13)=xsCombo:,64,32;__base_ctor::(21,14)=#(21,11),(0,6),(21,15)=*(21,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(21,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1Ei;2A.;__base_ctor::(21,16)=#(21,11),(0,6),(21,15),(21,17)=*(21,18)=k(21,13),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(21,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(21,19)=#(21,11),(0,6),(21,15),(21,20)=&(21,21)=k(21,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(21,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(21,22)=#(21,11),(0,6),(21,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED2Ev;2A.;__comp_dtor::(21,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED1Ev;2A.;operator=::(21,23)=#(21,11),(21,24)=&(21,11),(21,15),(21,20),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEaSERKS5_;2A.;add::(21,25)=#(21,11),(0,6),(21,15),(21,26)=&(21,18),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addERKS4_;2A.(21,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addEPKS4_i;2A.;remove::(21,27)=#(21,11),(0,6),(21,15),(21,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEPS4_;2A.(21,28)=#(21,11),(0,6),(21,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEi;2A.(21,29)=#(21,11),(0,6),(21,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEii;2A.;insert::(21,30)=#(21,11),(0,6),(21,15),(0,3),(21,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6insertEiS4_;2A.;size::(21,31)=#(21,11),(0,3),(21,32)=*(21,21),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE4sizeEv;2B.;resize::(21,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6resizeEi;2A.;reserve::(21,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7reserveEi;2A.;clear::(21,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5clearEv;2A.;empty::(21,33)=#(21,11),(0,4),(21,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5emptyEv;2B.;capacity::(21,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE8capacityEv;2B.;begin::(21,34)=#(21,11),(21,12),(21,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2A.;end::(21,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2A.;begin::(21,35)=#(21,11),(21,17),(21,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2B.;end::(21,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2B.;operator[]::(21,36)=#(21,11),(21,37)=&(21,13),(21,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2A.(21,38)=#(21,11),(21,26),(21,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2B.;pointer::(21,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2B.(21,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::CharInputListener>:Tt(21,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(21,11),32,96;__base_ctor::(21,40)=#(21,39),(0,6),(21,41)=*(21,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2Eb;2A.;__comp_ctor::(21,40):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1Eb;2A.;begin::(21,42)=#(21,39),(21,43)=xsiterator:,(21,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE5beginEv;2A.;add::(21,44)=#(21,39),(0,6),(21,41),(21,45)=*(21,46)=xsCharInputListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE3addEPS1_;2A.;remove::(21,44):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE6removeEPS1_;2A.;contains::(21,47)=#(21,39),(0,4),(21,41),(21,45),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE8containsEPS1_;2A.;setRunning::(21,48)=#(21,39),(0,6),(21,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE10setRunningEb;2A.;size::(21,49)=#(21,39),(0,3),(21,50)=*(21,51)=k(21,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_17CharInputListenerEE4sizeEv;2B.;operator=::(21,52)=#(21,39),(21,53)=&(21,39),(21,41),(21,54)=&(21,51),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEaSERKS2_;2A.;__base_ctor::(21,55)=#(21,39),(0,6),(21,41),(21,54),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2ERKS2_;2A.;__comp_ctor::(21,55):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1ERKS2_;2A.;__base_dtor::(21,56)=#(21,39),(0,6),(21,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED2Ev;2A.;__comp_dtor::(21,56):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED1Ev;2A.;;",128,0,46,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Label.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Label.h",130,0,0,0
 	.stabs	"Label::HorizontalAlignment:t(22,1)=eHA_LEFT:0,HA_CENTER:1,HA_RIGHT:2,;",128,0,44,0
 	.stabs	"Label::VerticalAlignment:t(22,2)=eVA_TOP:0,VA_CENTER:1,VA_BOTTOM:2,;",128,0,50,0
 	.stabn	162,0,0,0
 	.stabs	"EditBox::InputMode:t(19,1)=eIM_NUMBERS:0,IM_STANDARD:1,IM_QWERTY:2,;",128,0,69,0
-	.stabs	"Vector<MAUI::EditBoxListener*>:Tt(19,2)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(19,3)=*(19,4)=*(19,5)=xsEditBoxListener:,64,32;__base_ctor::(19,6)=#(19,2),(0,6),(19,7)=*(19,2),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2Ei;2A.;__comp_ctor::(19,6):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1Ei;2A.;__base_ctor::(19,8)=#(19,2),(0,6),(19,7),(19,9)=&(19,10)=k(19,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2ERKS4_;2A.;__comp_ctor::(19,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1ERKS4_;2A.;__base_dtor::(19,11)=#(19,2),(0,6),(19,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED2Ev;2A.;__comp_dtor::(19,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED1Ev;2A.;operator=::(19,12)=#(19,2),(19,13)=&(19,2),(19,7),(19,9),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEaSERKS4_;2A.;add::(19,14)=#(19,2),(0,6),(19,7),(19,15)=&(19,16)=k(19,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addERKS3_;2A.(19,17)=#(19,2),(0,6),(19,7),(19,18)=*(19,16),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addEPKS3_i;2A.;remove::(19,19)=#(19,2),(0,6),(19,7),(19,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEPS3_;2A.(19,20)=#(19,2),(0,6),(19,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEi;2A.(19,21)=#(19,2),(0,6),(19,7),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEii;2A.;insert::(19,22)=#(19,2),(0,6),(19,7),(0,3),(19,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6insertEiS3_;2A.;size::(19,23)=#(19,2),(0,3),(19,24)=*(19,10),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE4sizeEv;2B.;resize::(19,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6resizeEi;2A.;reserve::(19,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7reserveEi;2A.;clear::(19,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5clearEv;2A.;empty::(19,25)=#(19,2),(0,4),(19,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5emptyEv;2B.;capacity::(19,23):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE8capacityEv;2B.;begin::(19,26)=#(19,2),(19,3),(19,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2A.;end::(19,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2A.;begin::(19,27)=#(19,2),(19,18),(19,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2B.;end::(19,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2B.;operator[]::(19,28)=#(19,2),(19,29)=&(19,4),(19,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2A.(19,30)=#(19,2),(19,15),(19,24),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2B.;pointer::(19,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2B.(19,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::EditBoxListener*>:Tt(19,2)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(19,3)=*(19,4)=*(19,5)=xsEditBoxListener:,64,32;__base_ctor::(19,6)=#(19,2),(0,6),(19,7)=*(19,2),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2Ei;2A.;__comp_ctor::(19,6):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1Ei;2A.;__base_ctor::(19,8)=#(19,2),(0,6),(19,7),(19,9)=*(19,10)=k(19,4),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2EPKS3_i;2A.;__comp_ctor::(19,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1EPKS3_i;2A.;__base_ctor::(19,11)=#(19,2),(0,6),(19,7),(19,12)=&(19,13)=k(19,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2ERKS4_;2A.;__comp_ctor::(19,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1ERKS4_;2A.;__base_dtor::(19,14)=#(19,2),(0,6),(19,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED2Ev;2A.;__comp_dtor::(19,14):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED1Ev;2A.;operator=::(19,15)=#(19,2),(19,16)=&(19,2),(19,7),(19,12),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEaSERKS4_;2A.;add::(19,17)=#(19,2),(0,6),(19,7),(19,18)=&(19,10),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addERKS3_;2A.(19,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addEPKS3_i;2A.;remove::(19,19)=#(19,2),(0,6),(19,7),(19,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEPS3_;2A.(19,20)=#(19,2),(0,6),(19,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEi;2A.(19,21)=#(19,2),(0,6),(19,7),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEii;2A.;insert::(19,22)=#(19,2),(0,6),(19,7),(0,3),(19,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6insertEiS3_;2A.;size::(19,23)=#(19,2),(0,3),(19,24)=*(19,13),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE4sizeEv;2B.;resize::(19,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6resizeEi;2A.;reserve::(19,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7reserveEi;2A.;clear::(19,14):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5clearEv;2A.;empty::(19,25)=#(19,2),(0,4),(19,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5emptyEv;2B.;capacity::(19,23):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE8capacityEv;2B.;begin::(19,26)=#(19,2),(19,3),(19,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2A.;end::(19,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2A.;begin::(19,27)=#(19,2),(19,9),(19,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2B.;end::(19,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2B.;operator[]::(19,28)=#(19,2),(19,29)=&(19,4),(19,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2A.(19,30)=#(19,2),(19,18),(19,24),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2B.;pointer::(19,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2B.(19,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../Util.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Layout.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../Util.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Layout.h",130,0,0,0
 	.stabs	"Layout::HorizontalAlignment:t(24,1)=eHA_LEFT:0,HA_CENTER:1,HA_RIGHT:2,;",128,0,40,0
 	.stabs	"Layout::VerticalAlignment:t(24,2)=eVA_TOP:0,VA_CENTER:1,VA_BOTTOM:2,;",128,0,46,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Image.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Image.h",130,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/ListBox.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUI/Engine.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/ListBox.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUI/Engine.h",130,0,0,0
 	.stabn	162,0,0,0
 	.stabs	"ListBox::ListBoxOrientation:t(26,1)=eLBO_HORIZONTAL:0,LBO_VERTICAL:1,;",128,0,59,0
 	.stabs	"ListBox::ListBoxAnimationType:t(26,2)=eLBA_NONE:0,LBA_LINEAR:1,;",128,0,64,0
-	.stabs	"Vector<MAUI::ItemSelectedListener*>:Tt(26,3)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(26,4)=*(26,5)=*(26,6)=xsItemSelectedListener:,64,32;__base_ctor::(26,7)=#(26,3),(0,6),(26,8)=*(26,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2Ei;2A.;__comp_ctor::(26,7):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1Ei;2A.;__base_ctor::(26,9)=#(26,3),(0,6),(26,8),(26,10)=&(26,11)=k(26,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2ERKS4_;2A.;__comp_ctor::(26,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1ERKS4_;2A.;__base_dtor::(26,12)=#(26,3),(0,6),(26,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED2Ev;2A.;__comp_dtor::(26,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED1Ev;2A.;operator=::(26,13)=#(26,3),(26,14)=&(26,3),(26,8),(26,10),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEaSERKS4_;2A.;add::(26,15)=#(26,3),(0,6),(26,8),(26,16)=&(26,17)=k(26,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addERKS3_;2A.(26,18)=#(26,3),(0,6),(26,8),(26,19)=*(26,17),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addEPKS3_i;2A.;remove::(26,20)=#(26,3),(0,6),(26,8),(26,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEPS3_;2A.(26,21)=#(26,3),(0,6),(26,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEi;2A.(26,22)=#(26,3),(0,6),(26,8),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEii;2A.;insert::(26,23)=#(26,3),(0,6),(26,8),(0,3),(26,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6insertEiS3_;2A.;size::(26,24)=#(26,3),(0,3),(26,25)=*(26,11),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE4sizeEv;2B.;resize::(26,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6resizeEi;2A.;reserve::(26,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7reserveEi;2A.;clear::(26,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5clearEv;2A.;empty::(26,26)=#(26,3),(0,4),(26,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5emptyEv;2B.;capacity::(26,24):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE8capacityEv;2B.;begin::(26,27)=#(26,3),(26,4),(26,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2A.;end::(26,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2A.;begin::(26,28)=#(26,3),(26,19),(26,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2B.;end::(26,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2B.;operator[]::(26,29)=#(26,3),(26,30)=&(26,5),(26,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2A.(26,31)=#(26,3),(26,16),(26,25),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2B.;pointer::(26,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2B.(26,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::ItemSelectedListener*>:Tt(26,3)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(26,4)=*(26,5)=*(26,6)=xsItemSelectedListener:,64,32;__base_ctor::(26,7)=#(26,3),(0,6),(26,8)=*(26,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2Ei;2A.;__comp_ctor::(26,7):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1Ei;2A.;__base_ctor::(26,9)=#(26,3),(0,6),(26,8),(26,10)=*(26,11)=k(26,5),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2EPKS3_i;2A.;__comp_ctor::(26,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1EPKS3_i;2A.;__base_ctor::(26,12)=#(26,3),(0,6),(26,8),(26,13)=&(26,14)=k(26,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2ERKS4_;2A.;__comp_ctor::(26,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1ERKS4_;2A.;__base_dtor::(26,15)=#(26,3),(0,6),(26,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED2Ev;2A.;__comp_dtor::(26,15):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED1Ev;2A.;operator=::(26,16)=#(26,3),(26,17)=&(26,3),(26,8),(26,13),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEaSERKS4_;2A.;add::(26,18)=#(26,3),(0,6),(26,8),(26,19)=&(26,11),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addERKS3_;2A.(26,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addEPKS3_i;2A.;remove::(26,20)=#(26,3),(0,6),(26,8),(26,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEPS3_;2A.(26,21)=#(26,3),(0,6),(26,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEi;2A.(26,22)=#(26,3),(0,6),(26,8),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEii;2A.;insert::(26,23)=#(26,3),(0,6),(26,8),(0,3),(26,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6insertEiS3_;2A.;size::(26,24)=#(26,3),(0,3),(26,25)=*(26,14),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE4sizeEv;2B.;resize::(26,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6resizeEi;2A.;reserve::(26,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7reserveEi;2A.;clear::(26,15):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5clearEv;2A.;empty::(26,26)=#(26,3),(0,4),(26,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5emptyEv;2B.;capacity::(26,24):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE8capacityEv;2B.;begin::(26,27)=#(26,3),(26,4),(26,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2A.;end::(26,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2A.;begin::(26,28)=#(26,3),(26,10),(26,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2B.;end::(26,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2B.;operator[]::(26,29)=#(26,3),(26,30)=&(26,5),(26,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2A.(26,31)=#(26,3),(26,19),(26,25),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2B.;pointer::(26,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2B.(26,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../Card.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../Card.h",130,0,0,0
 	.stabs	"Card:Tt(28,1)=s36quantity:/0(11,1),0,32;text:/0(11,1),32,32;thumb:/0(11,1),64,32;front:/0(11,1),96,32;back:/0(11,1),128,32;id:/0(11,1),160,32;rate:/0(11,1),192,32;value:/0(11,1),224,32;loaded:/0(0,4),256,8;getQuantity::(28,2)=#(28,1),(11,1),(28,3)=*(28,1),(0,6);:_ZN4Card11getQuantityEv;2A.;setQuantity::(28,4)=#(28,1),(0,6),(28,3),(8,8),(0,6);:_ZN4Card11setQuantityEPKc;2A.;getText::(28,2):_ZN4Card7getTextEv;2A.;setText::(28,4):_ZN4Card7setTextEPKc;2A.;getThumb::(28,2):_ZN4Card8getThumbEv;2A.;setThumb::(28,4):_ZN4Card8setThumbEPKc;2A.;getFront::(28,2):_ZN4Card8getFrontEv;2A.;setFront::(28,4):_ZN4Card8setFrontEPKc;2A.;getBack::(28,2):_ZN4Card7getBackEv;2A.;setBack::(28,4):_ZN4Card7setBackEPKc;2A.;getId::(28,2):_ZN4Card5getIdEv;2A.;setId::(28,4):_ZN4Card5setIdEPKc;2A.;getRate::(28,2):_ZN4Card7getRateEv;2A.;setRate::(28,4):_ZN4Card7setRateEPKc;2A.;getValue::(28,2):_ZN4Card8getValueEv;2A.;setValue::(28,4):_ZN4Card8setValueEPKc;2A.;getLoaded::(28,5)=#(28,1),(0,4),(28,3),(0,6);:_ZN4Card9getLoadedEv;2A.;setLoaded::(28,6)=#(28,1),(0,6),(28,3),(0,4),(0,6);:_ZN4Card9setLoadedEb;2A.;getAll::(28,2):_ZN4Card6getAllEv;2A.;setAll::(28,4):_ZN4Card6setAllEPKc;2A.;operator=::(28,7)=#(28,1),(28,8)=&(28,1),(28,3),(28,9)=&(28,10)=k(28,1),(0,6);:_ZN4CardaSERKS_;2A.;__base_ctor::(28,11)=#(28,1),(0,6),(28,3),(28,9),(0,6);:_ZN4CardC2ERKS_;2A.;__comp_ctor::(28,11):_ZN4CardC1ERKS_;2A.;__base_ctor::(28,12)=#(28,1),(0,6),(28,3),(0,6);:_ZN4CardC2Ev;2A.;__comp_ctor::(28,12):_ZN4CardC1Ev;2A.;__base_dtor::(28,12):_ZN4CardD2Ev;2A.;__comp_dtor::(28,12):_ZN4CardD1Ev;2A.;;",128,0,8,0
 	.stabn	162,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../ImageCache.h",130,0,0,0
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../ImageCacheRequest.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../ImageCache.h",130,0,0,0
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../ImageCacheRequest.h",130,0,0,0
 	.stabs	"ImageCacheRequest:Tt(30,1)=s16card:/0(28,3),0,32;img:/0(30,2)=*(30,3)=xsImage:,32,32;height:/0(0,3),64,32;type:/0(0,3),96,32;__base_ctor::(30,4)=#(30,1),(0,6),(30,5)=*(30,1),(0,6);:_ZN17ImageCacheRequestC2Ev;2A.;__comp_ctor::(30,4):_ZN17ImageCacheRequestC1Ev;2A.;__base_ctor::(30,6)=#(30,1),(0,6),(30,5),(30,2),(28,3),(0,3),(0,3),(0,6);:_ZN17ImageCacheRequestC2EPN4MAUI5ImageEP4Cardii;2A.;__comp_ctor::(30,6):_ZN17ImageCacheRequestC1EPN4MAUI5ImageEP4Cardii;2A.;__base_dtor::(30,4):_ZN17ImageCacheRequestD2Ev;2A.;__comp_dtor::(30,4):_ZN17ImageCacheRequestD1Ev;2A.;getUrl::(30,7)=#(30,1),(11,1),(30,5),(0,6);:_ZN17ImageCacheRequest6getUrlEv;2A.;getSaveName::(30,7):_ZN17ImageCacheRequest11getSaveNameEv;2A.;getImage::(30,8)=#(30,1),(30,2),(30,5),(0,6);:_ZN17ImageCacheRequest8getImageEv;2A.;getHeight::(30,9)=#(30,1),(0,3),(30,5),(0,6);:_ZN17ImageCacheRequest9getHeightEv;2A.;getType::(30,9):_ZN17ImageCacheRequest7getTypeEv;2A.;operator=::(30,10)=#(30,1),(30,11)=&(30,1),(30,5),(30,12)=&(30,13)=k(30,1),(0,6);:_ZN17ImageCacheRequestaSERKS_;2A.;__base_ctor::(30,14)=#(30,1),(0,6),(30,5),(30,12),(0,6);:_ZN17ImageCacheRequestC2ERKS_;2A.;__comp_ctor::(30,14):_ZN17ImageCacheRequestC1ERKS_;2A.;;",128,0,14,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Downloader.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Connection.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/Downloader.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/Connection.h",130,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<MAUtil::DownloadListener*>:Tt(31,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(31,2)=*(31,3)=*(31,4)=xsDownloadListener:,64,32;__base_ctor::(31,5)=#(31,1),(0,6),(31,6)=*(31,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2Ei;2A.;__comp_ctor::(31,5):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1Ei;2A.;__base_ctor::(31,7)=#(31,1),(0,6),(31,6),(31,8)=&(31,9)=k(31,1),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2ERKS3_;2A.;__comp_ctor::(31,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1ERKS3_;2A.;__base_dtor::(31,10)=#(31,1),(0,6),(31,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEED2Ev;2A.;__comp_dtor::(31,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEED1Ev;2A.;operator=::(31,11)=#(31,1),(31,12)=&(31,1),(31,6),(31,8),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEaSERKS3_;2A.;add::(31,13)=#(31,1),(0,6),(31,6),(31,14)=&(31,15)=k(31,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addERKS2_;2A.(31,16)=#(31,1),(0,6),(31,6),(31,17)=*(31,15),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addEPKS2_i;2A.;remove::(31,18)=#(31,1),(0,6),(31,6),(31,2),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEPS2_;2A.(31,19)=#(31,1),(0,6),(31,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEi;2A.(31,20)=#(31,1),(0,6),(31,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEii;2A.;insert::(31,21)=#(31,1),(0,6),(31,6),(0,3),(31,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6insertEiS2_;2A.;size::(31,22)=#(31,1),(0,3),(31,23)=*(31,9),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE4sizeEv;2B.;resize::(31,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6resizeEi;2A.;reserve::(31,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7reserveEi;2A.;clear::(31,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5clearEv;2A.;empty::(31,24)=#(31,1),(0,4),(31,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5emptyEv;2B.;capacity::(31,22):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE8capacityEv;2B.;begin::(31,25)=#(31,1),(31,2),(31,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2A.;end::(31,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2A.;begin::(31,26)=#(31,1),(31,17),(31,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2B.;end::(31,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2B.;operator[]::(31,27)=#(31,1),(31,28)=&(31,3),(31,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2A.(31,29)=#(31,1),(31,14),(31,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2B.;pointer::(31,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2B.(31,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"Vector<MAHandle>:Tt(31,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(31,31)=*(3,10),64,32;__base_ctor::(31,32)=#(31,30),(0,6),(31,33)=*(31,30),(0,3),(0,6);:_ZN6MAUtil6VectorIiEC2Ei;2A.;__comp_ctor::(31,32):_ZN6MAUtil6VectorIiEC1Ei;2A.;__base_ctor::(31,34)=#(31,30),(0,6),(31,33),(31,35)=&(31,36)=k(31,30),(0,6);:_ZN6MAUtil6VectorIiEC2ERKS1_;2A.;__comp_ctor::(31,34):_ZN6MAUtil6VectorIiEC1ERKS1_;2A.;__base_dtor::(31,37)=#(31,30),(0,6),(31,33),(0,6);:_ZN6MAUtil6VectorIiED2Ev;2A.;__comp_dtor::(31,37):_ZN6MAUtil6VectorIiED1Ev;2A.;operator=::(31,38)=#(31,30),(31,39)=&(31,30),(31,33),(31,35),(0,6);:_ZN6MAUtil6VectorIiEaSERKS1_;2A.;add::(31,40)=#(31,30),(0,6),(31,33),(31,41)=&(31,42)=k(3,10),(0,6);:_ZN6MAUtil6VectorIiE3addERKi;2A.(31,43)=#(31,30),(0,6),(31,33),(31,44)=*(31,42),(0,3),(0,6);:_ZN6MAUtil6VectorIiE3addEPKii;2A.;remove::(31,45)=#(31,30),(0,6),(31,33),(31,31),(0,6);:_ZN6MAUtil6VectorIiE6removeEPi;2A.(31,46)=#(31,30),(0,6),(31,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEi;2A.(31,47)=#(31,30),(0,6),(31,33),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEii;2A.;insert::(31,47):_ZN6MAUtil6VectorIiE6insertEii;2A.;size::(31,48)=#(31,30),(0,3),(31,49)=*(31,36),(0,6);:_ZNK6MAUtil6VectorIiE4sizeEv;2B.;resize::(31,46):_ZN6MAUtil6VectorIiE6resizeEi;2A.;reserve::(31,46):_ZN6MAUtil6VectorIiE7reserveEi;2A.;clear::(31,37):_ZN6MAUtil6VectorIiE5clearEv;2A.;empty::(31,50)=#(31,30),(0,4),(31,49),(0,6);:_ZNK6MAUtil6VectorIiE5emptyEv;2B.;capacity::(31,48):_ZNK6MAUtil6VectorIiE8capacityEv;2B.;begin::(31,51)=#(31,30),(31,31),(31,33),(0,6);:_ZN6MAUtil6VectorIiE5beginEv;2A.;end::(31,51):_ZN6MAUtil6VectorIiE3endEv;2A.;begin::(31,52)=#(31,30),(31,44),(31,49),(0,6);:_ZNK6MAUtil6VectorIiE5beginEv;2B.;end::(31,52):_ZNK6MAUtil6VectorIiE3endEv;2B.;operator[]::(31,53)=#(31,30),(31,54)=&(3,10),(31,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiEixEi;2A.(31,55)=#(31,30),(31,41),(31,49),(0,3),(0,6);:_ZNK6MAUtil6VectorIiEixEi;2B.;pointer::(31,52):_ZNK6MAUtil6VectorIiE7pointerEv;2B.(31,51):_ZN6MAUtil6VectorIiE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUtil::DownloadListener*>:Tt(31,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(31,2)=*(31,3)=*(31,4)=xsDownloadListener:,64,32;__base_ctor::(31,5)=#(31,1),(0,6),(31,6)=*(31,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2Ei;2A.;__comp_ctor::(31,5):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1Ei;2A.;__base_ctor::(31,7)=#(31,1),(0,6),(31,6),(31,8)=*(31,9)=k(31,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2EPKS2_i;2A.;__comp_ctor::(31,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1EPKS2_i;2A.;__base_ctor::(31,10)=#(31,1),(0,6),(31,6),(31,11)=&(31,12)=k(31,1),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2ERKS3_;2A.;__comp_ctor::(31,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1ERKS3_;2A.;__base_dtor::(31,13)=#(31,1),(0,6),(31,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEED2Ev;2A.;__comp_dtor::(31,13):_ZN6MAUtil6VectorIPNS_16DownloadListenerEED1Ev;2A.;operator=::(31,14)=#(31,1),(31,15)=&(31,1),(31,6),(31,11),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEaSERKS3_;2A.;add::(31,16)=#(31,1),(0,6),(31,6),(31,17)=&(31,9),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addERKS2_;2A.(31,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addEPKS2_i;2A.;remove::(31,18)=#(31,1),(0,6),(31,6),(31,2),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEPS2_;2A.(31,19)=#(31,1),(0,6),(31,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEi;2A.(31,20)=#(31,1),(0,6),(31,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEii;2A.;insert::(31,21)=#(31,1),(0,6),(31,6),(0,3),(31,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6insertEiS2_;2A.;size::(31,22)=#(31,1),(0,3),(31,23)=*(31,12),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE4sizeEv;2B.;resize::(31,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6resizeEi;2A.;reserve::(31,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7reserveEi;2A.;clear::(31,13):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5clearEv;2A.;empty::(31,24)=#(31,1),(0,4),(31,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5emptyEv;2B.;capacity::(31,22):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE8capacityEv;2B.;begin::(31,25)=#(31,1),(31,2),(31,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2A.;end::(31,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2A.;begin::(31,26)=#(31,1),(31,8),(31,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2B.;end::(31,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2B.;operator[]::(31,27)=#(31,1),(31,28)=&(31,3),(31,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2A.(31,29)=#(31,1),(31,17),(31,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2B.;pointer::(31,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2B.(31,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAHandle>:Tt(31,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(31,31)=*(3,10),64,32;__base_ctor::(31,32)=#(31,30),(0,6),(31,33)=*(31,30),(0,3),(0,6);:_ZN6MAUtil6VectorIiEC2Ei;2A.;__comp_ctor::(31,32):_ZN6MAUtil6VectorIiEC1Ei;2A.;__base_ctor::(31,34)=#(31,30),(0,6),(31,33),(31,35)=*(31,36)=k(3,10),(0,3),(0,6);:_ZN6MAUtil6VectorIiEC2EPKii;2A.;__comp_ctor::(31,34):_ZN6MAUtil6VectorIiEC1EPKii;2A.;__base_ctor::(31,37)=#(31,30),(0,6),(31,33),(31,38)=&(31,39)=k(31,30),(0,6);:_ZN6MAUtil6VectorIiEC2ERKS1_;2A.;__comp_ctor::(31,37):_ZN6MAUtil6VectorIiEC1ERKS1_;2A.;__base_dtor::(31,40)=#(31,30),(0,6),(31,33),(0,6);:_ZN6MAUtil6VectorIiED2Ev;2A.;__comp_dtor::(31,40):_ZN6MAUtil6VectorIiED1Ev;2A.;operator=::(31,41)=#(31,30),(31,42)=&(31,30),(31,33),(31,38),(0,6);:_ZN6MAUtil6VectorIiEaSERKS1_;2A.;add::(31,43)=#(31,30),(0,6),(31,33),(31,44)=&(31,36),(0,6);:_ZN6MAUtil6VectorIiE3addERKi;2A.(31,34):_ZN6MAUtil6VectorIiE3addEPKii;2A.;remove::(31,45)=#(31,30),(0,6),(31,33),(31,31),(0,6);:_ZN6MAUtil6VectorIiE6removeEPi;2A.(31,46)=#(31,30),(0,6),(31,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEi;2A.(31,47)=#(31,30),(0,6),(31,33),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEii;2A.;insert::(31,47):_ZN6MAUtil6VectorIiE6insertEii;2A.;size::(31,48)=#(31,30),(0,3),(31,49)=*(31,39),(0,6);:_ZNK6MAUtil6VectorIiE4sizeEv;2B.;resize::(31,46):_ZN6MAUtil6VectorIiE6resizeEi;2A.;reserve::(31,46):_ZN6MAUtil6VectorIiE7reserveEi;2A.;clear::(31,40):_ZN6MAUtil6VectorIiE5clearEv;2A.;empty::(31,50)=#(31,30),(0,4),(31,49),(0,6);:_ZNK6MAUtil6VectorIiE5emptyEv;2B.;capacity::(31,48):_ZNK6MAUtil6VectorIiE8capacityEv;2B.;begin::(31,51)=#(31,30),(31,31),(31,33),(0,6);:_ZN6MAUtil6VectorIiE5beginEv;2A.;end::(31,51):_ZN6MAUtil6VectorIiE3endEv;2A.;begin::(31,52)=#(31,30),(31,35),(31,49),(0,6);:_ZNK6MAUtil6VectorIiE5beginEv;2B.;end::(31,52):_ZNK6MAUtil6VectorIiE3endEv;2B.;operator[]::(31,53)=#(31,30),(31,54)=&(3,10),(31,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiEixEi;2A.(31,55)=#(31,30),(31,44),(31,49),(0,3),(0,6);:_ZNK6MAUtil6VectorIiEixEi;2B.;pointer::(31,52):_ZNK6MAUtil6VectorIiE7pointerEv;2B.(31,51):_ZN6MAUtil6VectorIiE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Map.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Dictionary.h",130,0,0,0
-	.stabs	"c:/Apps/MoSync2.4/include/kazlib/dict.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/Map.h",130,0,0,0
+	.stabs	"c:/MoSync/include/MAUtil/Dictionary.h",130,0,0,0
+	.stabs	"c:/MoSync/include/kazlib/dict.h",130,0,0,0
 	.stabs	"dictcount_t:t(35,1)=(0,16)",128,0,39,0
 	.stabs	"dnode_color_t:t(35,2)=ednode_red:0,dnode_black:1,;",128,0,46,0
 	.stabs	"dnode_t:Tt(35,3)=s24dict_left:(35,4)=*(35,3),0,32;dict_right:(35,4),32,32;dict_parent:(35,4),64,32;dict_color:(35,2),96,32;dict_key:(16,5),128,32;dict_data:(3,9),160,32;operator=::(35,5)=#(35,3),(35,6)=&(35,3),(35,4),(35,7)=&(35,8)=k(35,3),(0,6);:_ZN7dnode_taSERKS_;2A.;__base_ctor::(35,9)=#(35,3),(0,6),(35,4),(35,7),(0,6);:_ZN7dnode_tC2ERKS_;2A.;__comp_ctor::(35,9):_ZN7dnode_tC1ERKS_;2A.;__base_ctor::(35,10)=#(35,3),(0,6),(35,4),(0,6);:_ZN7dnode_tC2Ev;2A.;__comp_ctor::(35,10):_ZN7dnode_tC1Ev;2A.;;",128,0,48,0
@@ -227,10 +227,10 @@
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<ImageCacheRequest*>:Tt(29,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(29,2)=*(30,5),64,32;__base_ctor::(29,3)=#(29,1),(0,6),(29,4)=*(29,1),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2Ei;2A.;__comp_ctor::(29,3):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1Ei;2A.;__base_ctor::(29,5)=#(29,1),(0,6),(29,4),(29,6)=&(29,7)=k(29,1),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2ERKS3_;2A.;__comp_ctor::(29,5):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1ERKS3_;2A.;__base_dtor::(29,8)=#(29,1),(0,6),(29,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestED2Ev;2A.;__comp_dtor::(29,8):_ZN6MAUtil6VectorIP17ImageCacheRequestED1Ev;2A.;operator=::(29,9)=#(29,1),(29,10)=&(29,1),(29,4),(29,6),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEaSERKS3_;2A.;add::(29,11)=#(29,1),(0,6),(29,4),(29,12)=&(29,13)=k(30,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addERKS2_;2A.(29,14)=#(29,1),(0,6),(29,4),(29,15)=*(29,13),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addEPKS2_i;2A.;remove::(29,16)=#(29,1),(0,6),(29,4),(29,2),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEPS2_;2A.(29,17)=#(29,1),(0,6),(29,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEi;2A.(29,18)=#(29,1),(0,6),(29,4),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEii;2A.;insert::(29,19)=#(29,1),(0,6),(29,4),(0,3),(30,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6insertEiS2_;2A.;size::(29,20)=#(29,1),(0,3),(29,21)=*(29,7),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE4sizeEv;2B.;resize::(29,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE6resizeEi;2A.;reserve::(29,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE7reserveEi;2A.;clear::(29,8):_ZN6MAUtil6VectorIP17ImageCacheRequestE5clearEv;2A.;empty::(29,22)=#(29,1),(0,4),(29,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5emptyEv;2B.;capacity::(29,20):_ZNK6MAUtil6VectorIP17ImageCacheRequestE8capacityEv;2B.;begin::(29,23)=#(29,1),(29,2),(29,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2A.;end::(29,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE3endEv;2A.;begin::(29,24)=#(29,1),(29,15),(29,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2B.;end::(29,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE3endEv;2B.;operator[]::(29,25)=#(29,1),(29,26)=&(30,5),(29,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEixEi;2A.(29,27)=#(29,1),(29,12),(29,21),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestEixEi;2B.;pointer::(29,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2B.(29,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<ImageCacheRequest*>:Tt(29,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(29,2)=*(30,5),64,32;__base_ctor::(29,3)=#(29,1),(0,6),(29,4)=*(29,1),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2Ei;2A.;__comp_ctor::(29,3):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1Ei;2A.;__base_ctor::(29,5)=#(29,1),(0,6),(29,4),(29,6)=*(29,7)=k(30,5),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2EPKS2_i;2A.;__comp_ctor::(29,5):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1EPKS2_i;2A.;__base_ctor::(29,8)=#(29,1),(0,6),(29,4),(29,9)=&(29,10)=k(29,1),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2ERKS3_;2A.;__comp_ctor::(29,8):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1ERKS3_;2A.;__base_dtor::(29,11)=#(29,1),(0,6),(29,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestED2Ev;2A.;__comp_dtor::(29,11):_ZN6MAUtil6VectorIP17ImageCacheRequestED1Ev;2A.;operator=::(29,12)=#(29,1),(29,13)=&(29,1),(29,4),(29,9),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEaSERKS3_;2A.;add::(29,14)=#(29,1),(0,6),(29,4),(29,15)=&(29,7),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addERKS2_;2A.(29,5):_ZN6MAUtil6VectorIP17ImageCacheRequestE3addEPKS2_i;2A.;remove::(29,16)=#(29,1),(0,6),(29,4),(29,2),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEPS2_;2A.(29,17)=#(29,1),(0,6),(29,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEi;2A.(29,18)=#(29,1),(0,6),(29,4),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEii;2A.;insert::(29,19)=#(29,1),(0,6),(29,4),(0,3),(30,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6insertEiS2_;2A.;size::(29,20)=#(29,1),(0,3),(29,21)=*(29,10),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE4sizeEv;2B.;resize::(29,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE6resizeEi;2A.;reserve::(29,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE7reserveEi;2A.;clear::(29,11):_ZN6MAUtil6VectorIP17ImageCacheRequestE5clearEv;2A.;empty::(29,22)=#(29,1),(0,4),(29,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5emptyEv;2B.;capacity::(29,20):_ZNK6MAUtil6VectorIP17ImageCacheRequestE8capacityEv;2B.;begin::(29,23)=#(29,1),(29,2),(29,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2A.;end::(29,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE3endEv;2A.;begin::(29,24)=#(29,1),(29,6),(29,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2B.;end::(29,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE3endEv;2B.;operator[]::(29,25)=#(29,1),(29,26)=&(30,5),(29,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEixEi;2A.(29,27)=#(29,1),(29,15),(29,21),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestEixEi;2B.;pointer::(29,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2B.(29,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<MobKeyboardLayout*>:Tt(0,25)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(0,26)=*(8,61),64,32;__base_ctor::(0,27)=#(0,25),(0,6),(0,28)=*(0,25),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC2Ei;2A.;__comp_ctor::(0,27):_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC1Ei;2A.;__base_ctor::(0,29)=#(0,25),(0,6),(0,28),(0,30)=&(0,31)=k(0,25),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC2ERKS3_;2A.;__comp_ctor::(0,29):_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC1ERKS3_;2A.;__base_dtor::(0,32)=#(0,25),(0,6),(0,28),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutED2Ev;2A.;__comp_dtor::(0,32):_ZN6MAUtil6VectorIP17MobKeyboardLayoutED1Ev;2A.;operator=::(0,33)=#(0,25),(0,34)=&(0,25),(0,28),(0,30),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEaSERKS3_;2A.;add::(0,35)=#(0,25),(0,6),(0,28),(0,36)=&(0,37)=k(8,61),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3addERKS2_;2A.(0,38)=#(0,25),(0,6),(0,28),(0,39)=*(0,37),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3addEPKS2_i;2A.;remove::(0,40)=#(0,25),(0,6),(0,28),(0,26),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEPS2_;2A.(0,41)=#(0,25),(0,6),(0,28),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEi;2A.(0,42)=#(0,25),(0,6),(0,28),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEii;2A.;insert::(0,43)=#(0,25),(0,6),(0,28),(0,3),(8,61),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6insertEiS2_;2A.;size::(0,44)=#(0,25),(0,3),(0,45)=*(0,31),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE4sizeEv;2B.;resize::(0,41):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6resizeEi;2A.;reserve::(0,41):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE7reserveEi;2A.;clear::(0,32):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE5clearEv;2A.;empty::(0,46)=#(0,25),(0,4),(0,45),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE5emptyEv;2B.;capacity::(0,44):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE8capacityEv;2B.;begin::(0,47)=#(0,25),(0,26),(0,28),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE5beginEv;2A.;end::(0,47):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3endEv;2A.;begin::(0,48)=#(0,25),(0,39),(0,45),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE5beginEv;2B.;end::(0,48):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE3endEv;2B.;operator[]::(0,49)=#(0,25),(0,50)=&(8,61),(0,28),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEixEi;2A.(0,51)=#(0,25),(0,36),(0,45),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutEixEi;2B.;pointer::(0,48):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE7pointerEv;2B.(0,47):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MobKeyboardLayout*>:Tt(0,25)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(0,26)=*(8,61),64,32;__base_ctor::(0,27)=#(0,25),(0,6),(0,28)=*(0,25),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC2Ei;2A.;__comp_ctor::(0,27):_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC1Ei;2A.;__base_ctor::(0,29)=#(0,25),(0,6),(0,28),(0,30)=*(0,31)=k(8,61),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC2EPKS2_i;2A.;__comp_ctor::(0,29):_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC1EPKS2_i;2A.;__base_ctor::(0,32)=#(0,25),(0,6),(0,28),(0,33)=&(0,34)=k(0,25),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC2ERKS3_;2A.;__comp_ctor::(0,32):_ZN6MAUtil6VectorIP17MobKeyboardLayoutEC1ERKS3_;2A.;__base_dtor::(0,35)=#(0,25),(0,6),(0,28),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutED2Ev;2A.;__comp_dtor::(0,35):_ZN6MAUtil6VectorIP17MobKeyboardLayoutED1Ev;2A.;operator=::(0,36)=#(0,25),(0,37)=&(0,25),(0,28),(0,33),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEaSERKS3_;2A.;add::(0,38)=#(0,25),(0,6),(0,28),(0,39)=&(0,31),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3addERKS2_;2A.(0,29):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3addEPKS2_i;2A.;remove::(0,40)=#(0,25),(0,6),(0,28),(0,26),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEPS2_;2A.(0,41)=#(0,25),(0,6),(0,28),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEi;2A.(0,42)=#(0,25),(0,6),(0,28),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6removeEii;2A.;insert::(0,43)=#(0,25),(0,6),(0,28),(0,3),(8,61),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6insertEiS2_;2A.;size::(0,44)=#(0,25),(0,3),(0,45)=*(0,34),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE4sizeEv;2B.;resize::(0,41):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE6resizeEi;2A.;reserve::(0,41):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE7reserveEi;2A.;clear::(0,35):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE5clearEv;2A.;empty::(0,46)=#(0,25),(0,4),(0,45),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE5emptyEv;2B.;capacity::(0,44):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE8capacityEv;2B.;begin::(0,47)=#(0,25),(0,26),(0,28),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutE5beginEv;2A.;end::(0,47):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE3endEv;2A.;begin::(0,48)=#(0,25),(0,30),(0,45),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE5beginEv;2B.;end::(0,48):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE3endEv;2B.;operator[]::(0,49)=#(0,25),(0,50)=&(8,61),(0,28),(0,3),(0,6);:_ZN6MAUtil6VectorIP17MobKeyboardLayoutEixEi;2A.(0,51)=#(0,25),(0,39),(0,45),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17MobKeyboardLayoutEixEi;2B.;pointer::(0,48):_ZNK6MAUtil6VectorIP17MobKeyboardLayoutE7pointerEv;2B.(0,47):_ZN6MAUtil6VectorIP17MobKeyboardLayoutE7pointerEv;2A.;;",128,0,94,0
 	.stabs	"MobKeyboard:Tt(0,52)=s172!2,020,(9,4);00928,(5,92);m_isShown:/0(0,4),960,8;m_layouts:/0(0,28),992,32;m_activeLayout:/0(0,3),1024,32;m_backgroundColor:/0(0,3),1056,32;m_buttonColor:/0(0,3),1088,32;m_buttonPressedColor:/0(0,3),1120,32;m_buttonBorderColor:/0(0,3),1152,32;m_attachedWidget:/0(9,3),1184,32;m_keyboardSkin:/0(13,3),1216,32;last_pressed:/0(8,39),1248,32;m_attachedScreen:/0(0,53)=*(0,54)=xsScreen:,1280,32;screenFunction:/0(0,55)=s8__pfn:(0,56)=*(0,57)=#(0,54),(0,6),(0,53),(0,3),(0,6);,0,32;__delta:(0,18),32,32;;,1312,64;__base_ctor::(0,58)=#(0,52),(0,6),(0,59)=*(0,52),(0,3),(0,3),(0,3),(0,3),(0,6);:_ZN11MobKeyboardC2Eiiii;2A.;__comp_ctor::(0,58):_ZN11MobKeyboardC1Eiiii;2A.;__base_dtor::(0,60)=#(0,52),(0,6),(0,59),(0,6);:_ZN11MobKeyboardD2Ev;2A.;__comp_dtor::(0,60):_ZN11MobKeyboardD1Ev;2A*20;(0,52);;__deleting_dtor::(0,60):_ZN11MobKeyboardD0Ev;2A*21;(0,52);;isShown::(0,61)=#(0,52),(0,4),(0,59),(0,6);:_ZN11MobKeyboard7isShownEv;2A.;show::(0,60):_ZN11MobKeyboard4showEv;2A.;hide::(0,60):_ZN11MobKeyboard4hideEv;2A.;applyScaling::(0,60):_ZN11MobKeyboard12applyScalingEv;2A.;getDesignHeight::(0,62)=f(0,3):_ZN11MobKeyboard15getDesignHeightEv;2A?;attachWidget::(0,63)=#(0,52),(0,6),(0,59),(9,3),(0,6);:_ZN11MobKeyboard12attachWidgetEPN4MAUI6WidgetE;2A.;deAttachEditBox::(0,60):_ZN11MobKeyboard15deAttachEditBoxEv;2A.;setActiveLayout::(0,64)=#(0,52),(0,6),(0,59),(8,42),(0,6);:_ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE;2A.(0,65)=#(0,52),(0,6),(0,59),(8,42),(8,1),(0,6);:_ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE;2A.;toggleShift::(0,60):_ZN11MobKeyboard11toggleShiftEv;2A.;toggleNum::(0,60):_ZN11MobKeyboard9toggleNumEv;2A.;toggleLanguage::(0,60):_ZN11MobKeyboard14toggleLanguageEv;2A.;addLanguage::(0,66)=#(0,52),(0,6),(0,59),(8,61),(8,61),(8,61),(8,61),(0,6);:_ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_;2A.;addButtonLine::(0,67)=#(0,52),(0,6),(0,59),(8,61),(0,3),(0,3),(0,68)=*(11,1),(0,3),(0,3),(0,3),(0,3),(0,6);:_ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii;2A.;attachScreen::(0,69)=#(0,52),(0,6),(0,59),(0,53),(0,6);:_ZN11MobKeyboard12attachScreenEPN4MAUI6ScreenE;2A.;deAttachScreen::(0,60):_ZN11MobKeyboard14deAttachScreenEv;2A.;setScreenFunction::(0,70)=#(0,52),(0,6),(0,59),(0,55),(0,6);:_ZN11MobKeyboard17setScreenFunctionEMN4MAUI6ScreenEFviE;2A.;clearScreenFunction::(0,60):_ZN11MobKeyboard19clearScreenFunctionEv;2A.;drawWidget::(0,60):_ZN11MobKeyboard10drawWidgetEv;1A*22;(0,52);;pointerPressEvent::(0,71)=#(0,52),(0,6),(0,59),(3,23),(0,6);:_ZN11MobKeyboard17pointerPressEventE9MAPoint2d;1A*23;(0,52);;pointerMoveEvent::(0,71):_ZN11MobKeyboard16pointerMoveEventE9MAPoint2d;1A*24;(0,52);;pointerReleaseEvent::(0,71):_ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d;1A*25;(0,52);;setupKeys::(0,60):_ZN11MobKeyboard9setupKeysEv;0A.;getClickedCharacter::(0,72)=#(0,52),(11,1),(0,59),(3,23),(0,4),(0,6);:_ZN11MobKeyboard19getClickedCharacterE9MAPoint2db;0A.;operator=::(0,73)=#(0,52),(0,74)=&(0,52),(0,59),(0,75)=&(0,76)=k(0,52),(0,6);:_ZN11MobKeyboardaSERKS_;2A.;__base_ctor::(0,77)=#(0,52),(0,6),(0,59),(0,75),(0,6);:_ZN11MobKeyboardC2ERKS_;2A.;__comp_ctor::(0,77):_ZN11MobKeyboardC1ERKS_;2A.;;~%(9,4);",128,0,18,0
 	.stabs	"RefCounted:Tt(0,78)=s8_vptr$RefCounted:(0,79)=*(0,1),0,32;mRefCount:/0(0,3),32,32;__base_ctor::(0,80)=#(0,78),(0,6),(0,81)=*(0,78),(0,3),(0,6);:_ZN6MAUtil10RefCountedC2Ei;2A.;__comp_ctor::(0,80):_ZN6MAUtil10RefCountedC1Ei;2A.;addRef::(0,82)=#(0,78),(0,6),(0,81),(0,6);:_ZN6MAUtil10RefCounted6addRefEv;2A.;release::(0,82):_ZN6MAUtil10RefCounted7releaseEv;2A.;getRefCount::(0,83)=#(0,78),(0,3),(0,81),(0,6);:_ZN6MAUtil10RefCounted11getRefCountEv;2A.;__base_dtor::(0,82):_ZN6MAUtil10RefCountedD2Ev;2A.;__comp_dtor::(0,82):_ZN6MAUtil10RefCountedD1Ev;2A*0;(0,78);;__deleting_dtor::(0,82):_ZN6MAUtil10RefCountedD0Ev;2A*1;(0,78);;operator=::(0,84)=#(0,78),(0,85)=&(0,78),(0,81),(0,86)=&(0,87)=k(0,78),(0,6);:_ZN6MAUtil10RefCountedaSERKS0_;2A.;__base_ctor::(0,88)=#(0,78),(0,6),(0,81),(0,86),(0,6);:_ZN6MAUtil10RefCountedC2ERKS0_;2A.;__comp_ctor::(0,88):_ZN6MAUtil10RefCountedC1ERKS0_;2A.;;~%(0,78);",128,0,28,0
 	.ctor __GLOBAL__I__ZN11MobKeyboardC2Eiiii
@@ -274,6 +274,9 @@ __ZTV11MobKeyboard:
 	.long	__ZThn116_N11MobKeyboard17pointerPressEventE9MAPoint2d
 	.long	__ZThn116_N11MobKeyboard16pointerMoveEventE9MAPoint2d
 	.long	__ZThn116_N11MobKeyboard19pointerReleaseEventE9MAPoint2d
+	.long	__ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di
+	.long	__ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di
+	.long	__ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di
 	.lcomm	_TRADE, 4 ; size=4
 	.lcomm	_CARDS, 4 ; size=4
 	.lcomm	_ALBUMS, 4 ; size=4
@@ -281,11 +284,57 @@ __ZTV11MobKeyboard:
 	.lcomm	_URL, 4 ; size=4
 	.lcomm	_base64_chars, 4 ; size=4
 .code
+	.stabs	"_ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di:f(0,6)",36,0,71,__ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di
+	.stabs	"this:P(0,89)=k(5,91)",64,0,71,12
+	.stabs	"p:P(3,23)",64,0,71,13
+	.stabs	"touchId:P(0,3)",64,0,71,15
+
+.func __ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di, 4, void
+	.stabs	"c:/MoSync/include/MAUtil/Environment.h",132,0,0,Ltext1
+Ltext1:
+	.line 71
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 71
+	pop  fr,fr
+	ret
+Lscope0:
+	.stabs	"_ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di:f(0,6)",36,0,72,__ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di
+	.stabs	"this:P(0,89)",64,0,72,12
+	.stabs	"p:P(3,23)",64,0,72,13
+	.stabs	"touchId:P(0,3)",64,0,72,15
+
+.func __ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di, 4, void
+	.line 72
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 72
+	pop  fr,fr
+	ret
+Lscope1:
+	.stabs	"_ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di:f(0,6)",36,0,73,__ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di
+	.stabs	"this:P(0,89)",64,0,73,12
+	.stabs	"p:P(3,23)",64,0,73,13
+	.stabs	"touchId:P(0,3)",64,0,73,15
+
+.func __ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di, 4, void
+	.line 73
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 73
+	pop  fr,fr
+	ret
+Lscope2:
 	.stabs	"_ZN11MobKeyboard7isShownEv:F(0,4)",36,0,56,__ZN11MobKeyboard7isShownEv
-	.stabs	"this:P(0,89)=k(0,59)",64,0,56,12
+	.stabs	"this:P(0,90)=k(0,59)",64,0,56,12
 	.global	__ZN11MobKeyboard7isShownEv
 
 .func __ZN11MobKeyboard7isShownEv, 1, int
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext2
+Ltext2:
 	.line 56
 	push fr,fr
 	ld   fr,sp
@@ -295,9 +344,9 @@ __ZTV11MobKeyboard:
 	and  r14,#0xff  ; zero extend
 	pop  fr,fr
 	ret
-Lscope0:
+Lscope3:
 	.stabs	"_ZN11MobKeyboard4showEv:F(0,6)",36,0,61,__ZN11MobKeyboard4showEv
-	.stabs	"this:P(0,89)",64,0,61,4
+	.stabs	"this:P(0,90)",64,0,61,4
 	.global	__ZN11MobKeyboard4showEv
 
 .func __ZN11MobKeyboard4showEv, 1, void
@@ -324,9 +373,9 @@ Lscope0:
 	.dlab LBE2
 	pop  rt,d1
 	ret
-Lscope1:
+Lscope4:
 	.stabs	"_ZN11MobKeyboard4hideEv:F(0,6)",36,0,69,__ZN11MobKeyboard4hideEv
-	.stabs	"this:P(0,89)",64,0,69,4
+	.stabs	"this:P(0,90)",64,0,69,4
 	.global	__ZN11MobKeyboard4hideEv
 
 .func __ZN11MobKeyboard4hideEv, 1, void
@@ -337,8 +386,8 @@ Lscope1:
 	ld   d0,i0
 	.dlab LBB3
 	.dlab LBB4
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext1
-Ltext1:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext3
+Ltext3:
 	.line 123
 	ld   r14,[i0,156]
 	.dlab LBB5
@@ -347,13 +396,13 @@ Ltext1:
 	ld.b [r14,32],r0
 	.dlab LBE5
 	.dlab LBE4
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext2
-Ltext2:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext4
+Ltext4:
 	.line 71
 	ld.b r14,[i0,120]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L7
+	jc   ne,r14,r0,#L10
 	.line 75
 	ld   r14,#0x0
 	ld.b [d0,120],r14
@@ -363,7 +412,7 @@ Ltext2:
 	.dlab LBE3
 	pop  rt,d0
 	ret
-L7:
+L10:
 	.dlab LBB6
 	.line 72
 	call &__ZN6MAUtil11Environment14getEnvironmentEv ; call non-native
@@ -384,10 +433,10 @@ L7:
 	.dlab LBE6
 	pop  rt,d0
 	ret
-	.stabs	"this:r(8,82)",64,0,123,30
+	.stabs	"this:r(8,76)",64,0,123,30
 	.stabn	192,0,0,LBB4-__ZN11MobKeyboard4hideEv
 	.stabn	224,0,0,LBE4-__ZN11MobKeyboard4hideEv
-Lscope2:
+Lscope5:
 .data
 LC0:
 	.ascii "\0"
@@ -397,7 +446,7 @@ LC2:
 	.ascii "Num\0"
 .code
 	.stabs	"_ZN11MobKeyboard10drawWidgetEv:F(0,6)",36,0,80,__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:P(0,89)",64,0,80,6
+	.stabs	"this:P(0,90)",64,0,80,6
 	.global	__ZN11MobKeyboard10drawWidgetEv
 
 .func __ZN11MobKeyboard10drawWidgetEv, 1, void
@@ -413,29 +462,29 @@ LC2:
 	ld.b r14,[i0,120]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L8
+	jc   eq,r14,r0,#L11
 	.line 84
 	ld   r0,[i0,128]
 	ld   r1,#0x0
-	jc   lt,r0,r1,#L8
+	jc   lt,r0,r1,#L11
 	.dlab LBB9
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext3
-Ltext3:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext5
+Ltext5:
+	.line 265
 	ld   r14,[i0,124]
 	.dlab LBE9
 	ld   r14,[r14]
-	jc   lt,r0,r14,#L63
-L8:
+	jc   lt,r0,r14,#L66
+L11:
 	.dlab LBE8
 	.dlab LBE7
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext4
-Ltext4:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext6
+Ltext6:
 	.line 168
 	add  sp,#0x54
 	pop  rt,d7
 	ret
-L63:
+L66:
 	.dlab LBB10
 	.dlab LBB11
 	.line 87
@@ -446,8 +495,8 @@ L63:
 	ld   i3,d2
 	call &__ZN4MAUI6Engine11showOverlayEiiPNS_6WidgetE ; call non-native
 	.dlab LBB12
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext5
-Ltext5:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext7
+Ltext7:
 	.line 101
 	ld   r14,[d2]
 	ld   d0,[r14,36]
@@ -466,8 +515,8 @@ Ltext5:
 	ld   [fr,-44],r14
 	.dlab LBE13
 	.dlab LBE12
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext6
-Ltext6:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext8
+Ltext8:
 	.line 90
 	ld   i0,[fr,-56]
 	ld   i1,r0
@@ -478,17 +527,17 @@ Ltext6:
 	ld.b r14,[d2,60]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L64
-L14:
+	jc   ne,r14,r0,#L67
+L17:
 	.dlab LBB14
 	.line 102
 	ld   d4,#0x0
 	.dlab LBB15
 	.dlab LBB16
 	.dlab LBB17
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext7
-Ltext7:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext9
+Ltext9:
+	.line 362
 	ld   r14,[d2,124]
 	ld   r0,[d2,128]
 	.dlab LBB18
@@ -500,39 +549,39 @@ Ltext7:
 	.dlab LBE17
 	ld   r14,[r14]
 	.dlab LBB19
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext8
-Ltext8:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext10
+Ltext10:
 	.line 161
 	ld   r14,[r14,12]
 	.dlab LBE19
 	.dlab LBE16
 	.dlab LBB20
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext9
-Ltext9:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext11
+Ltext11:
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE20
 	.dlab LBE15
 	.line 161
-	jc   le,r14,d4,#L8
+	jc   le,r14,d4,#L11
 	ld   r1,r0
 	ld   r0,r2
 	ld   d6,fr
 	add  d6,#0xffffffac
 	ld   d5,fr
 	add  d5,#0xffffffa8
-	jp   #L59
-L17:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext10
-Ltext10:
+	jp   #L62
+L20:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext12
+Ltext12:
 	.line 102
 	add  d4,#0x1
 	.dlab LBB21
 	.dlab LBB22
 	.dlab LBB23
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext11
-Ltext11:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext13
+Ltext13:
+	.line 362
 	ld   r14,[d2,124]
 	ld   r1,[d2,128]
 	.dlab LBB24
@@ -544,44 +593,44 @@ Ltext11:
 	.dlab LBE23
 	ld   r14,[r14]
 	.dlab LBB25
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext12
-Ltext12:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext14
+Ltext14:
 	.line 161
 	ld   r14,[r14,12]
 	.dlab LBE25
 	.dlab LBE22
 	.dlab LBB26
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext13
-Ltext13:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext15
+Ltext15:
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE26
 	.dlab LBE21
 	.line 161
-	jc   le,r14,d4,#L8
-L59:
+	jc   le,r14,d4,#L11
+L62:
 	.dlab LBB27
 	.dlab LBB28
 	.dlab LBB29
 	.dlab LBB30
 	.dlab LBB31
 	.dlab LBB32
-	.line 355
+	.line 362
 	add  r0,r1
 	.dlab LBE32
 	.dlab LBE31
 	ld   r14,[r0]
 	.dlab LBB33
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext14
-Ltext14:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext16
+Ltext16:
 	.line 161
 	ld   r0,[r14,12]
 	.dlab LBE33
 	.dlab LBE30
 	.dlab LBB34
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext15
-Ltext15:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext17
+Ltext17:
+	.line 362
 	ld   r14,d4
 	sll  r14,#0x2
 	ld   r0,[r0,8]
@@ -593,8 +642,8 @@ Ltext15:
 	.dlab LBB36
 	.dlab LBB37
 	.dlab LBB38
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext16
-Ltext16:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext18
+Ltext18:
 	.line 101
 	ld   r1,#__ZTVN6MAUtil4RectE+8
 	ld   [fr,-80],r1
@@ -609,8 +658,8 @@ Ltext16:
 	.dlab LBE37
 	.dlab LBE36
 	.dlab LBE35
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext17
-Ltext17:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext19
+Ltext19:
 	.line 106
 	ld   r14,r0
 	ld   r0,[fr,-52]
@@ -618,8 +667,8 @@ Ltext17:
 	ld   [fr,-72],r14
 	.dlab LBB39
 	.dlab LBB40
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext18
-Ltext18:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext20
+Ltext20:
 	.line 105
 	ld   d3,d1
 	add  d3,#0x14
@@ -641,17 +690,17 @@ Ltext18:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	and  d0,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   ne,d0,r1,#L17
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext19
-Ltext19:
+	jc   ne,d0,r1,#L20
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext21
+Ltext21:
 	.line 111
 	ld.b [fr,-113],d0
 	.line 113
 	ld   d7,d0
 	.dlab LBB41
 	.dlab LBB42
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext20
-Ltext20:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext22
+Ltext22:
 	.line 105
 	ld   i0,d5
 	ld   i1,d3
@@ -665,12 +714,12 @@ Ltext20:
 	ld   i1,d6
 	call &__ZNK6MAUtil11BasicStringIcEeqERKS1_ ; call non-native
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,d0,#L29
+	jc   eq,r14,d0,#L32
 	.dlab LBB43
 	.dlab LBB44
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext21
-Ltext21:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext23
+Ltext23:
+	.line 362
 	ld   r14,[d2,124]
 	ld   r0,[d2,128]
 	.dlab LBB45
@@ -681,18 +730,18 @@ Ltext21:
 	.dlab LBE44
 	ld   r14,[r0]
 	.dlab LBB46
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext22
-Ltext22:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext24
+Ltext24:
 	.line 160
 	ld   r14,[r14,8]
 	.dlab LBE46
 	.dlab LBE43
-	.line 359
+	.line 366
 	ld   r0,#0x1
-	jc   eq,r14,r0,#L31
+	jc   eq,r14,r0,#L34
 	ld   r1,#0x3
-	jc   eq,r14,r1,#L31
-L29:
+	jc   eq,r14,r1,#L34
+L32:
 	ld   i0,d6
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d5
@@ -700,24 +749,24 @@ L29:
 	ld   d0,d7
 	and  d0,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L28
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext23
-Ltext23:
+	jc   eq,d0,r14,#L31
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext25
+Ltext25:
 	.line 117
 	ld   r0,#0x1
 	ld.b [fr,-113],r0
 	ld   d7,fr
 	add  d7,#0xffffffa0
-L36:
+L39:
 	.line 130
 	ld   i0,[d2,152]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L48
+	jc   eq,i0,r14,#L51
 	.line 132
 	ld.b r14,[fr,-113]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L49
+	jc   eq,r14,r0,#L52
 	.line 133
 	ld   i1,[fr,-76]
 	ld   r1,[fr,-56]
@@ -729,15 +778,15 @@ L36:
 	add  r14,#0xffffffff
 	ld   [sp],r14
 	ld   [sp,4],r0
-L62:
+L65:
 	.line 137
 	ld   i3,[fr,-68]
 	call &__ZN4MAUI10WidgetSkin4drawEiiiiNS0_5eTypeE ; call non-native
-L51:
+L54:
 	.dlab LBB47
 	.dlab LBB48
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext24
-Ltext24:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext26
+Ltext26:
 	.line 105
 	ld   i0,d7
 	ld   i1,d3
@@ -824,17 +873,17 @@ Ltext24:
 	call &__ZN4MAUI4Font10drawStringEPKcii ; call non-native
 	ld   i0,d7
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L17
-L48:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext25
-Ltext25:
+	jp   #L20
+L51:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext27
+Ltext27:
 	.line 143
 	ld.b r14,[fr,-113]
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,i0,#L52
+	jc   eq,r14,i0,#L55
 	.line 144
 	ld   i0,[d2,140]
-L61:
+L64:
 	.line 146
 	call &_maSetColor ; call non-native
 	.line 148
@@ -884,14 +933,14 @@ L61:
 	ld   i2,i0
 	add  i3,#0xffffffff
 	call &_maLine ; call non-native
-	jp   #L51
-L28:
+	jp   #L54
+L31:
 	.line 119
 	ld.b [fr,-114],d0
 	.dlab LBB57
 	.dlab LBB58
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext26
-Ltext26:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext28
+Ltext28:
 	.line 105
 	ld   i0,#0xffffffa4
 	add  i0,fr
@@ -909,12 +958,12 @@ Ltext26:
 	ld   i1,d7
 	call &__ZNK6MAUtil11BasicStringIcEeqERKS1_ ; call non-native
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,d0,#L38
+	jc   eq,r14,d0,#L41
 	.dlab LBB59
 	.dlab LBB60
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext27
-Ltext27:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext29
+Ltext29:
+	.line 362
 	ld   r14,[d2,124]
 	ld   r0,[d2,128]
 	.dlab LBB61
@@ -925,18 +974,18 @@ Ltext27:
 	.dlab LBE60
 	ld   r14,[r0]
 	.dlab LBB62
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext28
-Ltext28:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext30
+Ltext30:
 	.line 160
 	ld   r14,[r14,8]
 	.dlab LBE62
 	.dlab LBE59
-	.line 359
+	.line 366
 	ld   r1,#0x2
-	jc   eq,r14,r1,#L40
+	jc   eq,r14,r1,#L43
 	ld   r0,#0x3
-	jc   eq,r14,r0,#L40
-L38:
+	jc   eq,r14,r0,#L43
+L41:
 	ld   i0,d7
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,#0xffffffa4
@@ -945,14 +994,14 @@ L38:
 	ld.b r0,[fr,-114]
 	and  r0,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   eq,r0,r14,#L37
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext29
-Ltext29:
+	jc   eq,r0,r14,#L40
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext31
+Ltext31:
 	.line 123
 	ld   r0,#0x1
 	ld.b [fr,-113],r0
-	jp   #L36
-L49:
+	jp   #L39
+L52:
 	.line 137
 	ld   i1,[fr,-76]
 	ld   r0,[fr,-56]
@@ -965,23 +1014,23 @@ L49:
 	ld   [sp],r14
 	ld   r14,#0x1
 	ld   [sp,4],r14
-	jp   #L62
-L40:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext30
-Ltext30:
-	.line 359
+	jp   #L65
+L43:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext32
+Ltext32:
+	.line 366
 	ld   r1,#0x1
 	ld.b [fr,-114],r1
-	jp   #L38
-L31:
+	jp   #L41
+L34:
 	ld   d7,#0x1
-	jp   #L29
-L64:
+	jp   #L32
+L67:
 	.dlab LBE28
 	.dlab LBE27
 	.dlab LBE14
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext31
-Ltext31:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext33
+Ltext33:
 	.line 93
 	ld   i0,[d2,132]
 	call &_maSetColor ; call non-native
@@ -991,27 +1040,27 @@ Ltext31:
 	ld   i2,[fr,-48]
 	ld   i3,[fr,-44]
 	call &_maFillRect ; call non-native
-	jp   #L14
-L37:
+	jp   #L17
+L40:
 	.dlab LBB63
 	.dlab LBB64
 	.dlab LBB65
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext32
-Ltext32:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext34
+Ltext34:
 	.line 127
 	ld.b r14,[d1,32]
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,r0,#L36
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext33
-Ltext33:
+	jc   eq,r14,r0,#L39
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext35
+Ltext35:
 	.line 126
 	ld   r1,#0x1
 	ld.b [fr,-113],r1
-	jp   #L36
-L52:
+	jp   #L39
+L55:
 	.line 146
 	ld   i0,[d2,136]
-	jp   #L61
+	jp   #L64
 	.dlab LBE65
 	.dlab LBE64
 	.dlab LBE63
@@ -1019,7 +1068,7 @@ L52:
 	.dlab LBE10
 	.stabs	"l_bounds:(8,37)",128,0,89,-60
 	.stabn	192,0,0,LBB8-__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:r(0,90)=k(0,45)",64,0,258,30
+	.stabs	"this:r(0,91)=k(0,45)",64,0,265,30
 	.stabn	192,0,0,LBB9-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE9-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE8-__ZN11MobKeyboard10drawWidgetEv
@@ -1030,10 +1079,10 @@ L52:
 	.stabn	224,0,0,LBE12-__ZN11MobKeyboard10drawWidgetEv
 	.stabs	"i:r(0,3)",64,0,102,8
 	.stabn	192,0,0,LBB14-__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:r(0,91)=k(0,28)",64,0,355,30
+	.stabs	"this:r(0,92)=k(0,28)",64,0,362,30
 	.stabn	192,0,0,LBB17-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE17-__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:r(0,91)",64,0,355,30
+	.stabs	"this:r(0,92)",64,0,362,30
 	.stabn	192,0,0,LBB23-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE23-__ZN11MobKeyboard10drawWidgetEv
 	.stabs	"l_button:r(8,39)",64,0,104,5
@@ -1041,12 +1090,12 @@ L52:
 	.stabs	"l_isPressed:(0,4)",128,0,111,-113
 	.stabs	"l_strDimensions:r(3,11)",64,0,158,4
 	.stabn	192,0,0,LBB28-__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:r(0,91)",64,0,355,30
-	.stabs	"index:r(0,3)",64,0,355,16
+	.stabs	"this:r(0,92)",64,0,362,30
+	.stabs	"index:r(0,3)",64,0,362,16
 	.stabn	192,0,0,LBB44-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE44-__ZN11MobKeyboard10drawWidgetEv
-	.stabs	"this:r(0,91)",64,0,355,30
-	.stabs	"index:r(0,3)",64,0,355,16
+	.stabs	"this:r(0,92)",64,0,362,30
+	.stabs	"index:r(0,3)",64,0,362,16
 	.stabn	192,0,0,LBB60-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE60-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE28-__ZN11MobKeyboard10drawWidgetEv
@@ -1061,9 +1110,9 @@ L52:
 	.stabn	224,0,0,LBE65-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE63-__ZN11MobKeyboard10drawWidgetEv
 	.stabn	224,0,0,LBE11-__ZN11MobKeyboard10drawWidgetEv
-Lscope3:
+Lscope6:
 	.stabs	"_ZN11MobKeyboard19getClickedCharacterE9MAPoint2db:F(11,1)",36,0,229,__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
-	.stabs	"this:P(0,89)",64,0,229,8
+	.stabs	"this:P(0,90)",64,0,229,8
 	.stabs	"a_clickPoint:P(3,23)",64,0,229,6
 	.stabs	"setLastClicked:p(0,4)",160,0,229,0
 	.global	__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
@@ -1086,9 +1135,9 @@ Lscope3:
 	.dlab LBB69
 	.dlab LBB70
 	.dlab LBB71
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext34
-Ltext34:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext36
+Ltext36:
+	.line 362
 	ld   r14,[i1,124]
 	ld   r0,[i1,128]
 	.dlab LBB72
@@ -1100,48 +1149,48 @@ Ltext34:
 	.dlab LBE71
 	ld   r14,[r14]
 	.dlab LBB73
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext35
-Ltext35:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext37
+Ltext37:
 	.line 161
 	ld   r14,[r14,12]
 	.dlab LBE73
 	.dlab LBE70
 	.dlab LBB74
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext36
-Ltext36:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext38
+Ltext38:
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE74
 	.dlab LBE69
 	.line 161
-	jc   le,r14,d5,#L83
+	jc   le,r14,d5,#L86
 	ld   r1,r0
 	ld   r0,r2
 	ld   d6,fr
 	add  d6,#0xffffffc4
-L81:
+L84:
 	.dlab LBB75
 	.dlab LBB76
 	.dlab LBB77
 	.dlab LBB78
 	.dlab LBB79
 	.dlab LBB80
-	.line 355
+	.line 362
 	add  r0,r1
 	.dlab LBE80
 	.dlab LBE79
 	ld   r14,[r0]
 	.dlab LBB81
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext37
-Ltext37:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext39
+Ltext39:
 	.line 161
 	ld   r0,[r14,12]
 	.dlab LBE81
 	.dlab LBE78
 	.dlab LBB82
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext38
-Ltext38:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext40
+Ltext40:
+	.line 362
 	ld   r14,d5
 	sll  r14,#0x2
 	ld   r0,[r0,8]
@@ -1153,8 +1202,8 @@ Ltext38:
 	.dlab LBB84
 	.dlab LBB85
 	.dlab LBB86
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext39
-Ltext39:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext41
+Ltext41:
 	.line 101
 	ld   r0,#__ZTVN6MAUtil4RectE+8
 	ld   [d6],r0
@@ -1170,8 +1219,8 @@ Ltext39:
 	.dlab LBE85
 	.dlab LBE84
 	.dlab LBE83
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext40
-Ltext40:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext42
+Ltext42:
 	.line 234
 	ld   r14,[d4]
 	ld   d0,[r14,36]
@@ -1183,15 +1232,15 @@ Ltext40:
 	ld   [fr,-52],r0
 	.line 236
 	ld   r14,[fr,-56]
-	jc   gt,r14,d2,#L68
+	jc   gt,r14,d2,#L71
 	ld   r1,[fr,-48]
 	add  r14,r1
-	jc   lt,r14,d2,#L68
-	jc   gt,r0,d3,#L68
+	jc   lt,r14,d2,#L71
+	jc   gt,r0,d3,#L71
 	ld   r14,[fr,-44]
 	add  r14,r0
-	jc   ge,r14,d3,#L84
-L68:
+	jc   ge,r14,d3,#L87
+L71:
 	.dlab LBE76
 	.dlab LBE75
 	.line 230
@@ -1199,9 +1248,9 @@ L68:
 	.dlab LBB87
 	.dlab LBB88
 	.dlab LBB89
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext41
-Ltext41:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext43
+Ltext43:
+	.line 362
 	ld   r14,[d4,124]
 	ld   r1,[d4,128]
 	.dlab LBB90
@@ -1213,30 +1262,30 @@ Ltext41:
 	.dlab LBE89
 	ld   r14,[r14]
 	.dlab LBB91
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext42
-Ltext42:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext44
+Ltext44:
 	.line 161
 	ld   r14,[r14,12]
 	.dlab LBE91
 	.dlab LBE88
 	.dlab LBB92
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext43
-Ltext43:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext45
+Ltext45:
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE92
 	.dlab LBE87
 	.line 161
-	jc   gt,r14,d5,#L81
-L83:
+	jc   gt,r14,d5,#L84
+L86:
 	.dlab LBE68
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext44
-Ltext44:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext46
+Ltext46:
 	.line 249
 	ld   i0,d7
 	ld   i1,#LC0
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-L65:
+L68:
 	.dlab LBE67
 	.dlab LBE66
 	.line 250
@@ -1244,7 +1293,7 @@ L65:
 	add  sp,#0x14
 	pop  rt,d7
 	ret
-L84:
+L87:
 	.dlab LBB93
 	.dlab LBB94
 	.dlab LBB95
@@ -1254,17 +1303,17 @@ L84:
 	ld.b r14,[fr]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L78
+	jc   eq,r14,r0,#L81
 	.line 242
 	ld   [d4,156],d1
 	.dlab LBB98
 	.dlab LBB99
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext45
-Ltext45:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext47
+Ltext47:
 	.line 124
 	ld   r1,#0x1
 	ld.b [d1,32],r1
-L78:
+L81:
 	.dlab LBE99
 	.dlab LBE98
 	.dlab LBB100
@@ -1274,7 +1323,7 @@ L78:
 	ld   i1,d1
 	add  i1,#0x14
 	call &__ZN6MAUtil11BasicStringIcEC1ERKS1_ ; call non-native
-	jp   #L65
+	jp   #L68
 	.dlab LBE101
 	.dlab LBE100
 	.dlab LBE97
@@ -1284,14 +1333,14 @@ L78:
 	.dlab LBE93
 	.stabs	"i:r(0,3)",64,0,230,9
 	.stabn	192,0,0,LBB68-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
-	.stabs	"this:r(0,91)",64,0,355,30
+	.stabs	"this:r(0,92)",64,0,362,30
 	.stabn	192,0,0,LBB71-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE71-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabs	"l_button:r(8,39)",64,0,232,5
 	.stabs	"l_rect:(8,37)",128,0,233,-60
 	.stabn	192,0,0,LBB76-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE76-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
-	.stabs	"this:r(0,91)",64,0,355,30
+	.stabs	"this:r(0,92)",64,0,362,30
 	.stabn	192,0,0,LBB89-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE89-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE68-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
@@ -1302,9 +1351,9 @@ L78:
 	.stabn	192,0,0,LBB97-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE97-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
 	.stabn	224,0,0,LBE95-__ZN11MobKeyboard19getClickedCharacterE9MAPoint2db
-Lscope4:
+Lscope7:
 	.set	%0=__ZN11MobKeyboard17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,253,12
+	.stabs	"this:P(0,90)",64,0,253,12
 	.stabs	"p:p(3,23)",160,0,253,-16
 	.global	__ZThn116_N11MobKeyboard17pointerPressEventE9MAPoint2d
 
@@ -1322,15 +1371,15 @@ Lscope4:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope5:
+Lscope8:
 	.stabs	"_ZN11MobKeyboard17pointerPressEventE9MAPoint2d:F(0,6)",36,0,253,__ZN11MobKeyboard17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,253,5
+	.stabs	"this:P(0,90)",64,0,253,5
 	.stabs	"p:p(3,23)",160,0,253,-28
 	.global	__ZN11MobKeyboard17pointerPressEventE9MAPoint2d
 
 .func __ZN11MobKeyboard17pointerPressEventE9MAPoint2d, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext46
-Ltext46:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext48
+Ltext48:
 	.line 253
 	push rt,d1
 	sub  sp,#0x10
@@ -1361,15 +1410,15 @@ Ltext46:
 	add  sp,#0x10
 	pop  rt,d1
 	ret
-Lscope6:
+Lscope9:
 	.set	%1=__ZN11MobKeyboard16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,259,12
+	.stabs	"this:P(0,90)",64,0,259,12
 	.stabs	"p:P(3,23)",64,0,259,30
 	.global	__ZThn116_N11MobKeyboard16pointerMoveEventE9MAPoint2d
 
 .func __ZThn116_N11MobKeyboard16pointerMoveEventE9MAPoint2d, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext47
-Ltext47:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext49
+Ltext49:
 	.line 18
 	push rt,fr
 	ld   fr,sp
@@ -1379,15 +1428,15 @@ Ltext47:
 	call &%1 ; call non-native
 	pop  rt,fr
 	ret
-Lscope7:
+Lscope10:
 	.stabs	"_ZN11MobKeyboard16pointerMoveEventE9MAPoint2d:F(0,6)",36,0,259,__ZN11MobKeyboard16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,259,12
+	.stabs	"this:P(0,90)",64,0,259,12
 	.stabs	"p:P(3,23)",64,0,259,13
 	.global	__ZN11MobKeyboard16pointerMoveEventE9MAPoint2d
 
 .func __ZN11MobKeyboard16pointerMoveEventE9MAPoint2d, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext48
-Ltext48:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext50
+Ltext50:
 	.line 259
 	push fr,fr
 	ld   fr,sp
@@ -1395,9 +1444,9 @@ Ltext48:
 	.line 259
 	pop  fr,fr
 	ret
-Lscope8:
+Lscope11:
 	.stabs	"_ZN11MobKeyboard14toggleLanguageEv:F(0,6)",36,0,446,__ZN11MobKeyboard14toggleLanguageEv
-	.stabs	"this:P(0,89)",64,0,446,12
+	.stabs	"this:P(0,90)",64,0,446,12
 	.global	__ZN11MobKeyboard14toggleLanguageEv
 
 .func __ZN11MobKeyboard14toggleLanguageEv, 1, void
@@ -1409,63 +1458,63 @@ Lscope8:
 	.line 447
 	ld   r0,[i0,128]
 	ld   r1,#0x0
-	jc   lt,r0,r1,#L89
+	jc   lt,r0,r1,#L92
 	.dlab LBB104
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext49
-Ltext49:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext51
+Ltext51:
+	.line 265
 	ld   r14,[i0,124]
 	.dlab LBB105
 	ld   r14,[r14]
 	.dlab LBE105
 	.dlab LBE104
-	jc   ge,r0,r14,#L89
+	jc   ge,r0,r14,#L92
 	ld   r1,#0x4
-	jc   le,r14,r1,#L89
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext50
-Ltext50:
+	jc   le,r14,r1,#L92
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext52
+Ltext52:
 	.line 454
 	ld   r1,r0
 	add  r1,#0x4
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext51
-Ltext51:
-	.line 258
-	jc   lt,r1,r14,#L95
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext52
-Ltext52:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext53
+Ltext53:
+	.line 265
+	jc   lt,r1,r14,#L98
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext54
+Ltext54:
 	.line 455
 	ld   r14,r0
 	ld   r1,#0x0
-	jc   lt,r0,r1,#L99
-L97:
+	jc   lt,r0,r1,#L102
+L100:
 	and  r14,#0xfffffffc
 	sub  r0,r14
 	ld   [i0,128],r0
 	.line 459
 	call &__ZN4MAUI6Widget14requestRepaintEv ; call non-native
-L89:
+L92:
 	.dlab LBE103
 	.line 460
 	pop  rt,fr
 	ret
-L95:
+L98:
 	.dlab LBB106
 	.line 457
 	ld   [i0,128],r1
 	.line 459
 	call &__ZN4MAUI6Widget14requestRepaintEv ; call non-native
-	jp   #L89
-L99:
+	jp   #L92
+L102:
 	.line 455
 	add  r14,#0x3
-	jp   #L97
+	jp   #L100
 	.dlab LBE106
-	.stabs	"this:r(0,90)",64,0,258,30
+	.stabs	"this:r(0,91)",64,0,265,30
 	.stabn	192,0,0,LBB104-__ZN11MobKeyboard14toggleLanguageEv
 	.stabn	224,0,0,LBE104-__ZN11MobKeyboard14toggleLanguageEv
-Lscope9:
+Lscope12:
 	.stabs	"_ZN11MobKeyboard12attachScreenEPN4MAUI6ScreenE:F(0,6)",36,0,356,__ZN11MobKeyboard12attachScreenEPN4MAUI6ScreenE
-	.stabs	"this:P(0,89)",64,0,356,12
+	.stabs	"this:P(0,90)",64,0,356,12
 	.stabs	"screen:P(0,53)",64,0,356,13
 	.global	__ZN11MobKeyboard12attachScreenEPN4MAUI6ScreenE
 
@@ -1480,9 +1529,9 @@ Lscope9:
 	.dlab LBE107
 	pop  fr,fr
 	ret
-Lscope10:
+Lscope13:
 	.stabs	"_ZN11MobKeyboard14deAttachScreenEv:F(0,6)",36,0,360,__ZN11MobKeyboard14deAttachScreenEv
-	.stabs	"this:P(0,89)",64,0,360,12
+	.stabs	"this:P(0,90)",64,0,360,12
 	.global	__ZN11MobKeyboard14deAttachScreenEv
 
 .func __ZN11MobKeyboard14deAttachScreenEv, 1, void
@@ -1497,9 +1546,9 @@ Lscope10:
 	.dlab LBE108
 	pop  fr,fr
 	ret
-Lscope11:
+Lscope14:
 	.stabs	"_ZN11MobKeyboard17setScreenFunctionEMN4MAUI6ScreenEFviE:F(0,6)",36,0,364,__ZN11MobKeyboard17setScreenFunctionEMN4MAUI6ScreenEFviE
-	.stabs	"this:P(0,89)",64,0,364,12
+	.stabs	"this:P(0,90)",64,0,364,12
 	.stabs	"screenFunc:P(0,55)",64,0,364,30
 	.global	__ZN11MobKeyboard17setScreenFunctionEMN4MAUI6ScreenEFviE
 
@@ -1515,9 +1564,9 @@ Lscope11:
 	.dlab LBE109
 	pop  fr,fr
 	ret
-Lscope12:
+Lscope15:
 	.stabs	"_ZN11MobKeyboard19clearScreenFunctionEv:F(0,6)",36,0,368,__ZN11MobKeyboard19clearScreenFunctionEv
-	.stabs	"this:P(0,89)",64,0,368,12
+	.stabs	"this:P(0,90)",64,0,368,12
 	.global	__ZN11MobKeyboard19clearScreenFunctionEv
 
 .func __ZN11MobKeyboard19clearScreenFunctionEv, 1, void
@@ -1533,9 +1582,9 @@ Lscope12:
 	.dlab LBE110
 	pop  fr,fr
 	ret
-Lscope13:
+Lscope16:
 	.stabs	"_ZN11MobKeyboard12attachWidgetEPN4MAUI6WidgetE:F(0,6)",36,0,373,__ZN11MobKeyboard12attachWidgetEPN4MAUI6WidgetE
-	.stabs	"this:P(0,89)",64,0,373,12
+	.stabs	"this:P(0,90)",64,0,373,12
 	.stabs	"a_widget:P(9,3)",64,0,373,13
 	.global	__ZN11MobKeyboard12attachWidgetEPN4MAUI6WidgetE
 
@@ -1550,9 +1599,9 @@ Lscope13:
 	.dlab LBE111
 	pop  fr,fr
 	ret
-Lscope14:
+Lscope17:
 	.stabs	"_ZN11MobKeyboard15deAttachEditBoxEv:F(0,6)",36,0,378,__ZN11MobKeyboard15deAttachEditBoxEv
-	.stabs	"this:P(0,89)",64,0,378,12
+	.stabs	"this:P(0,90)",64,0,378,12
 	.global	__ZN11MobKeyboard15deAttachEditBoxEv
 
 .func __ZN11MobKeyboard15deAttachEditBoxEv, 1, void
@@ -1567,9 +1616,9 @@ Lscope14:
 	.dlab LBE112
 	pop  fr,fr
 	ret
-Lscope15:
+Lscope18:
 	.stabs	"_ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE:F(0,6)",36,0,383,__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
-	.stabs	"this:P(0,89)",64,0,383,7
+	.stabs	"this:P(0,90)",64,0,383,7
 	.stabs	"a_layoutName:P(8,42)",64,0,383,8
 	.global	__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 
@@ -1587,22 +1636,22 @@ Lscope15:
 	.line 384
 	ld   d2,#0x0
 	.dlab LBB116
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext53
-Ltext53:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext55
+Ltext55:
+	.line 265
 	ld   r0,[i0,124]
 	.dlab LBB117
 	ld   r14,[r0]
 	.dlab LBE117
 	.dlab LBE116
-	jc   le,r14,d2,#L108
+	jc   le,r14,d2,#L111
 	ld   d1,fr
 	add  d1,#0xffffffe0
-L114:
+L117:
 	.dlab LBB118
 	.dlab LBB119
 	.dlab LBB120
-	.line 355
+	.line 362
 	ld   r14,d2
 	sll  r14,#0x2
 	ld   r0,[r0,8]
@@ -1610,15 +1659,15 @@ L114:
 	.dlab LBE120
 	.dlab LBE119
 	.dlab LBB121
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext54
-Ltext54:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext56
+Ltext56:
 	.line 158
 	ld   i0,d1
 	ld   i1,[r14]
 	call &__ZN6MAUtil11BasicStringIcEC1ERKS1_ ; call non-native
 	.dlab LBE121
 	.dlab LBE118
-	.line 359
+	.line 366
 	ld   i0,d1
 	ld   i1,d4
 	call &__ZNK6MAUtil11BasicStringIcEeqERKS1_ ; call non-native
@@ -1627,34 +1676,34 @@ Ltext54:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	and  d0,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   ne,d0,r1,#L116
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext55
-Ltext55:
+	jc   ne,d0,r1,#L119
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext57
+Ltext57:
 	.line 384
 	add  d2,#0xffffffff
 	.dlab LBB122
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext56
-Ltext56:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext58
+Ltext58:
+	.line 265
 	ld   r0,[d3,124]
 	.dlab LBB123
 	ld   r14,[r0]
 	.dlab LBE123
 	.dlab LBE122
-	jc   gt,r14,d2,#L114
-L108:
+	jc   gt,r14,d2,#L117
+L111:
 	.dlab LBE115
 	.dlab LBE114
 	.dlab LBE113
 	add  sp,#0x4
 	pop  rt,d4
 	ret
-L116:
+L119:
 	.dlab LBB124
 	.dlab LBB125
 	.dlab LBB126
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext57
-Ltext57:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext59
+Ltext59:
 	.line 388
 	ld   [d3,128],d2
 	.line 389
@@ -1663,34 +1712,34 @@ Ltext57:
 	.dlab LBE126
 	.dlab LBE125
 	.dlab LBE124
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext58
-Ltext58:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext60
+Ltext60:
+	.line 265
 	add  sp,#0x4
 	pop  rt,d4
 	ret
 	.stabs	"i:r(0,3)",64,0,384,6
 	.stabn	192,0,0,LBB115-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB116-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 	.stabn	224,0,0,LBE116-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB122-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 	.stabn	224,0,0,LBE122-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 	.stabn	224,0,0,LBE115-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 	.stabs	"i:r(0,3)",64,0,384,6
 	.stabn	192,0,0,LBB126-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
 	.stabn	224,0,0,LBE126-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEE
-Lscope16:
+Lscope19:
 	.stabs	"_ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE:F(0,6)",36,0,396,__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
-	.stabs	"this:P(0,89)",64,0,396,7
+	.stabs	"this:P(0,90)",64,0,396,7
 	.stabs	"a_language:P(8,42)",64,0,396,9
 	.stabs	"a_layoutType:P(8,1)",64,0,396,10
 	.global	__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
 
 .func __ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext59
-Ltext59:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext61
+Ltext61:
 	.line 396
 	push rt,d6
 	sub  sp,#0x4
@@ -1705,54 +1754,54 @@ Ltext59:
 	.line 397
 	ld   d1,#0x0
 	.dlab LBB130
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext60
-Ltext60:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext62
+Ltext62:
+	.line 265
 	ld   r0,[i0,124]
 	.dlab LBB131
 	ld   r14,[r0]
 	.dlab LBE131
 	.dlab LBE130
-	jc   le,r14,d1,#L119
+	jc   le,r14,d1,#L122
 	ld   d2,fr
 	add  d2,#0xffffffd8
-	jp   #L128
-L123:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext61
-Ltext61:
-	.line 359
+	jp   #L131
+L126:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext63
+Ltext63:
+	.line 366
 	ld   i0,d2
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   r14,d4
 	and  r14,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   ne,r14,r1,#L130
-L120:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext62
-Ltext62:
+	jc   ne,r14,r1,#L133
+L123:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext64
+Ltext64:
 	.line 397
 	add  d1,#0x1
 	.dlab LBB132
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext63
-Ltext63:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext65
+Ltext65:
+	.line 265
 	ld   r0,[d3,124]
 	.dlab LBB133
 	ld   r14,[r0]
 	.dlab LBE133
 	.dlab LBE132
-	jc   le,r14,d1,#L119
-L128:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext64
-Ltext64:
+	jc   le,r14,d1,#L122
+L131:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext66
+Ltext66:
 	.line 399
 	ld   d4,#0x0
 	.dlab LBB134
 	.dlab LBB135
 	.dlab LBB136
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext65
-Ltext65:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext67
+Ltext67:
+	.line 362
 	ld   d0,d1
 	sll  d0,#0x2
 	ld   r14,[r0,8]
@@ -1760,8 +1809,8 @@ Ltext65:
 	.dlab LBE136
 	.dlab LBE135
 	.dlab LBB137
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext66
-Ltext66:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext68
+Ltext68:
 	.line 159
 	ld   i0,d2
 	ld   i1,[r14]
@@ -1769,18 +1818,18 @@ Ltext66:
 	call &__ZN6MAUtil11BasicStringIcEC1ERKS1_ ; call non-native
 	.dlab LBE137
 	.dlab LBE134
-	.line 359
+	.line 366
 	ld   i0,d2
 	ld   i1,d5
 	call &__ZNK6MAUtil11BasicStringIcEeqERKS1_ ; call non-native
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L123
+	jc   eq,r14,r0,#L126
 	.dlab LBB138
 	.dlab LBB139
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext67
-Ltext67:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext69
+Ltext69:
+	.line 362
 	ld   r14,[d3,124]
 	.dlab LBB140
 	ld   r14,[r14,8]
@@ -1789,59 +1838,59 @@ Ltext67:
 	.dlab LBE139
 	ld   r14,[d0]
 	.dlab LBB141
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext68
-Ltext68:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext70
+Ltext70:
 	.line 160
 	ld   r14,[r14,8]
 	.dlab LBE141
 	.dlab LBE138
-	.line 359
-	jc   ne,r14,d6,#L123
+	.line 366
+	jc   ne,r14,d6,#L126
 	ld   d4,#0x1
 	ld   i0,d2
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   r14,d4
 	and  r14,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   eq,r14,r1,#L120
-L130:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext69
-Ltext69:
+	jc   eq,r14,r1,#L123
+L133:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext71
+Ltext71:
 	.line 402
 	ld   [d3,128],d1
 	.line 403
 	ld   i0,d3
 	call &__ZN4MAUI6Widget14requestRepaintEv ; call non-native
-L119:
+L122:
 	.dlab LBE129
 	.dlab LBE128
 	.dlab LBE127
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext70
-Ltext70:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext72
+Ltext72:
+	.line 265
 	add  sp,#0x4
 	pop  rt,d6
 	ret
 	.stabs	"i:r(0,3)",64,0,397,5
 	.stabn	192,0,0,LBB129-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB130-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
 	.stabn	224,0,0,LBE130-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB132-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
 	.stabn	224,0,0,LBE132-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
-	.stabs	"this:r(0,91)",64,0,355,30
+	.stabs	"this:r(0,92)",64,0,362,30
 	.stabn	192,0,0,LBB139-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
 	.stabn	224,0,0,LBE139-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
 	.stabn	224,0,0,LBE129-__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE
-Lscope17:
+Lscope20:
 	.stabs	"_ZN11MobKeyboard9toggleNumEv:F(0,6)",36,0,428,__ZN11MobKeyboard9toggleNumEv
-	.stabs	"this:P(0,89)",64,0,428,4
+	.stabs	"this:P(0,90)",64,0,428,4
 	.global	__ZN11MobKeyboard9toggleNumEv
 
 .func __ZN11MobKeyboard9toggleNumEv, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext71
-Ltext71:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext73
+Ltext73:
 	.line 428
 	push rt,d1
 	sub  sp,#0x4
@@ -1853,41 +1902,41 @@ Ltext71:
 	.line 429
 	ld   r14,[i0,128]
 	ld   r0,#0x0
-	jc   lt,r14,r0,#L131
+	jc   lt,r14,r0,#L134
 	.dlab LBB144
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext72
-Ltext72:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext74
+Ltext74:
+	.line 265
 	ld   r0,[i0,124]
 	.dlab LBE144
 	ld   r1,[r0]
-	jc   lt,r14,r1,#L147
-L131:
+	jc   lt,r14,r1,#L150
+L134:
 	.dlab LBE143
 	.dlab LBE142
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext73
-Ltext73:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext75
+Ltext75:
 	.line 443
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-L147:
+L150:
 	.dlab LBB145
 	.dlab LBB146
 	.dlab LBB147
 	.dlab LBB148
 	.dlab LBB149
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext74
-Ltext74:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext76
+Ltext76:
+	.line 362
 	sll  r14,#0x2
 	ld   r0,[r0,8]
 	add  r14,r0
 	.dlab LBE149
 	.dlab LBE148
 	.dlab LBB150
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext75
-Ltext75:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext77
+Ltext77:
 	.line 159
 	ld   d1,fr
 	add  d1,#0xffffffec
@@ -1899,9 +1948,9 @@ Ltext75:
 	.dlab LBE147
 	.dlab LBB151
 	.dlab LBB152
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext76
-Ltext76:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext78
+Ltext78:
+	.line 362
 	ld   r14,[d0,124]
 	ld   r0,[d0,128]
 	.dlab LBB153
@@ -1912,37 +1961,37 @@ Ltext76:
 	.dlab LBE152
 	ld   r14,[r0]
 	.dlab LBB154
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext77
-Ltext77:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext79
+Ltext79:
 	.line 160
 	ld   r14,[r14,8]
 	.dlab LBE154
 	.dlab LBE151
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext78
-Ltext78:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext80
+Ltext80:
 	.line 435
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L148
+	jc   eq,r14,r0,#L151
 	.line 437
 	ld   r1,#0x1
-	jc   eq,r14,r1,#L149
+	jc   eq,r14,r1,#L152
 	.line 439
 	ld   r0,#0x2
-	jc   eq,r14,r0,#L150
+	jc   eq,r14,r0,#L153
 	.line 441
 	ld   r1,#0x3
-	jc   eq,r14,r1,#L151
+	jc   eq,r14,r1,#L154
 	.line 442
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L152:
+L155:
 	.dlab LBE146
 	.dlab LBE145
 	.line 443
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-L148:
+L151:
 	.dlab LBB155
 	.dlab LBB156
 	.line 436
@@ -1951,46 +2000,46 @@ L148:
 	ld   i2,#0x2
 	.line 442
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-L153:
+L156:
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L152
-L151:
+	jp   #L155
+L154:
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x1
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L153
-L149:
+	jp   #L156
+L152:
 	.line 438
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x3
 	.line 442
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L153
-L150:
+	jp   #L156
+L153:
 	.line 440
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x0
 	.line 442
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L153
+	jp   #L156
 	.dlab LBE156
 	.dlab LBE155
 	.stabs	"l_activeLanguage:(11,1)",128,0,432,-20
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,433,30
 	.stabn	192,0,0,LBB143-__ZN11MobKeyboard9toggleNumEv
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB144-__ZN11MobKeyboard9toggleNumEv
 	.stabn	224,0,0,LBE144-__ZN11MobKeyboard9toggleNumEv
 	.stabn	224,0,0,LBE143-__ZN11MobKeyboard9toggleNumEv
 	.stabs	"l_activeLanguage:(11,1)",128,0,432,-20
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,433,30
 	.stabn	192,0,0,LBB146-__ZN11MobKeyboard9toggleNumEv
-	.stabs	"this:r(0,91)",64,0,355,30
-	.stabs	"index:r(0,3)",64,0,355,16
+	.stabs	"this:r(0,92)",64,0,362,30
+	.stabs	"index:r(0,3)",64,0,362,16
 	.stabn	192,0,0,LBB152-__ZN11MobKeyboard9toggleNumEv
 	.stabn	224,0,0,LBE152-__ZN11MobKeyboard9toggleNumEv
 	.stabn	224,0,0,LBE146-__ZN11MobKeyboard9toggleNumEv
@@ -1998,9 +2047,9 @@ L150:
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,433,30
 	.stabn	192,0,0,LBB156-__ZN11MobKeyboard9toggleNumEv
 	.stabn	224,0,0,LBE156-__ZN11MobKeyboard9toggleNumEv
-Lscope18:
+Lscope21:
 	.stabs	"_ZN11MobKeyboard11toggleShiftEv:F(0,6)",36,0,410,__ZN11MobKeyboard11toggleShiftEv
-	.stabs	"this:P(0,89)",64,0,410,4
+	.stabs	"this:P(0,90)",64,0,410,4
 	.global	__ZN11MobKeyboard11toggleShiftEv
 
 .func __ZN11MobKeyboard11toggleShiftEv, 1, void
@@ -2015,41 +2064,41 @@ Lscope18:
 	.line 411
 	ld   r14,[i0,128]
 	ld   r0,#0x0
-	jc   lt,r14,r0,#L154
+	jc   lt,r14,r0,#L157
 	.dlab LBB159
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext79
-Ltext79:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext81
+Ltext81:
+	.line 265
 	ld   r0,[i0,124]
 	.dlab LBE159
 	ld   r1,[r0]
-	jc   lt,r14,r1,#L170
-L154:
+	jc   lt,r14,r1,#L173
+L157:
 	.dlab LBE158
 	.dlab LBE157
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext80
-Ltext80:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext82
+Ltext82:
 	.line 425
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-L170:
+L173:
 	.dlab LBB160
 	.dlab LBB161
 	.dlab LBB162
 	.dlab LBB163
 	.dlab LBB164
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext81
-Ltext81:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext83
+Ltext83:
+	.line 362
 	sll  r14,#0x2
 	ld   r0,[r0,8]
 	add  r14,r0
 	.dlab LBE164
 	.dlab LBE163
 	.dlab LBB165
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext82
-Ltext82:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext84
+Ltext84:
 	.line 159
 	ld   d1,fr
 	add  d1,#0xffffffec
@@ -2061,9 +2110,9 @@ Ltext82:
 	.dlab LBE162
 	.dlab LBB166
 	.dlab LBB167
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext83
-Ltext83:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext85
+Ltext85:
+	.line 362
 	ld   r14,[d0,124]
 	ld   r0,[d0,128]
 	.dlab LBB168
@@ -2074,37 +2123,37 @@ Ltext83:
 	.dlab LBE167
 	ld   r14,[r0]
 	.dlab LBB169
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext84
-Ltext84:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext86
+Ltext86:
 	.line 160
 	ld   r14,[r14,8]
 	.dlab LBE169
 	.dlab LBE166
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext85
-Ltext85:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext87
+Ltext87:
 	.line 417
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L171
+	jc   eq,r14,r0,#L174
 	.line 419
 	ld   r1,#0x1
-	jc   eq,r14,r1,#L172
+	jc   eq,r14,r1,#L175
 	.line 421
 	ld   r0,#0x2
-	jc   eq,r14,r0,#L173
+	jc   eq,r14,r0,#L176
 	.line 423
 	ld   r1,#0x3
-	jc   eq,r14,r1,#L174
+	jc   eq,r14,r1,#L177
 	.line 424
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L175:
+L178:
 	.dlab LBE161
 	.dlab LBE160
 	.line 425
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-L171:
+L174:
 	.dlab LBB170
 	.dlab LBB171
 	.line 418
@@ -2113,46 +2162,46 @@ L171:
 	ld   i2,#0x1
 	.line 424
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-L176:
+L179:
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L175
-L174:
+	jp   #L178
+L177:
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x2
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L176
-L172:
+	jp   #L179
+L175:
 	.line 420
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x0
 	.line 424
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L176
-L173:
+	jp   #L179
+L176:
 	.line 422
 	ld   i0,d0
 	ld   i1,d1
 	ld   i2,#0x3
 	.line 424
 	call &__ZN11MobKeyboard15setActiveLayoutERKN6MAUtil11BasicStringIcEENS_10LayoutTypeE ; call non-native
-	jp   #L176
+	jp   #L179
 	.dlab LBE171
 	.dlab LBE170
 	.stabs	"l_activeLanguage:(11,1)",128,0,414,-20
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,415,30
 	.stabn	192,0,0,LBB158-__ZN11MobKeyboard11toggleShiftEv
-	.stabs	"this:r(0,90)",64,0,258,16
+	.stabs	"this:r(0,91)",64,0,265,16
 	.stabn	192,0,0,LBB159-__ZN11MobKeyboard11toggleShiftEv
 	.stabn	224,0,0,LBE159-__ZN11MobKeyboard11toggleShiftEv
 	.stabn	224,0,0,LBE158-__ZN11MobKeyboard11toggleShiftEv
 	.stabs	"l_activeLanguage:(11,1)",128,0,414,-20
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,415,30
 	.stabn	192,0,0,LBB161-__ZN11MobKeyboard11toggleShiftEv
-	.stabs	"this:r(0,91)",64,0,355,30
-	.stabs	"index:r(0,3)",64,0,355,16
+	.stabs	"this:r(0,92)",64,0,362,30
+	.stabs	"index:r(0,3)",64,0,362,16
 	.stabn	192,0,0,LBB167-__ZN11MobKeyboard11toggleShiftEv
 	.stabn	224,0,0,LBE167-__ZN11MobKeyboard11toggleShiftEv
 	.stabn	224,0,0,LBE161-__ZN11MobKeyboard11toggleShiftEv
@@ -2160,15 +2209,15 @@ L173:
 	.stabs	"a_activeLayoutType:r(8,1)",64,0,415,30
 	.stabn	192,0,0,LBB171-__ZN11MobKeyboard11toggleShiftEv
 	.stabn	224,0,0,LBE171-__ZN11MobKeyboard11toggleShiftEv
-Lscope19:
+Lscope22:
 	.set	%2=__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,264,12
+	.stabs	"this:P(0,90)",64,0,264,12
 	.stabs	"p:p(3,23)",160,0,264,-16
 	.global	__ZThn116_N11MobKeyboard19pointerReleaseEventE9MAPoint2d
 
 .func __ZThn116_N11MobKeyboard19pointerReleaseEventE9MAPoint2d, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext86
-Ltext86:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext88
+Ltext88:
 	.line 18
 	push rt,fr
 	sub  sp,#0x8
@@ -2182,7 +2231,7 @@ Ltext86:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope20:
+Lscope23:
 .data
 LC3:
 	.ascii "Bs\0"
@@ -2200,13 +2249,13 @@ LC9:
 	.ascii "\12\0"
 .code
 	.stabs	"_ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d:F(0,6)",36,0,264,__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
-	.stabs	"this:P(0,89)",64,0,264,7
+	.stabs	"this:P(0,90)",64,0,264,7
 	.stabs	"p:p(3,23)",160,0,264,-84
 	.global	__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 
 .func __ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d, 3, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext87
-Ltext87:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext89
+Ltext89:
 	.line 264
 	push rt,d6
 	sub  sp,#0x34
@@ -2223,15 +2272,15 @@ Ltext87:
 	call d0 ; call non-native
 	ld   r0,[fr,-80]
 	ld   r14,[r14,8]
-	jc   ge,r0,r14,#L206
-L178:
+	jc   ge,r0,r14,#L209
+L181:
 	.dlab LBE173
 	.dlab LBE172
 	.line 354
 	add  sp,#0x34
 	pop  rt,d6
 	ret
-L206:
+L209:
 	.dlab LBB174
 	.dlab LBB175
 	.line 266
@@ -2248,10 +2297,10 @@ L206:
 	ld   d1,[d1,8]
 	add  r14,d1
 	ld   r0,[fr,-80]
-	jc   gt,r0,r14,#L178
+	jc   gt,r0,r14,#L181
 	.dlab LBB176
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext88
-Ltext88:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext90
+Ltext90:
 	.line 123
 	ld   r14,[d3,156]
 	.dlab LBB177
@@ -2260,8 +2309,8 @@ Ltext88:
 	ld.b [r14,32],r1
 	.dlab LBE177
 	.dlab LBE176
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext89
-Ltext89:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext91
+Ltext91:
 	.line 271
 	ld   d5,fr
 	add  d5,#0xffffffd8
@@ -2287,7 +2336,7 @@ Ltext89:
 	ld   d2,d1
 	and  d2,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   ne,d2,r14,#L207
+	jc   ne,d2,r14,#L210
 	.dlab LBB179
 	.dlab LBB180
 	.line 277
@@ -2304,7 +2353,7 @@ Ltext89:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L184
+	jc   eq,d4,d2,#L187
 	.dlab LBB181
 	.line 281
 	ld   i0,[d3,148]
@@ -2319,7 +2368,7 @@ Ltext89:
 	ld   i0,d1
 	call &__ZNK6MAUtil11BasicStringIcE6lengthEv ; call non-native
 	ld   r0,#0x0
-	jc   le,r14,r0,#L185
+	jc   le,r14,r0,#L188
 	.dlab LBB183
 	.line 284
 	ld   i0,[d3,148]
@@ -2328,8 +2377,8 @@ Ltext89:
 	ld   d2,r14
 	and  d2,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   ne,d2,r1,#L208
-L186:
+	jc   ne,d2,r1,#L211
+L189:
 	.line 289
 	ld   i0,[d3,148]
 	ld   i1,#0xffffffff
@@ -2353,14 +2402,14 @@ L186:
 	call d0 ; call non-native
 	.line 293
 	ld   r14,#0x0
-	jc   ne,d2,r14,#L209
-L185:
+	jc   ne,d2,r14,#L212
+L188:
 	.dlab LBE183
 	.dlab LBE182
 	.line 294
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L183:
+L186:
 	.dlab LBE181
 	.dlab LBE180
 	.dlab LBE179
@@ -2368,8 +2417,8 @@ L183:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L207:
+	jp   #L181
+L210:
 	.dlab LBB184
 	.line 275
 	ld   i0,d3
@@ -2378,8 +2427,8 @@ L207:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L209:
+	jp   #L181
+L212:
 	.dlab LBB185
 	.dlab LBB186
 	.dlab LBB187
@@ -2394,8 +2443,8 @@ L209:
 	.dlab LBE189
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L183
-L184:
+	jp   #L186
+L187:
 	.dlab LBE188
 	.dlab LBB191
 	.dlab LBB192
@@ -2413,7 +2462,7 @@ L184:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d2,d1
 	and  d2,#0xff  ; zero extend
-	jc   eq,d2,d4,#L189
+	jc   eq,d2,d4,#L192
 	.line 302
 	ld   i0,d3
 	call &__ZN11MobKeyboard4hideEv ; call non-native
@@ -2425,8 +2474,8 @@ L184:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L208:
+	jp   #L181
+L211:
 	.dlab LBB193
 	.dlab LBB194
 	.dlab LBB195
@@ -2437,8 +2486,8 @@ L208:
 	ld   i0,[d3,148]
 	ld   i1,#0x0
 	call &__ZN4MAUI7EditBox15setPasswordModeEb ; call non-native
-	jp   #L186
-L189:
+	jp   #L189
+L192:
 	.dlab LBE198
 	.dlab LBE197
 	.dlab LBE196
@@ -2460,7 +2509,7 @@ L189:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L191
+	jc   eq,d4,d2,#L194
 	.line 307
 	ld   i0,d3
 	call &__ZN11MobKeyboard14toggleLanguageEv ; call non-native
@@ -2474,8 +2523,8 @@ L189:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L191:
+	jp   #L181
+L194:
 	.dlab LBB203
 	.dlab LBB204
 	.dlab LBB205
@@ -2499,10 +2548,10 @@ L191:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d6,d1
 	and  d6,#0xff  ; zero extend
-	jc   eq,d6,d4,#L193
+	jc   eq,d6,d4,#L196
 	.line 311
 	ld   i0,[d3,148]
-	jc   eq,i0,d4,#L183
+	jc   eq,i0,d4,#L186
 	.line 315
 	ld   d1,fr
 	add  d1,#0xffffffc0
@@ -2512,7 +2561,7 @@ L191:
 	add  d2,#0xffffffbc
 	ld   i0,d2
 	ld   i1,#LC7
-L205:
+L208:
 	.dlab LBB212
 	.dlab LBB213
 	.dlab LBB214
@@ -2553,8 +2602,8 @@ L205:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L193:
+	jp   #L181
+L196:
 	.dlab LBB216
 	.dlab LBB217
 	.dlab LBB218
@@ -2580,7 +2629,7 @@ L193:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d2,d1
 	and  d2,#0xff  ; zero extend
-	jc   eq,d2,d6,#L196
+	jc   eq,d2,d6,#L199
 	.line 322
 	ld   i0,d3
 	call &__ZN11MobKeyboard9toggleNumEv ; call non-native
@@ -2598,8 +2647,8 @@ L193:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L196:
+	jp   #L181
+L199:
 	.dlab LBB227
 	.dlab LBB228
 	.dlab LBB229
@@ -2627,13 +2676,13 @@ L196:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L198
+	jc   eq,d4,d2,#L201
 	.line 326
 	ld   i0,[d3,148]
-	jc   eq,i0,d2,#L199
+	jc   eq,i0,d2,#L202
 	call &__ZN4MAUI5Label11isMultiLineEv ; call non-native
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,d2,#L199
+	jc   eq,r14,d2,#L202
 	.line 328
 	ld   d1,fr
 	add  d1,#0xffffffb8
@@ -2644,25 +2693,25 @@ L196:
 	add  d2,#0xffffffb4
 	ld   i0,d2
 	ld   i1,#LC9
-	jp   #L205
-L198:
+	jp   #L208
+L201:
 	.dlab LBB240
 	.dlab LBB241
 	.line 337
 	ld   i0,[d3,148]
-	jc   eq,i0,d4,#L183
+	jc   eq,i0,d4,#L186
 	.dlab LBB242
 	.line 339
 	call &__ZN10MobEditBox14isPasswordModeEv ; call non-native
 	.line 340
 	ld   d2,r14
 	and  d2,#0xff  ; zero extend
-	jc   eq,d2,d4,#L203
+	jc   eq,d2,d4,#L206
 	.line 341
 	ld   i0,[d3,148]
 	ld   i1,d4
 	call &__ZN4MAUI7EditBox15setPasswordModeEb ; call non-native
-L203:
+L206:
 	.line 346
 	ld   d0,fr
 	add  d0,#0xffffffb4
@@ -2685,7 +2734,7 @@ L203:
 	ld   i2,i1
 	call &__ZN4MAUI7EditBox20moveCursorHorizontalEib ; call non-native
 	.line 349
-	jc   eq,d2,d4,#L183
+	jc   eq,d2,d4,#L186
 	.line 350
 	ld   i0,[d3,148]
 	ld   i1,#0x1
@@ -2708,8 +2757,8 @@ L203:
 	.dlab LBE227
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
-L199:
+	jp   #L181
+L202:
 	.dlab LBB243
 	.dlab LBB244
 	.dlab LBB245
@@ -2742,7 +2791,7 @@ L199:
 	.line 350
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L178
+	jp   #L181
 	.dlab LBE175
 	.dlab LBE174
 	.stabs	"l_char:(11,1)",128,0,271,-40
@@ -2750,7 +2799,7 @@ L199:
 	.stabn	224,0,0,LBE173-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 	.stabs	"l_char:(11,1)",128,0,271,-40
 	.stabn	192,0,0,LBB175-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
-	.stabs	"this:r(8,82)",64,0,123,30
+	.stabs	"this:r(8,76)",64,0,123,30
 	.stabn	192,0,0,LBB176-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 	.stabn	224,0,0,LBE176-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 	.stabs	"s:(11,1)",128,0,281,-52
@@ -2763,9 +2812,9 @@ L199:
 	.stabn	192,0,0,LBB196-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 	.stabn	224,0,0,LBE196-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
 	.stabn	224,0,0,LBE175-__ZN11MobKeyboard19pointerReleaseEventE9MAPoint2d
-Lscope21:
+Lscope24:
 	.stabs	"_ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_:F(0,6)",36,0,48,__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:P(0,89)",64,0,48,7
+	.stabs	"this:P(0,90)",64,0,48,7
 	.stabs	"a_lowercase:p(8,61)",160,0,48,-32
 	.stabs	"a_uppercase:p(8,61)",160,0,48,-36
 	.stabs	"a_num1:p(8,61)",160,0,48,-40
@@ -2784,36 +2833,36 @@ Lscope21:
 	ld   [fr,-40],i3
 	.dlab LBB256
 	.dlab LBB257
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext90
-Ltext90:
-	.line 160
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext92
+Ltext92:
+	.line 167
 	ld   d1,[i0,124]
 	ld   d4,d1
 	.dlab LBB258
-	.line 161
+	.line 168
 	ld   d0,[d1,4]
 	ld   r14,d0
 	add  r14,#0xffffffff
 	ld   r1,[d1]
-	jc   lt,r1,r14,#L308
-	.line 162
+	jc   lt,r1,r14,#L311
+	.line 169
 	ld   r0,#0x0
-	jc   eq,d0,r0,#L212
+	jc   eq,d0,r0,#L215
 	.dlab LBB259
-	.line 286
+	.line 293
 	ld   d2,d0
 	add  d2,d0
 	.dlab LBB260
 	.dlab LBB261
-	.line 288
-	jc   lt,d0,d2,#L327
-L308:
+	.line 295
+	jc   lt,d0,d2,#L330
+L311:
 	ld   i0,[d1,8]
-L211:
+L214:
 	.dlab LBE261
 	.dlab LBE260
 	.dlab LBE259
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -2824,33 +2873,33 @@ L211:
 	.dlab LBE258
 	.dlab LBE257
 	.dlab LBB262
-	.line 160
+	.line 167
 	ld   d4,d1
 	.dlab LBB263
-	.line 161
+	.line 168
 	ld   d0,[d1,4]
 	ld   r14,d0
 	add  r14,#0xffffffff
 	ld   r1,[d1]
-	jc   lt,r1,r14,#L312
-	.line 162
+	jc   lt,r1,r14,#L315
+	.line 169
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L232
+	jc   eq,d0,r14,#L235
 	.dlab LBB264
-	.line 286
+	.line 293
 	ld   d2,d0
 	add  d2,d0
 	.dlab LBB265
 	.dlab LBB266
-	.line 288
-	jc   lt,d0,d2,#L328
-L312:
+	.line 295
+	jc   lt,d0,d2,#L331
+L315:
 	ld   i0,[d1,8]
-L231:
+L234:
 	.dlab LBE266
 	.dlab LBE265
 	.dlab LBE264
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -2861,33 +2910,33 @@ L231:
 	.dlab LBE263
 	.dlab LBE262
 	.dlab LBB267
-	.line 160
+	.line 167
 	ld   d4,d1
 	.dlab LBB268
-	.line 161
+	.line 168
 	ld   d0,[d1,4]
 	ld   r14,d0
 	add  r14,#0xffffffff
 	ld   r1,[d1]
-	jc   lt,r1,r14,#L316
-	.line 162
+	jc   lt,r1,r14,#L319
+	.line 169
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L252
+	jc   eq,d0,r14,#L255
 	.dlab LBB269
-	.line 286
+	.line 293
 	ld   d2,d0
 	add  d2,d0
 	.dlab LBB270
 	.dlab LBB271
-	.line 288
-	jc   lt,d0,d2,#L329
-L316:
+	.line 295
+	jc   lt,d0,d2,#L332
+L319:
 	ld   i0,[d1,8]
-L251:
+L254:
 	.dlab LBE271
 	.dlab LBE270
 	.dlab LBE269
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -2899,29 +2948,29 @@ L251:
 	.dlab LBE267
 	.dlab LBB272
 	.dlab LBB273
-	.line 161
+	.line 168
 	ld   d0,[d1,4]
 	ld   r14,d0
 	add  r14,#0xffffffff
 	ld   r1,[d1]
-	jc   lt,r1,r14,#L320
-	.line 162
+	jc   lt,r1,r14,#L323
+	.line 169
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L272
+	jc   eq,d0,r14,#L275
 	.dlab LBB274
-	.line 286
+	.line 293
 	ld   d2,d0
 	add  d2,d0
 	.dlab LBB275
 	.dlab LBB276
-	.line 288
-	jc   lt,d0,d2,#L330
-L320:
+	.line 295
+	jc   lt,d0,d2,#L333
+L323:
 	ld   i0,[d1,8]
 	.dlab LBE276
 	.dlab LBE275
 	.dlab LBE274
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -2935,25 +2984,25 @@ L320:
 	add  sp,#0xc
 	pop  rt,d4
 	ret
-L212:
+L215:
 	.dlab LBB277
 	.dlab LBB278
 	.dlab LBB279
 	.dlab LBB280
 	.dlab LBB281
 	.dlab LBB282
-	.line 291
+	.line 298
 	ld   i0,#0x10
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB283
-	.line 293
+	.line 300
 	ld   r2,d0
 	ld   r1,[d1]
-	jc   le,r1,d0,#L310
+	jc   le,r1,d0,#L313
 	ld   i0,[d1,8]
-L227:
-	.line 294
+L230:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -2961,24 +3010,24 @@ L227:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
+	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L227
-L294:
+	jc   gt,r1,r2,#L230
+L297:
 	.dlab LBE283
-	.line 297
+	.line 304
 	ld   r0,#0x4
 	ld   [d1,4],r0
-	.line 298
+	.line 305
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L331
-	.line 300
+	jc   ne,i0,r14,#L334
+	.line 307
 	ld   i0,d2
-L323:
+L326:
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L211
-L232:
+	jp   #L214
+L235:
 	.dlab LBE282
 	.dlab LBE281
 	.dlab LBE280
@@ -2989,18 +3038,18 @@ L232:
 	.dlab LBB286
 	.dlab LBB287
 	.dlab LBB288
-	.line 291
+	.line 298
 	ld   i0,#0x10
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB289
-	.line 293
+	.line 300
 	ld   r2,d0
 	ld   r1,[d1]
-	jc   le,r1,d0,#L314
+	jc   le,r1,d0,#L317
 	ld   i0,[d1,8]
-L247:
-	.line 294
+L250:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3008,24 +3057,24 @@ L247:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
+	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L247
-L298:
+	jc   gt,r1,r2,#L250
+L301:
 	.dlab LBE289
-	.line 297
+	.line 304
 	ld   r14,#0x4
 	ld   [d1,4],r14
-	.line 298
+	.line 305
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L332
-	.line 300
+	jc   ne,i0,r0,#L335
+	.line 307
 	ld   i0,d2
-L324:
+L327:
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L231
-L252:
+	jp   #L234
+L255:
 	.dlab LBE288
 	.dlab LBE287
 	.dlab LBE286
@@ -3036,18 +3085,18 @@ L252:
 	.dlab LBB292
 	.dlab LBB293
 	.dlab LBB294
-	.line 291
+	.line 298
 	ld   i0,#0x10
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB295
-	.line 293
+	.line 300
 	ld   r2,d0
 	ld   r1,[d1]
-	jc   le,r1,d0,#L318
+	jc   le,r1,d0,#L321
 	ld   i0,[d1,8]
-L267:
-	.line 294
+L270:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3055,24 +3104,24 @@ L267:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
+	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L267
-L302:
+	jc   gt,r1,r2,#L270
+L305:
 	.dlab LBE295
-	.line 297
+	.line 304
 	ld   r14,#0x4
 	ld   [d1,4],r14
-	.line 298
+	.line 305
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L333
-	.line 300
+	jc   ne,i0,r0,#L336
+	.line 307
 	ld   i0,d2
-L325:
+L328:
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L251
-L272:
+	jp   #L254
+L275:
 	.dlab LBE294
 	.dlab LBE293
 	.dlab LBE292
@@ -3083,18 +3132,18 @@ L272:
 	.dlab LBB298
 	.dlab LBB299
 	.dlab LBB300
-	.line 291
+	.line 298
 	ld   i0,#0x10
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB301
-	.line 293
+	.line 300
 	ld   r2,d0
 	ld   r1,[d1]
-	jc   le,r1,d0,#L322
+	jc   le,r1,d0,#L325
 	ld   i0,[d1,8]
-L287:
-	.line 294
+L290:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3102,26 +3151,26 @@ L287:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
+	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L287
-L306:
+	jc   gt,r1,r2,#L290
+L309:
 	.dlab LBE301
-	.line 297
+	.line 304
 	ld   r14,#0x4
 	ld   [d1,4],r14
-	.line 298
+	.line 305
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L334
-	.line 300
+	jc   ne,i0,r0,#L337
+	.line 307
 	ld   i0,d2
-L326:
+L329:
 	ld   [d1,8],i0
-L339:
+L342:
 	.dlab LBE300
 	.dlab LBE299
 	.dlab LBE298
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -3135,26 +3184,26 @@ L339:
 	add  sp,#0xc
 	pop  rt,d4
 	ret
-L328:
+L331:
 	.dlab LBB302
 	.dlab LBB303
 	.dlab LBB304
 	.dlab LBB305
 	.dlab LBB306
 	.dlab LBB307
-	.line 291
+	.line 298
 	ld   i0,d2
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d0,r14
 	.dlab LBB308
-	.line 293
+	.line 300
 	ld   r2,#0x0
 	ld   r1,[d1]
-	jc   le,r1,r2,#L313
+	jc   le,r1,r2,#L316
 	ld   i0,[d1,8]
-L238:
-	.line 294
+L241:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3162,19 +3211,19 @@ L238:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r2,#0x1
-	jc   gt,r1,r2,#L238
-L296:
-	.dlab LBE308
-	.line 297
-	ld   [d1,4],d2
-	.line 298
-	ld   r0,#0x0
-	jc   ne,i0,r0,#L335
 	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L241
+L299:
+	.dlab LBE308
+	.line 304
+	ld   [d1,4],d2
+	.line 305
+	ld   r0,#0x0
+	jc   ne,i0,r0,#L338
+	.line 307
 	ld   i0,d0
-L340:
+L343:
 	.dlab LBE307
 	.dlab LBE306
 	.dlab LBE305
@@ -3183,8 +3232,8 @@ L340:
 	.dlab LBB311
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L231
-L329:
+	jp   #L234
+L332:
 	.dlab LBE311
 	.dlab LBE310
 	.dlab LBE309
@@ -3195,19 +3244,19 @@ L329:
 	.dlab LBB314
 	.dlab LBB315
 	.dlab LBB316
-	.line 291
+	.line 298
 	ld   i0,d2
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d0,r14
 	.dlab LBB317
-	.line 293
+	.line 300
 	ld   r2,#0x0
 	ld   r1,[d1]
-	jc   le,r1,r2,#L317
+	jc   le,r1,r2,#L320
 	ld   i0,[d1,8]
-L258:
-	.line 294
+L261:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3215,19 +3264,19 @@ L258:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r2,#0x1
-	jc   gt,r1,r2,#L258
-L300:
-	.dlab LBE317
-	.line 297
-	ld   [d1,4],d2
-	.line 298
-	ld   r0,#0x0
-	jc   ne,i0,r0,#L336
 	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L261
+L303:
+	.dlab LBE317
+	.line 304
+	ld   [d1,4],d2
+	.line 305
+	ld   r0,#0x0
+	jc   ne,i0,r0,#L339
+	.line 307
 	ld   i0,d0
-L343:
+L346:
 	.dlab LBE316
 	.dlab LBE315
 	.dlab LBE314
@@ -3236,8 +3285,8 @@ L343:
 	.dlab LBB320
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L251
-L327:
+	jp   #L254
+L330:
 	.dlab LBE320
 	.dlab LBE319
 	.dlab LBE318
@@ -3248,19 +3297,19 @@ L327:
 	.dlab LBB323
 	.dlab LBB324
 	.dlab LBB325
-	.line 291
+	.line 298
 	ld   i0,d2
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d0,r14
 	.dlab LBB326
-	.line 293
+	.line 300
 	ld   r2,#0x0
 	ld   r1,[d1]
-	jc   le,r1,r2,#L309
+	jc   le,r1,r2,#L312
 	ld   i0,[d1,8]
-L218:
-	.line 294
+L221:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3268,19 +3317,19 @@ L218:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r2,#0x1
-	jc   gt,r1,r2,#L218
-L292:
-	.dlab LBE326
-	.line 297
-	ld   [d1,4],d2
-	.line 298
-	ld   r14,#0x0
-	jc   ne,i0,r14,#L337
 	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L221
+L295:
+	.dlab LBE326
+	.line 304
+	ld   [d1,4],d2
+	.line 305
+	ld   r14,#0x0
+	jc   ne,i0,r14,#L340
+	.line 307
 	ld   i0,d0
-L342:
+L345:
 	.dlab LBE325
 	.dlab LBE324
 	.dlab LBE323
@@ -3289,8 +3338,8 @@ L342:
 	.dlab LBB329
 	ld   [d1,8],i0
 	ld   d1,[d3,124]
-	jp   #L211
-L330:
+	jp   #L214
+L333:
 	.dlab LBE329
 	.dlab LBE328
 	.dlab LBE327
@@ -3301,19 +3350,19 @@ L330:
 	.dlab LBB332
 	.dlab LBB333
 	.dlab LBB334
-	.line 291
+	.line 298
 	ld   i0,d2
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d0,r14
 	.dlab LBB335
-	.line 293
+	.line 300
 	ld   r2,#0x0
 	ld   r1,[d1]
-	jc   le,r1,r2,#L321
+	jc   le,r1,r2,#L324
 	ld   i0,[d1,8]
-L278:
-	.line 294
+L281:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -3321,19 +3370,19 @@ L278:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r2,#0x1
-	jc   gt,r1,r2,#L278
-L304:
-	.dlab LBE335
-	.line 297
-	ld   [d1,4],d2
-	.line 298
-	ld   r0,#0x0
-	jc   ne,i0,r0,#L338
 	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L281
+L307:
+	.dlab LBE335
+	.line 304
+	ld   [d1,4],d2
+	.line 305
+	ld   r0,#0x0
+	jc   ne,i0,r0,#L341
+	.line 307
 	ld   i0,d0
-L341:
+L344:
 	.dlab LBE334
 	.dlab LBE333
 	.dlab LBE332
@@ -3341,27 +3390,27 @@ L341:
 	.dlab LBB337
 	.dlab LBB338
 	ld   [d1,8],i0
-	jp   #L339
-L318:
+	jp   #L342
+L321:
 	ld   i0,[d1,8]
-	jp   #L302
-L310:
+	jp   #L305
+L313:
 	ld   i0,[d1,8]
-	jp   #L294
-L314:
+	jp   #L297
+L317:
 	ld   i0,[d1,8]
-	jp   #L298
-L322:
+	jp   #L301
+L325:
 	ld   i0,[d1,8]
-	jp   #L306
-L334:
-	.line 298
+	jp   #L309
+L337:
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d2
-	jp   #L326
-L332:
+	jp   #L329
+L335:
 	.dlab LBE338
 	.dlab LBE337
 	.dlab LBE336
@@ -3372,13 +3421,13 @@ L332:
 	.dlab LBB341
 	.dlab LBB342
 	.dlab LBB343
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d2
-	jp   #L324
-L331:
+	jp   #L327
+L334:
 	.dlab LBE343
 	.dlab LBE342
 	.dlab LBE341
@@ -3389,13 +3438,13 @@ L331:
 	.dlab LBB346
 	.dlab LBB347
 	.dlab LBB348
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d2
-	jp   #L323
-L333:
+	jp   #L326
+L336:
 	.dlab LBE348
 	.dlab LBE347
 	.dlab LBE346
@@ -3406,13 +3455,13 @@ L333:
 	.dlab LBB351
 	.dlab LBB352
 	.dlab LBB353
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d2
-	jp   #L325
-L335:
+	jp   #L328
+L338:
 	.dlab LBE353
 	.dlab LBE352
 	.dlab LBE351
@@ -3423,13 +3472,13 @@ L335:
 	.dlab LBB356
 	.dlab LBB357
 	.dlab LBB358
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d0
-	jp   #L340
-L338:
+	jp   #L343
+L341:
 	.dlab LBE358
 	.dlab LBE357
 	.dlab LBE356
@@ -3440,13 +3489,13 @@ L338:
 	.dlab LBB361
 	.dlab LBB362
 	.dlab LBB363
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d0
-	jp   #L341
-L337:
+	jp   #L344
+L340:
 	.dlab LBE363
 	.dlab LBE362
 	.dlab LBE361
@@ -3457,13 +3506,13 @@ L337:
 	.dlab LBB366
 	.dlab LBB367
 	.dlab LBB368
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d0
-	jp   #L342
-L336:
+	jp   #L345
+L339:
 	.dlab LBE368
 	.dlab LBE367
 	.dlab LBE366
@@ -3474,207 +3523,207 @@ L336:
 	.dlab LBB371
 	.dlab LBB372
 	.dlab LBB373
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d1]
-	.line 300
+	.line 307
 	ld   i0,d0
-	jp   #L343
-L321:
+	jp   #L346
+L324:
 	ld   i0,[d1,8]
-	jp   #L304
-L309:
+	jp   #L307
+L312:
 	ld   i0,[d1,8]
-	jp   #L292
-L317:
+	jp   #L295
+L320:
 	ld   i0,[d1,8]
-	jp   #L300
-L313:
+	jp   #L303
+L316:
 	ld   i0,[d1,8]
-	jp   #L296
+	jp   #L299
 	.dlab LBE373
 	.dlab LBE372
 	.dlab LBE371
 	.dlab LBE370
 	.dlab LBE369
 	.dlab LBE302
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB257-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB259-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB261-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE261-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE259-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE257-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB262-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB264-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB266-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE266-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE264-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE262-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB267-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB269-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB271-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE271-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE269-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE267-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB274-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB276-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE276-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE274-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB278-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB282-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB283-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE283-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE282-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE278-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB284-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB288-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB289-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE289-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE288-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE284-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB290-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB294-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB295-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE295-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE294-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE290-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB300-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB301-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE301-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE300-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB303-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB305-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB307-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB308-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE308-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE307-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE305-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB311-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE311-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE303-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB312-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB314-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB316-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB317-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE317-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE316-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE314-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB320-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE320-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE312-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB321-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB323-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB325-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB326-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE326-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE325-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE323-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB329-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE329-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE321-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB332-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB334-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB335-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE335-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE334-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE332-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB338-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE338-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB339-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB343-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE343-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE339-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB344-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB348-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE348-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE344-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB349-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB353-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE353-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE349-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB354-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB356-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB358-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE358-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE356-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE354-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB361-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB363-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE363-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE361-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB364-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB366-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB368-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE368-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE366-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE364-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"this:r(0,91)",64,0,160,8
+	.stabs	"this:r(0,92)",64,0,167,8
 	.stabn	192,0,0,LBB369-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newCapacity:r(0,3)",64,0,286,6
+	.stabs	"newCapacity:r(0,3)",64,0,293,6
 	.stabn	192,0,0,LBB371-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-	.stabs	"newData:r(0,26)",64,0,291,4
+	.stabs	"newData:r(0,26)",64,0,298,4
 	.stabn	192,0,0,LBB373-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE373-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE371-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
 	.stabn	224,0,0,LBE369-__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_
-Lscope22:
+Lscope25:
 	.stabs	"_ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii:F(0,6)",36,0,172,__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"this:P(0,89)",64,0,172,12
+	.stabs	"this:P(0,90)",64,0,172,12
 	.stabs	"a_layout:p(8,61)",160,0,172,-160
 	.stabs	"a_lineHeight:p(0,3)",160,0,172,-164
 	.stabs	"a_buttonCount:p(0,3)",160,0,172,-168
@@ -3686,8 +3735,8 @@ Lscope22:
 	.global	__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 
 .func __ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii, 9, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext91
-Ltext91:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext93
+Ltext93:
 	.line 172
 	push rt,d7
 	sub  sp,#0x8c
@@ -3699,8 +3748,8 @@ Ltext91:
 	.dlab LBB374
 	.dlab LBB375
 	.dlab LBB376
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext92
-Ltext92:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext94
+Ltext94:
 	.line 101
 	ld   r14,[i0]
 	ld   d0,[r14,36]
@@ -3716,41 +3765,41 @@ Ltext92:
 	ld   [fr,-44],r14
 	.dlab LBE377
 	.dlab LBE376
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext93
-Ltext93:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext95
+Ltext95:
 	.line 174
 	ld   r14,#0x0
 	ld   [fr,-52],r14
 	.dlab LBB378
 	.dlab LBB379
 	.dlab LBB380
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext94
-Ltext94:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext96
+Ltext96:
 	.line 161
 	ld   r0,[fr,-160]
 	ld   d2,[r0,12]
 	.dlab LBE380
 	.dlab LBE379
 	.dlab LBB381
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext95
-Ltext95:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext97
+Ltext97:
+	.line 265
 	ld   r1,[d2]
 	ld   [fr,-172],r1
 	.dlab LBE381
 	.dlab LBE378
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext96
-Ltext96:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext98
+Ltext98:
 	.line 185
 	ld   [fr,-176],r14
 	.dlab LBB382
 	.line 186
 	ld   d6,r14
 	ld   r7,[fr,-168]
-	jc   le,r7,r14,#L417
+	jc   le,r7,r14,#L420
 	ld   d7,fr
 	add  d7,#0xffffffac
-L400:
+L403:
 	.dlab LBB383
 	.dlab LBB384
 	.line 188
@@ -3774,10 +3823,10 @@ L400:
 	ld   d2,d0
 	and  d2,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   eq,d2,r14,#L351
+	jc   eq,d2,r14,#L354
 	.dlab LBB385
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext97
-Ltext97:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext99
+Ltext99:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -3797,7 +3846,7 @@ Ltext97:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,#0x0
-L429:
+L432:
 	.dlab LBE385
 	.dlab LBB386
 	ld   i2,i1
@@ -3812,11 +3861,11 @@ L429:
 	ld   [fr,-68],r14
 	ld   r0,[fr,-88]
 	ld   [fr,-64],r0
-L353:
+L356:
 	.dlab LBE387
 	.dlab LBE386
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext98
-Ltext98:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext100
+Ltext100:
 	.line 206
 	ld   r7,[fr,-176]
 	ld   r14,[fr,-68]
@@ -3824,8 +3873,8 @@ Ltext98:
 	ld   [fr,-176],r7
 	.dlab LBB388
 	.dlab LBB389
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Geometry.h",132,0,0,Ltext99
-Ltext99:
+	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",132,0,0,Ltext101
+Ltext101:
 	.line 40
 	ld   r0,#0x0
 	ld   [fr,-136],r0
@@ -3836,8 +3885,8 @@ Ltext99:
 	call &__Znwm ; call non-native
 	ld   d0,r14
 	.dlab LBB390
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext100
-Ltext100:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext102
+Ltext102:
 	.line 89
 	ld   r1,[fr]
 	add  d5,r1
@@ -3849,8 +3898,8 @@ Ltext100:
 	ld   i0,d2
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
 	.dlab LBB392
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Geometry.h",132,0,0,Ltext101
-Ltext101:
+	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",132,0,0,Ltext103
+Ltext103:
 	.line 39
 	ld   d1,d0
 	add  d1,#0x18
@@ -3862,8 +3911,8 @@ Ltext101:
 	.dlab LBE392
 	.dlab LBB394
 	.dlab LBB395
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext102
-Ltext102:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext104
+Ltext104:
 	.line 90
 	ld   r14,[fr,-76]
 	ld   [d0,4],r14
@@ -3899,32 +3948,32 @@ Ltext102:
 	.dlab LBE398
 	.dlab LBE397
 	.dlab LBB399
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext103
-Ltext103:
-	.line 161
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext105
+Ltext105:
+	.line 168
 	ld   d0,[d2,4]
 	ld   r14,d0
 	add  r14,#0xffffffff
 	ld   r1,[d2]
-	jc   lt,r1,r14,#L425
-	.line 162
+	jc   lt,r1,r14,#L428
+	.line 169
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L381
+	jc   eq,d0,r14,#L384
 	.dlab LBB400
-	.line 286
+	.line 293
 	ld   d1,d0
 	add  d1,d0
 	.dlab LBB401
 	.dlab LBB402
-	.line 288
-	jc   lt,d0,d1,#L433
-L425:
+	.line 295
+	jc   lt,d0,d1,#L436
+L428:
 	ld   i0,[d2,8]
-L380:
+L383:
 	.dlab LBE402
 	.dlab LBE401
 	.dlab LBE400
-	.line 167
+	.line 174
 	ld   r14,r1
 	sll  r14,#0x2
 	add  r14,i0
@@ -3936,15 +3985,15 @@ L380:
 	.dlab LBE396
 	.dlab LBE384
 	.dlab LBE383
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext104
-Ltext104:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext106
+Ltext106:
 	.line 186
 	add  d6,#0x1
 	ld   r1,[fr,-168]
-	jc   lt,d6,r1,#L400
+	jc   lt,d6,r1,#L403
 	ld   r7,[fr,-160]
 	ld   d2,[r7,12]
-L417:
+L420:
 	.dlab LBE382
 	.line 212
 	ld   i0,[fr,-48]
@@ -3984,24 +4033,24 @@ L417:
 	ld   r3,[fr,-172]
 	.dlab LBB404
 	.dlab LBB405
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext105
-Ltext105:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext107
+Ltext107:
+	.line 265
 	ld   r14,[d2]
 	.dlab LBE405
 	.dlab LBE404
 	.line 161
-	jc   le,r14,r3,#L423
+	jc   le,r14,r3,#L426
 	ld   r6,fr
 	add  r6,#0xffffff6c
 	ld   r5,fr
 	add  r5,#0xffffff64
-L415:
+L418:
 	.dlab LBB406
 	.dlab LBB407
 	.dlab LBB408
 	.dlab LBB409
-	.line 355
+	.line 362
 	ld   r14,r3
 	sll  r14,#0x2
 	ld   r0,[d2,8]
@@ -4012,8 +4061,8 @@ L415:
 	.dlab LBB410
 	.dlab LBB411
 	.dlab LBB412
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Geometry.h",132,0,0,Ltext106
-Ltext106:
+	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",132,0,0,Ltext108
+Ltext108:
 	.line 40
 	ld   [fr,-148],r2
 	ld   r1,[fr,-164]
@@ -4032,8 +4081,8 @@ Ltext106:
 	.dlab LBE414
 	.dlab LBE413
 	.dlab LBB415
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext107
-Ltext107:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext109
+Ltext109:
 	.line 116
 	ld   [r14,4],r2
 	.line 117
@@ -4068,37 +4117,37 @@ Ltext107:
 	add  r2,r14
 	.dlab LBE407
 	.dlab LBE406
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext108
-Ltext108:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext110
+Ltext110:
 	.line 217
 	add  r3,#0x1
 	.dlab LBB420
 	.dlab LBB421
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext109
-Ltext109:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext111
+Ltext111:
+	.line 265
 	ld   r14,[d2]
 	.dlab LBE421
 	.dlab LBE420
 	.line 161
-	jc   gt,r14,r3,#L415
+	jc   gt,r14,r3,#L418
 	ld   r7,#__ZTVN6MAUtil4RectE+8
 	ld   [fr,-104],r7
-L423:
+L426:
 	.dlab LBE403
 	.dlab LBE375
 	.dlab LBE374
 	add  sp,#0x8c
 	pop  rt,d7
 	ret
-L351:
+L354:
 	.dlab LBB422
 	.dlab LBB423
 	.dlab LBB424
 	.dlab LBB425
 	.dlab LBB426
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext110
-Ltext110:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext112
+Ltext112:
 	.line 191
 	ld   d0,fr
 	add  d0,#0xffffff94
@@ -4113,10 +4162,10 @@ Ltext110:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L354
+	jc   eq,d4,d2,#L357
 	.dlab LBB427
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext111
-Ltext111:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext113
+Ltext113:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4136,12 +4185,12 @@ Ltext111:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,#0x0
-L432:
+L435:
 	.dlab LBE427
 	.dlab LBB428
 	ld   i2,i1
 	ld   i3,r14
-L428:
+L431:
 	.dlab LBE428
 	.dlab LBB429
 	call &__ZN6MAUtil4RectC1Eiiii ; call non-native
@@ -4154,8 +4203,8 @@ L428:
 	ld   [fr,-68],r0
 	ld   r1,[fr,-88]
 	ld   [fr,-64],r1
-	jp   #L353
-L433:
+	jp   #L356
+L436:
 	.dlab LBE430
 	.dlab LBE429
 	.dlab LBB431
@@ -4163,21 +4212,21 @@ L433:
 	.dlab LBB433
 	.dlab LBB434
 	.dlab LBB435
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext112
-Ltext112:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext114
+Ltext114:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d0,r14
 	.dlab LBB436
-	.line 293
+	.line 300
 	ld   r2,#0x0
 	ld   r1,[d2]
-	jc   le,r1,r2,#L426
+	jc   le,r1,r2,#L429
 	ld   i0,[d2,8]
-L387:
-	.line 294
+L390:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -4185,19 +4234,19 @@ L387:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r2,#0x1
-	jc   gt,r1,r2,#L387
-	.dlab LBE436
-	.line 297
-	ld   [d2,4],d1
-	.line 298
-	ld   r0,#0x0
-	jc   ne,i0,r0,#L434
-L389:
 	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L390
+	.dlab LBE436
+	.line 304
+	ld   [d2,4],d1
+	.line 305
+	ld   r0,#0x0
+	jc   ne,i0,r0,#L437
+L392:
+	.line 307
 	ld   i0,d0
-L431:
+L434:
 	.dlab LBE435
 	.dlab LBE434
 	.dlab LBE433
@@ -4205,20 +4254,20 @@ L431:
 	.dlab LBB438
 	.dlab LBB439
 	ld   [d2,8],i0
-	jp   #L380
-L381:
-	.line 291
+	jp   #L383
+L384:
+	.line 298
 	ld   i0,#0x10
 	call &__Znam ; call non-native
 	ld   d1,r14
 	.dlab LBB440
-	.line 293
+	.line 300
 	ld   r2,d0
 	ld   r1,[d2]
-	jc   le,r1,d0,#L427
+	jc   le,r1,d0,#L430
 	ld   i0,[d2,8]
-L396:
-	.line 294
+L399:
+	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
 	ld   r0,r14
@@ -4226,30 +4275,30 @@ L396:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
+	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L396
+	jc   gt,r1,r2,#L399
 	.dlab LBE440
-	.line 297
+	.line 304
 	ld   r7,#0x4
 	ld   [d2,4],r7
-	.line 298
+	.line 305
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L435
-L398:
-	.line 300
+	jc   ne,i0,r14,#L438
+L401:
+	.line 307
 	ld   i0,d1
-L436:
+L439:
 	ld   [d2,8],i0
-	jp   #L380
-L354:
+	jp   #L383
+L357:
 	.dlab LBE439
 	.dlab LBE438
 	.dlab LBE437
 	.dlab LBE432
 	.dlab LBE431
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext113
-Ltext113:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext115
+Ltext115:
 	.line 193
 	ld   d0,fr
 	add  d0,#0xffffff90
@@ -4264,10 +4313,10 @@ Ltext113:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d2,d1
 	and  d2,#0xff  ; zero extend
-	jc   eq,d2,d4,#L357
+	jc   eq,d2,d4,#L360
 	.dlab LBB441
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext114
-Ltext114:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext116
+Ltext116:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4287,7 +4336,7 @@ Ltext114:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,d4
-L430:
+L433:
 	.dlab LBE441
 	.dlab LBB442
 	ld   i2,i1
@@ -4302,8 +4351,8 @@ L430:
 	ld   [fr,-68],r1
 	ld   r7,[fr,-88]
 	ld   [fr,-64],r7
-	jp   #L353
-L427:
+	jp   #L356
+L430:
 	ld   i0,[d2,8]
 	.dlab LBE443
 	.dlab LBE442
@@ -4312,28 +4361,28 @@ L427:
 	.dlab LBB446
 	.dlab LBB447
 	.dlab LBB448
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext115
-Ltext115:
-	.line 297
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext117
+Ltext117:
+	.line 304
 	ld   r7,#0x4
 	ld   [d2,4],r7
-	.line 298
+	.line 305
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L398
-L435:
+	jc   eq,i0,r14,#L401
+L438:
 	call &__ZdaPv ; call non-native
 	ld   r1,[d2]
-	.line 300
+	.line 307
 	ld   i0,d1
-	jp   #L436
-L357:
+	jp   #L439
+L360:
 	.dlab LBE448
 	.dlab LBE447
 	.dlab LBE446
 	.dlab LBE445
 	.dlab LBE444
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext116
-Ltext116:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext118
+Ltext118:
 	.line 195
 	ld   d0,fr
 	add  d0,#0xffffff8c
@@ -4348,10 +4397,10 @@ Ltext116:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L360
+	jc   eq,d4,d2,#L363
 	.dlab LBB449
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext117
-Ltext117:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext119
+Ltext119:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4371,38 +4420,38 @@ Ltext117:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,d2
-	jp   #L429
-L434:
+	jp   #L432
+L437:
 	.dlab LBE449
 	.dlab LBB450
 	.dlab LBB451
 	.dlab LBB452
 	.dlab LBB453
 	.dlab LBB454
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext118
-Ltext118:
-	.line 298
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext120
+Ltext120:
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d2]
-	.line 300
+	.line 307
 	ld   i0,d0
-	jp   #L431
-L426:
-	ld   i0,[d2,8]
-	.line 297
-	ld   [d2,4],d1
-	.line 298
-	ld   r0,#0x0
-	jc   eq,i0,r0,#L389
 	jp   #L434
-L360:
+L429:
+	ld   i0,[d2,8]
+	.line 304
+	ld   [d2,4],d1
+	.line 305
+	ld   r0,#0x0
+	jc   eq,i0,r0,#L392
+	jp   #L437
+L363:
 	.dlab LBE454
 	.dlab LBE453
 	.dlab LBE452
 	.dlab LBE451
 	.dlab LBE450
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext119
-Ltext119:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext121
+Ltext121:
 	.line 197
 	ld   d0,fr
 	add  d0,#0xffffff88
@@ -4417,10 +4466,10 @@ Ltext119:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d2,d1
 	and  d2,#0xff  ; zero extend
-	jc   eq,d2,d4,#L363
+	jc   eq,d2,d4,#L366
 	.dlab LBB455
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext120
-Ltext120:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext122
+Ltext122:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4440,11 +4489,11 @@ Ltext120:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,d4
-	jp   #L432
-L363:
+	jp   #L435
+L366:
 	.dlab LBE455
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext121
-Ltext121:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext123
+Ltext123:
 	.line 199
 	ld   d0,fr
 	add  d0,#0xffffff84
@@ -4459,10 +4508,10 @@ Ltext121:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   d4,d1
 	and  d4,#0xff  ; zero extend
-	jc   eq,d4,d2,#L366
+	jc   eq,d4,d2,#L369
 	.dlab LBB456
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext122
-Ltext122:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext124
+Ltext124:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4482,11 +4531,11 @@ Ltext122:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,d2
-	jp   #L430
-L366:
+	jp   #L433
+L369:
 	.dlab LBE456
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext123
-Ltext123:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext125
+Ltext125:
 	.line 201
 	ld   d0,fr
 	add  d0,#0xffffff80
@@ -4501,10 +4550,10 @@ Ltext123:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i1,d1
 	and  i1,#0xff  ; zero extend
-	jc   eq,i1,d4,#L369
+	jc   eq,i1,d4,#L372
 	.dlab LBB457
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext124
-Ltext124:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext126
+Ltext126:
 	.line 90
 	ld   i0,[fr,4]
 	call &___floatsidf ; call non-native
@@ -4524,8 +4573,8 @@ Ltext124:
 	ld   i0,#0xffffff98
 	add  i0,fr
 	ld   i1,d4
-	jp   #L429
-L369:
+	jp   #L432
+L372:
 	.dlab LBE457
 	.dlab LBB458
 	ld   r1,[fr,8]
@@ -4534,7 +4583,7 @@ L369:
 	add  i0,fr
 	ld   i2,i1
 	ld   i3,[fr,4]
-	jp   #L428
+	jp   #L431
 	.dlab LBE458
 	.dlab LBE426
 	.dlab LBE425
@@ -4555,12 +4604,12 @@ L369:
 	.stabs	"l_buttonBounds:(8,37)",128,0,188,-80
 	.stabs	"l_button:(8,39)",128,0,208,-140
 	.stabn	192,0,0,LBB384-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"this:r(0,92)=k(12,3)",64,0,39,5
+	.stabs	"this:r(0,93)=k(12,3)",64,0,39,5
 	.stabn	192,0,0,LBB392-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE392-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newCapacity:r(0,3)",64,0,286,5
+	.stabs	"newCapacity:r(0,3)",64,0,293,5
 	.stabn	192,0,0,LBB400-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newData:r(8,72)",64,0,291,4
+	.stabs	"newData:r(8,72)",64,0,298,4
 	.stabn	192,0,0,LBB402-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE402-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE400-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
@@ -4588,34 +4637,34 @@ L369:
 	.stabs	"l_buttonBounds:(8,37)",128,0,188,-80
 	.stabs	"l_button:(8,39)",128,0,208,-140
 	.stabn	192,0,0,LBB426-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newCapacity:r(0,3)",64,0,286,5
+	.stabs	"newCapacity:r(0,3)",64,0,293,5
 	.stabn	192,0,0,LBB433-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newData:r(8,72)",64,0,291,4
+	.stabs	"newData:r(8,72)",64,0,298,4
 	.stabn	192,0,0,LBB435-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB436-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE436-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE435-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE433-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newData:r(8,72)",64,0,291,5
+	.stabs	"newData:r(8,72)",64,0,298,5
 	.stabn	192,0,0,LBB439-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"i:r(0,3)",64,0,293,18
+	.stabs	"i:r(0,3)",64,0,300,18
 	.stabn	192,0,0,LBB440-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE440-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE439-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newData:r(8,72)",64,0,291,5
+	.stabs	"newData:r(8,72)",64,0,298,5
 	.stabn	192,0,0,LBB448-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE448-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newCapacity:r(0,3)",64,0,286,5
+	.stabs	"newCapacity:r(0,3)",64,0,293,5
 	.stabn	192,0,0,LBB452-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-	.stabs	"newData:r(8,72)",64,0,291,4
+	.stabs	"newData:r(8,72)",64,0,298,4
 	.stabn	192,0,0,LBB454-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE454-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE452-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE426-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE424-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
 	.stabn	224,0,0,LBE423-__ZN11MobKeyboard13addButtonLineEP17MobKeyboardLayoutiiPN6MAUtil11BasicStringIcEEiiii
-Lscope23:
+Lscope26:
 .data
 LC10:
 	.ascii "en_lower\0"
@@ -4945,12 +4994,12 @@ LC172:
 	.ascii "gr_num2\0"
 .code
 	.stabs	"_ZN11MobKeyboard9setupKeysEv:F(0,6)",36,0,463,__ZN11MobKeyboard9setupKeysEv
-	.stabs	"this:P(0,89)",64,0,463,6
+	.stabs	"this:P(0,90)",64,0,463,6
 	.global	__ZN11MobKeyboard9setupKeysEv
 
 .func __ZN11MobKeyboard9setupKeysEv, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext125
-Ltext125:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext127
+Ltext127:
 	.line 463
 	push rt,d7
 	sub  sp,#0x454
@@ -4974,8 +5023,8 @@ Ltext125:
 	ld   [fr,-1108],r14
 	.dlab LBB461
 	.dlab LBB462
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext126
-Ltext126:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext128
+Ltext128:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -5002,8 +5051,8 @@ Ltext126:
 	ld   d0,r14
 	.dlab LBB463
 	.dlab LBB464
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext127
-Ltext127:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext129
+Ltext129:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -5025,8 +5074,8 @@ Ltext127:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d4
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext128
-Ltext128:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext130
+Ltext130:
 	.line 472
 	ld   i0,#0xffffffa8
 	add  i0,fr
@@ -5240,8 +5289,8 @@ Ltext128:
 	ld   [fr,-1112],r14
 	.dlab LBB465
 	.dlab LBB466
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext129
-Ltext129:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext131
+Ltext131:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -5268,8 +5317,8 @@ Ltext129:
 	ld   d0,r14
 	.dlab LBB467
 	.dlab LBB468
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext130
-Ltext130:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext132
+Ltext132:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -5291,8 +5340,8 @@ Ltext130:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext131
-Ltext131:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext133
+Ltext133:
 	.line 487
 	ld   i0,#0xffffff24
 	add  i0,fr
@@ -5506,8 +5555,8 @@ Ltext131:
 	ld   [fr,-1116],r14
 	.dlab LBB469
 	.dlab LBB470
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext132
-Ltext132:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext134
+Ltext134:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -5534,8 +5583,8 @@ Ltext132:
 	ld   d0,r14
 	.dlab LBB471
 	.dlab LBB472
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext133
-Ltext133:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext135
+Ltext135:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -5557,8 +5606,8 @@ Ltext133:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext134
-Ltext134:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext136
+Ltext136:
 	.line 502
 	ld   i0,#0xfffffea0
 	add  i0,fr
@@ -5772,8 +5821,8 @@ Ltext134:
 	ld   [fr,-1120],r14
 	.dlab LBB473
 	.dlab LBB474
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext135
-Ltext135:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext137
+Ltext137:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -5800,8 +5849,8 @@ Ltext135:
 	ld   d0,r14
 	.dlab LBB475
 	.dlab LBB476
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext136
-Ltext136:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext138
+Ltext138:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -5823,8 +5872,8 @@ Ltext136:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext137
-Ltext137:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext139
+Ltext139:
 	.line 516
 	ld   i0,#0xfffffe1c
 	add  i0,fr
@@ -6038,8 +6087,8 @@ Ltext137:
 	ld   [fr,-1124],r14
 	.dlab LBB477
 	.dlab LBB478
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext138
-Ltext138:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext140
+Ltext140:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -6066,8 +6115,8 @@ Ltext138:
 	ld   d0,r14
 	.dlab LBB479
 	.dlab LBB480
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext139
-Ltext139:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext141
+Ltext141:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -6089,8 +6138,8 @@ Ltext139:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext140
-Ltext140:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext142
+Ltext142:
 	.line 535
 	ld   i0,#0xfffffd98
 	add  i0,fr
@@ -6302,8 +6351,8 @@ Ltext140:
 	ld   [fr,-1128],r14
 	.dlab LBB481
 	.dlab LBB482
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext141
-Ltext141:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext143
+Ltext143:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -6330,8 +6379,8 @@ Ltext141:
 	ld   d0,r14
 	.dlab LBB483
 	.dlab LBB484
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext142
-Ltext142:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext144
+Ltext144:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -6353,8 +6402,8 @@ Ltext142:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext143
-Ltext143:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext145
+Ltext145:
 	.line 550
 	ld   i0,#0xfffffd14
 	add  i0,fr
@@ -6568,8 +6617,8 @@ Ltext143:
 	ld   d3,r14
 	.dlab LBB485
 	.dlab LBB486
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext144
-Ltext144:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext146
+Ltext146:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -6595,8 +6644,8 @@ Ltext144:
 	ld   d0,r14
 	.dlab LBB487
 	.dlab LBB488
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext145
-Ltext145:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext147
+Ltext147:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -6617,8 +6666,8 @@ Ltext145:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext146
-Ltext146:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext148
+Ltext148:
 	.line 565
 	ld   i0,#0xfffffc90
 	add  i0,fr
@@ -6832,8 +6881,8 @@ Ltext146:
 	ld   d1,r14
 	.dlab LBB489
 	.dlab LBB490
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext147
-Ltext147:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext149
+Ltext149:
 	.line 137
 	ld   i0,r14
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
@@ -6859,8 +6908,8 @@ Ltext147:
 	ld   d0,r14
 	.dlab LBB491
 	.dlab LBB492
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext148
-Ltext148:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext150
+Ltext150:
 	.line 109
 	ld   i0,#0x10
 	call &__Znam ; call non-native
@@ -6881,8 +6930,8 @@ Ltext148:
 	ld   i0,#0xffffffd0
 	add  i0,fr
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext149
-Ltext149:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext151
+Ltext151:
 	.line 579
 	ld   d5,fr
 	add  d5,#0xfffffc0c
@@ -7094,535 +7143,535 @@ Ltext149:
 	ld   i3,d3
 	call &__ZN11MobKeyboard11addLanguageEP17MobKeyboardLayoutS1_S1_S1_ ; call non-native
 	ld   d0,d7
-	jc   eq,d4,d0,#L457
-L582:
-	add  d0,#0xfffffffc
-	ld   i0,d0
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jc   ne,d4,d0,#L582
-L457:
-	ld   r14,#0x0
-	jc   eq,d7,r14,#L459
-	ld   d0,d6
-	jc   eq,d7,d0,#L459
-L583:
-	add  d0,#0xfffffffc
-	ld   i0,d0
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jc   ne,d7,d0,#L583
-L459:
-	ld   r0,#0x0
-	jc   eq,d6,r0,#L463
-	ld   d0,d5
-	jc   eq,d6,d0,#L463
-L584:
-	add  d0,#0xfffffffc
-	ld   i0,d0
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jc   ne,d6,d0,#L584
-L463:
-	ld   r14,#0x0
-	jc   eq,d5,r14,#L467
-	ld   d0,#0xfffffc34
-	add  d0,fr
-	jc   eq,d5,d0,#L467
+	jc   eq,d4,d0,#L460
 L585:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jc   ne,d5,d0,#L585
-L467:
-	ld   r0,#0xfffffc34
-	add  r0,fr
+	jc   ne,d4,d0,#L585
+L460:
 	ld   r14,#0x0
-	jc   eq,r0,r14,#L471
-	ld   d0,#0xfffffc48
-	add  d0,fr
-	jp   #L472
+	jc   eq,d7,r14,#L462
+	ld   d0,d6
+	jc   eq,d7,d0,#L462
 L586:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L472:
-	ld   r0,#0xfffffc34
-	add  r0,fr
-	jc   ne,r0,d0,#L586
-L471:
-	ld   r14,#0xfffffc48
-	add  r14,fr
+	jc   ne,d7,d0,#L586
+L462:
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L475
-	ld   d0,#0xfffffc6c
-	add  d0,fr
-	jp   #L476
+	jc   eq,d6,r0,#L466
+	ld   d0,d5
+	jc   eq,d6,d0,#L466
 L587:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L476:
-	ld   r14,#0xfffffc48
-	add  r14,fr
-	jc   ne,r14,d0,#L587
-L475:
-	ld   r0,#0xfffffc6c
-	add  r0,fr
+	jc   ne,d6,d0,#L587
+L466:
 	ld   r14,#0x0
-	jc   eq,r0,r14,#L479
-	ld   d0,#0xfffffc90
+	jc   eq,d5,r14,#L470
+	ld   d0,#0xfffffc34
 	add  d0,fr
-	jp   #L480
+	jc   eq,d5,d0,#L470
 L588:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L480:
-	ld   r0,#0xfffffc6c
+	jc   ne,d5,d0,#L588
+L470:
+	ld   r0,#0xfffffc34
 	add  r0,fr
-	jc   ne,r0,d0,#L588
-L479:
-	ld   r14,#0xfffffc90
-	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L483
-	ld   d0,#0xfffffcb8
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L474
+	ld   d0,#0xfffffc48
 	add  d0,fr
-	jp   #L484
+	jp   #L475
 L589:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L484:
-	ld   r14,#0xfffffc90
-	add  r14,fr
-	jc   ne,r14,d0,#L589
-L483:
-	ld   r0,#0xfffffcb8
+L475:
+	ld   r0,#0xfffffc34
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L487
-	ld   d0,#0xfffffccc
+	jc   ne,r0,d0,#L589
+L474:
+	ld   r14,#0xfffffc48
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L478
+	ld   d0,#0xfffffc6c
 	add  d0,fr
-	jp   #L488
+	jp   #L479
 L590:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L488:
-	ld   r0,#0xfffffcb8
-	add  r0,fr
-	jc   ne,r0,d0,#L590
-L487:
-	ld   r14,#0xfffffccc
+L479:
+	ld   r14,#0xfffffc48
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L491
-	ld   d0,#0xfffffcf0
+	jc   ne,r14,d0,#L590
+L478:
+	ld   r0,#0xfffffc6c
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L482
+	ld   d0,#0xfffffc90
 	add  d0,fr
-	jp   #L492
+	jp   #L483
 L591:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L492:
-	ld   r14,#0xfffffccc
-	add  r14,fr
-	jc   ne,r14,d0,#L591
-L491:
-	ld   r0,#0xfffffcf0
+L483:
+	ld   r0,#0xfffffc6c
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L495
-	ld   d0,#0xfffffd14
+	jc   ne,r0,d0,#L591
+L482:
+	ld   r14,#0xfffffc90
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L486
+	ld   d0,#0xfffffcb8
 	add  d0,fr
-	jp   #L496
+	jp   #L487
 L592:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L496:
-	ld   r0,#0xfffffcf0
-	add  r0,fr
-	jc   ne,r0,d0,#L592
-L495:
-	ld   r14,#0xfffffd14
+L487:
+	ld   r14,#0xfffffc90
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L499
-	ld   d0,#0xfffffd3c
+	jc   ne,r14,d0,#L592
+L486:
+	ld   r0,#0xfffffcb8
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L490
+	ld   d0,#0xfffffccc
 	add  d0,fr
-	jp   #L500
+	jp   #L491
 L593:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L500:
-	ld   r14,#0xfffffd14
-	add  r14,fr
-	jc   ne,r14,d0,#L593
-L499:
-	ld   r0,#0xfffffd3c
+L491:
+	ld   r0,#0xfffffcb8
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L503
-	ld   d0,#0xfffffd50
+	jc   ne,r0,d0,#L593
+L490:
+	ld   r14,#0xfffffccc
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L494
+	ld   d0,#0xfffffcf0
 	add  d0,fr
-	jp   #L504
+	jp   #L495
 L594:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L504:
-	ld   r0,#0xfffffd3c
-	add  r0,fr
-	jc   ne,r0,d0,#L594
-L503:
-	ld   r14,#0xfffffd50
+L495:
+	ld   r14,#0xfffffccc
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L507
-	ld   d0,#0xfffffd74
+	jc   ne,r14,d0,#L594
+L494:
+	ld   r0,#0xfffffcf0
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L498
+	ld   d0,#0xfffffd14
 	add  d0,fr
-	jp   #L508
+	jp   #L499
 L595:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L508:
-	ld   r14,#0xfffffd50
-	add  r14,fr
-	jc   ne,r14,d0,#L595
-L507:
-	ld   r0,#0xfffffd74
+L499:
+	ld   r0,#0xfffffcf0
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L511
-	ld   d0,#0xfffffd98
+	jc   ne,r0,d0,#L595
+L498:
+	ld   r14,#0xfffffd14
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L502
+	ld   d0,#0xfffffd3c
 	add  d0,fr
-	jp   #L512
+	jp   #L503
 L596:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L512:
-	ld   r0,#0xfffffd74
-	add  r0,fr
-	jc   ne,r0,d0,#L596
-L511:
-	ld   r14,#0xfffffd98
+L503:
+	ld   r14,#0xfffffd14
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L515
-	ld   d0,#0xfffffdc0
+	jc   ne,r14,d0,#L596
+L502:
+	ld   r0,#0xfffffd3c
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L506
+	ld   d0,#0xfffffd50
 	add  d0,fr
-	jp   #L516
+	jp   #L507
 L597:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L516:
-	ld   r14,#0xfffffd98
-	add  r14,fr
-	jc   ne,r14,d0,#L597
-L515:
-	ld   r0,#0xfffffdc0
+L507:
+	ld   r0,#0xfffffd3c
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L519
-	ld   d0,#0xfffffdd4
+	jc   ne,r0,d0,#L597
+L506:
+	ld   r14,#0xfffffd50
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L510
+	ld   d0,#0xfffffd74
 	add  d0,fr
-	jp   #L520
+	jp   #L511
 L598:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L520:
-	ld   r0,#0xfffffdc0
-	add  r0,fr
-	jc   ne,r0,d0,#L598
-L519:
-	ld   r14,#0xfffffdd4
+L511:
+	ld   r14,#0xfffffd50
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L523
-	ld   d0,#0xfffffdf8
+	jc   ne,r14,d0,#L598
+L510:
+	ld   r0,#0xfffffd74
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L514
+	ld   d0,#0xfffffd98
 	add  d0,fr
-	jp   #L524
+	jp   #L515
 L599:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L524:
-	ld   r14,#0xfffffdd4
-	add  r14,fr
-	jc   ne,r14,d0,#L599
-L523:
-	ld   r0,#0xfffffdf8
+L515:
+	ld   r0,#0xfffffd74
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L527
-	ld   d0,#0xfffffe1c
+	jc   ne,r0,d0,#L599
+L514:
+	ld   r14,#0xfffffd98
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L518
+	ld   d0,#0xfffffdc0
 	add  d0,fr
-	jp   #L528
+	jp   #L519
 L600:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L528:
-	ld   r0,#0xfffffdf8
-	add  r0,fr
-	jc   ne,r0,d0,#L600
-L527:
-	ld   r14,#0xfffffe1c
+L519:
+	ld   r14,#0xfffffd98
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L531
-	ld   d0,#0xfffffe44
+	jc   ne,r14,d0,#L600
+L518:
+	ld   r0,#0xfffffdc0
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L522
+	ld   d0,#0xfffffdd4
 	add  d0,fr
-	jp   #L532
+	jp   #L523
 L601:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L532:
-	ld   r14,#0xfffffe1c
-	add  r14,fr
-	jc   ne,r14,d0,#L601
-L531:
-	ld   r0,#0xfffffe44
+L523:
+	ld   r0,#0xfffffdc0
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L535
-	ld   d0,#0xfffffe58
+	jc   ne,r0,d0,#L601
+L522:
+	ld   r14,#0xfffffdd4
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L526
+	ld   d0,#0xfffffdf8
 	add  d0,fr
-	jp   #L536
+	jp   #L527
 L602:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L536:
-	ld   r0,#0xfffffe44
-	add  r0,fr
-	jc   ne,r0,d0,#L602
-L535:
-	ld   r14,#0xfffffe58
+L527:
+	ld   r14,#0xfffffdd4
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L539
-	ld   d0,#0xfffffe7c
+	jc   ne,r14,d0,#L602
+L526:
+	ld   r0,#0xfffffdf8
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L530
+	ld   d0,#0xfffffe1c
 	add  d0,fr
-	jp   #L540
+	jp   #L531
 L603:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L540:
-	ld   r14,#0xfffffe58
-	add  r14,fr
-	jc   ne,r14,d0,#L603
-L539:
-	ld   r0,#0xfffffe7c
+L531:
+	ld   r0,#0xfffffdf8
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L543
-	ld   d0,#0xfffffea0
+	jc   ne,r0,d0,#L603
+L530:
+	ld   r14,#0xfffffe1c
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L534
+	ld   d0,#0xfffffe44
 	add  d0,fr
-	jp   #L544
+	jp   #L535
 L604:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L544:
-	ld   r0,#0xfffffe7c
-	add  r0,fr
-	jc   ne,r0,d0,#L604
-L543:
-	ld   r14,#0xfffffea0
+L535:
+	ld   r14,#0xfffffe1c
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L547
-	ld   d0,#0xfffffec8
+	jc   ne,r14,d0,#L604
+L534:
+	ld   r0,#0xfffffe44
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L538
+	ld   d0,#0xfffffe58
 	add  d0,fr
-	jp   #L548
+	jp   #L539
 L605:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L548:
-	ld   r14,#0xfffffea0
-	add  r14,fr
-	jc   ne,r14,d0,#L605
-L547:
-	ld   r0,#0xfffffec8
+L539:
+	ld   r0,#0xfffffe44
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L551
-	ld   d0,#0xfffffedc
+	jc   ne,r0,d0,#L605
+L538:
+	ld   r14,#0xfffffe58
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L542
+	ld   d0,#0xfffffe7c
 	add  d0,fr
-	jp   #L552
+	jp   #L543
 L606:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L552:
-	ld   r0,#0xfffffec8
-	add  r0,fr
-	jc   ne,r0,d0,#L606
-L551:
-	ld   r14,#0xfffffedc
+L543:
+	ld   r14,#0xfffffe58
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L555
-	ld   d0,#0xffffff00
+	jc   ne,r14,d0,#L606
+L542:
+	ld   r0,#0xfffffe7c
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L546
+	ld   d0,#0xfffffea0
 	add  d0,fr
-	jp   #L556
+	jp   #L547
 L607:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L556:
-	ld   r14,#0xfffffedc
-	add  r14,fr
-	jc   ne,r14,d0,#L607
-L555:
-	ld   r0,#0xffffff00
+L547:
+	ld   r0,#0xfffffe7c
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L559
-	ld   d0,#0xffffff24
+	jc   ne,r0,d0,#L607
+L546:
+	ld   r14,#0xfffffea0
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L550
+	ld   d0,#0xfffffec8
 	add  d0,fr
-	jp   #L560
+	jp   #L551
 L608:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L560:
-	ld   r0,#0xffffff00
-	add  r0,fr
-	jc   ne,r0,d0,#L608
-L559:
-	ld   r14,#0xffffff24
+L551:
+	ld   r14,#0xfffffea0
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L563
-	ld   d0,#0xffffff4c
+	jc   ne,r14,d0,#L608
+L550:
+	ld   r0,#0xfffffec8
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L554
+	ld   d0,#0xfffffedc
 	add  d0,fr
-	jp   #L564
+	jp   #L555
 L609:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L564:
-	ld   r14,#0xffffff24
-	add  r14,fr
-	jc   ne,r14,d0,#L609
-L563:
-	ld   r0,#0xffffff4c
+L555:
+	ld   r0,#0xfffffec8
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L567
-	ld   d0,#0xffffff60
+	jc   ne,r0,d0,#L609
+L554:
+	ld   r14,#0xfffffedc
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L558
+	ld   d0,#0xffffff00
 	add  d0,fr
-	jp   #L568
+	jp   #L559
 L610:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L568:
-	ld   r0,#0xffffff4c
-	add  r0,fr
-	jc   ne,r0,d0,#L610
-L567:
-	ld   r14,#0xffffff60
+L559:
+	ld   r14,#0xfffffedc
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L571
-	ld   d0,#0xffffff84
+	jc   ne,r14,d0,#L610
+L558:
+	ld   r0,#0xffffff00
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L562
+	ld   d0,#0xffffff24
 	add  d0,fr
-	jp   #L572
+	jp   #L563
 L611:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L572:
-	ld   r14,#0xffffff60
-	add  r14,fr
-	jc   ne,r14,d0,#L611
-L571:
-	ld   r0,#0xffffff84
+L563:
+	ld   r0,#0xffffff00
 	add  r0,fr
-	ld   r14,#0x0
-	jc   eq,r0,r14,#L575
-	ld   d0,#0xffffffa8
+	jc   ne,r0,d0,#L611
+L562:
+	ld   r14,#0xffffff24
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L566
+	ld   d0,#0xffffff4c
 	add  d0,fr
-	jp   #L576
+	jp   #L567
 L612:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L576:
-	ld   r0,#0xffffff84
-	add  r0,fr
-	jc   ne,r0,d0,#L612
-L575:
-	ld   r14,#0xffffffa8
+L567:
+	ld   r14,#0xffffff24
 	add  r14,fr
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L437
-	ld   d0,#0xffffffd0
+	jc   ne,r14,d0,#L612
+L566:
+	ld   r0,#0xffffff4c
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L570
+	ld   d0,#0xffffff60
 	add  d0,fr
-	jp   #L580
+	jp   #L571
 L613:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L580:
+L571:
+	ld   r0,#0xffffff4c
+	add  r0,fr
+	jc   ne,r0,d0,#L613
+L570:
+	ld   r14,#0xffffff60
+	add  r14,fr
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L574
+	ld   d0,#0xffffff84
+	add  d0,fr
+	jp   #L575
+L614:
+	add  d0,#0xfffffffc
+	ld   i0,d0
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+L575:
+	ld   r14,#0xffffff60
+	add  r14,fr
+	jc   ne,r14,d0,#L614
+L574:
+	ld   r0,#0xffffff84
+	add  r0,fr
+	ld   r14,#0x0
+	jc   eq,r0,r14,#L578
+	ld   d0,#0xffffffa8
+	add  d0,fr
+	jp   #L579
+L615:
+	add  d0,#0xfffffffc
+	ld   i0,d0
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+L579:
+	ld   r0,#0xffffff84
+	add  r0,fr
+	jc   ne,r0,d0,#L615
+L578:
 	ld   r14,#0xffffffa8
 	add  r14,fr
-	jc   ne,r14,d0,#L613
-L437:
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L440
+	ld   d0,#0xffffffd0
+	add  d0,fr
+	jp   #L583
+L616:
+	add  d0,#0xfffffffc
+	ld   i0,d0
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+L583:
+	ld   r14,#0xffffffa8
+	add  r14,fr
+	jc   ne,r14,d0,#L616
+L440:
 	.dlab LBE460
 	.dlab LBE459
 	.line 595
 	add  sp,#0x454
 	pop  rt,d7
 	ret
-	.stabs	"l_l1_line1Chars:(0,93)=ar(3,53);0;9;(11,1)",128,0,472,-88
-	.stabs	"l_l1_line2Chars:(0,94)=ar(3,53);0;8;(11,1)",128,0,473,-124
-	.stabs	"l_l1_line3Chars:(0,94)",128,0,474,-160
-	.stabs	"l_l1_line4Chars:(0,95)=ar(3,53);0;4;(11,1)",128,0,475,-180
-	.stabs	"l_l2_line1Chars:(0,93)",128,0,487,-220
-	.stabs	"l_l2_line2Chars:(0,94)",128,0,488,-256
-	.stabs	"l_l2_line3Chars:(0,94)",128,0,489,-292
-	.stabs	"l_l2_line4Chars:(0,95)",128,0,490,-312
-	.stabs	"l_l3_line1Chars:(0,93)",128,0,502,-352
-	.stabs	"l_l3_line2Chars:(0,94)",128,0,503,-388
-	.stabs	"l_l3_line3Chars:(0,94)",128,0,504,-424
-	.stabs	"l_l3_line4Chars:(0,95)",128,0,505,-444
-	.stabs	"l_l4_line1Chars:(0,93)",128,0,516,-484
-	.stabs	"l_l4_line2Chars:(0,94)",128,0,517,-520
-	.stabs	"l_l4_line3Chars:(0,94)",128,0,518,-556
-	.stabs	"l_l4_line4Chars:(0,95)",128,0,519,-576
-	.stabs	"l_grl1_line1Chars:(0,93)",128,0,535,-616
-	.stabs	"l_grl1_line2Chars:(0,94)",128,0,536,-652
-	.stabs	"l_grl1_line3Chars:(0,94)",128,0,537,-688
-	.stabs	"l_grl1_line4Chars:(0,95)",128,0,538,-708
-	.stabs	"l_grl2_line1Chars:(0,93)",128,0,550,-748
-	.stabs	"l_grl2_line2Chars:(0,94)",128,0,551,-784
-	.stabs	"l_grl2_line3Chars:(0,94)",128,0,552,-820
-	.stabs	"l_grl2_line4Chars:(0,95)",128,0,553,-840
-	.stabs	"l_grl3_line1Chars:(0,93)",128,0,565,-880
-	.stabs	"l_grl3_line2Chars:(0,94)",128,0,566,-916
-	.stabs	"l_grl3_line3Chars:(0,94)",128,0,567,-952
-	.stabs	"l_grl3_line4Chars:(0,95)",128,0,568,-972
-	.stabs	"l_grl4_line1Chars:(0,93)",128,0,579,-1012
-	.stabs	"l_grl4_line2Chars:(0,94)",128,0,580,-1048
-	.stabs	"l_grl4_line3Chars:(0,94)",128,0,581,-1084
-	.stabs	"l_grl4_line4Chars:(0,95)",128,0,582,-1104
+	.stabs	"l_l1_line1Chars:(0,94)=ar(3,53);0;9;(11,1)",128,0,472,-88
+	.stabs	"l_l1_line2Chars:(0,95)=ar(3,53);0;8;(11,1)",128,0,473,-124
+	.stabs	"l_l1_line3Chars:(0,95)",128,0,474,-160
+	.stabs	"l_l1_line4Chars:(0,96)=ar(3,53);0;4;(11,1)",128,0,475,-180
+	.stabs	"l_l2_line1Chars:(0,94)",128,0,487,-220
+	.stabs	"l_l2_line2Chars:(0,95)",128,0,488,-256
+	.stabs	"l_l2_line3Chars:(0,95)",128,0,489,-292
+	.stabs	"l_l2_line4Chars:(0,96)",128,0,490,-312
+	.stabs	"l_l3_line1Chars:(0,94)",128,0,502,-352
+	.stabs	"l_l3_line2Chars:(0,95)",128,0,503,-388
+	.stabs	"l_l3_line3Chars:(0,95)",128,0,504,-424
+	.stabs	"l_l3_line4Chars:(0,96)",128,0,505,-444
+	.stabs	"l_l4_line1Chars:(0,94)",128,0,516,-484
+	.stabs	"l_l4_line2Chars:(0,95)",128,0,517,-520
+	.stabs	"l_l4_line3Chars:(0,95)",128,0,518,-556
+	.stabs	"l_l4_line4Chars:(0,96)",128,0,519,-576
+	.stabs	"l_grl1_line1Chars:(0,94)",128,0,535,-616
+	.stabs	"l_grl1_line2Chars:(0,95)",128,0,536,-652
+	.stabs	"l_grl1_line3Chars:(0,95)",128,0,537,-688
+	.stabs	"l_grl1_line4Chars:(0,96)",128,0,538,-708
+	.stabs	"l_grl2_line1Chars:(0,94)",128,0,550,-748
+	.stabs	"l_grl2_line2Chars:(0,95)",128,0,551,-784
+	.stabs	"l_grl2_line3Chars:(0,95)",128,0,552,-820
+	.stabs	"l_grl2_line4Chars:(0,96)",128,0,553,-840
+	.stabs	"l_grl3_line1Chars:(0,94)",128,0,565,-880
+	.stabs	"l_grl3_line2Chars:(0,95)",128,0,566,-916
+	.stabs	"l_grl3_line3Chars:(0,95)",128,0,567,-952
+	.stabs	"l_grl3_line4Chars:(0,96)",128,0,568,-972
+	.stabs	"l_grl4_line1Chars:(0,94)",128,0,579,-1012
+	.stabs	"l_grl4_line2Chars:(0,95)",128,0,580,-1048
+	.stabs	"l_grl4_line3Chars:(0,95)",128,0,581,-1084
+	.stabs	"l_grl4_line4Chars:(0,96)",128,0,582,-1104
 	.stabn	192,0,0,LBB460-__ZN11MobKeyboard9setupKeysEv
 	.stabn	224,0,0,LBE460-__ZN11MobKeyboard9setupKeysEv
-Lscope24:
+Lscope27:
 	.stabs	"_ZN11MobKeyboardC1Eiiii:F(0,6)",36,0,10,__ZN11MobKeyboardC1Eiiii
-	.stabs	"this:P(0,89)",64,0,10,4
+	.stabs	"this:P(0,90)",64,0,10,4
 	.stabs	"x:P(0,3)",64,0,10,13
 	.stabs	"y:P(0,3)",64,0,10,14
 	.stabs	"width:P(0,3)",64,0,10,15
@@ -7659,8 +7708,8 @@ Lscope24:
 	ld   d1,r14
 	.dlab LBB494
 	.dlab LBB495
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext150
-Ltext150:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext152
+Ltext152:
 	.line 109
 	ld   d2,#0x10
 	ld   i0,d2
@@ -7675,8 +7724,8 @@ Ltext150:
 	.dlab LBE495
 	.dlab LBE494
 	ld   [d0,124],d1
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext151
-Ltext151:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext153
+Ltext153:
 	.line 15
 	ld   [d0,148],r14
 	.line 16
@@ -7726,9 +7775,9 @@ Ltext151:
 	add  sp,#0x14
 	pop  rt,d2
 	ret
-Lscope25:
+Lscope28:
 	.stabs	"_ZN11MobKeyboardC2Eiiii:F(0,6)",36,0,10,__ZN11MobKeyboardC2Eiiii
-	.stabs	"this:P(0,89)",64,0,10,4
+	.stabs	"this:P(0,90)",64,0,10,4
 	.stabs	"x:P(0,3)",64,0,10,13
 	.stabs	"y:P(0,3)",64,0,10,14
 	.stabs	"width:P(0,3)",64,0,10,15
@@ -7765,8 +7814,8 @@ Lscope25:
 	ld   d1,r14
 	.dlab LBB497
 	.dlab LBB498
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext152
-Ltext152:
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext154
+Ltext154:
 	.line 109
 	ld   d2,#0x10
 	ld   i0,d2
@@ -7781,8 +7830,8 @@ Ltext152:
 	.dlab LBE498
 	.dlab LBE497
 	ld   [d0,124],d1
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext153
-Ltext153:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext155
+Ltext155:
 	.line 15
 	ld   [d0,148],r14
 	.line 16
@@ -7832,14 +7881,14 @@ Ltext153:
 	add  sp,#0x14
 	pop  rt,d2
 	ret
-Lscope26:
+Lscope29:
 	.set	%3=__ZN11MobKeyboardD0Ev
-	.stabs	"this:P(0,89)",64,0,33,12
+	.stabs	"this:P(0,90)",64,0,33,12
 	.global	__ZThn116_N11MobKeyboardD0Ev
 
 .func __ZThn116_N11MobKeyboardD0Ev, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext154
-Ltext154:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext156
+Ltext156:
 	.line 18
 	push rt,fr
 	ld   fr,sp
@@ -7849,14 +7898,14 @@ Ltext154:
 	call &%3 ; call non-native
 	pop  rt,fr
 	ret
-Lscope27:
+Lscope30:
 	.stabs	"_ZN11MobKeyboardD0Ev:F(0,6)",36,0,33,__ZN11MobKeyboardD0Ev
-	.stabs	"this:P(0,89)",64,0,33,11
+	.stabs	"this:P(0,90)",64,0,33,11
 	.global	__ZN11MobKeyboardD0Ev
 
 .func __ZN11MobKeyboardD0Ev, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext155
-Ltext155:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext157
+Ltext157:
 	.line 33
 	push rt,d7
 	ld   fr,sp
@@ -7871,26 +7920,26 @@ Ltext155:
 	.dlab LBB500
 	.dlab LBB501
 	.dlab LBB502
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext156
-Ltext156:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext158
+Ltext158:
+	.line 265
 	ld   d0,[i0,124]
 	.dlab LBE502
 	ld   d6,[d0]
 	add  d6,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext157
-Ltext157:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext159
+Ltext159:
 	.line 34
 	ld   r1,#0x0
-	jc   lt,d6,r1,#L700
-L689:
+	jc   lt,d6,r1,#L703
+L692:
 	.dlab LBB503
 	.dlab LBB504
 	.dlab LBB505
 	.dlab LBB506
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext158
-Ltext158:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext160
+Ltext160:
+	.line 362
 	ld   r14,d6
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -7901,32 +7950,32 @@ Ltext158:
 	.dlab LBB507
 	.dlab LBB508
 	.dlab LBB509
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB510
 	.dlab LBB511
 	.dlab LBB512
 	.dlab LBB513
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE513
 	.dlab LBE512
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L702
-L631:
-	.line 198
+	jc   eq,r1,r14,#L705
+L634:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L631
-L702:
+	jc   ne,r1,r0,#L634
+L705:
 	.dlab LBB514
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB515
@@ -7934,30 +7983,30 @@ L702:
 	.dlab LBB517
 	.dlab LBB518
 	.dlab LBB519
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L719
-L633:
+	jc   lt,r14,d1,#L722
+L636:
 	.dlab LBE519
 	.dlab LBE518
 	.dlab LBE517
 	.dlab LBB520
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L706
-L643:
-	.line 275
+	jc   le,r2,d1,#L709
+L646:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L643
-L706:
+	jc   gt,r2,r0,#L646
+L709:
 	.dlab LBE520
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE516
 	.dlab LBE515
@@ -7967,35 +8016,35 @@ L706:
 	.dlab LBE509
 	.dlab LBE508
 	.dlab LBE507
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext159
-Ltext159:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext161
+Ltext161:
 	.line 38
 	ld   r14,#0x0
-	jc   eq,d5,r14,#L648
+	jc   eq,d5,r14,#L651
 	.dlab LBB521
 	.dlab LBB522
 	.dlab LBB523
 	.dlab LBB524
 	.dlab LBB525
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext160
-Ltext160:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext162
+Ltext162:
+	.line 265
 	ld   d0,[d5,12]
 	.dlab LBE525
 	ld   d3,[d0]
 	add  d3,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext161
-Ltext161:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext163
+Ltext163:
 	.line 146
-	jc   lt,d3,r14,#L708
-L679:
+	jc   lt,d3,r14,#L711
+L682:
 	.dlab LBB526
 	.dlab LBB527
 	.dlab LBB528
 	.dlab LBB529
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext162
-Ltext162:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext164
+Ltext164:
+	.line 362
 	ld   r14,d3
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -8006,32 +8055,32 @@ Ltext162:
 	.dlab LBB530
 	.dlab LBB531
 	.dlab LBB532
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB533
 	.dlab LBB534
 	.dlab LBB535
 	.dlab LBB536
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE536
 	.dlab LBE535
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L710
-L658:
-	.line 198
+	jc   eq,r1,r14,#L713
+L661:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L658
-L710:
+	jc   ne,r1,r0,#L661
+L713:
 	.dlab LBB537
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB538
@@ -8039,30 +8088,30 @@ L710:
 	.dlab LBB540
 	.dlab LBB541
 	.dlab LBB542
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L720
-L660:
+	jc   lt,r14,d1,#L723
+L663:
 	.dlab LBE542
 	.dlab LBE541
 	.dlab LBE540
 	.dlab LBB543
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L714
-L670:
-	.line 275
+	jc   le,r2,d1,#L717
+L673:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L670
-L714:
+	jc   gt,r2,r0,#L673
+L717:
 	.dlab LBE543
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE539
 	.dlab LBE538
@@ -8072,11 +8121,11 @@ L714:
 	.dlab LBE532
 	.dlab LBE531
 	.dlab LBE530
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext163
-Ltext163:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext165
+Ltext165:
 	.line 150
 	ld   r14,#0x0
-	jc   eq,d4,r14,#L675
+	jc   eq,d4,r14,#L678
 	.dlab LBB544
 	.dlab LBB545
 	.line 97
@@ -8087,16 +8136,16 @@ Ltext163:
 	.dlab LBE544
 	ld   i0,d4
 	call &__ZdlPv ; call non-native
-L675:
+L678:
 	.dlab LBE527
 	.dlab LBE526
 	.line 146
 	add  d3,#0xffffffff
 	ld   r1,#0x0
-	jc   lt,d3,r1,#L721
+	jc   lt,d3,r1,#L724
 	ld   d0,[d5,12]
-	jp   #L679
-L719:
+	jp   #L682
+L722:
 	.dlab LBE524
 	.dlab LBE523
 	.dlab LBE522
@@ -8112,21 +8161,21 @@ L719:
 	.dlab LBB554
 	.dlab LBB555
 	.dlab LBB556
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext164
-Ltext164:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext166
+Ltext166:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB557
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L715
+	jc   le,r2,r1,#L718
 	ld   i0,[d0,8]
-L637:
-	.line 294
+L640:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -8134,23 +8183,23 @@ L637:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L637
-	.dlab LBE557
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L722
-L639:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L640
+	.dlab LBE557
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L725
+L642:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L633
-L725:
+	jp   #L636
+L728:
 	ld   d0,[d7,124]
-L700:
+L703:
 	.dlab LBE556
 	.dlab LBE555
 	.dlab LBE554
@@ -8165,26 +8214,26 @@ L700:
 	.dlab LBE504
 	.dlab LBE503
 	.dlab LBE501
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext165
-Ltext165:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext167
+Ltext167:
 	.line 42
 	ld   r1,#0x0
-	jc   eq,d0,r1,#L691
+	jc   eq,d0,r1,#L694
 	.dlab LBB558
 	.dlab LBB559
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext166
-Ltext166:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext168
+Ltext168:
+	.line 143
 	ld   i0,[d0,8]
-	jc   ne,i0,r1,#L723
-L696:
+	jc   ne,i0,r1,#L726
+L699:
 	.dlab LBE559
 	.dlab LBE558
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L691:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext167
-Ltext167:
+L694:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext169
+Ltext169:
 	.line 43
 	ld   r14,#0x0
 	ld   [d7,124],r14
@@ -8200,7 +8249,7 @@ Ltext167:
 	call &__ZdlPv ; call non-native
 	pop  rt,d7
 	ret
-L720:
+L723:
 	.dlab LBB560
 	.dlab LBB561
 	.dlab LBB562
@@ -8223,21 +8272,21 @@ L720:
 	.dlab LBB579
 	.dlab LBB580
 	.dlab LBB581
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext168
-Ltext168:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext170
+Ltext170:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB582
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L716
+	jc   le,r2,r1,#L719
 	ld   i0,[d0,8]
-L664:
-	.line 294
+L667:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -8245,29 +8294,29 @@ L664:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L664
-	.dlab LBE582
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L724
-L666:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L667
+	.dlab LBE582
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L727
+L669:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L660
-L724:
-	.line 298
+	jp   #L663
+L727:
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L660
-L722:
+	jp   #L663
+L725:
 	.dlab LBE581
 	.dlab LBE580
 	.dlab LBE579
@@ -8296,14 +8345,14 @@ L722:
 	.dlab LBB591
 	.dlab LBB592
 	.dlab LBB593
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L633
-L723:
+	jp   #L636
+L726:
 	.dlab LBE593
 	.dlab LBE592
 	.dlab LBE591
@@ -8320,12 +8369,12 @@ L723:
 	.dlab LBE562
 	.dlab LBB594
 	.dlab LBB595
-	.line 136
+	.line 143
 	call &__ZdaPv ; call non-native
-	jp   #L696
-L721:
+	jp   #L699
+L724:
 	ld   d0,[d5,12]
-L708:
+L711:
 	.dlab LBE595
 	.dlab LBE594
 	.dlab LBB596
@@ -8334,27 +8383,27 @@ L708:
 	.dlab LBB599
 	.dlab LBB600
 	.dlab LBB601
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext169
-Ltext169:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext171
+Ltext171:
 	.line 154
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L681
+	jc   eq,d0,r14,#L684
 	.dlab LBB602
 	.dlab LBB603
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext170
-Ltext170:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext172
+Ltext172:
+	.line 143
 	ld   i0,[d0,8]
-	jc   eq,i0,r14,#L686
+	jc   eq,i0,r14,#L689
 	call &__ZdaPv ; call non-native
-L686:
+L689:
 	.dlab LBE603
 	.dlab LBE602
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L681:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext171
-Ltext171:
+L684:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext173
+Ltext173:
 	.line 155
 	ld   r1,#0x0
 	ld   [d5,12],r1
@@ -8368,18 +8417,18 @@ Ltext171:
 	.dlab LBE599
 	ld   i0,d5
 	call &__ZdlPv ; call non-native
-L648:
+L651:
 	.dlab LBE598
 	.dlab LBE597
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext172
-Ltext172:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext174
+Ltext174:
 	.line 34
 	add  d6,#0xffffffff
 	ld   r14,#0x0
-	jc   lt,d6,r14,#L725
+	jc   lt,d6,r14,#L728
 	ld   d0,[d7,124]
-	jp   #L689
-L716:
+	jp   #L692
+L719:
 	ld   i0,[d0,8]
 	.dlab LBB604
 	.dlab LBB605
@@ -8400,15 +8449,15 @@ L716:
 	.dlab LBB620
 	.dlab LBB621
 	.dlab LBB622
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext173
-Ltext173:
-	.line 297
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext175
+Ltext175:
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L666
-	jp   #L724
-L715:
+	jc   eq,i0,r1,#L669
+	jp   #L727
+L718:
 	ld   i0,[d0,8]
 	.dlab LBE622
 	.dlab LBE621
@@ -8438,12 +8487,12 @@ L715:
 	.dlab LBB631
 	.dlab LBB632
 	.dlab LBB633
-	.line 297
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L639
-	jp   #L722
+	jc   eq,i0,r1,#L642
+	jp   #L725
 	.dlab LBE633
 	.dlab LBE632
 	.dlab LBE631
@@ -8464,14 +8513,14 @@ L715:
 	.stabn	192,0,0,LBB501-__ZN11MobKeyboardD0Ev
 	.stabs	"l_layout:r(8,61)",64,0,36,9
 	.stabn	192,0,0,LBB504-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB509-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB514-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB519-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE519-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB520-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE520-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE514-__ZN11MobKeyboardD0Ev
@@ -8480,27 +8529,27 @@ L715:
 	.stabn	192,0,0,LBB524-__ZN11MobKeyboardD0Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB527-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB532-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB537-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB542-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE542-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB543-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE543-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE537-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE532-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE527-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE524-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB548-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB551-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB556-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB557-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE557-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE556-__ZN11MobKeyboardD0Ev
@@ -8516,13 +8565,13 @@ L715:
 	.stabn	192,0,0,LBB568-__ZN11MobKeyboardD0Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB570-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB573-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB576-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB581-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB582-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE582-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE581-__ZN11MobKeyboardD0Ev
@@ -8530,11 +8579,11 @@ L715:
 	.stabn	224,0,0,LBE573-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE570-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE568-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB585-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB588-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB593-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE593-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE588-__ZN11MobKeyboardD0Ev
@@ -8552,36 +8601,36 @@ L715:
 	.stabn	192,0,0,LBB609-__ZN11MobKeyboardD0Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB611-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB614-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB617-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB622-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE622-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE617-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE614-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE611-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE609-__ZN11MobKeyboardD0Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB625-__ZN11MobKeyboardD0Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB628-__ZN11MobKeyboardD0Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB633-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE633-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE628-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE625-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE605-__ZN11MobKeyboardD0Ev
 	.stabn	224,0,0,LBE596-__ZN11MobKeyboardD0Ev
-Lscope28:
+Lscope31:
 	.set	%4=__ZN11MobKeyboardD1Ev
-	.stabs	"this:P(0,89)",64,0,33,12
+	.stabs	"this:P(0,90)",64,0,33,12
 	.global	__ZThn116_N11MobKeyboardD1Ev
 
 .func __ZThn116_N11MobKeyboardD1Ev, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext174
-Ltext174:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext176
+Ltext176:
 	.line 18
 	push rt,fr
 	ld   fr,sp
@@ -8591,14 +8640,14 @@ Ltext174:
 	call &%4 ; call non-native
 	pop  rt,fr
 	ret
-Lscope29:
+Lscope32:
 	.stabs	"_ZN11MobKeyboardD1Ev:F(0,6)",36,0,33,__ZN11MobKeyboardD1Ev
-	.stabs	"this:P(0,89)",64,0,33,11
+	.stabs	"this:P(0,90)",64,0,33,11
 	.global	__ZN11MobKeyboardD1Ev
 
 .func __ZN11MobKeyboardD1Ev, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext175
-Ltext175:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext177
+Ltext177:
 	.line 33
 	push rt,d7
 	ld   fr,sp
@@ -8613,26 +8662,26 @@ Ltext175:
 	.dlab LBB635
 	.dlab LBB636
 	.dlab LBB637
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext176
-Ltext176:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext178
+Ltext178:
+	.line 265
 	ld   d0,[i0,124]
 	.dlab LBE637
 	ld   d6,[d0]
 	add  d6,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext177
-Ltext177:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext179
+Ltext179:
 	.line 34
 	ld   r1,#0x0
-	jc   lt,d6,r1,#L806
-L795:
+	jc   lt,d6,r1,#L809
+L798:
 	.dlab LBB638
 	.dlab LBB639
 	.dlab LBB640
 	.dlab LBB641
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext178
-Ltext178:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext180
+Ltext180:
+	.line 362
 	ld   r14,d6
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -8643,32 +8692,32 @@ Ltext178:
 	.dlab LBB642
 	.dlab LBB643
 	.dlab LBB644
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB645
 	.dlab LBB646
 	.dlab LBB647
 	.dlab LBB648
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE648
 	.dlab LBE647
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L808
-L737:
-	.line 198
+	jc   eq,r1,r14,#L811
+L740:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L737
-L808:
+	jc   ne,r1,r0,#L740
+L811:
 	.dlab LBB649
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB650
@@ -8676,30 +8725,30 @@ L808:
 	.dlab LBB652
 	.dlab LBB653
 	.dlab LBB654
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L825
-L739:
+	jc   lt,r14,d1,#L828
+L742:
 	.dlab LBE654
 	.dlab LBE653
 	.dlab LBE652
 	.dlab LBB655
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L812
-L749:
-	.line 275
+	jc   le,r2,d1,#L815
+L752:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L749
-L812:
+	jc   gt,r2,r0,#L752
+L815:
 	.dlab LBE655
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE651
 	.dlab LBE650
@@ -8709,35 +8758,35 @@ L812:
 	.dlab LBE644
 	.dlab LBE643
 	.dlab LBE642
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext179
-Ltext179:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext181
+Ltext181:
 	.line 38
 	ld   r14,#0x0
-	jc   eq,d5,r14,#L754
+	jc   eq,d5,r14,#L757
 	.dlab LBB656
 	.dlab LBB657
 	.dlab LBB658
 	.dlab LBB659
 	.dlab LBB660
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext180
-Ltext180:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext182
+Ltext182:
+	.line 265
 	ld   d0,[d5,12]
 	.dlab LBE660
 	ld   d3,[d0]
 	add  d3,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext181
-Ltext181:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext183
+Ltext183:
 	.line 146
-	jc   lt,d3,r14,#L814
-L785:
+	jc   lt,d3,r14,#L817
+L788:
 	.dlab LBB661
 	.dlab LBB662
 	.dlab LBB663
 	.dlab LBB664
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext182
-Ltext182:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext184
+Ltext184:
+	.line 362
 	ld   r14,d3
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -8748,32 +8797,32 @@ Ltext182:
 	.dlab LBB665
 	.dlab LBB666
 	.dlab LBB667
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB668
 	.dlab LBB669
 	.dlab LBB670
 	.dlab LBB671
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE671
 	.dlab LBE670
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L816
-L764:
-	.line 198
+	jc   eq,r1,r14,#L819
+L767:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L764
-L816:
+	jc   ne,r1,r0,#L767
+L819:
 	.dlab LBB672
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB673
@@ -8781,30 +8830,30 @@ L816:
 	.dlab LBB675
 	.dlab LBB676
 	.dlab LBB677
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L826
-L766:
+	jc   lt,r14,d1,#L829
+L769:
 	.dlab LBE677
 	.dlab LBE676
 	.dlab LBE675
 	.dlab LBB678
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L820
-L776:
-	.line 275
+	jc   le,r2,d1,#L823
+L779:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L776
-L820:
+	jc   gt,r2,r0,#L779
+L823:
 	.dlab LBE678
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE674
 	.dlab LBE673
@@ -8814,11 +8863,11 @@ L820:
 	.dlab LBE667
 	.dlab LBE666
 	.dlab LBE665
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext183
-Ltext183:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext185
+Ltext185:
 	.line 150
 	ld   r14,#0x0
-	jc   eq,d4,r14,#L781
+	jc   eq,d4,r14,#L784
 	.dlab LBB679
 	.dlab LBB680
 	.line 97
@@ -8829,16 +8878,16 @@ Ltext183:
 	.dlab LBE679
 	ld   i0,d4
 	call &__ZdlPv ; call non-native
-L781:
+L784:
 	.dlab LBE662
 	.dlab LBE661
 	.line 146
 	add  d3,#0xffffffff
 	ld   r1,#0x0
-	jc   lt,d3,r1,#L827
+	jc   lt,d3,r1,#L830
 	ld   d0,[d5,12]
-	jp   #L785
-L825:
+	jp   #L788
+L828:
 	.dlab LBE659
 	.dlab LBE658
 	.dlab LBE657
@@ -8854,21 +8903,21 @@ L825:
 	.dlab LBB689
 	.dlab LBB690
 	.dlab LBB691
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext184
-Ltext184:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext186
+Ltext186:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB692
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L821
+	jc   le,r2,r1,#L824
 	ld   i0,[d0,8]
-L743:
-	.line 294
+L746:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -8876,23 +8925,23 @@ L743:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L743
-	.dlab LBE692
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L828
-L745:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L746
+	.dlab LBE692
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L831
+L748:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L739
-L831:
+	jp   #L742
+L834:
 	ld   d0,[d7,124]
-L806:
+L809:
 	.dlab LBE691
 	.dlab LBE690
 	.dlab LBE689
@@ -8907,26 +8956,26 @@ L806:
 	.dlab LBE639
 	.dlab LBE638
 	.dlab LBE636
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext185
-Ltext185:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext187
+Ltext187:
 	.line 42
 	ld   r1,#0x0
-	jc   eq,d0,r1,#L797
+	jc   eq,d0,r1,#L800
 	.dlab LBB693
 	.dlab LBB694
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext186
-Ltext186:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext188
+Ltext188:
+	.line 143
 	ld   i0,[d0,8]
-	jc   ne,i0,r1,#L829
-L802:
+	jc   ne,i0,r1,#L832
+L805:
 	.dlab LBE694
 	.dlab LBE693
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L797:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext187
-Ltext187:
+L800:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext189
+Ltext189:
 	.line 43
 	ld   r14,#0x0
 	ld   [d7,124],r14
@@ -8940,7 +8989,7 @@ Ltext187:
 	.line 44
 	pop  rt,d7
 	ret
-L826:
+L829:
 	.dlab LBB695
 	.dlab LBB696
 	.dlab LBB697
@@ -8963,21 +9012,21 @@ L826:
 	.dlab LBB714
 	.dlab LBB715
 	.dlab LBB716
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext188
-Ltext188:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext190
+Ltext190:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB717
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L822
+	jc   le,r2,r1,#L825
 	ld   i0,[d0,8]
-L770:
-	.line 294
+L773:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -8985,29 +9034,29 @@ L770:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L770
-	.dlab LBE717
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L830
-L772:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L773
+	.dlab LBE717
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L833
+L775:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L766
-L830:
-	.line 298
+	jp   #L769
+L833:
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L766
-L828:
+	jp   #L769
+L831:
 	.dlab LBE716
 	.dlab LBE715
 	.dlab LBE714
@@ -9036,14 +9085,14 @@ L828:
 	.dlab LBB726
 	.dlab LBB727
 	.dlab LBB728
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L739
-L829:
+	jp   #L742
+L832:
 	.dlab LBE728
 	.dlab LBE727
 	.dlab LBE726
@@ -9060,12 +9109,12 @@ L829:
 	.dlab LBE697
 	.dlab LBB729
 	.dlab LBB730
-	.line 136
+	.line 143
 	call &__ZdaPv ; call non-native
-	jp   #L802
-L827:
+	jp   #L805
+L830:
 	ld   d0,[d5,12]
-L814:
+L817:
 	.dlab LBE730
 	.dlab LBE729
 	.dlab LBB731
@@ -9074,27 +9123,27 @@ L814:
 	.dlab LBB734
 	.dlab LBB735
 	.dlab LBB736
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext189
-Ltext189:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext191
+Ltext191:
 	.line 154
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L787
+	jc   eq,d0,r14,#L790
 	.dlab LBB737
 	.dlab LBB738
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext190
-Ltext190:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext192
+Ltext192:
+	.line 143
 	ld   i0,[d0,8]
-	jc   eq,i0,r14,#L792
+	jc   eq,i0,r14,#L795
 	call &__ZdaPv ; call non-native
-L792:
+L795:
 	.dlab LBE738
 	.dlab LBE737
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L787:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext191
-Ltext191:
+L790:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext193
+Ltext193:
 	.line 155
 	ld   r1,#0x0
 	ld   [d5,12],r1
@@ -9108,18 +9157,18 @@ Ltext191:
 	.dlab LBE734
 	ld   i0,d5
 	call &__ZdlPv ; call non-native
-L754:
+L757:
 	.dlab LBE733
 	.dlab LBE732
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext192
-Ltext192:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext194
+Ltext194:
 	.line 34
 	add  d6,#0xffffffff
 	ld   r14,#0x0
-	jc   lt,d6,r14,#L831
+	jc   lt,d6,r14,#L834
 	ld   d0,[d7,124]
-	jp   #L795
-L822:
+	jp   #L798
+L825:
 	ld   i0,[d0,8]
 	.dlab LBB739
 	.dlab LBB740
@@ -9140,15 +9189,15 @@ L822:
 	.dlab LBB755
 	.dlab LBB756
 	.dlab LBB757
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext193
-Ltext193:
-	.line 297
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext195
+Ltext195:
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L772
-	jp   #L830
-L821:
+	jc   eq,i0,r1,#L775
+	jp   #L833
+L824:
 	ld   i0,[d0,8]
 	.dlab LBE757
 	.dlab LBE756
@@ -9178,12 +9227,12 @@ L821:
 	.dlab LBB766
 	.dlab LBB767
 	.dlab LBB768
-	.line 297
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L745
-	jp   #L828
+	jc   eq,i0,r1,#L748
+	jp   #L831
 	.dlab LBE768
 	.dlab LBE767
 	.dlab LBE766
@@ -9204,14 +9253,14 @@ L821:
 	.stabn	192,0,0,LBB636-__ZN11MobKeyboardD1Ev
 	.stabs	"l_layout:r(8,61)",64,0,36,9
 	.stabn	192,0,0,LBB639-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB644-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB649-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB654-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE654-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB655-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE655-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE649-__ZN11MobKeyboardD1Ev
@@ -9220,27 +9269,27 @@ L821:
 	.stabn	192,0,0,LBB659-__ZN11MobKeyboardD1Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB662-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB667-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB672-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB677-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE677-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB678-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE678-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE672-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE667-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE662-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE659-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB683-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB686-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB691-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB692-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE692-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE691-__ZN11MobKeyboardD1Ev
@@ -9256,13 +9305,13 @@ L821:
 	.stabn	192,0,0,LBB703-__ZN11MobKeyboardD1Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB705-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB708-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB711-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB716-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB717-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE717-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE716-__ZN11MobKeyboardD1Ev
@@ -9270,11 +9319,11 @@ L821:
 	.stabn	224,0,0,LBE708-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE705-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE703-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB720-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB723-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB728-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE728-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE723-__ZN11MobKeyboardD1Ev
@@ -9292,36 +9341,36 @@ L821:
 	.stabn	192,0,0,LBB744-__ZN11MobKeyboardD1Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB746-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB749-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB752-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB757-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE757-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE752-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE749-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE746-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE744-__ZN11MobKeyboardD1Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB760-__ZN11MobKeyboardD1Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB763-__ZN11MobKeyboardD1Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB768-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE768-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE763-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE760-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE740-__ZN11MobKeyboardD1Ev
 	.stabn	224,0,0,LBE731-__ZN11MobKeyboardD1Ev
-Lscope30:
+Lscope33:
 	.stabs	"_ZN11MobKeyboardD2Ev:F(0,6)",36,0,33,__ZN11MobKeyboardD2Ev
-	.stabs	"this:P(0,89)",64,0,33,11
+	.stabs	"this:P(0,90)",64,0,33,11
 	.global	__ZN11MobKeyboardD2Ev
 
 .func __ZN11MobKeyboardD2Ev, 1, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext194
-Ltext194:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext196
+Ltext196:
 	.line 33
 	push rt,d7
 	ld   fr,sp
@@ -9336,26 +9385,26 @@ Ltext194:
 	.dlab LBB770
 	.dlab LBB771
 	.dlab LBB772
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext195
-Ltext195:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext197
+Ltext197:
+	.line 265
 	ld   d0,[i0,124]
 	.dlab LBE772
 	ld   d6,[d0]
 	add  d6,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext196
-Ltext196:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext198
+Ltext198:
 	.line 34
 	ld   r1,#0x0
-	jc   lt,d6,r1,#L911
-L900:
+	jc   lt,d6,r1,#L914
+L903:
 	.dlab LBB773
 	.dlab LBB774
 	.dlab LBB775
 	.dlab LBB776
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext197
-Ltext197:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext199
+Ltext199:
+	.line 362
 	ld   r14,d6
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -9366,32 +9415,32 @@ Ltext197:
 	.dlab LBB777
 	.dlab LBB778
 	.dlab LBB779
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB780
 	.dlab LBB781
 	.dlab LBB782
 	.dlab LBB783
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE783
 	.dlab LBE782
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L913
-L842:
-	.line 198
+	jc   eq,r1,r14,#L916
+L845:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L842
-L913:
+	jc   ne,r1,r0,#L845
+L916:
 	.dlab LBB784
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB785
@@ -9399,30 +9448,30 @@ L913:
 	.dlab LBB787
 	.dlab LBB788
 	.dlab LBB789
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L930
-L844:
+	jc   lt,r14,d1,#L933
+L847:
 	.dlab LBE789
 	.dlab LBE788
 	.dlab LBE787
 	.dlab LBB790
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L917
-L854:
-	.line 275
+	jc   le,r2,d1,#L920
+L857:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L854
-L917:
+	jc   gt,r2,r0,#L857
+L920:
 	.dlab LBE790
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE786
 	.dlab LBE785
@@ -9432,35 +9481,35 @@ L917:
 	.dlab LBE779
 	.dlab LBE778
 	.dlab LBE777
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext198
-Ltext198:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext200
+Ltext200:
 	.line 38
 	ld   r14,#0x0
-	jc   eq,d5,r14,#L859
+	jc   eq,d5,r14,#L862
 	.dlab LBB791
 	.dlab LBB792
 	.dlab LBB793
 	.dlab LBB794
 	.dlab LBB795
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext199
-Ltext199:
-	.line 258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext201
+Ltext201:
+	.line 265
 	ld   d0,[d5,12]
 	.dlab LBE795
 	ld   d3,[d0]
 	add  d3,#0xffffffff
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext200
-Ltext200:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext202
+Ltext202:
 	.line 146
-	jc   lt,d3,r14,#L919
-L890:
+	jc   lt,d3,r14,#L922
+L893:
 	.dlab LBB796
 	.dlab LBB797
 	.dlab LBB798
 	.dlab LBB799
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext201
-Ltext201:
-	.line 355
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext203
+Ltext203:
+	.line 362
 	ld   r14,d3
 	sll  r14,#0x2
 	ld   i0,[d0,8]
@@ -9471,32 +9520,32 @@ Ltext201:
 	.dlab LBB800
 	.dlab LBB801
 	.dlab LBB802
-	.line 190
+	.line 197
 	ld   r0,r14
 	.dlab LBB803
 	.dlab LBB804
 	.dlab LBB805
 	.dlab LBB806
-	.line 334
+	.line 341
 	ld   r2,[d0]
 	ld   r1,r2
 	sll  r1,#0x2
 	add  r1,i0
 	.dlab LBE806
 	.dlab LBE805
-	.line 199
+	.line 206
 	add  r1,#0xfffffffc
-	jc   eq,r1,r14,#L921
-L869:
-	.line 198
+	jc   eq,r1,r14,#L924
+L872:
+	.line 205
 	ld   r14,[r0,4]
 	ld   [r0],r14
-	.line 199
+	.line 206
 	add  r0,#0x4
-	jc   ne,r1,r0,#L869
-L921:
+	jc   ne,r1,r0,#L872
+L924:
 	.dlab LBB807
-	.line 265
+	.line 272
 	ld   d1,r2
 	add  d1,#0xffffffff
 	.dlab LBB808
@@ -9504,30 +9553,30 @@ L921:
 	.dlab LBB810
 	.dlab LBB811
 	.dlab LBB812
-	.line 288
+	.line 295
 	ld   r14,[d0,4]
-	jc   lt,r14,d1,#L931
-L871:
+	jc   lt,r14,d1,#L934
+L874:
 	.dlab LBE812
 	.dlab LBE811
 	.dlab LBE810
 	.dlab LBB813
-	.line 274
+	.line 281
 	ld   r0,d1
-	jc   le,r2,d1,#L925
-L881:
-	.line 275
+	jc   le,r2,d1,#L928
+L884:
+	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
 	add  r14,i0
 	ld   r1,#0x0
 	ld   [r14],r1
-	.line 274
+	.line 281
 	add  r0,#0x1
-	jc   gt,r2,r0,#L881
-L925:
+	jc   gt,r2,r0,#L884
+L928:
 	.dlab LBE813
-	.line 278
+	.line 285
 	ld   [d0],d1
 	.dlab LBE809
 	.dlab LBE808
@@ -9537,11 +9586,11 @@ L925:
 	.dlab LBE802
 	.dlab LBE801
 	.dlab LBE800
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext202
-Ltext202:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext204
+Ltext204:
 	.line 150
 	ld   r14,#0x0
-	jc   eq,d4,r14,#L886
+	jc   eq,d4,r14,#L889
 	.dlab LBB814
 	.dlab LBB815
 	.line 97
@@ -9552,16 +9601,16 @@ Ltext202:
 	.dlab LBE814
 	ld   i0,d4
 	call &__ZdlPv ; call non-native
-L886:
+L889:
 	.dlab LBE797
 	.dlab LBE796
 	.line 146
 	add  d3,#0xffffffff
 	ld   r1,#0x0
-	jc   lt,d3,r1,#L932
+	jc   lt,d3,r1,#L935
 	ld   d0,[d5,12]
-	jp   #L890
-L930:
+	jp   #L893
+L933:
 	.dlab LBE794
 	.dlab LBE793
 	.dlab LBE792
@@ -9577,21 +9626,21 @@ L930:
 	.dlab LBB824
 	.dlab LBB825
 	.dlab LBB826
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext203
-Ltext203:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext205
+Ltext205:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB827
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L926
+	jc   le,r2,r1,#L929
 	ld   i0,[d0,8]
-L848:
-	.line 294
+L851:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -9599,23 +9648,23 @@ L848:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L848
-	.dlab LBE827
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L933
-L850:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L851
+	.dlab LBE827
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L936
+L853:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L844
-L936:
+	jp   #L847
+L939:
 	ld   d0,[d7,124]
-L911:
+L914:
 	.dlab LBE826
 	.dlab LBE825
 	.dlab LBE824
@@ -9630,26 +9679,26 @@ L911:
 	.dlab LBE774
 	.dlab LBE773
 	.dlab LBE771
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext204
-Ltext204:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext206
+Ltext206:
 	.line 42
 	ld   r1,#0x0
-	jc   eq,d0,r1,#L902
+	jc   eq,d0,r1,#L905
 	.dlab LBB828
 	.dlab LBB829
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext205
-Ltext205:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext207
+Ltext207:
+	.line 143
 	ld   i0,[d0,8]
-	jc   ne,i0,r1,#L934
-L907:
+	jc   ne,i0,r1,#L937
+L910:
 	.dlab LBE829
 	.dlab LBE828
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L902:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext206
-Ltext206:
+L905:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext208
+Ltext208:
 	.line 43
 	ld   r14,#0x0
 	ld   [d7,124],r14
@@ -9663,7 +9712,7 @@ Ltext206:
 	.line 44
 	pop  rt,d7
 	ret
-L931:
+L934:
 	.dlab LBB830
 	.dlab LBB831
 	.dlab LBB832
@@ -9686,21 +9735,21 @@ L931:
 	.dlab LBB849
 	.dlab LBB850
 	.dlab LBB851
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext207
-Ltext207:
-	.line 291
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext209
+Ltext209:
+	.line 298
 	ld   i0,d1
 	sll  i0,#0x2
 	call &__Znam ; call non-native
 	ld   d2,r14
 	.dlab LBB852
-	.line 293
+	.line 300
 	ld   r1,#0x0
 	ld   r2,[d0]
-	jc   le,r2,r1,#L927
+	jc   le,r2,r1,#L930
 	ld   i0,[d0,8]
-L875:
-	.line 294
+L878:
+	.line 301
 	ld   r14,r1
 	sll  r14,#0x2
 	ld   r0,r14
@@ -9708,29 +9757,29 @@ L875:
 	add  r14,i0
 	ld   r14,[r14]
 	ld   [r0],r14
-	.line 293
-	add  r1,#0x1
-	jc   gt,r2,r1,#L875
-	.dlab LBE852
-	.line 297
-	ld   [d0,4],d1
-	.line 298
-	ld   r1,#0x0
-	jc   ne,i0,r1,#L935
-L877:
 	.line 300
+	add  r1,#0x1
+	jc   gt,r2,r1,#L878
+	.dlab LBE852
+	.line 304
+	ld   [d0,4],d1
+	.line 305
+	ld   r1,#0x0
+	jc   ne,i0,r1,#L938
+L880:
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L871
-L935:
-	.line 298
+	jp   #L874
+L938:
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L871
-L933:
+	jp   #L874
+L936:
 	.dlab LBE851
 	.dlab LBE850
 	.dlab LBE849
@@ -9759,14 +9808,14 @@ L933:
 	.dlab LBB861
 	.dlab LBB862
 	.dlab LBB863
-	.line 298
+	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r2,[d0]
-	.line 300
+	.line 307
 	ld   i0,d2
 	ld   [d0,8],d2
-	jp   #L844
-L934:
+	jp   #L847
+L937:
 	.dlab LBE863
 	.dlab LBE862
 	.dlab LBE861
@@ -9783,12 +9832,12 @@ L934:
 	.dlab LBE832
 	.dlab LBB864
 	.dlab LBB865
-	.line 136
+	.line 143
 	call &__ZdaPv ; call non-native
-	jp   #L907
-L932:
+	jp   #L910
+L935:
 	ld   d0,[d5,12]
-L919:
+L922:
 	.dlab LBE865
 	.dlab LBE864
 	.dlab LBB866
@@ -9797,27 +9846,27 @@ L919:
 	.dlab LBB869
 	.dlab LBB870
 	.dlab LBB871
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext208
-Ltext208:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext210
+Ltext210:
 	.line 154
 	ld   r14,#0x0
-	jc   eq,d0,r14,#L892
+	jc   eq,d0,r14,#L895
 	.dlab LBB872
 	.dlab LBB873
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext209
-Ltext209:
-	.line 136
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext211
+Ltext211:
+	.line 143
 	ld   i0,[d0,8]
-	jc   eq,i0,r14,#L897
+	jc   eq,i0,r14,#L900
 	call &__ZdaPv ; call non-native
-L897:
+L900:
 	.dlab LBE873
 	.dlab LBE872
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-L892:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext210
-Ltext210:
+L895:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/MobKeyboard.h",132,0,0,Ltext212
+Ltext212:
 	.line 155
 	ld   r1,#0x0
 	ld   [d5,12],r1
@@ -9831,18 +9880,18 @@ Ltext210:
 	.dlab LBE869
 	ld   i0,d5
 	call &__ZdlPv ; call non-native
-L859:
+L862:
 	.dlab LBE868
 	.dlab LBE867
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext211
-Ltext211:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext213
+Ltext213:
 	.line 34
 	add  d6,#0xffffffff
 	ld   r14,#0x0
-	jc   lt,d6,r14,#L936
+	jc   lt,d6,r14,#L939
 	ld   d0,[d7,124]
-	jp   #L900
-L927:
+	jp   #L903
+L930:
 	ld   i0,[d0,8]
 	.dlab LBB874
 	.dlab LBB875
@@ -9863,15 +9912,15 @@ L927:
 	.dlab LBB890
 	.dlab LBB891
 	.dlab LBB892
-	.stabs	"c:/Apps/MoSync2.4/include/MAUtil/Vector.h",132,0,0,Ltext212
-Ltext212:
-	.line 297
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext214
+Ltext214:
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L877
-	jp   #L935
-L926:
+	jc   eq,i0,r1,#L880
+	jp   #L938
+L929:
 	ld   i0,[d0,8]
 	.dlab LBE892
 	.dlab LBE891
@@ -9901,12 +9950,12 @@ L926:
 	.dlab LBB901
 	.dlab LBB902
 	.dlab LBB903
-	.line 297
+	.line 304
 	ld   [d0,4],d1
-	.line 298
+	.line 305
 	ld   r1,#0x0
-	jc   eq,i0,r1,#L850
-	jp   #L933
+	jc   eq,i0,r1,#L853
+	jp   #L936
 	.dlab LBE903
 	.dlab LBE902
 	.dlab LBE901
@@ -9927,14 +9976,14 @@ L926:
 	.stabn	192,0,0,LBB771-__ZN11MobKeyboardD2Ev
 	.stabs	"l_layout:r(8,61)",64,0,36,9
 	.stabn	192,0,0,LBB774-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB779-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB784-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB789-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE789-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB790-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE790-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE784-__ZN11MobKeyboardD2Ev
@@ -9943,27 +9992,27 @@ L926:
 	.stabn	192,0,0,LBB794-__ZN11MobKeyboardD2Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB797-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB802-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB807-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB812-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE812-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,3)",64,0,274,16
+	.stabs	"i:r(0,3)",64,0,281,16
 	.stabn	192,0,0,LBB813-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE813-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE807-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE802-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE797-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE794-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB818-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB821-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB826-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB827-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE827-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE826-__ZN11MobKeyboardD2Ev
@@ -9979,13 +10028,13 @@ L926:
 	.stabn	192,0,0,LBB838-__ZN11MobKeyboardD2Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB840-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB843-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB846-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB851-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,3)",64,0,293,17
+	.stabs	"i:r(0,3)",64,0,300,17
 	.stabn	192,0,0,LBB852-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE852-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE851-__ZN11MobKeyboardD2Ev
@@ -9993,11 +10042,11 @@ L926:
 	.stabn	224,0,0,LBE843-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE840-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE838-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB855-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB858-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB863-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE863-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE858-__ZN11MobKeyboardD2Ev
@@ -10015,29 +10064,29 @@ L926:
 	.stabn	192,0,0,LBB879-__ZN11MobKeyboardD2Ev
 	.stabs	"l_button:r(8,39)",64,0,148,8
 	.stabn	192,0,0,LBB881-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(8,72)",64,0,190,16
+	.stabs	"i:r(8,72)",64,0,197,16
 	.stabn	192,0,0,LBB884-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB887-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(8,72)",64,0,291,6
+	.stabs	"newData:r(8,72)",64,0,298,6
 	.stabn	192,0,0,LBB892-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE892-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE887-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE884-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE881-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE879-__ZN11MobKeyboardD2Ev
-	.stabs	"i:r(0,26)",64,0,190,16
+	.stabs	"i:r(0,26)",64,0,197,16
 	.stabn	192,0,0,LBB895-__ZN11MobKeyboardD2Ev
-	.stabs	"newSize:r(0,3)",64,0,265,5
+	.stabs	"newSize:r(0,3)",64,0,272,5
 	.stabn	192,0,0,LBB898-__ZN11MobKeyboardD2Ev
-	.stabs	"newData:r(0,26)",64,0,291,6
+	.stabs	"newData:r(0,26)",64,0,298,6
 	.stabn	192,0,0,LBB903-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE903-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE898-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE895-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE875-__ZN11MobKeyboardD2Ev
 	.stabn	224,0,0,LBE866-__ZN11MobKeyboardD2Ev
-Lscope31:
+Lscope34:
 .data
 LC173:
 	.ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\0"
@@ -10057,34 +10106,34 @@ LC178:
 	.stabs	"__priority:P(0,3)",64,0,595,13
 
 .func __Z41__static_initialization_and_destruction_0ii, 2, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext213
-Ltext213:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext215
+Ltext215:
 	.line 595
 	push rt,d0
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x10
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext214
-Ltext214:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext216
+Ltext216:
 	.line 60
 	ld   r14,#0xffff
-	jc   eq,i1,r14,#L973
-L937:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext215
-Ltext215:
+	jc   eq,i1,r14,#L976
+L940:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext217
+Ltext217:
 	.line 595
 	add  sp,#0x4
 	pop  rt,d0
 	ret
-L973:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext216
-Ltext216:
+L976:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext218
+Ltext218:
 	.line 60
 	ld   r14,#0x1
-	jc   eq,i0,r14,#L974
+	jc   eq,i0,r14,#L977
 	.line 76
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L937
+	jc   ne,i0,r14,#L940
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 74
@@ -10102,16 +10151,16 @@ Ltext216:
 	.line 60
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L975:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext217
-Ltext217:
+L978:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext219
+Ltext219:
 	.line 595
 	add  sp,#0x4
 	pop  rt,d0
 	ret
-L974:
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext218
-Ltext218:
+L977:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\/../Util.h",132,0,0,Ltext220
+Ltext220:
 	.line 64
 	ld   i0,#_base64_chars
 	ld   i1,#LC173
@@ -10163,13 +10212,13 @@ Ltext218:
 	ld   i0,d0
 	.line 60
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L975
-Lscope32:
+	jp   #L978
+Lscope35:
 	.stabs	"_GLOBAL__I__ZN11MobKeyboardC2Eiiii:f(0,6)",36,0,596,__GLOBAL__I__ZN11MobKeyboardC2Eiiii
 
 .func __GLOBAL__I__ZN11MobKeyboardC2Eiiii, 0, void
-	.stabs	"C:\\GameCards Core\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext219
-Ltext219:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\UI\\MobKeyboard.cpp",132,0,0,Ltext221
+Ltext221:
 	.line 596
 	push rt,fr
 	ld   fr,sp
@@ -10180,7 +10229,7 @@ Ltext219:
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
-Lscope33:
+Lscope36:
 	.stabs	"_GLOBAL__D__ZN11MobKeyboardC2Eiiii:f(0,6)",36,0,597,__GLOBAL__D__ZN11MobKeyboardC2Eiiii
 
 .func __GLOBAL__D__ZN11MobKeyboardC2Eiiii, 0, void
@@ -10194,7 +10243,7 @@ Lscope33:
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
-Lscope34:
+Lscope37:
 	.stabs	"base64_chars:S(8,43)",40,0,60,_base64_chars
 	.stabs	"URL:S(11,1)",40,0,68,_URL
 	.stabs	"USER:S(11,1)",40,0,70,_USER

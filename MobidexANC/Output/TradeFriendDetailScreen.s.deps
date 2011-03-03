@@ -1,63 +1,45 @@
-C:\GameCards\ Core\GameCards\MobidexANC\Output\TradeFriendDetailScreen.s:  \
- C:\GameCards\ Core\GameCards\MobidexANC\TradeFriendDetailScreen.cpp \
-  C:\GameCards\ Core\GameCards\MobidexANC\/TradeFriendDetailScreen.h \
-  c:/Apps/MoSync2.4/include/ma.h c:/Apps/MoSync2.4/include/maapi.h \
-  c:/Apps/MoSync2.4/include/maapi_defs.h \
-  c:/Apps/MoSync2.4/include/MAUI/ListBox.h \
-  c:/Apps/MoSync2.4/include/MAUI/Widget.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Vector.h \
-  c:/Apps/MoSync2.4/include/MAUtil/RefCounted.h \
-  c:/Apps/MoSync2.4/include/MAUtil/String.h \
-  c:/Apps/MoSync2.4/include/MAUtil/RefCounted.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Vector.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Geometry.h \
-  c:/Apps/MoSync2.4/include/MAUI/WidgetSkin.h \
-  c:/Apps/MoSync2.4/include/MAUtil/HashMap.h \
-  c:/Apps/MoSync2.4/include/maassert.h c:/Apps/MoSync2.4/include/ma.h \
-  c:/Apps/MoSync2.4/include/maheap.h \
-  c:/Apps/MoSync2.4/include/kazlib/hash.h \
-  c:/Apps/MoSync2.4/include/limits.h \
-  c:/Apps/MoSync2.4/include/MAUtil/collection_common.h \
-  c:/Apps/MoSync2.4/include/MAUtil/String.h \
-  c:/Apps/MoSync2.4/include/MAUtil/HashMap_impl.h \
-  c:/Apps/MoSync2.4/include/MAUI/InputManager.h \
-  c:/Apps/MoSync2.4/include/MAUI/Engine.h \
-  c:/Apps/MoSync2.4/include/MAUI/Font.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Environment.h \
-  c:/Apps/MoSync2.4/include/MAUtil/ListenerSet.h \
-  c:/Apps/MoSync2.4/include/MAUI/Label.h \
-  c:/Apps/MoSync2.4/include/MAUI/Layout.h \
-  c:/Apps/MoSync2.4/include/MAUI/Screen.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/Feed.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/Albums.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Map.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Dictionary.h \
-  c:/Apps/MoSync2.4/include/kazlib/dict.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Dictionary_impl.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/UI/Widgets/MobEditBox.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Moblet.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Environment.h \
-  c:/Apps/MoSync2.4/include/MAUI/Widget.h \
-  c:/Apps/MoSync2.4/include/MAUI/EditBox.h \
-  c:/Apps/MoSync2.4/include/MAUtil/CharInput.h \
-  c:/Apps/MoSync2.4/include/MAUI/Label.h \
-  c:/Apps/MoSync2.4/include/MAUtil/util.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/UI/MobKeyboard.h \
-  c:/Apps/MoSync2.4/include/madmath.h \
-  c:/Apps/MoSync2.4/include/mastring.h \
-  c:/Apps/MoSync2.4/include/mactype.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/XmlConnection.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Connection.h \
-  c:/Apps/MoSync2.4/include/MTXml/MTXml.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/Card.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/TradeCompleteScreen.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/Util.h \
-  c:/Apps/MoSync2.4/include/MAUI/Font.h \
-  c:/Apps/MoSync2.4/include/MAUI/Image.h \
-  c:/Apps/MoSync2.4/include/conprint.h c:/Apps/MoSync2.4/include/maarg.h \
-  c:/Apps/MoSync2.4/include/mavsprintf.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/ImageCache.h \
-  C:\GameCards\ Core\GameCards\MobidexANC\/ImageCacheRequest.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Downloader.h \
-  c:/Apps/MoSync2.4/include/MAUtil/Connection.h \
-  c:/Apps/MoSync2.4/include/MAUtil/util.h
+ \
+ E:\My\ Dropbox\workspace\GameCards\MobidexANC\Output\TradeFriendDetailScreen.s:  \
+ E:\My\ Dropbox\workspace\GameCards\MobidexANC\TradeFriendDetailScreen.cpp \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/TradeFriendDetailScreen.h \
+  c:/MoSync/include/ma.h c:/MoSync/include/maapi.h \
+  c:/MoSync/include/maapi_defs.h c:/MoSync/include/MAUI/ListBox.h \
+  c:/MoSync/include/MAUI/Widget.h c:/MoSync/include/MAUtil/Vector.h \
+  c:/MoSync/include/MAUtil/RefCounted.h c:/MoSync/include/MAUtil/String.h \
+  c:/MoSync/include/MAUtil/RefCounted.h c:/MoSync/include/MAUtil/Vector.h \
+  c:/MoSync/include/MAUtil/Geometry.h c:/MoSync/include/MAUI/WidgetSkin.h \
+  c:/MoSync/include/MAUtil/HashMap.h c:/MoSync/include/maassert.h \
+  c:/MoSync/include/ma.h c:/MoSync/include/maheap.h \
+  c:/MoSync/include/kazlib/hash.h c:/MoSync/include/limits.h \
+  c:/MoSync/include/MAUtil/collection_common.h \
+  c:/MoSync/include/MAUtil/String.h \
+  c:/MoSync/include/MAUtil/HashMap_impl.h \
+  c:/MoSync/include/MAUI/InputManager.h c:/MoSync/include/MAUI/Engine.h \
+  c:/MoSync/include/MAUI/Font.h c:/MoSync/include/MAUtil/Environment.h \
+  c:/MoSync/include/MAUtil/ListenerSet.h c:/MoSync/include/MAUI/Label.h \
+  c:/MoSync/include/MAUI/Layout.h c:/MoSync/include/MAUI/Screen.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/Feed.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/Albums.h \
+  c:/MoSync/include/MAUtil/Map.h c:/MoSync/include/MAUtil/Dictionary.h \
+  c:/MoSync/include/kazlib/dict.h \
+  c:/MoSync/include/MAUtil/Dictionary_impl.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/UI/Widgets/MobEditBox.h \
+  c:/MoSync/include/MAUtil/Moblet.h \
+  c:/MoSync/include/MAUtil/Environment.h c:/MoSync/include/MAUI/Widget.h \
+  c:/MoSync/include/MAUI/EditBox.h c:/MoSync/include/MAUtil/CharInput.h \
+  c:/MoSync/include/MAUI/Label.h c:/MoSync/include/MAUtil/util.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/UI/MobKeyboard.h \
+  c:/MoSync/include/madmath.h c:/MoSync/include/mastring.h \
+  c:/MoSync/include/mactype.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/XmlConnection.h \
+  c:/MoSync/include/MAUtil/Connection.h c:/MoSync/include/MTXml/MTXml.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/Card.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/TradeCompleteScreen.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/Util.h \
+  c:/MoSync/include/MAUI/Font.h c:/MoSync/include/MAUI/Image.h \
+  c:/MoSync/include/conprint.h c:/MoSync/include/maarg.h \
+  c:/MoSync/include/mavsprintf.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/ImageCache.h \
+  E:\My\ Dropbox\workspace\GameCards\MobidexANC\/ImageCacheRequest.h \
+  c:/MoSync/include/MAUtil/Downloader.h \
+  c:/MoSync/include/MAUtil/Connection.h c:/MoSync/include/MAUtil/util.h

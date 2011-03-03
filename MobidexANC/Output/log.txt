@@ -1,5 +1,5 @@
-PerformanceFrequency: 1558623
-StartCount: 659085595945
+PerformanceFrequency: 1948300
+StartCount: 1364241955953
 Hello World!
 argc: 12
 1:-program
@@ -15,13 +15,13 @@ maxCustomEventSize: 0xc
 Head.DataSize: 0x80000
 Head.StackSize: 0x8000
 Head.HeapSize: 0x64000
-Head.EntryPoint: 0x243dc
-Head.CodeLen: 0x45627
+Head.EntryPoint: 0x24529
+Head.CodeLen: 0x474bf
 CODE_SEGMENT_SIZE: 0x80000
-Head.DataLen: 0x6d74
+Head.DataLen: 0x6f30
 Head.DataSize: 0x80000
 DATA_SEGMENT_SIZE: 0x80000
-Head.IntLen: 0x796
+Head.IntLen: 0x7e7
 Type 2, size 11342
 Type 4, size 6774
 Type 4, size 6169
@@ -49,43 +49,36 @@ Type 2, size 8105
 Type 4, size 9644
 ResLoad complete
 IDL version match!
-SDL_RWFromFile(stores/fd.sav, rb) = 00000000
-Couldn't open stores/fd.sav
-SDL_RWFromFile(stores/lb.sav, rb) = 00000000
-Couldn't open stores/lb.sav
-SDL_RWFromFile(stores/1, rb) = 00000000
-Couldn't open stores/1
-<cards><cardid>1</cardid><description>Baleka Mbete</description><thumburl>http://mobidex.mytcg.net/images/cards/480/1_thumb.jpg</thumburl><fronturl>http://mobidex.mytcg.net/images/cards/480/1_front.jpg</fronturl><backurl>http://mobidex.mytcg.net/images/cards/480/1_back.jpg</backurl><cardid>2</cardid><description>Marius Fransman</description><thumburl>http://mobidex.mytcg.net/images/cards/480/2_thumb.jpg</thumburl><fronturl>http://mobidex.mytcg.net/images/cards/480/2_front.jpg</fronturl><backurl>http://mobidex.mytcg.net/images/cards/480/2_back.jpg</backurl><cardid>3</cardid><description>Paul Mashatile</description><thumburl>http://mobidex.mytcg.net/images/cards/480/3_thumb.jpg</thumburl><fronturl>http://mobidex.mytcg.net/images/cards/480/3_front.jpg</fr
-/fronturl><backurl>http://mobidex.mytcg.net/images/cards/480/3_back.jpg</backurl></cards>mytcg.net/images/cards/480/1_thumb.jpg
-SDL_RWFromFile(stores/1, rb) = 00000000
-Couldn't open stores/1
-SDL_RWFromFile(stores/1.sav, rb) = 00000000
-Couldn't open stores/1.sav
-SDL_RWFromFile(stores/2.sav, rb) = 00000000
-Couldn't open stores/2.sav
-SDL_RWFromFile(stores/3.sav, rb) = 00000000
-Couldn't open stores/3.sav
-SDL_RWFromFile(stores/fd.sav, rb) = 00000000
-Couldn't open stores/fd.sav
-SDL_RWFromFile(stores/1f.sav, rb) = 00000000
-Couldn't open stores/1f.sav
-SDL_RWFromFile(stores/1b.sav, rb) = 00000000
-Couldn't open stores/1b.sav
-SDL_QUIT @ 29660
-Exit 0
+open(stores/lb.sav, 0x8000) failed: 2(No such file or directory)
+MASocketOpen: DNS resolve failed. 11004
+Failure in .\net.cpp @ line 377
+Failure in .\net.cpp @ line 365
+MASocketOpen: DNS resolve failed. 11004
+Failure in .\net.cpp @ line 377
+Failure in .\net.cpp @ line 365
+Assert failure http->mState == HttpConnection::FINISHED in ..\..\base\networking.cpp @ line 673
+ErrorExit 40018
+MoSync Panic 40018
+
+"HTTP connection is not Finished"
+
+The panic occurred in the syscall maHttpGetResponseHeader.
 DumpCallStackEx:
 reportCallStack
 0
-IP: 0x3d98a
-Call stack: 4 frames
-0: 0x24406
-1: 0xe8f5
-2: 0x3e1d2
-3: 0x3d98c
-Exit @ IP 0x3d98a  SP 0x7ff9c
-InstCount: 2842000
-IP: 0x243DC
+IP: 0x325ec
+Call stack: 7 frames
+0: 0x24553
+1: 0xea1b
+2: 0x3ffc4
+3: 0x3ce60
+4: 0x32692
+5: 0xd895
+6: 0x325ee
+Exit @ IP 0x325ec  SP 0x7ff30
+InstCount: 946356
+IP: 0x24529
 Profile dumped.
-level: 4
-maxLevel: 24
-nodes: 5694
+level: 7
+maxLevel: 23
+nodes: 3283
