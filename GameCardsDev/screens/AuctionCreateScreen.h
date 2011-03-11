@@ -3,6 +3,7 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
@@ -10,7 +11,9 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobEditBox.h"
+#if defined(MA_PROF_SUPPORT_STYLUS)
 #include "../UI/MobKeyboard.h"
+#endif
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -20,19 +23,26 @@ public:
 	AuctionCreateScreen(Screen *previous, Feed *feed, Card *card);
 	~AuctionCreateScreen();
 	void keyPressEvent(int keyCode);
-	void pointerPressEvent(MAPoint2d point);
-	void pointerMoveEvent(MAPoint2d point);
-	void pointerReleaseEvent(MAPoint2d point);
-	void locateItem(MAPoint2d point);
+
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		void pointerPressEvent(MAPoint2d point);
+		void pointerMoveEvent(MAPoint2d point);
+		void pointerReleaseEvent(MAPoint2d point);
+		void locateItem(MAPoint2d point);
+	#endif
 
 private:
 	Screen *previous;
 	Layout *mainLayout;
-	Label *label;
+	Label *label, *notice;
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobEditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
-	MobKeyboard *keyboard;
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		MobKeyboard *keyboard;
+	#endif
+
+	Vector<Widget*> tempWidgets;
 
 	bool list, left, right, busy;
 
@@ -45,7 +55,9 @@ private:
 	XmlConnection xmlConn;
 
 	void setSelectedEditBox();
-	void setKeyboardDetails(MAPoint2d point);
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		void setKeyboardDetails(MAPoint2d point);
+	#endif
 	void validateInput();
 
 	void drawDataInputScreen();
@@ -65,6 +77,8 @@ private:
 	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void clearListBox();
 
 	enum screenType {ST_DATA, ST_CREATED, ST_INVALID};
 };

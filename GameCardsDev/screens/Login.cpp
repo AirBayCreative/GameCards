@@ -8,6 +8,7 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	moved = 0;
 	changed = false;
 	isBusy = false;
+	kbShown = false;
 
 	response = "";
 
@@ -39,8 +40,6 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontBlack);
@@ -54,6 +53,10 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 	}
 	touch = falsesz;
 	this->setMain(mainLayout);
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
+		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+#endif
 }
 
 Login::~Login() {}
@@ -63,9 +66,10 @@ void Login::drawLoginScreen() {
 	moved = 0;
 	changed = true;
 	screen = S_LOGIN;
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
+#endif
 	clearListBox();
 
 	updateSoftKeyLayout(exit, login, reg, mainLayout);
@@ -99,9 +103,10 @@ void Login::drawRegisterScreen() {
 	moved = 0;
 	changed = true;
 	screen = S_REGISTER;
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
+#endif
 	clearListBox();
 
 	updateSoftKeyLayout(cancellbl, apply, "", mainLayout);
@@ -158,9 +163,10 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void Login::pointerPressEvent(MAPoint2d point)
 {
+	kbShown = keyboard->isShown();
     locateItem(point);
 }
 
@@ -173,9 +179,9 @@ void Login::pointerMoveEvent(MAPoint2d point)
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (!(keyboard->isShown()) && right) {
+		if (!kbShown && right) {
 			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (!(keyboard->isShown()) && left) {
+		} else if (!kbShown && left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
@@ -221,6 +227,14 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		moved = 0;
 		changed = false;
 	}
+
+	if (keyboard->isShown()) {
+		listBox->setEnabled(false);
+	}
+	else {
+		listBox->setEnabled(true);
+	}
+	kbShown = false;
 }
 
 void Login::locateItem(MAPoint2d point)
@@ -260,7 +274,7 @@ void Login::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void Login::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
@@ -454,7 +468,9 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	delete keyboard;
+#endif
 	delete mainLayout;
 
 	parentTag = "";

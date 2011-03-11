@@ -3,6 +3,7 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
@@ -18,11 +19,12 @@ public:
 	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product = NULL, Card *card = NULL);
 	~ShopDetailsScreen();
 	void keyPressEvent(int keyCode);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+#endif
 	enum screenTypes {ST_PRODUCT, ST_AUCTION};
 private:
 	Screen *previous;

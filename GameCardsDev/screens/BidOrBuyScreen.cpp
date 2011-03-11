@@ -21,42 +21,30 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):m
 	drawChoosePhase();
 
 	this->setMain(layout);
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
 		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+#endif
 }
 
 BidOrBuyScreen::~BidOrBuyScreen() {
-	//layout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
-
 	delete layout;
-	/*if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}
-	if (image != NULL) {
-			delete image;
-			image = NULL;
-	}
-	if (editBoxLabel != NULL) {
-		delete editBoxLabel;
-		editBoxLabel = NULL;
-	}*/
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	if (keyboard != NULL) {
 		delete keyboard;
 		keyboard = NULL;
 	}
-	//delete lbl;
-	//delete notice;
+#endif
 }
 
 void BidOrBuyScreen::drawChoosePhase() {
 	clearListBox();
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	updateSoftKeyLayout(back, "", "", layout);
+#else
 	updateSoftKeyLayout(back, select, "", layout);
+#endif
 
 	lbl = createSubLabel(place_bid);
 	lbl->addWidgetListener(this);
@@ -188,6 +176,7 @@ String BidOrBuyScreen::validateBid(){
 	return errorString;
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void BidOrBuyScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -263,6 +252,7 @@ void BidOrBuyScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
+#endif
 
 void BidOrBuyScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {

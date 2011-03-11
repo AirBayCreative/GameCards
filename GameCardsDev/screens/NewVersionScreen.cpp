@@ -20,7 +20,7 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 
 NewVersionScreen::~NewVersionScreen() {
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -74,7 +74,7 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void NewVersionScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:

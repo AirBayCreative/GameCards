@@ -42,10 +42,18 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 
 	switch (screenType) {
 		case ST_CATEGORY:
-			mainLayout = createMainLayout(back, bidOrBuy, details, true);
+			#if defined(MA_PROF_SUPPORT_STYLUS)
+				mainLayout = createMainLayout(back, bidOrBuy, "", true);
+			#else
+				mainLayout = createMainLayout(back, bidOrBuy, details, true);
+			#endif
 			break;
 		case ST_USER:
-			mainLayout = createMainLayout(back, "", details, true);
+			#if defined(MA_PROF_SUPPORT_STYLUS)
+				mainLayout = createMainLayout(back, "", "", true);
+			#else
+				mainLayout = createMainLayout(back, "", details, true);
+			#endif
 			break;
 	}
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -66,10 +74,12 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	memset(url,'\0',urlLength);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s&category_id=%s&heigth=%d&width=%d", CATEGORY_AUCTION.c_str(), categoryId.c_str(), scrHeight, scrWidth);
+			sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
+					categoryId.c_str(), getMaxImageHeight(), scrWidth);
 			break;
 		case ST_USER:
-			sprintf(url, "%s&username=%s&heigth=%d&width=%d", USER_AUCTION.c_str(), feed->getUsername().c_str(), scrHeight, scrWidth);
+			sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
+					feed->getUsername().c_str(), getMaxImageHeight(), scrWidth);
 			break;
 	}
 	mHttp = HttpConnection(this);
@@ -88,6 +98,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	this->setMain(mainLayout);
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionListScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -146,6 +157,7 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
+#endif
 
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;
@@ -194,24 +206,7 @@ void AuctionListScreen::drawList() {
 }
 
 AuctionListScreen::~AuctionListScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}
-	if (label != NULL) {
-		delete label;
-		label = NULL;
-	}
-	delete notice;*/
 	if (next != NULL) {
 		delete next;
 		next = NULL;

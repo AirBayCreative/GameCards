@@ -1,5 +1,4 @@
 #include "TradeOptionsScreen.h"
-#include "TradeFriendMethodScreen.h"
 #include "TradeFriendDetailScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "AuctionCreateScreen.h"
@@ -82,7 +81,7 @@ void TradeOptionsScreen::checkForGames() {
 		mHttp.finish();
 	}
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void TradeOptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -133,7 +132,7 @@ void TradeOptionsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
@@ -156,15 +155,10 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 						menu = new AuctionCreateScreen(this, feed, card);
 						menu->show();
 					} else if(index == 1) {
-						//the users will eventually have the ability to decide how to identify their friends. Until then we will default to phone number
-						//menu = new TradeFriendMethodScreen(this, feed, card);
-						//menu->show();
-
-						//this is just temporary. The full solution is the commented one above.
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new TradeFriendDetailScreen(this, feed, card, phoneNumlbl);
+						menu = new TradeFriendDetailScreen(this, feed, card);
 						menu->show();
 					}
 					break;
@@ -273,7 +267,7 @@ void TradeOptionsScreen::mtxTagData(const char* data, int len) {
 
 void TradeOptionsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_game_description)) {
-		album->addAlbum(temp1.c_str(), temp.c_str());
+		album->addAlbum(temp.c_str(), temp1.c_str());
 		temp1 = "";
 		temp = "";
 	} else if (!strcmp(name, xml_games)) {

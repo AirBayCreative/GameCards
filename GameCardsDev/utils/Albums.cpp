@@ -60,11 +60,14 @@ void Albums::setAll(const char* allch) {
 		if (indentindexof = tmp.find(delim)) {
 			name = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
+
 			indentindexof = tmp.find(delim);
-			id = tmp.substr(indentindexof);
+			id = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
+
 			indentindexof = tmp.find(delim);
-			hasCards = tmp.substr(indentindexof).c_str()=="true";
+			hasCards = tmp=="true";
+
 			album.insert(name, new Album(id, name, hasCards));
 		}
 		all = all.substr(indexof);

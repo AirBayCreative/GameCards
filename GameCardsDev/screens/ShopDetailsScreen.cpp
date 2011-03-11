@@ -49,21 +49,9 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -120,7 +108,7 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:

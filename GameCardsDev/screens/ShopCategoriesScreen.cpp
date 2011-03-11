@@ -32,11 +32,11 @@ void ShopCategoriesScreen::refresh() {
 ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	next = NULL;
 	label = NULL;
-	if (feed->getTouchEnabled()) {
+#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(back, "", true);
-	} else {
+#else
 		mainLayout = createMainLayout(back, select, true);
-	}
+#endif
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -70,35 +70,17 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	/*if (label != NULL) {
-		delete label;
-		label = NULL;
-	}*/
 	if (next != NULL) {
 		delete next;
 		next = NULL;
 	}
-	//delete notice;
 	parentTag="";
 	temp="";
 	temp1="";
 	error_msg="";
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopCategoriesScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -154,7 +136,7 @@ void ShopCategoriesScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopCategoriesScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();

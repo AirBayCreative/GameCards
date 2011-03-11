@@ -4,8 +4,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
-#include "AuctionCreateScreen.h"
-//#include "TradeOptionsScreen.h"
+#include "TradeOptionsScreen.h"
 
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
@@ -15,11 +14,11 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 
 	next = new Screen();
 	error_msg = "";
-	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, auction, "", true);
-	} else {
-		mainLayout = createMainLayout(back, auction, select, true);
-	}
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		mainLayout = createMainLayout(back, tradelbl, "", true);
+	#else
+		mainLayout = createMainLayout(back, tradelbl, select, true);
+	#endif
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_cards);
@@ -28,10 +27,10 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	loadFile();
 
 	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-	int urlLength = CARDS.length() + filename.length() + 15 + intlen(scrHeight) + intlen(scrWidth);
+	int urlLength = CARDS.length() + filename.length() + 15 + intlen(getMaxImageHeight()) + intlen(scrWidth);
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
+	sprintf(url, "%s%s&height=%d&width=%d", CARDS.c_str(), filename.c_str(), getMaxImageHeight(), scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -47,10 +46,6 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	this->setMain(mainLayout);
 
 	moved=0;
-}
-
-void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
-    locateItem(point);
 }
 
 void AlbumViewScreen::loadFile() {
@@ -71,6 +66,12 @@ void AlbumViewScreen::loadImages(const char *text) {
 		all = all.substr(indexof);
 	}
 	drawList();
+}
+
+#if defined(MA_PROF_SUPPORT_STYLUS)
+
+void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
+    locateItem(point);
 }
 
 void AlbumViewScreen::pointerMoveEvent(MAPoint2d point) {
@@ -123,6 +124,8 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
+
+#endif
 
 void AlbumViewScreen::clearFeedLayouts() {
 	if (feedLayouts != NULL && listSizes > 0) {
@@ -184,25 +187,10 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-
-	//delete listBox;
 	delete mainLayout;
 
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	//delete notice;
 	delete next;
 	delete mImageCache;
-	//clearFeedLayouts();
 	delete [] feedLayouts;
 	saveData(filename.c_str(), getAll().c_str());
 	clearCardMap();
@@ -266,16 +254,11 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				notice->setCaption(no_connect);
 			}
 			else if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
-				/*if (next != NULL) {
-					delete next;
-				}
-				next = new TradeOptionsScreen(this, feed,
-						&cards.find(index[selected])->second, TradeOptionsScreen::ST_TRADE_OPTIONS);
-				next->show();*/
 				if (next != NULL) {
 					delete next;
 				}
-				next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
+				next = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_TRADE_OPTIONS,
+						cards.find(index[selected])->second);
 				next->show();
 			}
 			break;

@@ -13,9 +13,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			label = createLabel(feed->getUsername());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//EMAIL
@@ -24,9 +21,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			label = createLabel(feed->getEmail());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(label);
 			break;
 		case BALANCE:
@@ -35,9 +29,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			balanceLabel = createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(balanceLabel);
 			break;
 	}
@@ -62,19 +53,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 }
 
 DetailScreen::~DetailScreen() {
-	mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	username = "";
 	credits = "";
 	encrypt = "";
@@ -83,6 +62,7 @@ DetailScreen::~DetailScreen() {
 	email = "";
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -139,6 +119,7 @@ void DetailScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
+#endif
 
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {

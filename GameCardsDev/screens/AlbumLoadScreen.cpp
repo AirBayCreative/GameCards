@@ -9,6 +9,7 @@
 
 void AlbumLoadScreen::refresh() {
 	show();
+	path.clear();
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
 
@@ -33,12 +34,12 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	temp1 = "";
 
 
-	next = new Screen();
-	if (feed->getTouchEnabled()) {
+	next = NULL;
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		mainLayout = createMainLayout(back, "", true);
+  	#else
 		mainLayout = createMainLayout(back, select, true);
-	} else {
-		mainLayout = createMainLayout(back, select, true);
-	}
+  	#endif
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -82,8 +83,10 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			break;
 	}
 	if(res < 0) {
+		hasConnection = false;
 		notice->setCaption("");
 	} else {
+		hasConnection = true;
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
@@ -112,6 +115,8 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 		album = NULL;
 	}
 }
+
+#if defined(MA_PROF_SUPPORT_STYLUS)
 
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -180,11 +185,11 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	}
 }
 
+#endif
+
 void AlbumLoadScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
-
-	//clearListBox();
 
 	Vector<String> display = album->getNames();
 	size = 0;
@@ -299,10 +304,18 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 
 void AlbumLoadScreen::loadCategory() {
 	if (path.size() == 0) {
-		updateSoftKeyLayout(back, select, "", mainLayout);
+		#if defined(MA_PROF_SUPPORT_STYLUS)
+			updateSoftKeyLayout(back, "", "", mainLayout);
+		#else
+			updateSoftKeyLayout(back, select, "", mainLayout);
+		#endif
 	}
 	else {
-		updateSoftKeyLayout(back, select, previouslbl, mainLayout);
+		#if defined(MA_PROF_SUPPORT_STYLUS)
+			updateSoftKeyLayout(back, "", previouslbl, mainLayout);
+		#else
+			updateSoftKeyLayout(back, select, previouslbl, mainLayout);
+		#endif
 	}
 
 	//the list needs to be cleared
@@ -319,34 +332,36 @@ void AlbumLoadScreen::loadCategory() {
 		album->setAll(getData(file));
 	}
 	drawList();
-	//then request up to date info
-	int res;
-	char *url = NULL;
-	mHttp = HttpConnection(this);
-	if (path.size() == 0) {
-		//if path is empty, the list is at the top level
-		res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
-	}
-	else {
-		//work out how long the url will be, the 2 is for the & and = symbols
-		int urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + 2;
-		url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str());
-		res = mHttp.create(url, HTTP_GET);
-	}
+	//then request up to date info, if there is a connection available
+	if (hasConnection) {
+		int res;
+		char *url = NULL;
+		mHttp = HttpConnection(this);
+		if (path.size() == 0) {
+			//if path is empty, the list is at the top level
+			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+		}
+		else {
+			//work out how long the url will be, the 2 is for the & and = symbols
+			int urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str());
+			res = mHttp.create(url, HTTP_GET);
+		}
 
-	if(res < 0) {
-		notice->setCaption("");
-	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
+		if(res < 0) {
+			notice->setCaption("");
+		} else {
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
 
-	if (url != NULL) {
-		delete url;
-		url = NULL;
+		if (url != NULL) {
+			delete url;
+			url = NULL;
+		}
 	}
 }
 

@@ -74,13 +74,11 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 }
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
-	int scaledHeight = ((height*0.1)>scrHeight?height:(int)(scrHeight*0.1));
-
-	Layout *layout = new Layout(0, 0, scrWidth, scaledHeight, NULL, 3, 1);
+	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
 	layout->setSkin(gSkinBack);
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, scaledHeight, NULL, left, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -89,7 +87,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), scaledHeight, NULL, centre, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -97,7 +95,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, scaledHeight, NULL, right, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -121,7 +119,7 @@ Layout* createNoHeaderLayout() {
 Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	softKeys = createSoftKeyBar(42, left, right, centre);
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
@@ -156,7 +154,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 Layout* createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(42, left, "", "");
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -183,7 +181,7 @@ Layout* createImageLayout(const char *left, bool useKinetic) {
 
 Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(42, left, right, centre);
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
@@ -209,7 +207,7 @@ void updateSoftKeyLayout(const char *left, const char *right, const char *centre
 		delete currentSoftKeys;
 	}
 
-	currentSoftKeys = createSoftKeyBar(42, left, right, centre);
+	currentSoftKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	mainLayout->add(currentSoftKeys);
 }
@@ -355,28 +353,6 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
 		mImageCache->request(req1);
 	}
-
-	/*if (card == NULL) {
-		return;
-	}
-	if (card->getFront().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getFront().c_str(), 0);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, height);
-			}
-		}
-		cacheimage = -1;
-		store = -1;
-	} else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
-		mImageCache->request(req1);
-	}*/
 }
 void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 {
@@ -404,27 +380,6 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
 		mImageCache->request(req1);
 	}
-	/*if (card == NULL) {
-		return;
-	}
-	if (card->getBack().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getBack().c_str(), 0);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, height);
-			}
-		}
-		cacheimage = -1;
-		store = -1;
-	} else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
-		mImageCache->request(req1);
-	}*/
 }
 
 bool isNumeric(String isValid) {
@@ -459,4 +414,15 @@ bool validateEmailAddress(String email) {
 		return false;
 	}
 	return true;
+}
+
+int getSoftKeyBarHeight() {
+	//42 is the default height. It needs to scale up a bit for bigger screens
+	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
+
+	return scaledHeight;
+}
+
+int getMaxImageHeight() {
+	return scrHeight - getSoftKeyBarHeight() - (PADDING * 4);
 }

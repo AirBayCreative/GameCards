@@ -3,6 +3,7 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
@@ -26,10 +27,13 @@ public:
 	String *Retrieve(int id);
 	void drawList();
 
-	void pointerPressEvent(MAPoint2d point);
-	void pointerMoveEvent(MAPoint2d point);
-	void pointerReleaseEvent(MAPoint2d point);
-	void locateItem(MAPoint2d point);
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		void pointerPressEvent(MAPoint2d point);
+		void pointerMoveEvent(MAPoint2d point);
+		void pointerReleaseEvent(MAPoint2d point);
+		void locateItem(MAPoint2d point);
+	#endif
+
 	void loadFile();
 	void loadImages(const char *text);
 

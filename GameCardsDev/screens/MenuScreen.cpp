@@ -14,11 +14,11 @@
 MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	c=0;
 	menu = new Screen();
-	if (feed->getTouchEnabled()) {
+#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(exit, "", true);
-	} else {
+#else
 		mainLayout = createMainLayout(exit, select, true);
-	}
+#endif
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
@@ -64,7 +64,7 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 
 MenuScreen::~MenuScreen() {
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void MenuScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -124,7 +124,7 @@ void MenuScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 
 void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
@@ -199,14 +199,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			break;
 	}
 }
-
-/*void MenuScreen::customEvent(const MAEvent& event)
-{
-	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
-	{
-		this->getMain()->requestRepaint();
-	}
-}*/
 
 void MenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {

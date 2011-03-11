@@ -6,6 +6,7 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
@@ -20,11 +21,12 @@ public:
 	~TradeOptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+#endif
 	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS, ST_PLAY_OPTIONS, ST_GAME_OPTIONS};
 private:
 	Feed *feed;

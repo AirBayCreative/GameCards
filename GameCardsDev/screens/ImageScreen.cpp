@@ -2,8 +2,7 @@
 
 #include "ImageScreen.h"
 #include "../utils/Util.h"
-#include "AuctionCreateScreen.h"
-//#include "TradeOptionsScreen.h"
+#include "TradeOptionsScreen.h"
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection,
 		bool canAuction) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
@@ -13,11 +12,11 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
-		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?auction:"", "");
-		} else {
-			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?auction:"", flipit);
-		}
+#if defined(MA_PROF_SUPPORT_STYLUS)
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?tradelbl:"", "");
+#else
+			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?tradelbl:"", flipit);
+#endif
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}
@@ -36,7 +35,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		imageCache = NULL;
 	}
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -111,24 +110,14 @@ void ImageScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 ImageScreen::~ImageScreen() {
 	if (card != NULL) {
 		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!
-	//this->getMain()->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	img = -1;
 	if (next != NULL) {
 		delete next;
@@ -144,16 +133,11 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
 			if (card != NULL && hasConnection && canAuction) {
-				/*if (next != NULL) {
-					delete next;
-				}
-				next = new TradeOptionsScreen(this, feed, card,
-						TradeOptionsScreen::ST_TRADE_OPTIONS);
-				next->show();*/
 				if (next != NULL) {
 					delete next;
 				}
-				next = new AuctionCreateScreen(this, feed, card);
+				next = new TradeOptionsScreen(this, feed,
+						TradeOptionsScreen::ST_TRADE_OPTIONS, card);
 				next->show();
 			}
 			break;

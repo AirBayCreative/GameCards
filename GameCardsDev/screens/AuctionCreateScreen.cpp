@@ -19,34 +19,23 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 
 	busy = false;
 
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-					scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
+						scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+	#endif
 
 	drawDataInputScreen();
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	/*if (softKeys != NULL) {
-		delete softKeys;
-		softKeys = NULL;
-	}
-	if (image != NULL) {
-		delete image;
-		image = NULL;
-	}*/
-	//delete listBox;
-
-	/*for (int i = 0; i < listBox->getChildren().size(); i++) {
-		listBox->getChildren()[i]->removeWidgetListener(this);
-	}*/
-
 	delete mainLayout;
-	delete keyboard;
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		delete keyboard;
+	#endif
 	delete mImageCache;
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionCreateScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -101,6 +90,7 @@ void AuctionCreateScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
+#endif
 
 void AuctionCreateScreen::keyPressEvent(int keyCode) {
 	switch(screenMode) {
@@ -122,6 +112,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							editBoxDays->setSelected(false);
 
 							busy = true;
+							notice->setCaption("Creating auction...");
 
 							//work out how long the url will be, the 8 is for the & and = symbols
 							int urlLength = CREATE_AUCTION.length() + strlen(xml_cardid) + card->getId().length() + strlen(xml_opening) +
@@ -134,7 +125,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
-
+								notice->setCaption("");
 							} else {
 								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
@@ -231,16 +222,15 @@ void AuctionCreateScreen::setSelectedEditBox() {
 }
 
 void AuctionCreateScreen::drawDataInputScreen() {
-	/*if (listBox != NULL) {
-		listBox->getChildren().clear();
-	}*/
-	if (mainLayout != NULL) {
-		//mainLayout->getChildren().clear();
-		delete mainLayout;
+	if (mainLayout == NULL) {
+		mainLayout = createMainLayout(back, auction, true);
+		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
-
-	mainLayout = createMainLayout(back, auction, true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	else {
+		clearListBox();
+		updateSoftKeyLayout(back, auction, "", mainLayout);
+	}
 
 	Layout *feedlayout;
 
@@ -290,25 +280,14 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	this->setMain(mainLayout);
 
-	//this->show();
-
 	moved = 0;
 	editBoxOpening->setSelected(true);
 	listBox->setSelectedIndex(2);
-	//setSelectedEditBox();
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
-	/*if (listBox != NULL) {
-		listBox->getChildren().clear();
-	}*/
-	if (mainLayout != NULL) {
-		//mainLayout->getChildren().clear();
-		delete mainLayout;
-	}
-
-	mainLayout = createMainLayout("", confirm, true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	clearListBox();
+	updateSoftKeyLayout("", confirm, "", mainLayout);
 
 	String result = "";
 	if (!strcmp(createResult.c_str(), auction_created_successfully_result)) {
@@ -332,16 +311,9 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	editBoxOpening->setSelected(false);
 	editBoxBuyNow->setSelected(false);
 	editBoxDays->setSelected(false);
-	/*if (listBox != NULL) {
-		listBox->getChildren().clear();
-	}*/
-	if (mainLayout != NULL) {
-		//mainLayout->getChildren().clear();
-		delete mainLayout;
-	}
 
-	mainLayout = createMainLayout(back, "", true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	clearListBox();
+	updateSoftKeyLayout(back, "", "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, gFontBlack);
 	label->setMultiLine(true);
@@ -353,6 +325,21 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	this->show();
 }
 
+void AuctionCreateScreen::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionCreateScreen::setKeyboardDetails(MAPoint2d point){
 	int index = listBox->getSelectedIndex();
 	int yClick = point.y;
@@ -408,6 +395,7 @@ void AuctionCreateScreen::setKeyboardDetails(MAPoint2d point){
 		mainLayout->draw(true);
 	}
 }
+#endif
 
 void AuctionCreateScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
@@ -440,6 +428,7 @@ void AuctionCreateScreen::mtxTagData(const char* data, int len) {
 }
 
 void AuctionCreateScreen::mtxTagEnd(const char* name, int len) {
+	notice->setCaption("");
 	busy = false;
 
 	screenMode = ST_CREATED;

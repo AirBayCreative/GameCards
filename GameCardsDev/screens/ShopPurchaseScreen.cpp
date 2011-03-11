@@ -46,20 +46,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
-	//layout->getChildren().clear();
-	//kinListBox->getChildren().clear();
-
-	//delete kinListBox;
 	delete layout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	parentTag="";
 	temp="";
 	temp1="";
@@ -108,7 +95,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 
 	kinListBox->requestRepaint();
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopPurchaseScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -162,7 +149,7 @@ void ShopPurchaseScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -190,7 +177,8 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
-				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(), product->getId().c_str(), scrHeight, scrWidth);
+				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(),
+						product->getId().c_str(), getMaxImageHeight(), scrWidth);
 
 				int res = mHttp.create(url, HTTP_GET);
 
@@ -250,9 +238,9 @@ void ShopPurchaseScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_urlfront)) {
+	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
 		urlfront += data;
-	} else if(!strcmp(parentTag.c_str(), xml_urlback)) {
+	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
 		urlback += data;
 	} else if(!strcmp(parentTag.c_str(), xml_quality)) {
 		quality += data;

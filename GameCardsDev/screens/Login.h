@@ -5,12 +5,15 @@
 #include <MAUI/EditBox.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-#include "../UI/MobKeyboard.h"
 #include "../UI/Widgets/MobEditBox.h"
 #include "../UI/KineticListBox.h"
+#if defined(MA_PROF_SUPPORT_STYLUS)
+#include "../UI/MobKeyboard.h"
+#endif
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -26,25 +29,28 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+#endif
 private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *label, *notice;
 	MobEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
-	MobKeyboard *keyboard;
 	Vector<Widget*> tempWidgets;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	MobKeyboard *keyboard;
+#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,ret,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
-	bool list, left, right, mid, error;
+	bool list, left, right, mid, error, kbShown;
 	int j, screen, moved;
 
 	Feed *feed;

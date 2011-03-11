@@ -47,7 +47,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	thumb = "";
 	cardsInPack = "";
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -106,7 +106,7 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
 	listBox->getChildren().clear();
@@ -139,22 +139,7 @@ void ShopProductsScreen::drawList() {
 }
 
 ShopProductsScreen::~ShopProductsScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	//delete label;
-	//delete notice;
 	if (next != NULL) {
 		delete next;
 	}

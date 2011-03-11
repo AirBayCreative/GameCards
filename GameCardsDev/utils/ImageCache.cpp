@@ -21,7 +21,6 @@ void ImageCache::request(ImageCacheRequest* req)
 {
 	//Add the request to the queue
 	mRequests.add(req);
-
 	//Process the queue
 	process();
 }

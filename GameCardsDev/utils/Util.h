@@ -50,6 +50,8 @@ int getCount();
 bool isNumeric(String isValid);
 int intlen(float start);
 bool validateEmailAddress(String email);
+int getSoftKeyBarHeight();
+int getMaxImageHeight();
 
 //UI Components
 extern Font *gFontGrey;
@@ -91,7 +93,7 @@ static String SUBCATEGORIES = URL+"?usersubcategories=1";
 //GET Cards in album
 static String CARDS = URL+"?cardsincategory=";
 //Trade Card in album
-static String TRADE = URL+"?tradecard=1";
+static String TRADE = URL+"?tradecard=";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
 //Lists all categories with products assigned to them, or their children
@@ -235,6 +237,7 @@ static const char* by_email = "email";
 static const char* by_username = "username";
 static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
+static const char* trade_method = "trademethod";
 //Shop
 static const char* not_enough_credits = "You do not have enough credits to make that purchase.";
 static const char* sure_you_want_to_purchase = "Are you sure you want to purchase a ";
@@ -256,8 +259,6 @@ static const char* xml_productthumb = "productthumb";
 static const char* xml_id = "id";
 static const char* xml_count = "count";
 static const char* xml_quality = "quality";
-static const char* xml_urlfront = "urlfront";
-static const char* xml_urlback = "urlback";
 static const char* xml_card = "card";
 //Auctions
 static const char* checking_auction_categories = "Checking for auction categories...";
