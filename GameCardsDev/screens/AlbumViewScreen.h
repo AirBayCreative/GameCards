@@ -8,8 +8,10 @@
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
+#include "../utils/Stat.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -41,7 +43,7 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
-	Image *tempImage;
+	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
@@ -50,8 +52,8 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,cardText;
-	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note;
+	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
 	int size, i, moved, listSizes;
 	bool list, left, right, emp, hasConnection;
 
@@ -59,6 +61,8 @@ private:
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
+	Vector<Stat*> stats;
+	Stat *stat;
 
 	String getAll();
 	void loadDemo();

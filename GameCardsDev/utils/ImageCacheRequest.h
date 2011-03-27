@@ -5,6 +5,7 @@
 #include <ma.h>
 #include <MAUI/Image.h>
 
+#include "../UI/Widgets/MobImage.h"
 #include "Card.h"
 #include "Product.h"
 
@@ -15,20 +16,20 @@ class ImageCacheRequest
 {
   public:
     ImageCacheRequest();
-    ImageCacheRequest(Image *img, Card *card, int height, int type);
-    ImageCacheRequest(Image *img, Product *product, int height, int type);
+    ImageCacheRequest(MobImage *img, Card *card, int height, int type);
+    ImageCacheRequest(MobImage *img, Product *product, int height, int type);
     ~ImageCacheRequest();
 
     String getUrl();
     String getSaveName();
-    Image* getImage();
+    MobImage* getImage();
     int getHeight();
     int getType();
 
   private:
     Card *card;
     Product *product;
-    Image *img;
+    MobImage *img;
 	int height, type;
 };
 

@@ -2,11 +2,11 @@
 
 #include "ImageCacheRequest.h"
 
-ImageCacheRequest::ImageCacheRequest(Image *img, Card *card, int height, int type) : img(img), card(card), height(height), type(type) {
+ImageCacheRequest::ImageCacheRequest(MobImage *img, Card *card, int height, int type) : img(img), card(card), height(height), type(type) {
 	product = NULL;
 }
 
-ImageCacheRequest::ImageCacheRequest(Image *img, Product *product, int height, int type) : img(img), product(product), height(height), type(type) {
+ImageCacheRequest::ImageCacheRequest(MobImage *img, Product *product, int height, int type) : img(img), product(product), height(height), type(type) {
 	card = NULL;
 }
 
@@ -52,7 +52,7 @@ String ImageCacheRequest::getSaveName()
   return "";
 }
 
-Image* ImageCacheRequest::getImage()
+MobImage* ImageCacheRequest::getImage()
 {
 	return img;
 }

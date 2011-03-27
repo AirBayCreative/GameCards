@@ -4,7 +4,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
-#include "TradeOptionsScreen.h"
+#include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier) : mHttp(this),
@@ -123,7 +123,7 @@ void GamePlayScreen::drawCardList(int selectedIndex) {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		retrieveThumb(tempImage, itr->second, imageCache);
 
@@ -242,11 +242,9 @@ void GamePlayScreen::drawCardDetailsScreen() {
 
 	int height = listBox->getHeight();
 
-	tempImage = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
+	tempImage = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
 
 	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
-
-	listBox->setYOffset(0);
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void GamePlayScreen::pointerPressEvent(MAPoint2d point) {
@@ -409,7 +407,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						next = NULL;
 					}
 					feed->setGameId(gameId.c_str());
-					next = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_GAME_OPTIONS);
+					next = new OptionsScreen(this, feed, OptionsScreen::ST_GAME_OPTIONS);
 					next->show();
 					break;
 			}

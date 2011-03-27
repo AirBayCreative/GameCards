@@ -1,7 +1,8 @@
 #include "DetailScreen.h"
 #include "../utils/Util.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
+DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
+		feed(feed), screenType(screenType), card(card) {
 	mainLayout = createMainLayout(back, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
@@ -31,20 +32,33 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 			break;
+		case CARD:
+			for (int i = 0; i < card->getStats().size(); i++) {
+				/*label = createLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
+				label->setVerticalAlignment(Label::VA_CENTER);
+				setPadding(label);
+				listBox->add(label);*/
+				label = createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
+				label->setPaddingBottom(5);
+				label->addWidgetListener(this);
+				listBox->add(label);
+			}
+			break;
 	}
 
+	if (screenType != CARD) {
+		int res = mHttp.create(USER.c_str(), HTTP_GET);
 
-	int res = mHttp.create(USER.c_str(), HTTP_GET);
+		if(res < 0) {
 
-	if(res < 0) {
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption(checking_info);
 
-	} else {
-		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption(checking_info);
-
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
 	}
 
 	this->setMain(mainLayout);
@@ -122,10 +136,19 @@ void DetailScreen::locateItem(MAPoint2d point)
 #endif
 
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
+	if (screenType == CARD) {
+		if(selected) {
+			((Label *)widget)->setFont(gFontBlue);
+		} else {
+			((Label *)widget)->setFont(gFontBlack);
+		}
+	}
+	else {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
 	}
 }
 
@@ -143,6 +166,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			break;
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

@@ -10,6 +10,7 @@
 #include "../utils/Product.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -31,7 +32,7 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
-	Image *tempImage;
+	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;

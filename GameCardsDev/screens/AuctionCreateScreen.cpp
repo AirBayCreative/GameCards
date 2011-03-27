@@ -1,6 +1,7 @@
 #include "AuctionCreateScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
+#include "../UI/Widgets/MobImage.h"
 
 AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
 	listBox = NULL;
@@ -239,7 +240,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	Image *tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 	retrieveThumb(tempImage, card, mImageCache);
 

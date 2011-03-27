@@ -120,7 +120,7 @@ void ShopProductsScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		retrieveProductThumb(tempImage, products[i], mImageCache);
 

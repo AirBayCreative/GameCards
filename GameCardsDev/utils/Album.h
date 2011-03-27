@@ -23,11 +23,14 @@ public:
 	bool getLoaded();
 	void setLoaded(bool load);
 
+	bool getUpdated();
+	void setUpdated(bool updated);
+
 	String getAll();
 	void setAll(const char*);
 private:
 	String id, description;
-	bool hasCards;
+	bool hasCards, updated;
 };
 
 #endif	//_ALBUM_H_

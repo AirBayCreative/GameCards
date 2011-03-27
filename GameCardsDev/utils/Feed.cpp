@@ -50,6 +50,10 @@ void Feed::setUsername(const char *username) {
 	uname = username;
 }
 
+void Feed::setSeconds(const char *sec) {
+	seconds = sec;
+}
+
 MAUtil::String Feed::getGameId() {
 	return gameId;
 }
@@ -139,7 +143,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+delim+encrypt+delim+noSuccess+delim+whiteSpace+delim+specialCharacters+delim+credits+delim+email+delim+handle+delim+touch+delim;
+	return uname+delim+encrypt+delim+noSuccess+delim+whiteSpace+delim+specialCharacters+delim+credits+delim+email+delim+handle+delim+touch+delim+seconds+delim;
 }
 
 void Feed::setAll(const char* allch) {
@@ -175,6 +179,9 @@ void Feed::setAll(const char* allch) {
 		indexof = all.find(delim);
 		setTouch(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
+		indexof = all.find(delim);
+		setSeconds(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
 			setUsername("");
@@ -207,4 +214,7 @@ String Feed::getAlbumString() {
 }
 Vector<String> Feed::getAlbumNames() {
 	return album->getNames();
+}
+String Feed::getSeconds() {
+	return seconds;
 }

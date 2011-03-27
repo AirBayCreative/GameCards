@@ -22,6 +22,7 @@ public:
 	void setGameId(const char*);
 	bool setTouch(const char* touch);
 	bool setTouchEnabled(bool touch);
+	void setSeconds(const char* seconds);
 	Albums* getAlbum();
 	String getAlbumString();
 	String getEncrypt();
@@ -35,6 +36,7 @@ public:
 	String getReplaceSpecialCharacters();
 	String getAll();
 	String getGameId();
+	String getSeconds();
 	Vector<String> getAlbumNames();
 	bool getTouchEnabled();
 	String getTouch();
@@ -50,6 +52,7 @@ private:
 	String handle;
 	String touch;
 	String gameId;
+	String seconds;
 	Albums *album;
 	Albums real_album;
 	bool touchEnabled;

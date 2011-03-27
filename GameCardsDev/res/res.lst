@@ -91,3 +91,7 @@
 .res RES_MISSINGTHUMB
 .ubin
 .image "missingcardthumb.png"
+
+.res RES_CHANGE_STAR
+.ubin
+.image "change_star.png"

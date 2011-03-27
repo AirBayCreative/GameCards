@@ -16,6 +16,7 @@ public:
 
 	Vector<String> getNames();
 	Vector<String> getIDs();
+	Vector<Album*> getAlbums();
 	void setAll(const char*);
 	void addAlbum(const char*, const char*, bool hasCards=false);
 	void removeAlbum(const char*);

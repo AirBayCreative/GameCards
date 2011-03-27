@@ -5,10 +5,10 @@
 #include "ImageScreen.h"
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
-#include "TradeOptionsScreen.h"
-#include "../utils/MAHeaders.h"
+#include "OptionsScreen.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
+#include "../utils/MAHeaders.h"
 #include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
@@ -45,6 +45,15 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	listBox->setSelectedIndex(0);
 
 	moved=0;
+
+	//char buf[64] = "";
+	//int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+	//int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+	//int msisdn = maGetSystemProperty("mosync.msisdn", buf, sizeof(buf));
+	//lprintfln("imsi: %d", imsi);
+	//lprintfln("imei: %d", imei);
+	//lprintfln("msisdn: %d", msisdn);
+	//update=_versionnumber&msisdn=_msisdn&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&osver=_osver&touch=1/2&width=_screenWidht&height=_screenHeight
 
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
@@ -148,7 +157,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(this, feed, NULL, OptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
@@ -164,7 +173,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			}*/else if(index == 1) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_PLAY_OPTIONS);
+				menu = new OptionsScreen(this, feed, OptionsScreen::ST_PLAY_OPTIONS);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
@@ -172,7 +181,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(this, feed, OptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 4) {
 				delete menu;
@@ -180,7 +189,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 5) {
 				delete menu;
-				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
 			} else if (index == 6) {
 				delete menu;
@@ -189,6 +198,13 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTLEFT:
+			int seconds = maLocalTime();
+			int secondsLength = intlen(seconds);
+			char *secString = new char[secondsLength];
+			memset(secString,'\0',secondsLength);
+			sprintf(secString, "%d", seconds);
+			feed->setSeconds(secString);
+			saveData(FEED, feed->getAll().c_str());
 			maExit(0);
 			break;
 		case MAK_DOWN:

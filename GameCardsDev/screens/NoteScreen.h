@@ -1,52 +1,50 @@
-#ifndef _DETAILSCREEN_H_
-#define _DETAILSCREEN_H_
+#ifndef _NOTESCREEN_H_
+#define _NOTESCREEN_H_
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
 #include <maprofile.h>
 
 #include "../utils/Card.h"
-#include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/Widgets/MobEditBox.h"
 #include "../UI/KineticListBox.h"
+#if defined(MA_PROF_SUPPORT_STYLUS)
+#include "../UI/MobKeyboard.h"
+#endif
 
-using namespace MAUI;
-using namespace MAUtil;
-
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
-	~DetailScreen();
+	NoteScreen(Screen *previous, Feed *feed, Card *card);
+	~NoteScreen();
 	void keyPressEvent(int keyCode);
-	void selectionChanged(Widget *widget, bool selected);
-	void show();
-	void hide();
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-
-	enum screenType {PROFILE, BALANCE, CARD};
 private:
-	Screen *previous;
-	EditBox *editBox;
 	Layout *mainLayout;
-	Label *label, *balanceLabel;
 	KineticListBox *listBox;
-	bool list, left, right;
+	Label *label, *notice;
+	MobEditBox *editBoxNote;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	MobKeyboard *keyboard;
+#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, email;
-	int i,j, moved, screenType;
+	String parentTag, note, origionalNote, encodedNote;
+	bool list, left, right, isBusy, kbShown;
+	int moved;
 
-	Card *card;
+	Screen *previous;
+
 	Feed *feed;
-
-	void refreshData();
+	Card *card;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -61,4 +59,4 @@ private:
 	void mtxTagStartEnd();
 };
 
-#endif	//_DETAILSCREEN_H_
+#endif	//_NOTESCREEN_H_

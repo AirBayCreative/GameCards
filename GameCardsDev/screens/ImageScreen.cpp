@@ -2,7 +2,7 @@
 
 #include "ImageScreen.h"
 #include "../utils/Util.h"
-#include "TradeOptionsScreen.h"
+#include "OptionsScreen.h"
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection,
 		bool canAuction) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
@@ -13,14 +13,14 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	height = listBox->getHeight()-70;
 	if (card != NULL) {
 #if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?tradelbl:"", "");
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
 #else
-			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?tradelbl:"", flipit);
+			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
 #endif
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}
-	imge = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
 	this->setMain(mainLayout);
 
 	if (card != NULL) {
@@ -136,8 +136,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new TradeOptionsScreen(this, feed,
-						TradeOptionsScreen::ST_TRADE_OPTIONS, card);
+				next = new OptionsScreen(this, feed,
+						OptionsScreen::ST_CARD_OPTIONS, card);
 				next->show();
 			}
 			break;

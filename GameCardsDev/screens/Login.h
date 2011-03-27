@@ -48,10 +48,10 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,conCatenation,ret,value,value1,value2,convertAsterisk,underscore;
+	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
 	bool list, left, right, mid, error, kbShown;
-	int j, screen, moved;
+	int screen, moved;
 
 	Feed *feed;
 
@@ -77,8 +77,6 @@ private:
 	void drawRegisterScreen();
 
 	enum screens {S_LOGIN, S_REGISTER};
-
-	String base64(unsigned char const* bytes_to_encode, unsigned int in_len);
 };
 
 #endif	//_LOGIN_H_

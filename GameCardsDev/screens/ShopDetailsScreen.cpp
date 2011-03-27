@@ -1,6 +1,7 @@
 #include "ShopDetailsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
+#include "../UI/Widgets/MobImage.h"
 
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
 	mainLayout = createMainLayout(back, "", true);
@@ -13,7 +14,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	Image *tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 	String nameDesc = "";
 	String fullDesc = "";

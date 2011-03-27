@@ -11,7 +11,19 @@ Card::Card() {
 	rate = "";
 	value = "";
 	fullDesc = "";
+	note = "";
 	loaded = false;
+	updated = false;
+}
+
+Card::~Card() {
+	for (int i = 0; i < stats.size(); i++) {
+		if (stats[i] != NULL) {
+			delete stats[i];
+			stats[i] == NULL;
+		}
+		stats.clear();
+	}
 }
 
 void Card::setLoaded(bool load) {
@@ -20,6 +32,14 @@ void Card::setLoaded(bool load) {
 
 bool Card::getLoaded() {
 	return loaded;
+}
+
+void Card::setUpdated(bool u) {
+	updated = u;
+}
+
+bool Card::getUpdated() {
+	return updated;
 }
 
 String Card::getQuantity() {
@@ -100,6 +120,14 @@ void Card::setGamePlayerCardId(const char *g) {
 	gamePlayerCardId = g;
 }
 
+String Card::getNote() {
+	return note;
+}
+
+void Card::setNote(const char *n) {
+	note = n;
+}
+
 String Card::getAll() {
 	return getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim;
 }
@@ -146,6 +174,25 @@ void Card::setAll(const char* allch) {
 			setId("");
 			setRate("");
 			setValue("");
+			setNote("");
 			setLoaded(false);
 		}
+}
+
+void Card::addStat(Stat *stat) {
+	stats.add(stat);
+}
+
+void Card::removeStat(int index) {
+	if (index < stats.size()) {
+		stats.remove(index);
+	}
+}
+
+void Card::setStats(Vector<Stat*> s) {
+	stats = s;
+}
+
+Vector<Stat*> Card::getStats() {
+	return stats;
 }

@@ -4,16 +4,19 @@ Album::Album() {
 	id = "";
 	description = "";
 	hasCards = false;
+	updated = false;
 }
 
 Album::Album(String id, String desc, bool hasCards):id(id), description(desc),
 		hasCards(hasCards) {
+	updated = false;
 }
 
 Album::~Album() {
 	id = "";
 	description = "";
 	hasCards = false;
+	updated = false;
 }
 
 void Album::setHasCards(bool hc) {
@@ -22,6 +25,14 @@ void Album::setHasCards(bool hc) {
 
 bool Album::getHasCards() {
 	return hasCards;
+}
+
+bool Album::getUpdated() {
+	return updated;
+}
+
+void Album::setUpdated(bool u) {
+	updated = u;
 }
 
 String Album::getId() {

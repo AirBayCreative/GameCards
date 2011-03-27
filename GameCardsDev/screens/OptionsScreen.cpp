@@ -1,15 +1,17 @@
-#include "TradeOptionsScreen.h"
+#include "OptionsScreen.h"
 #include "TradeFriendDetailScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "AuctionCreateScreen.h"
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
 #include "GameDetailsScreen.h"
+#include "NoteScreen.h"
+#include "DetailScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
 
-TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType) {
+OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType) {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -50,6 +52,20 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
+		case ST_CARD_OPTIONS:
+			lbl = createSubLabel(noteslbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(sharelbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(contactlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(deletecardlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
 	}
 
 	listBox->setSelectedIndex(0);
@@ -57,7 +73,7 @@ TradeOptionsScreen::TradeOptionsScreen(Screen *previous, Feed *feed, int screenT
 	this->setMain(layout);
 }
 
-TradeOptionsScreen::~TradeOptionsScreen() {
+OptionsScreen::~OptionsScreen() {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -66,7 +82,7 @@ TradeOptionsScreen::~TradeOptionsScreen() {
 	delete menu;
 }
 
-void TradeOptionsScreen::checkForGames() {
+void OptionsScreen::checkForGames() {
 	connError = true;
 	album = new Albums();
 
@@ -82,17 +98,17 @@ void TradeOptionsScreen::checkForGames() {
 	}
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
-void TradeOptionsScreen::pointerPressEvent(MAPoint2d point)
+void OptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
 }
 
-void TradeOptionsScreen::pointerMoveEvent(MAPoint2d point)
+void OptionsScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
 }
 
-void TradeOptionsScreen::pointerReleaseEvent(MAPoint2d point)
+void OptionsScreen::pointerReleaseEvent(MAPoint2d point)
 {
 	if (right) {
 		keyPressEvent(MAK_SOFTRIGHT);
@@ -103,7 +119,7 @@ void TradeOptionsScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 }
 
-void TradeOptionsScreen::locateItem(MAPoint2d point)
+void OptionsScreen::locateItem(MAPoint2d point)
 {
 	list = false;
 	left = false;
@@ -133,7 +149,7 @@ void TradeOptionsScreen::locateItem(MAPoint2d point)
 	}
 }
 #endif
-void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
+void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
@@ -141,7 +157,7 @@ void TradeOptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
-void TradeOptionsScreen::keyPressEvent(int keyCode) {
+void OptionsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
@@ -206,6 +222,34 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 						menu->show();
 					}
 					break;
+				case ST_CARD_OPTIONS:
+					if (index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new NoteScreen(this, feed, card);
+						menu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new OptionsScreen(this, feed,
+								OptionsScreen::ST_TRADE_OPTIONS, card);
+						menu->show();
+					}
+					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new DetailScreen(this, feed,
+								DetailScreen::CARD, card);
+						menu->show();
+					}
+					else if (index == 3) {
+
+					}
+					break;
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -220,7 +264,7 @@ void TradeOptionsScreen::keyPressEvent(int keyCode) {
 	}
 }
 
-void TradeOptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		connError = false;
 		xmlConn = XmlConnection::XmlConnection();
@@ -234,9 +278,9 @@ void TradeOptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) 
 	}
 }
 
-void TradeOptionsScreen::connReadFinished(Connection* conn, int result) {}
+void OptionsScreen::connReadFinished(Connection* conn, int result) {}
 
-void TradeOptionsScreen::xcConnError(int code) {
+void OptionsScreen::xcConnError(int code) {
 	if (code == -6) {
 		return;
 	} else {
@@ -244,20 +288,20 @@ void TradeOptionsScreen::xcConnError(int code) {
 	}
 }
 
-void TradeOptionsScreen::mtxEncoding(const char* ) {
+void OptionsScreen::mtxEncoding(const char* ) {
 }
 
-void TradeOptionsScreen::mtxTagStart(const char* name, int len) {
+void OptionsScreen::mtxTagStart(const char* name, int len) {
 	if (!strcmp(name, xml_albumdone)) {
 		album->clearAll();
 	}
 	parentTag = name;
 }
 
-void TradeOptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
-void TradeOptionsScreen::mtxTagData(const char* data, int len) {
+void OptionsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_game_description)) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
@@ -265,7 +309,7 @@ void TradeOptionsScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
-void TradeOptionsScreen::mtxTagEnd(const char* name, int len) {
+void OptionsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_game_description)) {
 		album->addAlbum(temp.c_str(), temp1.c_str());
 		temp1 = "";
@@ -296,11 +340,11 @@ void TradeOptionsScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void TradeOptionsScreen::mtxParseError() {
+void OptionsScreen::mtxParseError() {
 }
 
-void TradeOptionsScreen::mtxEmptyTagEnd() {
+void OptionsScreen::mtxEmptyTagEnd() {
 }
 
-void TradeOptionsScreen::mtxTagStartEnd() {
+void OptionsScreen::mtxTagStartEnd() {
 }

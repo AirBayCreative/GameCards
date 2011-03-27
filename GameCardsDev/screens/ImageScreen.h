@@ -10,6 +10,7 @@
 #include "../utils/Feed.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/ImageCache.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 
@@ -33,7 +34,7 @@ private:
 	MAHandle img;
 	Card *card;
 	Feed *feed;
-	Image *imge;
+	MobImage *imge;
 	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;

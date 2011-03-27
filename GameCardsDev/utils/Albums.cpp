@@ -80,9 +80,11 @@ void Albums::clearAll() {
 void Albums::addAlbum(const char* id, const char* name, bool hasCards) {
 	album.insert(name, new Album(id, name, hasCards));
 }
+
 void Albums::removeAlbum(const char* id) {
 	album.erase(id);
 }
+
 Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
@@ -91,6 +93,7 @@ Vector<String> Albums::getNames() {
 	}
 	return names;
 }
+
 Vector<String> Albums::getIDs() {
 	Vector<String> ids;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
@@ -99,3 +102,10 @@ Vector<String> Albums::getIDs() {
 	return ids;
 }
 
+Vector<Album*> Albums::getAlbums() {
+	Vector<Album*> albums;
+	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
+		albums.add(itr->second);
+	}
+	return albums;
+}

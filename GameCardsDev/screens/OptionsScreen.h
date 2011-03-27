@@ -1,5 +1,5 @@
-#ifndef _TRADEOPTIONSSCREEN_H_
-#define _TRADEOPTIONSSCREEN_H_
+#ifndef _OPTIONSSCREEN_H_
+#define _OPTIONSSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
@@ -15,10 +15,10 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeOptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card = NULL);
-	~TradeOptionsScreen();
+	OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card = NULL);
+	~OptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -27,7 +27,8 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS, ST_PLAY_OPTIONS, ST_GAME_OPTIONS};
+	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
+		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_CARD_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;

@@ -85,7 +85,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	lbl->setAutoSizeY(true);
 	kinListBox->add(lbl);
 
-	imge = new Image(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
+	imge = new MobImage(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
 	if (card != NULL) {
 		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());

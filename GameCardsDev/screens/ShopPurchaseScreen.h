@@ -13,6 +13,7 @@
 #include "../utils/Product.h"
 #include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -34,7 +35,7 @@ private:
 	KineticListBox* kinListBox;
 	Label *lbl, *notice;
 	Screen *previous;
-	Image *imge;
+	MobImage *imge;
 
 	Product *product;
 	Card *card;

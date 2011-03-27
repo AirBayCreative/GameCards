@@ -39,11 +39,11 @@ void saveData(const char* storefile, const char *value);
 void saveFile(const char* storefile, MAHandle data);
 void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
-void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache);
-void retrieveProductThumb(Image *img, Product *product, ImageCache *mImageCache);
-void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache);
-void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache);
-void returnImage(Image *img, MAHandle i, int height);
+void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache);
+void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache);
+void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+void returnImage(MobImage *img, MAHandle i, int height);
 void increase();
 void decrease();
 int getCount();
@@ -52,6 +52,9 @@ int intlen(float start);
 bool validateEmailAddress(String email);
 int getSoftKeyBarHeight();
 int getMaxImageHeight();
+String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
+String base64_decode(String encoded_string);
+static inline bool is_base64(unsigned char c);
 
 //UI Components
 extern Font *gFontGrey;
@@ -130,6 +133,8 @@ static String SELECTCARD = URL+"?selectcard=1";
 static String SELECTSTAT = URL+"?selectstat=1";
 //register a new user
 static String REGISTER = URL+"?registeruser=1";
+//save a card's note
+static String SAVENOTE = URL+"?savenote=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -158,6 +163,7 @@ static const char* exit = "Exit";
 static const char* userlbl = "Username:";
 static const char* passlbl = "Password:";
 static const char* emaillbl = "Email:";
+static const char* notelbl = "Note:";
 static const char* phoneNumlbl = "Phone Number";
 static const char* emaillblNoColon = "Email";
 static const char* userlblNoColon = "Username";
@@ -201,6 +207,7 @@ static const char* error_number_card_message = "Not a valid number.";
 static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
 static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
+static const char* savelbl = "Save";
 
 //XML constants <ALBUM>
 static const char* xml_albumname = "albumname";
@@ -219,6 +226,12 @@ static const char* xml_rate = "rate";
 static const char* xml_value = "value";
 static const char* xml_carddone = "cardsincategory";
 static const char* xml_cardcategories = "cardcategories";
+static const char* xml_updated = "updated";
+static const char* xml_stat = "stat";
+static const char* xml_desc = "desc";
+static const char* xml_ival = "ival";
+static const char* xml_card = "card";
+static const char* xml_note = "note";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";
@@ -259,7 +272,6 @@ static const char* xml_productthumb = "productthumb";
 static const char* xml_id = "id";
 static const char* xml_count = "count";
 static const char* xml_quality = "quality";
-static const char* xml_card = "card";
 //Auctions
 static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";
@@ -328,6 +340,10 @@ static const char* xml_card_name = "card_name";
 static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
+static const char* noteslbl = "Notes";
+static const char* sharelbl = "Share";
+static const char* contactlbl = "Contact";
+static const char* deletecardlbl = "Delete Card";
 //registration
 static const char* username = "username";
 static const char* password = "password";
@@ -338,5 +354,9 @@ static const char* phase_card = "card";
 static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
+//certain card stat types are used to communicate (mobidex), they are listed here
+//and they need to match with cardstattypes in the database
+static const char* contact_email = "email";
+static const char* contact_number = "number";
 
 #endif	//_UTIL_H_

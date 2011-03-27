@@ -180,7 +180,7 @@ void AuctionListScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		Card *tmp;
 		tmp = auctions[i]->getCard();
