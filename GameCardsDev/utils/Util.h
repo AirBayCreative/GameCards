@@ -135,6 +135,10 @@ static String SELECTSTAT = URL+"?selectstat=1";
 static String REGISTER = URL+"?registeruser=1";
 //save a card's note
 static String SAVENOTE = URL+"?savenote=";
+//accept a new card
+static String ACCEPTCARD = URL+"?savecard=";
+//reject a new card
+static String REJECTCARD = URL+"?rejectcard=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -210,11 +214,15 @@ static const char* new_version_available = "There is a new version of the Game C
 static const char* savelbl = "Save";
 
 //XML constants <ALBUM>
+static const char* xml_album = "album";
 static const char* xml_albumname = "albumname";
 static const char* xml_albumid = "albumid";
 static const char* xml_albumdone = "usercategories";
 static const char* xml_hascards = "hascards";
 static const char* category = "category";
+//special album ids
+static const char* album_newcards = "-3";
+static const char* album_mycards = "-2";
 //<CARD>
 static const char* xml_cardid = "cardid";
 static const char* xml_carddescription = "description";
@@ -232,6 +240,9 @@ static const char* xml_desc = "desc";
 static const char* xml_ival = "ival";
 static const char* xml_card = "card";
 static const char* xml_note = "note";
+static const char* xml_result = "result";
+static const char* acceptlbl = "Accept Card";
+static const char* rejectlbl = "Reject Card";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";
@@ -344,6 +355,15 @@ static const char* noteslbl = "Notes";
 static const char* sharelbl = "Share";
 static const char* contactlbl = "Contact";
 static const char* deletecardlbl = "Delete Card";
+//update vars
+static const char* update_imsi = "imsi";
+static const char* update_imei = "imei";
+static const char* update_os = "os";
+static const char* update_make = "make";
+static const char* update_model = "model";
+static const char* update_touch = "touch";
+static const char* update_width = "width";
+static const char* update_height = "height";
 //registration
 static const char* username = "username";
 static const char* password = "password";

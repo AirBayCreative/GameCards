@@ -277,8 +277,14 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				switch (screenType) {
 					case ST_ALBUMS:
 						if (val->getHasCards()) {
-							next = new AlbumViewScreen(this, feed, val->getId());
-							next->show();
+							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+								next->show();
+							}
+							else {
+								next = new AlbumViewScreen(this, feed, val->getId());
+								next->show();
+							}
 						}
 						else {
 							//if a category has no cards, it means it has sub categories.
@@ -421,7 +427,7 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_albumname) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
+	if(!strcmp(name, xml_album) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"));
 		temp1 = "";

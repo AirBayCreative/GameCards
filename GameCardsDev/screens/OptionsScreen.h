@@ -28,7 +28,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
-		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_CARD_OPTIONS};
+		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_CARD_OPTIONS, ST_NEW_CARD};
 private:
 	Feed *feed;
 	Layout *layout;
@@ -37,7 +37,7 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, connError;
+	bool list, left, right, connError, busy;
 	int index, screenType;
 	String parentTag, temp1, temp, error_msg;
 
@@ -46,6 +46,8 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
+	void acceptCard();
+	void rejectCard();
 	void checkForGames();
 
 	void httpFinished(MAUtil::HttpConnection*, int);

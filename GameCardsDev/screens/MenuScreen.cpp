@@ -46,18 +46,30 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 
 	moved=0;
 
-	//char buf[64] = "";
-	//int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
-	//int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
-	//int msisdn = maGetSystemProperty("mosync.msisdn", buf, sizeof(buf));
-	//lprintfln("imsi: %d", imsi);
-	//lprintfln("imei: %d", imei);
-	//lprintfln("msisdn: %d", msisdn);
-	//update=_versionnumber&msisdn=_msisdn&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&osver=_osver&touch=1/2&width=_screenWidht&height=_screenHeight
-
+	char buf[64] = "";
+	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+	char *os = MA_PROF_STRING_PLATFORM;
+	char *make = MA_PROF_STRING_VENDOR;
+	char *model = MA_PROF_STRING_DEVICE;
+	int touch = 0;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	touch = 1;
+#endif
+	//work out how long the url will be, the 16 is for the & and = symbals
+	int urlLength = UPDATE.length() + strlen(update_imsi) + intlen(imsi) + strlen(update_imei) + intlen(imei)
+			+ strlen(update_os) + strlen(os) + strlen(update_make) + strlen(make)
+			+ strlen(update_model) + strlen(model) + strlen(update_touch) + intlen(touch) + 16
+			+ strlen(update_width) + intlen(scrWidth) + strlen(update_height) + intlen(scrHeight);
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", UPDATE.c_str(), update_imsi,
+			imsi, update_imei, imei, update_os, os, update_make, make, update_model, model, update_touch, touch,
+			update_width, scrWidth, update_height, scrHeight);
+	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
-	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
+	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 
 	} else {
@@ -65,6 +77,8 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+
+	delete [] url;
 
 	this->setMain(mainLayout);
 

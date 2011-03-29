@@ -4,6 +4,7 @@
 #include "AuctionCreateScreen.h"
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
+#include "AlbumViewScreen.h"
 #include "GameDetailsScreen.h"
 #include "NoteScreen.h"
 #include "DetailScreen.h"
@@ -17,6 +18,7 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 	error_msg = "";
 
 	connError = false;
+	busy = false;
 
 	menu = new Screen();
 	layout = createMainLayout(back, select);
@@ -63,6 +65,14 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(deletecardlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_NEW_CARD:
+			lbl = createSubLabel(acceptlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(rejectlbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -250,6 +260,16 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 
 					}
 					break;
+				case ST_NEW_CARD:
+					if(index == 0 && !busy) {
+						notice->setCaption("Accepting...");
+						acceptCard();
+					}
+					else if (index == 1 && !busy) {
+						notice->setCaption("Rejecting...");
+						rejectCard();
+					}
+					break;
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -262,6 +282,42 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			listBox->selectPreviousItem();
 			break;
 	}
+}
+
+void OptionsScreen::acceptCard() {
+	//work out how long the url will be
+	int urlLength = ACCEPTCARD.length() + card->getId().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		notice->setCaption("");
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+}
+
+void OptionsScreen::rejectCard() {
+	//work out how long the url will be
+	int urlLength = REJECTCARD.length() + card->getId().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		notice->setCaption("");
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
 }
 
 void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -306,6 +362,8 @@ void OptionsScreen::mtxTagData(const char* data, int len) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
 		temp += data;
+	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+		temp += data;
 	}
 }
 
@@ -333,7 +391,9 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 			menu = new AlbumLoadScreen(previous, feed, AlbumLoadScreen::ST_PLAY);
 			menu->show();
 		}
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, xml_result)) {
+		((AlbumViewScreen *)previous)->refresh();
+	}  else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
 		notice->setCaption("");

@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String filename);
+	AlbumViewScreen(Screen *previous, Feed *feed, String filename, int albumType=AT_NORMAL);
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -40,6 +40,10 @@ public:
 	void loadImages(const char *text);
 
 	typedef Map<String, Card*> StringCardMap;
+
+	void refresh();
+
+	enum albumTypes {AT_NORMAL, AT_NEW_CARDS};
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
@@ -54,7 +58,7 @@ private:
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
-	int size, i, moved, listSizes;
+	int size, i, moved, listSizes, albumType;
 	bool list, left, right, emp, hasConnection;
 
 	Feed *feed;

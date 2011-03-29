@@ -43,6 +43,12 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 				label->addWidgetListener(this);
 				listBox->add(label);
 			}
+			if (card->getStats().size() == 0) {
+				label = createSubLabel(empty);
+				label->setPaddingBottom(5);
+				label->addWidgetListener(this);
+				listBox->add(label);
+			}
 			break;
 	}
 

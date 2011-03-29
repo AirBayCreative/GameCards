@@ -6,8 +6,7 @@
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 
-
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()) {
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename, int albumType) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
 	emp = true;
 	listSizes = 0;
 	feedLayouts = NULL;
@@ -46,6 +45,29 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	this->setMain(mainLayout);
 
 	moved=0;
+}
+
+void AlbumViewScreen::refresh() {
+	tmp.clear();
+	notice->setCaption(checking_cards);
+	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+	int urlLength = CARDS.length() + filename.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), filename.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		hasConnection = false;
+		notice->setCaption("");
+	} else {
+		hasConnection = true;
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+	show();
 }
 
 void AlbumViewScreen::loadFile() {
@@ -145,6 +167,7 @@ void AlbumViewScreen::drawList() {
 	listSizes = 0;
 	index.clear();
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
+
 		index.add(itr->second->getId());
 		cardText = itr->second->getText();
 		cardText += "\nQuantity: ";
@@ -158,7 +181,6 @@ void AlbumViewScreen::drawList() {
 		feedLayouts[listSizes] = feedlayout;
 
 		listSizes++;
-
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
@@ -248,7 +270,12 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
+				if (albumType == AT_NEW_CARDS) {
+					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
+				}
+				else {
+					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
+				}
 				next->show();
 			}
 			break;
@@ -260,8 +287,14 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new OptionsScreen(this, feed, OptionsScreen::ST_CARD_OPTIONS,
+				if (albumType == AT_NEW_CARDS) {
+					next = new OptionsScreen(this, feed, OptionsScreen::ST_NEW_CARD,
 						cards.find(index[selected])->second);
+				}
+				else {
+					next = new OptionsScreen(this, feed, OptionsScreen::ST_CARD_OPTIONS,
+						cards.find(index[selected])->second);
+				}
 				next->show();
 			}
 			break;
