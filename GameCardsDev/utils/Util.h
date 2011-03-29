@@ -74,6 +74,7 @@ extern int mCount;
 extern Image *image;
 extern Widget *softKeys;
 extern Screen *orig;
+extern Screen *origAlbum;
 extern Screen *origMenu;
 
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
@@ -139,6 +140,8 @@ static String SAVENOTE = URL+"?savenote=";
 static String ACCEPTCARD = URL+"?savecard=";
 //reject a new card
 static String REJECTCARD = URL+"?rejectcard=";
+//delete a card
+static String DELETECARD = URL+"?deletecard=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -243,6 +246,7 @@ static const char* xml_note = "note";
 static const char* xml_result = "result";
 static const char* acceptlbl = "Accept Card";
 static const char* rejectlbl = "Reject Card";
+static const char* showall = "showall";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";

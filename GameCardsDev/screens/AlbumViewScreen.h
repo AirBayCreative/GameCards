@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String filename, int albumType=AT_NORMAL);
+	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=AT_NORMAL);
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -56,7 +56,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, statDesc, statIVal, statDisplay, note;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
 	int size, i, moved, listSizes, albumType;
 	bool list, left, right, emp, hasConnection;

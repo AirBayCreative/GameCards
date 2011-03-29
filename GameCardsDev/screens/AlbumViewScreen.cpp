@@ -6,7 +6,8 @@
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename, int albumType) : mHttp(this), filename(filename+ALBUMEND), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType) : mHttp(this),
+filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
 	emp = true;
 	listSizes = 0;
 	feedLayouts = NULL;
@@ -24,12 +25,11 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename, 
 
 	mImageCache = new ImageCache();
 	loadFile();
-
 	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-	int urlLength = CARDS.length() + filename.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
+	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), filename.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -43,18 +43,18 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename, 
 	}
 	delete [] url;
 	this->setMain(mainLayout);
-
 	moved=0;
+	origAlbum = this;
 }
 
 void AlbumViewScreen::refresh() {
 	tmp.clear();
 	notice->setCaption(checking_cards);
 	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-	int urlLength = CARDS.length() + filename.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
+	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), filename.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -232,6 +232,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	value="";
 	updated="";
 	note="";
+	category="";
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {

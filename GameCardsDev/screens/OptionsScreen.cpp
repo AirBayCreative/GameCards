@@ -256,16 +256,20 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 								DetailScreen::CARD, card);
 						menu->show();
 					}
-					else if (index == 3) {
-
+					else if (index == 3 && !busy) {
+						busy = true;
+						notice->setCaption("Deleting...");
+						deleteCard();
 					}
 					break;
 				case ST_NEW_CARD:
 					if(index == 0 && !busy) {
+						busy = true;
 						notice->setCaption("Accepting...");
 						acceptCard();
 					}
 					else if (index == 1 && !busy) {
+						busy = true;
 						notice->setCaption("Rejecting...");
 						rejectCard();
 					}
@@ -308,6 +312,24 @@ void OptionsScreen::rejectCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		notice->setCaption("");
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+}
+
+void OptionsScreen::deleteCard() {
+	//work out how long the url will be
+	int urlLength = DELETECARD.length() + card->getId().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s", DELETECARD.c_str(), card->getId().c_str());
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -392,7 +414,7 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 			menu->show();
 		}
 	} else if(!strcmp(name, xml_result)) {
-		((AlbumViewScreen *)previous)->refresh();
+		((AlbumViewScreen *)origAlbum)->refresh();
 	}  else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
