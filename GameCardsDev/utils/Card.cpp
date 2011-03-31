@@ -129,7 +129,12 @@ void Card::setNote(const char *n) {
 }
 
 String Card::getAll() {
-	return getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim;
+	String all = getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+
+			delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim+getNote()+delim;
+	for (int i = 0; i < stats.size(); i++) {
+		all += stats[i]->getAll() + innerDelim;
+	}
+	return all;
 }
 
 void Card::setAll(const char* allch) {
@@ -159,6 +164,19 @@ void Card::setAll(const char* allch) {
 			indexof = all.find(delim);
 			setValue(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
+			indexof = all.find(delim);
+			setNote(all.substr(0,indexof++).c_str());
+			all=all.substr(indexof);
+
+			Stat *newStat;
+			while (all.length() > 1) {
+				indexof = all.find(innerDelim);
+				newStat = new Stat();
+				newStat->setAll(all.substr(0,indexof++).c_str());
+				stats.add(newStat);
+				all=all.substr(indexof);
+			}
+
 			setLoaded(true);
 			if ((getText().length() <= 0)||(getQuantity().length() <= 0)) {
 				setQuantity("");
@@ -183,16 +201,21 @@ void Card::addStat(Stat *stat) {
 	stats.add(stat);
 }
 
-void Card::removeStat(int index) {
+void Card::removeStatAt(int index) {
 	if (index < stats.size()) {
 		stats.remove(index);
 	}
 }
 
 void Card::setStats(Vector<Stat*> s) {
+	stats.clear();
 	stats = s;
 }
 
 Vector<Stat*> Card::getStats() {
 	return stats;
+}
+
+Stat* Card::getStatAt(int index) {
+	return stats[index];
 }

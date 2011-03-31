@@ -12,7 +12,7 @@
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
 
-OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType) {
+OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -73,6 +73,13 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(rejectlbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+		case ST_NUMBER_OPTIONS:
+			lbl = createSubLabel(calllbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(smslbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -272,6 +279,19 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						busy = true;
 						notice->setCaption("Rejecting...");
 						rejectCard();
+					}
+					break;
+				case ST_NUMBER_OPTIONS:
+					if(index == 0) {
+						maPlatformRequest(("tel:"+number).c_str());
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new NoteScreen(this, feed,
+								card, NoteScreen::ST_SMS, number);
+						menu->show();
 					}
 					break;
 			}

@@ -46,7 +46,7 @@ private:
 	Vector<String> path;
 	Vector<Widget*> tempWidgets;
 	String parentTag;
-	String temp,temp1,error_msg,hasCards;
+	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved, screenType;
 	bool list, left, right, mid, empt, hasConnection;
 

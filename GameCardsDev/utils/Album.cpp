@@ -7,9 +7,8 @@ Album::Album() {
 	updated = false;
 }
 
-Album::Album(String id, String desc, bool hasCards):id(id), description(desc),
-		hasCards(hasCards) {
-	updated = false;
+Album::Album(String id, String desc, bool hasCards, bool updated):id(id), description(desc),
+		hasCards(hasCards), updated(updated) {
 }
 
 Album::~Album() {

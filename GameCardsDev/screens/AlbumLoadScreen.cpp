@@ -28,11 +28,12 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	moved = 0;
 	int res = -1;
 	char *url = NULL;
+	int urlLength = 0;
 
 	hasCards = "";
 	temp = "";
 	temp1 = "";
-
+	updated = "0";
 
 	next = NULL;
 	#if defined(MA_PROF_SUPPORT_STYLUS)
@@ -50,7 +51,11 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			notice->setCaption(checking_albums);
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
 			drawList();
-			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:
 			notice->setCaption(checking_albums);
@@ -109,6 +114,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	temp1="";
 	error_msg="";
 	hasCards="";
+	updated="";
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		delete album;
@@ -341,18 +347,24 @@ void AlbumLoadScreen::loadCategory() {
 	//then request up to date info, if there is a connection available
 	if (hasConnection) {
 		int res;
+		int urlLength;
 		char *url = NULL;
 		mHttp = HttpConnection(this);
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
-			res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
-		}
-		else {
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + 2;
+			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str());
+			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+			res = mHttp.create(url, HTTP_GET);
+		}
+		else {
+			//work out how long the url will be, the 4 is for the & and = symbols
+			urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + strlen(seconds) + feed->getSeconds().length() + 4;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str(), seconds, feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 
@@ -423,16 +435,19 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		temp += data;
 	} else if (!strcmp(parentTag.c_str(), xml_hascards)) {
 		hasCards += data;
+	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
+		updated += data;
 	}
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_album) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
 		notice->setCaption("");
-		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"));
+		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
 		temp1 = "";
 		temp = "";
 		hasCards = "";
+		updated = "";
 	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
 		switch (screenType) {
 			case ST_PLAY:

@@ -30,7 +30,7 @@ public:
 
 	enum screenType {PROFILE, BALANCE, CARD};
 private:
-	Screen *previous;
+	Screen *previous, *next;
 	EditBox *editBox;
 	Layout *mainLayout;
 	Label *label, *balanceLabel;

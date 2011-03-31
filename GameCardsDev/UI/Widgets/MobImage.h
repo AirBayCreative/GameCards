@@ -15,13 +15,11 @@ public:
 			bool autosizeX=false, bool autosizeY=false, MAHandle res=NULL);
 	~MobImage();
 
-	void setChanges(bool changes);
-
-	void setIsNew(bool isNew);
+	void setHasNote(bool n);
 protected:
 	virtual void drawWidget();
 
-	bool changes, isNew;
+	bool hasNote;
 };
 
 #endif /* MOBIMAGE_H_ */

@@ -55,10 +55,12 @@ public:
 	void setAll(const char*);
 
 	void addStat(Stat *stat);
-	void removeStat(int index);
+	void removeStatAt(int index);
 	void setStats(Vector<Stat*> stats);
 	Vector<Stat*> getStats();
+	Stat* getStatAt(int index);
 private:
+	//the note is generally saved in base64
 	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note;
 	bool loaded, updated;
 	Vector<Stat*> stats;

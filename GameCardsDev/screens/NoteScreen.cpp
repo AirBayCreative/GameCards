@@ -4,7 +4,8 @@
 #include "../utils/Util.h"
 #include "MenuScreen.h"
 
-NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
+NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
+feed(feed), card(card), screenType(screenType), detail(detail) {
 	moved = 0;
 	list = false;
 	left = false;
@@ -17,20 +18,40 @@ NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), 
 	encodedNote = "";
 	origionalNote = "";
 
-	mainLayout = createMainLayout(back, savelbl, "", true);
+	switch (screenType) {
+		case ST_CARD_NOTE:
+			mainLayout = createMainLayout(back, savelbl, "", true);
+			break;
+		case ST_SMS:
+			mainLayout = createMainLayout(back, sendlbl, "", true);
+		break;
+	}
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontBlack);
-	listBox->add(label);
+	switch (screenType) {
+		case ST_CARD_NOTE:
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontBlack);
+			listBox->add(label);
+			break;
+		case ST_SMS:
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, smslbl, 0, gFontBlack);
+			listBox->add(label);
+		break;
+	}
 
 	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, gFontBlack);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
 	editBoxNote = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight(), label, "", 0, gFontBlack, true, true, 140);
 	editBoxNote->setDrawBackground(false);
-	editBoxNote->setText(card->getNote());
+
+	switch (screenType) {
+		case ST_CARD_NOTE:
+			editBoxNote->setText(base64_decode(card->getNote()));
+			break;
+	}
 
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -136,26 +157,37 @@ void NoteScreen::locateItem(MAPoint2d point)
 void NoteScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
-			isBusy = true;
 			note = editBoxNote->getCaption();
-			card->setNote(note.c_str());
-			encodedNote = base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
-			//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-			int urlLength = SAVENOTE.length() + encodedNote.length() + strlen(xml_cardid) + card->getId().length() + 4;
-			char *url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s%s&%s=%s", SAVENOTE.c_str(), encodedNote.c_str(), xml_cardid, card->getId().c_str());
-			mHttp = HttpConnection(this);
-			int res = mHttp.create(url, HTTP_GET);
-			if(res < 0) {
-				notice->setCaption("Error updating note");
-			} else {
-				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-				mHttp.finish();
-				notice->setCaption("Note updated");
+			switch (screenType) {
+				case ST_CARD_NOTE:
+					if (!isBusy) {
+						isBusy = true;
+						encodedNote = base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
+						card->setNote(encodedNote.c_str());
+						//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+						int urlLength = SAVENOTE.length() + encodedNote.length() + strlen(xml_cardid) + card->getId().length() + 4;
+						char *url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s%s&%s=%s", SAVENOTE.c_str(), encodedNote.c_str(), xml_cardid, card->getId().c_str());
+						mHttp = HttpConnection(this);
+						int res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							notice->setCaption("Error updating note");
+						} else {
+							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.finish();
+							notice->setCaption("Updating note...");
+						}
+						delete [] url;
+					}
+					break;
+				case ST_SMS:
+					if (note.length() > 0) {
+						maSendTextSMS(detail.c_str(), note.c_str());
+					}
+				break;
 			}
-			delete [] url;
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();
@@ -194,6 +226,8 @@ void NoteScreen::mtxTagData(const char* data, int len) {
 }
 
 void NoteScreen::mtxTagEnd(const char* name, int len) {
+	isBusy = false;
+	notice->setCaption("Note Updated.");
 }
 
 void NoteScreen::mtxParseError() {

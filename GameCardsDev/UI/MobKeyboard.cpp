@@ -270,6 +270,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	last_pressed->setPressed(false);
 
 	String l_char = getClickedCharacter(p);
+	bool l_notfull = (((MobEditBox*) m_attachedWidget)->getMaxLength() > ((MobEditBox*) m_attachedWidget)->getText().length());
 
 	if (l_char == "Sh")
 	{
@@ -312,7 +313,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	}
 	else if (l_char == "Space")
 	{
-		if (m_attachedWidget != NULL)
+		if (m_attachedWidget != NULL && l_notfull)
 		{
 			/*if (m_attachedWidget->getClassName() == "MobEditBox")
 			{*/
@@ -327,7 +328,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	}
 	else if (l_char == "Enter")
 	{
-		if (m_attachedWidget != NULL && ((MobEditBox*) m_attachedWidget)->isMultiLine())
+		if (m_attachedWidget != NULL && ((MobEditBox*) m_attachedWidget)->isMultiLine() && l_notfull)
 		{
 			((MobEditBox*) m_attachedWidget)->setText(((MobEditBox*) m_attachedWidget)->getText() + "\n");
 			((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
@@ -338,7 +339,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	}
 	else
 	{
-		if (m_attachedWidget != NULL)
+		if (m_attachedWidget != NULL && l_notfull)
 		{
 			bool isPasswordMode = ((MobEditBox*) m_attachedWidget)->isPasswordMode();
 			if (isPasswordMode) {

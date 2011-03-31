@@ -16,7 +16,7 @@
 
 class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	NoteScreen(Screen *previous, Feed *feed, Card *card);
+	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
 	~NoteScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -25,6 +25,8 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
+
+	enum screenTypes {ST_CARD_NOTE, ST_SMS};
 private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
@@ -37,9 +39,9 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, note, origionalNote, encodedNote;
+	String parentTag, note, origionalNote, encodedNote, detail;
 	bool list, left, right, isBusy, kbShown;
-	int moved;
+	int moved, screenType;
 
 	Screen *previous;
 

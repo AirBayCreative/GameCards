@@ -8,7 +8,7 @@ using namespace MAUtil;
 class Album  {
 public:
 	Album();
-	Album(String id, String desc, bool hasCards=false);
+	Album(String id, String desc, bool hasCards=false, bool updated=false);
 	~Album();
 
 	String getId();

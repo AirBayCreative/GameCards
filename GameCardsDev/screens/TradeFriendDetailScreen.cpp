@@ -1,5 +1,5 @@
 #include "TradeFriendDetailScreen.h"
-#include "AlbumLoadScreen.h"
+#include "AlbumViewScreen.h"
 #include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
@@ -271,7 +271,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				}
 				break;
 			case SP_COMPLETE:
-				((AlbumLoadScreen *)orig)->refresh();
+				((AlbumViewScreen *)origAlbum)->refresh();
 				break;
 		}
 		break;
@@ -342,7 +342,7 @@ void TradeFriendDetailScreen::mtxTagAttr(const char* attrName, const char* attrV
 }
 
 void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
-	if (strcmp(parentTag.c_str(), xml_response) == 0) {
+	if (strcmp(parentTag.c_str(), xml_result) == 0) {
 		result = data;
 	}
 	else {

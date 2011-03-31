@@ -83,6 +83,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
+		lprintfln("tmp: %s", tmp.c_str());
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
@@ -169,7 +170,7 @@ void AlbumViewScreen::drawList() {
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
-		cardText = itr->second->getText();
+		cardText = (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
 		cardText += "\nQuantity: ";
 		cardText += itr->second->getQuantity();
 
@@ -184,7 +185,7 @@ void AlbumViewScreen::drawList() {
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-			tempImage->setChanges(itr->second->getUpdated());
+			tempImage->setHasNote(itr->second->getNote().length()>0);
 			retrieveThumb(tempImage, itr->second, mImageCache);
 		}
 		else {
@@ -367,7 +368,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_card)) {
 		notice->setCaption("");
 		Card *newCard = new Card();
-		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim).c_str());
+		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim).c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
 		if (cardExists != cards.end()) {
@@ -375,7 +376,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			newCard->setBack(cardExists->second->getBack().c_str());
 			newCard->setFront(cardExists->second->getFront().c_str());
 		}
-		newCard->setNote((base64_decode(note)).c_str());
 		newCard->setUpdated(updated == "1");
 		tmp.insert(newCard->getId(),newCard);
 		id = "";

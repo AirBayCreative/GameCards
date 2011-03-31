@@ -17,6 +17,9 @@ public:
 
 	String getIVal();
 	void setIVal(const char *iVal);
+
+	String getAll();
+	void setAll(const char*);
 private:
 	String desc, display, iVal;
 };

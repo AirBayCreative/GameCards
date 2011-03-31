@@ -146,6 +146,7 @@ static String DELETECARD = URL+"?deletecard=";
 static const char* delim = ",";
 static const char* concat = ":";
 static const char* newline = "#";
+static const char* innerDelim = "$";
 static const char* demo = "Demo Deck";
 static const char* demoid = "-1";
 static const char* back = "Back";
@@ -223,6 +224,7 @@ static const char* xml_albumid = "albumid";
 static const char* xml_albumdone = "usercategories";
 static const char* xml_hascards = "hascards";
 static const char* category = "category";
+static const char* seconds = "seconds";
 //special album ids
 static const char* album_newcards = "-3";
 static const char* album_mycards = "-2";
@@ -378,9 +380,16 @@ static const char* phase_card = "card";
 static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
+//contact labels
+static const char* calllbl = "Call";
+static const char* smslbl = "SMS";
+static const char* sendlbl = "Send";
 //certain card stat types are used to communicate (mobidex), they are listed here
 //and they need to match with cardstattypes in the database
-static const char* contact_email = "email";
-static const char* contact_number = "number";
+static const char* contact_email = "Email";
+static const char* contact_number = "Mobile No";
+static const char* contact_website = "Web Address";
+//misc
+static const char* updated_symbol = "*";
 
 #endif	//_UTIL_H_

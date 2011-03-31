@@ -77,8 +77,8 @@ void Albums::clearAll() {
 	album.clear();
 }
 
-void Albums::addAlbum(const char* id, const char* name, bool hasCards) {
-	album.insert(name, new Album(id, name, hasCards));
+void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
+	album.insert(((updated?updated_symbol:"")+name).c_str(), new Album(id, name.c_str(), hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {
@@ -89,7 +89,7 @@ Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		// The iterator needs to be dereferenced.
-		names.add(itr->second->getDescription());
+		names.add((itr->second->getUpdated()?updated_symbol:"")+itr->second->getDescription());
 	}
 	return names;
 }

@@ -1,4 +1,5 @@
 #include "Stat.h"
+#include "Util.h"
 
 Stat::Stat() {
 	desc = "";
@@ -28,4 +29,26 @@ void Stat::setIVal(const char *i) {
 
 String Stat::getIVal() {
 	return iVal;
+}
+
+String Stat::getAll() {
+	return getDesc()+delim+getDisplay()+delim+getIVal();
+}
+
+void Stat::setAll(const char* allch) {
+	String all = allch;
+	int indexof = all.find(delim);
+	if (indexof > -1) {
+		setDesc(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
+		indexof = all.find(delim);
+		setDisplay(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
+		indexof = all.find(delim);
+		setIVal(all.substr(0,indexof++).c_str());
+	} else {
+		setDesc("");
+		setDisplay("");
+		setIVal("");
+	}
 }

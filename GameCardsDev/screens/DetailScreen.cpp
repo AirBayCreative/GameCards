@@ -1,9 +1,11 @@
 #include "DetailScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "../utils/Stat.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = createMainLayout(back, "", true);
+	mainLayout = createMainLayout(back, screenType==CARD?select:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	switch (screenType) {
@@ -172,6 +174,32 @@ void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			switch (screenType) {
+				case CARD:
+					int index = listBox->getSelectedIndex();
+					Stat *stat = card->getStats()[index];
+					if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+						if (next != NULL) {
+							delete next;
+							next == NULL;
+						}
+						next = new OptionsScreen(this, feed, OptionsScreen::ST_NUMBER_OPTIONS, card, stat->getDesc());
+						next->show();
+					}
+					else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+
+					}
+					else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+						String url = stat->getDisplay();
+						//maPlatformRequest will only work if the url starts with http://
+						//so we need to check for it, and add it if it isnt there
+						if (url.find("http://") != 0) {
+							url = "http://"+url;
+						}
+						maPlatformRequest(url.c_str());
+					}
+					break;
+			}
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();
