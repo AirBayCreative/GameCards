@@ -261,17 +261,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_SOFTLEFT:
-			previous->show();
+			if (path.size() > 0) {
+				path.remove(path.size()-1);
+				loadCategory();
+			}
+			else {
+				previous->show();
+			}
 			break;
 		case MAK_FIRE:
-			switch (screenType) {
-				case ST_ALBUMS:
-					if (path.size() > 0) {
-						path.remove(path.size()-1);
-						loadCategory();
-					}
-					break;
-			}
 			break;
 		case MAK_SOFTRIGHT:
 			if (!empt) {
@@ -315,20 +313,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumLoadScreen::loadCategory() {
-	if (path.size() == 0) {
-		#if defined(MA_PROF_SUPPORT_STYLUS)
-			updateSoftKeyLayout(back, "", "", mainLayout);
-		#else
-			updateSoftKeyLayout(back, select, "", mainLayout);
-		#endif
-	}
-	else {
-		#if defined(MA_PROF_SUPPORT_STYLUS)
-			updateSoftKeyLayout(back, "", previouslbl, mainLayout);
-		#else
-			updateSoftKeyLayout(back, select, previouslbl, mainLayout);
-		#endif
-	}
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		updateSoftKeyLayout(back, "", "", mainLayout);
+	#else
+		updateSoftKeyLayout(back, select, "", mainLayout);
+	#endif
 
 	//the list needs to be cleared
 	album->clearAll();

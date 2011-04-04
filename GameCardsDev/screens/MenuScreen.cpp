@@ -23,9 +23,9 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(play);
-	label->addWidgetListener(this);
-	listBox->add(label);
+	//label = createSubLabel(play);
+	//label->addWidgetListener(this);
+	//listBox->add(label);
 	label = createSubLabel(shoplbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -51,7 +51,7 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
 	char *os = MA_PROF_STRING_PLATFORM;
 	char *make = MA_PROF_STRING_VENDOR;
-	char *model = MA_PROF_STRING_DEVICE;
+	char *model = "temp";//MA_PROF_STRING_DEVICE;
 	int touch = 0;
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	touch = 1;
@@ -165,13 +165,13 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if(index == 0) {
 				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
-			} /*else if(index == 1) {
+			} else if(index == 1) {
 				delete menu;
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new OptionsScreen(this, feed, NULL, OptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(this, feed, OptionsScreen::ST_AUCTION_OPTIONS);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
@@ -185,7 +185,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
-			}*/else if(index == 1) {
+			}/*else if(index == 1) {
 				delete menu;
 				menu = new OptionsScreen(this, feed, OptionsScreen::ST_PLAY_OPTIONS);
 				menu->show();
@@ -209,7 +209,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
-			}
+			}*/
 			break;
 		case MAK_SOFTLEFT:
 			int seconds = maLocalTime();

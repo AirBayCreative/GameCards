@@ -61,7 +61,7 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 			lbl = createSubLabel(sharelbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(contactlbl);
+			lbl = createSubLabel(details);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(deletecardlbl);

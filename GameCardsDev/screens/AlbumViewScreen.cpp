@@ -83,7 +83,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
-		lprintfln("tmp: %s", tmp.c_str());
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
