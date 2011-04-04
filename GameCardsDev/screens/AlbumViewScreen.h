@@ -52,6 +52,7 @@ private:
 	KineticListBox *listBox;
 	Layout *mainLayout;
 	Layout **feedLayouts;
+	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -82,8 +83,9 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	void clearFeedLayouts();
+	//void clearFeedLayouts();
 	void clearCardMap();
+	void clearListBox();
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

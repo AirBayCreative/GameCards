@@ -9,7 +9,6 @@
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType) : mHttp(this),
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
 	emp = true;
-	listSizes = 0;
 	feedLayouts = NULL;
 
 	next = new Screen();
@@ -149,7 +148,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 
 #endif
 
-void AlbumViewScreen::clearFeedLayouts() {
+/*void AlbumViewScreen::clearFeedLayouts() {
 	if (feedLayouts != NULL && listSizes > 0) {
 		for (int i = 0; i < listSizes; i++) {
 			delete feedLayouts[i];
@@ -157,14 +156,25 @@ void AlbumViewScreen::clearFeedLayouts() {
 		delete [] feedLayouts;
 		feedLayouts = NULL;
 	}
+}*/
+void AlbumViewScreen::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void AlbumViewScreen::drawList() {
 	Layout *feedlayout;
-	listBox->clear();
-	clearFeedLayouts();
-	feedLayouts = new Layout*[cards.size()];
-	listSizes = 0;
+	//listBox->clear();
+	clearListBox();
 	index.clear();
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
@@ -178,9 +188,6 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		feedLayouts[listSizes] = feedlayout;
-
-		listSizes++;
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);

@@ -195,7 +195,8 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
-	listBox->getChildren().clear();
+	//listBox->getChildren().clear();
+	clearListBox();
 
 	Vector<String> display = album->getNames();
 	size = 0;
@@ -232,6 +233,11 @@ void AlbumLoadScreen::clearListBox() {
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
+
+	//delete listBox;
+	//listBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+(mainLayout->getChildren()[0]->getChildren()[0])->getHeight()),
+	//				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+	//mainLayout->getChildren()[0]->getChildren().insert(2, listBox);
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
@@ -331,6 +337,7 @@ void AlbumLoadScreen::loadCategory() {
 		char *file = new char[path.end()->length() + 5];
 		sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
 		album->setAll(getData(file));
+		delete file;
 	}
 	drawList();
 	//then request up to date info, if there is a connection available
@@ -459,6 +466,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				char *file = new char[path.end()->length() + 5];
 				sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
 				saveData(file, album->getAll().c_str());
+				delete file;
 			}
 		}
 	} else if(!strcmp(name, xml_error)) {
