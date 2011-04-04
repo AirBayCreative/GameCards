@@ -6,7 +6,7 @@ Albums::Albums() {
 }
 
 Albums::~Albums() {
-	album.clear();
+	clearAll();
 }
 
 void Albums::setLoaded(bool load) {
@@ -74,6 +74,10 @@ void Albums::setAll(const char* allch) {
 	}
 }
 void Albums::clearAll() {
+	for(Map<String,Album*>::Iterator i = album.begin(); i != album.end(); i++) {
+		delete i->second;
+		i->second = NULL;
+	}
 	album.clear();
 }
 
