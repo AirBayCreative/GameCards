@@ -174,9 +174,9 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				imge->requestRepaint();
 				maUpdateScreen();
 				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+					retrieveBack(imge, card, height-PADDING*2, imageCache);
 				} else {
-					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+					retrieveFront(imge, card, height-PADDING*2, imageCache);
 				}
 			} else {
 				previous->show();
