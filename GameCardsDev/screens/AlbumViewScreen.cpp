@@ -218,7 +218,6 @@ void AlbumViewScreen::drawList() {
 
 AlbumViewScreen::~AlbumViewScreen() {
 	delete mainLayout;
-
 	delete next;
 	delete mImageCache;
 	delete [] feedLayouts;
