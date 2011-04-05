@@ -215,8 +215,7 @@ void updateSoftKeyLayout(const char *left, const char *right, const char *centre
 }
 
 void saveData(const char* storefile, const char *value) {
-
-	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (strlen(value) == 0) {
 		maCloseStore(store, 1);
 	} else if (store > 0) {
@@ -232,7 +231,7 @@ void saveData(const char* storefile, const char *value) {
 }
 
 void saveFile(const char* storefile, MAHandle data) {
-	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (store > 0) {
 		maWriteStore(store, data);
 	}
@@ -241,7 +240,7 @@ void saveFile(const char* storefile, MAHandle data) {
 }
 
 char* getData(const char* storefile) {
-	MAHandle store = maOpenStore(storefile, 0);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
@@ -277,7 +276,7 @@ void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -305,7 +304,7 @@ void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCac
 		return;
 	}
 
-	MAHandle store = maOpenStore(("prod_"+product->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+"prod_"+product->getId()+".sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT)
 	{
@@ -335,7 +334,7 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+"f.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -362,7 +361,7 @@ void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+"b.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b.sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();

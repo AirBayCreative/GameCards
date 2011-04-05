@@ -257,6 +257,7 @@ static const char* xml_credits = "credits";
 static const char* xml_error = "error";
 static const char* xml_status = "status";
 //File info
+static String FILE_PREFIX = "dev_";
 static const char* ALBUMEND = "-lst.sav";
 static const char* FEED = "fd.sav";
 static const char* ALBUM = "lb.sav";
