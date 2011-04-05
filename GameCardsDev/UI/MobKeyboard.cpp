@@ -23,6 +23,7 @@ MobKeyboard::MobKeyboard(int x, int y, int width, int height)
 	setupKeys();
 	m_activeLayout = 0;
 
+	last_pressed = NULL;
 	m_attachedScreen = NULL;
 	screenFunction = NULL;
 }
@@ -65,7 +66,9 @@ void MobKeyboard::show()
 
 void MobKeyboard::hide()
 {
-	last_pressed->setPressed(false);
+	if (last_pressed != NULL) {
+		last_pressed->setPressed(false);
+	}
 	if (m_isShown) {
 		Environment::getEnvironment().removePointerListener(this);
 		Engine::getSingleton().hideOverlay();
