@@ -44,6 +44,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
+	Vector<Widget*> tempWidgets;
 	String parentTag, cardText;
 	String cardId, description, thumburl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, fullDesc, endDate, lastBidUser;
 	int moved, screenType;
@@ -67,6 +68,7 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
+	void clearListBox();
 	void clearAuctions();
 };
 

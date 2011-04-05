@@ -17,6 +17,16 @@ Card::Card() {
 }
 
 Card::~Card() {
+	quantity = "";
+	text = "";
+	thumb = "";
+	front = "";
+	back = "";
+	id = "";
+	rate = "";
+	value = "";
+	fullDesc = "";
+	note = "";
 	for (int i = 0; i < stats.size(); i++) {
 		if (stats[i] != NULL) {
 			delete stats[i];

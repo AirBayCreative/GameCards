@@ -15,6 +15,8 @@ ImageCache::ImageCache() : mHttp(this)
 
 ImageCache::~ImageCache()
 {
+	memset(mBuffer, 0, 1024);
+	clearImageCache();
 }
 
 void ImageCache::request(ImageCacheRequest* req)

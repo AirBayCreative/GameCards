@@ -161,7 +161,7 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;
-	listBox->getChildren().clear();
+	clearListBox();
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
 		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
@@ -203,6 +203,20 @@ void AuctionListScreen::drawList() {
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(0);
 	}
+}
+
+void AuctionListScreen::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 AuctionListScreen::~AuctionListScreen() {
