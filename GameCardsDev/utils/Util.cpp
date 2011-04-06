@@ -355,6 +355,7 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 		mImageCache->request(req1);
 	}
 }
+
 void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
