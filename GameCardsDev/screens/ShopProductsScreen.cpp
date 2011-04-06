@@ -109,7 +109,7 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 #endif
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
-	listBox->getChildren().clear();
+	//listBox->getChildren().clear();
 	for(int i = 0; i < products.size(); i++) {
 		cardText = products[i]->getName();
 		cardText += "\n";
@@ -142,8 +142,12 @@ ShopProductsScreen::~ShopProductsScreen() {
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
+		next=NULL;
 	}
-	delete mImageCache;
+	if(mImageCache!=NULL){
+		delete mImageCache;
+		mImageCache=NULL;
+	}
 	clearProductsList();
 	parentTag="";
 	cardText="";

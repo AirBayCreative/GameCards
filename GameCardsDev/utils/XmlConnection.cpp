@@ -29,6 +29,10 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
    	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 }
 
+void XmlConnection::connReadFinished(){
+
+}
+
 void XmlConnection::mtxDataRemains(const char* data, int len) {
     if(mBuffer != data) {
         memcpy(mBuffer, data, len);

@@ -10,6 +10,15 @@ Product::Product() {
 	cardsInPack = "";
 }
 
+Product::~Product() {
+	name = "";
+	id = "";
+	productType = "";
+	thumb = "";
+	price = "";
+	cardsInPack = "";
+}
+
 Product::Product(const char *id, const char *name,
 			const char *productType, const char *thumb,
 			const char *price, const char *cardsInPack) : id(id), name(name),

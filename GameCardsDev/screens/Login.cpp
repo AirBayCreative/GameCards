@@ -452,6 +452,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		memset(secString,'\0',secondsLength);
 		sprintf(secString, "%d", seconds);
 		feed->setSeconds(secString);
+		delete secString;
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));

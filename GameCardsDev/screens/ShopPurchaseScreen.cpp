@@ -51,6 +51,20 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 	temp="";
 	temp1="";
 	error_msg="";
+	id="";
+	description="";
+	quality="";
+	urlfront="";
+	urlback="";
+	if (card != NULL) {
+		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+			maDestroyObject(imge->getResource());
+		}
+	}
+	if (imageCache != NULL) {
+		delete imageCache;
+		imageCache = NULL;
+	}
 }
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
@@ -88,7 +102,10 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	imge = new MobImage(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
 	if (card != NULL) {
-		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
+		imageCache = new ImageCache();
+		retrieveFront(imge, card, height - lbl->getHeight(), imageCache);
+	}else{
+		imageCache=NULL;
 	}
 
 	kinListBox->setSelectedIndex(0);
@@ -161,14 +178,18 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				imge->update();
 				imge->requestRepaint();
 				maUpdateScreen();
-
-				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+				if(card!=NULL){
+					imageCache = new ImageCache();
+					if (flip) {
+						retrieveBack(imge, card, height-PADDING*2, imageCache);
+					}
+					else {
+						retrieveFront(imge, card, height-PADDING*2, imageCache);
+					}
+					flip = !flip;
+				}else{
+					imageCache = NULL;
 				}
-				else {
-					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
-				}
-				flip = !flip;
 			}
 			break;
 		case MAK_SOFTRIGHT:

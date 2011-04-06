@@ -11,6 +11,7 @@ public:
 	Product(const char *id, const char *name,
 			const char *productType, const char *thumb,
 			const char *price, const char *cardsInPack);
+	~Product();
 
 	String getId();
 	void setId(const char *id);
