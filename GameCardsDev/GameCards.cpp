@@ -3,7 +3,7 @@
 #include "GameCards.h"
 #include "utils/Util.h"
 #include "utils/MAHeaders.h"
-#include "screens/Login.h"
+#include "screens/OptionsScreen.h"
 #include "screens/MenuScreen.h"
 
 MAUIMoblet *moblet;
@@ -33,7 +33,7 @@ MAUIMoblet::MAUIMoblet() {
 		next = new MenuScreen(&feed);
 		next->show();
 	} else {
-		next = new Login(&feed);
+		next = new OptionsScreen(&feed, OptionsScreen::ST_LOGIN_OPTIONS);
 		next->show();
 	}
 }

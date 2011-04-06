@@ -17,7 +17,7 @@ using namespace MAUtil;
 
 class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card = NULL, String number = "");
+	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
 	~OptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,7 +29,7 @@ public:
 #endif
 	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
 		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_CARD_OPTIONS,
-		ST_NEW_CARD, ST_NUMBER_OPTIONS};
+		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;

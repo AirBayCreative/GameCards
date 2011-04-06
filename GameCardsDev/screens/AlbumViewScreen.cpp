@@ -295,12 +295,12 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					delete next;
 				}
 				if (albumType == AT_NEW_CARDS) {
-					next = new OptionsScreen(this, feed, OptionsScreen::ST_NEW_CARD,
-						cards.find(index[selected])->second);
+					next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
+							this, cards.find(index[selected])->second);
 				}
 				else {
-					next = new OptionsScreen(this, feed, OptionsScreen::ST_CARD_OPTIONS,
-						cards.find(index[selected])->second);
+					next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
+							this, cards.find(index[selected])->second);
 				}
 				next->show();
 			}
