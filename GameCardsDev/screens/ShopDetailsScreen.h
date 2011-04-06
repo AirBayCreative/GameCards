@@ -32,10 +32,13 @@ private:
 	Label *label;
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
+	MobImage *tempImage;
 
 	bool list, left, right;
 
 	int moved, screenType;
+
+	String nameDesc, fullDesc;
 
 	Product *product;
 	Card *card;

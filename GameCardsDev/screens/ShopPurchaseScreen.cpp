@@ -8,7 +8,7 @@
 
 ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
-
+	imageCache = new ImageCache();
 	//check that the user can afford the product
 	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
 		canPurchase = true;
@@ -51,6 +51,15 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 	temp="";
 	temp1="";
 	error_msg="";
+	id="";
+	description="";
+	quality="";
+	urlfront="";
+	urlback="";
+	if (imageCache != NULL) {
+		delete imageCache;
+		imageCache = NULL;
+	}
 }
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
@@ -87,9 +96,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 
 	imge = new MobImage(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
-	if (card != NULL) {
-		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
-	}
+	retrieveFront(imge, card, height - lbl->getHeight(), imageCache);
 
 	kinListBox->setSelectedIndex(0);
 
@@ -163,10 +170,10 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				maUpdateScreen();
 
 				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+					retrieveBack(imge, card, height-PADDING*2, imageCache);
 				}
 				else {
-					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+					retrieveFront(imge, card, height-PADDING*2, imageCache);
 				}
 				flip = !flip;
 			}

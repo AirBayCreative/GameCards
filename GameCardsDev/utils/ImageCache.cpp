@@ -88,8 +88,10 @@ void ImageCache::finishedDownloading()
 
 void ImageCache::clearImageCache() {
 	for (int i = 0; i < mRequests.size(); i++) {
-		delete mRequests[i];
-		mRequests[i] == NULL;
+		if(mRequests[i]!=NULL){
+			delete mRequests[i];
+			mRequests[i] == NULL;
+		}
 	}
 	mNextRequest = NULL;
 	mRequests.clear();

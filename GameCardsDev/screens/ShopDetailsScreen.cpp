@@ -14,10 +14,11 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	mImageCache = new ImageCache();
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-	String nameDesc = "";
-	String fullDesc = "";
+	nameDesc = "";
+	fullDesc = "";
 
 	switch (screenType) {
 		case ST_PRODUCT:
@@ -51,6 +52,11 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 ShopDetailsScreen::~ShopDetailsScreen() {
 	delete mainLayout;
+	if(mImageCache != NULL){
+		delete mImageCache;
+	}
+	nameDesc = "";
+	fullDesc = "";
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)

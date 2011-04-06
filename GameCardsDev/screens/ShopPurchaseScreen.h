@@ -9,6 +9,7 @@
 #include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
+#include "../utils/ImageCache.h"
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
 #include "../utils/Card.h"
@@ -36,7 +37,7 @@ private:
 	Label *lbl, *notice;
 	Screen *previous;
 	MobImage *imge;
-
+	ImageCache *imageCache;
 	Product *product;
 	Card *card;
 

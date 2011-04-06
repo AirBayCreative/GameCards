@@ -86,6 +86,8 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 }
 
 MenuScreen::~MenuScreen() {
+	delete mainLayout;
+	delete menu;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void MenuScreen::pointerPressEvent(MAPoint2d point)

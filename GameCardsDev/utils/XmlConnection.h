@@ -36,6 +36,7 @@ private:
 
     void mtxDataRemains(const char* data, int len);
     void connRecvFinished(MAUtil::Connection* conn, int result);
+    void connReadFinished();
 };
 
 #endif  //XMLCONNECTION_H

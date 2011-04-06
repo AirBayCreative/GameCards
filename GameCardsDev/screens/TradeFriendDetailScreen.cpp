@@ -24,6 +24,14 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
+	method="";
+	methodLabel="";
+	friendDetail="";
+	parentTag="";
+	temp="";
+	temp1="";
+	error_msg="";
+	result="";
 	delete layout;
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	delete keyboard;
