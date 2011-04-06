@@ -94,6 +94,7 @@ OptionsScreen::~OptionsScreen() {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
+	number="";
 
 	delete layout;
 	delete menu;
