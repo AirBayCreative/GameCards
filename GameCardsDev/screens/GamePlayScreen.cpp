@@ -407,7 +407,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						next = NULL;
 					}
 					feed->setGameId(gameId.c_str());
-					next = new OptionsScreen(this, feed, OptionsScreen::ST_GAME_OPTIONS);
+					next = new OptionsScreen(feed, OptionsScreen::ST_GAME_OPTIONS, this);
 					next->show();
 					break;
 			}

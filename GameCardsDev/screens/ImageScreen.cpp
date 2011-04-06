@@ -148,8 +148,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					if (next != NULL) {
 						delete next;
 					}
-					next = new OptionsScreen(this, feed,
-							OptionsScreen::ST_CARD_OPTIONS, card);
+					next = new OptionsScreen(feed,
+							OptionsScreen::ST_CARD_OPTIONS, this, card);
 					next->show();
 				}
 			}

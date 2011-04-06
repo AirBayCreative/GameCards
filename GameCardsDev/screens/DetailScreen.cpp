@@ -183,7 +183,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 							delete next;
 							next == NULL;
 						}
-						next = new OptionsScreen(this, feed, OptionsScreen::ST_NUMBER_OPTIONS, card, stat->getDesc());
+						next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
 						next->show();
 					}
 					else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {

@@ -23,7 +23,7 @@ class MobEditBox;
 
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	Login(Feed *feed);
+	Login(Feed *feed, int screen);
 	~Login();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -35,6 +35,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
+	enum screens {S_LOGIN, S_REGISTER};
 private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
@@ -75,8 +76,6 @@ private:
 
 	void drawLoginScreen();
 	void drawRegisterScreen();
-
-	enum screens {S_LOGIN, S_REGISTER};
 };
 
 #endif	//_LOGIN_H_

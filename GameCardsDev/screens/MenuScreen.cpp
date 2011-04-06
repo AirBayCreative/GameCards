@@ -171,7 +171,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
-				menu = new OptionsScreen(this, feed, OptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
@@ -187,7 +187,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			}/*else if(index == 1) {
 				delete menu;
-				menu = new OptionsScreen(this, feed, OptionsScreen::ST_PLAY_OPTIONS);
+				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
@@ -195,7 +195,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
-				menu = new OptionsScreen(this, feed, OptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 4) {
 				delete menu;

@@ -8,11 +8,12 @@
 #include "GameDetailsScreen.h"
 #include "NoteScreen.h"
 #include "DetailScreen.h"
+#include "Login.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
 
-OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -21,7 +22,13 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 	busy = false;
 
 	menu = new Screen();
-	layout = createMainLayout(back, select);
+
+	if (screenType == ST_LOGIN_OPTIONS) {
+		layout = createMainLayout(exit, select);
+	}
+	else {
+		layout = createMainLayout(back, select);
+	}
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
@@ -80,6 +87,14 @@ OptionsScreen::OptionsScreen(Screen *previous, Feed *feed, int screenType, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(smslbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_LOGIN_OPTIONS:
+			lbl = createSubLabel(login);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(reg);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -251,8 +266,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new OptionsScreen(this, feed,
-								OptionsScreen::ST_TRADE_OPTIONS, card);
+						menu = new OptionsScreen(feed,
+								OptionsScreen::ST_TRADE_OPTIONS, this, card);
 						menu->show();
 					}
 					else if (index == 2) {
@@ -294,10 +309,33 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						menu->show();
 					}
 					break;
+				case ST_LOGIN_OPTIONS:
+					if(index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new Login(feed, Login::S_LOGIN);
+						menu->show();
+					}
+					else if(index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new Login(feed, Login::S_REGISTER);
+						menu->show();
+					}
+					break;
 			}
 			break;
 		case MAK_SOFTLEFT:
-			previous->show();
+			switch(screenType) {
+				case ST_LOGIN_OPTIONS:
+					maExit(0);
+					break;
+				default:
+					previous->show();
+					break;
+			}
 			break;
 		case MAK_DOWN:
 			listBox->selectNextItem();
