@@ -8,6 +8,7 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType) : mHttp(this),
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
+	busy = true;
 	emp = true;
 	feedLayouts = NULL;
 
@@ -32,6 +33,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
+		busy = false;
 		hasConnection = false;
 		notice->setCaption("");
 	} else {
@@ -273,7 +275,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
-			if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
+			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -290,7 +292,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if (!emp && !hasConnection) {
 				notice->setCaption(no_connect);
 			}
-			else if (!emp && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
+			else if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -316,6 +318,7 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 		notice->setCaption("");
+		busy = false;
 	}
 }
 
@@ -412,6 +415,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		clearCardMap();
 		cards = tmp;
 		drawList();
+		busy = false;
 		saveData(filename.c_str(), getAll().c_str());
 	} else {
 		notice->setCaption("");

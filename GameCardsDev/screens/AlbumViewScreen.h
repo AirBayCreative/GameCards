@@ -60,7 +60,7 @@ private:
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
 	int size, i, moved, listSizes, albumType;
-	bool list, left, right, emp, hasConnection;
+	bool list, left, right, emp, hasConnection, busy;
 
 	Feed *feed;
 	StringCardMap tmp, cards;
