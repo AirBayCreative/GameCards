@@ -27,7 +27,7 @@ public:
 #endif
 	enum screenTypes {ST_PRODUCT, ST_AUCTION};
 private:
-	Screen *previous;
+	Screen *next, *previous;
 	Layout *mainLayout;
 	Label *label;
 	KineticListBox *listBox;

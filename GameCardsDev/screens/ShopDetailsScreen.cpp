@@ -1,10 +1,11 @@
 #include "ShopDetailsScreen.h"
+#include "ShopPurchaseScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
-	mainLayout = createMainLayout(back, "", true);
+	mainLayout = createMainLayout(back, purchase, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	Layout *feedlayout;
@@ -108,8 +109,13 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
 		{
 			if (i == 0) {
 				left = true;
+				moved=0;
+			} else if (i == 1) {
+				list = true;
+				moved = 0;
 			} else if (i == 2) {
 				right = true;
+				moved=0;
 			}
 			return;
 		}
@@ -120,6 +126,11 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			if (next != NULL) {
+				delete next;
+			}
+			next = new ShopPurchaseScreen(this, feed, product);
+			next->show();
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();

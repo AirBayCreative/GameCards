@@ -2,6 +2,7 @@
 #include <madmath.h>
 #include <MAUI/Image.h>
 
+#include "AlbumLoadScreen.h"
 #include "ShopPurchaseScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
@@ -79,7 +80,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	kinListBox->setPosition(0, 0);
 	kinListBox->setHeight(scrHeight - 42);
 
-	updateSoftKeyLayout("", done, "",layout);
+	updateSoftKeyLayout(done, albumlbl, details,layout);
 
 	height = kinListBox->getHeight()-70;
 	if (card != NULL) {
@@ -199,12 +200,21 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				delete [] url;
 			}
 			else if (purchased) {
-				orig->show();
+				if (next != NULL) {
+					delete next;
+				}
+
+				next = new AlbumLoadScreen(origMenu, feed, AlbumLoadScreen::ST_ALBUMS);
+				next->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
 			if (!purchased) {
 				previous->show();
+			}
+			else
+			{
+				orig->show();
 			}
 			break;
 		case MAK_UP:

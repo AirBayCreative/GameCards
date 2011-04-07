@@ -256,7 +256,7 @@ void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 		temp1 = "";
 		temp = "";
 	} else if (!strcmp(name, xml_cardcategories)) {
-		notice->setCaption(choose_category);
+		//notice->setCaption(choose_category);
 		drawList();
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());

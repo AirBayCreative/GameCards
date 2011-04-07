@@ -35,7 +35,7 @@ private:
 	Layout *layout;
 	KineticListBox* kinListBox;
 	Label *lbl, *notice;
-	Screen *previous;
+	Screen *next, *previous;
 	MobImage *imge;
 	ImageCache *imageCache;
 	Product *product;
