@@ -10,6 +10,7 @@
 ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
 	imageCache = new ImageCache();
+	next = NULL;
 	//check that the user can afford the product
 	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
 		canPurchase = true;

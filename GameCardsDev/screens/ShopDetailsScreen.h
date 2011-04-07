@@ -7,7 +7,7 @@
 
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
-#include "../utils/Card.h"
+#include "../utils/Auction.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 
@@ -16,7 +16,7 @@ using namespace MAUtil;
 
 class ShopDetailsScreen : public Screen, WidgetListener {
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product = NULL, Card *card = NULL);
+	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product = NULL, Auction *auction = NULL);
 	~ShopDetailsScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -41,7 +41,7 @@ private:
 	String nameDesc, fullDesc;
 
 	Product *product;
-	Card *card;
+	Auction *auction;
 	Feed *feed;
 };
 

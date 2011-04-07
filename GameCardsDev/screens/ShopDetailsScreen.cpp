@@ -1,10 +1,11 @@
 #include "ShopDetailsScreen.h"
 #include "ShopPurchaseScreen.h"
+#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
 	mainLayout = createMainLayout(back, purchase, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
@@ -29,10 +30,10 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			fullDesc = product->getDetailsString();
 			break;
 		case ST_AUCTION:
-			retrieveThumb(tempImage, card, mImageCache);
+			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
-			nameDesc = card->getText();
-			fullDesc = card->getFullDesc();
+			nameDesc = auction->getCard()->getText();
+			fullDesc = auction->getCard()->getFullDesc();
 			break;
 	}
 
@@ -129,7 +130,14 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			if (next != NULL) {
 				delete next;
 			}
-			next = new ShopPurchaseScreen(this, feed, product);
+			switch (screenType) {
+				case ST_AUCTION:
+					next = new BidOrBuyScreen(this, feed, auction);
+					break;
+				case ST_PRODUCT:
+					next = new ShopPurchaseScreen(this, feed, product);
+					break;
+			}
 			next->show();
 			break;
 		case MAK_SOFTLEFT:

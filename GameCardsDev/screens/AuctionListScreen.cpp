@@ -33,7 +33,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	card = NULL;
 	auction = NULL;
 
-	next = new Screen();
+	next = NULL;
 
 	label = NULL;
 	tempImage = NULL;
@@ -272,7 +272,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, NULL, auctions[listBox->getSelectedIndex()]->getCard());
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, NULL, auctions[listBox->getSelectedIndex()]);
 				next->show();
 			}
 			break;
