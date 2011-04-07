@@ -21,7 +21,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	connError = false;
 	busy = false;
 
-	menu = new Screen();
+	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
 		layout = createMainLayout(exit, select);
@@ -112,7 +112,9 @@ OptionsScreen::~OptionsScreen() {
 	number="";
 
 	delete layout;
-	delete menu;
+	if(menu!=NULL){
+		delete menu;
+	}
 }
 
 void OptionsScreen::checkForGames() {

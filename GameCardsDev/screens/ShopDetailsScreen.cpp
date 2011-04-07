@@ -7,7 +7,7 @@
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
 	mainLayout = createMainLayout(back, purchase, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-
+	next = NULL;
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
