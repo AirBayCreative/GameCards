@@ -10,6 +10,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	//TODO add touch
 	busy = false;
 	next = NULL;
+	imageCache = new ImageCache();
 	mainLayout = createImageLayout(back);
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 	height = listBox->getHeight()-70;
@@ -29,9 +30,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
 	this->setMain(mainLayout);
-
 	if (card != NULL) {
-		imageCache = new ImageCache();
 		if (flip) {
 			retrieveBack(imge, card, height-PADDING*2, imageCache);
 		} else {
@@ -119,11 +118,11 @@ void ImageScreen::locateItem(MAPoint2d point)
 }
 #endif
 ImageScreen::~ImageScreen() {
-	if (card != NULL) {
+	/*if (card != NULL) {
 		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 			maDestroyObject(imge->getResource());
 		}
-	} // <-- dont delete!
+	} // <-- dont delete!*/
 	delete mainLayout;
 	img = -1;
 	if (next != NULL) {
@@ -132,7 +131,6 @@ ImageScreen::~ImageScreen() {
 	}
 	if (imageCache != NULL) {
 		delete imageCache;
-		imageCache = NULL;
 	}
 }
 
