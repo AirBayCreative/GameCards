@@ -11,9 +11,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	busy = false;
 	next = NULL;
 	imageCache = new ImageCache();
-	mainLayout = createImageLayout(back);
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-	height = listBox->getHeight()-70;
+
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
 			mainLayout =  createImageLayout(rejectlbl, acceptlbl, "");
@@ -27,6 +25,10 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
+	}else{
+		mainLayout = createImageLayout(back);
+		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		height = listBox->getHeight()-70;
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
 	this->setMain(mainLayout);

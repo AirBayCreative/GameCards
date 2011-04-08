@@ -13,7 +13,7 @@
 
 MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 	c=0;
-	menu = new Screen();
+	menu = NULL;
 #if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(exit, "", true);
 #else
@@ -87,7 +87,9 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 
 MenuScreen::~MenuScreen() {
 	delete mainLayout;
-	delete menu;
+	if(menu!=NULL){
+		delete menu;
+	}
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void MenuScreen::pointerPressEvent(MAPoint2d point)
@@ -165,26 +167,39 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			int index = listBox->getSelectedIndex();
 			if(index == 0) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
 			} else if(index == 1) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 2) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 3) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
 			} else if(index == 4) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
 				menu->show();
 			} else if (index == 5) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new Logout(this, feed);
 				menu->show();
 			}/*else if(index == 1) {
@@ -258,7 +273,9 @@ void MenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void MenuScreen::mtxTagData(const char* data, int len) {
 	if (len > 0) {
-		delete menu;
+		if(menu!=NULL){
+			delete menu;
+		}
 		menu = new NewVersionScreen(this, data, feed);
 		menu->show();
 	}

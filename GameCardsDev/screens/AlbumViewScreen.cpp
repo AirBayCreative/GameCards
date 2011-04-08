@@ -12,7 +12,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	emp = true;
 	feedLayouts = NULL;
 
-	next = new Screen();
+	next = NULL;
 	error_msg = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(back, options, "", true);
@@ -220,9 +220,13 @@ void AlbumViewScreen::drawList() {
 
 AlbumViewScreen::~AlbumViewScreen() {
 	delete mainLayout;
-	delete next;
+	if(next!=NULL){
+		delete next;
+	}
 	delete mImageCache;
-	delete [] feedLayouts;
+	if(feedLayouts!=NULL){
+		delete [] feedLayouts;
+	}
 	saveData(filename.c_str(), getAll().c_str());
 	clearCardMap();
 	tmp.clear();
