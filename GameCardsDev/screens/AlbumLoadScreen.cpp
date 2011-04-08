@@ -276,7 +276,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-			break;
 		case MAK_SOFTRIGHT:
 			if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
