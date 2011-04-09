@@ -10,40 +10,38 @@
 ImageCache::ImageCache() : mHttp(this)
 {
 	mIsBusy = false;
+	mData = NULL;
 }
 
 ImageCache::~ImageCache()
 {
+	memset(mBuffer, 0, 1024);
+	clearImageCache();
 }
 
 void ImageCache::request(ImageCacheRequest* req)
 {
 	//Add the request to the queue
 	mRequests.add(req);
-
 	//Process the queue
 	process();
 }
 
-void ImageCache::process()
+void ImageCache::process(bool afterFin)
 {
 	//Check to see if the cache can process this request at this time
 	if(mIsBusy) return;
-
 	//Check to see if there are any outstanding requests
 	if(mRequests.size() == 0)
 	return;
-
 	//Set the mIsBusy flag, so we don't try to do too much at once
 	mIsBusy = true;
-
 	//Get the next image request from the queue
     mNextRequest = mRequests[0];
-
-	mHttp = HttpConnection(this);
+    mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
 	if(res < 0) {
-
+		//lprintfln("Error creating http connection in ImageCache.\nres = %d", res);
 	} else {
 		mHttp.finish();
 	}
@@ -51,14 +49,6 @@ void ImageCache::process()
 
 void ImageCache::finishedDownloading()
 {
-	//Save to storage
-	/*saveFile((mNextRequest->getSaveName()).c_str(), mData);
-	returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
-	delete mNextRequest;
-	mRequests.remove(0);
-	mIsBusy = false;
-	maDestroyObject(mData);
-	process();*/
 	if (mData != NULL) {
 		//Save to storage
 		if (mNextRequest != NULL) {
@@ -69,14 +59,19 @@ void ImageCache::finishedDownloading()
 		mData = NULL;
 	}
 	else if (mNextRequest != NULL){
-		mNextRequest->getImage()->setResource(RES_LOADING);
+		if (mNextRequest->getImage()->getHeight() < 150) {
+			mNextRequest->getImage()->setResource(RES_TEMPTHUMB);
+		}
+		else {
+			mNextRequest->getImage()->setResource(RES_TEMP);
+		}
 		//mNextRequest->getImage()->update();
 		mNextRequest->getImage()->requestRepaint();
 	}
 	else {
 		mIsBusy = false;
 		if (mRequests.size() > 0)
-			process();
+			process(true);
 		return;
 	}
 
@@ -88,7 +83,20 @@ void ImageCache::finishedDownloading()
 		mRequests.remove(0);
 	}
 	mIsBusy = false;
-	process();
+	process(true);
+}
+
+void ImageCache::clearImageCache() {
+	for (int i = 0; i < mRequests.size(); i++) {
+		if(mRequests[i]!=NULL){
+			delete mRequests[i];
+			mRequests[i] == NULL;
+		}
+	}
+	mNextRequest = NULL;
+	mRequests.clear();
+
+	mIsBusy = false;
 }
 
 void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -116,9 +124,11 @@ void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
 		}
 	}
 	else {
-		//printf("result: %d\nmNextRequest->getUrl().c_str(): %s", result, mNextRequest->getUrl().c_str());
-		//finishedDownloading();
+		finishedDownloading();
 	}
+}
+
+void ImageCache::connectFinished() {
 }
 
 void ImageCache::connRecvFinished(MAUtil::Connection* conn, int result) {
