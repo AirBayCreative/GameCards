@@ -23,7 +23,7 @@ class MobEditBox;
 
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	Login(Feed *feed, int screen);
+	Login(Feed *feed, Screen *previous, int screen);
 	~Login();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -57,7 +57,7 @@ private:
 	Feed *feed;
 	Albums *album;
 
-	Screen *next;
+	Screen *next, *previous;
 	bool isBusy, changed;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

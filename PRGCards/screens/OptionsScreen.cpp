@@ -103,14 +103,14 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new Login(feed, Login::S_LOGIN);
+						menu = new Login(feed, this, Login::S_LOGIN);
 						menu->show();
 					}
 					else if(index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new Login(feed, Login::S_REGISTER);
+						menu = new Login(feed, this, Login::S_REGISTER);
 						menu->show();
 					}
 					break;

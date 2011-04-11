@@ -179,12 +179,12 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		innerLayout = new Layout(0, 0, scrWidth-86, 74, feedlayout, 1, 2);
+		innerLayout = new Layout(0, 0, feedlayout->getWidth()-56, 74, feedlayout, 1, 2);
 		innerLayout->setHorizontalAlignment(Layout::HA_RIGHT);
 		innerLayout->setDrawBackground(false);
 		innerLayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-86, 37, NULL, (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText(), 0, gFontBlackBold);
+		label = new Label(0,0, feedlayout->getWidth()-56, 37, NULL, (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText(), 0, gFontBlackBold);
 		label->setPaddingTop(5);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setHorizontalAlignment(Label::HA_CENTER);
@@ -193,7 +193,7 @@ void AlbumViewScreen::drawList() {
 		label->setDrawBackground(false);
 		innerLayout->add(label);
 
-		label = new Label(0,0, scrWidth-86, 37, NULL, itr->second->getNote(), 0, gFontBlack);
+		label = new Label(0,0, feedlayout->getWidth()-56, 37, NULL, itr->second->getNote(), 0, gFontBlack);
 		label->setPaddingTop(5);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setHorizontalAlignment(Label::HA_CENTER);
@@ -202,15 +202,8 @@ void AlbumViewScreen::drawList() {
 		label->setDrawBackground(false);
 		innerLayout->add(label);
 
-		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
-			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-			retrieveThumb(tempImage, itr->second, mImageCache);
-		}
-		else {
-			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
-		}
+		tempImage = new MobImage(0, 0, 46, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		retrieveThumb(tempImage, itr->second, mImageCache);
 	}
 
 	if (cards.size() >= 1) {

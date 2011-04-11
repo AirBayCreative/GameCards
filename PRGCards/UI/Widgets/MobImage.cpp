@@ -21,9 +21,5 @@ void MobImage::drawWidget() {
 	if (resource) {
 		Gfx_drawImage(resource, (paddedBounds.width >> 1) - (imageWidth >> 1),
 			(paddedBounds.height >> 1) - (imageHeight >> 1));
-		if (hasNote) {
-			Gfx_drawImage(RES_CHANGE_STAR, (paddedBounds.width >> 1) - (imageWidth >> 1),
-				(paddedBounds.height >> 1) - (imageHeight >> 1));
-		}
 	}
 }

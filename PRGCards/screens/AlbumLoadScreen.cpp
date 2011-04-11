@@ -3,7 +3,6 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "ShareScreen.h"
-#include "Logout.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -260,12 +259,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (!empt) {
 				if (listBox->getSelectedIndex() == (size-1) && path.size() == 0) {
-					//the logout option
-					if (next != NULL) {
-						delete next;
-					}
-					next = new Logout(this, feed);
-					next->show();
+					cleanup();
 				}
 				else if (listBox->getSelectedIndex() == (size-2) && path.size() == 0) {
 					//the share option
@@ -364,6 +358,21 @@ void AlbumLoadScreen::loadCategory() {
 			url = NULL;
 		}
 	}
+}
+
+void AlbumLoadScreen::cleanup() {
+	Albums *albums = feed->getAlbum();
+	Vector<String> tmp = albums->getIDs();
+	for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
+		String s = itr->c_str();
+		s+="-lst.sav";
+		saveData(s.c_str(),"");
+	}
+	feed->setAll("");
+	saveData(FEED,"");
+	saveData(ALBUM,"");
+
+	maExit(0);
 }
 
 void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {

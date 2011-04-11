@@ -164,10 +164,6 @@ void MobKeyboard::drawWidget()
 		gFontWhite->drawString(l_button->getCharacter().pointer(),
 				l_button->getCharLocation().x + (l_rect.width / 2) - (EXTENT_X(l_strDimensions) / 2),
 				l_button->getCharLocation().y + (l_rect.height / 2) - (EXTENT_Y(l_strDimensions) / 2));
-
-		/*printf("l_button->getCharLocation().y: %d", l_button->getCharLocation().y);
-		printf("l_rect.height / 2: %d", l_rect.height / 2);
-		printf("EXTENT_Y(l_strDimensions) / 2: %d", (EXTENT_Y(l_strDimensions) / 2));*/
 	}
 }
 
