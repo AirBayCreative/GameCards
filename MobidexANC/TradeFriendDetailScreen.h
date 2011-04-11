@@ -42,7 +42,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,notice, phoneNum;
+	String parentTag,notice;
 	String temp,temp1,error_msg;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

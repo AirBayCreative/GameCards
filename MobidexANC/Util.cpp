@@ -10,6 +10,7 @@ Font *gFontBlue;
 Font *gFontBlack;
 Font *gFontWhite;
 Font *gFontBlackBold;
+WidgetSkin *gSkinHeaderImage;
 WidgetSkin *gSkinEditBox;
 WidgetSkin *gSkinButton;
 WidgetSkin *gSkinBack;
@@ -107,8 +108,11 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
-	listBox->add(image);
+	//image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	//listBox->add(image);
+	ListBox *mBox = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+	mBox->setSkin(gSkinHeaderImage);
+	listBox->add(mBox);
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
@@ -122,7 +126,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		/*ListBox **/mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
 	}

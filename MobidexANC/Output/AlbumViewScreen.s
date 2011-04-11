@@ -410,50 +410,45 @@ LC10:
 _empty:
 	.long	LC10
 LC11:
-	.ascii "fd.sav\0"
-	.align 4
-_FEED:
-	.long	LC11
-LC12:
 	.ascii "true\0"
 	.align 4
 _truesz:
-	.long	LC12
-LC13:
+	.long	LC11
+LC12:
 	.ascii "#\0"
 	.align 4
 _newline:
-	.long	LC13
-LC14:
+	.long	LC12
+LC13:
 	.ascii "AUTH_PW\0"
 	.align 4
 _auth_pw:
-	.long	LC14
-LC15:
+	.long	LC13
+LC14:
 	.ascii "AUTH_USER\0"
 	.align 4
 _auth_user:
-	.long	LC15
-LC16:
+	.long	LC14
+LC15:
 	.ascii "Checking for new cards...\0"
 	.align 4
 _checking_cards:
-	.long	LC16
-LC17:
+	.long	LC15
+LC16:
 	.ascii "Select\0"
 	.align 4
 _select:
-	.long	LC17
-LC18:
-	.ascii "Send Album\0"
+	.long	LC16
+LC17:
+	.ascii "Share\0"
 	.align 4
 _tradelbl:
-	.long	LC18
-LC19:
+	.long	LC17
+LC18:
 	.ascii "Exit\0"
 	.align 4
 _exit:
-	.long	LC19
+	.long	LC18
 	.align 4
 __ZTVN4MAUI14WidgetListenerE:
 	.long	0
@@ -713,427 +708,30 @@ L21:
 	jp   #L13
 	.dlab LBE3
 Lscope11:
-	.stabs	"_ZN15AlbumViewScreen10locateItemE9MAPoint2d:F(0,6)",36,0,92,__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"this:P(0,176)",64,0,92,6
-	.stabs	"point:P(3,23)",64,0,92,7
-	.global	__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-
-.func __ZN15AlbumViewScreen10locateItemE9MAPoint2d, 3, void
-	.line 92
-	push rt,d4
-	sub  sp,#0xc
-	ld   fr,sp
-	add  fr,#0x28
-	ld   d2,i0
-	ld   d3,i1
-	ld   d4,i2
-	.dlab LBB4
-	.dlab LBB5
-	.line 93
-	ld   i0,[i0,2280]
-	ld   i1,[&_truesz]
-	call &__ZN4Feed8setTouchEPKc ; call non-native
-	and  r14,#0xff  ; zero extend
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L50
-L23:
-	.line 96
-	ld   r14,#0x0
-	ld.b [d2,2276],r14
-	.line 97
-	ld.b [d2,2277],r14
-	.line 98
-	ld.b [d2,2278],r14
-	.dlab LBB6
-	.dlab LBB7
-	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",132,0,0,Ltext6
-Ltext6:
-	.line 41
-	ld   [fr,-40],d3
-	ld   [fr,-36],d4
-	.dlab LBE7
-	.dlab LBE6
-	.dlab LBB8
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext7
-Ltext7:
-	.line 102
-	ld   d1,#0x0
-	.dlab LBB9
-	.dlab LBB10
-	.dlab LBB11
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext8
-Ltext8:
-	.line 362
-	ld   i0,d2
-	call &__ZN4MAUI6Screen7getMainEv ; call non-native
-	ld   i0,r14
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB12
-	ld   r14,[r14,8]
-	.dlab LBE12
-	.dlab LBE11
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB13
-	ld   r14,[r14,8]
-	add  r14,#0x8
-	.dlab LBE13
-	.dlab LBE10
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB14
-	.line 265
-	ld   r14,[r14]
-	.dlab LBE14
-	.dlab LBE9
-	.line 366
-	jc   le,r14,d1,#L51
-L37:
-	.dlab LBB15
-	.dlab LBB16
-	.dlab LBB17
-	.line 362
-	ld   i0,d2
-	call &__ZN4MAUI6Screen7getMainEv ; call non-native
-	ld   i0,r14
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB18
-	ld   r14,[r14,8]
-	.dlab LBE18
-	.dlab LBE17
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB19
-	ld   r14,[r14,8]
-	add  r14,#0x8
-	.dlab LBE19
-	.dlab LBE16
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB20
-	ld   r0,d1
-	sll  r0,#0x2
-	ld   r14,[r14,8]
-	add  r0,r14
-	.dlab LBE20
-	.dlab LBE15
-	ld   i0,[r0]
-	ld   r14,[i0]
-	ld   d0,[r14,40]
-	ld   i1,fr
-	add  i1,#0xffffffd8
-	call d0 ; call non-native
-	and  r14,#0xff  ; zero extend
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L29
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext9
-Ltext9:
-	.line 107
-	ld   r14,#0x1
-	ld.b [d2,2276],r14
-L29:
-	.line 102
-	add  d1,#0x1
-	.dlab LBB21
-	.dlab LBB22
-	.dlab LBB23
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext10
-Ltext10:
-	.line 362
-	ld   i0,d2
-	call &__ZN4MAUI6Screen7getMainEv ; call non-native
-	ld   i0,r14
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB24
-	ld   r14,[r14,8]
-	.dlab LBE24
-	.dlab LBE23
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB25
-	ld   r14,[r14,8]
-	add  r14,#0x8
-	.dlab LBE25
-	.dlab LBE22
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB26
-	.line 265
-	ld   r14,[r14]
-	.dlab LBE26
-	.dlab LBE21
-	.line 366
-	jc   gt,r14,d1,#L37
-L51:
-	.dlab LBE8
-	.dlab LBB27
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext11
-Ltext11:
-	.line 110
-	ld   d1,#0x0
-	jp   #L38
-L49:
-	.dlab LBB28
-	.dlab LBB29
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext12
-Ltext12:
-	.line 362
-	ld   i0,d2
-	call &__ZN4MAUI6Screen7getMainEv ; call non-native
-	ld   i0,r14
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB30
-	ld   r14,[r14,8]
-	add  r14,#0x4
-	.dlab LBE30
-	.dlab LBE29
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB31
-	ld   r0,d1
-	sll  r0,#0x2
-	ld   r14,[r14,8]
-	add  r0,r14
-	.dlab LBE31
-	.dlab LBE28
-	ld   i0,[r0]
-	ld   r14,[i0]
-	ld   d0,[r14,40]
-	ld   i1,fr
-	add  i1,#0xffffffd8
-	call d0 ; call non-native
-	and  r14,#0xff  ; zero extend
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L52
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext13
-Ltext13:
-	.line 110
-	add  d1,#0x1
-L38:
-	.dlab LBB32
-	.dlab LBB33
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext14
-Ltext14:
-	.line 362
-	ld   i0,d2
-	call &__ZN4MAUI6Screen7getMainEv ; call non-native
-	ld   i0,r14
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB34
-	ld   r14,[r14,8]
-	add  r14,#0x4
-	.dlab LBE34
-	.dlab LBE33
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB35
-	.line 265
-	ld   r14,[r14]
-	.dlab LBE35
-	.dlab LBE32
-	.line 366
-	jc   gt,r14,d1,#L49
-L22:
-	.dlab LBE27
-	.dlab LBE5
-	.dlab LBE4
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext15
-Ltext15:
-	.line 124
-	add  sp,#0xc
-	pop  rt,d4
-	ret
-L50:
-	.dlab LBB36
-	.dlab LBB37
-	.line 94
-	ld   d0,fr
-	add  d0,#0xffffffe0
-	ld   i0,d0
-	ld   i1,[d2,2280]
-	call &__ZN4Feed6getAllEv ; call non-native
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,[&_FEED]
-	ld   i1,r14
-	call &__Z8saveDataPKcS0_ ; call non-native
-	ld   i0,d0
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L23
-L52:
-	.dlab LBB38
-	.line 114
-	jc   ne,d1,r0,#L46
-	.line 115
-	ld   r14,#0x1
-	ld.b [d2,2277],r14
-	.line 116
-	ld   [d2,2272],d1
-	.dlab LBE38
-	.dlab LBE37
-	.dlab LBE36
-	.line 124
-	add  sp,#0xc
-	pop  rt,d4
-	ret
-L46:
-	.dlab LBB39
-	.dlab LBB40
-	.dlab LBB41
-	.line 117
-	ld   r0,#0x2
-	jc   ne,d1,r0,#L22
-	.line 118
-	ld   r14,#0x1
-	ld.b [d2,2278],r14
-	.line 119
-	ld   r0,#0x0
-	ld   [d2,2272],r0
-	jp   #L22
-	.dlab LBE41
-	.dlab LBE40
-	.dlab LBE39
-	.stabs	"p:(11,1)",128,0,100,-40
-	.stabn	192,0,0,LBB5-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"i:r(0,3)",64,0,102,5
-	.stabn	192,0,0,LBB8-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE8-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"i:r(0,3)",64,0,110,5
-	.stabn	192,0,0,LBB27-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE27-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE5-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"p:(11,1)",128,0,100,-40
-	.stabn	192,0,0,LBB37-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"i:r(0,3)",64,0,110,5
-	.stabn	192,0,0,LBB38-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE38-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE37-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"p:(11,1)",128,0,100,-40
-	.stabn	192,0,0,LBB40-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabs	"i:r(0,3)",64,0,110,5
-	.stabn	192,0,0,LBB41-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE41-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-	.stabn	224,0,0,LBE40-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
-Lscope12:
-	.set	%1=__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,176)",64,0,72,12
-	.stabs	"point:p(3,23)",160,0,72,-16
-	.global	__ZThn4_N15AlbumViewScreen16pointerMoveEventE9MAPoint2d
-
-.func __ZThn4_N15AlbumViewScreen16pointerMoveEventE9MAPoint2d, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext16
-Ltext16:
-	.line 17
-	push rt,fr
-	sub  sp,#0x8
-	ld   fr,sp
-	add  fr,#0x10
-	ld   [fr,-16],i1
-	ld   [fr,-12],i2
-	.line 17
-	add  i0,#0xfffffffc
-	call &%1 ; call non-native
-	add  sp,#0x8
-	pop  rt,fr
-	ret
-Lscope13:
-	.stabs	"_ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d:F(0,6)",36,0,72,__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,176)",64,0,72,4
-	.stabs	"point:p(3,23)",160,0,72,-20
-	.global	__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
-
-.func __ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext17
-Ltext17:
-	.line 72
-	push rt,d0
-	sub  sp,#0x8
-	ld   fr,sp
-	add  fr,#0x14
-	ld   d0,i0
-	ld   [fr,-20],i1
-	ld   [fr,-16],i2
-	.dlab LBB42
-	.line 73
-	call &__ZN15AlbumViewScreen10locateItemE9MAPoint2d ; call non-native
-	.line 74
-	ld   r14,[d0,2272]
-	add  r14,#0x1
-	ld   [d0,2272],r14
-	.dlab LBE42
-	add  sp,#0x8
-	pop  rt,d0
-	ret
-Lscope14:
-	.set	%2=__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,176)",64,0,49,12
-	.stabs	"point:p(3,23)",160,0,49,-16
-	.global	__ZThn4_N15AlbumViewScreen17pointerPressEventE9MAPoint2d
-
-.func __ZThn4_N15AlbumViewScreen17pointerPressEventE9MAPoint2d, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext18
-Ltext18:
-	.line 17
-	push rt,fr
-	sub  sp,#0x8
-	ld   fr,sp
-	add  fr,#0x10
-	ld   [fr,-16],i1
-	ld   [fr,-12],i2
-	.line 17
-	add  i0,#0xfffffffc
-	call &%2 ; call non-native
-	add  sp,#0x8
-	pop  rt,fr
-	ret
-Lscope15:
-	.stabs	"_ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d:F(0,6)",36,0,49,__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,176)",64,0,49,12
-	.stabs	"point:p(3,23)",160,0,49,-16
-	.global	__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
-
-.func __ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext19
-Ltext19:
-	.line 49
-	push rt,fr
-	sub  sp,#0x8
-	ld   fr,sp
-	add  fr,#0x10
-	ld   [fr,-16],i1
-	ld   [fr,-12],i2
-	.dlab LBB43
-	.line 50
-	call &__ZN15AlbumViewScreen10locateItemE9MAPoint2d ; call non-native
-	.dlab LBE43
-	add  sp,#0x8
-	pop  rt,fr
-	ret
-Lscope16:
 	.stabs	"_ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorneERKS8_:f(0,4)",36,0,243,__ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorneERKS8_
 	.stabs	"this:P(0,177)=k(6,48)",64,0,243,12
 	.stabs	"o:P(6,50)",64,0,243,13
 
 .func __ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorneERKS8_, 2, int
-	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext20
-Ltext20:
+	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext6
+Ltext6:
 	.line 243
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.dlab LBB44
+	.dlab LBB4
 	.line 244
 	ld   r15,#0x0
 	ld   r14,[i0]
 	ld   i1,[i1]
-	jc   eq,r14,i1,#L58
+	jc   eq,r14,i1,#L23
 	ld   r15,#0x1
-L58:
-	.dlab LBE44
+L23:
+	.dlab LBE4
 	ld   r14,r15
 	pop  fr,fr
 	ret
-Lscope17:
+Lscope12:
 	.stabs	"_ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4sizeEv:f(2,1)",36,0,135,__ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4sizeEv
 	.stabs	"this:P(0,178)=k(6,13)",64,0,135,12
 
@@ -1146,49 +744,49 @@ Lscope17:
 	ld   r14,[i0,24]
 	pop  fr,fr
 	ret
-Lscope18:
+Lscope13:
 	.stabs	"_ZN15AlbumViewScreen4showEv:F(0,6)",36,0,183,__ZN15AlbumViewScreen4showEv
 	.stabs	"this:P(0,176)",64,0,183,5
 	.global	__ZN15AlbumViewScreen4showEv
 
 .func __ZN15AlbumViewScreen4showEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext21
-Ltext21:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext7
+Ltext7:
 	.line 183
 	push rt,d1
 	ld   fr,sp
 	add  fr,#0x10
 	ld   d1,i0
-	.dlab LBB45
-	.dlab LBB46
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext22
-Ltext22:
+	.dlab LBB5
+	.dlab LBB6
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext8
+Ltext8:
 	.line 362
 	ld   i0,[i0,44]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
 	ld   i0,[d1,44]
 	call &__ZNK4MAUI14KineticListBox16getSelectedIndexEv ; call non-native
-	.dlab LBB47
+	.dlab LBB7
 	sll  r14,#0x2
 	ld   d0,[d0,8]
 	add  r14,d0
-	.dlab LBE47
-	.dlab LBE46
+	.dlab LBE7
+	.dlab LBE6
 	ld   i0,[r14]
 	ld   r14,[i0]
 	ld   d0,[r14,48]
 	ld   i1,#0x1
 	call d0 ; call non-native
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext23
-Ltext23:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext9
+Ltext9:
 	.line 185
 	ld   i0,d1
 	call &__ZN4MAUI6Screen4showEv ; call non-native
-	.dlab LBE45
+	.dlab LBE5
 	pop  rt,d1
 	ret
-Lscope19:
+Lscope14:
 	.stabs	"_ZN15AlbumViewScreen4hideEv:F(0,6)",36,0,188,__ZN15AlbumViewScreen4hideEv
 	.stabs	"this:P(0,176)",64,0,188,5
 	.global	__ZN15AlbumViewScreen4hideEv
@@ -1199,57 +797,57 @@ Lscope19:
 	ld   fr,sp
 	add  fr,#0x10
 	ld   d1,i0
-	.dlab LBB48
-	.dlab LBB49
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext24
-Ltext24:
+	.dlab LBB8
+	.dlab LBB9
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext10
+Ltext10:
 	.line 362
 	ld   i0,[i0,44]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
 	ld   i0,[d1,44]
 	call &__ZNK4MAUI14KineticListBox16getSelectedIndexEv ; call non-native
-	.dlab LBB50
+	.dlab LBB10
 	sll  r14,#0x2
 	ld   d0,[d0,8]
 	add  r14,d0
-	.dlab LBE50
-	.dlab LBE49
+	.dlab LBE10
+	.dlab LBE9
 	ld   i0,[r14]
 	ld   r14,[i0]
 	ld   d0,[r14,48]
 	ld   i1,#0x0
 	call d0 ; call non-native
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext25
-Ltext25:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext11
+Ltext11:
 	.line 190
 	ld   i0,d1
 	call &__ZN4MAUI6Screen4hideEv ; call non-native
-	.dlab LBE48
+	.dlab LBE8
 	pop  rt,d1
 	ret
-Lscope20:
-	.set	%3=__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+Lscope15:
+	.set	%1=__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 	.stabs	"this:P(0,176)",64,0,225,12
 	.stabs	"http:P(0,90)",64,0,225,13
 	.stabs	"result:P(0,3)",64,0,225,14
 	.global	__ZThn24_N15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 
 .func __ZThn24_N15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext26
-Ltext26:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext12
+Ltext12:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xffffffe8
-	call &%3 ; call non-native
+	call &%1 ; call non-native
 	pop  rt,fr
 	ret
-Lscope21:
+Lscope16:
 .data
-LC20:
+LC19:
 	.ascii "\0"
 .code
 	.stabs	"_ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi:F(0,6)",36,0,225,__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
@@ -1259,8 +857,8 @@ LC20:
 	.global	__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 
 .func __ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext27
-Ltext27:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext13
+Ltext13:
 	.line 225
 	push rt,d3
 	sub  sp,#0x854
@@ -1269,12 +867,12 @@ Ltext27:
 	ld   d2,i0
 	ld   d3,i1
 	ld   d0,i2
-	.dlab LBB51
+	.dlab LBB11
 	.line 226
 	ld   d1,fr
 	add  d1,#0xffffffe4
 	ld   i0,d1
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d2
 	add  i0,#0x8cc
@@ -1284,14 +882,14 @@ Ltext27:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 227
 	ld   r14,#0xc8
-	jc   eq,d0,r14,#L71
+	jc   eq,d0,r14,#L36
 	.line 231
 	ld   i0,d2
 	add  i0,#0x34
 	call &__ZN6MAUtil10Connection5closeEv ; call non-native
 	.line 232
 	ld   i0,d1
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d2,36]
 	ld   r14,[i0]
@@ -1300,21 +898,21 @@ Ltext27:
 	call d0 ; call non-native
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE51
+	.dlab LBE11
 	.line 234
 	add  sp,#0x854
 	pop  rt,d3
 	ret
-L71:
-	.dlab LBB52
-	.dlab LBB53
+L36:
+	.dlab LBB12
+	.dlab LBB13
 	.line 228
 	ld   d0,d2
 	add  d0,#0x5c
 	add  d1,#0xfffff7b0
 	ld   i0,d1
 	call &__ZN13XmlConnectionC1Ev ; call non-native
-	.dlab LBB54
+	.dlab LBB14
 	ld   i0,d2
 	add  i0,#0x64
 	ld   i1,fr
@@ -1333,8 +931,8 @@ L71:
 	call &_memcpy ; call non-native
 	ld   r14,[fr,-32]
 	ld   [d0,2124],r14
-	.dlab LBE54
-	.dlab LBE53
+	.dlab LBE14
+	.dlab LBE13
 	ld   i0,d1
 	call &__ZN13XmlConnectionD1Ev ; call non-native
 	.line 229
@@ -1345,34 +943,34 @@ L71:
 	ld   i3,d2
 	add  i3,#0x14
 	call &__ZN13XmlConnection5parseEPN6MAUtil10ConnectionEP10XCListenerPN3Mtx11XmlListenerE ; call non-native
-	.dlab LBE52
+	.dlab LBE12
 	.line 234
 	add  sp,#0x854
 	pop  rt,d3
 	ret
 	.stabs	"this:r(0,179)=k(0,180)=*(0,78)",64,0,228,4
-	.stabn	192,0,0,LBB53-__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
-	.stabn	224,0,0,LBE53-__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
-Lscope22:
-	.set	%4=__ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi
+	.stabn	192,0,0,LBB13-__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+	.stabn	224,0,0,LBE13-__ZN15AlbumViewScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+Lscope17:
+	.set	%2=__ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 	.stabs	"this:P(0,176)",64,0,236,12
 	.stabs	"conn:P(0,92)",64,0,236,13
 	.stabs	"result:P(0,3)",64,0,236,14
 	.global	__ZThn24_N15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZThn24_N15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext28
-Ltext28:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext14
+Ltext14:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xffffffe8
-	call &%4 ; call non-native
+	call &%2 ; call non-native
 	pop  rt,fr
 	ret
-Lscope23:
+Lscope18:
 	.stabs	"_ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,236,__ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 	.stabs	"this:P(0,176)",64,0,236,12
 	.stabs	"conn:P(0,92)",64,0,236,13
@@ -1380,8 +978,8 @@ Lscope23:
 	.global	__ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN15AlbumViewScreen16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext29
-Ltext29:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext15
+Ltext15:
 	.line 236
 	push fr,fr
 	ld   fr,sp
@@ -1389,33 +987,33 @@ Ltext29:
 	.line 236
 	pop  fr,fr
 	ret
-Lscope24:
-	.set	%5=__ZN15AlbumViewScreen11xcConnErrorEi
+Lscope19:
+	.set	%3=__ZN15AlbumViewScreen11xcConnErrorEi
 	.stabs	"this:P(0,176)",64,0,238,12
 	.stabs	"code:P(0,3)",64,0,238,13
 	.global	__ZThn16_N15AlbumViewScreen11xcConnErrorEi
 
 .func __ZThn16_N15AlbumViewScreen11xcConnErrorEi, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext30
-Ltext30:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext16
+Ltext16:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xfffffff0
-	call &%5 ; call non-native
+	call &%3 ; call non-native
 	pop  rt,fr
 	ret
-Lscope25:
+Lscope20:
 	.stabs	"_ZN15AlbumViewScreen11xcConnErrorEi:F(0,6)",36,0,238,__ZN15AlbumViewScreen11xcConnErrorEi
 	.stabs	"this:P(0,176)",64,0,238,12
 	.stabs	"code:P(0,3)",64,0,238,13
 	.global	__ZN15AlbumViewScreen11xcConnErrorEi
 
 .func __ZN15AlbumViewScreen11xcConnErrorEi, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext31
-Ltext31:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext17
+Ltext17:
 	.line 238
 	push fr,fr
 	ld   fr,sp
@@ -1423,31 +1021,31 @@ Ltext31:
 	.line 238
 	pop  fr,fr
 	ret
-Lscope26:
-	.set	%6=__ZN15AlbumViewScreen11mtxEncodingEPKc
+Lscope21:
+	.set	%4=__ZN15AlbumViewScreen11mtxEncodingEPKc
 	.stabs	"this:P(0,176)",64,0,242,12
 	.global	__ZThn20_N15AlbumViewScreen11mtxEncodingEPKc
 
 .func __ZThn20_N15AlbumViewScreen11mtxEncodingEPKc, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext32
-Ltext32:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext18
+Ltext18:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xffffffec
-	call &%6 ; call non-native
+	call &%4 ; call non-native
 	pop  rt,fr
 	ret
-Lscope27:
+Lscope22:
 	.stabs	"_ZN15AlbumViewScreen11mtxEncodingEPKc:F(0,6)",36,0,242,__ZN15AlbumViewScreen11mtxEncodingEPKc
 	.stabs	"this:P(0,176)",64,0,242,12
 	.global	__ZN15AlbumViewScreen11mtxEncodingEPKc
 
 .func __ZN15AlbumViewScreen11mtxEncodingEPKc, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext33
-Ltext33:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext19
+Ltext19:
 	.line 242
 	push fr,fr
 	ld   fr,sp
@@ -1455,26 +1053,26 @@ Ltext33:
 	.line 242
 	pop  fr,fr
 	ret
-Lscope28:
-	.set	%7=__ZN15AlbumViewScreen11mtxTagStartEPKci
+Lscope23:
+	.set	%5=__ZN15AlbumViewScreen11mtxTagStartEPKci
 	.stabs	"this:P(0,176)",64,0,245,12
 	.stabs	"name:P(19,27)",64,0,245,13
 	.stabs	"len:P(0,3)",64,0,245,14
 	.global	__ZThn20_N15AlbumViewScreen11mtxTagStartEPKci
 
 .func __ZThn20_N15AlbumViewScreen11mtxTagStartEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext34
-Ltext34:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext20
+Ltext20:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xffffffec
-	call &%7 ; call non-native
+	call &%5 ; call non-native
 	pop  rt,fr
 	ret
-Lscope29:
+Lscope24:
 	.stabs	"_ZN15AlbumViewScreen11mtxTagStartEPKci:F(0,6)",36,0,245,__ZN15AlbumViewScreen11mtxTagStartEPKci
 	.stabs	"this:P(0,176)",64,0,245,5
 	.stabs	"name:P(19,27)",64,0,245,13
@@ -1482,15 +1080,15 @@ Lscope29:
 	.global	__ZN15AlbumViewScreen11mtxTagStartEPKci
 
 .func __ZN15AlbumViewScreen11mtxTagStartEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext35
-Ltext35:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext21
+Ltext21:
 	.line 245
 	push rt,d1
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB55
+	.dlab LBB15
 	.line 246
 	ld   d0,fr
 	add  d0,#0xffffffec
@@ -1502,20 +1100,273 @@ Ltext35:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE55
+	.dlab LBE15
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-Lscope30:
-	.set	%8=__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
+Lscope25:
+	.set	%6=__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
 	.stabs	"this:P(0,176)",64,0,249,12
 	.stabs	"attrName:P(19,27)",64,0,249,13
 	.stabs	"attrValue:P(19,27)",64,0,249,14
 	.global	__ZThn20_N15AlbumViewScreen10mtxTagAttrEPKcS1_
 
 .func __ZThn20_N15AlbumViewScreen10mtxTagAttrEPKcS1_, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext36
-Ltext36:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext22
+Ltext22:
+	.line 17
+	push rt,fr
+	ld   fr,sp
+	add  fr,#0x8
+	.line 17
+	add  i0,#0xffffffec
+	call &%6 ; call non-native
+	pop  rt,fr
+	ret
+Lscope26:
+	.stabs	"_ZN15AlbumViewScreen10mtxTagAttrEPKcS1_:F(0,6)",36,0,249,__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
+	.stabs	"this:P(0,176)",64,0,249,12
+	.stabs	"attrName:P(19,27)",64,0,249,13
+	.stabs	"attrValue:P(19,27)",64,0,249,14
+	.global	__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
+
+.func __ZN15AlbumViewScreen10mtxTagAttrEPKcS1_, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext23
+Ltext23:
+	.line 249
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 249
+	pop  fr,fr
+	ret
+Lscope27:
+	.set	%7=__ZN15AlbumViewScreen10mtxTagDataEPKci
+	.stabs	"this:P(0,176)",64,0,253,12
+	.stabs	"data:P(19,27)",64,0,253,13
+	.stabs	"len:P(0,3)",64,0,253,14
+	.global	__ZThn20_N15AlbumViewScreen10mtxTagDataEPKci
+
+.func __ZThn20_N15AlbumViewScreen10mtxTagDataEPKci, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext24
+Ltext24:
+	.line 17
+	push rt,fr
+	ld   fr,sp
+	add  fr,#0x8
+	.line 17
+	add  i0,#0xffffffec
+	call &%7 ; call non-native
+	pop  rt,fr
+	ret
+Lscope28:
+	.stabs	"_ZN15AlbumViewScreen10mtxTagDataEPKci:F(0,6)",36,0,253,__ZN15AlbumViewScreen10mtxTagDataEPKci
+	.stabs	"this:P(0,176)",64,0,253,5
+	.stabs	"data:P(19,27)",64,0,253,6
+	.stabs	"len:P(0,3)",64,0,253,14
+	.global	__ZN15AlbumViewScreen10mtxTagDataEPKci
+
+.func __ZN15AlbumViewScreen10mtxTagDataEPKci, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext25
+Ltext25:
+	.line 253
+	push rt,d2
+	sub  sp,#0x4
+	ld   fr,sp
+	add  fr,#0x18
+	ld   d1,i0
+	ld   d2,i1
+	.dlab LBB16
+	.line 254
+	ld   d0,i0
+	add  d0,#0x8ac
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_cardid]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L49
+	.line 255
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8b4
+L64:
+	.line 269
+	ld   i1,d0
+	call &__ZN6MAUtil11BasicStringIcEpLERKS1_ ; call non-native
+	ld   i0,d0
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+L48:
+	.dlab LBE16
+	.line 271
+	add  sp,#0x4
+	pop  rt,d2
+	ret
+L49:
+	.dlab LBB17
+	.line 256
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_carddescription]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L51
+	.line 257
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8b8
+	jp   #L64
+L51:
+	.line 258
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_thumburl]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L65
+	.line 260
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_fronturl]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L55
+	.line 261
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8c4
+	jp   #L64
+L65:
+	.line 259
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8c0
+	jp   #L64
+L55:
+	.line 262
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_backurl]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L66
+	.line 264
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_rate]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L59
+	.line 265
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8d0
+	jp   #L64
+L66:
+	.line 263
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8c8
+	jp   #L64
+L59:
+	.line 266
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_value]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L61
+	.line 267
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8d4
+	jp   #L64
+L61:
+	.line 268
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,r14
+	ld   i1,[&_xml_error]
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L48
+	.line 269
+	ld   d0,fr
+	add  d0,#0xffffffe8
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	ld   i0,d1
+	add  i0,#0x8cc
+	jp   #L64
+	.dlab LBE17
+Lscope29:
+	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_:f(6,45)",36,0,183,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_
+	.stabs	"this:P(0,181)=k(6,41)",64,0,183,30
+	.stabs	"o:P(6,50)",64,0,183,13
+
+.func __ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_, 2, int
+	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext26
+Ltext26:
+	.line 183
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	ld   r14,i0
+	.dlab LBB18
+	.line 184
+	ld   r0,[i1]
+	ld   [i0],r0
+	.line 185
+	ld   i1,[i1,4]
+	ld   [i0,4],i1
+	.dlab LBE18
+	.line 186
+	pop  fr,fr
+	ret
+Lscope30:
+	.set	%8=__ZN15AlbumViewScreen13mtxParseErrorEv
+	.stabs	"this:P(0,176)",64,0,311,12
+	.global	__ZThn20_N15AlbumViewScreen13mtxParseErrorEv
+
+.func __ZThn20_N15AlbumViewScreen13mtxParseErrorEv, 1, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext27
+Ltext27:
 	.line 17
 	push rt,fr
 	ld   fr,sp
@@ -1526,32 +1377,28 @@ Ltext36:
 	pop  rt,fr
 	ret
 Lscope31:
-	.stabs	"_ZN15AlbumViewScreen10mtxTagAttrEPKcS1_:F(0,6)",36,0,249,__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
-	.stabs	"this:P(0,176)",64,0,249,12
-	.stabs	"attrName:P(19,27)",64,0,249,13
-	.stabs	"attrValue:P(19,27)",64,0,249,14
-	.global	__ZN15AlbumViewScreen10mtxTagAttrEPKcS1_
+	.stabs	"_ZN15AlbumViewScreen13mtxParseErrorEv:F(0,6)",36,0,311,__ZN15AlbumViewScreen13mtxParseErrorEv
+	.stabs	"this:P(0,176)",64,0,311,12
+	.global	__ZN15AlbumViewScreen13mtxParseErrorEv
 
-.func __ZN15AlbumViewScreen10mtxTagAttrEPKcS1_, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext37
-Ltext37:
-	.line 249
+.func __ZN15AlbumViewScreen13mtxParseErrorEv, 1, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext28
+Ltext28:
+	.line 311
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 249
+	.line 311
 	pop  fr,fr
 	ret
 Lscope32:
-	.set	%9=__ZN15AlbumViewScreen10mtxTagDataEPKci
-	.stabs	"this:P(0,176)",64,0,253,12
-	.stabs	"data:P(19,27)",64,0,253,13
-	.stabs	"len:P(0,3)",64,0,253,14
-	.global	__ZThn20_N15AlbumViewScreen10mtxTagDataEPKci
+	.set	%9=__ZN15AlbumViewScreen14mtxEmptyTagEndEv
+	.stabs	"this:P(0,176)",64,0,314,12
+	.global	__ZThn20_N15AlbumViewScreen14mtxEmptyTagEndEv
 
-.func __ZThn20_N15AlbumViewScreen10mtxTagDataEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext38
-Ltext38:
+.func __ZThn20_N15AlbumViewScreen14mtxEmptyTagEndEv, 1, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext29
+Ltext29:
 	.line 17
 	push rt,fr
 	ld   fr,sp
@@ -1562,213 +1409,28 @@ Ltext38:
 	pop  rt,fr
 	ret
 Lscope33:
-	.stabs	"_ZN15AlbumViewScreen10mtxTagDataEPKci:F(0,6)",36,0,253,__ZN15AlbumViewScreen10mtxTagDataEPKci
-	.stabs	"this:P(0,176)",64,0,253,5
-	.stabs	"data:P(19,27)",64,0,253,6
-	.stabs	"len:P(0,3)",64,0,253,14
-	.global	__ZN15AlbumViewScreen10mtxTagDataEPKci
+	.stabs	"_ZN15AlbumViewScreen14mtxEmptyTagEndEv:F(0,6)",36,0,314,__ZN15AlbumViewScreen14mtxEmptyTagEndEv
+	.stabs	"this:P(0,176)",64,0,314,12
+	.global	__ZN15AlbumViewScreen14mtxEmptyTagEndEv
 
-.func __ZN15AlbumViewScreen10mtxTagDataEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext39
-Ltext39:
-	.line 253
-	push rt,d2
-	sub  sp,#0x4
-	ld   fr,sp
-	add  fr,#0x18
-	ld   d1,i0
-	ld   d2,i1
-	.dlab LBB56
-	.line 254
-	ld   d0,i0
-	add  d0,#0x8ac
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_cardid]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L84
-	.line 255
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8b4
-L99:
-	.line 269
-	ld   i1,d0
-	call &__ZN6MAUtil11BasicStringIcEpLERKS1_ ; call non-native
-	ld   i0,d0
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L83:
-	.dlab LBE56
-	.line 271
-	add  sp,#0x4
-	pop  rt,d2
-	ret
-L84:
-	.dlab LBB57
-	.line 256
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_carddescription]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L86
-	.line 257
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8b8
-	jp   #L99
-L86:
-	.line 258
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_thumburl]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L100
-	.line 260
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_fronturl]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L90
-	.line 261
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8c4
-	jp   #L99
-L100:
-	.line 259
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8c0
-	jp   #L99
-L90:
-	.line 262
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_backurl]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L101
-	.line 264
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_rate]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L94
-	.line 265
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8d0
-	jp   #L99
-L101:
-	.line 263
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8c8
-	jp   #L99
-L94:
-	.line 266
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_value]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L96
-	.line 267
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8d4
-	jp   #L99
-L96:
-	.line 268
-	ld   i0,d0
-	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,r14
-	ld   i1,[&_xml_error]
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   ne,r14,r0,#L83
-	.line 269
-	ld   d0,fr
-	add  d0,#0xffffffe8
-	ld   i0,d0
-	ld   i1,d2
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	ld   i0,d1
-	add  i0,#0x8cc
-	jp   #L99
-	.dlab LBE57
-Lscope34:
-	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_:f(6,45)",36,0,183,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_
-	.stabs	"this:P(0,181)=k(6,41)",64,0,183,30
-	.stabs	"o:P(6,50)",64,0,183,13
-
-.func __ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratoraSERKS8_, 2, int
-	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext40
-Ltext40:
-	.line 183
+.func __ZN15AlbumViewScreen14mtxEmptyTagEndEv, 1, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext30
+Ltext30:
+	.line 314
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	ld   r14,i0
-	.dlab LBB58
-	.line 184
-	ld   r0,[i1]
-	ld   [i0],r0
-	.line 185
-	ld   i1,[i1,4]
-	ld   [i0,4],i1
-	.dlab LBE58
-	.line 186
+	.line 314
 	pop  fr,fr
 	ret
-Lscope35:
-	.set	%10=__ZN15AlbumViewScreen13mtxParseErrorEv
-	.stabs	"this:P(0,176)",64,0,311,12
-	.global	__ZThn20_N15AlbumViewScreen13mtxParseErrorEv
+Lscope34:
+	.set	%10=__ZN15AlbumViewScreen14mtxTagStartEndEv
+	.stabs	"this:P(0,176)",64,0,317,12
+	.global	__ZThn20_N15AlbumViewScreen14mtxTagStartEndEv
 
-.func __ZThn20_N15AlbumViewScreen13mtxParseErrorEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext41
-Ltext41:
+.func __ZThn20_N15AlbumViewScreen14mtxTagStartEndEv, 1, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext31
+Ltext31:
 	.line 17
 	push rt,fr
 	ld   fr,sp
@@ -1778,78 +1440,14 @@ Ltext41:
 	call &%10 ; call non-native
 	pop  rt,fr
 	ret
-Lscope36:
-	.stabs	"_ZN15AlbumViewScreen13mtxParseErrorEv:F(0,6)",36,0,311,__ZN15AlbumViewScreen13mtxParseErrorEv
-	.stabs	"this:P(0,176)",64,0,311,12
-	.global	__ZN15AlbumViewScreen13mtxParseErrorEv
-
-.func __ZN15AlbumViewScreen13mtxParseErrorEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext42
-Ltext42:
-	.line 311
-	push fr,fr
-	ld   fr,sp
-	add  fr,#0x4
-	.line 311
-	pop  fr,fr
-	ret
-Lscope37:
-	.set	%11=__ZN15AlbumViewScreen14mtxEmptyTagEndEv
-	.stabs	"this:P(0,176)",64,0,314,12
-	.global	__ZThn20_N15AlbumViewScreen14mtxEmptyTagEndEv
-
-.func __ZThn20_N15AlbumViewScreen14mtxEmptyTagEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext43
-Ltext43:
-	.line 17
-	push rt,fr
-	ld   fr,sp
-	add  fr,#0x8
-	.line 17
-	add  i0,#0xffffffec
-	call &%11 ; call non-native
-	pop  rt,fr
-	ret
-Lscope38:
-	.stabs	"_ZN15AlbumViewScreen14mtxEmptyTagEndEv:F(0,6)",36,0,314,__ZN15AlbumViewScreen14mtxEmptyTagEndEv
-	.stabs	"this:P(0,176)",64,0,314,12
-	.global	__ZN15AlbumViewScreen14mtxEmptyTagEndEv
-
-.func __ZN15AlbumViewScreen14mtxEmptyTagEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext44
-Ltext44:
-	.line 314
-	push fr,fr
-	ld   fr,sp
-	add  fr,#0x4
-	.line 314
-	pop  fr,fr
-	ret
-Lscope39:
-	.set	%12=__ZN15AlbumViewScreen14mtxTagStartEndEv
-	.stabs	"this:P(0,176)",64,0,317,12
-	.global	__ZThn20_N15AlbumViewScreen14mtxTagStartEndEv
-
-.func __ZThn20_N15AlbumViewScreen14mtxTagStartEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext45
-Ltext45:
-	.line 17
-	push rt,fr
-	ld   fr,sp
-	add  fr,#0x8
-	.line 17
-	add  i0,#0xffffffec
-	call &%12 ; call non-native
-	pop  rt,fr
-	ret
-Lscope40:
+Lscope35:
 	.stabs	"_ZN15AlbumViewScreen14mtxTagStartEndEv:F(0,6)",36,0,317,__ZN15AlbumViewScreen14mtxTagStartEndEv
 	.stabs	"this:P(0,176)",64,0,317,12
 	.global	__ZN15AlbumViewScreen14mtxTagStartEndEv
 
 .func __ZN15AlbumViewScreen14mtxTagStartEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext46
-Ltext46:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext32
+Ltext32:
 	.line 317
 	push fr,fr
 	ld   fr,sp
@@ -1857,7 +1455,7 @@ Ltext46:
 	.line 317
 	pop  fr,fr
 	ret
-Lscope41:
+Lscope36:
 	.stabs	"_ZN15AlbumViewScreen8getCountEv:F(0,3)",36,0,319,__ZN15AlbumViewScreen8getCountEv
 	.stabs	"this:P(0,176)",64,0,319,12
 	.global	__ZN15AlbumViewScreen8getCountEv
@@ -1871,27 +1469,27 @@ Lscope41:
 	ld   r14,[i0,2264]
 	pop  fr,fr
 	ret
-Lscope42:
+Lscope37:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t:f(0,6)",36,0,174,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t
 	.stabs	"this:P(0,181)",64,0,174,12
 	.stabs	"dict:P(27,33)",64,0,174,13
 
 .func __ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t, 2, void
-	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext47
-Ltext47:
+	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext33
+Ltext33:
 	.line 174
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.dlab LBB59
+	.dlab LBB19
 	.line 175
 	ld   r14,#0x0
 	ld   [i0],r14
 	ld   [i0,4],i1
-	.dlab LBE59
+	.dlab LBE19
 	pop  fr,fr
 	ret
-Lscope43:
+Lscope38:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv:f(6,10)",36,0,120,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv
 	.stabs	"this:P(0,182)=k(6,3)",64,0,120,13
 
@@ -1901,23 +1499,23 @@ Lscope43:
 	ld   fr,sp
 	add  fr,#0xc
 	ld   d0,i0
-	.dlab LBB60
-	.dlab LBB61
+	.dlab LBB20
+	.dlab LBB21
 	.line 121
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t ; call non-native
 	.line 122
 	ld   r14,#0x0
 	ld   [d0],r14
-	.dlab LBE61
-	.dlab LBE60
+	.dlab LBE21
+	.dlab LBE20
 	.line 123
 	ld   r14,d0
 	pop  rt,d0
 	ret
 	.stabs	"itr:r(0,183)=*(6,10)",64,0,121,4
-	.stabn	192,0,0,LBB61-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv
-	.stabn	224,0,0,LBE61-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv
-Lscope44:
+	.stabn	192,0,0,LBB21-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv
+	.stabn	224,0,0,LBE21-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv
+Lscope39:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1ERKS8_:f(0,6)",36,0,178,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1ERKS8_
 	.stabs	"this:P(0,181)",64,0,178,12
 	.stabs	"o:P(6,50)",64,0,178,13
@@ -1927,30 +1525,30 @@ Lscope44:
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.dlab LBB62
+	.dlab LBB22
 	.line 179
 	ld   r14,[i1]
 	ld   [i0],r14
 	ld   i1,[i1,4]
 	ld   [i0,4],i1
-	.dlab LBE62
+	.dlab LBE22
 	pop  fr,fr
 	ret
-Lscope45:
+Lscope40:
 	.stabs	"_ZN6MAUtil7CompareIKNS_11BasicStringIcEEEEiRKT_S6_:f(0,3)",36,0,43,__ZN6MAUtil7CompareIKNS_11BasicStringIcEEEEiRKT_S6_
 	.stabs	"a:P(24,11)",64,0,43,5
 	.stabs	"b:P(24,11)",64,0,43,6
 
 .func __ZN6MAUtil7CompareIKNS_11BasicStringIcEEEEiRKT_S6_, 2, int
-	.stabs	"c:/MoSync/include/MAUtil/collection_common.h",132,0,0,Ltext48
-Ltext48:
+	.stabs	"c:/MoSync/include/MAUtil/collection_common.h",132,0,0,Ltext34
+Ltext34:
 	.line 43
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
 	ld   d2,i1
-	.dlab LBB63
+	.dlab LBB23
 	.line 44
 	call &__ZNK6MAUtil11BasicStringIcEltERKS1_ ; call non-native
 	ld   d0,r14
@@ -1959,7 +1557,7 @@ Ltext48:
 	ld   r0,#0xffffffff
 	.line 44
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L113
+	jc   ne,d0,r14,#L78
 	.line 46
 	ld   i0,d1
 	ld   i1,d2
@@ -1968,53 +1566,53 @@ Ltext48:
 	.line 47
 	ld   r0,#0x0
 	.line 46
-	jc   eq,r14,d0,#L118
-L113:
-	.dlab LBE63
+	jc   eq,r14,d0,#L83
+L78:
+	.dlab LBE23
 	.line 49
 	ld   r14,r0
 	pop  rt,d2
 	ret
-L118:
-	.dlab LBB64
+L83:
+	.dlab LBB24
 	ld   r0,#0x1
-	.dlab LBE64
+	.dlab LBE24
 	ld   r14,r0
 	pop  rt,d2
 	ret
-Lscope46:
+Lscope41:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv:f(6,10)",36,0,104,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv
 	.stabs	"this:P(0,182)",64,0,104,4
 
 .func __ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv, 2, int
-	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext49
-Ltext49:
+	.stabs	"c:/MoSync/include/MAUtil/Dictionary_impl.h",132,0,0,Ltext35
+Ltext35:
 	.line 104
 	push rt,d1
 	ld   fr,sp
 	add  fr,#0x10
 	ld   d1,i0
 	ld   d0,i1
-	.dlab LBB65
-	.dlab LBB66
+	.dlab LBB25
+	.dlab LBB26
 	.line 105
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t ; call non-native
 	.line 106
 	ld   i0,d0
 	call &_dict_first ; call non-native
 	ld   [d1],r14
-	.dlab LBE66
-	.dlab LBE65
+	.dlab LBE26
+	.dlab LBE25
 	.line 107
 	ld   r14,d1
 	pop  rt,d1
 	ret
 	.stabs	"itr:r(0,184)=*(6,10)",64,0,105,5
-	.stabn	192,0,0,LBB66-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv
-	.stabn	224,0,0,LBE66-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv
-Lscope47:
+	.stabn	192,0,0,LBB26-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv
+	.stabn	224,0,0,LBE26-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv
+Lscope42:
 .data
-LC21:
+LC20:
 	.ascii "c:/MoSync/include/MAUtil/Dictionary_impl.h\0"
 .code
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorptEv:f(6,43)",36,0,196,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorptEv
@@ -2025,28 +1623,28 @@ LC21:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB67
+	.dlab LBB27
 	.line 197
 	ld   i0,[i0]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L123
-	.dlab LBE67
+	jc   eq,i0,r14,#L88
+	.dlab LBE27
 	.line 198
 	ld   r14,i0
 	add  r14,#0x18
 	pop  rt,fr
 	ret
-L123:
-	.dlab LBB68
+L88:
+	.dlab LBB28
 	.line 197
-	ld   i0,#LC21
+	ld   i0,#LC20
 	call &_FileNameFromPath ; call non-native
 	ld   i0,#0x6
 	ld   i1,r14
 	ld   i2,#0xc5
 	call &_bfeHandler ; call non-native
-	.dlab LBE68
-Lscope48:
+	.dlab LBE28
+Lscope43:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_:f(6,10)",36,0,155,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_
 	.stabs	"this:P(0,182)",64,0,155,5
 	.stabs	"key:P(24,11)",64,0,155,6
@@ -2059,8 +1657,8 @@ Lscope48:
 	ld   d0,i0
 	ld   d1,i1
 	ld   d2,i2
-	.dlab LBB69
-	.dlab LBB70
+	.dlab LBB29
+	.dlab LBB30
 	.line 156
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1EP6dict_t ; call non-native
 	.line 157
@@ -2068,16 +1666,16 @@ Lscope48:
 	ld   i1,d2
 	call &_dict_lookup ; call non-native
 	ld   [d0],r14
-	.dlab LBE70
-	.dlab LBE69
+	.dlab LBE30
+	.dlab LBE29
 	.line 158
 	ld   r14,d0
 	pop  rt,d2
 	ret
 	.stabs	"itr:r(0,185)=*(6,10)",64,0,156,4
-	.stabn	192,0,0,LBB70-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_
-	.stabn	224,0,0,LBE70-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_
-Lscope49:
+	.stabn	192,0,0,LBB30-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_
+	.stabn	224,0,0,LBE30-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE4findERS3_
+Lscope44:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5clearEv:f(0,6)",36,0,78,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5clearEv
 	.stabs	"this:P(0,182)",64,0,78,12
 
@@ -2086,13 +1684,13 @@ Lscope49:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB71
+	.dlab LBB31
 	.line 79
 	call &_dict_free_nodes ; call non-native
-	.dlab LBE71
+	.dlab LBE31
 	pop  rt,fr
 	ret
-Lscope50:
+Lscope45:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev:f(0,6)",36,0,73,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev
 	.stabs	"this:P(0,182)",64,0,73,12
 
@@ -2101,13 +1699,13 @@ Lscope50:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB72
+	.dlab LBB32
 	.line 74
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5clearEv ; call non-native
-	.dlab LBE72
+	.dlab LBE32
 	pop  rt,fr
 	ret
-Lscope51:
+Lscope46:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEE5clearEv:f(0,6)",36,0,78,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEE5clearEv
 	.stabs	"this:P(0,186)=k(24,3)",64,0,78,12
 
@@ -2116,13 +1714,13 @@ Lscope51:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB73
+	.dlab LBB33
 	.line 79
 	call &_dict_free_nodes ; call non-native
-	.dlab LBE73
+	.dlab LBE33
 	pop  rt,fr
 	ret
-Lscope52:
+Lscope47:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEED2Ev:f(0,6)",36,0,73,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEED2Ev
 	.stabs	"this:P(0,186)",64,0,73,12
 
@@ -2131,13 +1729,13 @@ Lscope52:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB74
+	.dlab LBB34
 	.line 74
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEE5clearEv ; call non-native
-	.dlab LBE74
+	.dlab LBE34
 	pop  rt,fr
 	ret
-Lscope53:
+Lscope48:
 	.stabs	"_ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE13ConstIteratorneERKS8_:f(0,4)",36,0,325,__ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE13ConstIteratorneERKS8_
 	.stabs	"this:P(0,187)=k(0,50)",64,0,325,12
 	.stabs	"o:P(0,59)",64,0,325,13
@@ -2147,19 +1745,19 @@ Lscope53:
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.dlab LBB75
+	.dlab LBB35
 	.line 326
 	ld   r15,#0x0
 	ld   r14,[i0]
 	ld   i1,[i1]
-	jc   eq,r14,i1,#L134
+	jc   eq,r14,i1,#L99
 	ld   r15,#0x1
-L134:
-	.dlab LBE75
+L99:
+	.dlab LBE35
 	ld   r14,r15
 	pop  fr,fr
 	ret
-Lscope54:
+Lscope49:
 	.stabs	"_ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE13ConstIteratordeEv:f(6,23)",36,0,272,__ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE13ConstIteratordeEv
 	.stabs	"this:P(0,187)",64,0,272,12
 
@@ -2168,28 +1766,28 @@ Lscope54:
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.dlab LBB76
+	.dlab LBB36
 	.line 273
 	ld   i0,[i0]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L138
-	.dlab LBE76
+	jc   eq,i0,r14,#L103
+	.dlab LBE36
 	.line 274
 	ld   r14,i0
 	add  r14,#0x18
 	pop  rt,fr
 	ret
-L138:
-	.dlab LBB77
+L103:
+	.dlab LBB37
 	.line 273
-	ld   i0,#LC21
+	ld   i0,#LC20
 	call &_FileNameFromPath ; call non-native
 	ld   i0,#0x6
 	ld   i1,r14
 	ld   i2,#0x111
 	call &_bfeHandler ; call non-native
-	.dlab LBE77
-Lscope55:
+	.dlab LBE37
+Lscope50:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEv:f(6,45)",36,0,203,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEv
 	.stabs	"this:P(0,181)",64,0,203,4
 
@@ -2199,31 +1797,31 @@ Lscope55:
 	ld   fr,sp
 	add  fr,#0xc
 	ld   d0,i0
-	.dlab LBB78
+	.dlab LBB38
 	.line 204
 	ld   i1,[i0]
 	ld   r14,#0x0
-	jc   eq,i1,r14,#L142
+	jc   eq,i1,r14,#L107
 	.line 205
 	ld   i0,[i0,4]
 	call &_dict_next ; call non-native
 	ld   [d0],r14
-	.dlab LBE78
+	.dlab LBE38
 	.line 206
 	ld   r14,d0
 	pop  rt,d0
 	ret
-L142:
-	.dlab LBB79
+L107:
+	.dlab LBB39
 	.line 204
-	ld   i0,#LC21
+	ld   i0,#LC20
 	call &_FileNameFromPath ; call non-native
 	ld   i0,#0x6
 	ld   i1,r14
 	ld   i2,#0xcc
 	call &_bfeHandler ; call non-native
-	.dlab LBE79
-Lscope56:
+	.dlab LBE39
+Lscope51:
 	.stabs	"_ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi:f(6,10)",36,0,211,__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi
 	.stabs	"this:P(0,181)",64,0,211,4
 
@@ -2234,30 +1832,30 @@ Lscope56:
 	add  fr,#0x10
 	ld   d1,i0
 	ld   d0,i1
-	.dlab LBB80
-	.dlab LBB81
+	.dlab LBB40
+	.dlab LBB41
 	.line 212
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorC1ERKS8_ ; call non-native
 	.line 213
 	ld   i0,d0
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEv ; call non-native
-	.dlab LBE81
-	.dlab LBE80
+	.dlab LBE41
+	.dlab LBE40
 	.line 214
 	ld   r14,d1
 	pop  rt,d1
 	ret
 	.stabs	"old:r(0,188)=*(6,10)",64,0,212,5
-	.stabn	192,0,0,LBB81-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi
-	.stabn	224,0,0,LBE81-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi
-Lscope57:
+	.stabn	192,0,0,LBB41-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi
+	.stabn	224,0,0,LBE41-__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi
+Lscope52:
 	.stabs	"_ZN15AlbumViewScreen6getAllEv:F(10,1)",36,0,303,__ZN15AlbumViewScreen6getAllEv
 	.stabs	"this:P(0,176)",64,0,303,13
 	.global	__ZN15AlbumViewScreen6getAllEv
 
 .func __ZN15AlbumViewScreen6getAllEv, 2, int
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext50
-Ltext50:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext36
+Ltext36:
 	.line 303
 	push rt,d6
 	sub  sp,#0x24
@@ -2265,11 +1863,11 @@ Ltext50:
 	add  fr,#0x48
 	ld   d6,i0
 	ld   d4,i1
-	.dlab LBB82
-	.dlab LBB83
+	.dlab LBB42
+	.dlab LBB43
 	.line 304
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	.dlab LBB84
+	.dlab LBB44
 	.line 305
 	ld   d3,fr
 	add  d3,#0xffffffd4
@@ -2279,8 +1877,8 @@ Ltext50:
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE5beginEv ; call non-native
 	ld   d5,fr
 	add  d5,#0xffffffcc
-	jp   #L145
-L148:
+	jp   #L110
+L113:
 	.line 306
 	ld   d0,fr
 	add  d0,#0xffffffc8
@@ -2295,7 +1893,7 @@ L148:
 	ld   d1,fr
 	add  d1,#0xffffffc0
 	ld   i0,d1
-	ld   i1,#LC13
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d0
 	ld   i1,d2
@@ -2316,7 +1914,7 @@ L148:
 	ld   i1,d3
 	ld   i2,#0x0
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorppEi ; call non-native
-L145:
+L110:
 	ld   i0,d5
 	ld   i1,d4
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE3endEv ; call non-native
@@ -2325,24 +1923,24 @@ L145:
 	call &__ZNK6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEE8IteratorneERKS8_ ; call non-native
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L148
-	.dlab LBE84
-	.dlab LBE83
-	.dlab LBE82
+	jc   ne,r14,r0,#L113
+	.dlab LBE44
+	.dlab LBE43
+	.dlab LBE42
 	.line 309
 	ld   r14,d6
 	add  sp,#0x24
 	pop  rt,d6
 	ret
 	.stabs	"all:r(0,189)=*(10,1)",64,0,304,10
-	.stabn	192,0,0,LBB83-__ZN15AlbumViewScreen6getAllEv
+	.stabn	192,0,0,LBB43-__ZN15AlbumViewScreen6getAllEv
 	.stabs	"itr:(6,10)",128,0,305,-44
-	.stabn	192,0,0,LBB84-__ZN15AlbumViewScreen6getAllEv
-	.stabn	224,0,0,LBE84-__ZN15AlbumViewScreen6getAllEv
-	.stabn	224,0,0,LBE83-__ZN15AlbumViewScreen6getAllEv
-Lscope58:
+	.stabn	192,0,0,LBB44-__ZN15AlbumViewScreen6getAllEv
+	.stabn	224,0,0,LBE44-__ZN15AlbumViewScreen6getAllEv
+	.stabn	224,0,0,LBE43-__ZN15AlbumViewScreen6getAllEv
+Lscope53:
 .data
-LC22:
+LC21:
 	.ascii "1\0"
 .code
 	.stabs	"_ZN15AlbumViewScreen13keyPressEventEi:F(0,6)",36,0,193,__ZN15AlbumViewScreen13keyPressEventEi
@@ -2358,40 +1956,40 @@ LC22:
 	add  fr,#0x2c
 	ld   d2,i0
 	ld   d0,i1
-	.dlab LBB85
-	.dlab LBB86
+	.dlab LBB45
+	.dlab LBB46
 	.line 194
 	ld   i0,[i0,44]
 	call &__ZNK4MAUI14KineticListBox16getSelectedIndexEv ; call non-native
 	ld   d1,r14
 	.line 195
-	case d0,#0x111,#0xd,#L165,#L149
+	case d0,#0x111,#0xd,#L130,#L114
 .data
 	.align 4
-L165:
-	.word L151
-	.word L152
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L149
-	.word L154
-	.word L153
-	.word L161
+L130:
+	.word L116
+	.word L117
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L114
+	.word L119
+	.word L118
+	.word L126
 .code
-L161:
+L126:
 	.line 216
 	ld   i0,[d2,28]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L166
-L162:
+	jc   ne,i0,r14,#L131
+L127:
 	.line 219
-	ld   i0,#0x8d8
+	ld   i0,#0x8d4
 	call &__Znwm ; call non-native
 	ld   d0,r14
 	ld   i0,r14
@@ -2404,64 +2002,64 @@ L162:
 	ld   d1,[r14,28]
 	ld   i0,d0
 	call d1 ; call non-native
-L149:
-	.dlab LBE86
-	.dlab LBE85
+L114:
+	.dlab LBE46
+	.dlab LBE45
 	.line 223
 	add  sp,#0x14
 	pop  rt,d3
 	ret
-L152:
-	.dlab LBB87
-	.dlab LBB88
+L117:
+	.dlab LBB47
+	.dlab LBB48
 	.line 200
 	ld   i0,[d2,44]
 	ld   i1,#0x1
 	call &__ZN4MAUI14KineticListBox14selectNextItemEb ; call non-native
-	.dlab LBE88
-	.dlab LBE87
+	.dlab LBE48
+	.dlab LBE47
 	.line 223
 	add  sp,#0x14
 	pop  rt,d3
 	ret
-L154:
-	.dlab LBB89
-	.dlab LBB90
+L119:
+	.dlab LBB49
+	.dlab LBB50
 	.line 207
 	ld.b r14,[d2,2279]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L149
-	.dlab LBB91
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext51
-Ltext51:
+	jc   ne,r14,r0,#L114
+	.dlab LBB51
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext37
+Ltext37:
 	.line 265
 	ld   d3,d2
 	add  d3,#0x9a0
-	.dlab LBB92
+	.dlab LBB52
 	ld   r14,[d3]
-	.dlab LBE92
-	.dlab LBE91
+	.dlab LBE52
+	.dlab LBE51
 	ld   r0,#0xffffffff
-	jc   le,r14,r0,#L149
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext52
-Ltext52:
+	jc   le,r14,r0,#L114
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext38
+Ltext38:
 	.line 208
 	ld   i0,[d2,28]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L167
-L157:
+	jc   ne,i0,r14,#L132
+L122:
 	.line 211
 	ld   d0,fr
 	add  d0,#0xffffffdc
-	.dlab LBB93
-	.dlab LBB94
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext53
-Ltext53:
+	.dlab LBB53
+	.dlab LBB54
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext39
+Ltext39:
 	.line 362
 	sll  d1,#0x2
-	.dlab LBE94
-	.dlab LBE93
+	.dlab LBE54
+	.dlab LBE53
 	ld   i0,d0
 	ld   i1,d2
 	add  i1,#0x960
@@ -2484,15 +2082,15 @@ Ltext53:
 	ld   i2,#0x15
 	call &__ZN11ImageScreenC1EPN4MAUI6ScreenEiP4FeedbP4Card ; call non-native
 	ld   [d2,28],d1
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext54
-Ltext54:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext40
+Ltext40:
 	.line 212
 	ld   r14,[d1]
 	ld   d0,[r14,28]
 	ld   i0,d1
 	call d0 ; call non-native
-	jp   #L149
-L153:
+	jp   #L114
+L118:
 	.line 203
 	ld   d0,fr
 	add  d0,#0xffffffe4
@@ -2501,7 +2099,7 @@ L153:
 	call &__ZN15AlbumViewScreen6getAllEv ; call non-native
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,#LC22
+	ld   i0,#LC21
 	ld   i1,r14
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d0
@@ -2509,80 +2107,80 @@ L153:
 	.line 204
 	ld   i0,#0x0
 	call &_maExit ; call non-native
-L151:
+L116:
 	.line 197
 	ld   i0,[d2,44]
 	ld   i1,#0x1
 	call &__ZN4MAUI14KineticListBox18selectPreviousItemEb ; call non-native
-	.dlab LBE90
-	.dlab LBE89
+	.dlab LBE50
+	.dlab LBE49
 	.line 223
 	add  sp,#0x14
 	pop  rt,d3
 	ret
-L166:
-	.dlab LBB95
-	.dlab LBB96
+L131:
+	.dlab LBB55
+	.dlab LBB56
 	.line 217
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L162
-L167:
+	jp   #L127
+L132:
 	.line 209
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L157
-	.dlab LBE96
-	.dlab LBE95
+	jp   #L122
+	.dlab LBE56
+	.dlab LBE55
 	.stabs	"selected:r(0,3)",64,0,194,5
-	.stabn	192,0,0,LBB86-__ZN15AlbumViewScreen13keyPressEventEi
-	.stabn	224,0,0,LBE86-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	192,0,0,LBB46-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	224,0,0,LBE46-__ZN15AlbumViewScreen13keyPressEventEi
 	.stabs	"selected:r(0,3)",64,0,194,5
-	.stabn	192,0,0,LBB88-__ZN15AlbumViewScreen13keyPressEventEi
-	.stabn	224,0,0,LBE88-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	192,0,0,LBB48-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	224,0,0,LBE48-__ZN15AlbumViewScreen13keyPressEventEi
 	.stabs	"selected:r(0,3)",64,0,194,5
-	.stabn	192,0,0,LBB90-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	192,0,0,LBB50-__ZN15AlbumViewScreen13keyPressEventEi
 	.stabs	"this:r(0,190)=k(6,71)",64,0,265,7
-	.stabn	192,0,0,LBB91-__ZN15AlbumViewScreen13keyPressEventEi
-	.stabn	224,0,0,LBE91-__ZN15AlbumViewScreen13keyPressEventEi
-	.stabn	224,0,0,LBE90-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	192,0,0,LBB51-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	224,0,0,LBE51-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	224,0,0,LBE50-__ZN15AlbumViewScreen13keyPressEventEi
 	.stabs	"selected:r(0,3)",64,0,194,5
-	.stabn	192,0,0,LBB96-__ZN15AlbumViewScreen13keyPressEventEi
-	.stabn	224,0,0,LBE96-__ZN15AlbumViewScreen13keyPressEventEi
-Lscope59:
-	.set	%13=__ZN15AlbumViewScreenD0Ev
+	.stabn	192,0,0,LBB56-__ZN15AlbumViewScreen13keyPressEventEi
+	.stabn	224,0,0,LBE56-__ZN15AlbumViewScreen13keyPressEventEi
+Lscope54:
+	.set	%11=__ZN15AlbumViewScreenD0Ev
 	.stabs	"this:P(0,176)",64,0,163,12
 	.global	__ZThn4_N15AlbumViewScreenD0Ev
 
 .func __ZThn4_N15AlbumViewScreenD0Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext55
-Ltext55:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext41
+Ltext41:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xfffffffc
-	call &%13 ; call non-native
+	call &%11 ; call non-native
 	pop  rt,fr
 	ret
-Lscope60:
+Lscope55:
 	.stabs	"_ZN15AlbumViewScreenD0Ev:F(0,6)",36,0,163,__ZN15AlbumViewScreenD0Ev
 	.stabs	"this:P(0,176)",64,0,163,5
 	.global	__ZN15AlbumViewScreenD0Ev
 
 .func __ZN15AlbumViewScreenD0Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext56
-Ltext56:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext42
+Ltext42:
 	.line 163
 	push rt,d7
 	sub  sp,#0x1c
 	ld   fr,sp
 	add  fr,#0x44
 	ld   d1,i0
-	.dlab LBB97
+	.dlab LBB57
 	.line 163
 	ld   r14,#__ZTV15AlbumViewScreen+8
 	ld   [i0],r14
@@ -2599,18 +2197,18 @@ Ltext56:
 	.line 164
 	ld   i0,[i0,48]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L205
-L172:
+	jc   ne,i0,r14,#L170
+L137:
 	.line 165
 	ld   i0,[d1,28]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L206
-L174:
+	jc   ne,i0,r14,#L171
+L139:
 	.line 166
 	ld   d0,[d1,32]
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L207
-L176:
+	jc   ne,d0,r14,#L172
+L141:
 	.line 168
 	ld   d0,fr
 	add  d0,#0xffffffd4
@@ -2619,14 +2217,14 @@ L176:
 	call &__ZN15AlbumViewScreen6getAllEv ; call non-native
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,#LC22
+	ld   i0,#LC21
 	ld   i1,r14
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 170
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8ac
@@ -2638,7 +2236,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 171
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b0
@@ -2650,7 +2248,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 172
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b4
@@ -2662,7 +2260,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 173
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b8
@@ -2674,7 +2272,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 174
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8bc
@@ -2686,7 +2284,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 175
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8c0
@@ -2698,7 +2296,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 176
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d7,d1
 	add  d7,#0x8c4
@@ -2709,7 +2307,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 177
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d6,d1
 	add  d6,#0x8c8
@@ -2720,7 +2318,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 178
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d5,d1
 	add  d5,#0x8cc
@@ -2731,7 +2329,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 179
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d4,d1
 	add  d4,#0x8d0
@@ -2742,7 +2340,7 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 180
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d3,d1
 	add  d3,#0x8d4
@@ -2751,11 +2349,11 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBB98
+	.dlab LBB58
 	.line 11
 	ld   d0,d1
 	add  d0,#0x9ac
-	.dlab LBB99
+	.dlab LBB59
 	ld   i0,d1
 	add  i0,#0x9c8
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -2779,63 +2377,63 @@ L176:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE99
-	.dlab LBE98
-	.dlab LBB100
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext57
-Ltext57:
+	.dlab LBE59
+	.dlab LBE58
+	.dlab LBB60
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext43
+Ltext43:
 	.line 142
 	ld   d2,d1
 	add  d2,#0x9a0
-	.dlab LBB101
+	.dlab LBB61
 	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L186
+	jc   eq,i0,r14,#L151
 	ld   d0,[i0,-4]
 	sll  d0,#0x2
 	add  d0,i0
-	jc   eq,i0,d0,#L184
-L208:
+	jc   eq,i0,d0,#L149
+L173:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	jc   ne,i0,d0,#L208
-L184:
+	jc   ne,i0,d0,#L173
+L149:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L186:
-	.dlab LBE101
-	.dlab LBE100
-	.dlab LBB102
-	.dlab LBB103
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext58
-Ltext58:
+L151:
+	.dlab LBE61
+	.dlab LBE60
+	.dlab LBB62
+	.dlab LBB63
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext44
+Ltext44:
 	.line 11
 	ld   i0,d1
 	add  i0,#0x960
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE103
-	.dlab LBE102
-	.dlab LBB104
-	.dlab LBB105
+	.dlab LBE63
+	.dlab LBE62
+	.dlab LBB64
+	.dlab LBB65
 	ld   i0,d1
 	add  i0,#0x928
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE105
-	.dlab LBE104
-	.dlab LBB106
-	.dlab LBB107
-	.dlab LBB108
-	.dlab LBB109
+	.dlab LBE65
+	.dlab LBE64
+	.dlab LBB66
+	.dlab LBB67
+	.dlab LBB68
+	.dlab LBB69
 	ld   i0,d1
 	add  i0,#0x8ec
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEED2Ev ; call non-native
-	.dlab LBE109
-	.dlab LBE108
-	.dlab LBE107
-	.dlab LBE106
+	.dlab LBE69
+	.dlab LBE68
+	.dlab LBE67
+	.dlab LBE66
 	ld   i0,d3
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d4
@@ -2861,86 +2459,86 @@ Ltext58:
 	ld   i0,d1
 	add  i0,#0x5c
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB110
+	.dlab LBB70
 	ld   i0,d1
 	add  i0,#0x34
-	.dlab LBB111
+	.dlab LBB71
 	ld   r14,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r14
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE111
-	.dlab LBE110
+	.dlab LBE71
+	.dlab LBE70
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE97
+	.dlab LBE57
 	.line 181
 	ld   i0,d1
 	call &__ZdlPv ; call non-native
 	add  sp,#0x1c
 	pop  rt,d7
 	ret
-L207:
-	.dlab LBB112
+L172:
+	.dlab LBB72
 	.line 166
 	ld   i0,d0
 	call &__ZN10ImageCacheD1Ev ; call non-native
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-	jp   #L176
-L206:
+	jp   #L141
+L171:
 	.line 165
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L174
-L205:
+	jp   #L139
+L170:
 	.line 164
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
-	jp   #L172
-	.dlab LBE112
+	jp   #L137
+	.dlab LBE72
 	.stabs	"this:r(0,191)=k(28,3)",64,0,11,4
-	.stabn	192,0,0,LBB98-__ZN15AlbumViewScreenD0Ev
-	.stabn	224,0,0,LBE98-__ZN15AlbumViewScreenD0Ev
+	.stabn	192,0,0,LBB58-__ZN15AlbumViewScreenD0Ev
+	.stabn	224,0,0,LBE58-__ZN15AlbumViewScreenD0Ev
 	.stabs	"this:r(0,192)=k(6,56)",64,0,142,6
-	.stabn	192,0,0,LBB100-__ZN15AlbumViewScreenD0Ev
-	.stabn	224,0,0,LBE100-__ZN15AlbumViewScreenD0Ev
+	.stabn	192,0,0,LBB60-__ZN15AlbumViewScreenD0Ev
+	.stabn	224,0,0,LBE60-__ZN15AlbumViewScreenD0Ev
 	.stabs	"this:r(0,193)=k(0,90)",64,0,11,12
-	.stabn	192,0,0,LBB110-__ZN15AlbumViewScreenD0Ev
-	.stabn	224,0,0,LBE110-__ZN15AlbumViewScreenD0Ev
-Lscope61:
-	.set	%14=__ZN15AlbumViewScreenD1Ev
+	.stabn	192,0,0,LBB70-__ZN15AlbumViewScreenD0Ev
+	.stabn	224,0,0,LBE70-__ZN15AlbumViewScreenD0Ev
+Lscope56:
+	.set	%12=__ZN15AlbumViewScreenD1Ev
 	.stabs	"this:P(0,176)",64,0,163,12
 	.global	__ZThn4_N15AlbumViewScreenD1Ev
 
 .func __ZThn4_N15AlbumViewScreenD1Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext59
-Ltext59:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext45
+Ltext45:
 	.line 17
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.line 17
 	add  i0,#0xfffffffc
-	call &%14 ; call non-native
+	call &%12 ; call non-native
 	pop  rt,fr
 	ret
-Lscope62:
+Lscope57:
 	.stabs	"_ZN15AlbumViewScreenD1Ev:F(0,6)",36,0,163,__ZN15AlbumViewScreenD1Ev
 	.stabs	"this:P(0,176)",64,0,163,5
 	.global	__ZN15AlbumViewScreenD1Ev
 
 .func __ZN15AlbumViewScreenD1Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext60
-Ltext60:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext46
+Ltext46:
 	.line 163
 	push rt,d7
 	sub  sp,#0x1c
 	ld   fr,sp
 	add  fr,#0x44
 	ld   d1,i0
-	.dlab LBB113
+	.dlab LBB73
 	.line 163
 	ld   r14,#__ZTV15AlbumViewScreen+8
 	ld   [i0],r14
@@ -2957,18 +2555,18 @@ Ltext60:
 	.line 164
 	ld   i0,[i0,48]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L246
-L213:
+	jc   ne,i0,r14,#L211
+L178:
 	.line 165
 	ld   i0,[d1,28]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L247
-L215:
+	jc   ne,i0,r14,#L212
+L180:
 	.line 166
 	ld   d0,[d1,32]
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L248
-L217:
+	jc   ne,d0,r14,#L213
+L182:
 	.line 168
 	ld   d0,fr
 	add  d0,#0xffffffd4
@@ -2977,14 +2575,14 @@ L217:
 	call &__ZN15AlbumViewScreen6getAllEv ; call non-native
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,#LC22
+	ld   i0,#LC21
 	ld   i1,r14
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 170
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8ac
@@ -2996,7 +2594,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 171
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b0
@@ -3008,7 +2606,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 172
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b4
@@ -3020,7 +2618,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 173
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b8
@@ -3032,7 +2630,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 174
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8bc
@@ -3044,7 +2642,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 175
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8c0
@@ -3056,7 +2654,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 176
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d7,d1
 	add  d7,#0x8c4
@@ -3067,7 +2665,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 177
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d6,d1
 	add  d6,#0x8c8
@@ -3078,7 +2676,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 178
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d5,d1
 	add  d5,#0x8cc
@@ -3089,7 +2687,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 179
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d4,d1
 	add  d4,#0x8d0
@@ -3100,7 +2698,7 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 180
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d3,d1
 	add  d3,#0x8d4
@@ -3109,11 +2707,11 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBB114
+	.dlab LBB74
 	.line 11
 	ld   d0,d1
 	add  d0,#0x9ac
-	.dlab LBB115
+	.dlab LBB75
 	ld   i0,d1
 	add  i0,#0x9c8
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -3137,63 +2735,63 @@ L217:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE115
-	.dlab LBE114
-	.dlab LBB116
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext61
-Ltext61:
+	.dlab LBE75
+	.dlab LBE74
+	.dlab LBB76
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext47
+Ltext47:
 	.line 142
 	ld   d2,d1
 	add  d2,#0x9a0
-	.dlab LBB117
+	.dlab LBB77
 	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L227
+	jc   eq,i0,r14,#L192
 	ld   d0,[i0,-4]
 	sll  d0,#0x2
 	add  d0,i0
-	jc   eq,i0,d0,#L225
-L249:
+	jc   eq,i0,d0,#L190
+L214:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	jc   ne,i0,d0,#L249
-L225:
+	jc   ne,i0,d0,#L214
+L190:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L227:
-	.dlab LBE117
-	.dlab LBE116
-	.dlab LBB118
-	.dlab LBB119
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext62
-Ltext62:
+L192:
+	.dlab LBE77
+	.dlab LBE76
+	.dlab LBB78
+	.dlab LBB79
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext48
+Ltext48:
 	.line 11
 	ld   i0,d1
 	add  i0,#0x960
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE119
-	.dlab LBE118
-	.dlab LBB120
-	.dlab LBB121
+	.dlab LBE79
+	.dlab LBE78
+	.dlab LBB80
+	.dlab LBB81
 	ld   i0,d1
 	add  i0,#0x928
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE121
-	.dlab LBE120
-	.dlab LBB122
-	.dlab LBB123
-	.dlab LBB124
-	.dlab LBB125
+	.dlab LBE81
+	.dlab LBE80
+	.dlab LBB82
+	.dlab LBB83
+	.dlab LBB84
+	.dlab LBB85
 	ld   i0,d1
 	add  i0,#0x8ec
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEED2Ev ; call non-native
-	.dlab LBE125
-	.dlab LBE124
-	.dlab LBE123
-	.dlab LBE122
+	.dlab LBE85
+	.dlab LBE84
+	.dlab LBE83
+	.dlab LBE82
 	ld   i0,d3
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d4
@@ -3219,53 +2817,53 @@ Ltext62:
 	ld   i0,d1
 	add  i0,#0x5c
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB126
+	.dlab LBB86
 	ld   i0,d1
 	add  i0,#0x34
-	.dlab LBB127
+	.dlab LBB87
 	ld   r14,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r14
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE127
-	.dlab LBE126
+	.dlab LBE87
+	.dlab LBE86
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE113
+	.dlab LBE73
 	.line 181
 	add  sp,#0x1c
 	pop  rt,d7
 	ret
-L248:
-	.dlab LBB128
+L213:
+	.dlab LBB88
 	.line 166
 	ld   i0,d0
 	call &__ZN10ImageCacheD1Ev ; call non-native
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-	jp   #L217
-L247:
+	jp   #L182
+L212:
 	.line 165
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L215
-L246:
+	jp   #L180
+L211:
 	.line 164
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
-	jp   #L213
-	.dlab LBE128
+	jp   #L178
+	.dlab LBE88
 	.stabs	"this:r(0,191)",64,0,11,4
-	.stabn	192,0,0,LBB114-__ZN15AlbumViewScreenD1Ev
-	.stabn	224,0,0,LBE114-__ZN15AlbumViewScreenD1Ev
+	.stabn	192,0,0,LBB74-__ZN15AlbumViewScreenD1Ev
+	.stabn	224,0,0,LBE74-__ZN15AlbumViewScreenD1Ev
 	.stabs	"this:r(0,192)",64,0,142,6
-	.stabn	192,0,0,LBB116-__ZN15AlbumViewScreenD1Ev
-	.stabn	224,0,0,LBE116-__ZN15AlbumViewScreenD1Ev
+	.stabn	192,0,0,LBB76-__ZN15AlbumViewScreenD1Ev
+	.stabn	224,0,0,LBE76-__ZN15AlbumViewScreenD1Ev
 	.stabs	"this:r(0,193)",64,0,11,12
-	.stabn	192,0,0,LBB126-__ZN15AlbumViewScreenD1Ev
-	.stabn	224,0,0,LBE126-__ZN15AlbumViewScreenD1Ev
-Lscope63:
+	.stabn	192,0,0,LBB86-__ZN15AlbumViewScreenD1Ev
+	.stabn	224,0,0,LBE86-__ZN15AlbumViewScreenD1Ev
+Lscope58:
 	.stabs	"_ZN15AlbumViewScreenD2Ev:F(0,6)",36,0,163,__ZN15AlbumViewScreenD2Ev
 	.stabs	"this:P(0,176)",64,0,163,5
 	.global	__ZN15AlbumViewScreenD2Ev
@@ -3277,7 +2875,7 @@ Lscope63:
 	ld   fr,sp
 	add  fr,#0x44
 	ld   d1,i0
-	.dlab LBB129
+	.dlab LBB89
 	.line 163
 	ld   r14,#__ZTV15AlbumViewScreen+8
 	ld   [i0],r14
@@ -3294,18 +2892,18 @@ Lscope63:
 	.line 164
 	ld   i0,[i0,48]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L286
-L253:
+	jc   ne,i0,r14,#L251
+L218:
 	.line 165
 	ld   i0,[d1,28]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L287
-L255:
+	jc   ne,i0,r14,#L252
+L220:
 	.line 166
 	ld   d0,[d1,32]
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L288
-L257:
+	jc   ne,d0,r14,#L253
+L222:
 	.line 168
 	ld   d0,fr
 	add  d0,#0xffffffd4
@@ -3314,14 +2912,14 @@ L257:
 	call &__ZN15AlbumViewScreen6getAllEv ; call non-native
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,#LC22
+	ld   i0,#LC21
 	ld   i1,r14
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 170
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8ac
@@ -3333,7 +2931,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 171
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b0
@@ -3345,7 +2943,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 172
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b4
@@ -3357,7 +2955,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 173
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8b8
@@ -3369,7 +2967,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 174
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8bc
@@ -3381,7 +2979,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 175
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   r14,d1
 	add  r14,#0x8c0
@@ -3393,7 +2991,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 176
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d7,d1
 	add  d7,#0x8c4
@@ -3404,7 +3002,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 177
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d6,d1
 	add  d6,#0x8c8
@@ -3415,7 +3013,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 178
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d5,d1
 	add  d5,#0x8cc
@@ -3426,7 +3024,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 179
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d4,d1
 	add  d4,#0x8d0
@@ -3437,7 +3035,7 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 180
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d3,d1
 	add  d3,#0x8d4
@@ -3446,11 +3044,11 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBB130
+	.dlab LBB90
 	.line 11
 	ld   d0,d1
 	add  d0,#0x9ac
-	.dlab LBB131
+	.dlab LBB91
 	ld   i0,d1
 	add  i0,#0x9c8
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -3474,63 +3072,63 @@ L257:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE131
-	.dlab LBE130
-	.dlab LBB132
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext63
-Ltext63:
+	.dlab LBE91
+	.dlab LBE90
+	.dlab LBB92
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext49
+Ltext49:
 	.line 142
 	ld   d2,d1
 	add  d2,#0x9a0
-	.dlab LBB133
+	.dlab LBB93
 	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L267
+	jc   eq,i0,r14,#L232
 	ld   d0,[i0,-4]
 	sll  d0,#0x2
 	add  d0,i0
-	jc   eq,i0,d0,#L265
-L289:
+	jc   eq,i0,d0,#L230
+L254:
 	add  d0,#0xfffffffc
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	jc   ne,i0,d0,#L289
-L265:
+	jc   ne,i0,d0,#L254
+L230:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L267:
-	.dlab LBE133
-	.dlab LBE132
-	.dlab LBB134
-	.dlab LBB135
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext64
-Ltext64:
+L232:
+	.dlab LBE93
+	.dlab LBE92
+	.dlab LBB94
+	.dlab LBB95
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext50
+Ltext50:
 	.line 11
 	ld   i0,d1
 	add  i0,#0x960
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE135
-	.dlab LBE134
-	.dlab LBB136
-	.dlab LBB137
+	.dlab LBE95
+	.dlab LBE94
+	.dlab LBB96
+	.dlab LBB97
 	ld   i0,d1
 	add  i0,#0x928
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_4CardEEED2Ev ; call non-native
-	.dlab LBE137
-	.dlab LBE136
-	.dlab LBB138
-	.dlab LBB139
-	.dlab LBB140
-	.dlab LBB141
+	.dlab LBE97
+	.dlab LBE96
+	.dlab LBB98
+	.dlab LBB99
+	.dlab LBB100
+	.dlab LBB101
 	ld   i0,d1
 	add  i0,#0x8ec
 	call &__ZN6MAUtil10DictionaryIKNS_11BasicStringIcEENS_4PairIS3_S2_EEED2Ev ; call non-native
-	.dlab LBE141
-	.dlab LBE140
-	.dlab LBE139
-	.dlab LBE138
+	.dlab LBE101
+	.dlab LBE100
+	.dlab LBE99
+	.dlab LBE98
 	ld   i0,d3
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,d4
@@ -3556,52 +3154,449 @@ Ltext64:
 	ld   i0,d1
 	add  i0,#0x5c
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB142
+	.dlab LBB102
 	ld   i0,d1
 	add  i0,#0x34
-	.dlab LBB143
+	.dlab LBB103
 	ld   r14,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r14
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE143
-	.dlab LBE142
+	.dlab LBE103
+	.dlab LBE102
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE129
+	.dlab LBE89
 	.line 181
 	add  sp,#0x1c
 	pop  rt,d7
 	ret
-L288:
-	.dlab LBB144
+L253:
+	.dlab LBB104
 	.line 166
 	ld   i0,d0
 	call &__ZN10ImageCacheD1Ev ; call non-native
 	ld   i0,d0
 	call &__ZdlPv ; call non-native
-	jp   #L257
-L287:
+	jp   #L222
+L252:
 	.line 165
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L255
-L286:
+	jp   #L220
+L251:
 	.line 164
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
-	jp   #L253
-	.dlab LBE144
+	jp   #L218
+	.dlab LBE104
 	.stabs	"this:r(0,191)",64,0,11,4
-	.stabn	192,0,0,LBB130-__ZN15AlbumViewScreenD2Ev
-	.stabn	224,0,0,LBE130-__ZN15AlbumViewScreenD2Ev
+	.stabn	192,0,0,LBB90-__ZN15AlbumViewScreenD2Ev
+	.stabn	224,0,0,LBE90-__ZN15AlbumViewScreenD2Ev
 	.stabs	"this:r(0,192)",64,0,142,6
-	.stabn	192,0,0,LBB132-__ZN15AlbumViewScreenD2Ev
-	.stabn	224,0,0,LBE132-__ZN15AlbumViewScreenD2Ev
+	.stabn	192,0,0,LBB92-__ZN15AlbumViewScreenD2Ev
+	.stabn	224,0,0,LBE92-__ZN15AlbumViewScreenD2Ev
 	.stabs	"this:r(0,193)",64,0,11,12
-	.stabn	192,0,0,LBB142-__ZN15AlbumViewScreenD2Ev
-	.stabn	224,0,0,LBE142-__ZN15AlbumViewScreenD2Ev
+	.stabn	192,0,0,LBB102-__ZN15AlbumViewScreenD2Ev
+	.stabn	224,0,0,LBE102-__ZN15AlbumViewScreenD2Ev
+Lscope59:
+	.stabs	"_ZN15AlbumViewScreen10locateItemE9MAPoint2d:F(0,6)",36,0,92,__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"this:P(0,176)",64,0,92,6
+	.stabs	"point:P(3,23)",64,0,92,7
+	.global	__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+
+.func __ZN15AlbumViewScreen10locateItemE9MAPoint2d, 3, void
+	.line 92
+	push rt,d4
+	sub  sp,#0xc
+	ld   fr,sp
+	add  fr,#0x28
+	ld   d2,i0
+	ld   d3,i1
+	ld   d4,i2
+	.dlab LBB105
+	.dlab LBB106
+	.line 93
+	ld   i0,[i0,2280]
+	ld   i1,[&_truesz]
+	call &__ZN4Feed8setTouchEPKc ; call non-native
+	and  r14,#0xff  ; zero extend
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L283
+L256:
+	.line 96
+	ld   r14,#0x0
+	ld.b [d2,2276],r14
+	.line 97
+	ld.b [d2,2277],r14
+	.line 98
+	ld.b [d2,2278],r14
+	.dlab LBB107
+	.dlab LBB108
+	.stabs	"c:/MoSync/include/MAUtil/Geometry.h",132,0,0,Ltext51
+Ltext51:
+	.line 41
+	ld   [fr,-40],d3
+	ld   [fr,-36],d4
+	.dlab LBE108
+	.dlab LBE107
+	.dlab LBB109
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext52
+Ltext52:
+	.line 102
+	ld   d1,#0x0
+	.dlab LBB110
+	.dlab LBB111
+	.dlab LBB112
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext53
+Ltext53:
+	.line 362
+	ld   i0,d2
+	call &__ZN4MAUI6Screen7getMainEv ; call non-native
+	ld   i0,r14
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB113
+	ld   r14,[r14,8]
+	.dlab LBE113
+	.dlab LBE112
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB114
+	ld   r14,[r14,8]
+	add  r14,#0x8
+	.dlab LBE114
+	.dlab LBE111
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB115
+	.line 265
+	ld   r14,[r14]
+	.dlab LBE115
+	.dlab LBE110
+	.line 366
+	jc   le,r14,d1,#L284
+L270:
+	.dlab LBB116
+	.dlab LBB117
+	.dlab LBB118
+	.line 362
+	ld   i0,d2
+	call &__ZN4MAUI6Screen7getMainEv ; call non-native
+	ld   i0,r14
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB119
+	ld   r14,[r14,8]
+	.dlab LBE119
+	.dlab LBE118
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB120
+	ld   r14,[r14,8]
+	add  r14,#0x8
+	.dlab LBE120
+	.dlab LBE117
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB121
+	ld   r0,d1
+	sll  r0,#0x2
+	ld   r14,[r14,8]
+	add  r0,r14
+	.dlab LBE121
+	.dlab LBE116
+	ld   i0,[r0]
+	ld   r14,[i0]
+	ld   d0,[r14,40]
+	ld   i1,fr
+	add  i1,#0xffffffd8
+	call d0 ; call non-native
+	and  r14,#0xff  ; zero extend
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L262
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext54
+Ltext54:
+	.line 107
+	ld   r14,#0x1
+	ld.b [d2,2276],r14
+L262:
+	.line 102
+	add  d1,#0x1
+	.dlab LBB122
+	.dlab LBB123
+	.dlab LBB124
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext55
+Ltext55:
+	.line 362
+	ld   i0,d2
+	call &__ZN4MAUI6Screen7getMainEv ; call non-native
+	ld   i0,r14
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB125
+	ld   r14,[r14,8]
+	.dlab LBE125
+	.dlab LBE124
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB126
+	ld   r14,[r14,8]
+	add  r14,#0x8
+	.dlab LBE126
+	.dlab LBE123
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB127
+	.line 265
+	ld   r14,[r14]
+	.dlab LBE127
+	.dlab LBE122
+	.line 366
+	jc   gt,r14,d1,#L270
+L284:
+	.dlab LBE109
+	.dlab LBB128
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext56
+Ltext56:
+	.line 110
+	ld   d1,#0x0
+	jp   #L271
+L282:
+	.dlab LBB129
+	.dlab LBB130
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext57
+Ltext57:
+	.line 362
+	ld   i0,d2
+	call &__ZN4MAUI6Screen7getMainEv ; call non-native
+	ld   i0,r14
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB131
+	ld   r14,[r14,8]
+	add  r14,#0x4
+	.dlab LBE131
+	.dlab LBE130
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB132
+	ld   r0,d1
+	sll  r0,#0x2
+	ld   r14,[r14,8]
+	add  r0,r14
+	.dlab LBE132
+	.dlab LBE129
+	ld   i0,[r0]
+	ld   r14,[i0]
+	ld   d0,[r14,40]
+	ld   i1,fr
+	add  i1,#0xffffffd8
+	call d0 ; call non-native
+	and  r14,#0xff  ; zero extend
+	ld   r0,#0x0
+	jc   ne,r14,r0,#L285
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext58
+Ltext58:
+	.line 110
+	add  d1,#0x1
+L271:
+	.dlab LBB133
+	.dlab LBB134
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext59
+Ltext59:
+	.line 362
+	ld   i0,d2
+	call &__ZN4MAUI6Screen7getMainEv ; call non-native
+	ld   i0,r14
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB135
+	ld   r14,[r14,8]
+	add  r14,#0x4
+	.dlab LBE135
+	.dlab LBE134
+	ld   i0,[r14]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB136
+	.line 265
+	ld   r14,[r14]
+	.dlab LBE136
+	.dlab LBE133
+	.line 366
+	jc   gt,r14,d1,#L282
+L255:
+	.dlab LBE128
+	.dlab LBE106
+	.dlab LBE105
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext60
+Ltext60:
+	.line 124
+	add  sp,#0xc
+	pop  rt,d4
+	ret
+L283:
+	.dlab LBB137
+	.dlab LBB138
+	.line 94
+	ld   d0,fr
+	add  d0,#0xffffffe0
+	ld   i0,d0
+	ld   i1,d2
+	call &__ZN15AlbumViewScreen6getAllEv ; call non-native
+	ld   i0,d0
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	ld   i0,#LC21
+	ld   i1,r14
+	call &__Z8saveDataPKcS0_ ; call non-native
+	ld   i0,d0
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	jp   #L256
+L285:
+	.dlab LBB139
+	.line 114
+	jc   ne,d1,r0,#L279
+	.line 115
+	ld   r14,#0x1
+	ld.b [d2,2277],r14
+	.line 116
+	ld   [d2,2272],d1
+	.dlab LBE139
+	.dlab LBE138
+	.dlab LBE137
+	.line 124
+	add  sp,#0xc
+	pop  rt,d4
+	ret
+L279:
+	.dlab LBB140
+	.dlab LBB141
+	.dlab LBB142
+	.line 117
+	ld   r0,#0x2
+	jc   ne,d1,r0,#L255
+	.line 118
+	ld   r14,#0x1
+	ld.b [d2,2278],r14
+	.line 119
+	ld   r0,#0x0
+	ld   [d2,2272],r0
+	jp   #L255
+	.dlab LBE142
+	.dlab LBE141
+	.dlab LBE140
+	.stabs	"p:(11,1)",128,0,100,-40
+	.stabn	192,0,0,LBB106-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"i:r(0,3)",64,0,102,5
+	.stabn	192,0,0,LBB109-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE109-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"i:r(0,3)",64,0,110,5
+	.stabn	192,0,0,LBB128-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE128-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE106-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"p:(11,1)",128,0,100,-40
+	.stabn	192,0,0,LBB138-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"i:r(0,3)",64,0,110,5
+	.stabn	192,0,0,LBB139-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE139-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE138-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"p:(11,1)",128,0,100,-40
+	.stabn	192,0,0,LBB141-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabs	"i:r(0,3)",64,0,110,5
+	.stabn	192,0,0,LBB142-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE142-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+	.stabn	224,0,0,LBE141-__ZN15AlbumViewScreen10locateItemE9MAPoint2d
+Lscope60:
+	.set	%13=__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
+	.stabs	"this:P(0,176)",64,0,72,12
+	.stabs	"point:p(3,23)",160,0,72,-16
+	.global	__ZThn4_N15AlbumViewScreen16pointerMoveEventE9MAPoint2d
+
+.func __ZThn4_N15AlbumViewScreen16pointerMoveEventE9MAPoint2d, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext61
+Ltext61:
+	.line 17
+	push rt,fr
+	sub  sp,#0x8
+	ld   fr,sp
+	add  fr,#0x10
+	ld   [fr,-16],i1
+	ld   [fr,-12],i2
+	.line 17
+	add  i0,#0xfffffffc
+	call &%13 ; call non-native
+	add  sp,#0x8
+	pop  rt,fr
+	ret
+Lscope61:
+	.stabs	"_ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d:F(0,6)",36,0,72,__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
+	.stabs	"this:P(0,176)",64,0,72,4
+	.stabs	"point:p(3,23)",160,0,72,-20
+	.global	__ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d
+
+.func __ZN15AlbumViewScreen16pointerMoveEventE9MAPoint2d, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext62
+Ltext62:
+	.line 72
+	push rt,d0
+	sub  sp,#0x8
+	ld   fr,sp
+	add  fr,#0x14
+	ld   d0,i0
+	ld   [fr,-20],i1
+	ld   [fr,-16],i2
+	.dlab LBB143
+	.line 73
+	call &__ZN15AlbumViewScreen10locateItemE9MAPoint2d ; call non-native
+	.line 74
+	ld   r14,[d0,2272]
+	add  r14,#0x1
+	ld   [d0,2272],r14
+	.dlab LBE143
+	add  sp,#0x8
+	pop  rt,d0
+	ret
+Lscope62:
+	.set	%14=__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
+	.stabs	"this:P(0,176)",64,0,49,12
+	.stabs	"point:p(3,23)",160,0,49,-16
+	.global	__ZThn4_N15AlbumViewScreen17pointerPressEventE9MAPoint2d
+
+.func __ZThn4_N15AlbumViewScreen17pointerPressEventE9MAPoint2d, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/AlbumViewScreen.h",132,0,0,Ltext63
+Ltext63:
+	.line 17
+	push rt,fr
+	sub  sp,#0x8
+	ld   fr,sp
+	add  fr,#0x10
+	ld   [fr,-16],i1
+	ld   [fr,-12],i2
+	.line 17
+	add  i0,#0xfffffffc
+	call &%14 ; call non-native
+	add  sp,#0x8
+	pop  rt,fr
+	ret
+Lscope63:
+	.stabs	"_ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d:F(0,6)",36,0,49,__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
+	.stabs	"this:P(0,176)",64,0,49,12
+	.stabs	"point:p(3,23)",160,0,49,-16
+	.global	__ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d
+
+.func __ZN15AlbumViewScreen17pointerPressEventE9MAPoint2d, 3, void
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\AlbumViewScreen.cpp",132,0,0,Ltext64
+Ltext64:
+	.line 49
+	push rt,fr
+	sub  sp,#0x8
+	ld   fr,sp
+	add  fr,#0x10
+	ld   [fr,-16],i1
+	ld   [fr,-12],i2
+	.dlab LBB144
+	.line 50
+	call &__ZN15AlbumViewScreen10locateItemE9MAPoint2d ; call non-native
+	.dlab LBE144
+	add  sp,#0x8
+	pop  rt,fr
+	ret
 Lscope64:
 	.stabs	"_ZN15AlbumViewScreen8drawListEv:F(0,6)",36,0,126,__ZN15AlbumViewScreen8drawListEv
 	.stabs	"this:P(0,176)",64,0,126,8
@@ -3937,7 +3932,7 @@ L391:
 	call &__ZN4MAUI14KineticListBox16setSelectedIndexEi ; call non-native
 	.line 160
 	ld   i0,d6
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d4,36]
 	ld   r14,[i0]
@@ -4131,7 +4126,7 @@ Ltext70:
 	call &__ZN4MAUI14KineticListBox16setSelectedIndexEi ; call non-native
 	.line 160
 	ld   i0,d6
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d4,36]
 	ld   r14,[i0]
@@ -4407,7 +4402,7 @@ Ltext72:
 L405:
 	.dlab LBB233
 	.line 286
-	ld   i0,#LC21
+	ld   i0,#LC20
 	call &_FileNameFromPath ; call non-native
 	ld   i0,#0x6
 	ld   i1,r14
@@ -5068,7 +5063,7 @@ Lscope72:
 	ld   d0,i0
 	.dlab LBB270
 	.line 54
-	ld   i0,#LC22
+	ld   i0,#LC21
 	call &__Z7getDataPKc ; call non-native
 	ld   i0,d0
 	ld   i1,r14
@@ -5342,7 +5337,7 @@ L484:
 	ld   i0,#0xffffff7c
 	add  i0,fr
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
-	ld   i0,#LC22
+	ld   i0,#LC21
 	ld   i1,r14
 	call &__Z8saveDataPKcS0_ ; call non-native
 	.line 299
@@ -5384,7 +5379,7 @@ L476:
 	.line 299
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d7,36]
 	ld   r14,[i0]
@@ -5845,7 +5840,7 @@ Ltext94:
 	.line 283
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-212]
 	ld   i1,#0xffffff7c
@@ -5857,7 +5852,7 @@ Ltext94:
 	.line 284
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-196]
 	ld   i1,#0xffffff7c
@@ -5869,7 +5864,7 @@ Ltext94:
 	.line 285
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-200]
 	ld   i1,#0xffffff7c
@@ -5881,7 +5876,7 @@ Ltext94:
 	.line 286
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-204]
 	ld   i1,#0xffffff7c
@@ -5893,7 +5888,7 @@ Ltext94:
 	.line 287
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-208]
 	ld   i1,#0xffffff7c
@@ -5905,7 +5900,7 @@ Ltext94:
 	.line 288
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-216]
 	ld   i1,#0xffffff7c
@@ -5917,7 +5912,7 @@ Ltext94:
 	.line 289
 	ld   i0,#0xffffff7c
 	add  i0,fr
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-220]
 	ld   i1,#0xffffff7c
@@ -6009,9 +6004,9 @@ Lscope79:
 	ret
 Lscope80:
 .data
-LC23:
+LC22:
 	.ascii "0\0"
-LC24:
+LC23:
 	.ascii "%s&heigth=%d&width=%d\0"
 .code
 	.stabs	"_ZN15AlbumViewScreenC1EP4Feed:F(0,6)",36,0,11,__ZN15AlbumViewScreenC1EP4Feed
@@ -6214,7 +6209,7 @@ Ltext100:
 	ld   d3,fr
 	add  d3,#0xffffffd4
 	ld   i0,d3
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-92]
 	ld   i1,d3
@@ -6223,7 +6218,7 @@ Ltext100:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 15
 	ld   i0,d3
-	ld   i1,#LC23
+	ld   i1,#LC22
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-88]
 	ld   i1,d3
@@ -6239,7 +6234,7 @@ Ltext100:
 	.line 18
 	ld   i0,[&_exit]
 	ld   i1,[&_tradelbl]
-	ld   i2,#LC20
+	ld   i2,#LC19
 L523:
 	.line 20
 	ld   i3,#0x1
@@ -6323,7 +6318,7 @@ Ltext102:
 	ld   r0,[&_scrWidth]
 	ld   [sp,8],r0
 	ld   i0,d1
-	ld   i1,#LC24
+	ld   i1,#LC23
 	call &_sprintf ; call non-native
 	.dlab LBB321
 	.line 32
@@ -6641,7 +6636,7 @@ Ltext106:
 	ld   d3,fr
 	add  d3,#0xffffffd4
 	ld   i0,d3
-	ld   i1,#LC20
+	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-92]
 	ld   i1,d3
@@ -6650,7 +6645,7 @@ Ltext106:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 15
 	ld   i0,d3
-	ld   i1,#LC23
+	ld   i1,#LC22
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[fr,-88]
 	ld   i1,d3
@@ -6666,7 +6661,7 @@ Ltext106:
 	.line 18
 	ld   i0,[&_exit]
 	ld   i1,[&_tradelbl]
-	ld   i2,#LC20
+	ld   i2,#LC19
 L558:
 	.line 20
 	ld   i3,#0x1
@@ -6750,7 +6745,7 @@ Ltext108:
 	ld   r0,[&_scrWidth]
 	ld   [sp,8],r0
 	ld   i0,d1
-	ld   i1,#LC24
+	ld   i1,#LC23
 	call &_sprintf ; call non-native
 	.dlab LBB352
 	.line 32
@@ -6871,17 +6866,17 @@ L541:
 	.stabn	224,0,0,LBE359-__ZN15AlbumViewScreenC2EP4Feed
 Lscope82:
 .data
-LC25:
+LC24:
 	.ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\0"
-LC26:
+LC25:
 	.ascii "http://mobidex.mytcg.net/_phone/\0"
-LC27:
+LC26:
 	.ascii "?userdetails=1\0"
-LC28:
+LC27:
 	.ascii "?usercategories=1\0"
-LC29:
+LC28:
 	.ascii "?getcards=1\0"
-LC30:
+LC29:
 	.ascii "?tradecard=1\0"
 .code
 	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,321,__Z41__static_initialization_and_destruction_0ii
@@ -6896,7 +6891,7 @@ LC30:
 	add  fr,#0x10
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext109
 Ltext109:
-	.line 60
+	.line 61
 	ld   r14,#0xffff
 	jc   eq,i1,r14,#L595
 L559:
@@ -6909,27 +6904,27 @@ Ltext110:
 L595:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext111
 Ltext111:
-	.line 60
+	.line 61
 	ld   r14,#0x1
 	jc   eq,i0,r14,#L596
-	.line 76
+	.line 77
 	ld   r14,#0x0
 	jc   ne,i0,r14,#L559
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,#_CARDS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,#_ALBUMS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
+	.line 71
 	ld   i0,#_USER
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
+	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 L597:
@@ -6942,19 +6937,19 @@ Ltext112:
 L596:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext113
 Ltext113:
-	.line 64
+	.line 65
 	ld   i0,#_base64_chars
+	ld   i1,#LC24
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	.line 69
+	ld   i0,#_URL
 	ld   i1,#LC25
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
-	ld   i0,#_URL
-	ld   i1,#LC26
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
-	ld   i1,#LC27
+	ld   i1,#LC26
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_USER
 	ld   i1,#_URL
@@ -6962,9 +6957,9 @@ Ltext113:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
-	ld   i1,#LC28
+	ld   i1,#LC27
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_ALBUMS
 	ld   i1,#_URL
@@ -6972,9 +6967,9 @@ Ltext113:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
-	ld   i1,#LC29
+	ld   i1,#LC28
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_CARDS
 	ld   i1,#_URL
@@ -6982,16 +6977,16 @@ Ltext113:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
-	ld   i1,#LC30
+	ld   i1,#LC29
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_TRADE
 	ld   i1,#_URL
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L597
 Lscope83:
@@ -7025,32 +7020,31 @@ Lscope84:
 	pop  rt,fr
 	ret
 Lscope85:
-	.stabs	"base64_chars:S(24,12)",40,0,60,_base64_chars
-	.stabs	"URL:S(10,1)",40,0,68,_URL
-	.stabs	"USER:S(10,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(10,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(10,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(10,1)",40,0,76,_TRADE
-	.stabs	"delim:S(19,27)",38,0,78,_delim
-	.stabs	"newline:S(19,27)",38,0,80,_newline
-	.stabs	"empty:S(19,27)",38,0,85,_empty
-	.stabs	"select:S(19,27)",38,0,89,_select
-	.stabs	"exit:S(19,27)",38,0,96,_exit
-	.stabs	"tradelbl:S(19,27)",38,0,105,_tradelbl
-	.stabs	"checking_cards:S(19,27)",38,0,113,_checking_cards
-	.stabs	"auth_user:S(19,27)",38,0,115,_auth_user
-	.stabs	"auth_pw:S(19,27)",38,0,116,_auth_pw
-	.stabs	"truesz:S(19,27)",38,0,117,_truesz
-	.stabs	"xml_cardid:S(19,27)",38,0,133,_xml_cardid
-	.stabs	"xml_carddescription:S(19,27)",38,0,134,_xml_carddescription
-	.stabs	"xml_thumburl:S(19,27)",38,0,136,_xml_thumburl
-	.stabs	"xml_fronturl:S(19,27)",38,0,137,_xml_fronturl
-	.stabs	"xml_backurl:S(19,27)",38,0,138,_xml_backurl
-	.stabs	"xml_rate:S(19,27)",38,0,139,_xml_rate
-	.stabs	"xml_value:S(19,27)",38,0,140,_xml_value
-	.stabs	"xml_carddone:S(19,27)",38,0,141,_xml_carddone
-	.stabs	"xml_error:S(19,27)",38,0,147,_xml_error
-	.stabs	"FEED:S(19,27)",38,0,151,_FEED
+	.stabs	"base64_chars:S(24,12)",40,0,61,_base64_chars
+	.stabs	"URL:S(10,1)",40,0,69,_URL
+	.stabs	"USER:S(10,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(10,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(10,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(10,1)",40,0,77,_TRADE
+	.stabs	"delim:S(19,27)",38,0,79,_delim
+	.stabs	"newline:S(19,27)",38,0,81,_newline
+	.stabs	"empty:S(19,27)",38,0,86,_empty
+	.stabs	"select:S(19,27)",38,0,90,_select
+	.stabs	"exit:S(19,27)",38,0,97,_exit
+	.stabs	"tradelbl:S(19,27)",38,0,106,_tradelbl
+	.stabs	"checking_cards:S(19,27)",38,0,114,_checking_cards
+	.stabs	"auth_user:S(19,27)",38,0,116,_auth_user
+	.stabs	"auth_pw:S(19,27)",38,0,117,_auth_pw
+	.stabs	"truesz:S(19,27)",38,0,118,_truesz
+	.stabs	"xml_cardid:S(19,27)",38,0,135,_xml_cardid
+	.stabs	"xml_carddescription:S(19,27)",38,0,136,_xml_carddescription
+	.stabs	"xml_thumburl:S(19,27)",38,0,138,_xml_thumburl
+	.stabs	"xml_fronturl:S(19,27)",38,0,139,_xml_fronturl
+	.stabs	"xml_backurl:S(19,27)",38,0,140,_xml_backurl
+	.stabs	"xml_rate:S(19,27)",38,0,141,_xml_rate
+	.stabs	"xml_value:S(19,27)",38,0,142,_xml_value
+	.stabs	"xml_carddone:S(19,27)",38,0,143,_xml_carddone
+	.stabs	"xml_error:S(19,27)",38,0,149,_xml_error
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

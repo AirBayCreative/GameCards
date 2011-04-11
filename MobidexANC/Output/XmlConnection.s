@@ -270,18 +270,17 @@ LC0:
 	.ascii "E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\XmlConnection.cpp\0"
 .code
 	.stabs	"_ZN13XmlConnection16connRecvFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,20,__ZN13XmlConnection16connRecvFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,63)",64,0,20,5
+	.stabs	"this:P(0,63)",64,0,20,4
 	.stabs	"conn:P(0,27)",64,0,20,13
-	.stabs	"result:P(0,3)",64,0,20,6
+	.stabs	"result:P(0,3)",64,0,20,14
 	.global	__ZN13XmlConnection16connRecvFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN13XmlConnection16connRecvFinishedEPN6MAUtil10ConnectionEi, 3, void
 	.line 20
-	push rt,d2
+	push rt,d0
 	ld   fr,sp
-	add  fr,#0x14
-	ld   d1,i0
-	ld   d2,i2
+	add  fr,#0xc
+	ld   d0,i0
 	.dlab LBB7
 	.line 21
 	ld   r14,[i0,68]
@@ -289,33 +288,28 @@ LC0:
 	.line 22
 	ld   r14,#0x0
 	jc   lt,i2,r14,#L20
-	.line 26
-	ld   d0,i0
-	add  d0,#0x4c
-	ld   i0,d0
-	call &_lprintfln ; call non-native
 	.line 27
-	ld   r14,[d1,2124]
-	add  d2,r14
+	ld   r14,[i0,2124]
+	add  i2,r14
 	ld   r14,#0x0
-	ld.b [d2],r14
+	ld.b [i2],r14
 	.line 28
-	ld   [d1,2124],d0
+	ld   i1,i0
+	add  i1,#0x4c
+	ld   [i0,2124],i1
 	.line 29
-	ld   i0,d1
 	add  i0,#0x8
-	ld   i1,d0
 	call &__ZN3Mtx7Context4feedEPc ; call non-native
 	.line 30
-	ld   i1,[d1,2124]
-	ld   i2,d1
+	ld   i1,[d0,2124]
+	ld   i2,d0
 	sub  i2,i1
-	ld   i0,[d1,68]
+	ld   i0,[d0,68]
 	add  i2,#0x84b
 	call &__ZN6MAUtil10Connection4recvEPvi ; call non-native
 	.dlab LBE7
 	.line 31
-	pop  rt,d2
+	pop  rt,d0
 	ret
 L20:
 	.dlab LBB8
@@ -327,7 +321,7 @@ L20:
 	call d0 ; call non-native
 	.dlab LBE8
 	.line 31
-	pop  rt,d2
+	pop  rt,d0
 	ret
 L19:
 	.dlab LBB9

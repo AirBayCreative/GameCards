@@ -49,6 +49,7 @@ void decrease();
 int getCount();
 bool isNumeric(String isValid);
 int intlen(float start);
+bool validateEmailAddress(String email);
 
 //UI Components
 extern Font *gFontGrey;
@@ -77,7 +78,7 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"/";						  // 63
 
 //URL info
-static String URL = "http://www.mytcg.net/_phone/";
+static String URL = "http://dev.mytcg.net/_phone/";
 //Get user details
 static String USER = URL+"?userdetails=1";
 //get products in category
@@ -122,6 +123,8 @@ static String GAMEDETAILS = URL+"?viewgamedetails=1";
 static String SELECTCARD = URL+"?selectcard=1";
 //select a stat to play, return matchup results
 static String SELECTSTAT = URL+"?selectstat=1";
+//register a new user
+static String REGISTER = URL+"?registeruser=1";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -139,6 +142,9 @@ static const char* select = "Select";
 static const char* confirm = "Confirm";
 static const char* success = "Success";
 static const char* login = "Log In";
+static const char* reg = "Register";
+static const char* apply = "Apply";
+static const char* cancellbl = "Cancel";
 static const char* logout = "Log Out";
 static const char* log_out = "Do you want to log out from Game Cards?";
 static const char* coming_soon = "Coming soon...";
@@ -162,6 +168,11 @@ static const char* details = "Details";
 static const char* ballbl = "My Balance";
 static const char* proflbl = "My Profile";
 static const char* loggingin = "Please wait, logging in...";
+static const char* username_too_short = "Your username needs to be at least 6 characters long";
+static const char* password_too_short = "Your password needs to be at least 6 characters long";
+static const char* registering = "Attempting to register user...";
+static const char* enter_email = "You need to enter an email address";
+static const char* valid_email = "Please enter a valid email address";
 static const char* avail_credits = "Available Credits:";
 static const char* checking_albums = "Checking for new albums...";
 static const char* checking_categories = "Checking for shop categories...";
@@ -310,6 +321,11 @@ static const char* xml_card_name = "card_name";
 static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
+//registration
+static const char* username = "username";
+static const char* password = "password";
+static const char* email = "email";
+static const char* xml_response = "response";
 //the following game phase string need to match the descriptions in the mytcg_gamephase table
 static const char* phase_card = "card";
 static const char* phase_stat = "stat";

@@ -297,7 +297,7 @@ LC0:
 _flipit:
 	.long	LC0
 LC1:
-	.ascii "Send Album\0"
+	.ascii "Share\0"
 	.align 4
 _tradelbl:
 	.long	LC1
@@ -1291,7 +1291,7 @@ L106:
 	jc   ne,i0,r0,#L107
 L96:
 	.line 134
-	ld   i0,#0x8d8
+	ld   i0,#0x8d4
 	call &__Znwm ; call non-native
 	ld   d0,r14
 	ld   i0,r14
@@ -2198,7 +2198,7 @@ Ltext46:
 	add  fr,#0x10
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext47
 Ltext47:
-	.line 60
+	.line 61
 	ld   r14,#0xffff
 	jc   eq,i1,r14,#L278
 L242:
@@ -2211,27 +2211,27 @@ Ltext48:
 L278:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext49
 Ltext49:
-	.line 60
+	.line 61
 	ld   r14,#0x1
 	jc   eq,i0,r14,#L279
-	.line 76
+	.line 77
 	ld   r14,#0x0
 	jc   ne,i0,r14,#L242
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,#_CARDS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,#_ALBUMS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
+	.line 71
 	ld   i0,#_USER
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
+	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 L280:
@@ -2244,15 +2244,15 @@ Ltext50:
 L279:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext51
 Ltext51:
-	.line 64
+	.line 65
 	ld   i0,#_base64_chars
 	ld   i1,#LC4
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	ld   i1,#LC5
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
@@ -2264,7 +2264,7 @@ Ltext51:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
 	ld   i1,#LC7
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2274,7 +2274,7 @@ Ltext51:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
 	ld   i1,#LC8
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2284,7 +2284,7 @@ Ltext51:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
 	ld   i1,#LC9
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2293,7 +2293,7 @@ Ltext51:
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L280
 Lscope21:
@@ -2327,15 +2327,15 @@ Lscope22:
 	pop  rt,fr
 	ret
 Lscope23:
-	.stabs	"base64_chars:S(22,12)",40,0,60,_base64_chars
-	.stabs	"URL:S(5,1)",40,0,68,_URL
-	.stabs	"USER:S(5,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(5,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(5,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(5,1)",40,0,76,_TRADE
-	.stabs	"back:S(18,27)",38,0,83,_back
-	.stabs	"flipit:S(18,27)",38,0,87,_flipit
-	.stabs	"tradelbl:S(18,27)",38,0,105,_tradelbl
+	.stabs	"base64_chars:S(22,12)",40,0,61,_base64_chars
+	.stabs	"URL:S(5,1)",40,0,69,_URL
+	.stabs	"USER:S(5,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(5,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(5,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(5,1)",40,0,77,_TRADE
+	.stabs	"back:S(18,27)",38,0,84,_back
+	.stabs	"flipit:S(18,27)",38,0,88,_flipit
+	.stabs	"tradelbl:S(18,27)",38,0,106,_tradelbl
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

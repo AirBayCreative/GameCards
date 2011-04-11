@@ -288,7 +288,7 @@ __ZTV19TradeCompleteScreen:
 	.lcomm	_URL, 4 ; size=4
 	.lcomm	_base64_chars, 4 ; size=4
 LC0:
-	.ascii "Card sent successfully.\0"
+	.ascii "Album sent successfully.\0"
 	.align 4
 _card_sent_message:
 	.long	LC0
@@ -2915,7 +2915,7 @@ Ltext51:
 	add  fr,#0x10
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext52
 Ltext52:
-	.line 60
+	.line 61
 	ld   r14,#0xffff
 	jc   eq,i1,r14,#L377
 L341:
@@ -2928,27 +2928,27 @@ Ltext53:
 L377:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext54
 Ltext54:
-	.line 60
+	.line 61
 	ld   r14,#0x1
 	jc   eq,i0,r14,#L378
-	.line 76
+	.line 77
 	ld   r14,#0x0
 	jc   ne,i0,r14,#L341
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,#_CARDS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,#_ALBUMS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
+	.line 71
 	ld   i0,#_USER
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
+	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 L379:
@@ -2961,15 +2961,15 @@ Ltext55:
 L378:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext56
 Ltext56:
-	.line 64
+	.line 65
 	ld   i0,#_base64_chars
 	ld   i1,#LC3
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	ld   i1,#LC4
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
@@ -2981,7 +2981,7 @@ Ltext56:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
 	ld   i1,#LC6
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2991,7 +2991,7 @@ Ltext56:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
 	ld   i1,#LC7
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -3001,7 +3001,7 @@ Ltext56:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
 	ld   i1,#LC8
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -3010,7 +3010,7 @@ Ltext56:
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L379
 Lscope25:
@@ -3044,14 +3044,14 @@ Lscope26:
 	pop  rt,fr
 	ret
 Lscope27:
-	.stabs	"base64_chars:S(22,12)",40,0,60,_base64_chars
-	.stabs	"URL:S(5,1)",40,0,68,_URL
-	.stabs	"USER:S(5,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(5,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(5,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(5,1)",40,0,76,_TRADE
-	.stabs	"continuelbl:S(17,27)",38,0,101,_continuelbl
-	.stabs	"card_sent_message:S(17,27)",38,0,123,_card_sent_message
+	.stabs	"base64_chars:S(22,12)",40,0,61,_base64_chars
+	.stabs	"URL:S(5,1)",40,0,69,_URL
+	.stabs	"USER:S(5,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(5,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(5,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(5,1)",40,0,77,_TRADE
+	.stabs	"continuelbl:S(17,27)",38,0,102,_continuelbl
+	.stabs	"card_sent_message:S(17,27)",38,0,124,_card_sent_message
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

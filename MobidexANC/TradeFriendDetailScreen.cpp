@@ -20,7 +20,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed) :
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlue, true, false);
+	contactEditBox = new MobEditBox(0, 6, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
 	contactEditBox->setInputMode(EditBox::IM_NUMBERS);
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
@@ -124,20 +124,10 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point)
 	}
 }
 
-
-/*void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontWhite);
-	}
-}*/
-
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
 			break;
 		case MAK_SOFTRIGHT:
 			if (!busy) {
@@ -150,11 +140,13 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				else {
 					lbl->setCaption(sending_card_message);
 
+					maSendTextSMS(contactEditBox->getText().c_str(), sms_string);
+
 					busy = true;
 
 					char *url = new char[255];
 					memset(url, '\0', 255);
-					sprintf(url, "%s&%s=%s", TRADE.c_str(), trade_by_detail, phoneNum.c_str());
+					sprintf(url, "%s&%s=%s", TRADE.c_str(), trade_by_detail, contactEditBox->getText().c_str());
 
 					mHttp = HttpConnection(this);
 					int res = mHttp.create(url, HTTP_GET);
@@ -176,7 +168,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 		case MAK_UP:
 			contactEditBox->setSelected(true);
-			//listBox->setSelectedIndex(1);
 			break;
 	}
 }

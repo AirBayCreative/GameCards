@@ -1516,6 +1516,25 @@ Ltext17:
 	ld   i1,#0x19
 	call &__ZN4MAUI4FontC1Ei ; call non-native
 	ld   [&_gFontBlackBold],d0
+	.line 13
+	ld   i0,#0xc4
+	call &__Znwm ; call non-native
+	ld   d0,r14
+	ld   r14,#0xd0
+	ld   [sp],r14
+	ld   r14,#0x1
+	ld   [sp,4],r14
+	ld   r14,#0x63
+	ld   [sp,8],r14
+	ld   r14,#0x1
+	ld.b [sp,12],r14
+	ld.b [sp,16],r14
+	ld   i0,d0
+	ld   i1,#0x1
+	ld   i2,i1
+	ld   i3,#0x5a
+	call &__ZN4MAUI10WidgetSkinC1Eiiiiiibb ; call non-native
+	ld   [&_gSkinHeaderImage],d0
 	.line 14
 	ld   i0,#0xc4
 	call &__Znwm ; call non-native
@@ -1887,6 +1906,25 @@ Ltext21:
 	ld   i1,#0x19
 	call &__ZN4MAUI4FontC1Ei ; call non-native
 	ld   [&_gFontBlackBold],d0
+	.line 13
+	ld   i0,#0xc4
+	call &__Znwm ; call non-native
+	ld   d0,r14
+	ld   r14,#0xd0
+	ld   [sp],r14
+	ld   r14,#0x1
+	ld   [sp,4],r14
+	ld   r14,#0x63
+	ld   [sp,8],r14
+	ld   r14,#0x1
+	ld.b [sp,12],r14
+	ld.b [sp,16],r14
+	ld   i0,d0
+	ld   i1,#0x1
+	ld   i2,i1
+	ld   i3,#0x5a
+	call &__ZN4MAUI10WidgetSkinC1Eiiiiiibb ; call non-native
+	ld   [&_gSkinHeaderImage],d0
 	.line 14
 	ld   i0,#0xc4
 	call &__Znwm ; call non-native
@@ -2162,7 +2200,7 @@ LC8:
 	add  fr,#0x10
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext24
 Ltext24:
-	.line 60
+	.line 61
 	ld   r14,#0xffff
 	jc   eq,i1,r14,#L192
 L156:
@@ -2175,27 +2213,27 @@ Ltext25:
 L192:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext26
 Ltext26:
-	.line 60
+	.line 61
 	ld   r14,#0x1
 	jc   eq,i0,r14,#L193
-	.line 76
+	.line 77
 	ld   r14,#0x0
 	jc   ne,i0,r14,#L156
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,#_CARDS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,#_ALBUMS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
+	.line 71
 	ld   i0,#_USER
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
+	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 L194:
@@ -2208,15 +2246,15 @@ Ltext27:
 L193:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext28
 Ltext28:
-	.line 64
+	.line 65
 	ld   i0,#_base64_chars
 	ld   i1,#LC3
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	ld   i1,#LC4
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
@@ -2228,7 +2266,7 @@ Ltext28:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
 	ld   i1,#LC6
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2238,7 +2276,7 @@ Ltext28:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
 	ld   i1,#LC7
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2248,7 +2286,7 @@ Ltext28:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
 	ld   i1,#LC8
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2257,7 +2295,7 @@ Ltext28:
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L194
 Lscope47:
@@ -2291,14 +2329,14 @@ Lscope48:
 	pop  rt,fr
 	ret
 Lscope49:
-	.stabs	"base64_chars:S(36,12)",40,0,60,_base64_chars
-	.stabs	"URL:S(4,1)",40,0,68,_URL
-	.stabs	"USER:S(4,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(4,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(4,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(4,1)",40,0,76,_TRADE
-	.stabs	"FEED:S(15,27)",38,0,151,_FEED
-	.stabs	"ALBUM:S(15,27)",38,0,152,_ALBUM
+	.stabs	"base64_chars:S(36,12)",40,0,61,_base64_chars
+	.stabs	"URL:S(4,1)",40,0,69,_URL
+	.stabs	"USER:S(4,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(4,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(4,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(4,1)",40,0,77,_TRADE
+	.stabs	"FEED:S(15,27)",38,0,153,_FEED
+	.stabs	"ALBUM:S(15,27)",38,0,154,_ALBUM
 	.stabs	"moblet:G(0,75)",32,0,6,0
 	.text
 	.stabs "",100,0,0,Letext

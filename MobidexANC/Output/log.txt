@@ -1,5 +1,5 @@
-PerformanceFrequency: 1948300
-StartCount: 1364241955953
+PerformanceFrequency: 1948291
+StartCount: 1010577254786
 Hello World!
 argc: 12
 1:-program
@@ -15,13 +15,13 @@ maxCustomEventSize: 0xc
 Head.DataSize: 0x80000
 Head.StackSize: 0x8000
 Head.HeapSize: 0x64000
-Head.EntryPoint: 0x24529
-Head.CodeLen: 0x474bf
+Head.EntryPoint: 0x2466f
+Head.CodeLen: 0x47605
 CODE_SEGMENT_SIZE: 0x80000
-Head.DataLen: 0x6f30
+Head.DataLen: 0x6fd4
 Head.DataSize: 0x80000
 DATA_SEGMENT_SIZE: 0x80000
-Head.IntLen: 0x7e7
+Head.IntLen: 0x7e3
 Type 2, size 11342
 Type 4, size 6774
 Type 4, size 6169
@@ -49,36 +49,25 @@ Type 2, size 8105
 Type 4, size 9644
 ResLoad complete
 IDL version match!
+open(stores/fd.sav, 0x8000) failed: 2(No such file or directory)
 open(stores/lb.sav, 0x8000) failed: 2(No such file or directory)
-MASocketOpen: DNS resolve failed. 11004
-Failure in .\net.cpp @ line 377
-Failure in .\net.cpp @ line 365
-MASocketOpen: DNS resolve failed. 11004
-Failure in .\net.cpp @ line 377
-Failure in .\net.cpp @ line 365
-Assert failure http->mState == HttpConnection::FINISHED in ..\..\base\networking.cpp @ line 673
-ErrorExit 40018
-MoSync Panic 40018
-
-"HTTP connection is not Finished"
-
-The panic occurred in the syscall maHttpGetResponseHeader.
+open(stores/1, 0x8000) failed: 2(No such file or directory)
+open(stores/1, 0x8000) failed: 2(No such file or directory)
+Exit 0
 DumpCallStackEx:
 reportCallStack
 0
-IP: 0x325ec
-Call stack: 7 frames
-0: 0x24553
-1: 0xea1b
-2: 0x3ffc4
-3: 0x3ce60
-4: 0x32692
-5: 0xd895
-6: 0x325ee
-Exit @ IP 0x325ec  SP 0x7ff30
-InstCount: 946356
-IP: 0x24529
+IP: 0x12327
+Call stack: 5 frames
+0: 0x24699
+1: 0xeb18
+2: 0x40138
+3: 0x3b0e4
+4: 0x12329
+Exit @ IP 0x12327  SP 0x7ff38
+InstCount: 1906209
+IP: 0x2466F
 Profile dumped.
-level: 7
-maxLevel: 23
-nodes: 3283
+level: 5
+maxLevel: 24
+nodes: 4088

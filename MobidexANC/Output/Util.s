@@ -261,6 +261,10 @@ _gSkinButton:
 	.align 4
 _gSkinEditBox:
 	.space	4	;(ASM_OUTPUT_SKIP)
+	.global	_gSkinHeaderImage
+	.align 4
+_gSkinHeaderImage:
+	.space	4	;(ASM_OUTPUT_SKIP)
 	.global	_gFontBlackBold
 	.align 4
 _gFontBlackBold:
@@ -284,17 +288,17 @@ _gFontBlue:
 	.lcomm	_URL, 4 ; size=4
 	.lcomm	_base64_chars, 4 ; size=4
 .code
-	.stabs	"_Z10setPaddingPN4MAUI6WidgetE:F(0,6)",36,0,26,__Z10setPaddingPN4MAUI6WidgetE
-	.stabs	"w:P(8,3)",64,0,26,12
+	.stabs	"_Z10setPaddingPN4MAUI6WidgetE:F(0,6)",36,0,27,__Z10setPaddingPN4MAUI6WidgetE
+	.stabs	"w:P(8,3)",64,0,27,12
 	.global	__Z10setPaddingPN4MAUI6WidgetE
 
 .func __Z10setPaddingPN4MAUI6WidgetE, 1, void
-	.line 26
+	.line 27
 	push rt,d0
 	ld   fr,sp
 	add  fr,#0xc
 	.dlab LBB2
-	.line 27
+	.line 28
 	ld   r14,[i0]
 	ld   d0,[r14,60]
 	ld   i1,#0x5
@@ -303,13 +307,13 @@ _gFontBlue:
 	pop  rt,d0
 	ret
 Lscope0:
-	.stabs	"_Z11createLabelN6MAUtil11BasicStringIcEEi:F(0,46)=*(0,47)=xsLabel:",36,0,30,__Z11createLabelN6MAUtil11BasicStringIcEEi
-	.stabs	"str:a(10,1)",64,0,30,6
-	.stabs	"height:P(0,3)",64,0,30,5
+	.stabs	"_Z11createLabelN6MAUtil11BasicStringIcEEi:F(0,46)=*(0,47)=xsLabel:",36,0,31,__Z11createLabelN6MAUtil11BasicStringIcEEi
+	.stabs	"str:a(10,1)",64,0,31,6
+	.stabs	"height:P(0,3)",64,0,31,5
 	.global	__Z11createLabelN6MAUtil11BasicStringIcEEi
 
 .func __Z11createLabelN6MAUtil11BasicStringIcEEi, 2, int
-	.line 30
+	.line 31
 	push rt,d2
 	sub  sp,#0x14
 	ld   fr,sp
@@ -318,7 +322,7 @@ Lscope0:
 	ld   d1,i1
 	.dlab LBB3
 	.dlab LBB4
-	.line 31
+	.line 32
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -335,24 +339,24 @@ Lscope0:
 	ld   i1,#0x0
 	ld   i2,i1
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
-	.line 32
+	.line 33
 	ld   i0,d0
 	call &__Z10setPaddingPN4MAUI6WidgetE ; call non-native
 	.dlab LBE4
 	.dlab LBE3
-	.line 34
+	.line 35
 	ld   r14,d0
 	add  sp,#0x14
 	pop  rt,d2
 	ret
 Lscope1:
-	.stabs	"_Z15createEditLabelN6MAUtil11BasicStringIcEEi:F(0,46)",36,0,35,__Z15createEditLabelN6MAUtil11BasicStringIcEEi
-	.stabs	"str:a(10,1)",64,0,35,6
-	.stabs	"height:P(0,3)",64,0,35,4
+	.stabs	"_Z15createEditLabelN6MAUtil11BasicStringIcEEi:F(0,46)",36,0,36,__Z15createEditLabelN6MAUtil11BasicStringIcEEi
+	.stabs	"str:a(10,1)",64,0,36,6
+	.stabs	"height:P(0,3)",64,0,36,4
 	.global	__Z15createEditLabelN6MAUtil11BasicStringIcEEi
 
 .func __Z15createEditLabelN6MAUtil11BasicStringIcEEi, 2, int
-	.line 35
+	.line 36
 	push rt,d2
 	sub  sp,#0x14
 	ld   fr,sp
@@ -361,7 +365,7 @@ Lscope1:
 	ld   d0,i1
 	.dlab LBB5
 	.dlab LBB6
-	.line 36
+	.line 37
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d1,r14
@@ -378,30 +382,30 @@ Lscope1:
 	ld   i1,#0x0
 	ld   i2,i1
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
-	.line 37
+	.line 38
 	ld   r14,[d1]
 	ld   d0,[r14,20]
 	ld   i0,d1
 	ld   i1,[&_gSkinEditBox]
 	call d0 ; call non-native
-	.line 38
+	.line 39
 	ld   i0,d1
 	call &__Z10setPaddingPN4MAUI6WidgetE ; call non-native
 	.dlab LBE6
 	.dlab LBE5
-	.line 40
+	.line 41
 	ld   r14,d1
 	add  sp,#0x14
 	pop  rt,d2
 	ret
 Lscope2:
-	.stabs	"_Z14createSubLabelN6MAUtil11BasicStringIcEEi:F(0,46)",36,0,42,__Z14createSubLabelN6MAUtil11BasicStringIcEEi
-	.stabs	"str:a(10,1)",64,0,42,6
-	.stabs	"height:P(0,3)",64,0,42,4
+	.stabs	"_Z14createSubLabelN6MAUtil11BasicStringIcEEi:F(0,46)",36,0,43,__Z14createSubLabelN6MAUtil11BasicStringIcEEi
+	.stabs	"str:a(10,1)",64,0,43,6
+	.stabs	"height:P(0,3)",64,0,43,4
 	.global	__Z14createSubLabelN6MAUtil11BasicStringIcEEi
 
 .func __Z14createSubLabelN6MAUtil11BasicStringIcEEi, 2, int
-	.line 42
+	.line 43
 	push rt,d2
 	sub  sp,#0x14
 	ld   fr,sp
@@ -410,7 +414,7 @@ Lscope2:
 	ld   d0,i1
 	.dlab LBB7
 	.dlab LBB8
-	.line 43
+	.line 44
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d1,r14
@@ -427,15 +431,15 @@ Lscope2:
 	ld   i1,#0x0
 	ld   i2,i1
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
-	.line 44
-	ld   i0,d1
-	ld   i1,#0x1
-	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 45
 	ld   i0,d1
 	ld   i1,#0x1
-	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 46
+	ld   i0,d1
+	ld   i1,#0x1
+	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	.line 47
 	ld   r14,[d1]
 	ld   d0,[r14,20]
 	ld   i0,d1
@@ -443,21 +447,21 @@ Lscope2:
 	call d0 ; call non-native
 	.dlab LBE8
 	.dlab LBE7
-	.line 48
+	.line 49
 	ld   r14,d1
 	add  sp,#0x14
 	pop  rt,d2
 	ret
 Lscope3:
-	.stabs	"_Z16createSoftKeyBariPKcS0_S0_:F(8,3)",36,0,53,__Z16createSoftKeyBariPKcS0_S0_
-	.stabs	"height:P(0,3)",64,0,53,9
-	.stabs	"left:P(18,27)",64,0,53,5
-	.stabs	"right:P(18,27)",64,0,53,11
-	.stabs	"centre:P(18,27)",64,0,53,10
+	.stabs	"_Z16createSoftKeyBariPKcS0_S0_:F(8,3)",36,0,54,__Z16createSoftKeyBariPKcS0_S0_
+	.stabs	"height:P(0,3)",64,0,54,9
+	.stabs	"left:P(18,27)",64,0,54,5
+	.stabs	"right:P(18,27)",64,0,54,11
+	.stabs	"centre:P(18,27)",64,0,54,10
 	.global	__Z16createSoftKeyBariPKcS0_S0_
 
 .func __Z16createSoftKeyBariPKcS0_S0_, 4, int
-	.line 53
+	.line 54
 	push rt,d7
 	sub  sp,#0x18
 	ld   fr,sp
@@ -468,7 +472,7 @@ Lscope3:
 	ld   d6,i3
 	.dlab LBB9
 	.dlab LBB10
-	.line 54
+	.line 55
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d3,r14
@@ -484,27 +488,27 @@ Lscope3:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI6LayoutC1EiiiiPNS_6WidgetEii ; call non-native
-	.line 55
+	.line 56
 	ld   i0,d3
 	ld   i1,#0x1
 	call &__ZN4MAUI6Widget17setDrawBackgroundEb ; call non-native
-	.line 56
+	.line 57
 	ld   r14,[d3]
 	ld   d0,[r14,60]
 	ld   i0,d3
 	ld   i1,#0x5
 	call d0 ; call non-native
-	.line 57
+	.line 58
 	ld   r14,[d3]
 	ld   d0,[r14,68]
 	ld   i0,d3
 	ld   i1,#0x5
 	call d0 ; call non-native
-	.line 58
+	.line 59
 	ld   i0,d3
 	ld   i1,#0x5
 	call &__ZN4MAUI6Layout10setMarginXEi ; call non-native
-	.line 61
+	.line 62
 	ld   d4,fr
 	add  d4,#0xffffffd4
 	ld   i0,d4
@@ -529,27 +533,27 @@ Lscope3:
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
 	ld   i0,d4
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 62
-	ld   i0,d2
-	ld   i1,#0x1
-	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 63
 	ld   i0,d2
 	ld   i1,#0x1
-	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 64
+	ld   i0,d2
+	ld   i1,#0x1
+	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	.line 65
 	ld.b d1,[d1]
 	xb   r14,d1
 	ld   r0,#0x0
 	jc   ne,r14,r0,#L10
 L6:
-	.line 67
+	.line 68
 	ld   r14,[d3]
 	ld   d0,[r14]
 	ld   i0,d3
 	ld   i1,d2
 	call d0 ; call non-native
-	.line 69
+	.line 70
 	ld   i0,d4
 	ld   i1,d6
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -574,27 +578,27 @@ L6:
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
 	ld   i0,d4
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
-	ld   i0,d1
-	ld   i1,#0x1
-	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 71
 	ld   i0,d1
 	ld   i1,#0x1
-	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 72
+	ld   i0,d1
+	ld   i1,#0x1
+	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	.line 73
 	ld.b d6,[d6]
 	xb   r14,d6
 	ld   r0,#0x0
 	jc   ne,r14,r0,#L11
 L7:
-	.line 75
+	.line 76
 	ld   r14,[d3]
 	ld   d0,[r14]
 	ld   i0,d3
 	ld   i1,d1
 	call d0 ; call non-native
-	.line 77
+	.line 78
 	ld   i0,d4
 	ld   i1,d7
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -617,20 +621,20 @@ L7:
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
 	ld   i0,d4
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 78
-	ld   i0,d1
-	ld   i1,#0x1
-	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 79
 	ld   i0,d1
 	ld   i1,#0x1
-	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	call &__ZN4MAUI5Label22setHorizontalAlignmentENS0_19HorizontalAlignmentE ; call non-native
 	.line 80
+	ld   i0,d1
+	ld   i1,#0x1
+	call &__ZN4MAUI5Label20setVerticalAlignmentENS0_17VerticalAlignmentE ; call non-native
+	.line 81
 	ld.b d7,[d7]
 	xb   r14,d7
 	ld   r0,#0x0
 	jc   ne,r14,r0,#L12
-	.line 83
+	.line 84
 	ld   r14,[d3]
 	ld   d0,[r14]
 	ld   i0,d3
@@ -638,7 +642,7 @@ L7:
 	call d0 ; call non-native
 	.dlab LBE10
 	.dlab LBE9
-	.line 86
+	.line 87
 	ld   r14,d3
 	add  sp,#0x18
 	pop  rt,d7
@@ -646,7 +650,7 @@ L7:
 L10:
 	.dlab LBB11
 	.dlab LBB12
-	.line 65
+	.line 66
 	ld   r14,[d2]
 	ld   d0,[r14,20]
 	ld   i0,d2
@@ -654,13 +658,13 @@ L10:
 	call d0 ; call non-native
 	jp   #L6
 L12:
-	.line 81
+	.line 82
 	ld   r14,[d1]
 	ld   d0,[r14,20]
 	ld   i0,d1
 	ld   i1,[&_gSkinButton]
 	call d0 ; call non-native
-	.line 83
+	.line 84
 	ld   r14,[d3]
 	ld   d0,[r14]
 	ld   i0,d3
@@ -668,7 +672,7 @@ L12:
 	call d0 ; call non-native
 	.dlab LBE12
 	.dlab LBE11
-	.line 86
+	.line 87
 	ld   r14,d3
 	add  sp,#0x18
 	pop  rt,d7
@@ -676,7 +680,7 @@ L12:
 L11:
 	.dlab LBB13
 	.dlab LBB14
-	.line 73
+	.line 74
 	ld   r14,[d1]
 	ld   d0,[r14,20]
 	ld   i0,d1
@@ -690,38 +694,38 @@ Lscope4:
 LC0:
 	.ascii "\0"
 .code
-	.stabs	"_Z16createSoftKeyBariPKcS0_:F(8,3)",36,0,49,__Z16createSoftKeyBariPKcS0_
-	.stabs	"height:P(0,3)",64,0,49,12
-	.stabs	"left:P(18,27)",64,0,49,13
-	.stabs	"right:P(18,27)",64,0,49,14
+	.stabs	"_Z16createSoftKeyBariPKcS0_:F(8,3)",36,0,50,__Z16createSoftKeyBariPKcS0_
+	.stabs	"height:P(0,3)",64,0,50,12
+	.stabs	"left:P(18,27)",64,0,50,13
+	.stabs	"right:P(18,27)",64,0,50,14
 	.global	__Z16createSoftKeyBariPKcS0_
 
 .func __Z16createSoftKeyBariPKcS0_, 3, int
-	.line 49
+	.line 50
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	.dlab LBB15
-	.line 50
+	.line 51
 	ld   i3,#LC0
 	call &__Z16createSoftKeyBariPKcS0_S0_ ; call non-native
 	.dlab LBE15
-	.line 51
+	.line 52
 	pop  rt,fr
 	ret
 Lscope5:
-	.stabs	"_Z20createNoHeaderLayoutv:F(0,48)=*(0,49)=xsLayout:",36,0,92,__Z20createNoHeaderLayoutv
+	.stabs	"_Z20createNoHeaderLayoutv:F(0,48)=*(0,49)=xsLayout:",36,0,93,__Z20createNoHeaderLayoutv
 	.global	__Z20createNoHeaderLayoutv
 
 .func __Z20createNoHeaderLayoutv, 0, int
-	.line 92
+	.line 93
 	push rt,d0
 	sub  sp,#0x14
 	ld   fr,sp
 	add  fr,#0x20
 	.dlab LBB16
 	.dlab LBB17
-	.line 93
+	.line 94
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -738,7 +742,7 @@ Lscope5:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI6LayoutC1EiiiiPNS_6WidgetEii ; call non-native
-	.line 94
+	.line 95
 	ld   i0,#0xb4
 	call &__Znwm ; call non-native
 	ld   r0,[&_scrHeight]
@@ -755,21 +759,21 @@ Lscope5:
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
 	.dlab LBE17
 	.dlab LBE16
-	.line 96
+	.line 97
 	ld   r14,d0
 	add  sp,#0x14
 	pop  rt,d0
 	ret
 Lscope6:
-	.stabs	"_Z16createMainLayoutPKcS0_S0_b:F(0,48)",36,0,98,__Z16createMainLayoutPKcS0_S0_b
-	.stabs	"left:P(18,27)",64,0,98,4
-	.stabs	"right:P(18,27)",64,0,98,5
-	.stabs	"centre:P(18,27)",64,0,98,6
-	.stabs	"useKinetic:P(0,4)",64,0,98,7
+	.stabs	"_Z16createMainLayoutPKcS0_S0_b:F(0,48)",36,0,99,__Z16createMainLayoutPKcS0_S0_b
+	.stabs	"left:P(18,27)",64,0,99,4
+	.stabs	"right:P(18,27)",64,0,99,5
+	.stabs	"centre:P(18,27)",64,0,99,6
+	.stabs	"useKinetic:P(0,4)",64,0,99,7
 	.global	__Z16createMainLayoutPKcS0_S0_b
 
 .func __Z16createMainLayoutPKcS0_S0_b, 4, int
-	.line 98
+	.line 99
 	push rt,d5
 	sub  sp,#0x18
 	ld   fr,sp
@@ -780,7 +784,7 @@ Lscope6:
 	ld   d3,i3
 	.dlab LBB18
 	.dlab LBB19
-	.line 99
+	.line 100
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d5,r14
@@ -797,14 +801,14 @@ Lscope6:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI6LayoutC1EiiiiPNS_6WidgetEii ; call non-native
-	.line 101
+	.line 102
 	ld   i0,#0x2a
 	ld   i1,d0
 	ld   i2,d1
 	ld   i3,d2
 	call &__Z16createSoftKeyBariPKcS0_S0_ ; call non-native
 	ld   [&_softKeys],r14
-	.line 102
+	.line 103
 	ld   d0,fr
 	add  d0,#0xffffffdc
 	ld   i0,d0
@@ -832,7 +836,7 @@ L16:
 	call &__ZN4MAUI5LabelC1EiiiiPNS_6WidgetERKN6MAUtil11BasicStringIcEEiPNS_4FontE ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 104
+	.line 105
 	ld   i0,[&_softKeys]
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,[&_scrHeight]
@@ -852,62 +856,66 @@ L16:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
-	.line 106
+	.line 107
 	ld   i0,#0x1
 	call &_maGetImageSize ; call non-native
-	.line 108
+	.line 109
 	xh d0,r14
-	.line 110
-	ld   i0,#0x84
+	.line 113
+	ld   i0,#0xb4
 	call &__Znwm ; call non-native
 	ld   d1,r14
 	ld   [sp],d0
 	ld   r14,#0x0
 	ld   [sp,4],r14
-	ld   r0,#0x0
-	ld.b [sp,8],r0
-	ld.b [sp,12],r0
-	ld   r14,#0x1
-	ld   [sp,16],r14
+	ld   r0,#0x1
+	ld   [sp,8],r0
+	ld   [sp,12],r0
+	ld.b [sp,16],r14
 	ld   i0,d1
 	ld   i1,#0x0
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
-	call &__ZN4MAUI5ImageC1EiiiiPNS_6WidgetEbbi ; call non-native
-	ld   [&_image],d1
-	.line 111
+	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
+	.line 114
+	ld   r14,[d1]
+	ld   d0,[r14,20]
+	ld   i0,d1
+	ld   i1,[&_gSkinHeaderImage]
+	call d0 ; call non-native
+	.line 115
 	ld   r14,[d4]
 	ld   d0,[r14]
 	ld   i0,d4
 	ld   i1,d1
 	call d0 ; call non-native
-	.line 113
+	.line 117
 	ld   i0,d2
 	ld   i1,#0x1
 	call &__ZN4MAUI5Label12setAutoSizeYEb ; call non-native
-	.line 114
+	.line 118
 	ld   i0,d2
 	ld   i1,#0x1
 	call &__ZN4MAUI5Label12setMultiLineEb ; call non-native
-	.line 115
+	.line 119
 	ld   r14,[d2]
 	ld   d0,[r14,60]
 	ld   i0,d2
 	ld   i1,#0x5
 	call d0 ; call non-native
-	.line 116
+	.line 120
 	ld   r14,[d4]
 	ld   d0,[r14]
 	ld   i0,d4
 	ld   i1,d2
 	call d0 ; call non-native
 	.dlab LBB20
-	.line 118
+	.line 122
 	and  d3,#0xff  ; zero extend
 	ld   r0,#0x0
 	jc   eq,d3,r0,#L17
 	.dlab LBB21
-	.line 120
+	.line 124
 	ld   i0,[&_softKeys]
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,r14
@@ -933,22 +941,20 @@ L16:
 	call &__ZN4MAUI14KineticListBoxC1EiiiiPNS_6WidgetENS0_25KineticListBoxOrientationENS0_27KineticListBoxAnimationTypeEb ; call non-native
 L19:
 	.dlab LBE21
-	.dlab LBB22
-	.line 126
+	.line 130
 	ld   r14,[d2]
 	ld   d0,[r14,60]
 	ld   i0,d2
 	ld   i1,#0x5
 	call d0 ; call non-native
-	.line 127
+	.line 131
 	ld   r14,[d4]
 	ld   d0,[r14]
 	ld   i0,d4
 	ld   i1,d2
 	call d0 ; call non-native
-	.dlab LBE22
 	.dlab LBE20
-	.line 132
+	.line 136
 	ld   r14,[d5]
 	ld   d0,[r14]
 	ld   i0,d5
@@ -956,17 +962,16 @@ L19:
 	call d0 ; call non-native
 	.dlab LBE19
 	.dlab LBE18
-	.line 135
+	.line 139
 	ld   r14,d5
 	add  sp,#0x18
 	pop  rt,d5
 	ret
 L17:
+	.dlab LBB22
 	.dlab LBB23
 	.dlab LBB24
-	.dlab LBB25
-	.dlab LBB26
-	.line 125
+	.line 129
 	ld   i0,[&_softKeys]
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,r14
@@ -991,55 +996,54 @@ L17:
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
 	jp   #L19
 L20:
-	.dlab LBE26
-	.dlab LBE25
-	.line 102
+	.dlab LBE24
+	.line 103
 	add  r14,#0x3
 	jp   #L16
-	.dlab LBE24
 	.dlab LBE23
-	.stabs	"imgHeight:r(0,3)",64,0,108,4
+	.dlab LBE22
+	.stabs	"imgHeight:r(0,3)",64,0,109,4
 	.stabn	192,0,0,LBB19-__Z16createMainLayoutPKcS0_S0_b
 	.stabn	224,0,0,LBE19-__Z16createMainLayoutPKcS0_S0_b
-	.stabs	"imgHeight:r(0,3)",64,0,108,4
-	.stabn	192,0,0,LBB24-__Z16createMainLayoutPKcS0_S0_b
-	.stabn	224,0,0,LBE24-__Z16createMainLayoutPKcS0_S0_b
+	.stabs	"imgHeight:r(0,3)",64,0,109,4
+	.stabn	192,0,0,LBB23-__Z16createMainLayoutPKcS0_S0_b
+	.stabn	224,0,0,LBE23-__Z16createMainLayoutPKcS0_S0_b
 Lscope7:
-	.stabs	"_Z16createMainLayoutPKcS0_b:F(0,48)",36,0,88,__Z16createMainLayoutPKcS0_b
-	.stabs	"left:P(18,27)",64,0,88,12
-	.stabs	"right:P(18,27)",64,0,88,13
-	.stabs	"useKinetic:P(0,4)",64,0,88,15
+	.stabs	"_Z16createMainLayoutPKcS0_b:F(0,48)",36,0,89,__Z16createMainLayoutPKcS0_b
+	.stabs	"left:P(18,27)",64,0,89,12
+	.stabs	"right:P(18,27)",64,0,89,13
+	.stabs	"useKinetic:P(0,4)",64,0,89,15
 	.global	__Z16createMainLayoutPKcS0_b
 
 .func __Z16createMainLayoutPKcS0_b, 3, int
-	.line 88
+	.line 89
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
 	ld   i3,i2
-	.dlab LBB27
-	.line 89
+	.dlab LBB25
+	.line 90
 	ld   i2,#LC0
 	call &__Z16createMainLayoutPKcS0_S0_b ; call non-native
-	.dlab LBE27
-	.line 90
+	.dlab LBE25
+	.line 91
 	pop  rt,fr
 	ret
 Lscope8:
-	.stabs	"_Z17createImageLayoutPKc:F(0,48)",36,0,137,__Z17createImageLayoutPKc
-	.stabs	"left:P(18,27)",64,0,137,4
+	.stabs	"_Z17createImageLayoutPKc:F(0,48)",36,0,141,__Z17createImageLayoutPKc
+	.stabs	"left:P(18,27)",64,0,141,4
 	.global	__Z17createImageLayoutPKc
 
 .func __Z17createImageLayoutPKc, 1, int
-	.line 137
+	.line 141
 	push rt,d3
 	sub  sp,#0x14
 	ld   fr,sp
 	add  fr,#0x2c
 	ld   d0,i0
-	.dlab LBB28
-	.dlab LBB29
-	.line 138
+	.dlab LBB26
+	.dlab LBB27
+	.line 142
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d3,r14
@@ -1056,14 +1060,14 @@ Lscope8:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI6LayoutC1EiiiiPNS_6WidgetEii ; call non-native
-	.line 139
+	.line 143
 	ld   i0,#0x2a
 	ld   i1,d0
 	ld   i2,#LC0
 	ld   i3,i2
 	call &__Z16createSoftKeyBariPKcS0_S0_ ; call non-native
 	ld   [&_softKeys],r14
-	.line 140
+	.line 144
 	ld   i0,r14
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,[&_scrHeight]
@@ -1082,12 +1086,12 @@ Lscope8:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
-	.line 141
+	.line 145
 	ld   i0,#0x1
 	call &_maGetImageSize ; call non-native
-	.line 143
+	.line 147
 	xh d0,r14
-	.line 145
+	.line 149
 	ld   i0,#0x84
 	call &__Znwm ; call non-native
 	ld   d1,r14
@@ -1104,13 +1108,13 @@ Lscope8:
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI5ImageC1EiiiiPNS_6WidgetEbbi ; call non-native
 	ld   [&_image],d1
-	.line 146
+	.line 150
 	ld   r14,[d2]
 	ld   d0,[r14]
 	ld   i0,d2
 	ld   i1,d1
 	call d0 ; call non-native
-	.line 147
+	.line 151
 	ld   i0,[&_softKeys]
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,[&_scrHeight]
@@ -1131,40 +1135,40 @@ Lscope8:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
-	.line 148
+	.line 152
 	ld   r14,[d2]
 	ld   d0,[r14]
 	ld   i0,d2
 	ld   i1,d1
 	call d0 ; call non-native
-	.line 149
+	.line 153
 	ld   i0,d2
 	call &__Z10setPaddingPN4MAUI6WidgetE ; call non-native
-	.line 152
+	.line 156
 	ld   r14,[d3]
 	ld   d0,[r14]
 	ld   i0,d3
 	ld   i1,[&_softKeys]
 	call d0 ; call non-native
-	.dlab LBE29
-	.dlab LBE28
-	.line 155
+	.dlab LBE27
+	.dlab LBE26
+	.line 159
 	ld   r14,d3
 	add  sp,#0x14
 	pop  rt,d3
 	ret
-	.stabs	"imgHeight:r(0,3)",64,0,143,4
-	.stabn	192,0,0,LBB29-__Z17createImageLayoutPKc
-	.stabn	224,0,0,LBE29-__Z17createImageLayoutPKc
+	.stabs	"imgHeight:r(0,3)",64,0,147,4
+	.stabn	192,0,0,LBB27-__Z17createImageLayoutPKc
+	.stabn	224,0,0,LBE27-__Z17createImageLayoutPKc
 Lscope9:
-	.stabs	"_Z17createImageLayoutPKcS0_S0_:F(0,48)",36,0,157,__Z17createImageLayoutPKcS0_S0_
-	.stabs	"left:P(18,27)",64,0,157,4
-	.stabs	"right:P(18,27)",64,0,157,6
-	.stabs	"centre:P(18,27)",64,0,157,7
+	.stabs	"_Z17createImageLayoutPKcS0_S0_:F(0,48)",36,0,161,__Z17createImageLayoutPKcS0_S0_
+	.stabs	"left:P(18,27)",64,0,161,4
+	.stabs	"right:P(18,27)",64,0,161,6
+	.stabs	"centre:P(18,27)",64,0,161,7
 	.global	__Z17createImageLayoutPKcS0_S0_
 
 .func __Z17createImageLayoutPKcS0_S0_, 3, int
-	.line 157
+	.line 161
 	push rt,d3
 	sub  sp,#0x14
 	ld   fr,sp
@@ -1172,9 +1176,9 @@ Lscope9:
 	ld   d0,i0
 	ld   d2,i1
 	ld   d3,i2
-	.dlab LBB30
-	.dlab LBB31
-	.line 158
+	.dlab LBB28
+	.dlab LBB29
+	.line 162
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
 	ld   d1,r14
@@ -1191,14 +1195,14 @@ Lscope9:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI6LayoutC1EiiiiPNS_6WidgetEii ; call non-native
-	.line 159
+	.line 163
 	ld   i0,#0x2a
 	ld   i1,d0
 	ld   i2,d2
 	ld   i3,d3
 	call &__Z16createSoftKeyBariPKcS0_S0_ ; call non-native
 	ld   [&_softKeys],r14
-	.line 160
+	.line 164
 	ld   i0,r14
 	call &__ZNK4MAUI6Widget9getHeightEv ; call non-native
 	ld   d0,[&_scrHeight]
@@ -1217,56 +1221,56 @@ Lscope9:
 	ld   i2,i1
 	ld   i3,[&_scrWidth]
 	call &__ZN4MAUI7ListBoxC1EiiiiPNS_6WidgetENS0_18ListBoxOrientationENS0_20ListBoxAnimationTypeEb ; call non-native
-	.line 161
+	.line 165
 	ld   i0,d2
 	call &__Z10setPaddingPN4MAUI6WidgetE ; call non-native
-	.line 163
+	.line 167
 	ld   r14,[d1]
 	ld   d0,[r14]
 	ld   i0,d1
 	ld   i1,[&_softKeys]
 	call d0 ; call non-native
-	.dlab LBE31
-	.dlab LBE30
-	.line 166
+	.dlab LBE29
+	.dlab LBE28
+	.line 170
 	ld   r14,d1
 	add  sp,#0x14
 	pop  rt,d3
 	ret
 Lscope10:
-	.stabs	"_Z8saveDataPKcS0_:F(0,6)",36,0,168,__Z8saveDataPKcS0_
-	.stabs	"storefile:P(18,27)",64,0,168,12
-	.stabs	"value:P(18,27)",64,0,168,4
+	.stabs	"_Z8saveDataPKcS0_:F(0,6)",36,0,172,__Z8saveDataPKcS0_
+	.stabs	"storefile:P(18,27)",64,0,172,12
+	.stabs	"value:P(18,27)",64,0,172,4
 	.global	__Z8saveDataPKcS0_
 
 .func __Z8saveDataPKcS0_, 2, void
-	.line 168
+	.line 172
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d0,i1
-	.dlab LBB32
-	.dlab LBB33
-	.line 169
+	.dlab LBB30
+	.dlab LBB31
+	.line 173
 	ld   i1,#0x1
 	call &_maOpenStore ; call non-native
 	ld   d1,r14
-	.dlab LBB34
-	.line 170
+	.dlab LBB32
+	.line 174
 	ld.b r0,[d0]
 	xb   r14,r0
 	ld   r0,#0x0
 	jc   eq,r14,r0,#L30
-	.dlab LBB35
-	.dlab LBB36
-	.line 172
+	.dlab LBB33
+	.dlab LBB34
+	.line 176
 	ld   r14,#0x0
 	jc   le,d1,r14,#L26
-	.dlab LBB37
-	.line 173
+	.dlab LBB35
+	.line 177
 	call &_maCreatePlaceholder ; call non-native
 	ld   d2,r14
-	.line 174
+	.line 178
 	ld   i0,d0
 	call &_strlen ; call non-native
 	ld   i0,d2
@@ -1274,36 +1278,36 @@ Lscope10:
 	call &_maCreateData ; call non-native
 	ld   r0,#0x1
 	jc   eq,r14,r0,#L31
-	.line 178
+	.line 182
 	ld   i0,d1
 	ld   i1,#0x0
 L29:
 	call &_maCloseStore ; call non-native
 L26:
-	.dlab LBE37
-	.dlab LBE36
 	.dlab LBE35
 	.dlab LBE34
 	.dlab LBE33
 	.dlab LBE32
-	.line 181
+	.dlab LBE31
+	.dlab LBE30
+	.line 185
 	pop  rt,d2
 	ret
 L30:
+	.dlab LBB36
+	.dlab LBB37
 	.dlab LBB38
-	.dlab LBB39
-	.dlab LBB40
-	.line 171
+	.line 175
 	ld   i0,d1
 	ld   i1,#0x1
+	.dlab LBB39
+	.dlab LBB40
 	.dlab LBB41
-	.dlab LBB42
-	.dlab LBB43
-	.line 178
+	.line 182
 	call &_maCloseStore ; call non-native
 	jp   #L26
 L31:
-	.line 175
+	.line 179
 	ld   i0,d0
 	call &_strlen ; call non-native
 	ld   i0,d2
@@ -1311,170 +1315,170 @@ L31:
 	ld   i2,#0x0
 	ld   i3,r14
 	call &_maWriteData ; call non-native
-	.line 176
+	.line 180
 	ld   i0,d1
 	ld   i1,d2
 	call &_maWriteStore ; call non-native
-	.line 178
+	.line 182
 	ld   i0,d1
 	ld   i1,#0x0
 	jp   #L29
-	.dlab LBE43
-	.dlab LBE42
 	.dlab LBE41
 	.dlab LBE40
 	.dlab LBE39
 	.dlab LBE38
-	.stabs	"store:r(5,10)",64,0,169,5
-	.stabn	192,0,0,LBB33-__Z8saveDataPKcS0_
-	.stabs	"hValue:r(5,10)",64,0,173,6
+	.dlab LBE37
+	.dlab LBE36
+	.stabs	"store:r(5,10)",64,0,173,5
+	.stabn	192,0,0,LBB31-__Z8saveDataPKcS0_
+	.stabs	"hValue:r(5,10)",64,0,177,6
+	.stabn	192,0,0,LBB35-__Z8saveDataPKcS0_
+	.stabn	224,0,0,LBE35-__Z8saveDataPKcS0_
+	.stabn	224,0,0,LBE31-__Z8saveDataPKcS0_
+	.stabs	"store:r(5,10)",64,0,173,5
 	.stabn	192,0,0,LBB37-__Z8saveDataPKcS0_
+	.stabs	"hValue:r(5,10)",64,0,177,6
+	.stabn	192,0,0,LBB41-__Z8saveDataPKcS0_
+	.stabn	224,0,0,LBE41-__Z8saveDataPKcS0_
 	.stabn	224,0,0,LBE37-__Z8saveDataPKcS0_
-	.stabn	224,0,0,LBE33-__Z8saveDataPKcS0_
-	.stabs	"store:r(5,10)",64,0,169,5
-	.stabn	192,0,0,LBB39-__Z8saveDataPKcS0_
-	.stabs	"hValue:r(5,10)",64,0,173,6
-	.stabn	192,0,0,LBB43-__Z8saveDataPKcS0_
-	.stabn	224,0,0,LBE43-__Z8saveDataPKcS0_
-	.stabn	224,0,0,LBE39-__Z8saveDataPKcS0_
 Lscope11:
-	.stabs	"_Z8saveFilePKci:F(0,6)",36,0,184,__Z8saveFilePKci
-	.stabs	"storefile:P(18,27)",64,0,184,12
-	.stabs	"data:P(5,10)",64,0,184,5
+	.stabs	"_Z8saveFilePKci:F(0,6)",36,0,188,__Z8saveFilePKci
+	.stabs	"storefile:P(18,27)",64,0,188,12
+	.stabs	"data:P(5,10)",64,0,188,5
 	.global	__Z8saveFilePKci
 
 .func __Z8saveFilePKci, 2, void
-	.line 184
+	.line 188
 	push rt,d1
 	ld   fr,sp
 	add  fr,#0x10
 	ld   d1,i1
-	.dlab LBB44
-	.dlab LBB45
-	.line 185
+	.dlab LBB42
+	.dlab LBB43
+	.line 189
 	ld   i1,#0x1
 	call &_maOpenStore ; call non-native
 	ld   d0,r14
-	.line 186
+	.line 190
 	ld   r14,#0x0
 	jc   le,d0,r14,#L33
-	.line 187
+	.line 191
 	ld   i0,d0
 	ld   i1,d1
 	call &_maWriteStore ; call non-native
 L33:
-	.line 189
+	.line 193
 	ld   i0,d0
 	ld   i1,#0x0
 	call &_maCloseStore ; call non-native
-	.dlab LBE45
-	.dlab LBE44
+	.dlab LBE43
+	.dlab LBE42
 	pop  rt,d1
 	ret
-	.stabs	"store:r(5,10)",64,0,185,4
-	.stabn	192,0,0,LBB45-__Z8saveFilePKci
-	.stabn	224,0,0,LBE45-__Z8saveFilePKci
+	.stabs	"store:r(5,10)",64,0,189,4
+	.stabn	192,0,0,LBB43-__Z8saveFilePKci
+	.stabn	224,0,0,LBE43-__Z8saveFilePKci
 Lscope12:
-	.stabs	"_Z7getDataPKc:F(5,5)",36,0,193,__Z7getDataPKc
-	.stabs	"storefile:P(18,27)",64,0,193,12
+	.stabs	"_Z7getDataPKc:F(5,5)",36,0,197,__Z7getDataPKc
+	.stabs	"storefile:P(18,27)",64,0,197,12
 	.global	__Z7getDataPKc
 
 .func __Z7getDataPKc, 1, int
-	.line 193
+	.line 197
 	push rt,d4
 	ld   fr,sp
 	add  fr,#0x1c
-	.dlab LBB46
-	.dlab LBB47
-	.line 194
+	.dlab LBB44
+	.dlab LBB45
+	.line 198
 	ld   i1,#0x0
 	call &_maOpenStore ; call non-native
 	ld   d4,r14
-	.line 195
+	.line 199
 	call &_maCreatePlaceholder ; call non-native
 	ld   d3,r14
-	.line 209
+	.line 213
 	ld   d0,#LC0
-	.dlab LBB48
-	.line 196
+	.dlab LBB46
+	.line 200
 	ld   r14,#0x0
 	jc   le,d4,r14,#L34
-	.dlab LBB49
-	.line 197
+	.dlab LBB47
+	.line 201
 	ld   i0,d4
 	ld   i1,d3
 	call &_maReadStore ; call non-native
-	.line 198
+	.line 202
 	ld   i0,d3
 	call &_maGetDataSize ; call non-native
 	ld   d2,r14
-	.dlab LBB50
-	.line 199
+	.dlab LBB48
+	.line 203
 	ld   r14,#0x0
 	jc   le,d2,r14,#L34
-	.dlab LBB51
-	.line 200
+	.dlab LBB49
+	.line 204
 	ld   d1,d2
 	add  d1,#0x1
 	ld   i0,d1
 	call &__Znam ; call non-native
 	ld   d0,r14
-	.line 201
+	.line 205
 	ld   i0,r14
 	ld   i1,#0x0
 	ld   i2,d1
 	call &_memset ; call non-native
-	.line 202
+	.line 206
 	ld   i0,d3
 	ld   i1,d0
 	ld   i2,#0x0
 	ld   i3,d2
 	call &_maReadData ; call non-native
-	.line 203
+	.line 207
 	ld   i0,d4
 	ld   i1,#0x0
 	call &_maCloseStore ; call non-native
 L34:
-	.dlab LBE51
-	.dlab LBE50
 	.dlab LBE49
 	.dlab LBE48
 	.dlab LBE47
 	.dlab LBE46
-	.line 210
+	.dlab LBE45
+	.dlab LBE44
+	.line 214
 	ld   r14,d0
 	pop  rt,d4
 	ret
-	.stabs	"store:r(5,10)",64,0,194,8
-	.stabs	"tmp:r(5,10)",64,0,195,7
+	.stabs	"store:r(5,10)",64,0,198,8
+	.stabs	"tmp:r(5,10)",64,0,199,7
+	.stabn	192,0,0,LBB45-__Z7getDataPKc
+	.stabs	"size:r(0,3)",64,0,202,6
 	.stabn	192,0,0,LBB47-__Z7getDataPKc
-	.stabs	"size:r(0,3)",64,0,198,6
+	.stabs	"ret:r(5,5)",64,0,204,4
 	.stabn	192,0,0,LBB49-__Z7getDataPKc
-	.stabs	"ret:r(5,5)",64,0,200,4
-	.stabn	192,0,0,LBB51-__Z7getDataPKc
-	.stabn	224,0,0,LBE51-__Z7getDataPKc
 	.stabn	224,0,0,LBE49-__Z7getDataPKc
 	.stabn	224,0,0,LBE47-__Z7getDataPKc
+	.stabn	224,0,0,LBE45-__Z7getDataPKc
 Lscope13:
-	.stabs	"_Z11returnImagePN4MAUI5ImageEii:F(0,6)",36,0,213,__Z11returnImagePN4MAUI5ImageEii
-	.stabs	"img:P(20,2)",64,0,213,5
-	.stabs	"i:P(5,10)",64,0,213,4
-	.stabs	"height:P(0,3)",64,0,213,14
+	.stabs	"_Z11returnImagePN4MAUI5ImageEii:F(0,6)",36,0,217,__Z11returnImagePN4MAUI5ImageEii
+	.stabs	"img:P(20,2)",64,0,217,5
+	.stabs	"i:P(5,10)",64,0,217,4
+	.stabs	"height:P(0,3)",64,0,217,14
 	.global	__Z11returnImagePN4MAUI5ImageEii
 
 .func __Z11returnImagePN4MAUI5ImageEii, 3, void
-	.line 213
+	.line 217
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
 	ld   d0,i1
-	.dlab LBB52
-	.dlab LBB53
-	.line 214
+	.dlab LBB50
+	.dlab LBB51
+	.line 218
 	call &_maCreatePlaceholder ; call non-native
 	ld   d2,r14
-	.line 215
+	.line 219
 	ld   i0,d0
 	call &_maGetDataSize ; call non-native
 	ld   i0,d2
@@ -1482,41 +1486,41 @@ Lscope13:
 	ld   i2,#0x0
 	ld   i3,r14
 	call &_maCreateImageFromData ; call non-native
-	.line 216
+	.line 220
 	ld   i0,d1
 	ld   i1,d2
 	call &__ZN4MAUI5Image11setResourceEi ; call non-native
-	.line 217
+	.line 221
 	ld   r14,[d1]
 	ld   d0,[r14,12]
 	ld   i0,d1
 	call d0 ; call non-native
-	.line 218
+	.line 222
 	ld   i0,d1
 	call &__ZN4MAUI6Widget14requestRepaintEv ; call non-native
-	.line 219
+	.line 223
 	call &_maUpdateScreen ; call non-native
-	.dlab LBE53
-	.dlab LBE52
-	.line 221
+	.dlab LBE51
+	.dlab LBE50
+	.line 225
 	pop  rt,d2
 	ret
-	.stabs	"imageh:r(5,10)",64,0,214,6
-	.stabn	192,0,0,LBB53-__Z11returnImagePN4MAUI5ImageEii
-	.stabn	224,0,0,LBE53-__Z11returnImagePN4MAUI5ImageEii
+	.stabs	"imageh:r(5,10)",64,0,218,6
+	.stabn	192,0,0,LBB51-__Z11returnImagePN4MAUI5ImageEii
+	.stabn	224,0,0,LBE51-__Z11returnImagePN4MAUI5ImageEii
 Lscope14:
 .data
 LC1:
 	.ascii "http://\0"
 .code
-	.stabs	"_Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache:F(0,6)",36,0,225,__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
-	.stabs	"img:P(20,2)",64,0,225,9
-	.stabs	"card:P(22,35)",64,0,225,7
-	.stabs	"mImageCache:P(0,50)=*(0,51)=xsImageCache:",64,0,225,8
+	.stabs	"_Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache:F(0,6)",36,0,229,__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
+	.stabs	"img:P(20,2)",64,0,229,9
+	.stabs	"card:P(22,35)",64,0,229,7
+	.stabs	"mImageCache:P(0,50)=*(0,51)=xsImageCache:",64,0,229,8
 	.global	__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
 
 .func __Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache, 3, void
-	.line 225
+	.line 229
 	push rt,d5
 	sub  sp,#0x10
 	ld   fr,sp
@@ -1524,13 +1528,13 @@ LC1:
 	ld   d5,i0
 	ld   d3,i1
 	ld   d4,i2
-	.dlab LBB54
-	.dlab LBB55
-	.line 226
+	.dlab LBB52
+	.dlab LBB53
+	.line 230
 	ld   r0,#0x0
 	jc   eq,i1,r0,#L39
-	.dlab LBB56
-	.line 229
+	.dlab LBB54
+	.line 233
 	ld   d0,fr
 	add  d0,#0xffffffdc
 	ld   i0,d0
@@ -1551,8 +1555,8 @@ LC1:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   r14,#0xffffffff
 	jc   eq,d2,r14,#L45
-	.dlab LBB57
-	.line 244
+	.dlab LBB55
+	.line 248
 	ld   i0,#0x10
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -1563,25 +1567,25 @@ LC1:
 	ld   i2,d3
 	ld   i3,#0x40
 	call &__ZN17ImageCacheRequestC1EPN4MAUI5ImageEP4Cardii ; call non-native
-	.line 245
+	.line 249
 	ld   i0,d4
 	ld   i1,d0
 	call &__ZN10ImageCache7requestEP17ImageCacheRequest ; call non-native
 L39:
-	.dlab LBE57
-	.dlab LBE56
 	.dlab LBE55
 	.dlab LBE54
-	.line 247
+	.dlab LBE53
+	.dlab LBE52
+	.line 251
 	add  sp,#0x10
 	pop  rt,d5
 	ret
 L45:
+	.dlab LBB56
+	.dlab LBB57
 	.dlab LBB58
 	.dlab LBB59
-	.dlab LBB60
-	.dlab LBB61
-	.line 230
+	.line 234
 	add  d0,#0xfffffff8
 	ld   i0,d0
 	ld   i1,d3
@@ -1594,58 +1598,58 @@ L45:
 	ld   d1,r14
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 231
+	.line 235
 	call &_maCreatePlaceholder ; call non-native
 	ld   d0,r14
-	.dlab LBB62
-	.line 232
+	.dlab LBB60
+	.line 236
 	ld   r0,#0x0
 	jc   le,d1,r0,#L39
-	.dlab LBB63
-	.line 234
+	.dlab LBB61
+	.line 238
 	ld   i0,d1
 	ld   i1,r14
 	call &_maReadStore ; call non-native
-	.line 235
+	.line 239
 	ld   i0,d0
 	call &_maGetDataSize ; call non-native
-	.line 236
+	.line 240
 	ld   r0,#0x0
 	jc   le,r14,r0,#L43
-	.line 237
+	.line 241
 	ld   i0,d5
 	ld   i1,d0
 	ld   i2,#0x40
 	call &__Z11returnImagePN4MAUI5ImageEii ; call non-native
 L43:
-	.line 239
+	.line 243
 	ld   i0,d1
 	ld   i1,#0x0
 	call &_maCloseStore ; call non-native
-	.dlab LBE63
-	.dlab LBE62
 	.dlab LBE61
 	.dlab LBE60
 	.dlab LBE59
 	.dlab LBE58
-	.line 247
+	.dlab LBE57
+	.dlab LBE56
+	.line 251
 	add  sp,#0x10
 	pop  rt,d5
 	ret
-	.stabs	"store:r(5,10)",64,0,230,5
-	.stabs	"cacheimage:r(5,10)",64,0,231,4
-	.stabn	192,0,0,LBB61-__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
-	.stabn	224,0,0,LBE61-__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
+	.stabs	"store:r(5,10)",64,0,234,5
+	.stabs	"cacheimage:r(5,10)",64,0,235,4
+	.stabn	192,0,0,LBB59-__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
+	.stabn	224,0,0,LBE59-__Z13retrieveThumbPN4MAUI5ImageEP4CardP10ImageCache
 Lscope15:
-	.stabs	"_Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache:F(0,6)",36,0,252,__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
-	.stabs	"img:P(20,2)",64,0,252,9
-	.stabs	"card:P(22,35)",64,0,252,7
-	.stabs	"height:P(0,3)",64,0,252,10
-	.stabs	"mImageCache:P(0,50)",64,0,252,8
+	.stabs	"_Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache:F(0,6)",36,0,256,__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
+	.stabs	"img:P(20,2)",64,0,256,9
+	.stabs	"card:P(22,35)",64,0,256,7
+	.stabs	"height:P(0,3)",64,0,256,10
+	.stabs	"mImageCache:P(0,50)",64,0,256,8
 	.global	__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
 
 .func __Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache, 4, void
-	.line 252
+	.line 256
 	push rt,d6
 	sub  sp,#0x10
 	ld   fr,sp
@@ -1654,13 +1658,13 @@ Lscope15:
 	ld   d3,i1
 	ld   d6,i2
 	ld   d4,i3
-	.dlab LBB64
-	.dlab LBB65
-	.line 253
+	.dlab LBB62
+	.dlab LBB63
+	.line 257
 	ld   r0,#0x0
 	jc   eq,i1,r0,#L46
-	.dlab LBB66
-	.line 256
+	.dlab LBB64
+	.line 260
 	ld   d0,fr
 	add  d0,#0xffffffd8
 	ld   i0,d0
@@ -1681,8 +1685,8 @@ Lscope15:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   r14,#0xffffffff
 	jc   eq,d2,r14,#L52
-	.dlab LBB67
-	.line 271
+	.dlab LBB65
+	.line 275
 	ld   i0,#0x10
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -1693,28 +1697,28 @@ Lscope15:
 	ld   i2,d3
 	ld   i3,d6
 	call &__ZN17ImageCacheRequestC1EPN4MAUI5ImageEP4Cardii ; call non-native
-	.line 272
+	.line 276
 	ld   i0,d4
 	ld   i1,d0
 	call &__ZN10ImageCache7requestEP17ImageCacheRequest ; call non-native
 L46:
-	.dlab LBE67
-	.dlab LBE66
 	.dlab LBE65
 	.dlab LBE64
-	.line 274
+	.dlab LBE63
+	.dlab LBE62
+	.line 278
 	add  sp,#0x10
 	pop  rt,d6
 	ret
 L52:
+	.dlab LBB66
+	.dlab LBB67
 	.dlab LBB68
 	.dlab LBB69
-	.dlab LBB70
-	.dlab LBB71
-	.line 257
+	.line 261
 	call &_maCreatePlaceholder ; call non-native
 	ld   d2,r14
-	.line 258
+	.line 262
 	add  d0,#0xfffffff8
 	ld   i0,d0
 	ld   i1,d3
@@ -1727,46 +1731,46 @@ L52:
 	ld   d1,r14
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 259
+	.line 263
 	ld   r0,#0xfffffffb
 	jc   eq,d1,r0,#L46
-	.line 261
+	.line 265
 	ld   i0,d1
 	ld   i1,d2
 	call &_maReadStore ; call non-native
-	.line 262
+	.line 266
 	ld   i0,d1
 	ld   i1,#0x0
 	call &_maCloseStore ; call non-native
-	.line 264
+	.line 268
 	ld   i0,d2
 	call &_maGetDataSize ; call non-native
 	ld   r0,#0x0
 	jc   le,r14,r0,#L46
-	.line 265
+	.line 269
 	ld   i0,d5
 	ld   i1,d2
 	ld   i2,d6
 	call &__Z11returnImagePN4MAUI5ImageEii ; call non-native
 	jp   #L46
-	.dlab LBE71
-	.dlab LBE70
 	.dlab LBE69
 	.dlab LBE68
-	.stabs	"cacheimage:r(5,10)",64,0,257,6
-	.stabs	"store:r(5,10)",64,0,258,5
-	.stabn	192,0,0,LBB71-__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
-	.stabn	224,0,0,LBE71-__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
+	.dlab LBE67
+	.dlab LBE66
+	.stabs	"cacheimage:r(5,10)",64,0,261,6
+	.stabs	"store:r(5,10)",64,0,262,5
+	.stabn	192,0,0,LBB69-__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
+	.stabn	224,0,0,LBE69-__Z13retrieveFrontPN4MAUI5ImageEP4CardiP10ImageCache
 Lscope16:
-	.stabs	"_Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache:F(0,6)",36,0,276,__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
-	.stabs	"img:P(20,2)",64,0,276,9
-	.stabs	"card:P(22,35)",64,0,276,7
-	.stabs	"height:P(0,3)",64,0,276,10
-	.stabs	"mImageCache:P(0,50)",64,0,276,8
+	.stabs	"_Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache:F(0,6)",36,0,280,__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
+	.stabs	"img:P(20,2)",64,0,280,9
+	.stabs	"card:P(22,35)",64,0,280,7
+	.stabs	"height:P(0,3)",64,0,280,10
+	.stabs	"mImageCache:P(0,50)",64,0,280,8
 	.global	__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
 
 .func __Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache, 4, void
-	.line 276
+	.line 280
 	push rt,d6
 	sub  sp,#0x10
 	ld   fr,sp
@@ -1775,13 +1779,13 @@ Lscope16:
 	ld   d3,i1
 	ld   d6,i2
 	ld   d4,i3
-	.dlab LBB72
-	.dlab LBB73
-	.line 277
+	.dlab LBB70
+	.dlab LBB71
+	.line 281
 	ld   r0,#0x0
 	jc   eq,i1,r0,#L53
-	.dlab LBB74
-	.line 280
+	.dlab LBB72
+	.line 284
 	ld   d0,fr
 	add  d0,#0xffffffd8
 	ld   i0,d0
@@ -1802,8 +1806,8 @@ Lscope16:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   r14,#0xffffffff
 	jc   eq,d2,r14,#L59
-	.dlab LBB75
-	.line 295
+	.dlab LBB73
+	.line 299
 	ld   i0,#0x10
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -1814,28 +1818,28 @@ Lscope16:
 	ld   i2,d3
 	ld   i3,d6
 	call &__ZN17ImageCacheRequestC1EPN4MAUI5ImageEP4Cardii ; call non-native
-	.line 296
+	.line 300
 	ld   i0,d4
 	ld   i1,d0
 	call &__ZN10ImageCache7requestEP17ImageCacheRequest ; call non-native
 L53:
-	.dlab LBE75
-	.dlab LBE74
 	.dlab LBE73
 	.dlab LBE72
-	.line 298
+	.dlab LBE71
+	.dlab LBE70
+	.line 302
 	add  sp,#0x10
 	pop  rt,d6
 	ret
 L59:
+	.dlab LBB74
+	.dlab LBB75
 	.dlab LBB76
 	.dlab LBB77
-	.dlab LBB78
-	.dlab LBB79
-	.line 281
+	.line 285
 	call &_maCreatePlaceholder ; call non-native
 	ld   d2,r14
-	.line 282
+	.line 286
 	add  d0,#0xfffffff8
 	ld   i0,d0
 	ld   i1,d3
@@ -1848,36 +1852,36 @@ L59:
 	ld   d1,r14
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 283
+	.line 287
 	ld   r0,#0xfffffffb
 	jc   eq,d1,r0,#L53
-	.line 285
+	.line 289
 	ld   i0,d1
 	ld   i1,d2
 	call &_maReadStore ; call non-native
-	.line 286
+	.line 290
 	ld   i0,d1
 	ld   i1,#0x0
 	call &_maCloseStore ; call non-native
-	.line 288
+	.line 292
 	ld   i0,d2
 	call &_maGetDataSize ; call non-native
 	ld   r0,#0x0
 	jc   le,r14,r0,#L53
-	.line 289
+	.line 293
 	ld   i0,d5
 	ld   i1,d2
 	ld   i2,d6
 	call &__Z11returnImagePN4MAUI5ImageEii ; call non-native
 	jp   #L53
-	.dlab LBE79
-	.dlab LBE78
 	.dlab LBE77
 	.dlab LBE76
-	.stabs	"cacheimage:r(5,10)",64,0,281,6
-	.stabs	"store:r(5,10)",64,0,282,5
-	.stabn	192,0,0,LBB79-__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
-	.stabn	224,0,0,LBE79-__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
+	.dlab LBE75
+	.dlab LBE74
+	.stabs	"cacheimage:r(5,10)",64,0,285,6
+	.stabs	"store:r(5,10)",64,0,286,5
+	.stabn	192,0,0,LBB77-__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
+	.stabn	224,0,0,LBE77-__Z12retrieveBackPN4MAUI5ImageEP4CardiP10ImageCache
 Lscope17:
 .data
 LC2:
@@ -1893,73 +1897,73 @@ LC6:
 LC7:
 	.ascii "?tradecard=1\0"
 .code
-	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,298,__Z41__static_initialization_and_destruction_0ii
-	.stabs	"__initialize_p:P(0,3)",64,0,298,12
-	.stabs	"__priority:P(0,3)",64,0,298,13
+	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,302,__Z41__static_initialization_and_destruction_0ii
+	.stabs	"__initialize_p:P(0,3)",64,0,302,12
+	.stabs	"__priority:P(0,3)",64,0,302,13
 
 .func __Z41__static_initialization_and_destruction_0ii, 2, void
-	.line 298
+	.line 302
 	push rt,d0
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x10
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext1
 Ltext1:
-	.line 60
+	.line 61
 	ld   r14,#0xffff
 	jc   eq,i1,r14,#L96
 L60:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\Util.cpp",132,0,0,Ltext2
 Ltext2:
-	.line 298
+	.line 302
 	add  sp,#0x4
 	pop  rt,d0
 	ret
 L96:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext3
 Ltext3:
-	.line 60
+	.line 61
 	ld   r14,#0x1
 	jc   eq,i0,r14,#L97
-	.line 76
+	.line 77
 	ld   r14,#0x0
 	jc   ne,i0,r14,#L60
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,#_CARDS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,#_ALBUMS
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
+	.line 71
 	ld   i0,#_USER
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
+	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 L98:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\Util.cpp",132,0,0,Ltext4
 Ltext4:
-	.line 298
+	.line 302
 	add  sp,#0x4
 	pop  rt,d0
 	ret
 L97:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext5
 Ltext5:
-	.line 64
+	.line 65
 	ld   i0,#_base64_chars
 	ld   i1,#LC2
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
+	.line 69
 	ld   i0,#_URL
 	ld   i1,#LC3
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
@@ -1971,7 +1975,7 @@ Ltext5:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
 	ld   i1,#LC5
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -1981,7 +1985,7 @@ Ltext5:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
 	ld   i1,#LC6
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -1991,7 +1995,7 @@ Ltext5:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
 	ld   i1,#LC7
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -2000,34 +2004,34 @@ Ltext5:
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L98
 Lscope18:
-	.stabs	"_GLOBAL__I_gFontBlue:f(0,6)",36,0,299,__GLOBAL__I_gFontBlue
+	.stabs	"_GLOBAL__I_gFontBlue:f(0,6)",36,0,303,__GLOBAL__I_gFontBlue
 
 .func __GLOBAL__I_gFontBlue, 0, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\Util.cpp",132,0,0,Ltext6
 Ltext6:
-	.line 299
+	.line 303
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 299
+	.line 303
 	ld   i0,#0x1
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
 Lscope19:
-	.stabs	"_GLOBAL__D_gFontBlue:f(0,6)",36,0,300,__GLOBAL__D_gFontBlue
+	.stabs	"_GLOBAL__D_gFontBlue:f(0,6)",36,0,304,__GLOBAL__D_gFontBlue
 
 .func __GLOBAL__D_gFontBlue, 0, void
-	.line 300
+	.line 304
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 300
+	.line 304
 	ld   i0,#0x0
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
@@ -2038,22 +2042,23 @@ Lscope20:
 	.stabs	"gFontBlack:G(18,21)",32,0,10,0
 	.stabs	"gFontWhite:G(18,21)",32,0,11,0
 	.stabs	"gFontBlackBold:G(18,21)",32,0,12,0
-	.stabs	"gSkinEditBox:G(12,3)",32,0,13,0
-	.stabs	"gSkinButton:G(12,3)",32,0,14,0
-	.stabs	"gSkinBack:G(12,3)",32,0,15,0
-	.stabs	"gSkinList:G(12,3)",32,0,16,0
-	.stabs	"gSkinAlbum:G(12,3)",32,0,17,0
-	.stabs	"scrWidth:G(0,3)",32,0,19,0
-	.stabs	"scrHeight:G(0,3)",32,0,20,0
-	.stabs	"image:G(20,2)",32,0,21,0
-	.stabs	"softKeys:G(8,3)",32,0,22,0
-	.stabs	"orig:G(0,52)=*(0,53)=xsScreen:",32,0,18,0
-	.stabs	"base64_chars:S(0,54)=k(10,1)",40,0,60,_base64_chars
-	.stabs	"URL:S(10,1)",40,0,68,_URL
-	.stabs	"USER:S(10,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(10,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(10,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(10,1)",40,0,76,_TRADE
+	.stabs	"gSkinHeaderImage:G(12,3)",32,0,13,0
+	.stabs	"gSkinEditBox:G(12,3)",32,0,14,0
+	.stabs	"gSkinButton:G(12,3)",32,0,15,0
+	.stabs	"gSkinBack:G(12,3)",32,0,16,0
+	.stabs	"gSkinList:G(12,3)",32,0,17,0
+	.stabs	"gSkinAlbum:G(12,3)",32,0,18,0
+	.stabs	"scrWidth:G(0,3)",32,0,20,0
+	.stabs	"scrHeight:G(0,3)",32,0,21,0
+	.stabs	"image:G(20,2)",32,0,22,0
+	.stabs	"softKeys:G(8,3)",32,0,23,0
+	.stabs	"orig:G(0,52)=*(0,53)=xsScreen:",32,0,19,0
+	.stabs	"base64_chars:S(0,54)=k(10,1)",40,0,61,_base64_chars
+	.stabs	"URL:S(10,1)",40,0,69,_URL
+	.stabs	"USER:S(10,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(10,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(10,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(10,1)",40,0,77,_TRADE
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

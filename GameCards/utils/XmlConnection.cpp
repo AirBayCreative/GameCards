@@ -6,12 +6,13 @@ XmlConnection::XmlConnection(){
 }
 
 void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlListener* xml) {
+
     mConn = conn;
     mXc = xc;
     mContext.init(this, xml);
     mConn->setListener(this);
-
     mPtr = mBuffer;
+    //lprintfln("%s",mBuffer);
     mConn->recv(mBuffer, sizeof(mBuffer)-1);
 }
 XmlConnection::~XmlConnection() {}
@@ -24,6 +25,7 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     }
     mPtr[result] = 0;
     mPtr = mBuffer;
+    lprintfln("[%s]",mBuffer);
    	mContext.feed(mBuffer);
    	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 }

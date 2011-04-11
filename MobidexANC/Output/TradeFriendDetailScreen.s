@@ -253,7 +253,7 @@
 	.stabs	"Vector<ImageCacheRequest*>:Tt(40,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(40,2)=*(41,5),64,32;__base_ctor::(40,3)=#(40,1),(0,6),(40,4)=*(40,1),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2Ei;2A.;__comp_ctor::(40,3):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1Ei;2A.;__base_ctor::(40,5)=#(40,1),(0,6),(40,4),(40,6)=*(40,7)=k(41,5),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2EPKS2_i;2A.;__comp_ctor::(40,5):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1EPKS2_i;2A.;__base_ctor::(40,8)=#(40,1),(0,6),(40,4),(40,9)=&(40,10)=k(40,1),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2ERKS3_;2A.;__comp_ctor::(40,8):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1ERKS3_;2A.;__base_dtor::(40,11)=#(40,1),(0,6),(40,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestED2Ev;2A.;__comp_dtor::(40,11):_ZN6MAUtil6VectorIP17ImageCacheRequestED1Ev;2A.;operator=::(40,12)=#(40,1),(40,13)=&(40,1),(40,4),(40,9),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEaSERKS3_;2A.;add::(40,14)=#(40,1),(0,6),(40,4),(40,15)=&(40,7),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addERKS2_;2A.(40,5):_ZN6MAUtil6VectorIP17ImageCacheRequestE3addEPKS2_i;2A.;remove::(40,16)=#(40,1),(0,6),(40,4),(40,2),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEPS2_;2A.(40,17)=#(40,1),(0,6),(40,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEi;2A.(40,18)=#(40,1),(0,6),(40,4),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEii;2A.;insert::(40,19)=#(40,1),(0,6),(40,4),(0,3),(41,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6insertEiS2_;2A.;size::(40,20)=#(40,1),(0,3),(40,21)=*(40,10),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE4sizeEv;2B.;resize::(40,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE6resizeEi;2A.;reserve::(40,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE7reserveEi;2A.;clear::(40,11):_ZN6MAUtil6VectorIP17ImageCacheRequestE5clearEv;2A.;empty::(40,22)=#(40,1),(0,4),(40,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5emptyEv;2B.;capacity::(40,20):_ZNK6MAUtil6VectorIP17ImageCacheRequestE8capacityEv;2B.;begin::(40,23)=#(40,1),(40,2),(40,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2A.;end::(40,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE3endEv;2A.;begin::(40,24)=#(40,1),(40,6),(40,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2B.;end::(40,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE3endEv;2B.;operator[]::(40,25)=#(40,1),(40,26)=&(41,5),(40,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEixEi;2A.(40,27)=#(40,1),(40,15),(40,21),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestEixEi;2B.;pointer::(40,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2B.(40,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"TradeFriendDetailScreen:Tt(0,25)=s2264!5,020,(0,26)=xsScreen:;0096,(6,33);00128,(0,27)=xsHttpConnectionListener:;00160,(0,28)=xsXCListener:;00192,(33,48);feed:/0(21,3),224,32;layout:/0(0,29)=*(0,30)=xsLayout:,256,32;listBox:/0(0,31)=*(0,32)=xsListBox:,288,32;lbl:/0(0,33)=*(0,34)=xsLabel:,320,32;lblMethod:/0(0,33),352,32;errorLabel:/0(0,33),384,32;contactEditBox:/0(0,35)=*(0,36)=xsMobEditBox:,416,32;menu:/0(0,37)=*(0,26),448,32;previous:/0(0,37),480,32;list:/0(0,4),512,8;left:/0(0,4),520,8;right:/0(0,4),528,8;busy:/0(0,4),536,8;keyboard:/0(0,38)=*(0,39)=xsMobKeyboard:,544,32;mHttp:/0(0,40)=xsHttpConnection:,576,320;xmlConn:/0(0,41)=xsXmlConnection:,896,17024;parentTag:/0(8,1),17920,32;notice:/0(8,1),17952,32;phoneNum:/0(8,1),17984,32;temp:/0(8,1),18016,32;temp1:/0(8,1),18048,32;error_msg:/0(8,1),18080,32;__base_ctor::(0,42)=#(0,25),(0,6),(0,43)=*(0,25),(0,37),(21,3),(0,6);:_ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed;2A.;__comp_ctor::(0,42):_ZN23TradeFriendDetailScreenC1EPN4MAUI6ScreenEP4Feed;2A.;__base_dtor::(0,44)=#(0,25),(0,6),(0,43),(0,6);:_ZN23TradeFriendDetailScreenD2Ev;2A.;__comp_dtor::(0,44):_ZN23TradeFriendDetailScreenD1Ev;2A*0;(0,25);;__deleting_dtor::(0,44):_ZN23TradeFriendDetailScreenD0Ev;2A*1;(0,25);;keyPressEvent::(0,45)=#(0,25),(0,6),(0,43),(0,3),(0,6);:_ZN23TradeFriendDetailScreen13keyPressEventEi;2A*5;(0,25);;pointerPressEvent::(0,46)=#(0,25),(0,6),(0,43),(3,23),(0,6);:_ZN23TradeFriendDetailScreen17pointerPressEventE9MAPoint2d;2A*8;(0,25);;pointerMoveEvent::(0,46):_ZN23TradeFriendDetailScreen16pointerMoveEventE9MAPoint2d;2A*10;(0,25);;pointerReleaseEvent::(0,46):_ZN23TradeFriendDetailScreen19pointerReleaseEventE9MAPoint2d;2A*9;(0,25);;locateItem::(0,46):_ZN23TradeFriendDetailScreen10locateItemE9MAPoint2d;2A.;httpFinished::(0,47)=#(0,25),(0,6),(0,43),(0,48)=*(0,40),(0,3),(0,6);:_ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi;0A*12;(0,25);;connReadFinished::(0,49)=#(0,25),(0,6),(0,43),(0,50)=*(0,51)=xsConnection:,(0,3),(0,6);:_ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi;0A*13;(0,25);;xcConnError::(0,45):_ZN23TradeFriendDetailScreen11xcConnErrorEi;0A*14;(0,25);;mtxEncoding::(0,52)=#(0,25),(0,6),(0,43),(16,27),(0,6);:_ZN23TradeFriendDetailScreen11mtxEncodingEPKc;0A*15;(0,25);;mtxTagStart::(0,53)=#(0,25),(0,6),(0,43),(16,27),(0,3),(0,6);:_ZN23TradeFriendDetailScreen11mtxTagStartEPKci;0A*16;(0,25);;mtxTagAttr::(0,54)=#(0,25),(0,6),(0,43),(16,27),(16,27),(0,6);:_ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_;0A*17;(0,25);;mtxTagData::(0,53):_ZN23TradeFriendDetailScreen10mtxTagDataEPKci;0A*18;(0,25);;mtxTagEnd::(0,53):_ZN23TradeFriendDetailScreen9mtxTagEndEPKci;0A*19;(0,25);;mtxParseError::(0,44):_ZN23TradeFriendDetailScreen13mtxParseErrorEv;0A*20;(0,25);;mtxEmptyTagEnd::(0,44):_ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv;0A*21;(0,25);;mtxTagStartEnd::(0,44):_ZN23TradeFriendDetailScreen14mtxTagStartEndEv;0A*22;(0,25);;operator=::(0,55)=#(0,25),(0,56)=&(0,25),(0,43),(0,57)=&(0,58)=k(0,25),(0,6);:_ZN23TradeFriendDetailScreenaSERKS_;2A.;__base_ctor::(0,59)=#(0,25),(0,6),(0,43),(0,57),(0,6);:_ZN23TradeFriendDetailScreenC2ERKS_;2A.;__comp_ctor::(0,59):_ZN23TradeFriendDetailScreenC1ERKS_;2A.;;~%(17,46);",128,0,21,0
+	.stabs	"TradeFriendDetailScreen:Tt(0,25)=s2260!5,020,(0,26)=xsScreen:;0096,(6,33);00128,(0,27)=xsHttpConnectionListener:;00160,(0,28)=xsXCListener:;00192,(33,48);feed:/0(21,3),224,32;layout:/0(0,29)=*(0,30)=xsLayout:,256,32;listBox:/0(0,31)=*(0,32)=xsListBox:,288,32;lbl:/0(0,33)=*(0,34)=xsLabel:,320,32;lblMethod:/0(0,33),352,32;errorLabel:/0(0,33),384,32;contactEditBox:/0(0,35)=*(0,36)=xsMobEditBox:,416,32;menu:/0(0,37)=*(0,26),448,32;previous:/0(0,37),480,32;list:/0(0,4),512,8;left:/0(0,4),520,8;right:/0(0,4),528,8;busy:/0(0,4),536,8;keyboard:/0(0,38)=*(0,39)=xsMobKeyboard:,544,32;mHttp:/0(0,40)=xsHttpConnection:,576,320;xmlConn:/0(0,41)=xsXmlConnection:,896,17024;parentTag:/0(8,1),17920,32;notice:/0(8,1),17952,32;temp:/0(8,1),17984,32;temp1:/0(8,1),18016,32;error_msg:/0(8,1),18048,32;__base_ctor::(0,42)=#(0,25),(0,6),(0,43)=*(0,25),(0,37),(21,3),(0,6);:_ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed;2A.;__comp_ctor::(0,42):_ZN23TradeFriendDetailScreenC1EPN4MAUI6ScreenEP4Feed;2A.;__base_dtor::(0,44)=#(0,25),(0,6),(0,43),(0,6);:_ZN23TradeFriendDetailScreenD2Ev;2A.;__comp_dtor::(0,44):_ZN23TradeFriendDetailScreenD1Ev;2A*0;(0,25);;__deleting_dtor::(0,44):_ZN23TradeFriendDetailScreenD0Ev;2A*1;(0,25);;keyPressEvent::(0,45)=#(0,25),(0,6),(0,43),(0,3),(0,6);:_ZN23TradeFriendDetailScreen13keyPressEventEi;2A*5;(0,25);;pointerPressEvent::(0,46)=#(0,25),(0,6),(0,43),(3,23),(0,6);:_ZN23TradeFriendDetailScreen17pointerPressEventE9MAPoint2d;2A*8;(0,25);;pointerMoveEvent::(0,46):_ZN23TradeFriendDetailScreen16pointerMoveEventE9MAPoint2d;2A*10;(0,25);;pointerReleaseEvent::(0,46):_ZN23TradeFriendDetailScreen19pointerReleaseEventE9MAPoint2d;2A*9;(0,25);;locateItem::(0,46):_ZN23TradeFriendDetailScreen10locateItemE9MAPoint2d;2A.;httpFinished::(0,47)=#(0,25),(0,6),(0,43),(0,48)=*(0,40),(0,3),(0,6);:_ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi;0A*12;(0,25);;connReadFinished::(0,49)=#(0,25),(0,6),(0,43),(0,50)=*(0,51)=xsConnection:,(0,3),(0,6);:_ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi;0A*13;(0,25);;xcConnError::(0,45):_ZN23TradeFriendDetailScreen11xcConnErrorEi;0A*14;(0,25);;mtxEncoding::(0,52)=#(0,25),(0,6),(0,43),(16,27),(0,6);:_ZN23TradeFriendDetailScreen11mtxEncodingEPKc;0A*15;(0,25);;mtxTagStart::(0,53)=#(0,25),(0,6),(0,43),(16,27),(0,3),(0,6);:_ZN23TradeFriendDetailScreen11mtxTagStartEPKci;0A*16;(0,25);;mtxTagAttr::(0,54)=#(0,25),(0,6),(0,43),(16,27),(16,27),(0,6);:_ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_;0A*17;(0,25);;mtxTagData::(0,53):_ZN23TradeFriendDetailScreen10mtxTagDataEPKci;0A*18;(0,25);;mtxTagEnd::(0,53):_ZN23TradeFriendDetailScreen9mtxTagEndEPKci;0A*19;(0,25);;mtxParseError::(0,44):_ZN23TradeFriendDetailScreen13mtxParseErrorEv;0A*20;(0,25);;mtxEmptyTagEnd::(0,44):_ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv;0A*21;(0,25);;mtxTagStartEnd::(0,44):_ZN23TradeFriendDetailScreen14mtxTagStartEndEv;0A*22;(0,25);;operator=::(0,55)=#(0,25),(0,56)=&(0,25),(0,43),(0,57)=&(0,58)=k(0,25),(0,6);:_ZN23TradeFriendDetailScreenaSERKS_;2A.;__base_ctor::(0,59)=#(0,25),(0,6),(0,43),(0,57),(0,6);:_ZN23TradeFriendDetailScreenC2ERKS_;2A.;__comp_ctor::(0,59):_ZN23TradeFriendDetailScreenC1ERKS_;2A.;;~%(17,46);",128,0,21,0
 	.stabs	"XCListener:Tt(0,28)=s4_vptr$XCListener:(0,60)=*(0,1),0,32;xcConnError::(0,61)=#(0,28),(0,6),(0,62)=*(0,28),(0,3),(0,6);:_ZN10XCListener11xcConnErrorEi;2A*0;(0,28);;operator=::(0,63)=#(0,28),(0,64)=&(0,28),(0,62),(0,65)=&(0,66)=k(0,28),(0,6);:_ZN10XCListeneraSERKS_;2A.;__base_ctor::(0,67)=#(0,28),(0,6),(0,62),(0,65),(0,6);:_ZN10XCListenerC2ERKS_;2A.;__comp_ctor::(0,67):_ZN10XCListenerC1ERKS_;2A.;__base_ctor::(0,68)=#(0,28),(0,6),(0,62),(0,6);:_ZN10XCListenerC2Ev;2A.;__comp_ctor::(0,68):_ZN10XCListenerC1Ev;2A.;;~%(0,28);",128,0,7,0
 	.stabs	"MtxListener:Tt(33,24)=s4_vptr$MtxListener:(0,60),0,32;mtxDataRemains::(0,69)=#(33,24),(0,6),(33,23),(16,27),(0,3),(0,6);:_ZN3Mtx11MtxListener14mtxDataRemainsEPKci;2A*0;(33,24);;operator=::(0,70)=#(33,24),(0,71)=&(33,24),(33,23),(0,72)=&(0,73)=k(33,24),(0,6);:_ZN3Mtx11MtxListeneraSERKS0_;2A.;__base_ctor::(0,74)=#(33,24),(0,6),(33,23),(0,72),(0,6);:_ZN3Mtx11MtxListenerC2ERKS0_;2A.;__comp_ctor::(0,74):_ZN3Mtx11MtxListenerC1ERKS0_;2A.;__base_ctor::(0,75)=#(33,24),(0,6),(33,23),(0,6);:_ZN3Mtx11MtxListenerC2Ev;2A.;__comp_ctor::(0,75):_ZN3Mtx11MtxListenerC1Ev;2A.;;~%(33,24);",128,0,353,0
 	.stabs	"XmlListenerT<char>:Tt(0,76)=s4_vptr$XmlListenerT:(0,60),0,32;mtxEncoding::(0,77)=#(0,76),(0,6),(0,78)=*(0,76),(16,27),(0,6);:_ZN3Mtx12XmlListenerTIcE11mtxEncodingEPKc;2A*0;(0,76);;mtxTagStart::(0,79)=#(0,76),(0,6),(0,78),(16,27),(0,3),(0,6);:_ZN3Mtx12XmlListenerTIcE11mtxTagStartEPKci;2A*1;(0,76);;mtxTagAttr::(0,80)=#(0,76),(0,6),(0,78),(16,27),(16,27),(0,6);:_ZN3Mtx12XmlListenerTIcE10mtxTagAttrEPKcS3_;2A*2;(0,76);;mtxTagStartEnd::(0,81)=#(0,76),(0,6),(0,78),(0,6);:_ZN3Mtx12XmlListenerTIcE14mtxTagStartEndEv;2A*3;(0,76);;mtxTagData::(0,79):_ZN3Mtx12XmlListenerTIcE10mtxTagDataEPKci;2A*4;(0,76);;mtxTagEnd::(0,79):_ZN3Mtx12XmlListenerTIcE9mtxTagEndEPKci;2A*5;(0,76);;mtxParseError::(0,81):_ZN3Mtx12XmlListenerTIcE13mtxParseErrorEv;2A*6;(0,76);;mtxEmptyTagEnd::(0,81):_ZN3Mtx12XmlListenerTIcE14mtxEmptyTagEndEv;2A*7;(0,76);;operator=::(0,82)=#(0,76),(0,83)=&(0,76),(0,78),(0,84)=&(0,85)=k(0,76),(0,6);:_ZN3Mtx12XmlListenerTIcEaSERKS1_;2A.;__base_ctor::(0,86)=#(0,76),(0,6),(0,78),(0,84),(0,6);:_ZN3Mtx12XmlListenerTIcEC2ERKS1_;2A.;__comp_ctor::(0,86):_ZN3Mtx12XmlListenerTIcEC1ERKS1_;2A.;__base_ctor::(0,87)=#(0,76),(0,6),(0,78),(0,6);:_ZN3Mtx12XmlListenerTIcEC2Ev;2A.;__comp_ctor::(0,87):_ZN3Mtx12XmlListenerTIcEC1Ev;2A.;;~%(0,76);",128,0,299,0
@@ -366,30 +366,35 @@ LC5:
 _trade_by_detail:
 	.long	LC5
 LC6:
-	.ascii "Sending cards...\0"
+	.ascii "You have been recommended the Mobidex Application by a friend. You can download it for free at http://mobidex.mytcg.net/mobi\0"
 	.align 4
-_sending_card_message:
+_sms_string:
 	.long	LC6
 LC7:
+	.ascii "Sending album...\0"
+	.align 4
+_sending_card_message:
+	.long	LC7
+LC8:
 	.ascii "Phone Number\0"
 	.align 4
 _phoneNumlbl:
-	.long	LC7
-LC8:
+	.long	LC8
+LC9:
 	.ascii "Ensure that you have entered\12 your friend's \0"
 	.align 4
 _no_contact:
-	.long	LC8
-LC9:
+	.long	LC9
+LC10:
 	.ascii "Continue\0"
 	.align 4
 _continuelbl:
-	.long	LC9
-LC10:
+	.long	LC10
+LC11:
 	.ascii "Back\0"
 	.align 4
 _back:
-	.long	LC10
+	.long	LC11
 	.align 4
 __ZTVN4MAUI14WidgetListenerE:
 	.long	0
@@ -570,9 +575,9 @@ Lscope8:
 	ret
 Lscope9:
 .data
-LC11:
-	.ascii "\0"
 LC12:
+	.ascii "\0"
+LC13:
 	.ascii ":\0"
 .code
 	.stabs	"_ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed:F(0,6)",36,0,5,__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed
@@ -638,9 +643,6 @@ Ltext4:
 	ld   i0,d4
 	add  i0,#0x8d0
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	ld   i0,d4
-	add  i0,#0x8d4
-	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
 	.dlab LBB5
 	.line 7
 	ld   r0,#0x0
@@ -688,7 +690,7 @@ Ltext6:
 	ld   d5,fr
 	add  d5,#0xffffffd8
 	ld   i0,d5
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
@@ -733,7 +735,7 @@ L20:
 	ld   d1,fr
 	add  d1,#0xffffffd0
 	ld   i0,d1
-	ld   i1,#LC12
+	ld   i1,#LC13
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d0
 	ld   i1,d5
@@ -769,7 +771,7 @@ L20:
 	call d0 ; call non-native
 	.line 22
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d1
 	ld   i1,#0x30
@@ -787,7 +789,7 @@ L20:
 	ld   d0,r14
 	add  d0,#0xfffffff6
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0xd4
 	call &__Znwm ; call non-native
@@ -798,7 +800,7 @@ L20:
 	ld   [sp,8],d1
 	ld   r14,#0x0
 	ld   [sp,12],r14
-	ld   r0,[&_gFontBlue]
+	ld   r0,[&_gFontBlack]
 	ld   [sp,16],r0
 	ld   r14,#0x1
 	ld.b [sp,20],r14
@@ -861,7 +863,7 @@ L20:
 	ld   [d4,68],d0
 	.line 33
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d4,52]
 	ld   r14,[i0]
@@ -969,9 +971,6 @@ Lscope10:
 	ld   i0,d4
 	add  i0,#0x8d0
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	ld   i0,d4
-	add  i0,#0x8d4
-	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
 	.dlab LBB15
 	.line 7
 	ld   r0,#0x0
@@ -1019,7 +1018,7 @@ Ltext8:
 	ld   d5,fr
 	add  d5,#0xffffffd8
 	ld   i0,d5
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
@@ -1064,7 +1063,7 @@ L32:
 	ld   d1,fr
 	add  d1,#0xffffffd0
 	ld   i0,d1
-	ld   i1,#LC12
+	ld   i1,#LC13
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d0
 	ld   i1,d5
@@ -1100,7 +1099,7 @@ L32:
 	call d0 ; call non-native
 	.line 22
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d1
 	ld   i1,#0x30
@@ -1118,7 +1117,7 @@ L32:
 	ld   d0,r14
 	add  d0,#0xfffffff6
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0xd4
 	call &__Znwm ; call non-native
@@ -1129,7 +1128,7 @@ L32:
 	ld   [sp,8],d1
 	ld   r14,#0x0
 	ld   [sp,12],r14
-	ld   r0,[&_gFontBlue]
+	ld   r0,[&_gFontBlack]
 	ld   [sp,16],r0
 	ld   r14,#0x1
 	ld.b [sp,20],r14
@@ -1192,7 +1191,7 @@ L32:
 	ld   [d4,68],d0
 	.line 33
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d4,52]
 	ld   r14,[i0]
@@ -1792,18 +1791,18 @@ Ltext26:
 	ret
 Lscope18:
 .data
-LC13:
-	.ascii ".\0"
 LC14:
+	.ascii ".\0"
+LC15:
 	.ascii "%s&%s=%s\0"
 .code
-	.stabs	"_ZN23TradeFriendDetailScreen13keyPressEventEi:F(0,6)",36,0,136,__ZN23TradeFriendDetailScreen13keyPressEventEi
-	.stabs	"this:P(0,128)",64,0,136,10
-	.stabs	"keyCode:P(0,3)",64,0,136,13
+	.stabs	"_ZN23TradeFriendDetailScreen13keyPressEventEi:F(0,6)",36,0,127,__ZN23TradeFriendDetailScreen13keyPressEventEi
+	.stabs	"this:P(0,128)",64,0,127,10
+	.stabs	"keyCode:P(0,3)",64,0,127,13
 	.global	__ZN23TradeFriendDetailScreen13keyPressEventEi
 
 .func __ZN23TradeFriendDetailScreen13keyPressEventEi, 2, void
-	.line 136
+	.line 127
 	push rt,d6
 	sub  sp,#0x4c
 	ld   fr,sp
@@ -1812,13 +1811,13 @@ LC14:
 	.dlab LBB73
 	.dlab LBB74
 	.dlab LBB75
-	.line 137
-	case i1,#0x111,#0xd,#L103,#L84
+	.line 128
+	case i1,#0x111,#0xd,#L104,#L84
 .data
 	.align 4
-L103:
-	.word L102
-	.word L102
+L104:
+	.word L103
+	.word L103
 	.word L84
 	.word L84
 	.word L84
@@ -1828,13 +1827,13 @@ L103:
 	.word L84
 	.word L84
 	.word L84
-	.word L102
-	.word L100
+	.word L103
+	.word L101
 	.word L87
 .code
-L102:
+L103:
 	.dlab LBB76
-	.line 178
+	.line 170
 	ld   i0,[i0,52]
 	ld   r14,[i0]
 	ld   d0,[r14,48]
@@ -1845,7 +1844,7 @@ L84:
 	.dlab LBE75
 	.dlab LBE74
 	.dlab LBE73
-	.line 182
+	.line 173
 	add  sp,#0x4c
 	pop  rt,d6
 	ret
@@ -1855,21 +1854,21 @@ L87:
 	.dlab LBB79
 	.dlab LBB80
 	.dlab LBB81
-	.line 143
+	.line 133
 	ld.b d2,[i0,67]
 	and  d2,#0xff  ; zero extend
 	ld   r0,#0x0
 	jc   ne,d2,r0,#L84
 	.dlab LBB82
 	.dlab LBB83
-	.line 146
+	.line 136
 	ld   i0,[i0,52]
 	call &__ZNK4MAUI7EditBox7getTextEv ; call non-native
 	ld   d0,r14
 	ld   d1,fr
 	add  d1,#0xffffffd8
 	ld   i0,d1
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d0
 	ld   i1,d1
@@ -1881,13 +1880,13 @@ L87:
 	and  d4,#0xff  ; zero extend
 	jc   eq,d4,d2,#L89
 	.dlab LBB84
-	.line 147
+	.line 137
 	ld   d5,fr
 	add  d5,#0xffffffd4
 	ld   i0,d5
 	ld   i1,[&_no_contact]
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 148
+	.line 138
 	ld   d2,fr
 	add  d2,#0xffffffd0
 	ld   d3,fr
@@ -1903,7 +1902,7 @@ L87:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	add  d1,#0xffffffec
 	ld   i0,d1
-	ld   i1,#LC13
+	ld   i1,#LC14
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d2
 	ld   i1,d3
@@ -1925,12 +1924,12 @@ L87:
 	ld   i0,d5
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	jp   #L84
-L100:
+L101:
 	.dlab LBE84
 	.dlab LBE83
 	.dlab LBE82
 	.dlab LBE81
-	.line 174
+	.line 166
 	ld   i0,[i0,60]
 	ld   r14,[i0]
 	ld   d0,[r14,28]
@@ -1939,7 +1938,7 @@ L100:
 	.dlab LBE79
 	.dlab LBE78
 	.dlab LBE77
-	.line 182
+	.line 173
 	add  sp,#0x4c
 	pop  rt,d6
 	ret
@@ -1952,7 +1951,7 @@ L89:
 	.dlab LBB90
 	.dlab LBB91
 	.dlab LBB92
-	.line 151
+	.line 141
 	ld   d1,fr
 	add  d1,#0xffffffc4
 	ld   i0,d1
@@ -1965,34 +1964,53 @@ L89:
 	call d0 ; call non-native
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 153
+	.dlab LBB93
+	.stabs	"c:/MoSync/include/maapi.h",132,0,0,Ltext27
+Ltext27:
+	.line 2368
+	ld   i0,[d6,52]
+	call &__ZNK4MAUI7EditBox7getTextEv ; call non-native
+	ld   i0,r14
+	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
+	.dlab LBB94
+	ld   i0,#0x34
+	ld   i1,r14
+	ld   i2,[&_sms_string]
+	ld   i3,d4
+	call &_maIOCtl ; call non-native
+	.dlab LBE94
+	.dlab LBE93
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext28
+Ltext28:
+	.line 145
 	ld   r14,#0x1
 	ld.b [d6,67],r14
-	.line 155
+	.line 147
 	ld   i0,#0xff
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.line 156
+	.line 148
 	ld   i0,r14
 	ld   i1,d4
 	ld   i2,#0xff
 	call &_memset ; call non-native
-	.line 157
+	.line 149
 	ld   i0,#_TRADE
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   d0,r14
-	ld   i0,d6
-	add  i0,#0x8c8
+	ld   i0,[d6,52]
+	call &__ZNK4MAUI7EditBox7getTextEv ; call non-native
+	ld   i0,r14
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   [sp],d0
 	ld   r0,[&_trade_by_detail]
 	ld   [sp,4],r0
 	ld   [sp,8],r14
 	ld   i0,d2
-	ld   i1,#LC14
+	ld   i1,#LC15
 	call &_sprintf ; call non-native
-	.dlab LBB93
-	.line 159
+	.dlab LBB95
+	.line 151
 	ld   d3,d6
 	add  d3,#0x48
 	ld   d0,fr
@@ -2001,15 +2019,15 @@ L89:
 	ld   i1,d6
 	add  i1,#0x10
 	call &__ZN6MAUtil14HttpConnectionC1EPNS_22HttpConnectionListenerE ; call non-native
-	.dlab LBB94
-	.dlab LBB95
 	.dlab LBB96
 	.dlab LBB97
 	.dlab LBB98
+	.dlab LBB99
+	.dlab LBB100
 	ld   r14,[fr,-96]
 	ld   [d3,4],r14
-	.dlab LBE98
-	.dlab LBE97
+	.dlab LBE100
+	.dlab LBE99
 	ld   r0,[fr,-92]
 	ld   [d3,8],r0
 	ld   r14,[fr,-88]
@@ -2026,22 +2044,22 @@ L89:
 	ld   r15,[fr,-64]
 	ld   [d3,32],r14
 	ld   [d3,36],r15
+	.dlab LBE98
+	.dlab LBE97
 	.dlab LBE96
 	.dlab LBE95
-	.dlab LBE94
-	.dlab LBE93
 	.line 6
 	ld   r0,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [d0],r0
 	ld   i0,d0
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.line 160
+	.line 152
 	ld   i0,d3
 	ld   i1,d2
 	ld   i2,#0x1
 	call &__ZN6MAUtil14HttpConnection6createEPKci ; call non-native
 	ld   d0,r14
-	.line 162
+	.line 154
 	ld   i0,d1
 	ld   i1,[d6,28]
 	call &__ZN4Feed11getUsernameEv ; call non-native
@@ -2053,7 +2071,7 @@ L89:
 	call &__ZN6MAUtil14HttpConnection16setRequestHeaderEPKcS2_ ; call non-native
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 163
+	.line 155
 	ld   i0,d1
 	ld   i1,[d6,28]
 	call &__ZN4Feed10getEncryptEv ; call non-native
@@ -2065,9 +2083,9 @@ L89:
 	call &__ZN6MAUtil14HttpConnection16setRequestHeaderEPKcS2_ ; call non-native
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 165
+	.line 157
 	jc   lt,d0,d4,#L84
-	.line 168
+	.line 160
 	ld   i0,d3
 	call &__ZN6MAUtil14HttpConnection6finishEv ; call non-native
 	jp   #L84
@@ -2079,26 +2097,26 @@ L89:
 	.dlab LBE87
 	.dlab LBE86
 	.dlab LBE85
-	.stabs	"message:(8,1)",128,0,147,-44
+	.stabs	"message:(8,1)",128,0,137,-44
 	.stabn	192,0,0,LBB84-__ZN23TradeFriendDetailScreen13keyPressEventEi
 	.stabn	224,0,0,LBE84-__ZN23TradeFriendDetailScreen13keyPressEventEi
-	.stabs	"url:r(3,5)",64,0,155,6
-	.stabs	"res:r(0,3)",64,0,160,4
+	.stabs	"url:r(3,5)",64,0,147,6
+	.stabs	"res:r(0,3)",64,0,152,4
 	.stabn	192,0,0,LBB92-__ZN23TradeFriendDetailScreen13keyPressEventEi
-	.stabs	"this:r(0,130)=k(0,48)",64,0,159,7
-	.stabn	192,0,0,LBB93-__ZN23TradeFriendDetailScreen13keyPressEventEi
-	.stabn	224,0,0,LBE93-__ZN23TradeFriendDetailScreen13keyPressEventEi
+	.stabs	"this:r(0,130)=k(0,48)",64,0,151,7
+	.stabn	192,0,0,LBB95-__ZN23TradeFriendDetailScreen13keyPressEventEi
+	.stabn	224,0,0,LBE95-__ZN23TradeFriendDetailScreen13keyPressEventEi
 	.stabn	224,0,0,LBE92-__ZN23TradeFriendDetailScreen13keyPressEventEi
 Lscope19:
 	.set	%3=__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
-	.stabs	"this:P(0,128)",64,0,184,12
-	.stabs	"http:P(0,48)",64,0,184,13
-	.stabs	"result:P(0,3)",64,0,184,14
+	.stabs	"this:P(0,128)",64,0,175,12
+	.stabs	"http:P(0,48)",64,0,175,13
+	.stabs	"result:P(0,3)",64,0,175,14
 	.global	__ZThn16_N23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 
 .func __ZThn16_N23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext27
-Ltext27:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext29
+Ltext29:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2109,48 +2127,48 @@ Ltext27:
 	pop  rt,fr
 	ret
 Lscope20:
-	.stabs	"_ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi:F(0,6)",36,0,184,__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
-	.stabs	"this:P(0,128)",64,0,184,6
-	.stabs	"http:P(0,48)",64,0,184,7
-	.stabs	"result:P(0,3)",64,0,184,14
+	.stabs	"_ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi:F(0,6)",36,0,175,__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+	.stabs	"this:P(0,128)",64,0,175,6
+	.stabs	"http:P(0,48)",64,0,175,7
+	.stabs	"result:P(0,3)",64,0,175,14
 	.global	__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 
 .func __ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext28
-Ltext28:
-	.line 184
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext30
+Ltext30:
+	.line 175
 	push rt,d3
 	sub  sp,#0x850
 	ld   fr,sp
 	add  fr,#0x868
 	ld   d2,i0
 	ld   d3,i1
-	.dlab LBB99
-	.line 185
+	.dlab LBB101
+	.line 176
 	ld   r14,#0xc8
-	jc   eq,i2,r14,#L111
-	.line 191
+	jc   eq,i2,r14,#L112
+	.line 182
 	add  i0,#0x48
 	call &__ZN6MAUtil10Connection5closeEv ; call non-native
-	.dlab LBE99
-	.line 193
+	.dlab LBE101
+	.line 184
 	add  sp,#0x850
 	pop  rt,d3
 	ret
-L111:
-	.dlab LBB100
-	.line 186
+L112:
+	.dlab LBB102
+	.line 177
 	ld   r14,#0x0
 	ld.b [i0,67],r14
-	.dlab LBB101
-	.line 188
+	.dlab LBB103
+	.line 179
 	ld   d0,i0
 	add  d0,#0x70
 	ld   d1,fr
 	add  d1,#0xfffff798
 	ld   i0,d1
 	call &__ZN13XmlConnectionC1Ev ; call non-native
-	.dlab LBB102
+	.dlab LBB104
 	ld   i0,d2
 	add  i0,#0x78
 	ld   i1,fr
@@ -2169,11 +2187,11 @@ L111:
 	call &_memcpy ; call non-native
 	ld   r14,[fr,-28]
 	ld   [d0,2124],r14
-	.dlab LBE102
-	.dlab LBE101
+	.dlab LBE104
+	.dlab LBE103
 	ld   i0,d1
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.line 189
+	.line 180
 	ld   i0,d0
 	ld   i1,d3
 	ld   i2,d2
@@ -2181,24 +2199,24 @@ L111:
 	ld   i3,d2
 	add  i3,#0x18
 	call &__ZN13XmlConnection5parseEPN6MAUtil10ConnectionEP10XCListenerPN3Mtx11XmlListenerE ; call non-native
-	.dlab LBE100
-	.line 193
+	.dlab LBE102
+	.line 184
 	add  sp,#0x850
 	pop  rt,d3
 	ret
-	.stabs	"this:r(0,131)=k(0,132)=*(0,41)",64,0,188,4
-	.stabn	192,0,0,LBB101-__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
-	.stabn	224,0,0,LBE101-__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+	.stabs	"this:r(0,131)=k(0,132)=*(0,41)",64,0,179,4
+	.stabn	192,0,0,LBB103-__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
+	.stabn	224,0,0,LBE103-__ZN23TradeFriendDetailScreen12httpFinishedEPN6MAUtil14HttpConnectionEi
 Lscope21:
 	.set	%4=__ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,128)",64,0,195,12
-	.stabs	"conn:P(0,50)",64,0,195,13
-	.stabs	"result:P(0,3)",64,0,195,14
+	.stabs	"this:P(0,128)",64,0,186,12
+	.stabs	"conn:P(0,50)",64,0,186,13
+	.stabs	"result:P(0,3)",64,0,186,14
 	.global	__ZThn16_N23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZThn16_N23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext29
-Ltext29:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext31
+Ltext31:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2209,31 +2227,31 @@ Ltext29:
 	pop  rt,fr
 	ret
 Lscope22:
-	.stabs	"_ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,195,__ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,128)",64,0,195,12
-	.stabs	"conn:P(0,50)",64,0,195,13
-	.stabs	"result:P(0,3)",64,0,195,14
+	.stabs	"_ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,186,__ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi
+	.stabs	"this:P(0,128)",64,0,186,12
+	.stabs	"conn:P(0,50)",64,0,186,13
+	.stabs	"result:P(0,3)",64,0,186,14
 	.global	__ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN23TradeFriendDetailScreen16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext30
-Ltext30:
-	.line 195
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext32
+Ltext32:
+	.line 186
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 195
+	.line 186
 	pop  fr,fr
 	ret
 Lscope23:
 	.set	%5=__ZN23TradeFriendDetailScreen11xcConnErrorEi
-	.stabs	"this:P(0,128)",64,0,197,12
-	.stabs	"code:P(0,3)",64,0,197,13
+	.stabs	"this:P(0,128)",64,0,188,12
+	.stabs	"code:P(0,3)",64,0,188,13
 	.global	__ZThn20_N23TradeFriendDetailScreen11xcConnErrorEi
 
 .func __ZThn20_N23TradeFriendDetailScreen11xcConnErrorEi, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext31
-Ltext31:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext33
+Ltext33:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2244,29 +2262,29 @@ Ltext31:
 	pop  rt,fr
 	ret
 Lscope24:
-	.stabs	"_ZN23TradeFriendDetailScreen11xcConnErrorEi:F(0,6)",36,0,197,__ZN23TradeFriendDetailScreen11xcConnErrorEi
-	.stabs	"this:P(0,128)",64,0,197,12
-	.stabs	"code:P(0,3)",64,0,197,13
+	.stabs	"_ZN23TradeFriendDetailScreen11xcConnErrorEi:F(0,6)",36,0,188,__ZN23TradeFriendDetailScreen11xcConnErrorEi
+	.stabs	"this:P(0,128)",64,0,188,12
+	.stabs	"code:P(0,3)",64,0,188,13
 	.global	__ZN23TradeFriendDetailScreen11xcConnErrorEi
 
 .func __ZN23TradeFriendDetailScreen11xcConnErrorEi, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext32
-Ltext32:
-	.line 197
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext34
+Ltext34:
+	.line 188
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 197
+	.line 188
 	pop  fr,fr
 	ret
 Lscope25:
 	.set	%6=__ZN23TradeFriendDetailScreen11mtxEncodingEPKc
-	.stabs	"this:P(0,128)",64,0,201,12
+	.stabs	"this:P(0,128)",64,0,192,12
 	.global	__ZThn24_N23TradeFriendDetailScreen11mtxEncodingEPKc
 
 .func __ZThn24_N23TradeFriendDetailScreen11mtxEncodingEPKc, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext33
-Ltext33:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext35
+Ltext35:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2277,30 +2295,30 @@ Ltext33:
 	pop  rt,fr
 	ret
 Lscope26:
-	.stabs	"_ZN23TradeFriendDetailScreen11mtxEncodingEPKc:F(0,6)",36,0,201,__ZN23TradeFriendDetailScreen11mtxEncodingEPKc
-	.stabs	"this:P(0,128)",64,0,201,12
+	.stabs	"_ZN23TradeFriendDetailScreen11mtxEncodingEPKc:F(0,6)",36,0,192,__ZN23TradeFriendDetailScreen11mtxEncodingEPKc
+	.stabs	"this:P(0,128)",64,0,192,12
 	.global	__ZN23TradeFriendDetailScreen11mtxEncodingEPKc
 
 .func __ZN23TradeFriendDetailScreen11mtxEncodingEPKc, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext34
-Ltext34:
-	.line 201
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext36
+Ltext36:
+	.line 192
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 201
+	.line 192
 	pop  fr,fr
 	ret
 Lscope27:
 	.set	%7=__ZN23TradeFriendDetailScreen11mtxTagStartEPKci
-	.stabs	"this:P(0,128)",64,0,204,12
-	.stabs	"name:P(16,27)",64,0,204,13
-	.stabs	"len:P(0,3)",64,0,204,14
+	.stabs	"this:P(0,128)",64,0,195,12
+	.stabs	"name:P(16,27)",64,0,195,13
+	.stabs	"len:P(0,3)",64,0,195,14
 	.global	__ZThn24_N23TradeFriendDetailScreen11mtxTagStartEPKci
 
 .func __ZThn24_N23TradeFriendDetailScreen11mtxTagStartEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext35
-Ltext35:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext37
+Ltext37:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2311,23 +2329,23 @@ Ltext35:
 	pop  rt,fr
 	ret
 Lscope28:
-	.stabs	"_ZN23TradeFriendDetailScreen11mtxTagStartEPKci:F(0,6)",36,0,204,__ZN23TradeFriendDetailScreen11mtxTagStartEPKci
-	.stabs	"this:P(0,128)",64,0,204,5
-	.stabs	"name:P(16,27)",64,0,204,13
-	.stabs	"len:P(0,3)",64,0,204,14
+	.stabs	"_ZN23TradeFriendDetailScreen11mtxTagStartEPKci:F(0,6)",36,0,195,__ZN23TradeFriendDetailScreen11mtxTagStartEPKci
+	.stabs	"this:P(0,128)",64,0,195,5
+	.stabs	"name:P(16,27)",64,0,195,13
+	.stabs	"len:P(0,3)",64,0,195,14
 	.global	__ZN23TradeFriendDetailScreen11mtxTagStartEPKci
 
 .func __ZN23TradeFriendDetailScreen11mtxTagStartEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext36
-Ltext36:
-	.line 204
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext38
+Ltext38:
+	.line 195
 	push rt,d1
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB103
-	.line 205
+	.dlab LBB105
+	.line 196
 	ld   d0,fr
 	add  d0,#0xffffffec
 	ld   i0,d0
@@ -2338,20 +2356,20 @@ Ltext36:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE103
+	.dlab LBE105
 	add  sp,#0x4
 	pop  rt,d1
 	ret
 Lscope29:
 	.set	%8=__ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_
-	.stabs	"this:P(0,128)",64,0,208,12
-	.stabs	"attrName:P(16,27)",64,0,208,13
-	.stabs	"attrValue:P(16,27)",64,0,208,14
+	.stabs	"this:P(0,128)",64,0,199,12
+	.stabs	"attrName:P(16,27)",64,0,199,13
+	.stabs	"attrValue:P(16,27)",64,0,199,14
 	.global	__ZThn24_N23TradeFriendDetailScreen10mtxTagAttrEPKcS1_
 
 .func __ZThn24_N23TradeFriendDetailScreen10mtxTagAttrEPKcS1_, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext37
-Ltext37:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext39
+Ltext39:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2362,32 +2380,32 @@ Ltext37:
 	pop  rt,fr
 	ret
 Lscope30:
-	.stabs	"_ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_:F(0,6)",36,0,208,__ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_
-	.stabs	"this:P(0,128)",64,0,208,12
-	.stabs	"attrName:P(16,27)",64,0,208,13
-	.stabs	"attrValue:P(16,27)",64,0,208,14
+	.stabs	"_ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_:F(0,6)",36,0,199,__ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_
+	.stabs	"this:P(0,128)",64,0,199,12
+	.stabs	"attrName:P(16,27)",64,0,199,13
+	.stabs	"attrValue:P(16,27)",64,0,199,14
 	.global	__ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_
 
 .func __ZN23TradeFriendDetailScreen10mtxTagAttrEPKcS1_, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext38
-Ltext38:
-	.line 208
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext40
+Ltext40:
+	.line 199
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 208
+	.line 199
 	pop  fr,fr
 	ret
 Lscope31:
 	.set	%9=__ZN23TradeFriendDetailScreen10mtxTagDataEPKci
-	.stabs	"this:P(0,128)",64,0,211,12
-	.stabs	"data:P(16,27)",64,0,211,13
-	.stabs	"len:P(0,3)",64,0,211,14
+	.stabs	"this:P(0,128)",64,0,202,12
+	.stabs	"data:P(16,27)",64,0,202,13
+	.stabs	"len:P(0,3)",64,0,202,14
 	.global	__ZThn24_N23TradeFriendDetailScreen10mtxTagDataEPKci
 
 .func __ZThn24_N23TradeFriendDetailScreen10mtxTagDataEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext39
-Ltext39:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext41
+Ltext41:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2399,49 +2417,49 @@ Ltext39:
 	ret
 Lscope32:
 .data
-LC15:
-	.ascii "1\0"
 LC16:
-	.ascii "-1\0"
+	.ascii "1\0"
 LC17:
+	.ascii "-1\0"
+LC18:
 	.ascii "-2\0"
 .code
-	.stabs	"_ZN23TradeFriendDetailScreen10mtxTagDataEPKci:F(0,6)",36,0,211,__ZN23TradeFriendDetailScreen10mtxTagDataEPKci
-	.stabs	"this:P(0,128)",64,0,211,6
-	.stabs	"data:P(16,27)",64,0,211,4
-	.stabs	"len:P(0,3)",64,0,211,14
+	.stabs	"_ZN23TradeFriendDetailScreen10mtxTagDataEPKci:F(0,6)",36,0,202,__ZN23TradeFriendDetailScreen10mtxTagDataEPKci
+	.stabs	"this:P(0,128)",64,0,202,6
+	.stabs	"data:P(16,27)",64,0,202,4
+	.stabs	"len:P(0,3)",64,0,202,14
 	.global	__ZN23TradeFriendDetailScreen10mtxTagDataEPKci
 
 .func __ZN23TradeFriendDetailScreen10mtxTagDataEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext40
-Ltext40:
-	.line 211
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext42
+Ltext42:
+	.line 202
 	push rt,d2
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x18
 	ld   d2,i0
 	ld   d0,i1
-	.dlab LBB104
-	.line 212
+	.dlab LBB106
+	.line 203
 	ld   i0,i1
-	ld   i1,#LC15
+	ld   i1,#LC16
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L124
-	.line 213
+	jc   ne,r14,r0,#L125
+	.line 204
 	ld   i0,[d2,56]
-	jc   eq,i0,r14,#L125
-	.line 214
+	jc   eq,i0,r14,#L126
+	.line 205
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-L125:
-	.line 216
+L126:
+	.line 207
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
-	ld   i1,#LC11
+	ld   i1,#LC12
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0x28
 	call &__Znwm ; call non-native
@@ -2453,36 +2471,36 @@ L125:
 	ld   [d2,56],d1
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 217
+	.line 208
 	ld   i0,[d2,56]
 	ld   r14,[i0]
 	ld   d0,[r14,28]
 	call d0 ; call non-native
-	.dlab LBE104
-	.line 228
+	.dlab LBE106
+	.line 219
 	add  sp,#0x4
 	pop  rt,d2
 	ret
-L124:
-	.dlab LBB105
-	.line 219
-	ld   i0,d0
-	ld   i1,#LC16
-	call &_strcmp ; call non-native
-	ld   r0,#0x0
-	jc   eq,r14,r0,#L134
-	.line 222
+L125:
+	.dlab LBB107
+	.line 210
 	ld   i0,d0
 	ld   i1,#LC17
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
 	jc   eq,r14,r0,#L135
-	.line 226
+	.line 213
+	ld   i0,d0
+	ld   i1,#LC18
+	call &_strcmp ; call non-native
+	ld   r0,#0x0
+	jc   eq,r14,r0,#L136
+	.line 217
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
 	ld   i1,[&_error_sending_card_message]
-L133:
+L134:
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d2,40]
 	ld   r14,[i0]
@@ -2491,37 +2509,37 @@ L133:
 	call d1 ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE105
-	.line 228
+	.dlab LBE107
+	.line 219
 	add  sp,#0x4
 	pop  rt,d2
 	ret
-L135:
-	.dlab LBB106
-	.line 223
+L136:
+	.dlab LBB108
+	.line 214
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
 	ld   i1,[&_error_numeric_card_message]
-	jp   #L133
-L134:
-	.line 220
+	jp   #L134
+L135:
+	.line 211
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
 	ld   i1,[&_error_number_card_message]
-	jp   #L133
-	.dlab LBE106
+	jp   #L134
+	.dlab LBE108
 Lscope33:
 	.set	%10=__ZN23TradeFriendDetailScreen9mtxTagEndEPKci
-	.stabs	"this:P(0,128)",64,0,230,12
-	.stabs	"name:P(16,27)",64,0,230,13
-	.stabs	"len:P(0,3)",64,0,230,14
+	.stabs	"this:P(0,128)",64,0,221,12
+	.stabs	"name:P(16,27)",64,0,221,13
+	.stabs	"len:P(0,3)",64,0,221,14
 	.global	__ZThn24_N23TradeFriendDetailScreen9mtxTagEndEPKci
 
 .func __ZThn24_N23TradeFriendDetailScreen9mtxTagEndEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext41
-Ltext41:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext43
+Ltext43:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2532,30 +2550,30 @@ Ltext41:
 	pop  rt,fr
 	ret
 Lscope34:
-	.stabs	"_ZN23TradeFriendDetailScreen9mtxTagEndEPKci:F(0,6)",36,0,230,__ZN23TradeFriendDetailScreen9mtxTagEndEPKci
-	.stabs	"this:P(0,128)",64,0,230,12
-	.stabs	"name:P(16,27)",64,0,230,13
-	.stabs	"len:P(0,3)",64,0,230,14
+	.stabs	"_ZN23TradeFriendDetailScreen9mtxTagEndEPKci:F(0,6)",36,0,221,__ZN23TradeFriendDetailScreen9mtxTagEndEPKci
+	.stabs	"this:P(0,128)",64,0,221,12
+	.stabs	"name:P(16,27)",64,0,221,13
+	.stabs	"len:P(0,3)",64,0,221,14
 	.global	__ZN23TradeFriendDetailScreen9mtxTagEndEPKci
 
 .func __ZN23TradeFriendDetailScreen9mtxTagEndEPKci, 3, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext42
-Ltext42:
-	.line 230
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext44
+Ltext44:
+	.line 221
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 230
+	.line 221
 	pop  fr,fr
 	ret
 Lscope35:
 	.set	%11=__ZN23TradeFriendDetailScreen13mtxParseErrorEv
-	.stabs	"this:P(0,128)",64,0,233,12
+	.stabs	"this:P(0,128)",64,0,224,12
 	.global	__ZThn24_N23TradeFriendDetailScreen13mtxParseErrorEv
 
 .func __ZThn24_N23TradeFriendDetailScreen13mtxParseErrorEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext43
-Ltext43:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext45
+Ltext45:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2566,28 +2584,28 @@ Ltext43:
 	pop  rt,fr
 	ret
 Lscope36:
-	.stabs	"_ZN23TradeFriendDetailScreen13mtxParseErrorEv:F(0,6)",36,0,233,__ZN23TradeFriendDetailScreen13mtxParseErrorEv
-	.stabs	"this:P(0,128)",64,0,233,12
+	.stabs	"_ZN23TradeFriendDetailScreen13mtxParseErrorEv:F(0,6)",36,0,224,__ZN23TradeFriendDetailScreen13mtxParseErrorEv
+	.stabs	"this:P(0,128)",64,0,224,12
 	.global	__ZN23TradeFriendDetailScreen13mtxParseErrorEv
 
 .func __ZN23TradeFriendDetailScreen13mtxParseErrorEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext44
-Ltext44:
-	.line 233
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext46
+Ltext46:
+	.line 224
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 233
+	.line 224
 	pop  fr,fr
 	ret
 Lscope37:
 	.set	%12=__ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv
-	.stabs	"this:P(0,128)",64,0,236,12
+	.stabs	"this:P(0,128)",64,0,227,12
 	.global	__ZThn24_N23TradeFriendDetailScreen14mtxEmptyTagEndEv
 
 .func __ZThn24_N23TradeFriendDetailScreen14mtxEmptyTagEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext45
-Ltext45:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext47
+Ltext47:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2598,28 +2616,28 @@ Ltext45:
 	pop  rt,fr
 	ret
 Lscope38:
-	.stabs	"_ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv:F(0,6)",36,0,236,__ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv
-	.stabs	"this:P(0,128)",64,0,236,12
+	.stabs	"_ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv:F(0,6)",36,0,227,__ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv
+	.stabs	"this:P(0,128)",64,0,227,12
 	.global	__ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv
 
 .func __ZN23TradeFriendDetailScreen14mtxEmptyTagEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext46
-Ltext46:
-	.line 236
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext48
+Ltext48:
+	.line 227
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 236
+	.line 227
 	pop  fr,fr
 	ret
 Lscope39:
 	.set	%13=__ZN23TradeFriendDetailScreen14mtxTagStartEndEv
-	.stabs	"this:P(0,128)",64,0,239,12
+	.stabs	"this:P(0,128)",64,0,230,12
 	.global	__ZThn24_N23TradeFriendDetailScreen14mtxTagStartEndEv
 
 .func __ZThn24_N23TradeFriendDetailScreen14mtxTagStartEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext47
-Ltext47:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext49
+Ltext49:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2630,18 +2648,18 @@ Ltext47:
 	pop  rt,fr
 	ret
 Lscope40:
-	.stabs	"_ZN23TradeFriendDetailScreen14mtxTagStartEndEv:F(0,6)",36,0,239,__ZN23TradeFriendDetailScreen14mtxTagStartEndEv
-	.stabs	"this:P(0,128)",64,0,239,12
+	.stabs	"_ZN23TradeFriendDetailScreen14mtxTagStartEndEv:F(0,6)",36,0,230,__ZN23TradeFriendDetailScreen14mtxTagStartEndEv
+	.stabs	"this:P(0,128)",64,0,230,12
 	.global	__ZN23TradeFriendDetailScreen14mtxTagStartEndEv
 
 .func __ZN23TradeFriendDetailScreen14mtxTagStartEndEv, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext48
-Ltext48:
-	.line 239
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext50
+Ltext50:
+	.line 230
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 239
+	.line 230
 	pop  fr,fr
 	ret
 Lscope41:
@@ -2650,8 +2668,8 @@ Lscope41:
 	.global	__ZThn4_N23TradeFriendDetailScreenD0Ev
 
 .func __ZThn4_N23TradeFriendDetailScreenD0Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext49
-Ltext49:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext51
+Ltext51:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -2667,14 +2685,14 @@ Lscope42:
 	.global	__ZN23TradeFriendDetailScreenD0Ev
 
 .func __ZN23TradeFriendDetailScreenD0Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext50
-Ltext50:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext52
+Ltext52:
 	.line 40
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB107
+	.dlab LBB109
 	.line 40
 	ld   r0,#__ZTV23TradeFriendDetailScreen+8
 	ld   [i0],r0
@@ -2688,81 +2706,35 @@ Ltext50:
 	ld   [i0,20],r2
 	ld   r14,#__ZTV23TradeFriendDetailScreen+212
 	ld   [i0,24],r14
-	.dlab LBB108
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext51
-Ltext51:
+	.dlab LBB110
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext53
+Ltext53:
 	.line 313
 	ld   i0,[i0,32]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB109
-	.dlab LBB110
 	.dlab LBB111
 	.dlab LBB112
 	.dlab LBB113
 	.dlab LBB114
 	.dlab LBB115
-	.line 295
-	ld   r14,[r14,4]
-	ld   r0,#0x0
-	jc   lt,r14,r0,#L233
-	ld   r1,[d0]
-L148:
-	.dlab LBE115
-	.dlab LBE114
-	.dlab LBE113
 	.dlab LBB116
-	.line 281
-	ld   r0,#0x0
-	jc   le,r1,r0,#L218
-	ld   i0,[d0,8]
-L158:
-	.line 282
-	ld   r14,r0
-	sll  r14,#0x2
-	add  r14,i0
-	ld   r2,#0x0
-	ld   [r14],r2
-	.line 281
-	add  r0,#0x1
-	jc   gt,r1,r0,#L158
-L218:
-	.dlab LBE116
-	.line 285
-	ld   r14,#0x0
-	ld   [d0],r14
-	.dlab LBE112
-	.dlab LBE111
-	.dlab LBE110
-	.dlab LBE109
-	.dlab LBE108
 	.dlab LBB117
-	.line 313
-	ld   i0,[d1,36]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	ld   d0,r14
-	.dlab LBB118
-	.dlab LBB119
-	.dlab LBB120
-	.dlab LBB121
-	.dlab LBB122
-	.dlab LBB123
-	.dlab LBB124
 	.line 295
 	ld   r14,[r14,4]
 	ld   r0,#0x0
 	jc   lt,r14,r0,#L234
 	ld   r1,[d0]
-L162:
-	.dlab LBE124
-	.dlab LBE123
-	.dlab LBE122
-	.dlab LBB125
+L149:
+	.dlab LBE117
+	.dlab LBE116
+	.dlab LBE115
+	.dlab LBB118
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L222
+	jc   le,r1,r0,#L219
 	ld   i0,[d0,8]
-L172:
+L159:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -2771,65 +2743,108 @@ L172:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L172
-L222:
-	.dlab LBE125
+	jc   gt,r1,r0,#L159
+L219:
+	.dlab LBE118
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE114
+	.dlab LBE113
+	.dlab LBE112
+	.dlab LBE111
+	.dlab LBE110
+	.dlab LBB119
+	.line 313
+	ld   i0,[d1,36]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	ld   d0,r14
+	.dlab LBB120
+	.dlab LBB121
+	.dlab LBB122
+	.dlab LBB123
+	.dlab LBB124
+	.dlab LBB125
+	.dlab LBB126
+	.line 295
+	ld   r14,[r14,4]
+	ld   r0,#0x0
+	jc   lt,r14,r0,#L235
+	ld   r1,[d0]
+L163:
+	.dlab LBE126
+	.dlab LBE125
+	.dlab LBE124
+	.dlab LBB127
+	.line 281
+	ld   r0,#0x0
+	jc   le,r1,r0,#L223
+	ld   i0,[d0,8]
+L173:
+	.line 282
+	ld   r14,r0
+	sll  r14,#0x2
+	add  r14,i0
+	ld   r2,#0x0
+	ld   [r14],r2
+	.line 281
+	add  r0,#0x1
+	jc   gt,r1,r0,#L173
+L223:
+	.dlab LBE127
+	.line 285
+	ld   r14,#0x0
+	ld   [d0],r14
+	.dlab LBE123
+	.dlab LBE122
 	.dlab LBE121
 	.dlab LBE120
 	.dlab LBE119
-	.dlab LBE118
-	.dlab LBE117
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext52
-Ltext52:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext54
+Ltext54:
 	.line 44
 	ld   i0,[d1,36]
-	jc   ne,i0,r14,#L235
+	jc   ne,i0,r14,#L236
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L236
-L178:
+	jc   ne,i0,r0,#L237
+L179:
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L237
-L179:
+	jc   ne,i0,r2,#L238
+L180:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L238
-L182:
+	jc   ne,i0,r0,#L239
+L183:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L239
-L200:
+	jc   ne,i0,r2,#L240
+L201:
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L240
-L202:
+	jc   ne,i0,r14,#L241
+L203:
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L241
-L204:
+	jc   ne,i0,r0,#L242
+L205:
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L242
-L206:
+	jc   ne,i0,r2,#L243
+L207:
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L243
-L208:
-	ld   i0,d1
-	add  i0,#0x8d4
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	jc   ne,i0,r14,#L244
+L209:
 	ld   i0,d1
 	add  i0,#0x8d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -2848,26 +2863,26 @@ L208:
 	ld   i0,d1
 	add  i0,#0x70
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB126
+	.dlab LBB128
 	.line 6
 	ld   i0,d1
 	add  i0,#0x48
-	.dlab LBB127
+	.dlab LBB129
 	ld   r0,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r0
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE127
-	.dlab LBE126
+	.dlab LBE129
+	.dlab LBE128
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE107
+	.dlab LBE109
 	.line 60
 	ld   i0,d1
 	call &__ZdlPv ; call non-native
 	pop  rt,d2
 	ret
-L235:
-	.dlab LBB128
+L236:
+	.dlab LBB130
 	.line 44
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -2875,16 +2890,16 @@ L235:
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L178
-L236:
+	jc   eq,i0,r0,#L179
+L237:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L179
-L237:
+	jc   eq,i0,r2,#L180
+L238:
 	.line 47
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -2895,36 +2910,36 @@ L237:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L182
-L238:
-	.dlab LBB129
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext53
-Ltext53:
+	jc   eq,i0,r0,#L183
+L239:
+	.dlab LBB131
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext55
+Ltext55:
 	.line 313
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB130
-	.dlab LBB131
 	.dlab LBB132
 	.dlab LBB133
 	.dlab LBB134
 	.dlab LBB135
 	.dlab LBB136
+	.dlab LBB137
+	.dlab LBB138
 	.line 295
 	ld   r14,[r14,4]
 	ld   r2,#0x0
-	jc   lt,r14,r2,#L244
+	jc   lt,r14,r2,#L245
 	ld   r1,[d0]
-L184:
+L185:
+	.dlab LBE138
+	.dlab LBE137
 	.dlab LBE136
-	.dlab LBE135
-	.dlab LBE134
-	.dlab LBB137
+	.dlab LBB139
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L226
+	jc   le,r1,r0,#L227
 	ld   i0,[d0,8]
-L194:
+L195:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -2933,138 +2948,89 @@ L194:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L194
-L226:
-	.dlab LBE137
+	jc   gt,r1,r0,#L195
+L227:
+	.dlab LBE139
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE135
+	.dlab LBE134
 	.dlab LBE133
 	.dlab LBE132
 	.dlab LBE131
-	.dlab LBE130
-	.dlab LBE129
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext54
-Ltext54:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext56
+Ltext56:
 	.line 52
 	ld   i0,[&_softKeys]
-	jc   ne,i0,r14,#L245
+	jc   ne,i0,r14,#L246
 	.line 53
 	ld   r0,#0x0
 	ld   [&_softKeys],r0
-L248:
+L249:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L200
-L239:
+	jc   eq,i0,r2,#L201
+L240:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L202
-L240:
+	jc   eq,i0,r14,#L203
+L241:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L204
-L241:
+	jc   eq,i0,r0,#L205
+L242:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L206
-L242:
+	jc   eq,i0,r2,#L207
+L243:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L208
-L243:
+	jc   eq,i0,r14,#L209
+L244:
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L208
-L234:
-	.dlab LBB138
-	.dlab LBB139
+	jp   #L209
+L235:
 	.dlab LBB140
 	.dlab LBB141
 	.dlab LBB142
 	.dlab LBB143
 	.dlab LBB144
 	.dlab LBB145
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext55
-Ltext55:
-	.line 298
-	ld   i0,r0
-	call &__Znam ; call non-native
-	ld   d2,r14
 	.dlab LBB146
-	.line 300
-	ld   r2,#0x0
-	ld   r1,[d0]
-	jc   le,r1,r2,#L230
-	ld   i0,[d0,8]
-L166:
-	.line 301
-	ld   r14,r2
-	sll  r14,#0x2
-	ld   r0,r14
-	add  r0,d2
-	add  r14,i0
-	ld   r14,[r14]
-	ld   [r0],r14
-	.line 300
-	add  r2,#0x1
-	jc   gt,r1,r2,#L166
-L220:
-	.dlab LBE146
-	.line 304
-	ld   r2,#0x0
-	ld   [d0,4],r2
-	.line 305
-	jc   ne,i0,r2,#L246
-	.line 307
-	ld   [d0,8],d2
-	jp   #L162
-L233:
-	.dlab LBE145
-	.dlab LBE144
-	.dlab LBE143
-	.dlab LBE142
-	.dlab LBE141
-	.dlab LBE140
-	.dlab LBE139
-	.dlab LBE138
 	.dlab LBB147
-	.dlab LBB148
-	.dlab LBB149
-	.dlab LBB150
-	.dlab LBB151
-	.dlab LBB152
-	.dlab LBB153
-	.dlab LBB154
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext57
+Ltext57:
 	.line 298
 	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB155
+	.dlab LBB148
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L228
+	jc   le,r1,r2,#L231
 	ld   i0,[d0,8]
-L152:
+L167:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -3075,9 +3041,9 @@ L152:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L152
-L216:
-	.dlab LBE155
+	jc   gt,r1,r2,#L167
+L221:
+	.dlab LBE148
 	.line 304
 	ld   r2,#0x0
 	ld   [d0,4],r2
@@ -3085,94 +3051,35 @@ L216:
 	jc   ne,i0,r2,#L247
 	.line 307
 	ld   [d0,8],d2
-	jp   #L148
-L245:
-	.dlab LBE154
-	.dlab LBE153
-	.dlab LBE152
-	.dlab LBE151
-	.dlab LBE150
-	.dlab LBE149
-	.dlab LBE148
+	jp   #L163
+L234:
 	.dlab LBE147
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext56
-Ltext56:
-	.line 52
-	ld   r14,[i0]
-	ld   d0,[r14,84]
-	call d0 ; call non-native
-	.line 53
-	ld   r0,#0x0
-	ld   [&_softKeys],r0
-	jp   #L248
-L247:
+	.dlab LBE146
+	.dlab LBE145
+	.dlab LBE144
+	.dlab LBE143
+	.dlab LBE142
+	.dlab LBE141
+	.dlab LBE140
+	.dlab LBB149
+	.dlab LBB150
+	.dlab LBB151
+	.dlab LBB152
+	.dlab LBB153
+	.dlab LBB154
+	.dlab LBB155
 	.dlab LBB156
-	.dlab LBB157
-	.dlab LBB158
-	.dlab LBB159
-	.dlab LBB160
-	.dlab LBB161
-	.dlab LBB162
-	.dlab LBB163
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext57
-Ltext57:
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L148
-L246:
-	.dlab LBE163
-	.dlab LBE162
-	.dlab LBE161
-	.dlab LBE160
-	.dlab LBE159
-	.dlab LBE158
-	.dlab LBE157
-	.dlab LBE156
-	.dlab LBB164
-	.dlab LBB165
-	.dlab LBB166
-	.dlab LBB167
-	.dlab LBB168
-	.dlab LBB169
-	.dlab LBB170
-	.dlab LBB171
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L162
-L244:
-	.dlab LBE171
-	.dlab LBE170
-	.dlab LBE169
-	.dlab LBE168
-	.dlab LBE167
-	.dlab LBE166
-	.dlab LBE165
-	.dlab LBE164
-	.dlab LBB172
-	.dlab LBB173
-	.dlab LBB174
-	.dlab LBB175
-	.dlab LBB176
-	.dlab LBB177
-	.dlab LBB178
-	.dlab LBB179
 	.line 298
-	ld   i0,r2
+	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB180
+	.dlab LBB157
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L232
+	jc   le,r1,r2,#L229
 	ld   i0,[d0,8]
-L188:
+L153:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -3183,95 +3090,203 @@ L188:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L188
-L224:
-	.dlab LBE180
+	jc   gt,r1,r2,#L153
+L217:
+	.dlab LBE157
 	.line 304
-	ld   r14,#0x0
-	ld   [d0,4],r14
+	ld   r2,#0x0
+	ld   [d0,4],r2
 	.line 305
-	jc   ne,i0,r14,#L249
+	jc   ne,i0,r2,#L248
 	.line 307
 	ld   [d0,8],d2
-	jp   #L184
-L249:
+	jp   #L149
+L246:
+	.dlab LBE156
+	.dlab LBE155
+	.dlab LBE154
+	.dlab LBE153
+	.dlab LBE152
+	.dlab LBE151
+	.dlab LBE150
+	.dlab LBE149
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext58
+Ltext58:
+	.line 52
+	ld   r14,[i0]
+	ld   d0,[r14,84]
+	call d0 ; call non-native
+	.line 53
+	ld   r0,#0x0
+	ld   [&_softKeys],r0
+	jp   #L249
+L248:
+	.dlab LBB158
+	.dlab LBB159
+	.dlab LBB160
+	.dlab LBB161
+	.dlab LBB162
+	.dlab LBB163
+	.dlab LBB164
+	.dlab LBB165
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext59
+Ltext59:
 	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d0]
 	.line 307
 	ld   [d0,8],d2
-	jp   #L184
-L230:
+	jp   #L149
+L247:
+	.dlab LBE165
+	.dlab LBE164
+	.dlab LBE163
+	.dlab LBE162
+	.dlab LBE161
+	.dlab LBE160
+	.dlab LBE159
+	.dlab LBE158
+	.dlab LBB166
+	.dlab LBB167
+	.dlab LBB168
+	.dlab LBB169
+	.dlab LBB170
+	.dlab LBB171
+	.dlab LBB172
+	.dlab LBB173
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L163
+L245:
+	.dlab LBE173
+	.dlab LBE172
+	.dlab LBE171
+	.dlab LBE170
+	.dlab LBE169
+	.dlab LBE168
+	.dlab LBE167
+	.dlab LBE166
+	.dlab LBB174
+	.dlab LBB175
+	.dlab LBB176
+	.dlab LBB177
+	.dlab LBB178
+	.dlab LBB179
+	.dlab LBB180
+	.dlab LBB181
+	.line 298
+	ld   i0,r2
+	call &__Znam ; call non-native
+	ld   d2,r14
+	.dlab LBB182
+	.line 300
+	ld   r2,#0x0
+	ld   r1,[d0]
+	jc   le,r1,r2,#L233
 	ld   i0,[d0,8]
-	jp   #L220
-L228:
+L189:
+	.line 301
+	ld   r14,r2
+	sll  r14,#0x2
+	ld   r0,r14
+	add  r0,d2
+	add  r14,i0
+	ld   r14,[r14]
+	ld   [r0],r14
+	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L189
+L225:
+	.dlab LBE182
+	.line 304
+	ld   r14,#0x0
+	ld   [d0,4],r14
+	.line 305
+	jc   ne,i0,r14,#L250
+	.line 307
+	ld   [d0,8],d2
+	jp   #L185
+L250:
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L185
+L231:
 	ld   i0,[d0,8]
-	jp   #L216
-L232:
+	jp   #L221
+L229:
 	ld   i0,[d0,8]
-	jp   #L224
+	jp   #L217
+L233:
+	ld   i0,[d0,8]
+	jp   #L225
+	.dlab LBE181
+	.dlab LBE180
 	.dlab LBE179
 	.dlab LBE178
 	.dlab LBE177
 	.dlab LBE176
 	.dlab LBE175
 	.dlab LBE174
-	.dlab LBE173
-	.dlab LBE172
-	.dlab LBE128
+	.dlab LBE130
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB115-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE115-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB117-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE117-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB116-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE116-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB118-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE118-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB124-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE124-__ZN23TradeFriendDetailScreenD0Ev
-	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB125-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE125-__ZN23TradeFriendDetailScreenD0Ev
-	.stabs	"this:r(0,130)",64,0,6,12
 	.stabn	192,0,0,LBB126-__ZN23TradeFriendDetailScreenD0Ev
 	.stabn	224,0,0,LBE126-__ZN23TradeFriendDetailScreenD0Ev
-	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB136-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE136-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB137-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE137-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB127-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE127-__ZN23TradeFriendDetailScreenD0Ev
+	.stabs	"this:r(0,130)",64,0,6,12
+	.stabn	192,0,0,LBB128-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE128-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB145-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB138-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE138-__ZN23TradeFriendDetailScreenD0Ev
+	.stabs	"i:r(0,3)",64,0,281,16
+	.stabn	192,0,0,LBB139-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE139-__ZN23TradeFriendDetailScreenD0Ev
+	.stabs	"newData:r(6,2)",64,0,298,6
+	.stabn	192,0,0,LBB147-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB146-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE146-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE145-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB148-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE148-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE147-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB154-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB156-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB155-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE155-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE154-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB157-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE157-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE156-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB163-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE163-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB165-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE165-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB171-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE171-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB173-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE173-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB179-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB181-__ZN23TradeFriendDetailScreenD0Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB180-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE180-__ZN23TradeFriendDetailScreenD0Ev
-	.stabn	224,0,0,LBE179-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	192,0,0,LBB182-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE182-__ZN23TradeFriendDetailScreenD0Ev
+	.stabn	224,0,0,LBE181-__ZN23TradeFriendDetailScreenD0Ev
 Lscope43:
 	.set	%15=__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"this:P(0,128)",64,0,40,12
 	.global	__ZThn4_N23TradeFriendDetailScreenD1Ev
 
 .func __ZThn4_N23TradeFriendDetailScreenD1Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext58
-Ltext58:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/TradeFriendDetailScreen.h",132,0,0,Ltext60
+Ltext60:
 	.line 21
 	push rt,fr
 	ld   fr,sp
@@ -3287,14 +3302,14 @@ Lscope44:
 	.global	__ZN23TradeFriendDetailScreenD1Ev
 
 .func __ZN23TradeFriendDetailScreenD1Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext59
-Ltext59:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext61
+Ltext61:
 	.line 40
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB181
+	.dlab LBB183
 	.line 40
 	ld   r0,#__ZTV23TradeFriendDetailScreen+8
 	ld   [i0],r0
@@ -3308,81 +3323,35 @@ Ltext59:
 	ld   [i0,20],r2
 	ld   r14,#__ZTV23TradeFriendDetailScreen+212
 	ld   [i0,24],r14
-	.dlab LBB182
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext60
-Ltext60:
+	.dlab LBB184
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext62
+Ltext62:
 	.line 313
 	ld   i0,[i0,32]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB183
-	.dlab LBB184
 	.dlab LBB185
 	.dlab LBB186
 	.dlab LBB187
 	.dlab LBB188
 	.dlab LBB189
-	.line 295
-	ld   r14,[r14,4]
-	ld   r0,#0x0
-	jc   lt,r14,r0,#L339
-	ld   r1,[d0]
-L254:
-	.dlab LBE189
-	.dlab LBE188
-	.dlab LBE187
 	.dlab LBB190
-	.line 281
-	ld   r0,#0x0
-	jc   le,r1,r0,#L324
-	ld   i0,[d0,8]
-L264:
-	.line 282
-	ld   r14,r0
-	sll  r14,#0x2
-	add  r14,i0
-	ld   r2,#0x0
-	ld   [r14],r2
-	.line 281
-	add  r0,#0x1
-	jc   gt,r1,r0,#L264
-L324:
-	.dlab LBE190
-	.line 285
-	ld   r14,#0x0
-	ld   [d0],r14
-	.dlab LBE186
-	.dlab LBE185
-	.dlab LBE184
-	.dlab LBE183
-	.dlab LBE182
 	.dlab LBB191
-	.line 313
-	ld   i0,[d1,36]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	ld   d0,r14
-	.dlab LBB192
-	.dlab LBB193
-	.dlab LBB194
-	.dlab LBB195
-	.dlab LBB196
-	.dlab LBB197
-	.dlab LBB198
 	.line 295
 	ld   r14,[r14,4]
 	ld   r0,#0x0
 	jc   lt,r14,r0,#L340
 	ld   r1,[d0]
-L268:
-	.dlab LBE198
-	.dlab LBE197
-	.dlab LBE196
-	.dlab LBB199
+L255:
+	.dlab LBE191
+	.dlab LBE190
+	.dlab LBE189
+	.dlab LBB192
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L328
+	jc   le,r1,r0,#L325
 	ld   i0,[d0,8]
-L278:
+L265:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -3391,65 +3360,108 @@ L278:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L278
-L328:
-	.dlab LBE199
+	jc   gt,r1,r0,#L265
+L325:
+	.dlab LBE192
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE188
+	.dlab LBE187
+	.dlab LBE186
+	.dlab LBE185
+	.dlab LBE184
+	.dlab LBB193
+	.line 313
+	ld   i0,[d1,36]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	ld   d0,r14
+	.dlab LBB194
+	.dlab LBB195
+	.dlab LBB196
+	.dlab LBB197
+	.dlab LBB198
+	.dlab LBB199
+	.dlab LBB200
+	.line 295
+	ld   r14,[r14,4]
+	ld   r0,#0x0
+	jc   lt,r14,r0,#L341
+	ld   r1,[d0]
+L269:
+	.dlab LBE200
+	.dlab LBE199
+	.dlab LBE198
+	.dlab LBB201
+	.line 281
+	ld   r0,#0x0
+	jc   le,r1,r0,#L329
+	ld   i0,[d0,8]
+L279:
+	.line 282
+	ld   r14,r0
+	sll  r14,#0x2
+	add  r14,i0
+	ld   r2,#0x0
+	ld   [r14],r2
+	.line 281
+	add  r0,#0x1
+	jc   gt,r1,r0,#L279
+L329:
+	.dlab LBE201
+	.line 285
+	ld   r14,#0x0
+	ld   [d0],r14
+	.dlab LBE197
+	.dlab LBE196
 	.dlab LBE195
 	.dlab LBE194
 	.dlab LBE193
-	.dlab LBE192
-	.dlab LBE191
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext61
-Ltext61:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext63
+Ltext63:
 	.line 44
 	ld   i0,[d1,36]
-	jc   ne,i0,r14,#L341
+	jc   ne,i0,r14,#L342
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L342
-L284:
+	jc   ne,i0,r0,#L343
+L285:
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L343
-L285:
+	jc   ne,i0,r2,#L344
+L286:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L344
-L288:
+	jc   ne,i0,r0,#L345
+L289:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L345
-L306:
+	jc   ne,i0,r2,#L346
+L307:
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L346
-L308:
+	jc   ne,i0,r14,#L347
+L309:
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L347
-L310:
+	jc   ne,i0,r0,#L348
+L311:
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L348
-L312:
+	jc   ne,i0,r2,#L349
+L313:
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L349
-L314:
-	ld   i0,d1
-	add  i0,#0x8d4
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	jc   ne,i0,r14,#L350
+L315:
 	ld   i0,d1
 	add  i0,#0x8d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -3468,24 +3480,24 @@ L314:
 	ld   i0,d1
 	add  i0,#0x70
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB200
+	.dlab LBB202
 	.line 6
 	ld   i0,d1
 	add  i0,#0x48
-	.dlab LBB201
+	.dlab LBB203
 	ld   r0,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r0
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE201
-	.dlab LBE200
+	.dlab LBE203
+	.dlab LBE202
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE181
+	.dlab LBE183
 	.line 60
 	pop  rt,d2
 	ret
-L341:
-	.dlab LBB202
+L342:
+	.dlab LBB204
 	.line 44
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -3493,16 +3505,16 @@ L341:
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L284
-L342:
+	jc   eq,i0,r0,#L285
+L343:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L285
-L343:
+	jc   eq,i0,r2,#L286
+L344:
 	.line 47
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -3513,36 +3525,36 @@ L343:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L288
-L344:
-	.dlab LBB203
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext62
-Ltext62:
+	jc   eq,i0,r0,#L289
+L345:
+	.dlab LBB205
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext64
+Ltext64:
 	.line 313
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB204
-	.dlab LBB205
 	.dlab LBB206
 	.dlab LBB207
 	.dlab LBB208
 	.dlab LBB209
 	.dlab LBB210
+	.dlab LBB211
+	.dlab LBB212
 	.line 295
 	ld   r14,[r14,4]
 	ld   r2,#0x0
-	jc   lt,r14,r2,#L350
+	jc   lt,r14,r2,#L351
 	ld   r1,[d0]
-L290:
+L291:
+	.dlab LBE212
+	.dlab LBE211
 	.dlab LBE210
-	.dlab LBE209
-	.dlab LBE208
-	.dlab LBB211
+	.dlab LBB213
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L332
+	jc   le,r1,r0,#L333
 	ld   i0,[d0,8]
-L300:
+L301:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -3551,138 +3563,89 @@ L300:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L300
-L332:
-	.dlab LBE211
+	jc   gt,r1,r0,#L301
+L333:
+	.dlab LBE213
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE209
+	.dlab LBE208
 	.dlab LBE207
 	.dlab LBE206
 	.dlab LBE205
-	.dlab LBE204
-	.dlab LBE203
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext63
-Ltext63:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext65
+Ltext65:
 	.line 52
 	ld   i0,[&_softKeys]
-	jc   ne,i0,r14,#L351
+	jc   ne,i0,r14,#L352
 	.line 53
 	ld   r0,#0x0
 	ld   [&_softKeys],r0
-L354:
+L355:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L306
-L345:
+	jc   eq,i0,r2,#L307
+L346:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L308
-L346:
+	jc   eq,i0,r14,#L309
+L347:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L310
-L347:
+	jc   eq,i0,r0,#L311
+L348:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L312
-L348:
+	jc   eq,i0,r2,#L313
+L349:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L314
-L349:
+	jc   eq,i0,r14,#L315
+L350:
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L314
-L340:
-	.dlab LBB212
-	.dlab LBB213
+	jp   #L315
+L341:
 	.dlab LBB214
 	.dlab LBB215
 	.dlab LBB216
 	.dlab LBB217
 	.dlab LBB218
 	.dlab LBB219
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext64
-Ltext64:
-	.line 298
-	ld   i0,r0
-	call &__Znam ; call non-native
-	ld   d2,r14
 	.dlab LBB220
-	.line 300
-	ld   r2,#0x0
-	ld   r1,[d0]
-	jc   le,r1,r2,#L336
-	ld   i0,[d0,8]
-L272:
-	.line 301
-	ld   r14,r2
-	sll  r14,#0x2
-	ld   r0,r14
-	add  r0,d2
-	add  r14,i0
-	ld   r14,[r14]
-	ld   [r0],r14
-	.line 300
-	add  r2,#0x1
-	jc   gt,r1,r2,#L272
-L326:
-	.dlab LBE220
-	.line 304
-	ld   r2,#0x0
-	ld   [d0,4],r2
-	.line 305
-	jc   ne,i0,r2,#L352
-	.line 307
-	ld   [d0,8],d2
-	jp   #L268
-L339:
-	.dlab LBE219
-	.dlab LBE218
-	.dlab LBE217
-	.dlab LBE216
-	.dlab LBE215
-	.dlab LBE214
-	.dlab LBE213
-	.dlab LBE212
 	.dlab LBB221
-	.dlab LBB222
-	.dlab LBB223
-	.dlab LBB224
-	.dlab LBB225
-	.dlab LBB226
-	.dlab LBB227
-	.dlab LBB228
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext66
+Ltext66:
 	.line 298
 	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB229
+	.dlab LBB222
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L334
+	jc   le,r1,r2,#L337
 	ld   i0,[d0,8]
-L258:
+L273:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -3693,9 +3656,9 @@ L258:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L258
-L322:
-	.dlab LBE229
+	jc   gt,r1,r2,#L273
+L327:
+	.dlab LBE222
 	.line 304
 	ld   r2,#0x0
 	ld   [d0,4],r2
@@ -3703,94 +3666,35 @@ L322:
 	jc   ne,i0,r2,#L353
 	.line 307
 	ld   [d0,8],d2
-	jp   #L254
-L351:
-	.dlab LBE228
-	.dlab LBE227
-	.dlab LBE226
-	.dlab LBE225
-	.dlab LBE224
-	.dlab LBE223
-	.dlab LBE222
+	jp   #L269
+L340:
 	.dlab LBE221
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext65
-Ltext65:
-	.line 52
-	ld   r14,[i0]
-	ld   d0,[r14,84]
-	call d0 ; call non-native
-	.line 53
-	ld   r0,#0x0
-	ld   [&_softKeys],r0
-	jp   #L354
-L353:
+	.dlab LBE220
+	.dlab LBE219
+	.dlab LBE218
+	.dlab LBE217
+	.dlab LBE216
+	.dlab LBE215
+	.dlab LBE214
+	.dlab LBB223
+	.dlab LBB224
+	.dlab LBB225
+	.dlab LBB226
+	.dlab LBB227
+	.dlab LBB228
+	.dlab LBB229
 	.dlab LBB230
-	.dlab LBB231
-	.dlab LBB232
-	.dlab LBB233
-	.dlab LBB234
-	.dlab LBB235
-	.dlab LBB236
-	.dlab LBB237
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext66
-Ltext66:
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L254
-L352:
-	.dlab LBE237
-	.dlab LBE236
-	.dlab LBE235
-	.dlab LBE234
-	.dlab LBE233
-	.dlab LBE232
-	.dlab LBE231
-	.dlab LBE230
-	.dlab LBB238
-	.dlab LBB239
-	.dlab LBB240
-	.dlab LBB241
-	.dlab LBB242
-	.dlab LBB243
-	.dlab LBB244
-	.dlab LBB245
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L268
-L350:
-	.dlab LBE245
-	.dlab LBE244
-	.dlab LBE243
-	.dlab LBE242
-	.dlab LBE241
-	.dlab LBE240
-	.dlab LBE239
-	.dlab LBE238
-	.dlab LBB246
-	.dlab LBB247
-	.dlab LBB248
-	.dlab LBB249
-	.dlab LBB250
-	.dlab LBB251
-	.dlab LBB252
-	.dlab LBB253
 	.line 298
-	ld   i0,r2
+	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB254
+	.dlab LBB231
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L338
+	jc   le,r1,r2,#L335
 	ld   i0,[d0,8]
-L294:
+L259:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -3801,101 +3705,209 @@ L294:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L294
-L330:
-	.dlab LBE254
+	jc   gt,r1,r2,#L259
+L323:
+	.dlab LBE231
 	.line 304
-	ld   r14,#0x0
-	ld   [d0,4],r14
+	ld   r2,#0x0
+	ld   [d0,4],r2
 	.line 305
-	jc   ne,i0,r14,#L355
+	jc   ne,i0,r2,#L354
 	.line 307
 	ld   [d0,8],d2
-	jp   #L290
-L355:
+	jp   #L255
+L352:
+	.dlab LBE230
+	.dlab LBE229
+	.dlab LBE228
+	.dlab LBE227
+	.dlab LBE226
+	.dlab LBE225
+	.dlab LBE224
+	.dlab LBE223
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext67
+Ltext67:
+	.line 52
+	ld   r14,[i0]
+	ld   d0,[r14,84]
+	call d0 ; call non-native
+	.line 53
+	ld   r0,#0x0
+	ld   [&_softKeys],r0
+	jp   #L355
+L354:
+	.dlab LBB232
+	.dlab LBB233
+	.dlab LBB234
+	.dlab LBB235
+	.dlab LBB236
+	.dlab LBB237
+	.dlab LBB238
+	.dlab LBB239
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext68
+Ltext68:
 	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d0]
 	.line 307
 	ld   [d0,8],d2
-	jp   #L290
-L336:
+	jp   #L255
+L353:
+	.dlab LBE239
+	.dlab LBE238
+	.dlab LBE237
+	.dlab LBE236
+	.dlab LBE235
+	.dlab LBE234
+	.dlab LBE233
+	.dlab LBE232
+	.dlab LBB240
+	.dlab LBB241
+	.dlab LBB242
+	.dlab LBB243
+	.dlab LBB244
+	.dlab LBB245
+	.dlab LBB246
+	.dlab LBB247
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L269
+L351:
+	.dlab LBE247
+	.dlab LBE246
+	.dlab LBE245
+	.dlab LBE244
+	.dlab LBE243
+	.dlab LBE242
+	.dlab LBE241
+	.dlab LBE240
+	.dlab LBB248
+	.dlab LBB249
+	.dlab LBB250
+	.dlab LBB251
+	.dlab LBB252
+	.dlab LBB253
+	.dlab LBB254
+	.dlab LBB255
+	.line 298
+	ld   i0,r2
+	call &__Znam ; call non-native
+	ld   d2,r14
+	.dlab LBB256
+	.line 300
+	ld   r2,#0x0
+	ld   r1,[d0]
+	jc   le,r1,r2,#L339
 	ld   i0,[d0,8]
-	jp   #L326
-L334:
+L295:
+	.line 301
+	ld   r14,r2
+	sll  r14,#0x2
+	ld   r0,r14
+	add  r0,d2
+	add  r14,i0
+	ld   r14,[r14]
+	ld   [r0],r14
+	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L295
+L331:
+	.dlab LBE256
+	.line 304
+	ld   r14,#0x0
+	ld   [d0,4],r14
+	.line 305
+	jc   ne,i0,r14,#L356
+	.line 307
+	ld   [d0,8],d2
+	jp   #L291
+L356:
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L291
+L337:
 	ld   i0,[d0,8]
-	jp   #L322
-L338:
+	jp   #L327
+L335:
 	ld   i0,[d0,8]
-	jp   #L330
+	jp   #L323
+L339:
+	ld   i0,[d0,8]
+	jp   #L331
+	.dlab LBE255
+	.dlab LBE254
 	.dlab LBE253
 	.dlab LBE252
 	.dlab LBE251
 	.dlab LBE250
 	.dlab LBE249
 	.dlab LBE248
-	.dlab LBE247
-	.dlab LBE246
-	.dlab LBE202
+	.dlab LBE204
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB189-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE189-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB191-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE191-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB190-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE190-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB192-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE192-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB198-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE198-__ZN23TradeFriendDetailScreenD1Ev
-	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB199-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE199-__ZN23TradeFriendDetailScreenD1Ev
-	.stabs	"this:r(0,130)",64,0,6,12
 	.stabn	192,0,0,LBB200-__ZN23TradeFriendDetailScreenD1Ev
 	.stabn	224,0,0,LBE200-__ZN23TradeFriendDetailScreenD1Ev
-	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB210-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE210-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB211-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE211-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB201-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE201-__ZN23TradeFriendDetailScreenD1Ev
+	.stabs	"this:r(0,130)",64,0,6,12
+	.stabn	192,0,0,LBB202-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE202-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB219-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB212-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE212-__ZN23TradeFriendDetailScreenD1Ev
+	.stabs	"i:r(0,3)",64,0,281,16
+	.stabn	192,0,0,LBB213-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE213-__ZN23TradeFriendDetailScreenD1Ev
+	.stabs	"newData:r(6,2)",64,0,298,6
+	.stabn	192,0,0,LBB221-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB220-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE220-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE219-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB222-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE222-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE221-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB228-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB230-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB229-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE229-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE228-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB231-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE231-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE230-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB237-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE237-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB239-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE239-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB245-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE245-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB247-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE247-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB253-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB255-__ZN23TradeFriendDetailScreenD1Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB254-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE254-__ZN23TradeFriendDetailScreenD1Ev
-	.stabn	224,0,0,LBE253-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	192,0,0,LBB256-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE256-__ZN23TradeFriendDetailScreenD1Ev
+	.stabn	224,0,0,LBE255-__ZN23TradeFriendDetailScreenD1Ev
 Lscope45:
 	.stabs	"_ZN23TradeFriendDetailScreenD2Ev:F(0,6)",36,0,40,__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"this:P(0,128)",64,0,40,5
 	.global	__ZN23TradeFriendDetailScreenD2Ev
 
 .func __ZN23TradeFriendDetailScreenD2Ev, 1, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext67
-Ltext67:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext69
+Ltext69:
 	.line 40
 	push rt,d2
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB255
+	.dlab LBB257
 	.line 40
 	ld   r0,#__ZTV23TradeFriendDetailScreen+8
 	ld   [i0],r0
@@ -3909,81 +3921,35 @@ Ltext67:
 	ld   [i0,20],r2
 	ld   r14,#__ZTV23TradeFriendDetailScreen+212
 	ld   [i0,24],r14
-	.dlab LBB256
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext68
-Ltext68:
+	.dlab LBB258
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext70
+Ltext70:
 	.line 313
 	ld   i0,[i0,32]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB257
-	.dlab LBB258
 	.dlab LBB259
 	.dlab LBB260
 	.dlab LBB261
 	.dlab LBB262
 	.dlab LBB263
-	.line 295
-	ld   r14,[r14,4]
-	ld   r0,#0x0
-	jc   lt,r14,r0,#L444
-	ld   r1,[d0]
-L359:
-	.dlab LBE263
-	.dlab LBE262
-	.dlab LBE261
 	.dlab LBB264
-	.line 281
-	ld   r0,#0x0
-	jc   le,r1,r0,#L429
-	ld   i0,[d0,8]
-L369:
-	.line 282
-	ld   r14,r0
-	sll  r14,#0x2
-	add  r14,i0
-	ld   r2,#0x0
-	ld   [r14],r2
-	.line 281
-	add  r0,#0x1
-	jc   gt,r1,r0,#L369
-L429:
-	.dlab LBE264
-	.line 285
-	ld   r14,#0x0
-	ld   [d0],r14
-	.dlab LBE260
-	.dlab LBE259
-	.dlab LBE258
-	.dlab LBE257
-	.dlab LBE256
 	.dlab LBB265
-	.line 313
-	ld   i0,[d1,36]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	ld   d0,r14
-	.dlab LBB266
-	.dlab LBB267
-	.dlab LBB268
-	.dlab LBB269
-	.dlab LBB270
-	.dlab LBB271
-	.dlab LBB272
 	.line 295
 	ld   r14,[r14,4]
 	ld   r0,#0x0
 	jc   lt,r14,r0,#L445
 	ld   r1,[d0]
-L373:
-	.dlab LBE272
-	.dlab LBE271
-	.dlab LBE270
-	.dlab LBB273
+L360:
+	.dlab LBE265
+	.dlab LBE264
+	.dlab LBE263
+	.dlab LBB266
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L433
+	jc   le,r1,r0,#L430
 	ld   i0,[d0,8]
-L383:
+L370:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -3992,65 +3958,108 @@ L383:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L383
-L433:
-	.dlab LBE273
+	jc   gt,r1,r0,#L370
+L430:
+	.dlab LBE266
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE262
+	.dlab LBE261
+	.dlab LBE260
+	.dlab LBE259
+	.dlab LBE258
+	.dlab LBB267
+	.line 313
+	ld   i0,[d1,36]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	ld   d0,r14
+	.dlab LBB268
+	.dlab LBB269
+	.dlab LBB270
+	.dlab LBB271
+	.dlab LBB272
+	.dlab LBB273
+	.dlab LBB274
+	.line 295
+	ld   r14,[r14,4]
+	ld   r0,#0x0
+	jc   lt,r14,r0,#L446
+	ld   r1,[d0]
+L374:
+	.dlab LBE274
+	.dlab LBE273
+	.dlab LBE272
+	.dlab LBB275
+	.line 281
+	ld   r0,#0x0
+	jc   le,r1,r0,#L434
+	ld   i0,[d0,8]
+L384:
+	.line 282
+	ld   r14,r0
+	sll  r14,#0x2
+	add  r14,i0
+	ld   r2,#0x0
+	ld   [r14],r2
+	.line 281
+	add  r0,#0x1
+	jc   gt,r1,r0,#L384
+L434:
+	.dlab LBE275
+	.line 285
+	ld   r14,#0x0
+	ld   [d0],r14
+	.dlab LBE271
+	.dlab LBE270
 	.dlab LBE269
 	.dlab LBE268
 	.dlab LBE267
-	.dlab LBE266
-	.dlab LBE265
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext69
-Ltext69:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext71
+Ltext71:
 	.line 44
 	ld   i0,[d1,36]
-	jc   ne,i0,r14,#L446
+	jc   ne,i0,r14,#L447
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L447
-L389:
+	jc   ne,i0,r0,#L448
+L390:
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L448
-L390:
+	jc   ne,i0,r2,#L449
+L391:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L449
-L393:
+	jc   ne,i0,r0,#L450
+L394:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L450
-L411:
+	jc   ne,i0,r2,#L451
+L412:
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L451
-L413:
+	jc   ne,i0,r14,#L452
+L414:
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   ne,i0,r0,#L452
-L415:
+	jc   ne,i0,r0,#L453
+L416:
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   ne,i0,r2,#L453
-L417:
+	jc   ne,i0,r2,#L454
+L418:
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L454
-L419:
-	ld   i0,d1
-	add  i0,#0x8d4
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	jc   ne,i0,r14,#L455
+L420:
 	ld   i0,d1
 	add  i0,#0x8d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -4069,24 +4078,24 @@ L419:
 	ld   i0,d1
 	add  i0,#0x70
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB274
+	.dlab LBB276
 	.line 6
 	ld   i0,d1
 	add  i0,#0x48
-	.dlab LBB275
+	.dlab LBB277
 	ld   r0,#__ZTVN6MAUtil14HttpConnectionE+8
 	ld   [i0],r0
 	call &__ZN6MAUtil10ConnectionD2Ev ; call non-native
-	.dlab LBE275
-	.dlab LBE274
+	.dlab LBE277
+	.dlab LBE276
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE255
+	.dlab LBE257
 	.line 60
 	pop  rt,d2
 	ret
-L446:
-	.dlab LBB276
+L447:
+	.dlab LBB278
 	.line 44
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -4094,16 +4103,16 @@ L446:
 	.line 45
 	ld   i0,[d1,32]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L389
-L447:
+	jc   eq,i0,r0,#L390
+L448:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 46
 	ld   i0,[&_image]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L390
-L448:
+	jc   eq,i0,r2,#L391
+L449:
 	.line 47
 	ld   r14,[i0]
 	ld   d0,[r14,84]
@@ -4114,36 +4123,36 @@ L448:
 	.line 50
 	ld   i0,[&_softKeys]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L393
-L449:
-	.dlab LBB277
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext70
-Ltext70:
+	jc   eq,i0,r0,#L394
+L450:
+	.dlab LBB279
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext72
+Ltext72:
 	.line 313
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
-	.dlab LBB278
-	.dlab LBB279
 	.dlab LBB280
 	.dlab LBB281
 	.dlab LBB282
 	.dlab LBB283
 	.dlab LBB284
+	.dlab LBB285
+	.dlab LBB286
 	.line 295
 	ld   r14,[r14,4]
 	ld   r2,#0x0
-	jc   lt,r14,r2,#L455
+	jc   lt,r14,r2,#L456
 	ld   r1,[d0]
-L395:
+L396:
+	.dlab LBE286
+	.dlab LBE285
 	.dlab LBE284
-	.dlab LBE283
-	.dlab LBE282
-	.dlab LBB285
+	.dlab LBB287
 	.line 281
 	ld   r0,#0x0
-	jc   le,r1,r0,#L437
+	jc   le,r1,r0,#L438
 	ld   i0,[d0,8]
-L405:
+L406:
 	.line 282
 	ld   r14,r0
 	sll  r14,#0x2
@@ -4152,138 +4161,89 @@ L405:
 	ld   [r14],r2
 	.line 281
 	add  r0,#0x1
-	jc   gt,r1,r0,#L405
-L437:
-	.dlab LBE285
+	jc   gt,r1,r0,#L406
+L438:
+	.dlab LBE287
 	.line 285
 	ld   r14,#0x0
 	ld   [d0],r14
+	.dlab LBE283
+	.dlab LBE282
 	.dlab LBE281
 	.dlab LBE280
 	.dlab LBE279
-	.dlab LBE278
-	.dlab LBE277
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext71
-Ltext71:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext73
+Ltext73:
 	.line 52
 	ld   i0,[&_softKeys]
-	jc   ne,i0,r14,#L456
+	jc   ne,i0,r14,#L457
 	.line 53
 	ld   r0,#0x0
 	ld   [&_softKeys],r0
-L459:
+L460:
 	.line 55
 	ld   i0,[d1,40]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L411
-L450:
+	jc   eq,i0,r2,#L412
+L451:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 56
 	ld   i0,[d1,44]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L413
-L451:
+	jc   eq,i0,r14,#L414
+L452:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 57
 	ld   i0,[d1,48]
 	ld   r0,#0x0
-	jc   eq,i0,r0,#L415
-L452:
+	jc   eq,i0,r0,#L416
+L453:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 58
 	ld   i0,[d1,68]
 	ld   r2,#0x0
-	jc   eq,i0,r2,#L417
-L453:
+	jc   eq,i0,r2,#L418
+L454:
 	ld   r14,[i0]
 	ld   d0,[r14,84]
 	call d0 ; call non-native
 	.line 59
 	ld   i0,[d1,56]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L419
-L454:
+	jc   eq,i0,r14,#L420
+L455:
 	ld   r14,[i0]
 	ld   d0,[r14,4]
 	call d0 ; call non-native
-	jp   #L419
-L445:
-	.dlab LBB286
-	.dlab LBB287
+	jp   #L420
+L446:
 	.dlab LBB288
 	.dlab LBB289
 	.dlab LBB290
 	.dlab LBB291
 	.dlab LBB292
 	.dlab LBB293
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext72
-Ltext72:
-	.line 298
-	ld   i0,r0
-	call &__Znam ; call non-native
-	ld   d2,r14
 	.dlab LBB294
-	.line 300
-	ld   r2,#0x0
-	ld   r1,[d0]
-	jc   le,r1,r2,#L441
-	ld   i0,[d0,8]
-L377:
-	.line 301
-	ld   r14,r2
-	sll  r14,#0x2
-	ld   r0,r14
-	add  r0,d2
-	add  r14,i0
-	ld   r14,[r14]
-	ld   [r0],r14
-	.line 300
-	add  r2,#0x1
-	jc   gt,r1,r2,#L377
-L431:
-	.dlab LBE294
-	.line 304
-	ld   r2,#0x0
-	ld   [d0,4],r2
-	.line 305
-	jc   ne,i0,r2,#L457
-	.line 307
-	ld   [d0,8],d2
-	jp   #L373
-L444:
-	.dlab LBE293
-	.dlab LBE292
-	.dlab LBE291
-	.dlab LBE290
-	.dlab LBE289
-	.dlab LBE288
-	.dlab LBE287
-	.dlab LBE286
 	.dlab LBB295
-	.dlab LBB296
-	.dlab LBB297
-	.dlab LBB298
-	.dlab LBB299
-	.dlab LBB300
-	.dlab LBB301
-	.dlab LBB302
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext74
+Ltext74:
 	.line 298
 	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB303
+	.dlab LBB296
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L439
+	jc   le,r1,r2,#L442
 	ld   i0,[d0,8]
-L363:
+L378:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -4294,9 +4254,9 @@ L363:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L363
-L427:
-	.dlab LBE303
+	jc   gt,r1,r2,#L378
+L432:
+	.dlab LBE296
 	.line 304
 	ld   r2,#0x0
 	ld   [d0,4],r2
@@ -4304,94 +4264,35 @@ L427:
 	jc   ne,i0,r2,#L458
 	.line 307
 	ld   [d0,8],d2
-	jp   #L359
-L456:
-	.dlab LBE302
-	.dlab LBE301
-	.dlab LBE300
-	.dlab LBE299
-	.dlab LBE298
-	.dlab LBE297
-	.dlab LBE296
+	jp   #L374
+L445:
 	.dlab LBE295
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext73
-Ltext73:
-	.line 52
-	ld   r14,[i0]
-	ld   d0,[r14,84]
-	call d0 ; call non-native
-	.line 53
-	ld   r0,#0x0
-	ld   [&_softKeys],r0
-	jp   #L459
-L458:
+	.dlab LBE294
+	.dlab LBE293
+	.dlab LBE292
+	.dlab LBE291
+	.dlab LBE290
+	.dlab LBE289
+	.dlab LBE288
+	.dlab LBB297
+	.dlab LBB298
+	.dlab LBB299
+	.dlab LBB300
+	.dlab LBB301
+	.dlab LBB302
+	.dlab LBB303
 	.dlab LBB304
-	.dlab LBB305
-	.dlab LBB306
-	.dlab LBB307
-	.dlab LBB308
-	.dlab LBB309
-	.dlab LBB310
-	.dlab LBB311
-	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext74
-Ltext74:
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L359
-L457:
-	.dlab LBE311
-	.dlab LBE310
-	.dlab LBE309
-	.dlab LBE308
-	.dlab LBE307
-	.dlab LBE306
-	.dlab LBE305
-	.dlab LBE304
-	.dlab LBB312
-	.dlab LBB313
-	.dlab LBB314
-	.dlab LBB315
-	.dlab LBB316
-	.dlab LBB317
-	.dlab LBB318
-	.dlab LBB319
-	.line 305
-	call &__ZdaPv ; call non-native
-	ld   r1,[d0]
-	.line 307
-	ld   [d0,8],d2
-	jp   #L373
-L455:
-	.dlab LBE319
-	.dlab LBE318
-	.dlab LBE317
-	.dlab LBE316
-	.dlab LBE315
-	.dlab LBE314
-	.dlab LBE313
-	.dlab LBE312
-	.dlab LBB320
-	.dlab LBB321
-	.dlab LBB322
-	.dlab LBB323
-	.dlab LBB324
-	.dlab LBB325
-	.dlab LBB326
-	.dlab LBB327
 	.line 298
-	ld   i0,r2
+	ld   i0,r0
 	call &__Znam ; call non-native
 	ld   d2,r14
-	.dlab LBB328
+	.dlab LBB305
 	.line 300
 	ld   r2,#0x0
 	ld   r1,[d0]
-	jc   le,r1,r2,#L443
+	jc   le,r1,r2,#L440
 	ld   i0,[d0,8]
-L399:
+L364:
 	.line 301
 	ld   r14,r2
 	sll  r14,#0x2
@@ -4402,175 +4303,283 @@ L399:
 	ld   [r0],r14
 	.line 300
 	add  r2,#0x1
-	jc   gt,r1,r2,#L399
-L435:
-	.dlab LBE328
+	jc   gt,r1,r2,#L364
+L428:
+	.dlab LBE305
 	.line 304
-	ld   r14,#0x0
-	ld   [d0,4],r14
+	ld   r2,#0x0
+	ld   [d0,4],r2
 	.line 305
-	jc   ne,i0,r14,#L460
+	jc   ne,i0,r2,#L459
 	.line 307
 	ld   [d0,8],d2
-	jp   #L395
-L460:
+	jp   #L360
+L457:
+	.dlab LBE304
+	.dlab LBE303
+	.dlab LBE302
+	.dlab LBE301
+	.dlab LBE300
+	.dlab LBE299
+	.dlab LBE298
+	.dlab LBE297
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext75
+Ltext75:
+	.line 52
+	ld   r14,[i0]
+	ld   d0,[r14,84]
+	call d0 ; call non-native
+	.line 53
+	ld   r0,#0x0
+	ld   [&_softKeys],r0
+	jp   #L460
+L459:
+	.dlab LBB306
+	.dlab LBB307
+	.dlab LBB308
+	.dlab LBB309
+	.dlab LBB310
+	.dlab LBB311
+	.dlab LBB312
+	.dlab LBB313
+	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext76
+Ltext76:
 	.line 305
 	call &__ZdaPv ; call non-native
 	ld   r1,[d0]
 	.line 307
 	ld   [d0,8],d2
-	jp   #L395
-L441:
+	jp   #L360
+L458:
+	.dlab LBE313
+	.dlab LBE312
+	.dlab LBE311
+	.dlab LBE310
+	.dlab LBE309
+	.dlab LBE308
+	.dlab LBE307
+	.dlab LBE306
+	.dlab LBB314
+	.dlab LBB315
+	.dlab LBB316
+	.dlab LBB317
+	.dlab LBB318
+	.dlab LBB319
+	.dlab LBB320
+	.dlab LBB321
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L374
+L456:
+	.dlab LBE321
+	.dlab LBE320
+	.dlab LBE319
+	.dlab LBE318
+	.dlab LBE317
+	.dlab LBE316
+	.dlab LBE315
+	.dlab LBE314
+	.dlab LBB322
+	.dlab LBB323
+	.dlab LBB324
+	.dlab LBB325
+	.dlab LBB326
+	.dlab LBB327
+	.dlab LBB328
+	.dlab LBB329
+	.line 298
+	ld   i0,r2
+	call &__Znam ; call non-native
+	ld   d2,r14
+	.dlab LBB330
+	.line 300
+	ld   r2,#0x0
+	ld   r1,[d0]
+	jc   le,r1,r2,#L444
 	ld   i0,[d0,8]
-	jp   #L431
-L439:
+L400:
+	.line 301
+	ld   r14,r2
+	sll  r14,#0x2
+	ld   r0,r14
+	add  r0,d2
+	add  r14,i0
+	ld   r14,[r14]
+	ld   [r0],r14
+	.line 300
+	add  r2,#0x1
+	jc   gt,r1,r2,#L400
+L436:
+	.dlab LBE330
+	.line 304
+	ld   r14,#0x0
+	ld   [d0,4],r14
+	.line 305
+	jc   ne,i0,r14,#L461
+	.line 307
+	ld   [d0,8],d2
+	jp   #L396
+L461:
+	.line 305
+	call &__ZdaPv ; call non-native
+	ld   r1,[d0]
+	.line 307
+	ld   [d0,8],d2
+	jp   #L396
+L442:
 	ld   i0,[d0,8]
-	jp   #L427
-L443:
+	jp   #L432
+L440:
 	ld   i0,[d0,8]
-	jp   #L435
+	jp   #L428
+L444:
+	ld   i0,[d0,8]
+	jp   #L436
+	.dlab LBE329
+	.dlab LBE328
 	.dlab LBE327
 	.dlab LBE326
 	.dlab LBE325
 	.dlab LBE324
 	.dlab LBE323
 	.dlab LBE322
-	.dlab LBE321
-	.dlab LBE320
-	.dlab LBE276
+	.dlab LBE278
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB263-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE263-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB265-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE265-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB264-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE264-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB266-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE266-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB272-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE272-__ZN23TradeFriendDetailScreenD2Ev
-	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB273-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE273-__ZN23TradeFriendDetailScreenD2Ev
-	.stabs	"this:r(0,130)",64,0,6,12
 	.stabn	192,0,0,LBB274-__ZN23TradeFriendDetailScreenD2Ev
 	.stabn	224,0,0,LBE274-__ZN23TradeFriendDetailScreenD2Ev
-	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB284-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE284-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"i:r(0,3)",64,0,281,16
-	.stabn	192,0,0,LBB285-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE285-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB275-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE275-__ZN23TradeFriendDetailScreenD2Ev
+	.stabs	"this:r(0,130)",64,0,6,12
+	.stabn	192,0,0,LBB276-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE276-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB293-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB286-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE286-__ZN23TradeFriendDetailScreenD2Ev
+	.stabs	"i:r(0,3)",64,0,281,16
+	.stabn	192,0,0,LBB287-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE287-__ZN23TradeFriendDetailScreenD2Ev
+	.stabs	"newData:r(6,2)",64,0,298,6
+	.stabn	192,0,0,LBB295-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB294-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE294-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE293-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB296-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE296-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE295-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB302-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB304-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB303-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE303-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE302-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB305-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE305-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE304-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB311-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE311-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB313-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE313-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB319-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE319-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB321-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE321-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"newData:r(6,2)",64,0,298,6
-	.stabn	192,0,0,LBB327-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB329-__ZN23TradeFriendDetailScreenD2Ev
 	.stabs	"i:r(0,3)",64,0,300,18
-	.stabn	192,0,0,LBB328-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE328-__ZN23TradeFriendDetailScreenD2Ev
-	.stabn	224,0,0,LBE327-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	192,0,0,LBB330-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE330-__ZN23TradeFriendDetailScreenD2Ev
+	.stabn	224,0,0,LBE329-__ZN23TradeFriendDetailScreenD2Ev
 Lscope46:
 .data
-LC18:
-	.ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\0"
 LC19:
-	.ascii "http://mobidex.mytcg.net/_phone/\0"
+	.ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\0"
 LC20:
-	.ascii "?userdetails=1\0"
+	.ascii "http://mobidex.mytcg.net/_phone/\0"
 LC21:
-	.ascii "?usercategories=1\0"
+	.ascii "?userdetails=1\0"
 LC22:
-	.ascii "?getcards=1\0"
+	.ascii "?usercategories=1\0"
 LC23:
+	.ascii "?getcards=1\0"
+LC24:
 	.ascii "?tradecard=1\0"
 .code
-	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,240,__Z41__static_initialization_and_destruction_0ii
-	.stabs	"__initialize_p:P(0,3)",64,0,240,12
-	.stabs	"__priority:P(0,3)",64,0,240,13
+	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,231,__Z41__static_initialization_and_destruction_0ii
+	.stabs	"__initialize_p:P(0,3)",64,0,231,12
+	.stabs	"__priority:P(0,3)",64,0,231,13
 
 .func __Z41__static_initialization_and_destruction_0ii, 2, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext75
-Ltext75:
-	.line 240
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext77
+Ltext77:
+	.line 231
 	push rt,d0
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x10
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext76
-Ltext76:
-	.line 60
-	ld   r14,#0xffff
-	jc   eq,i1,r14,#L497
-L461:
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext77
-Ltext77:
-	.line 240
-	add  sp,#0x4
-	pop  rt,d0
-	ret
-L497:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext78
 Ltext78:
-	.line 60
-	ld   r14,#0x1
-	jc   eq,i0,r14,#L498
-	.line 76
-	ld   r14,#0x0
-	jc   ne,i0,r14,#L461
-	ld   i0,#_TRADE
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
-	ld   i0,#_CARDS
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
-	ld   i0,#_ALBUMS
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 70
-	ld   i0,#_USER
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 68
-	ld   i0,#_URL
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 60
-	ld   i0,#_base64_chars
-	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L499:
+	.line 61
+	ld   r14,#0xffff
+	jc   eq,i1,r14,#L498
+L462:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext79
 Ltext79:
-	.line 240
+	.line 231
 	add  sp,#0x4
 	pop  rt,d0
 	ret
 L498:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext80
 Ltext80:
-	.line 64
-	ld   i0,#_base64_chars
-	ld   i1,#LC18
-	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 68
+	.line 61
+	ld   r14,#0x1
+	jc   eq,i0,r14,#L499
+	.line 77
+	ld   r14,#0x0
+	jc   ne,i0,r14,#L462
+	ld   i0,#_TRADE
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	.line 75
+	ld   i0,#_CARDS
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	.line 73
+	ld   i0,#_ALBUMS
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	.line 71
+	ld   i0,#_USER
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	.line 69
 	ld   i0,#_URL
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+	.line 61
+	ld   i0,#_base64_chars
+	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
+L500:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext81
+Ltext81:
+	.line 231
+	add  sp,#0x4
+	pop  rt,d0
+	ret
+L499:
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\/Util.h",132,0,0,Ltext82
+Ltext82:
+	.line 65
+	ld   i0,#_base64_chars
 	ld   i1,#LC19
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
-	.line 70
+	.line 69
+	ld   i0,#_URL
+	ld   i1,#LC20
+	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
+	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC21
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_USER
 	ld   i1,#_URL
@@ -4578,9 +4587,9 @@ Ltext80:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 72
+	.line 73
 	ld   i0,d0
-	ld   i1,#LC21
+	ld   i1,#LC22
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_ALBUMS
 	ld   i1,#_URL
@@ -4588,9 +4597,9 @@ Ltext80:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 74
+	.line 75
 	ld   i0,d0
-	ld   i1,#LC22
+	ld   i1,#LC23
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_CARDS
 	ld   i1,#_URL
@@ -4598,66 +4607,67 @@ Ltext80:
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 76
+	.line 77
 	ld   i0,d0
-	ld   i1,#LC23
+	ld   i1,#LC24
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_TRADE
 	ld   i1,#_URL
 	ld   i2,d0
 	call &__ZNK6MAUtil11BasicStringIcEplERKS1_ ; call non-native
 	ld   i0,d0
-	.line 60
+	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L499
+	jp   #L500
 Lscope47:
-	.stabs	"_GLOBAL__I__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed:f(0,6)",36,0,241,__GLOBAL__I__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed
+	.stabs	"_GLOBAL__I__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed:f(0,6)",36,0,232,__GLOBAL__I__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed
 
 .func __GLOBAL__I__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed, 0, void
-	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext81
-Ltext81:
-	.line 241
+	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\MobidexANC\\TradeFriendDetailScreen.cpp",132,0,0,Ltext83
+Ltext83:
+	.line 232
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 241
+	.line 232
 	ld   i0,#0x1
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
 Lscope48:
-	.stabs	"_GLOBAL__D__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed:f(0,6)",36,0,242,__GLOBAL__D__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed
+	.stabs	"_GLOBAL__D__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed:f(0,6)",36,0,233,__GLOBAL__D__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed
 
 .func __GLOBAL__D__ZN23TradeFriendDetailScreenC2EPN4MAUI6ScreenEP4Feed, 0, void
-	.line 242
+	.line 233
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 242
+	.line 233
 	ld   i0,#0x0
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
 Lscope49:
-	.stabs	"base64_chars:S(22,12)",40,0,60,_base64_chars
-	.stabs	"URL:S(8,1)",40,0,68,_URL
-	.stabs	"USER:S(8,1)",40,0,70,_USER
-	.stabs	"ALBUMS:S(8,1)",40,0,72,_ALBUMS
-	.stabs	"CARDS:S(8,1)",40,0,74,_CARDS
-	.stabs	"TRADE:S(8,1)",40,0,76,_TRADE
-	.stabs	"back:S(16,27)",38,0,83,_back
-	.stabs	"phoneNumlbl:S(16,27)",38,0,98,_phoneNumlbl
-	.stabs	"continuelbl:S(16,27)",38,0,101,_continuelbl
-	.stabs	"auth_user:S(16,27)",38,0,115,_auth_user
-	.stabs	"auth_pw:S(16,27)",38,0,116,_auth_pw
-	.stabs	"no_contact:S(16,27)",38,0,121,_no_contact
-	.stabs	"sending_card_message:S(16,27)",38,0,122,_sending_card_message
-	.stabs	"error_number_card_message:S(16,27)",38,0,124,_error_number_card_message
-	.stabs	"error_numeric_card_message:S(16,27)",38,0,125,_error_numeric_card_message
-	.stabs	"error_sending_card_message:S(16,27)",38,0,126,_error_sending_card_message
-	.stabs	"trade_by_detail:S(16,27)",38,0,159,_trade_by_detail
+	.stabs	"base64_chars:S(22,12)",40,0,61,_base64_chars
+	.stabs	"URL:S(8,1)",40,0,69,_URL
+	.stabs	"USER:S(8,1)",40,0,71,_USER
+	.stabs	"ALBUMS:S(8,1)",40,0,73,_ALBUMS
+	.stabs	"CARDS:S(8,1)",40,0,75,_CARDS
+	.stabs	"TRADE:S(8,1)",40,0,77,_TRADE
+	.stabs	"back:S(16,27)",38,0,84,_back
+	.stabs	"phoneNumlbl:S(16,27)",38,0,99,_phoneNumlbl
+	.stabs	"continuelbl:S(16,27)",38,0,102,_continuelbl
+	.stabs	"auth_user:S(16,27)",38,0,116,_auth_user
+	.stabs	"auth_pw:S(16,27)",38,0,117,_auth_pw
+	.stabs	"no_contact:S(16,27)",38,0,122,_no_contact
+	.stabs	"sending_card_message:S(16,27)",38,0,123,_sending_card_message
+	.stabs	"error_number_card_message:S(16,27)",38,0,125,_error_number_card_message
+	.stabs	"error_numeric_card_message:S(16,27)",38,0,126,_error_numeric_card_message
+	.stabs	"error_sending_card_message:S(16,27)",38,0,127,_error_sending_card_message
+	.stabs	"sms_string:S(16,27)",38,0,128,_sms_string
+	.stabs	"trade_by_detail:S(16,27)",38,0,161,_trade_by_detail
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

@@ -10,7 +10,7 @@ MAUIMoblet::MAUIMoblet() {
 	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
     gFontBlue = new MAUI::Font(RES_FONT_BLUE);
     gFontBlackBold = new MAUI::Font(RES_FONT_BLACK_BOLD);
-
+    gSkinHeaderImage = new WidgetSkin(RES_IMAGE, RES_IMAGE, 90, 208, 1, 99, true, true);
 	gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 16, 32, true, true);
 	gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 16, 32, true, true);
 	gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 16, 32, 16, 32, true, true);

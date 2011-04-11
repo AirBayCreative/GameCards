@@ -40,7 +40,7 @@ void ImageCache::process(bool afterFin)
     mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
 	if(res < 0) {
-		//lprintfln("Error creating http connection in ImageCache.\nres = %d", res);
+
 	} else {
 		mHttp.finish();
 	}

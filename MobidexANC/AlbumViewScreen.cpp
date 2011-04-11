@@ -91,7 +91,7 @@ void AlbumViewScreen::pointerReleaseEvent(MAPoint2d point)
 void AlbumViewScreen::locateItem(MAPoint2d point)
 {
 	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
+		saveData("1", getAll().c_str());
 	}
 	list = false;
 	left = false;
