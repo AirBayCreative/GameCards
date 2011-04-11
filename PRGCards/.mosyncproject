@@ -30,8 +30,8 @@
 <property key="excludes" value=""/>
 <property key="screenHeight" value="320"/>
 <property key="screenWidth" value="240"/>
-<property key="symbian.uids:uid.s60v2uid" value="0x0401bda0"/>
-<property key="symbian.uids:uid.s60v3uid" value="0xecdfd4c3"/>
+<property key="symbian.uids:uid.s60v2uid" value="0x0CA9164F"/>
+<property key="symbian.uids:uid.s60v3uid" value="0xED182110"/>
 <property key="Wall" value="false"/>
 <property key="Werror" value="true"/>
 </properties>
