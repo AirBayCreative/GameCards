@@ -19,7 +19,6 @@ public:
 	Vector<Album*> getAlbums();
 	void setAll(const char*);
 	void addAlbum(const char*, String name, bool hasCards=false, bool updated=false);
-	void removeAlbum(const char*);
 	String getAll();
 	bool getLoaded();
 	void setLoaded(bool load);
@@ -31,6 +30,7 @@ public:
 
 private:
 	Map<String,Album*> album;
+	Vector<Album*> albumList;
 	bool loaded;
 };
 

@@ -38,7 +38,7 @@ public:
 	void loadFile();
 	void loadImages(const char *text);
 
-	typedef Map<String, Card*> StringCardMap;
+	//typedef Map<String, Card*> StringCardMap;
 
 	void refresh();
 private:
@@ -60,9 +60,9 @@ private:
 	bool list, left, right, emp, hasConnection, busy;
 
 	Feed *feed;
-	StringCardMap tmp, cards;
-	StringCardMap::Iterator cardExists;
-	Vector<String> index;
+	Vector<Card*> tmp, cards;
+	Map<String, Card*> cardMap;
+	Map<String, Card*>::Iterator cardExists;
 
 	String getAll();
 	void loadDemo();
@@ -79,7 +79,7 @@ private:
 	void mtxTagStartEnd();
 
 	//void clearFeedLayouts();
-	void clearCardMap();
+	void clearCardList();
 	void clearListBox();
 };
 
