@@ -10,6 +10,9 @@
 void AlbumLoadScreen::refresh() {
 	show();
 	path.clear();
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
 
@@ -107,8 +110,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 AlbumLoadScreen::~AlbumLoadScreen() {
 	delete mainLayout;
-
-	delete next;
+	if(next!=NULL){
+		delete next;
+	}
 	parentTag="";
 	temp="";
 	temp1="";
@@ -344,6 +348,9 @@ void AlbumLoadScreen::loadCategory() {
 		int res;
 		int urlLength;
 		char *url = NULL;
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
 		mHttp = HttpConnection(this);
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level

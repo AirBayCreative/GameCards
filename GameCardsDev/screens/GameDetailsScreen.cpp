@@ -31,7 +31,9 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed)
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s&%s=%s", GAMEDETAILS.c_str(), game_id, gameId.c_str());
-
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {

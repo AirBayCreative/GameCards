@@ -7,7 +7,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		feed(feed), screenType(screenType), card(card) {
 	mainLayout = createMainLayout(back, screenType==CARD?select:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-
+	next=NULL;
 	switch (screenType) {
 		case PROFILE:
 			//USERNAME
@@ -76,6 +76,9 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 DetailScreen::~DetailScreen() {
 	delete mainLayout;
+	if(next!=NULL){
+		delete next;
+	}
 	username = "";
 	credits = "";
 	encrypt = "";

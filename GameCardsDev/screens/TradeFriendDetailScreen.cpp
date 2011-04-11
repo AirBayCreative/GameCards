@@ -265,6 +265,10 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					sprintf(url, "%s%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
 							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str());
 					//url.append("&sms=Yes", 8);
+					if(mHttp.isOpen()){
+						mHttp.close();
+					}
+					mHttp = HttpConnection(this);
 					int res = mHttp.create(url, HTTP_GET);
 
 					if(res < 0) {

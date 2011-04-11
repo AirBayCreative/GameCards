@@ -8,6 +8,9 @@
 void ShopCategoriesScreen::refresh() {
 	show();
 	categories.clear();
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = -1;
 	switch(screenType) {

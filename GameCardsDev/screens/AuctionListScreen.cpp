@@ -82,6 +82,9 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 					feed->getUsername().c_str(), getMaxImageHeight(), scrWidth);
 			break;
 	}
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {

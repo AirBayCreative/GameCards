@@ -188,7 +188,10 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				memset(url,'\0',urlLength);
 				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(),
 						product->getId().c_str(), getMaxImageHeight(), scrWidth);
-
+				if(mHttp.isOpen()){
+					mHttp.close();
+				}
+				mHttp = HttpConnection(this);
 				int res = mHttp.create(url, HTTP_GET);
 
 				if(res < 0) {

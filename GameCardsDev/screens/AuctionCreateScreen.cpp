@@ -122,6 +122,9 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							memset(url,'\0',urlLength);
 							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&%s=%s", CREATE_AUCTION.c_str(), xml_cardid, card->getId().c_str(),
 									xml_opening, openingText.c_str(), xml_buyout, buyNowText.c_str(), xml_days, daysText.c_str());
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 

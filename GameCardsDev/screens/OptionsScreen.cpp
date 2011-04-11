@@ -122,6 +122,10 @@ void OptionsScreen::checkForGames() {
 	album = new Albums();
 
 	notice->setCaption(checking_games);
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
 	int res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
 
 	if(res < 0) {
@@ -355,6 +359,9 @@ void OptionsScreen::acceptCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -373,6 +380,9 @@ void OptionsScreen::rejectCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -391,6 +401,9 @@ void OptionsScreen::deleteCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s", DELETECARD.c_str(), card->getId().c_str());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
