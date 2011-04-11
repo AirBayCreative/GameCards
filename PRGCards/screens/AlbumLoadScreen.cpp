@@ -81,8 +81,9 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 
 AlbumLoadScreen::~AlbumLoadScreen() {
 	delete mainLayout;
-
-	delete next;
+	if(next!=NULL){
+		delete next;
+	}
 	parentTag="";
 	temp="";
 	temp1="";
