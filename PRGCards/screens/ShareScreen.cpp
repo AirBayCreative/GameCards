@@ -9,6 +9,8 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 	isBusy = false;
 	kbShown = false;
 
+	value = "";
+
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	defaultKBPos = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 	keyboard = new MobKeyboard(0, defaultKBPos,
@@ -230,6 +232,7 @@ void ShareScreen::keyPressEvent(int keyCode) {
 }
 
 void ShareScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	value = "";
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
@@ -258,7 +261,7 @@ void ShareScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void ShareScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_result)) {
-		value = data;
+		value += data;
 	}
 }
 
