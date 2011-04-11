@@ -12,7 +12,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	emp = true;
 	feedLayouts = NULL;
 
-	next = new Screen();
+	next = NULL;
 	error_msg = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(back, "", "", true);
@@ -30,6 +30,9 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -56,6 +59,9 @@ void AlbumViewScreen::refresh() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -218,7 +224,9 @@ void AlbumViewScreen::drawList() {
 
 AlbumViewScreen::~AlbumViewScreen() {
 	delete mainLayout;
-	delete next;
+	if(next!=NULL){
+		delete next;
+	}
 	delete mImageCache;
 	delete [] feedLayouts;
 	saveData(filename.c_str(), getAll().c_str());

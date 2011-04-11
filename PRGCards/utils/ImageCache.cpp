@@ -38,6 +38,9 @@ void ImageCache::process(bool afterFin)
 	mIsBusy = true;
 	//Get the next image request from the queue
     mNextRequest = mRequests[0];
+    if(mHttp.isOpen()){
+    	mHttp.close();
+    }
     mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
 	if(res < 0) {

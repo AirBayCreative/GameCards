@@ -142,6 +142,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setHorizontalAlignment(Label::HA_CENTER);
 	listBox->add(label);
 
 	if (useKinetic) {

@@ -19,6 +19,7 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 }
 
 NewVersionScreen::~NewVersionScreen() {
+	delete layout;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)
