@@ -61,6 +61,12 @@ void MobKeyboard::show()
 	m_isShown = true;
 	Environment::getEnvironment().addPointerListener(this);
 
+	if (m_attachedWidget != NULL &&
+			((MobEditBox*)m_attachedWidget)->getInputMode() == MobEditBox::IM_NUMBERS) {
+		String l_activeLanguage = (*m_layouts)[m_activeLayout]->getLanguage();
+		setActiveLayout(l_activeLanguage, MobKeyboard::LT_NUM1);
+	}
+
 	drawWidget();
 }
 
@@ -303,6 +309,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 	else if (l_char == "Hide")
 	{
 		//MobileApplication::Instance()->hideKeyboard();
+		m_attachedWidget->setSelected(false);
 		this->hide();
 		//Engine::getSingleton().hideOverlay();
 	}
