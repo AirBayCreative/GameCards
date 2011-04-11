@@ -4,7 +4,7 @@
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType): feed(feed), screenType(screenType) {
 
-	menu = new Screen();
+	menu = NULL;
 
 	layout = createMainLayout(exit, select);
 
@@ -29,7 +29,9 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType): feed(feed), screenType
 
 OptionsScreen::~OptionsScreen() {
 	delete layout;
-	delete menu;
+	if(menu!=NULL){
+		delete menu;
+	}
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)

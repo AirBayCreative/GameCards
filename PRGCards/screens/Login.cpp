@@ -274,6 +274,9 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setEncrypt("aaaaaa");
 							feed->setUsername(editBoxCell->getText().c_str());
 							feed->setUnsuccessful(truesz);
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(USER.c_str(), HTTP_GET);
 
