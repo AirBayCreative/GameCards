@@ -2,9 +2,10 @@
 
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
+#include "ShareScreen.h"
+#include "Logout.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
-#include "GamePlayScreen.h"
 #include "../utils/Album.h"
 
 void AlbumLoadScreen::refresh() {
@@ -22,8 +23,8 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a) : mHttp(this),
-		previous(previous), feed(feed), screenType(screenType) {
+AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
+		feed(feed) {
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -37,56 +38,29 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 	next = NULL;
 	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, "", true);
+		mainLayout = createMainLayout(exit, "", true);
   	#else
-		mainLayout = createMainLayout(back, select, true);
+		mainLayout = createMainLayout(exit, select, true);
   	#endif
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	album = new Albums();
-	switch(screenType) {
-		case ST_ALBUMS:
-			notice->setCaption(checking_albums);
-			album->setAll(this->feed->getAlbum()->getAll().c_str());
-			drawList();
-			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
-			res = mHttp.create(url, HTTP_GET);
-			break;
-		case ST_PLAY:
-			notice->setCaption(checking_albums);
-
-			drawList();
-			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
-			res = mHttp.create(url, HTTP_GET);
-			break;
-		case ST_GAMES:
-			listBox->setHeight(listBox->getHeight() - 20);
-
-			if (a != NULL) {
-				notice->setCaption("Please choose a game to continue.");
-				album = a;
-				drawList();
-				this->setMain(mainLayout);
-				orig = this;
-				return;
-			}
-			else {
-				notice->setCaption(checking_games);
-				drawList();
-				res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
-			}
-
-			break;
+	if (al == NULL) {
+		album = new Albums();
+		album->setAll(this->feed->getAlbum()->getAll().c_str());
 	}
+	else {
+		album = al;
+	}
+
+	notice->setCaption(checking_albums);
+	drawList();
+	urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		hasConnection = false;
 		notice->setCaption("");
@@ -116,10 +90,8 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	hasCards="";
 	updated="";
 
-	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
-		delete album;
-		album = NULL;
-	}
+	delete album;
+	album = NULL;
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -153,7 +125,7 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz) && screenType == ST_ALBUMS) {
+	if (feed->setTouch(truesz)) {
 		saveData(FEED, feed->getAll().c_str());
 	}
 
@@ -168,7 +140,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -195,7 +166,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
-	//listBox->getChildren().clear();
 	clearListBox();
 
 	Vector<String> display = album->getNames();
@@ -209,16 +179,32 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	if (album->size() >= 1) {
-		listBox->setSelectedIndex(0);
-	} else {
+	if (size == 0) {
+		//add the empty album
 		empt = true;
 		label = createSubLabel(empty);
+		label->setPaddingBottom(5);
 		label->addWidgetListener(this);
 		listBox->add(label);
-
 		size++;
 	}
+
+	if (path.size() == 0) {
+		//add the share option
+		label = createSubLabel(sharelbl);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+		//add the logout option
+		label = createSubLabel(logout);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+	}
+
+	listBox->setSelectedIndex(0);
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -233,18 +219,13 @@ void AlbumLoadScreen::clearListBox() {
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
-
-	//delete listBox;
-	//listBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+(mainLayout->getChildren()[0]->getChildren()[0])->getHeight()),
-	//				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
-	//mainLayout->getChildren()[0]->getChildren().insert(2, listBox);
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(gFontBlueBold);
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(gFontBlackBold);
 	}
 }
 
@@ -272,45 +253,52 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				loadCategory();
 			}
 			else {
-				previous->show();
+				maExit(0);
 			}
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
-				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
-				if (next != NULL) {
-					delete next;
-					next = NULL;
+				if (listBox->getSelectedIndex() == (size-1) && path.size() == 0) {
+					//the logout option
+					if (next != NULL) {
+						delete next;
+					}
+					next = new Logout(this, feed);
+					next->show();
 				}
-				switch (screenType) {
-					case ST_ALBUMS:
-						if (val->getHasCards()) {
-							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
-								next->show();
-							}
-							else {
-								next = new AlbumViewScreen(this, feed, val->getId());
-								next->show();
-							}
+				else if (listBox->getSelectedIndex() == (size-2) && path.size() == 0) {
+					//the share option
+					if (next != NULL) {
+						delete next;
+						next = NULL;
+					}
+					next = new ShareScreen(this, feed);
+					next->show();
+				}
+				else {
+					Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
+					if (val->getHasCards()) {
+						if (next != NULL) {
+							delete next;
+							next = NULL;
+						}
+						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							next = new AlbumViewScreen(this, feed, val->getId());
+							next->show();
 						}
 						else {
-							//if a category has no cards, it means it has sub categories.
-							//it is added to the path so we can back track
-							path.add(val->getId());
-							//then it must be loaded
-							loadCategory();
+							next = new AlbumViewScreen(this, feed, val->getId());
+							next->show();
 						}
-						break;
-					case ST_PLAY:
-						next = new GamePlayScreen(this, feed, true, val->getId());
-						next->show();
-						break;
-					case ST_GAMES:
-						next = new GamePlayScreen(this, feed, false, val->getId());
-						next->show();
-						break;
+					}
+					else {
+						//if a category has no cards, it means it has sub categories.
+						//it is added to the path so we can back track
+						path.add(val->getId());
+						//then it must be loaded
+						loadCategory();
+					}
 				}
 			}
 			break;
@@ -319,9 +307,9 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 
 void AlbumLoadScreen::loadCategory() {
 	#if defined(MA_PROF_SUPPORT_STYLUS)
-		updateSoftKeyLayout(back, "", "", mainLayout);
+		updateSoftKeyLayout(path.size()==0?exit:back, "", "", mainLayout);
 	#else
-		updateSoftKeyLayout(back, select, "", mainLayout);
+		updateSoftKeyLayout(path.size()==0?exit:back, select, "", mainLayout);
 	#endif
 
 	//the list needs to be cleared
@@ -420,14 +408,6 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		temp += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
-	} else if(!strcmp(parentTag.c_str(), category_name)) {
-		temp1 += data;
-	} else if(!strcmp(parentTag.c_str(), category_id)) {
-		temp += data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_description)) {
-		temp1 += data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
-		temp += data;
 	} else if (!strcmp(parentTag.c_str(), xml_hascards)) {
 		hasCards += data;
 	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
@@ -444,29 +424,17 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		hasCards = "";
 		updated = "";
 	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
-		switch (screenType) {
-			case ST_PLAY:
-				notice->setCaption("Please choose the cards you want to play with.");
-				break;
-			case ST_GAMES:
-				notice->setCaption("Please choose a game to continue.");
-				break;
-			default:
-				notice->setCaption("");
-				break;
-		}
+		notice->setCaption("");
 		drawList();
-		if (screenType == ST_ALBUMS) {
-			if (path.size() == 0) {
-				this->feed->getAlbum()->setAll(album->getAll().c_str());
-				saveData(ALBUM, album->getAll().c_str());
-			}
-			else {
-				char *file = new char[path.end()->length() + 5];
-				sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
-				saveData(file, album->getAll().c_str());
-				delete file;
-			}
+		if (path.size() == 0) {
+			this->feed->getAlbum()->setAll(album->getAll().c_str());
+			saveData(ALBUM, album->getAll().c_str());
+		}
+		else {
+			char *file = new char[path.end()->length() + 5];
+			sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
+			saveData(file, album->getAll().c_str());
+			delete file;
 		}
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
