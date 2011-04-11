@@ -11,7 +11,7 @@
 #include "../utils/MAHeaders.h"
 #include "../utils/Util.h"
 
-MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
+MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	menu = new Screen();
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -89,75 +89,6 @@ MenuScreen::~MenuScreen() {
 	delete mainLayout;
 	delete menu;
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
-void MenuScreen::pointerPressEvent(MAPoint2d point)
-{
-    locateItem(point);
-}
-
-void MenuScreen::pointerMoveEvent(MAPoint2d point)
-{
-	moved++;
-    locateItem(point);
-}
-
-void MenuScreen::pointerReleaseEvent(MAPoint2d point)
-{
-	if (moved <= 8) {
-		if (right) {
-			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (left) {
-			keyPressEvent(MAK_SOFTLEFT);
-		} else if (list) {
-			keyPressEvent(MAK_FIRE);
-		}
-	}
-	moved = 0;
-}
-
-void MenuScreen::locateItem(MAPoint2d point)
-{
-	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
-	}
-	list = false;
-	left = false;
-	right = false;
-
-    Point p;
-    p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-    {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-        {
-        	list = true;
-        }
-    }
-    for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
-	{
-		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
-		{
-
-			if (i == 0) {
-				moved=0;
-				left = true;
-			} else if (i == 2) {
-				moved=0;
-				right = true;
-			}
-			return;
-		}
-	}
-}
-#endif
-
-void MenuScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontBlack);
-	}
-}
 
 void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
@@ -232,46 +163,10 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	}
 }
 
-void MenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
-	if (result == 200) {
-		xmlConn = XmlConnection::XmlConnection();
-		xmlConn.parse(http, this, this);
-	} else {
-		mHttp.close();
-	}
-}
-
-void MenuScreen::connReadFinished(Connection* conn, int result) {
-}
-
-void MenuScreen::xcConnError(int code) {
-}
-
-void MenuScreen::mtxEncoding(const char* ) {
-}
-
-void MenuScreen::mtxTagStart(const char* name, int len) {
-}
-
-void MenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-}
-
 void MenuScreen::mtxTagData(const char* data, int len) {
 	if (len > 0) {
 		delete menu;
 		menu = new NewVersionScreen(this, data, feed);
 		menu->show();
 	}
-}
-
-void MenuScreen::mtxTagEnd(const char* name, int len) {
-}
-
-void MenuScreen::mtxParseError() {
-}
-
-void MenuScreen::mtxEmptyTagEnd() {
-}
-
-void MenuScreen::mtxTagStartEnd() {
 }
