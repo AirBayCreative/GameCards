@@ -47,7 +47,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	thumb = "";
 	cardsInPack = "";
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -106,10 +106,10 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
-	listBox->getChildren().clear();
+	//listBox->getChildren().clear();
 	for(int i = 0; i < products.size(); i++) {
 		cardText = products[i]->getName();
 		cardText += "\n";
@@ -120,7 +120,7 @@ void ShopProductsScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		retrieveProductThumb(tempImage, products[i], mImageCache);
 
@@ -139,26 +139,15 @@ void ShopProductsScreen::drawList() {
 }
 
 ShopProductsScreen::~ShopProductsScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
-	//delete label;
-	//delete notice;
 	if (next != NULL) {
 		delete next;
+		next=NULL;
 	}
-	delete mImageCache;
+	if(mImageCache!=NULL){
+		delete mImageCache;
+		mImageCache=NULL;
+	}
 	clearProductsList();
 	parentTag="";
 	cardText="";

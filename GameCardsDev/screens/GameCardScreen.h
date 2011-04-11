@@ -1,49 +1,60 @@
-#ifndef _TRADEOPTIONSSCREEN_H_
-#define _TRADEOPTIONSSCREEN_H_
+#ifndef _GAMECARDSCREEN_H_
+#define _GAMECARDSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
-#include "../utils/Feed.h"
-#include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../utils/ImageCache.h"
+#include "../utils/Feed.h"
+#include "../utils/Product.h"
+#include "../utils/Card.h"
+#include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
+#if defined(MA_PROF_SUPPORT_STYLUS)
+#include "../UI/MobKeyboard.h"
+#endif
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeOptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class GameCardScreen : public Screen, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
 public:
-	TradeOptionsScreen(Screen *previous, Feed *feed, int screenType, Card *card = NULL);
-	~TradeOptionsScreen();
+	GameCardScreen(Screen *previous, Feed *feed, int screenType = -1);
+	~GameCardScreen();
+
 	void keyPressEvent(int keyCode);
-	void selectionChanged(Widget *widget, bool selected);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS, ST_PLAY_OPTIONS, ST_GAME_OPTIONS};
-private:
-	Feed *feed;
-	Layout *layout;
-	ListBox* listBox;
-	Label *lbl, *notice;
-	Screen *menu;
-	Screen *previous;
-	Card *card;
-	bool list, left, right, connError;
-	int index, screenType;
-	String parentTag, temp1, temp, error_msg;
+	void selectionChanged(Widget *widget, bool selected);
 
-	Albums *album;
+	void show();
+	void hide();
+#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	void checkForGames();
+	Layout *mainLayout;
+	KineticListBox *listBox;
+	Label *label;
+	Feed *feed;
+
+	Screen *next, *previous;
+
+	bool list, left, right;
+	int moved;
+
+	String parentTag;
+	int screenType;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

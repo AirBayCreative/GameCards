@@ -1,44 +1,56 @@
-#ifndef _TRADECONFIRMATIONSCREEN_H_
-#define _TRADECONFIRMATIONSCREEN_H_
+#ifndef _OPTIONSSCREEN_H_
+#define _OPTIONSSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
-#include "../utils/XmlConnection.h"
 #include "../utils/Card.h"
+#include "../utils/XmlConnection.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeConfirmationScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	TradeConfirmationScreen(Screen *previous, Feed *feed, Card *card, String method, String friendDetail);
-	~TradeConfirmationScreen();
+	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
+	~OptionsScreen();
 	void keyPressEvent(int keyCode);
+	void selectionChanged(Widget *widget, bool selected);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
+	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
+		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_CARD_OPTIONS,
+		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;
 	ListBox* listBox;
-	Label *lbl;
+	Label *lbl, *notice;
 	Screen *menu;
-	String method, friendDetail;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, sending;
+	bool list, left, right, connError, busy;
+	int index, screenType;
+	String parentTag, temp1, temp, error_msg, number;
+
+	Albums *album;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,notice;
-	String temp,temp1,error_msg;
+	void acceptCard();
+	void rejectCard();
+	void deleteCard();
+	void checkForGames();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

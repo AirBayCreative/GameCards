@@ -3,19 +3,22 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
+#include "../utils/Stat.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
 class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String filename);
+	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=AT_NORMAL);
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -26,35 +29,45 @@ public:
 	String *Retrieve(int id);
 	void drawList();
 
-	void pointerPressEvent(MAPoint2d point);
-	void pointerMoveEvent(MAPoint2d point);
-	void pointerReleaseEvent(MAPoint2d point);
-	void locateItem(MAPoint2d point);
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		void pointerPressEvent(MAPoint2d point);
+		void pointerMoveEvent(MAPoint2d point);
+		void pointerReleaseEvent(MAPoint2d point);
+		void locateItem(MAPoint2d point);
+	#endif
+
 	void loadFile();
 	void loadImages(const char *text);
 
 	typedef Map<String, Card*> StringCardMap;
+
+	void refresh();
+
+	enum albumTypes {AT_NORMAL, AT_NEW_CARDS};
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
-	Image *tempImage;
+	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
 	Layout **feedLayouts;
+	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,cardText;
-	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value;
-	int size, i, moved, listSizes;
-	bool list, left, right, emp, hasConnection;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category;
+	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
+	int size, i, moved, listSizes, albumType;
+	bool list, left, right, emp, hasConnection, busy;
 
 	Feed *feed;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
+	Vector<Stat*> stats;
+	Stat *stat;
 
 	String getAll();
 	void loadDemo();
@@ -70,8 +83,9 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	void clearFeedLayouts();
+	//void clearFeedLayouts();
 	void clearCardMap();
+	void clearListBox();
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

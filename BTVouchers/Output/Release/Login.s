@@ -29,8 +29,8 @@
 	.stabs	"c:/MoSync/include/ma.h",130,0,0,0
 	.stabs	"c:/MoSync/include/maapi.h",130,0,0,0
 	.stabs	"c:/MoSync/include/maapi_defs.h",130,0,0,0
-	.stabs	"MA_DV:Tt(4,1)=u8:(4,2)=s8hi:(0,3),0,32;lo:(0,3),32,32;;,0,64;ll:(0,15),0,64;d:(0,8),0,64;operator=::(4,3)=#(4,1),(4,4)=&(4,1),(4,5)=*(4,1),(4,6)=&(4,7)=k(4,1),(0,6);:_ZN5MA_DVaSERKS_;2A.;__base_ctor::(4,8)=#(4,1),(0,6),(4,5),(4,6),(0,6);:_ZN5MA_DVC2ERKS_;2A.;__comp_ctor::(4,8):_ZN5MA_DVC1ERKS_;2A.;__base_ctor::(4,9)=#(4,1),(0,6),(4,5),(0,6);:_ZN5MA_DVC2Ev;2A.;__comp_ctor::(4,9):_ZN5MA_DVC1Ev;2A.;;",128,0,33,0
-	.stabs	"MA_FV:Tt(4,10)=u4f:(0,9),0,32;i:(0,3),0,32;operator=::(4,11)=#(4,10),(4,12)=&(4,10),(4,13)=*(4,10),(4,14)=&(4,15)=k(4,10),(0,6);:_ZN5MA_FVaSERKS_;2A.;__base_ctor::(4,16)=#(4,10),(0,6),(4,13),(4,14),(0,6);:_ZN5MA_FVC2ERKS_;2A.;__comp_ctor::(4,16):_ZN5MA_FVC1ERKS_;2A.;__base_ctor::(4,17)=#(4,10),(0,6),(4,13),(0,6);:_ZN5MA_FVC2Ev;2A.;__comp_ctor::(4,17):_ZN5MA_FVC1Ev;2A.;;",128,0,50,0
+	.stabs	"MA_DV:Tt(4,1)=u8:(4,2)=s8hi:(0,3),0,32;lo:(0,3),32,32;;,0,64;ll:(0,15),0,64;d:(0,8),0,64;operator=::(4,3)=#(4,1),(4,4)=&(4,1),(4,5)=*(4,1),(4,6)=&(4,7)=k(4,1),(0,6);:_ZN5MA_DVaSERKS_;2A.;__base_ctor::(4,8)=#(4,1),(0,6),(4,5),(4,6),(0,6);:_ZN5MA_DVC2ERKS_;2A.;__comp_ctor::(4,8):_ZN5MA_DVC1ERKS_;2A.;__base_ctor::(4,9)=#(4,1),(0,6),(4,5),(0,6);:_ZN5MA_DVC2Ev;2A.;__comp_ctor::(4,9):_ZN5MA_DVC1Ev;2A.;;",128,0,54,0
+	.stabs	"MA_FV:Tt(4,10)=u4f:(0,9),0,32;i:(0,3),0,32;operator=::(4,11)=#(4,10),(4,12)=&(4,10),(4,13)=*(4,10),(4,14)=&(4,15)=k(4,10),(0,6);:_ZN5MA_FVaSERKS_;2A.;__base_ctor::(4,16)=#(4,10),(0,6),(4,13),(4,14),(0,6);:_ZN5MA_FVC2ERKS_;2A.;__comp_ctor::(4,16):_ZN5MA_FVC1ERKS_;2A.;__base_ctor::(4,17)=#(4,10),(0,6),(4,13),(0,6);:_ZN5MA_FVC2Ev;2A.;__comp_ctor::(4,17):_ZN5MA_FVC1Ev;2A.;;",128,0,72,0
 	.stabn	162,0,0,0
 	.stabs	"wchar:t(3,1)=(0,5)",128,0,84,0
 	.stabs	"ushort:t(3,2)=(0,12)",128,0,96,0
@@ -43,40 +43,40 @@
 	.stabs	"byte:t(3,12)=(0,10)",128,0,105,0
 	.stabs	"ulong:t(3,13)=(0,16)",128,0,106,0
 	.stabs	"longlong:t(3,14)=(0,15)",128,0,107,0
-	.stabs	"MAPoint2d:Tt(3,15)=s8x:(0,3),0,32;y:(0,3),32,32;operator=::(3,16)=#(3,15),(3,17)=&(3,15),(3,18)=*(3,15),(3,19)=&(3,20)=k(3,15),(0,6);:_ZN9MAPoint2daSERKS_;2A.;__base_ctor::(3,21)=#(3,15),(0,6),(3,18),(3,19),(0,6);:_ZN9MAPoint2dC2ERKS_;2A.;__comp_ctor::(3,21):_ZN9MAPoint2dC1ERKS_;2A.;__base_ctor::(3,22)=#(3,15),(0,6),(3,18),(0,6);:_ZN9MAPoint2dC2Ev;2A.;__comp_ctor::(3,22):_ZN9MAPoint2dC1Ev;2A.;;",128,0,550,0
-	.stabs	"MAPoint2d:t(3,23)=(3,15)",128,0,553,0
-	.stabs	"MARect:Tt(3,24)=s16left:(0,3),0,32;top:(0,3),32,32;width:(0,3),64,32;height:(0,3),96,32;operator=::(3,25)=#(3,24),(3,26)=&(3,24),(3,27)=*(3,24),(3,28)=&(3,29)=k(3,24),(0,6);:_ZN6MARectaSERKS_;2A.;__base_ctor::(3,30)=#(3,24),(0,6),(3,27),(3,28),(0,6);:_ZN6MARectC2ERKS_;2A.;__comp_ctor::(3,30):_ZN6MARectC1ERKS_;2A.;__base_ctor::(3,31)=#(3,24),(0,6),(3,27),(0,6);:_ZN6MARectC2Ev;2A.;__comp_ctor::(3,31):_ZN6MARectC1Ev;2A.;;",128,0,561,0
-	.stabs	"MARect:t(3,32)=(3,24)",128,0,566,0
-	.stabs	"MACopyData:Tt(3,33)=s20dst:(3,10),0,32;dstOffset:(0,3),32,32;src:(3,10),64,32;srcOffset:(0,3),96,32;size:(0,3),128,32;operator=::(3,34)=#(3,33),(3,35)=&(3,33),(3,36)=*(3,33),(3,37)=&(3,38)=k(3,33),(0,6);:_ZN10MACopyDataaSERKS_;2A.;__base_ctor::(3,39)=#(3,33),(0,6),(3,36),(3,37),(0,6);:_ZN10MACopyDataC2ERKS_;2A.;__comp_ctor::(3,39):_ZN10MACopyDataC1ERKS_;2A.;__base_ctor::(3,40)=#(3,33),(0,6),(3,36),(0,6);:_ZN10MACopyDataC2Ev;2A.;__comp_ctor::(3,40):_ZN10MACopyDataC1Ev;2A.;;",128,0,571,0
-	.stabs	"MACopyData:t(3,41)=(3,33)",128,0,577,0
-	.stabs	"MAConnAddrInet4:Tt(3,42)=s8addr:(0,3),0,32;port:(0,3),32,32;operator=::(3,43)=#(3,42),(3,44)=&(3,42),(3,45)=*(3,42),(3,46)=&(3,47)=k(3,42),(0,6);:_ZN15MAConnAddrInet4aSERKS_;2A.;__base_ctor::(3,48)=#(3,42),(0,6),(3,45),(3,46),(0,6);:_ZN15MAConnAddrInet4C2ERKS_;2A.;__comp_ctor::(3,48):_ZN15MAConnAddrInet4C1ERKS_;2A.;__base_ctor::(3,49)=#(3,42),(0,6),(3,45),(0,6);:_ZN15MAConnAddrInet4C2Ev;2A.;__comp_ctor::(3,49):_ZN15MAConnAddrInet4C1Ev;2A.;;",128,0,582,0
-	.stabs	"MAConnAddrInet4:t(3,50)=(3,42)",128,0,585,0
-	.stabs	"MABtAddr:Tt(3,51)=s6a:(3,52)=ar(3,53)=r(3,53);0000000000000;0037777777777;;0;5;(3,12),0,48;operator=::(3,54)=#(3,51),(3,55)=&(3,51),(3,56)=*(3,51),(3,57)=&(3,58)=k(3,51),(0,6);:_ZN8MABtAddraSERKS_;2A.;__base_ctor::(3,59)=#(3,51),(0,6),(3,56),(3,57),(0,6);:_ZN8MABtAddrC2ERKS_;2A.;__comp_ctor::(3,59):_ZN8MABtAddrC1ERKS_;2A.;__base_ctor::(3,60)=#(3,51),(0,6),(3,56),(0,6);:_ZN8MABtAddrC2Ev;2A.;__comp_ctor::(3,60):_ZN8MABtAddrC1Ev;2A.;;",128,0,590,0
-	.stabs	"MABtAddr:t(3,61)=(3,51)",128,0,592,0
-	.stabs	"MAConnAddrBt:Tt(3,62)=s12port:(0,3),0,32;addr:(3,61),32,48;operator=::(3,63)=#(3,62),(3,64)=&(3,62),(3,65)=*(3,62),(3,66)=&(3,67)=k(3,62),(0,6);:_ZN12MAConnAddrBtaSERKS_;2A.;__base_ctor::(3,68)=#(3,62),(0,6),(3,65),(3,66),(0,6);:_ZN12MAConnAddrBtC2ERKS_;2A.;__comp_ctor::(3,68):_ZN12MAConnAddrBtC1ERKS_;2A.;__base_ctor::(3,69)=#(3,62),(0,6),(3,65),(0,6);:_ZN12MAConnAddrBtC2Ev;2A.;__comp_ctor::(3,69):_ZN12MAConnAddrBtC1Ev;2A.;;",128,0,597,0
-	.stabs	"MAConnAddrBt:t(3,70)=(3,62)",128,0,600,0
-	.stabs	"MAConnAddr:Tt(3,71)=s16family:(0,3),0,32;:(3,72)=u12inet4:(3,50),0,64;bt:(3,70),0,96;;,32,96;operator=::(3,73)=#(3,71),(3,74)=&(3,71),(3,75)=*(3,71),(3,76)=&(3,77)=k(3,71),(0,6);:_ZN10MAConnAddraSERKS_;2A.;__base_ctor::(3,78)=#(3,71),(0,6),(3,75),(3,76),(0,6);:_ZN10MAConnAddrC2ERKS_;2A.;__comp_ctor::(3,78):_ZN10MAConnAddrC1ERKS_;2A.;__base_ctor::(3,79)=#(3,71),(0,6),(3,75),(0,6);:_ZN10MAConnAddrC2Ev;2A.;__comp_ctor::(3,79):_ZN10MAConnAddrC1Ev;2A.;;",128,0,605,0
-	.stabs	"MAConnAddr:t(3,80)=(3,71)",128,0,614,0
-	.stabs	"MAConnEventData:Tt(3,81)=s12handle:(3,10),0,32;opType:(0,3),32,32;result:(0,3),64,32;operator=::(3,82)=#(3,81),(3,83)=&(3,81),(3,84)=*(3,81),(3,85)=&(3,86)=k(3,81),(0,6);:_ZN15MAConnEventDataaSERKS_;2A.;__base_ctor::(3,87)=#(3,81),(0,6),(3,84),(3,85),(0,6);:_ZN15MAConnEventDataC2ERKS_;2A.;__comp_ctor::(3,87):_ZN15MAConnEventDataC1ERKS_;2A.;__base_ctor::(3,88)=#(3,81),(0,6),(3,84),(0,6);:_ZN15MAConnEventDataC2Ev;2A.;__comp_ctor::(3,88):_ZN15MAConnEventDataC1Ev;2A.;;",128,0,619,0
-	.stabs	"MAConnEventData:t(3,89)=(3,81)",128,0,628,0
-	.stabs	"MAEvent:Tt(3,90)=s16type:(0,3),0,32;:(3,91)=u12:(3,92)=s8key:(0,3),0,32;nativeKey:(0,3),32,32;;,0,64;character:(3,3),0,32;point:(3,23),0,64;state:(0,3),0,32;conn:(3,89),0,96;:(3,93)=s8textboxResult:(0,3),0,32;textboxLength:(0,3),32,32;;,0,64;data:(3,9),0,32;;,32,96;operator=::(3,94)=#(3,90),(3,95)=&(3,90),(3,96)=*(3,90),(3,97)=&(3,98)=k(3,90),(0,6);:_ZN7MAEventaSERKS_;2A.;__base_ctor::(3,99)=#(3,90),(0,6),(3,96),(3,97),(0,6);:_ZN7MAEventC2ERKS_;2A.;__comp_ctor::(3,99):_ZN7MAEventC1ERKS_;2A.;__base_ctor::(3,100)=#(3,90),(0,6),(3,96),(0,6);:_ZN7MAEventC2Ev;2A.;__comp_ctor::(3,100):_ZN7MAEventC1Ev;2A.;;",128,0,633,0
-	.stabs	"MAEvent:t(3,101)=(3,90)",128,0,691,0
-	.stabs	"MAPanicReport:Tt(3,102)=s24runtimeId:(0,3),0,32;reportType:(0,3),32,32;time:(0,3),64,32;ip:(0,3),96,32;code:(0,3),128,32;string:(3,103)=ar(3,53);0;0;(0,19),160,8;operator=::(3,104)=#(3,102),(3,105)=&(3,102),(3,106)=*(3,102),(3,107)=&(3,108)=k(3,102),(0,6);:_ZN13MAPanicReportaSERKS_;2A.;__base_ctor::(3,109)=#(3,102),(0,6),(3,106),(3,107),(0,6);:_ZN13MAPanicReportC2ERKS_;2A.;__comp_ctor::(3,109):_ZN13MAPanicReportC1ERKS_;2A.;__base_ctor::(3,110)=#(3,102),(0,6),(3,106),(0,6);:_ZN13MAPanicReportC2Ev;2A.;__comp_ctor::(3,110):_ZN13MAPanicReportC1Ev;2A.;;",128,0,712,0
-	.stabs	"MAPanicReport:t(3,111)=(3,102)",128,0,734,0
-	.stabs	"MABtDevice:Tt(3,112)=s20name:(3,5),0,32;nameBufSize:(0,3),32,32;actualNameLength:(0,3),64,32;address:(3,61),96,48;operator=::(3,113)=#(3,112),(3,114)=&(3,112),(3,115)=*(3,112),(3,116)=&(3,117)=k(3,112),(0,6);:_ZN10MABtDeviceaSERKS_;2A.;__base_ctor::(3,118)=#(3,112),(0,6),(3,115),(3,116),(0,6);:_ZN10MABtDeviceC2ERKS_;2A.;__comp_ctor::(3,118):_ZN10MABtDeviceC1ERKS_;2A.;__base_ctor::(3,119)=#(3,112),(0,6),(3,115),(0,6);:_ZN10MABtDeviceC2Ev;2A.;__comp_ctor::(3,119):_ZN10MABtDeviceC1Ev;2A.;;",128,0,759,0
-	.stabs	"MABtDevice:t(3,120)=(3,112)",128,0,771,0
-	.stabs	"MAUUID:Tt(3,121)=s16i:(3,122)=ar(3,53);0;3;(0,3),0,128;operator=::(3,123)=#(3,121),(3,124)=&(3,121),(3,125)=*(3,121),(3,126)=&(3,127)=k(3,121),(0,6);:_ZN6MAUUIDaSERKS_;2A.;__base_ctor::(3,128)=#(3,121),(0,6),(3,125),(3,126),(0,6);:_ZN6MAUUIDC2ERKS_;2A.;__comp_ctor::(3,128):_ZN6MAUUIDC1ERKS_;2A.;__base_ctor::(3,129)=#(3,121),(0,6),(3,125),(0,6);:_ZN6MAUUIDC2Ev;2A.;__comp_ctor::(3,129):_ZN6MAUUIDC1Ev;2A.;;",128,0,778,0
-	.stabs	"MAUUID:t(3,130)=(3,121)",128,0,780,0
-	.stabs	"MABtServiceSize:Tt(3,131)=s8nameBufSize:(0,3),0,32;nUuids:(0,3),32,32;operator=::(3,132)=#(3,131),(3,133)=&(3,131),(3,134)=*(3,131),(3,135)=&(3,136)=k(3,131),(0,6);:_ZN15MABtServiceSizeaSERKS_;2A.;__base_ctor::(3,137)=#(3,131),(0,6),(3,134),(3,135),(0,6);:_ZN15MABtServiceSizeC2ERKS_;2A.;__comp_ctor::(3,137):_ZN15MABtServiceSizeC1ERKS_;2A.;__base_ctor::(3,138)=#(3,131),(0,6),(3,134),(0,6);:_ZN15MABtServiceSizeC2Ev;2A.;__comp_ctor::(3,138):_ZN15MABtServiceSizeC1Ev;2A.;;",128,0,785,0
-	.stabs	"MABtServiceSize:t(3,139)=(3,131)",128,0,796,0
-	.stabs	"MABtService:Tt(3,140)=s16port:(0,3),0,32;name:(3,5),32,32;nameBufSize:(0,3),64,32;uuids:(3,141)=*(3,130),96,32;operator=::(3,142)=#(3,140),(3,143)=&(3,140),(3,144)=*(3,140),(3,145)=&(3,146)=k(3,140),(0,6);:_ZN11MABtServiceaSERKS_;2A.;__base_ctor::(3,147)=#(3,140),(0,6),(3,144),(3,145),(0,6);:_ZN11MABtServiceC2ERKS_;2A.;__comp_ctor::(3,147):_ZN11MABtServiceC1ERKS_;2A.;__base_ctor::(3,148)=#(3,140),(0,6),(3,144),(0,6);:_ZN11MABtServiceC2Ev;2A.;__comp_ctor::(3,148):_ZN11MABtServiceC1Ev;2A.;;",128,0,801,0
-	.stabs	"MABtService:t(3,149)=(3,140)",128,0,824,0
-	.stabs	"MALocation:Tt(3,150)=s40state:(0,3),0,32;lat:(0,8),32,64;lon:(0,8),96,64;horzAcc:(0,8),160,64;vertAcc:(0,8),224,64;alt:(0,9),288,32;operator=::(3,151)=#(3,150),(3,152)=&(3,150),(3,153)=*(3,150),(3,154)=&(3,155)=k(3,150),(0,6);:_ZN10MALocationaSERKS_;2A.;__base_ctor::(3,156)=#(3,150),(0,6),(3,153),(3,154),(0,6);:_ZN10MALocationC2ERKS_;2A.;__comp_ctor::(3,156):_ZN10MALocationC1ERKS_;2A.;__base_ctor::(3,157)=#(3,150),(0,6),(3,153),(0,6);:_ZN10MALocationC2Ev;2A.;__comp_ctor::(3,157):_ZN10MALocationC1Ev;2A.;;",128,0,844,0
-	.stabs	"MALocation:t(3,158)=(3,150)",128,0,860,0
-	.stabs	"MAFrameBufferInfo:Tt(3,159)=s64sizeInBytes:(0,3),0,32;bytesPerPixel:(0,3),32,32;bitsPerPixel:(0,3),64,32;redMask:(0,3),96,32;redShift:(0,3),128,32;redBits:(0,3),160,32;greenMask:(0,3),192,32;greenShift:(0,3),224,32;greenBits:(0,3),256,32;blueMask:(0,3),288,32;blueShift:(0,3),320,32;blueBits:(0,3),352,32;width:(0,3),384,32;height:(0,3),416,32;pitch:(0,3),448,32;supportsGfxSyscalls:(0,3),480,32;operator=::(3,160)=#(3,159),(3,161)=&(3,159),(3,162)=*(3,159),(3,163)=&(3,164)=k(3,159),(0,6);:_ZN17MAFrameBufferInfoaSERKS_;2A.;__base_ctor::(3,165)=#(3,159),(0,6),(3,162),(3,163),(0,6);:_ZN17MAFrameBufferInfoC2ERKS_;2A.;__comp_ctor::(3,165):_ZN17MAFrameBufferInfoC1ERKS_;2A.;__base_ctor::(3,166)=#(3,159),(0,6),(3,162),(0,6);:_ZN17MAFrameBufferInfoC2Ev;2A.;__comp_ctor::(3,166):_ZN17MAFrameBufferInfoC1Ev;2A.;;",128,0,867,0
-	.stabs	"MAFrameBufferInfo:t(3,167)=(3,159)",128,0,884,0
-	.stabs	"MA_CAMERA_FORMAT:Tt(3,168)=s8width:(0,3),0,32;height:(0,3),32,32;operator=::(3,169)=#(3,168),(3,170)=&(3,168),(3,171)=*(3,168),(3,172)=&(3,173)=k(3,168),(0,6);:_ZN16MA_CAMERA_FORMATaSERKS_;2A.;__base_ctor::(3,174)=#(3,168),(0,6),(3,171),(3,172),(0,6);:_ZN16MA_CAMERA_FORMATC2ERKS_;2A.;__comp_ctor::(3,174):_ZN16MA_CAMERA_FORMATC1ERKS_;2A.;__base_ctor::(3,175)=#(3,168),(0,6),(3,171),(0,6);:_ZN16MA_CAMERA_FORMATC2Ev;2A.;__comp_ctor::(3,175):_ZN16MA_CAMERA_FORMATC1Ev;2A.;;",128,0,889,0
-	.stabs	"MA_CAMERA_FORMAT:t(3,176)=(3,168)",128,0,892,0
+	.stabs	"MAPoint2d:Tt(3,15)=s8x:(0,3),0,32;y:(0,3),32,32;operator=::(3,16)=#(3,15),(3,17)=&(3,15),(3,18)=*(3,15),(3,19)=&(3,20)=k(3,15),(0,6);:_ZN9MAPoint2daSERKS_;2A.;__base_ctor::(3,21)=#(3,15),(0,6),(3,18),(3,19),(0,6);:_ZN9MAPoint2dC2ERKS_;2A.;__comp_ctor::(3,21):_ZN9MAPoint2dC1ERKS_;2A.;__base_ctor::(3,22)=#(3,15),(0,6),(3,18),(0,6);:_ZN9MAPoint2dC2Ev;2A.;__comp_ctor::(3,22):_ZN9MAPoint2dC1Ev;2A.;;",128,0,626,0
+	.stabs	"MAPoint2d:t(3,23)=(3,15)",128,0,629,0
+	.stabs	"MARect:Tt(3,24)=s16left:(0,3),0,32;top:(0,3),32,32;width:(0,3),64,32;height:(0,3),96,32;operator=::(3,25)=#(3,24),(3,26)=&(3,24),(3,27)=*(3,24),(3,28)=&(3,29)=k(3,24),(0,6);:_ZN6MARectaSERKS_;2A.;__base_ctor::(3,30)=#(3,24),(0,6),(3,27),(3,28),(0,6);:_ZN6MARectC2ERKS_;2A.;__comp_ctor::(3,30):_ZN6MARectC1ERKS_;2A.;__base_ctor::(3,31)=#(3,24),(0,6),(3,27),(0,6);:_ZN6MARectC2Ev;2A.;__comp_ctor::(3,31):_ZN6MARectC1Ev;2A.;;",128,0,637,0
+	.stabs	"MARect:t(3,32)=(3,24)",128,0,642,0
+	.stabs	"MACopyData:Tt(3,33)=s20dst:(3,10),0,32;dstOffset:(0,3),32,32;src:(3,10),64,32;srcOffset:(0,3),96,32;size:(0,3),128,32;operator=::(3,34)=#(3,33),(3,35)=&(3,33),(3,36)=*(3,33),(3,37)=&(3,38)=k(3,33),(0,6);:_ZN10MACopyDataaSERKS_;2A.;__base_ctor::(3,39)=#(3,33),(0,6),(3,36),(3,37),(0,6);:_ZN10MACopyDataC2ERKS_;2A.;__comp_ctor::(3,39):_ZN10MACopyDataC1ERKS_;2A.;__base_ctor::(3,40)=#(3,33),(0,6),(3,36),(0,6);:_ZN10MACopyDataC2Ev;2A.;__comp_ctor::(3,40):_ZN10MACopyDataC1Ev;2A.;;",128,0,647,0
+	.stabs	"MACopyData:t(3,41)=(3,33)",128,0,653,0
+	.stabs	"MAConnAddrInet4:Tt(3,42)=s8addr:(0,3),0,32;port:(0,3),32,32;operator=::(3,43)=#(3,42),(3,44)=&(3,42),(3,45)=*(3,42),(3,46)=&(3,47)=k(3,42),(0,6);:_ZN15MAConnAddrInet4aSERKS_;2A.;__base_ctor::(3,48)=#(3,42),(0,6),(3,45),(3,46),(0,6);:_ZN15MAConnAddrInet4C2ERKS_;2A.;__comp_ctor::(3,48):_ZN15MAConnAddrInet4C1ERKS_;2A.;__base_ctor::(3,49)=#(3,42),(0,6),(3,45),(0,6);:_ZN15MAConnAddrInet4C2Ev;2A.;__comp_ctor::(3,49):_ZN15MAConnAddrInet4C1Ev;2A.;;",128,0,658,0
+	.stabs	"MAConnAddrInet4:t(3,50)=(3,42)",128,0,661,0
+	.stabs	"MABtAddr:Tt(3,51)=s6a:(3,52)=ar(3,53)=r(3,53);0000000000000;0037777777777;;0;5;(3,12),0,48;operator=::(3,54)=#(3,51),(3,55)=&(3,51),(3,56)=*(3,51),(3,57)=&(3,58)=k(3,51),(0,6);:_ZN8MABtAddraSERKS_;2A.;__base_ctor::(3,59)=#(3,51),(0,6),(3,56),(3,57),(0,6);:_ZN8MABtAddrC2ERKS_;2A.;__comp_ctor::(3,59):_ZN8MABtAddrC1ERKS_;2A.;__base_ctor::(3,60)=#(3,51),(0,6),(3,56),(0,6);:_ZN8MABtAddrC2Ev;2A.;__comp_ctor::(3,60):_ZN8MABtAddrC1Ev;2A.;;",128,0,666,0
+	.stabs	"MABtAddr:t(3,61)=(3,51)",128,0,668,0
+	.stabs	"MAConnAddrBt:Tt(3,62)=s12port:(0,3),0,32;addr:(3,61),32,48;operator=::(3,63)=#(3,62),(3,64)=&(3,62),(3,65)=*(3,62),(3,66)=&(3,67)=k(3,62),(0,6);:_ZN12MAConnAddrBtaSERKS_;2A.;__base_ctor::(3,68)=#(3,62),(0,6),(3,65),(3,66),(0,6);:_ZN12MAConnAddrBtC2ERKS_;2A.;__comp_ctor::(3,68):_ZN12MAConnAddrBtC1ERKS_;2A.;__base_ctor::(3,69)=#(3,62),(0,6),(3,65),(0,6);:_ZN12MAConnAddrBtC2Ev;2A.;__comp_ctor::(3,69):_ZN12MAConnAddrBtC1Ev;2A.;;",128,0,673,0
+	.stabs	"MAConnAddrBt:t(3,70)=(3,62)",128,0,676,0
+	.stabs	"MAConnAddr:Tt(3,71)=s16family:(0,3),0,32;:(3,72)=u12inet4:(3,50),0,64;bt:(3,70),0,96;;,32,96;operator=::(3,73)=#(3,71),(3,74)=&(3,71),(3,75)=*(3,71),(3,76)=&(3,77)=k(3,71),(0,6);:_ZN10MAConnAddraSERKS_;2A.;__base_ctor::(3,78)=#(3,71),(0,6),(3,75),(3,76),(0,6);:_ZN10MAConnAddrC2ERKS_;2A.;__comp_ctor::(3,78):_ZN10MAConnAddrC1ERKS_;2A.;__base_ctor::(3,79)=#(3,71),(0,6),(3,75),(0,6);:_ZN10MAConnAddrC2Ev;2A.;__comp_ctor::(3,79):_ZN10MAConnAddrC1Ev;2A.;;",128,0,681,0
+	.stabs	"MAConnAddr:t(3,80)=(3,71)",128,0,690,0
+	.stabs	"MAConnEventData:Tt(3,81)=s12handle:(3,10),0,32;opType:(0,3),32,32;result:(0,3),64,32;operator=::(3,82)=#(3,81),(3,83)=&(3,81),(3,84)=*(3,81),(3,85)=&(3,86)=k(3,81),(0,6);:_ZN15MAConnEventDataaSERKS_;2A.;__base_ctor::(3,87)=#(3,81),(0,6),(3,84),(3,85),(0,6);:_ZN15MAConnEventDataC2ERKS_;2A.;__comp_ctor::(3,87):_ZN15MAConnEventDataC1ERKS_;2A.;__base_ctor::(3,88)=#(3,81),(0,6),(3,84),(0,6);:_ZN15MAConnEventDataC2Ev;2A.;__comp_ctor::(3,88):_ZN15MAConnEventDataC1Ev;2A.;;",128,0,695,0
+	.stabs	"MAConnEventData:t(3,89)=(3,81)",128,0,704,0
+	.stabs	"MAEvent:Tt(3,90)=s16type:(0,3),0,32;:(3,91)=u12:(3,92)=s8key:(0,3),0,32;nativeKey:(0,3),32,32;;,0,64;character:(3,3),0,32;:(3,93)=s12point:(3,23),0,64;touchId:(0,3),64,32;;,0,96;state:(0,3),0,32;conn:(3,89),0,96;:(3,94)=s8textboxResult:(0,3),0,32;textboxLength:(0,3),32,32;;,0,64;data:(3,9),0,32;;,32,96;operator=::(3,95)=#(3,90),(3,96)=&(3,90),(3,97)=*(3,90),(3,98)=&(3,99)=k(3,90),(0,6);:_ZN7MAEventaSERKS_;2A.;__base_ctor::(3,100)=#(3,90),(0,6),(3,97),(3,98),(0,6);:_ZN7MAEventC2ERKS_;2A.;__comp_ctor::(3,100):_ZN7MAEventC1ERKS_;2A.;__base_ctor::(3,101)=#(3,90),(0,6),(3,97),(0,6);:_ZN7MAEventC2Ev;2A.;__comp_ctor::(3,101):_ZN7MAEventC1Ev;2A.;;",128,0,709,0
+	.stabs	"MAEvent:t(3,102)=(3,90)",128,0,774,0
+	.stabs	"MAPanicReport:Tt(3,103)=s24runtimeId:(0,3),0,32;reportType:(0,3),32,32;time:(0,3),64,32;ip:(0,3),96,32;code:(0,3),128,32;string:(3,104)=ar(3,53);0;0;(0,19),160,8;operator=::(3,105)=#(3,103),(3,106)=&(3,103),(3,107)=*(3,103),(3,108)=&(3,109)=k(3,103),(0,6);:_ZN13MAPanicReportaSERKS_;2A.;__base_ctor::(3,110)=#(3,103),(0,6),(3,107),(3,108),(0,6);:_ZN13MAPanicReportC2ERKS_;2A.;__comp_ctor::(3,110):_ZN13MAPanicReportC1ERKS_;2A.;__base_ctor::(3,111)=#(3,103),(0,6),(3,107),(0,6);:_ZN13MAPanicReportC2Ev;2A.;__comp_ctor::(3,111):_ZN13MAPanicReportC1Ev;2A.;;",128,0,795,0
+	.stabs	"MAPanicReport:t(3,112)=(3,103)",128,0,817,0
+	.stabs	"MABtDevice:Tt(3,113)=s20name:(3,5),0,32;nameBufSize:(0,3),32,32;actualNameLength:(0,3),64,32;address:(3,61),96,48;operator=::(3,114)=#(3,113),(3,115)=&(3,113),(3,116)=*(3,113),(3,117)=&(3,118)=k(3,113),(0,6);:_ZN10MABtDeviceaSERKS_;2A.;__base_ctor::(3,119)=#(3,113),(0,6),(3,116),(3,117),(0,6);:_ZN10MABtDeviceC2ERKS_;2A.;__comp_ctor::(3,119):_ZN10MABtDeviceC1ERKS_;2A.;__base_ctor::(3,120)=#(3,113),(0,6),(3,116),(0,6);:_ZN10MABtDeviceC2Ev;2A.;__comp_ctor::(3,120):_ZN10MABtDeviceC1Ev;2A.;;",128,0,822,0
+	.stabs	"MABtDevice:t(3,121)=(3,113)",128,0,834,0
+	.stabs	"MAUUID:Tt(3,122)=s16i:(3,123)=ar(3,53);0;3;(0,3),0,128;operator=::(3,124)=#(3,122),(3,125)=&(3,122),(3,126)=*(3,122),(3,127)=&(3,128)=k(3,122),(0,6);:_ZN6MAUUIDaSERKS_;2A.;__base_ctor::(3,129)=#(3,122),(0,6),(3,126),(3,127),(0,6);:_ZN6MAUUIDC2ERKS_;2A.;__comp_ctor::(3,129):_ZN6MAUUIDC1ERKS_;2A.;__base_ctor::(3,130)=#(3,122),(0,6),(3,126),(0,6);:_ZN6MAUUIDC2Ev;2A.;__comp_ctor::(3,130):_ZN6MAUUIDC1Ev;2A.;;",128,0,841,0
+	.stabs	"MAUUID:t(3,131)=(3,122)",128,0,843,0
+	.stabs	"MABtServiceSize:Tt(3,132)=s8nameBufSize:(0,3),0,32;nUuids:(0,3),32,32;operator=::(3,133)=#(3,132),(3,134)=&(3,132),(3,135)=*(3,132),(3,136)=&(3,137)=k(3,132),(0,6);:_ZN15MABtServiceSizeaSERKS_;2A.;__base_ctor::(3,138)=#(3,132),(0,6),(3,135),(3,136),(0,6);:_ZN15MABtServiceSizeC2ERKS_;2A.;__comp_ctor::(3,138):_ZN15MABtServiceSizeC1ERKS_;2A.;__base_ctor::(3,139)=#(3,132),(0,6),(3,135),(0,6);:_ZN15MABtServiceSizeC2Ev;2A.;__comp_ctor::(3,139):_ZN15MABtServiceSizeC1Ev;2A.;;",128,0,848,0
+	.stabs	"MABtServiceSize:t(3,140)=(3,132)",128,0,859,0
+	.stabs	"MABtService:Tt(3,141)=s16port:(0,3),0,32;name:(3,5),32,32;nameBufSize:(0,3),64,32;uuids:(3,142)=*(3,131),96,32;operator=::(3,143)=#(3,141),(3,144)=&(3,141),(3,145)=*(3,141),(3,146)=&(3,147)=k(3,141),(0,6);:_ZN11MABtServiceaSERKS_;2A.;__base_ctor::(3,148)=#(3,141),(0,6),(3,145),(3,146),(0,6);:_ZN11MABtServiceC2ERKS_;2A.;__comp_ctor::(3,148):_ZN11MABtServiceC1ERKS_;2A.;__base_ctor::(3,149)=#(3,141),(0,6),(3,145),(0,6);:_ZN11MABtServiceC2Ev;2A.;__comp_ctor::(3,149):_ZN11MABtServiceC1Ev;2A.;;",128,0,864,0
+	.stabs	"MABtService:t(3,150)=(3,141)",128,0,887,0
+	.stabs	"MALocation:Tt(3,151)=s40state:(0,3),0,32;lat:(0,8),32,64;lon:(0,8),96,64;horzAcc:(0,8),160,64;vertAcc:(0,8),224,64;alt:(0,9),288,32;operator=::(3,152)=#(3,151),(3,153)=&(3,151),(3,154)=*(3,151),(3,155)=&(3,156)=k(3,151),(0,6);:_ZN10MALocationaSERKS_;2A.;__base_ctor::(3,157)=#(3,151),(0,6),(3,154),(3,155),(0,6);:_ZN10MALocationC2ERKS_;2A.;__comp_ctor::(3,157):_ZN10MALocationC1ERKS_;2A.;__base_ctor::(3,158)=#(3,151),(0,6),(3,154),(0,6);:_ZN10MALocationC2Ev;2A.;__comp_ctor::(3,158):_ZN10MALocationC1Ev;2A.;;",128,0,907,0
+	.stabs	"MALocation:t(3,159)=(3,151)",128,0,923,0
+	.stabs	"MAFrameBufferInfo:Tt(3,160)=s64sizeInBytes:(0,3),0,32;bytesPerPixel:(0,3),32,32;bitsPerPixel:(0,3),64,32;redMask:(0,3),96,32;redShift:(0,3),128,32;redBits:(0,3),160,32;greenMask:(0,3),192,32;greenShift:(0,3),224,32;greenBits:(0,3),256,32;blueMask:(0,3),288,32;blueShift:(0,3),320,32;blueBits:(0,3),352,32;width:(0,3),384,32;height:(0,3),416,32;pitch:(0,3),448,32;supportsGfxSyscalls:(0,3),480,32;operator=::(3,161)=#(3,160),(3,162)=&(3,160),(3,163)=*(3,160),(3,164)=&(3,165)=k(3,160),(0,6);:_ZN17MAFrameBufferInfoaSERKS_;2A.;__base_ctor::(3,166)=#(3,160),(0,6),(3,163),(3,164),(0,6);:_ZN17MAFrameBufferInfoC2ERKS_;2A.;__comp_ctor::(3,166):_ZN17MAFrameBufferInfoC1ERKS_;2A.;__base_ctor::(3,167)=#(3,160),(0,6),(3,163),(0,6);:_ZN17MAFrameBufferInfoC2Ev;2A.;__comp_ctor::(3,167):_ZN17MAFrameBufferInfoC1Ev;2A.;;",128,0,930,0
+	.stabs	"MAFrameBufferInfo:t(3,168)=(3,160)",128,0,947,0
+	.stabs	"MA_CAMERA_FORMAT:Tt(3,169)=s8width:(0,3),0,32;height:(0,3),32,32;operator=::(3,170)=#(3,169),(3,171)=&(3,169),(3,172)=*(3,169),(3,173)=&(3,174)=k(3,169),(0,6);:_ZN16MA_CAMERA_FORMATaSERKS_;2A.;__base_ctor::(3,175)=#(3,169),(0,6),(3,172),(3,173),(0,6);:_ZN16MA_CAMERA_FORMATC2ERKS_;2A.;__comp_ctor::(3,175):_ZN16MA_CAMERA_FORMATC1ERKS_;2A.;__base_ctor::(3,176)=#(3,169),(0,6),(3,172),(0,6);:_ZN16MA_CAMERA_FORMATC2Ev;2A.;__comp_ctor::(3,176):_ZN16MA_CAMERA_FORMATC1Ev;2A.;;",128,0,952,0
+	.stabs	"MA_CAMERA_FORMAT:t(3,177)=(3,169)",128,0,955,0
 	.stabn	162,0,0,0
 	.stabs	"size_t:t(2,1)=(0,16)",128,0,32,0
 	.stabn	162,0,0,0
@@ -126,35 +126,35 @@
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/InputManager.h",130,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<MAUI::Widget*>:Tt(7,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(7,2)=*(7,3)=*(7,4)=xsWidget:,64,32;__base_ctor::(7,5)=#(7,1),(0,6),(7,6)=*(7,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2Ei;2A.;__comp_ctor::(7,5):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1Ei;2A.;__base_ctor::(7,7)=#(7,1),(0,6),(7,6),(7,8)=&(7,9)=k(7,1),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2ERKS4_;2A.;__comp_ctor::(7,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1ERKS4_;2A.;__base_dtor::(7,10)=#(7,1),(0,6),(7,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEED2Ev;2A.;__comp_dtor::(7,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEED1Ev;2A.;operator=::(7,11)=#(7,1),(7,12)=&(7,1),(7,6),(7,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEaSERKS4_;2A.;add::(7,13)=#(7,1),(0,6),(7,6),(7,14)=&(7,15)=k(7,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addERKS3_;2A.(7,16)=#(7,1),(0,6),(7,6),(7,17)=*(7,15),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addEPKS3_i;2A.;remove::(7,18)=#(7,1),(0,6),(7,6),(7,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEPS3_;2A.(7,19)=#(7,1),(0,6),(7,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEi;2A.(7,20)=#(7,1),(0,6),(7,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEii;2A.;insert::(7,21)=#(7,1),(0,6),(7,6),(0,3),(7,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6insertEiS3_;2A.;size::(7,22)=#(7,1),(0,3),(7,23)=*(7,9),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE4sizeEv;2B.;resize::(7,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6resizeEi;2A.;reserve::(7,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7reserveEi;2A.;clear::(7,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5clearEv;2A.;empty::(7,24)=#(7,1),(0,4),(7,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5emptyEv;2B.;capacity::(7,22):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE8capacityEv;2B.;begin::(7,25)=#(7,1),(7,2),(7,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2A.;end::(7,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2A.;begin::(7,26)=#(7,1),(7,17),(7,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2B.;end::(7,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2B.;operator[]::(7,27)=#(7,1),(7,28)=&(7,3),(7,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2A.(7,29)=#(7,1),(7,14),(7,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2B.;pointer::(7,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2B.(7,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"Vector<MAUI::WidgetListener*>:Tt(7,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(7,31)=*(7,32)=*(7,33)=xsWidgetListener:,64,32;__base_ctor::(7,34)=#(7,30),(0,6),(7,35)=*(7,30),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2Ei;2A.;__comp_ctor::(7,34):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1Ei;2A.;__base_ctor::(7,36)=#(7,30),(0,6),(7,35),(7,37)=&(7,38)=k(7,30),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2ERKS4_;2A.;__comp_ctor::(7,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1ERKS4_;2A.;__base_dtor::(7,39)=#(7,30),(0,6),(7,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED2Ev;2A.;__comp_dtor::(7,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED1Ev;2A.;operator=::(7,40)=#(7,30),(7,41)=&(7,30),(7,35),(7,37),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEaSERKS4_;2A.;add::(7,42)=#(7,30),(0,6),(7,35),(7,43)=&(7,44)=k(7,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addERKS3_;2A.(7,45)=#(7,30),(0,6),(7,35),(7,46)=*(7,44),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addEPKS3_i;2A.;remove::(7,47)=#(7,30),(0,6),(7,35),(7,31),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEPS3_;2A.(7,48)=#(7,30),(0,6),(7,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEi;2A.(7,49)=#(7,30),(0,6),(7,35),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEii;2A.;insert::(7,50)=#(7,30),(0,6),(7,35),(0,3),(7,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6insertEiS3_;2A.;size::(7,51)=#(7,30),(0,3),(7,52)=*(7,38),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE4sizeEv;2B.;resize::(7,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6resizeEi;2A.;reserve::(7,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7reserveEi;2A.;clear::(7,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5clearEv;2A.;empty::(7,53)=#(7,30),(0,4),(7,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5emptyEv;2B.;capacity::(7,51):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE8capacityEv;2B.;begin::(7,54)=#(7,30),(7,31),(7,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2A.;end::(7,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2A.;begin::(7,55)=#(7,30),(7,46),(7,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2B.;end::(7,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2B.;operator[]::(7,56)=#(7,30),(7,57)=&(7,32),(7,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2A.(7,58)=#(7,30),(7,43),(7,52),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2B.;pointer::(7,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2B.(7,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::Widget*>:Tt(7,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(7,2)=*(7,3)=*(7,4)=xsWidget:,64,32;__base_ctor::(7,5)=#(7,1),(0,6),(7,6)=*(7,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2Ei;2A.;__comp_ctor::(7,5):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1Ei;2A.;__base_ctor::(7,7)=#(7,1),(0,6),(7,6),(7,8)=*(7,9)=k(7,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2EPKS3_i;2A.;__comp_ctor::(7,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1EPKS3_i;2A.;__base_ctor::(7,10)=#(7,1),(0,6),(7,6),(7,11)=&(7,12)=k(7,1),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC2ERKS4_;2A.;__comp_ctor::(7,10):_ZN6MAUtil6VectorIPN4MAUI6WidgetEEC1ERKS4_;2A.;__base_dtor::(7,13)=#(7,1),(0,6),(7,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEED2Ev;2A.;__comp_dtor::(7,13):_ZN6MAUtil6VectorIPN4MAUI6WidgetEED1Ev;2A.;operator=::(7,14)=#(7,1),(7,15)=&(7,1),(7,6),(7,11),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEaSERKS4_;2A.;add::(7,16)=#(7,1),(0,6),(7,6),(7,17)=&(7,9),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addERKS3_;2A.(7,7):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3addEPKS3_i;2A.;remove::(7,18)=#(7,1),(0,6),(7,6),(7,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEPS3_;2A.(7,19)=#(7,1),(0,6),(7,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEi;2A.(7,20)=#(7,1),(0,6),(7,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6removeEii;2A.;insert::(7,21)=#(7,1),(0,6),(7,6),(0,3),(7,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6insertEiS3_;2A.;size::(7,22)=#(7,1),(0,3),(7,23)=*(7,12),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE4sizeEv;2B.;resize::(7,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE6resizeEi;2A.;reserve::(7,19):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7reserveEi;2A.;clear::(7,13):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5clearEv;2A.;empty::(7,24)=#(7,1),(0,4),(7,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5emptyEv;2B.;capacity::(7,22):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE8capacityEv;2B.;begin::(7,25)=#(7,1),(7,2),(7,6),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2A.;end::(7,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2A.;begin::(7,26)=#(7,1),(7,8),(7,23),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE5beginEv;2B.;end::(7,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE3endEv;2B.;operator[]::(7,27)=#(7,1),(7,28)=&(7,3),(7,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2A.(7,29)=#(7,1),(7,17),(7,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI6WidgetEEixEi;2B.;pointer::(7,26):_ZNK6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2B.(7,25):_ZN6MAUtil6VectorIPN4MAUI6WidgetEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::WidgetListener*>:Tt(7,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(7,31)=*(7,32)=*(7,33)=xsWidgetListener:,64,32;__base_ctor::(7,34)=#(7,30),(0,6),(7,35)=*(7,30),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2Ei;2A.;__comp_ctor::(7,34):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1Ei;2A.;__base_ctor::(7,36)=#(7,30),(0,6),(7,35),(7,37)=*(7,38)=k(7,32),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2EPKS3_i;2A.;__comp_ctor::(7,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1EPKS3_i;2A.;__base_ctor::(7,39)=#(7,30),(0,6),(7,35),(7,40)=&(7,41)=k(7,30),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC2ERKS4_;2A.;__comp_ctor::(7,39):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEC1ERKS4_;2A.;__base_dtor::(7,42)=#(7,30),(0,6),(7,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED2Ev;2A.;__comp_dtor::(7,42):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEED1Ev;2A.;operator=::(7,43)=#(7,30),(7,44)=&(7,30),(7,35),(7,40),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEaSERKS4_;2A.;add::(7,45)=#(7,30),(0,6),(7,35),(7,46)=&(7,38),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addERKS3_;2A.(7,36):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3addEPKS3_i;2A.;remove::(7,47)=#(7,30),(0,6),(7,35),(7,31),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEPS3_;2A.(7,48)=#(7,30),(0,6),(7,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEi;2A.(7,49)=#(7,30),(0,6),(7,35),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6removeEii;2A.;insert::(7,50)=#(7,30),(0,6),(7,35),(0,3),(7,32),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6insertEiS3_;2A.;size::(7,51)=#(7,30),(0,3),(7,52)=*(7,41),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE4sizeEv;2B.;resize::(7,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE6resizeEi;2A.;reserve::(7,48):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7reserveEi;2A.;clear::(7,42):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5clearEv;2A.;empty::(7,53)=#(7,30),(0,4),(7,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5emptyEv;2B.;capacity::(7,51):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE8capacityEv;2B.;begin::(7,54)=#(7,30),(7,31),(7,35),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2A.;end::(7,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2A.;begin::(7,55)=#(7,30),(7,37),(7,52),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE5beginEv;2B.;end::(7,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE3endEv;2B.;operator[]::(7,56)=#(7,30),(7,57)=&(7,32),(7,35),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2A.(7,58)=#(7,30),(7,46),(7,52),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEEixEi;2B.;pointer::(7,55):_ZNK6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2B.(7,54):_ZN6MAUtil6VectorIPN4MAUI14WidgetListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/Environment.h",130,0,0,0
-	.stabs	"Environment::TimerEventInstance:Tt(16,1)=s20e:(16,2)=*(16,3)=xsTimerListener:,0,32;addTime:(0,3),32,32;period:(0,3),64,32;numTimes:(0,3),96,32;nextInvoke:(0,3),128,32;__base_ctor::(16,4)=#(16,1),(0,6),(16,5)=*(16,1),(16,2),(0,3),(0,3),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2EPNS_13TimerListenerEii;2A.;__comp_ctor::(16,4):_ZN6MAUtil11Environment18TimerEventInstanceC1EPNS_13TimerListenerEii;2A.;operator=::(16,6)=#(16,1),(16,7)=&(16,1),(16,5),(16,8)=&(16,9)=k(16,1),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceaSERKS1_;2A.;__base_ctor::(16,10)=#(16,1),(0,6),(16,5),(16,8),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2ERKS1_;2A.;__comp_ctor::(16,10):_ZN6MAUtil11Environment18TimerEventInstanceC1ERKS1_;2A.;;",128,0,388,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::KeyListener>::Combo>:Tt(16,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,12)=*(16,13)=xsCombo:,64,32;__base_ctor::(16,14)=#(16,11),(0,6),(16,15)=*(16,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,16)=#(16,11),(0,6),(16,15),(16,17)=&(16,18)=k(16,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,19)=#(16,11),(0,6),(16,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED1Ev;2A.;operator=::(16,20)=#(16,11),(16,21)=&(16,11),(16,15),(16,17),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEaSERKS5_;2A.;add::(16,22)=#(16,11),(0,6),(16,15),(16,23)=&(16,24)=k(16,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addERKS4_;2A.(16,25)=#(16,11),(0,6),(16,15),(16,26)=*(16,24),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,27)=#(16,11),(0,6),(16,15),(16,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEPS4_;2A.(16,28)=#(16,11),(0,6),(16,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEi;2A.(16,29)=#(16,11),(0,6),(16,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEii;2A.;insert::(16,30)=#(16,11),(0,6),(16,15),(0,3),(16,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6insertEiS4_;2A.;size::(16,31)=#(16,11),(0,3),(16,32)=*(16,18),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE4sizeEv;2B.;resize::(16,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6resizeEi;2A.;reserve::(16,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7reserveEi;2A.;clear::(16,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5clearEv;2A.;empty::(16,33)=#(16,11),(0,4),(16,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5emptyEv;2B.;capacity::(16,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE8capacityEv;2B.;begin::(16,34)=#(16,11),(16,12),(16,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2A.;end::(16,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2A.;begin::(16,35)=#(16,11),(16,26),(16,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2B.;end::(16,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2B.;operator[]::(16,36)=#(16,11),(16,37)=&(16,13),(16,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2A.(16,38)=#(16,11),(16,23),(16,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2B.;pointer::(16,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2B.(16,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::KeyListener>:Tt(16,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,11),32,96;__base_ctor::(16,40)=#(16,39),(0,6),(16,41)=*(16,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2Eb;2A.;__comp_ctor::(16,40):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1Eb;2A.;begin::(16,42)=#(16,39),(16,43)=xsiterator:,(16,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE5beginEv;2A.;add::(16,44)=#(16,39),(0,6),(16,41),(16,45)=*(16,46)=xsKeyListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE3addEPS1_;2A.;remove::(16,44):_ZN6MAUtil11ListenerSetINS_11KeyListenerEE6removeEPS1_;2A.;contains::(16,47)=#(16,39),(0,4),(16,41),(16,45),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE8containsEPS1_;2A.;setRunning::(16,48)=#(16,39),(0,6),(16,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE10setRunningEb;2A.;size::(16,49)=#(16,39),(0,3),(16,50)=*(16,51)=k(16,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_11KeyListenerEE4sizeEv;2B.;operator=::(16,52)=#(16,39),(16,53)=&(16,39),(16,41),(16,54)=&(16,51),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEaSERKS2_;2A.;__base_ctor::(16,55)=#(16,39),(0,6),(16,41),(16,54),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2ERKS2_;2A.;__comp_ctor::(16,55):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1ERKS2_;2A.;__base_dtor::(16,56)=#(16,39),(0,6),(16,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEED2Ev;2A.;__comp_dtor::(16,56):_ZN6MAUtil11ListenerSetINS_11KeyListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::PointerListener>::Combo>:Tt(16,57)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,58)=*(16,59)=xsCombo:,64,32;__base_ctor::(16,60)=#(16,57),(0,6),(16,61)=*(16,57),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,60):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,62)=#(16,57),(0,6),(16,61),(16,63)=&(16,64)=k(16,57),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,65)=#(16,57),(0,6),(16,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED1Ev;2A.;operator=::(16,66)=#(16,57),(16,67)=&(16,57),(16,61),(16,63),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEaSERKS5_;2A.;add::(16,68)=#(16,57),(0,6),(16,61),(16,69)=&(16,70)=k(16,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addERKS4_;2A.(16,71)=#(16,57),(0,6),(16,61),(16,72)=*(16,70),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,73)=#(16,57),(0,6),(16,61),(16,58),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEPS4_;2A.(16,74)=#(16,57),(0,6),(16,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEi;2A.(16,75)=#(16,57),(0,6),(16,61),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEii;2A.;insert::(16,76)=#(16,57),(0,6),(16,61),(0,3),(16,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6insertEiS4_;2A.;size::(16,77)=#(16,57),(0,3),(16,78)=*(16,64),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE4sizeEv;2B.;resize::(16,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6resizeEi;2A.;reserve::(16,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7reserveEi;2A.;clear::(16,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5clearEv;2A.;empty::(16,79)=#(16,57),(0,4),(16,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5emptyEv;2B.;capacity::(16,77):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE8capacityEv;2B.;begin::(16,80)=#(16,57),(16,58),(16,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2A.;end::(16,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2A.;begin::(16,81)=#(16,57),(16,72),(16,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2B.;end::(16,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2B.;operator[]::(16,82)=#(16,57),(16,83)=&(16,59),(16,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2A.(16,84)=#(16,57),(16,69),(16,78),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2B.;pointer::(16,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2B.(16,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::PointerListener>:Tt(16,85)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,57),32,96;__base_ctor::(16,86)=#(16,85),(0,6),(16,87)=*(16,85),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2Eb;2A.;__comp_ctor::(16,86):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1Eb;2A.;begin::(16,88)=#(16,85),(16,89)=xsiterator:,(16,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE5beginEv;2A.;add::(16,90)=#(16,85),(0,6),(16,87),(16,91)=*(16,92)=xsPointerListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE3addEPS1_;2A.;remove::(16,90):_ZN6MAUtil11ListenerSetINS_15PointerListenerEE6removeEPS1_;2A.;contains::(16,93)=#(16,85),(0,4),(16,87),(16,91),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE8containsEPS1_;2A.;setRunning::(16,94)=#(16,85),(0,6),(16,87),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE10setRunningEb;2A.;size::(16,95)=#(16,85),(0,3),(16,96)=*(16,97)=k(16,85),(0,6);:_ZNK6MAUtil11ListenerSetINS_15PointerListenerEE4sizeEv;2B.;operator=::(16,98)=#(16,85),(16,99)=&(16,85),(16,87),(16,100)=&(16,97),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEaSERKS2_;2A.;__base_ctor::(16,101)=#(16,85),(0,6),(16,87),(16,100),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2ERKS2_;2A.;__comp_ctor::(16,101):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1ERKS2_;2A.;__base_dtor::(16,102)=#(16,85),(0,6),(16,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEED2Ev;2A.;__comp_dtor::(16,102):_ZN6MAUtil11ListenerSetINS_15PointerListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::CloseListener*>:Tt(16,103)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,104)=*(16,105)=*(16,106)=xsCloseListener:,64,32;__base_ctor::(16,107)=#(16,103),(0,6),(16,108)=*(16,103),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2Ei;2A.;__comp_ctor::(16,107):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1Ei;2A.;__base_ctor::(16,109)=#(16,103),(0,6),(16,108),(16,110)=&(16,111)=k(16,103),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2ERKS3_;2A.;__comp_ctor::(16,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1ERKS3_;2A.;__base_dtor::(16,112)=#(16,103),(0,6),(16,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEED2Ev;2A.;__comp_dtor::(16,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEED1Ev;2A.;operator=::(16,113)=#(16,103),(16,114)=&(16,103),(16,108),(16,110),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEaSERKS3_;2A.;add::(16,115)=#(16,103),(0,6),(16,108),(16,116)=&(16,117)=k(16,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addERKS2_;2A.(16,118)=#(16,103),(0,6),(16,108),(16,119)=*(16,117),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addEPKS2_i;2A.;remove::(16,120)=#(16,103),(0,6),(16,108),(16,104),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEPS2_;2A.(16,121)=#(16,103),(0,6),(16,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEi;2A.(16,122)=#(16,103),(0,6),(16,108),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEii;2A.;insert::(16,123)=#(16,103),(0,6),(16,108),(0,3),(16,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6insertEiS2_;2A.;size::(16,124)=#(16,103),(0,3),(16,125)=*(16,111),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE4sizeEv;2B.;resize::(16,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE6resizeEi;2A.;reserve::(16,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7reserveEi;2A.;clear::(16,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEE5clearEv;2A.;empty::(16,126)=#(16,103),(0,4),(16,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5emptyEv;2B.;capacity::(16,124):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE8capacityEv;2B.;begin::(16,127)=#(16,103),(16,104),(16,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2A.;end::(16,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2A.;begin::(16,128)=#(16,103),(16,119),(16,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2B.;end::(16,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2B.;operator[]::(16,129)=#(16,103),(16,130)=&(16,105),(16,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEixEi;2A.(16,131)=#(16,103),(16,116),(16,125),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEEixEi;2B.;pointer::(16,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2B.(16,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::ConnListener>::Combo>:Tt(16,132)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,133)=*(16,134)=xsCombo:,64,32;__base_ctor::(16,135)=#(16,132),(0,6),(16,136)=*(16,132),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,135):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,137)=#(16,132),(0,6),(16,136),(16,138)=&(16,139)=k(16,132),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,140)=#(16,132),(0,6),(16,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED1Ev;2A.;operator=::(16,141)=#(16,132),(16,142)=&(16,132),(16,136),(16,138),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEaSERKS5_;2A.;add::(16,143)=#(16,132),(0,6),(16,136),(16,144)=&(16,145)=k(16,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addERKS4_;2A.(16,146)=#(16,132),(0,6),(16,136),(16,147)=*(16,145),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,148)=#(16,132),(0,6),(16,136),(16,133),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEPS4_;2A.(16,149)=#(16,132),(0,6),(16,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEi;2A.(16,150)=#(16,132),(0,6),(16,136),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEii;2A.;insert::(16,151)=#(16,132),(0,6),(16,136),(0,3),(16,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6insertEiS4_;2A.;size::(16,152)=#(16,132),(0,3),(16,153)=*(16,139),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE4sizeEv;2B.;resize::(16,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6resizeEi;2A.;reserve::(16,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7reserveEi;2A.;clear::(16,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5clearEv;2A.;empty::(16,154)=#(16,132),(0,4),(16,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5emptyEv;2B.;capacity::(16,152):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE8capacityEv;2B.;begin::(16,155)=#(16,132),(16,133),(16,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2A.;end::(16,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2A.;begin::(16,156)=#(16,132),(16,147),(16,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2B.;end::(16,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2B.;operator[]::(16,157)=#(16,132),(16,158)=&(16,134),(16,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2A.(16,159)=#(16,132),(16,144),(16,153),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2B.;pointer::(16,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2B.(16,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::ConnListener>:Tt(16,160)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,132),32,96;__base_ctor::(16,161)=#(16,160),(0,6),(16,162)=*(16,160),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2Eb;2A.;__comp_ctor::(16,161):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1Eb;2A.;begin::(16,163)=#(16,160),(16,164)=xsiterator:,(16,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE5beginEv;2A.;add::(16,165)=#(16,160),(0,6),(16,162),(16,166)=*(16,167)=xsConnListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE3addEPS1_;2A.;remove::(16,165):_ZN6MAUtil11ListenerSetINS_12ConnListenerEE6removeEPS1_;2A.;contains::(16,168)=#(16,160),(0,4),(16,162),(16,166),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE8containsEPS1_;2A.;setRunning::(16,169)=#(16,160),(0,6),(16,162),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE10setRunningEb;2A.;size::(16,170)=#(16,160),(0,3),(16,171)=*(16,172)=k(16,160),(0,6);:_ZNK6MAUtil11ListenerSetINS_12ConnListenerEE4sizeEv;2B.;operator=::(16,173)=#(16,160),(16,174)=&(16,160),(16,162),(16,175)=&(16,172),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEaSERKS2_;2A.;__base_ctor::(16,176)=#(16,160),(0,6),(16,162),(16,175),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2ERKS2_;2A.;__comp_ctor::(16,176):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1ERKS2_;2A.;__base_dtor::(16,177)=#(16,160),(0,6),(16,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEED2Ev;2A.;__comp_dtor::(16,177):_ZN6MAUtil11ListenerSetINS_12ConnListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::IdleListener>::Combo>:Tt(16,178)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,179)=*(16,180)=xsCombo:,64,32;__base_ctor::(16,181)=#(16,178),(0,6),(16,182)=*(16,178),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,181):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,183)=#(16,178),(0,6),(16,182),(16,184)=&(16,185)=k(16,178),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,186)=#(16,178),(0,6),(16,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED1Ev;2A.;operator=::(16,187)=#(16,178),(16,188)=&(16,178),(16,182),(16,184),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEaSERKS5_;2A.;add::(16,189)=#(16,178),(0,6),(16,182),(16,190)=&(16,191)=k(16,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addERKS4_;2A.(16,192)=#(16,178),(0,6),(16,182),(16,193)=*(16,191),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,194)=#(16,178),(0,6),(16,182),(16,179),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEPS4_;2A.(16,195)=#(16,178),(0,6),(16,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEi;2A.(16,196)=#(16,178),(0,6),(16,182),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEii;2A.;insert::(16,197)=#(16,178),(0,6),(16,182),(0,3),(16,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6insertEiS4_;2A.;size::(16,198)=#(16,178),(0,3),(16,199)=*(16,185),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE4sizeEv;2B.;resize::(16,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6resizeEi;2A.;reserve::(16,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7reserveEi;2A.;clear::(16,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5clearEv;2A.;empty::(16,200)=#(16,178),(0,4),(16,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5emptyEv;2B.;capacity::(16,198):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE8capacityEv;2B.;begin::(16,201)=#(16,178),(16,179),(16,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2A.;end::(16,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2A.;begin::(16,202)=#(16,178),(16,193),(16,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2B.;end::(16,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2B.;operator[]::(16,203)=#(16,178),(16,204)=&(16,180),(16,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2A.(16,205)=#(16,178),(16,190),(16,199),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2B.;pointer::(16,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2B.(16,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::IdleListener>:Tt(16,206)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,178),32,96;__base_ctor::(16,207)=#(16,206),(0,6),(16,208)=*(16,206),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2Eb;2A.;__comp_ctor::(16,207):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1Eb;2A.;begin::(16,209)=#(16,206),(16,210)=xsiterator:,(16,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE5beginEv;2A.;add::(16,211)=#(16,206),(0,6),(16,208),(16,212)=*(16,213)=xsIdleListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE3addEPS1_;2A.;remove::(16,211):_ZN6MAUtil11ListenerSetINS_12IdleListenerEE6removeEPS1_;2A.;contains::(16,214)=#(16,206),(0,4),(16,208),(16,212),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE8containsEPS1_;2A.;setRunning::(16,215)=#(16,206),(0,6),(16,208),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE10setRunningEb;2A.;size::(16,216)=#(16,206),(0,3),(16,217)=*(16,218)=k(16,206),(0,6);:_ZNK6MAUtil11ListenerSetINS_12IdleListenerEE4sizeEv;2B.;operator=::(16,219)=#(16,206),(16,220)=&(16,206),(16,208),(16,221)=&(16,218),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEaSERKS2_;2A.;__base_ctor::(16,222)=#(16,206),(0,6),(16,208),(16,221),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2ERKS2_;2A.;__comp_ctor::(16,222):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1ERKS2_;2A.;__base_dtor::(16,223)=#(16,206),(0,6),(16,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEED2Ev;2A.;__comp_dtor::(16,223):_ZN6MAUtil11ListenerSetINS_12IdleListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::Environment::TimerEventInstance>::Combo>:Tt(16,224)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,225)=*(16,226)=xsCombo:,64,32;__base_ctor::(16,227)=#(16,224),(0,6),(16,228)=*(16,224),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2Ei;2A.;__comp_ctor::(16,227):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1Ei;2A.;__base_ctor::(16,229)=#(16,224),(0,6),(16,228),(16,230)=&(16,231)=k(16,224),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2ERKS6_;2A.;__comp_ctor::(16,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1ERKS6_;2A.;__base_dtor::(16,232)=#(16,224),(0,6),(16,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED2Ev;2A.;__comp_dtor::(16,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED1Ev;2A.;operator=::(16,233)=#(16,224),(16,234)=&(16,224),(16,228),(16,230),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEaSERKS6_;2A.;add::(16,235)=#(16,224),(0,6),(16,228),(16,236)=&(16,237)=k(16,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addERKS5_;2A.(16,238)=#(16,224),(0,6),(16,228),(16,239)=*(16,237),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addEPKS5_i;2A.;remove::(16,240)=#(16,224),(0,6),(16,228),(16,225),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEPS5_;2A.(16,241)=#(16,224),(0,6),(16,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEi;2A.(16,242)=#(16,224),(0,6),(16,228),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEii;2A.;insert::(16,243)=#(16,224),(0,6),(16,228),(0,3),(16,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6insertEiS5_;2A.;size::(16,244)=#(16,224),(0,3),(16,245)=*(16,231),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE4sizeEv;2B.;resize::(16,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6resizeEi;2A.;reserve::(16,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7reserveEi;2A.;clear::(16,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5clearEv;2A.;empty::(16,246)=#(16,224),(0,4),(16,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5emptyEv;2B.;capacity::(16,244):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE8capacityEv;2B.;begin::(16,247)=#(16,224),(16,225),(16,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2A.;end::(16,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2A.;begin::(16,248)=#(16,224),(16,239),(16,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2B.;end::(16,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2B.;operator[]::(16,249)=#(16,224),(16,250)=&(16,226),(16,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2A.(16,251)=#(16,224),(16,236),(16,245),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2B.;pointer::(16,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2B.(16,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::Environment::TimerEventInstance>:Tt(16,252)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,224),32,96;__base_ctor::(16,253)=#(16,252),(0,6),(16,254)=*(16,252),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2Eb;2A.;__comp_ctor::(16,253):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1Eb;2A.;begin::(16,255)=#(16,252),(16,256)=xsiterator:,(16,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE5beginEv;2A.;add::(16,257)=#(16,252),(0,6),(16,254),(16,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE3addEPS2_;2A.;remove::(16,257):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE6removeEPS2_;2A.;contains::(16,258)=#(16,252),(0,4),(16,254),(16,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE8containsEPS2_;2A.;setRunning::(16,259)=#(16,252),(0,6),(16,254),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE10setRunningEb;2A.;size::(16,260)=#(16,252),(0,3),(16,261)=*(16,262)=k(16,252),(0,6);:_ZNK6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE4sizeEv;2B.;operator=::(16,263)=#(16,252),(16,264)=&(16,252),(16,254),(16,265)=&(16,262),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEaSERKS3_;2A.;__base_ctor::(16,266)=#(16,252),(0,6),(16,254),(16,265),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2ERKS3_;2A.;__comp_ctor::(16,266):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1ERKS3_;2A.;__base_dtor::(16,267)=#(16,252),(0,6),(16,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED2Ev;2A.;__comp_dtor::(16,267):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::FocusListener>::Combo>:Tt(16,268)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,269)=*(16,270)=xsCombo:,64,32;__base_ctor::(16,271)=#(16,268),(0,6),(16,272)=*(16,268),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,271):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,273)=#(16,268),(0,6),(16,272),(16,274)=&(16,275)=k(16,268),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,276)=#(16,268),(0,6),(16,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED1Ev;2A.;operator=::(16,277)=#(16,268),(16,278)=&(16,268),(16,272),(16,274),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEaSERKS5_;2A.;add::(16,279)=#(16,268),(0,6),(16,272),(16,280)=&(16,281)=k(16,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addERKS4_;2A.(16,282)=#(16,268),(0,6),(16,272),(16,283)=*(16,281),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,284)=#(16,268),(0,6),(16,272),(16,269),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEPS4_;2A.(16,285)=#(16,268),(0,6),(16,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEi;2A.(16,286)=#(16,268),(0,6),(16,272),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEii;2A.;insert::(16,287)=#(16,268),(0,6),(16,272),(0,3),(16,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6insertEiS4_;2A.;size::(16,288)=#(16,268),(0,3),(16,289)=*(16,275),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE4sizeEv;2B.;resize::(16,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6resizeEi;2A.;reserve::(16,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7reserveEi;2A.;clear::(16,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5clearEv;2A.;empty::(16,290)=#(16,268),(0,4),(16,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5emptyEv;2B.;capacity::(16,288):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE8capacityEv;2B.;begin::(16,291)=#(16,268),(16,269),(16,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2A.;end::(16,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2A.;begin::(16,292)=#(16,268),(16,283),(16,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2B.;end::(16,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2B.;operator[]::(16,293)=#(16,268),(16,294)=&(16,270),(16,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2A.(16,295)=#(16,268),(16,280),(16,289),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2B.;pointer::(16,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2B.(16,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::FocusListener>:Tt(16,296)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,268),32,96;__base_ctor::(16,297)=#(16,296),(0,6),(16,298)=*(16,296),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2Eb;2A.;__comp_ctor::(16,297):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1Eb;2A.;begin::(16,299)=#(16,296),(16,300)=xsiterator:,(16,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE5beginEv;2A.;add::(16,301)=#(16,296),(0,6),(16,298),(16,302)=*(16,303)=xsFocusListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE3addEPS1_;2A.;remove::(16,301):_ZN6MAUtil11ListenerSetINS_13FocusListenerEE6removeEPS1_;2A.;contains::(16,304)=#(16,296),(0,4),(16,298),(16,302),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE8containsEPS1_;2A.;setRunning::(16,305)=#(16,296),(0,6),(16,298),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE10setRunningEb;2A.;size::(16,306)=#(16,296),(0,3),(16,307)=*(16,308)=k(16,296),(0,6);:_ZNK6MAUtil11ListenerSetINS_13FocusListenerEE4sizeEv;2B.;operator=::(16,309)=#(16,296),(16,310)=&(16,296),(16,298),(16,311)=&(16,308),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEaSERKS2_;2A.;__base_ctor::(16,312)=#(16,296),(0,6),(16,298),(16,311),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2ERKS2_;2A.;__comp_ctor::(16,312):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1ERKS2_;2A.;__base_dtor::(16,313)=#(16,296),(0,6),(16,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEED2Ev;2A.;__comp_dtor::(16,313):_ZN6MAUtil11ListenerSetINS_13FocusListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CustomEventListener>::Combo>:Tt(16,314)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,315)=*(16,316)=xsCombo:,64,32;__base_ctor::(16,317)=#(16,314),(0,6),(16,318)=*(16,314),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,317):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,319)=#(16,314),(0,6),(16,318),(16,320)=&(16,321)=k(16,314),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,322)=#(16,314),(0,6),(16,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED1Ev;2A.;operator=::(16,323)=#(16,314),(16,324)=&(16,314),(16,318),(16,320),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEaSERKS5_;2A.;add::(16,325)=#(16,314),(0,6),(16,318),(16,326)=&(16,327)=k(16,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addERKS4_;2A.(16,328)=#(16,314),(0,6),(16,318),(16,329)=*(16,327),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,330)=#(16,314),(0,6),(16,318),(16,315),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEPS4_;2A.(16,331)=#(16,314),(0,6),(16,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEi;2A.(16,332)=#(16,314),(0,6),(16,318),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEii;2A.;insert::(16,333)=#(16,314),(0,6),(16,318),(0,3),(16,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6insertEiS4_;2A.;size::(16,334)=#(16,314),(0,3),(16,335)=*(16,321),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE4sizeEv;2B.;resize::(16,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6resizeEi;2A.;reserve::(16,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7reserveEi;2A.;clear::(16,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5clearEv;2A.;empty::(16,336)=#(16,314),(0,4),(16,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5emptyEv;2B.;capacity::(16,334):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE8capacityEv;2B.;begin::(16,337)=#(16,314),(16,315),(16,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2A.;end::(16,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2A.;begin::(16,338)=#(16,314),(16,329),(16,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2B.;end::(16,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2B.;operator[]::(16,339)=#(16,314),(16,340)=&(16,316),(16,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2A.(16,341)=#(16,314),(16,326),(16,335),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2B.;pointer::(16,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2B.(16,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::CustomEventListener>:Tt(16,342)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,314),32,96;__base_ctor::(16,343)=#(16,342),(0,6),(16,344)=*(16,342),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2Eb;2A.;__comp_ctor::(16,343):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1Eb;2A.;begin::(16,345)=#(16,342),(16,346)=xsiterator:,(16,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE5beginEv;2A.;add::(16,347)=#(16,342),(0,6),(16,344),(16,348)=*(16,349)=xsCustomEventListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE3addEPS1_;2A.;remove::(16,347):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE6removeEPS1_;2A.;contains::(16,350)=#(16,342),(0,4),(16,344),(16,348),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE8containsEPS1_;2A.;setRunning::(16,351)=#(16,342),(0,6),(16,344),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE10setRunningEb;2A.;size::(16,352)=#(16,342),(0,3),(16,353)=*(16,354)=k(16,342),(0,6);:_ZNK6MAUtil11ListenerSetINS_19CustomEventListenerEE4sizeEv;2B.;operator=::(16,355)=#(16,342),(16,356)=&(16,342),(16,344),(16,357)=&(16,354),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEaSERKS2_;2A.;__base_ctor::(16,358)=#(16,342),(0,6),(16,344),(16,357),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2ERKS2_;2A.;__comp_ctor::(16,358):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1ERKS2_;2A.;__base_dtor::(16,359)=#(16,342),(0,6),(16,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED2Ev;2A.;__comp_dtor::(16,359):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED1Ev;2A.;;",128,0,37,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::TextBoxListener>::Combo>:Tt(16,360)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,361)=*(16,362)=xsCombo:,64,32;__base_ctor::(16,363)=#(16,360),(0,6),(16,364)=*(16,360),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,363):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,365)=#(16,360),(0,6),(16,364),(16,366)=&(16,367)=k(16,360),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,368)=#(16,360),(0,6),(16,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED1Ev;2A.;operator=::(16,369)=#(16,360),(16,370)=&(16,360),(16,364),(16,366),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEaSERKS5_;2A.;add::(16,371)=#(16,360),(0,6),(16,364),(16,372)=&(16,373)=k(16,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addERKS4_;2A.(16,374)=#(16,360),(0,6),(16,364),(16,375)=*(16,373),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,376)=#(16,360),(0,6),(16,364),(16,361),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEPS4_;2A.(16,377)=#(16,360),(0,6),(16,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEi;2A.(16,378)=#(16,360),(0,6),(16,364),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEii;2A.;insert::(16,379)=#(16,360),(0,6),(16,364),(0,3),(16,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6insertEiS4_;2A.;size::(16,380)=#(16,360),(0,3),(16,381)=*(16,367),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE4sizeEv;2B.;resize::(16,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6resizeEi;2A.;reserve::(16,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7reserveEi;2A.;clear::(16,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5clearEv;2A.;empty::(16,382)=#(16,360),(0,4),(16,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5emptyEv;2B.;capacity::(16,380):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE8capacityEv;2B.;begin::(16,383)=#(16,360),(16,361),(16,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2A.;end::(16,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2A.;begin::(16,384)=#(16,360),(16,375),(16,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2B.;end::(16,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2B.;operator[]::(16,385)=#(16,360),(16,386)=&(16,362),(16,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2A.(16,387)=#(16,360),(16,372),(16,381),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2B.;pointer::(16,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2B.(16,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::TextBoxListener>:Tt(16,388)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,360),32,96;__base_ctor::(16,389)=#(16,388),(0,6),(16,390)=*(16,388),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2Eb;2A.;__comp_ctor::(16,389):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1Eb;2A.;begin::(16,391)=#(16,388),(16,392)=xsiterator:,(16,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE5beginEv;2A.;add::(16,393)=#(16,388),(0,6),(16,390),(16,394)=*(16,395)=xsTextBoxListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE3addEPS1_;2A.;remove::(16,393):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE6removeEPS1_;2A.;contains::(16,396)=#(16,388),(0,4),(16,390),(16,394),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE8containsEPS1_;2A.;setRunning::(16,397)=#(16,388),(0,6),(16,390),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE10setRunningEb;2A.;size::(16,398)=#(16,388),(0,3),(16,399)=*(16,400)=k(16,388),(0,6);:_ZNK6MAUtil11ListenerSetINS_15TextBoxListenerEE4sizeEv;2B.;operator=::(16,401)=#(16,388),(16,402)=&(16,388),(16,390),(16,403)=&(16,400),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEaSERKS2_;2A.;__base_ctor::(16,404)=#(16,388),(0,6),(16,390),(16,403),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2ERKS2_;2A.;__comp_ctor::(16,404):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1ERKS2_;2A.;__base_dtor::(16,405)=#(16,388),(0,6),(16,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED2Ev;2A.;__comp_dtor::(16,405):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED1Ev;2A.;;",128,0,37,0
+	.stabs	"Environment::TimerEventInstance:Tt(16,1)=s20e:(16,2)=*(16,3)=xsTimerListener:,0,32;addTime:(0,3),32,32;period:(0,3),64,32;numTimes:(0,3),96,32;nextInvoke:(0,3),128,32;__base_ctor::(16,4)=#(16,1),(0,6),(16,5)=*(16,1),(16,2),(0,3),(0,3),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2EPNS_13TimerListenerEii;2A.;__comp_ctor::(16,4):_ZN6MAUtil11Environment18TimerEventInstanceC1EPNS_13TimerListenerEii;2A.;operator=::(16,6)=#(16,1),(16,7)=&(16,1),(16,5),(16,8)=&(16,9)=k(16,1),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceaSERKS1_;2A.;__base_ctor::(16,10)=#(16,1),(0,6),(16,5),(16,8),(0,6);:_ZN6MAUtil11Environment18TimerEventInstanceC2ERKS1_;2A.;__comp_ctor::(16,10):_ZN6MAUtil11Environment18TimerEventInstanceC1ERKS1_;2A.;;",128,0,409,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::KeyListener>::Combo>:Tt(16,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,12)=*(16,13)=xsCombo:,64,32;__base_ctor::(16,14)=#(16,11),(0,6),(16,15)=*(16,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,16)=#(16,11),(0,6),(16,15),(16,17)=*(16,18)=k(16,13),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,19)=#(16,11),(0,6),(16,15),(16,20)=&(16,21)=k(16,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,22)=#(16,11),(0,6),(16,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEED1Ev;2A.;operator=::(16,23)=#(16,11),(16,24)=&(16,11),(16,15),(16,20),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEaSERKS5_;2A.;add::(16,25)=#(16,11),(0,6),(16,15),(16,26)=&(16,18),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addERKS4_;2A.(16,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,27)=#(16,11),(0,6),(16,15),(16,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEPS4_;2A.(16,28)=#(16,11),(0,6),(16,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEi;2A.(16,29)=#(16,11),(0,6),(16,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6removeEii;2A.;insert::(16,30)=#(16,11),(0,6),(16,15),(0,3),(16,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6insertEiS4_;2A.;size::(16,31)=#(16,11),(0,3),(16,32)=*(16,21),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE4sizeEv;2B.;resize::(16,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE6resizeEi;2A.;reserve::(16,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7reserveEi;2A.;clear::(16,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5clearEv;2A.;empty::(16,33)=#(16,11),(0,4),(16,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5emptyEv;2B.;capacity::(16,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE8capacityEv;2B.;begin::(16,34)=#(16,11),(16,12),(16,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2A.;end::(16,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2A.;begin::(16,35)=#(16,11),(16,17),(16,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE5beginEv;2B.;end::(16,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE3endEv;2B.;operator[]::(16,36)=#(16,11),(16,37)=&(16,13),(16,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2A.(16,38)=#(16,11),(16,26),(16,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEEixEi;2B.;pointer::(16,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2B.(16,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_11KeyListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::KeyListener>:Tt(16,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,11),32,96;__base_ctor::(16,40)=#(16,39),(0,6),(16,41)=*(16,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2Eb;2A.;__comp_ctor::(16,40):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1Eb;2A.;begin::(16,42)=#(16,39),(16,43)=xsiterator:,(16,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE5beginEv;2A.;add::(16,44)=#(16,39),(0,6),(16,41),(16,45)=*(16,46)=xsKeyListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE3addEPS1_;2A.;remove::(16,44):_ZN6MAUtil11ListenerSetINS_11KeyListenerEE6removeEPS1_;2A.;contains::(16,47)=#(16,39),(0,4),(16,41),(16,45),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE8containsEPS1_;2A.;setRunning::(16,48)=#(16,39),(0,6),(16,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEE10setRunningEb;2A.;size::(16,49)=#(16,39),(0,3),(16,50)=*(16,51)=k(16,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_11KeyListenerEE4sizeEv;2B.;operator=::(16,52)=#(16,39),(16,53)=&(16,39),(16,41),(16,54)=&(16,51),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEaSERKS2_;2A.;__base_ctor::(16,55)=#(16,39),(0,6),(16,41),(16,54),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC2ERKS2_;2A.;__comp_ctor::(16,55):_ZN6MAUtil11ListenerSetINS_11KeyListenerEEC1ERKS2_;2A.;__base_dtor::(16,56)=#(16,39),(0,6),(16,41),(0,6);:_ZN6MAUtil11ListenerSetINS_11KeyListenerEED2Ev;2A.;__comp_dtor::(16,56):_ZN6MAUtil11ListenerSetINS_11KeyListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::PointerListener>::Combo>:Tt(16,57)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,58)=*(16,59)=xsCombo:,64,32;__base_ctor::(16,60)=#(16,57),(0,6),(16,61)=*(16,57),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,60):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,62)=#(16,57),(0,6),(16,61),(16,63)=*(16,64)=k(16,59),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,65)=#(16,57),(0,6),(16,61),(16,66)=&(16,67)=k(16,57),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,65):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,68)=#(16,57),(0,6),(16,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,68):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEED1Ev;2A.;operator=::(16,69)=#(16,57),(16,70)=&(16,57),(16,61),(16,66),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEaSERKS5_;2A.;add::(16,71)=#(16,57),(0,6),(16,61),(16,72)=&(16,64),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addERKS4_;2A.(16,62):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,73)=#(16,57),(0,6),(16,61),(16,58),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEPS4_;2A.(16,74)=#(16,57),(0,6),(16,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEi;2A.(16,75)=#(16,57),(0,6),(16,61),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6removeEii;2A.;insert::(16,76)=#(16,57),(0,6),(16,61),(0,3),(16,59),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6insertEiS4_;2A.;size::(16,77)=#(16,57),(0,3),(16,78)=*(16,67),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE4sizeEv;2B.;resize::(16,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE6resizeEi;2A.;reserve::(16,74):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7reserveEi;2A.;clear::(16,68):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5clearEv;2A.;empty::(16,79)=#(16,57),(0,4),(16,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5emptyEv;2B.;capacity::(16,77):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE8capacityEv;2B.;begin::(16,80)=#(16,57),(16,58),(16,61),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2A.;end::(16,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2A.;begin::(16,81)=#(16,57),(16,63),(16,78),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE5beginEv;2B.;end::(16,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE3endEv;2B.;operator[]::(16,82)=#(16,57),(16,83)=&(16,59),(16,61),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2A.(16,84)=#(16,57),(16,72),(16,78),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEEixEi;2B.;pointer::(16,81):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2B.(16,80):_ZN6MAUtil6VectorINS_11ListenerSetINS_15PointerListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::PointerListener>:Tt(16,85)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,57),32,96;__base_ctor::(16,86)=#(16,85),(0,6),(16,87)=*(16,85),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2Eb;2A.;__comp_ctor::(16,86):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1Eb;2A.;begin::(16,88)=#(16,85),(16,89)=xsiterator:,(16,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE5beginEv;2A.;add::(16,90)=#(16,85),(0,6),(16,87),(16,91)=*(16,92)=xsPointerListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE3addEPS1_;2A.;remove::(16,90):_ZN6MAUtil11ListenerSetINS_15PointerListenerEE6removeEPS1_;2A.;contains::(16,93)=#(16,85),(0,4),(16,87),(16,91),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE8containsEPS1_;2A.;setRunning::(16,94)=#(16,85),(0,6),(16,87),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEE10setRunningEb;2A.;size::(16,95)=#(16,85),(0,3),(16,96)=*(16,97)=k(16,85),(0,6);:_ZNK6MAUtil11ListenerSetINS_15PointerListenerEE4sizeEv;2B.;operator=::(16,98)=#(16,85),(16,99)=&(16,85),(16,87),(16,100)=&(16,97),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEaSERKS2_;2A.;__base_ctor::(16,101)=#(16,85),(0,6),(16,87),(16,100),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC2ERKS2_;2A.;__comp_ctor::(16,101):_ZN6MAUtil11ListenerSetINS_15PointerListenerEEC1ERKS2_;2A.;__base_dtor::(16,102)=#(16,85),(0,6),(16,87),(0,6);:_ZN6MAUtil11ListenerSetINS_15PointerListenerEED2Ev;2A.;__comp_dtor::(16,102):_ZN6MAUtil11ListenerSetINS_15PointerListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::CloseListener*>:Tt(16,103)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,104)=*(16,105)=*(16,106)=xsCloseListener:,64,32;__base_ctor::(16,107)=#(16,103),(0,6),(16,108)=*(16,103),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2Ei;2A.;__comp_ctor::(16,107):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1Ei;2A.;__base_ctor::(16,109)=#(16,103),(0,6),(16,108),(16,110)=*(16,111)=k(16,105),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2EPKS2_i;2A.;__comp_ctor::(16,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1EPKS2_i;2A.;__base_ctor::(16,112)=#(16,103),(0,6),(16,108),(16,113)=&(16,114)=k(16,103),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEC2ERKS3_;2A.;__comp_ctor::(16,112):_ZN6MAUtil6VectorIPNS_13CloseListenerEEC1ERKS3_;2A.;__base_dtor::(16,115)=#(16,103),(0,6),(16,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEED2Ev;2A.;__comp_dtor::(16,115):_ZN6MAUtil6VectorIPNS_13CloseListenerEED1Ev;2A.;operator=::(16,116)=#(16,103),(16,117)=&(16,103),(16,108),(16,113),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEaSERKS3_;2A.;add::(16,118)=#(16,103),(0,6),(16,108),(16,119)=&(16,111),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addERKS2_;2A.(16,109):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3addEPKS2_i;2A.;remove::(16,120)=#(16,103),(0,6),(16,108),(16,104),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEPS2_;2A.(16,121)=#(16,103),(0,6),(16,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEi;2A.(16,122)=#(16,103),(0,6),(16,108),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6removeEii;2A.;insert::(16,123)=#(16,103),(0,6),(16,108),(0,3),(16,105),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE6insertEiS2_;2A.;size::(16,124)=#(16,103),(0,3),(16,125)=*(16,114),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE4sizeEv;2B.;resize::(16,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE6resizeEi;2A.;reserve::(16,121):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7reserveEi;2A.;clear::(16,115):_ZN6MAUtil6VectorIPNS_13CloseListenerEE5clearEv;2A.;empty::(16,126)=#(16,103),(0,4),(16,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5emptyEv;2B.;capacity::(16,124):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE8capacityEv;2B.;begin::(16,127)=#(16,103),(16,104),(16,108),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2A.;end::(16,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2A.;begin::(16,128)=#(16,103),(16,110),(16,125),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEE5beginEv;2B.;end::(16,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE3endEv;2B.;operator[]::(16,129)=#(16,103),(16,130)=&(16,105),(16,108),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_13CloseListenerEEixEi;2A.(16,131)=#(16,103),(16,119),(16,125),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_13CloseListenerEEixEi;2B.;pointer::(16,128):_ZNK6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2B.(16,127):_ZN6MAUtil6VectorIPNS_13CloseListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::ConnListener>::Combo>:Tt(16,132)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,133)=*(16,134)=xsCombo:,64,32;__base_ctor::(16,135)=#(16,132),(0,6),(16,136)=*(16,132),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,135):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,137)=#(16,132),(0,6),(16,136),(16,138)=*(16,139)=k(16,134),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,140)=#(16,132),(0,6),(16,136),(16,141)=&(16,142)=k(16,132),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,140):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,143)=#(16,132),(0,6),(16,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,143):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEED1Ev;2A.;operator=::(16,144)=#(16,132),(16,145)=&(16,132),(16,136),(16,141),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEaSERKS5_;2A.;add::(16,146)=#(16,132),(0,6),(16,136),(16,147)=&(16,139),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addERKS4_;2A.(16,137):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,148)=#(16,132),(0,6),(16,136),(16,133),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEPS4_;2A.(16,149)=#(16,132),(0,6),(16,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEi;2A.(16,150)=#(16,132),(0,6),(16,136),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6removeEii;2A.;insert::(16,151)=#(16,132),(0,6),(16,136),(0,3),(16,134),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6insertEiS4_;2A.;size::(16,152)=#(16,132),(0,3),(16,153)=*(16,142),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE4sizeEv;2B.;resize::(16,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE6resizeEi;2A.;reserve::(16,149):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7reserveEi;2A.;clear::(16,143):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5clearEv;2A.;empty::(16,154)=#(16,132),(0,4),(16,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5emptyEv;2B.;capacity::(16,152):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE8capacityEv;2B.;begin::(16,155)=#(16,132),(16,133),(16,136),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2A.;end::(16,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2A.;begin::(16,156)=#(16,132),(16,138),(16,153),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE5beginEv;2B.;end::(16,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE3endEv;2B.;operator[]::(16,157)=#(16,132),(16,158)=&(16,134),(16,136),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2A.(16,159)=#(16,132),(16,147),(16,153),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEEixEi;2B.;pointer::(16,156):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2B.(16,155):_ZN6MAUtil6VectorINS_11ListenerSetINS_12ConnListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::ConnListener>:Tt(16,160)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,132),32,96;__base_ctor::(16,161)=#(16,160),(0,6),(16,162)=*(16,160),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2Eb;2A.;__comp_ctor::(16,161):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1Eb;2A.;begin::(16,163)=#(16,160),(16,164)=xsiterator:,(16,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE5beginEv;2A.;add::(16,165)=#(16,160),(0,6),(16,162),(16,166)=*(16,167)=xsConnListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE3addEPS1_;2A.;remove::(16,165):_ZN6MAUtil11ListenerSetINS_12ConnListenerEE6removeEPS1_;2A.;contains::(16,168)=#(16,160),(0,4),(16,162),(16,166),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE8containsEPS1_;2A.;setRunning::(16,169)=#(16,160),(0,6),(16,162),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEE10setRunningEb;2A.;size::(16,170)=#(16,160),(0,3),(16,171)=*(16,172)=k(16,160),(0,6);:_ZNK6MAUtil11ListenerSetINS_12ConnListenerEE4sizeEv;2B.;operator=::(16,173)=#(16,160),(16,174)=&(16,160),(16,162),(16,175)=&(16,172),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEaSERKS2_;2A.;__base_ctor::(16,176)=#(16,160),(0,6),(16,162),(16,175),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC2ERKS2_;2A.;__comp_ctor::(16,176):_ZN6MAUtil11ListenerSetINS_12ConnListenerEEC1ERKS2_;2A.;__base_dtor::(16,177)=#(16,160),(0,6),(16,162),(0,6);:_ZN6MAUtil11ListenerSetINS_12ConnListenerEED2Ev;2A.;__comp_dtor::(16,177):_ZN6MAUtil11ListenerSetINS_12ConnListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::IdleListener>::Combo>:Tt(16,178)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,179)=*(16,180)=xsCombo:,64,32;__base_ctor::(16,181)=#(16,178),(0,6),(16,182)=*(16,178),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,181):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,183)=#(16,178),(0,6),(16,182),(16,184)=*(16,185)=k(16,180),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,186)=#(16,178),(0,6),(16,182),(16,187)=&(16,188)=k(16,178),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,186):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,189)=#(16,178),(0,6),(16,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,189):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEED1Ev;2A.;operator=::(16,190)=#(16,178),(16,191)=&(16,178),(16,182),(16,187),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEaSERKS5_;2A.;add::(16,192)=#(16,178),(0,6),(16,182),(16,193)=&(16,185),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addERKS4_;2A.(16,183):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,194)=#(16,178),(0,6),(16,182),(16,179),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEPS4_;2A.(16,195)=#(16,178),(0,6),(16,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEi;2A.(16,196)=#(16,178),(0,6),(16,182),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6removeEii;2A.;insert::(16,197)=#(16,178),(0,6),(16,182),(0,3),(16,180),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6insertEiS4_;2A.;size::(16,198)=#(16,178),(0,3),(16,199)=*(16,188),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE4sizeEv;2B.;resize::(16,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE6resizeEi;2A.;reserve::(16,195):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7reserveEi;2A.;clear::(16,189):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5clearEv;2A.;empty::(16,200)=#(16,178),(0,4),(16,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5emptyEv;2B.;capacity::(16,198):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE8capacityEv;2B.;begin::(16,201)=#(16,178),(16,179),(16,182),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2A.;end::(16,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2A.;begin::(16,202)=#(16,178),(16,184),(16,199),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE5beginEv;2B.;end::(16,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE3endEv;2B.;operator[]::(16,203)=#(16,178),(16,204)=&(16,180),(16,182),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2A.(16,205)=#(16,178),(16,193),(16,199),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEEixEi;2B.;pointer::(16,202):_ZNK6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2B.(16,201):_ZN6MAUtil6VectorINS_11ListenerSetINS_12IdleListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::IdleListener>:Tt(16,206)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,178),32,96;__base_ctor::(16,207)=#(16,206),(0,6),(16,208)=*(16,206),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2Eb;2A.;__comp_ctor::(16,207):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1Eb;2A.;begin::(16,209)=#(16,206),(16,210)=xsiterator:,(16,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE5beginEv;2A.;add::(16,211)=#(16,206),(0,6),(16,208),(16,212)=*(16,213)=xsIdleListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE3addEPS1_;2A.;remove::(16,211):_ZN6MAUtil11ListenerSetINS_12IdleListenerEE6removeEPS1_;2A.;contains::(16,214)=#(16,206),(0,4),(16,208),(16,212),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE8containsEPS1_;2A.;setRunning::(16,215)=#(16,206),(0,6),(16,208),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEE10setRunningEb;2A.;size::(16,216)=#(16,206),(0,3),(16,217)=*(16,218)=k(16,206),(0,6);:_ZNK6MAUtil11ListenerSetINS_12IdleListenerEE4sizeEv;2B.;operator=::(16,219)=#(16,206),(16,220)=&(16,206),(16,208),(16,221)=&(16,218),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEaSERKS2_;2A.;__base_ctor::(16,222)=#(16,206),(0,6),(16,208),(16,221),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC2ERKS2_;2A.;__comp_ctor::(16,222):_ZN6MAUtil11ListenerSetINS_12IdleListenerEEC1ERKS2_;2A.;__base_dtor::(16,223)=#(16,206),(0,6),(16,208),(0,6);:_ZN6MAUtil11ListenerSetINS_12IdleListenerEED2Ev;2A.;__comp_dtor::(16,223):_ZN6MAUtil11ListenerSetINS_12IdleListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::Environment::TimerEventInstance>::Combo>:Tt(16,224)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,225)=*(16,226)=xsCombo:,64,32;__base_ctor::(16,227)=#(16,224),(0,6),(16,228)=*(16,224),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2Ei;2A.;__comp_ctor::(16,227):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1Ei;2A.;__base_ctor::(16,229)=#(16,224),(0,6),(16,228),(16,230)=*(16,231)=k(16,226),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2EPKS5_i;2A.;__comp_ctor::(16,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1EPKS5_i;2A.;__base_ctor::(16,232)=#(16,224),(0,6),(16,228),(16,233)=&(16,234)=k(16,224),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC2ERKS6_;2A.;__comp_ctor::(16,232):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEC1ERKS6_;2A.;__base_dtor::(16,235)=#(16,224),(0,6),(16,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED2Ev;2A.;__comp_dtor::(16,235):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEED1Ev;2A.;operator=::(16,236)=#(16,224),(16,237)=&(16,224),(16,228),(16,233),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEaSERKS6_;2A.;add::(16,238)=#(16,224),(0,6),(16,228),(16,239)=&(16,231),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addERKS5_;2A.(16,229):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3addEPKS5_i;2A.;remove::(16,240)=#(16,224),(0,6),(16,228),(16,225),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEPS5_;2A.(16,241)=#(16,224),(0,6),(16,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEi;2A.(16,242)=#(16,224),(0,6),(16,228),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6removeEii;2A.;insert::(16,243)=#(16,224),(0,6),(16,228),(0,3),(16,226),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6insertEiS5_;2A.;size::(16,244)=#(16,224),(0,3),(16,245)=*(16,234),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE4sizeEv;2B.;resize::(16,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE6resizeEi;2A.;reserve::(16,241):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7reserveEi;2A.;clear::(16,235):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5clearEv;2A.;empty::(16,246)=#(16,224),(0,4),(16,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5emptyEv;2B.;capacity::(16,244):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE8capacityEv;2B.;begin::(16,247)=#(16,224),(16,225),(16,228),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2A.;end::(16,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2A.;begin::(16,248)=#(16,224),(16,230),(16,245),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE5beginEv;2B.;end::(16,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE3endEv;2B.;operator[]::(16,249)=#(16,224),(16,250)=&(16,226),(16,228),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2A.(16,251)=#(16,224),(16,239),(16,245),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEEixEi;2B.;pointer::(16,248):_ZNK6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2B.(16,247):_ZN6MAUtil6VectorINS_11ListenerSetINS_11Environment18TimerEventInstanceEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::Environment::TimerEventInstance>:Tt(16,252)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,224),32,96;__base_ctor::(16,253)=#(16,252),(0,6),(16,254)=*(16,252),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2Eb;2A.;__comp_ctor::(16,253):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1Eb;2A.;begin::(16,255)=#(16,252),(16,256)=xsiterator:,(16,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE5beginEv;2A.;add::(16,257)=#(16,252),(0,6),(16,254),(16,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE3addEPS2_;2A.;remove::(16,257):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE6removeEPS2_;2A.;contains::(16,258)=#(16,252),(0,4),(16,254),(16,5),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE8containsEPS2_;2A.;setRunning::(16,259)=#(16,252),(0,6),(16,254),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE10setRunningEb;2A.;size::(16,260)=#(16,252),(0,3),(16,261)=*(16,262)=k(16,252),(0,6);:_ZNK6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEE4sizeEv;2B.;operator=::(16,263)=#(16,252),(16,264)=&(16,252),(16,254),(16,265)=&(16,262),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEaSERKS3_;2A.;__base_ctor::(16,266)=#(16,252),(0,6),(16,254),(16,265),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC2ERKS3_;2A.;__comp_ctor::(16,266):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEEC1ERKS3_;2A.;__base_dtor::(16,267)=#(16,252),(0,6),(16,254),(0,6);:_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED2Ev;2A.;__comp_dtor::(16,267):_ZN6MAUtil11ListenerSetINS_11Environment18TimerEventInstanceEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::FocusListener>::Combo>:Tt(16,268)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,269)=*(16,270)=xsCombo:,64,32;__base_ctor::(16,271)=#(16,268),(0,6),(16,272)=*(16,268),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,271):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,273)=#(16,268),(0,6),(16,272),(16,274)=*(16,275)=k(16,270),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,276)=#(16,268),(0,6),(16,272),(16,277)=&(16,278)=k(16,268),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,276):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,279)=#(16,268),(0,6),(16,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,279):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEED1Ev;2A.;operator=::(16,280)=#(16,268),(16,281)=&(16,268),(16,272),(16,277),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEaSERKS5_;2A.;add::(16,282)=#(16,268),(0,6),(16,272),(16,283)=&(16,275),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addERKS4_;2A.(16,273):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,284)=#(16,268),(0,6),(16,272),(16,269),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEPS4_;2A.(16,285)=#(16,268),(0,6),(16,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEi;2A.(16,286)=#(16,268),(0,6),(16,272),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6removeEii;2A.;insert::(16,287)=#(16,268),(0,6),(16,272),(0,3),(16,270),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6insertEiS4_;2A.;size::(16,288)=#(16,268),(0,3),(16,289)=*(16,278),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE4sizeEv;2B.;resize::(16,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE6resizeEi;2A.;reserve::(16,285):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7reserveEi;2A.;clear::(16,279):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5clearEv;2A.;empty::(16,290)=#(16,268),(0,4),(16,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5emptyEv;2B.;capacity::(16,288):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE8capacityEv;2B.;begin::(16,291)=#(16,268),(16,269),(16,272),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2A.;end::(16,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2A.;begin::(16,292)=#(16,268),(16,274),(16,289),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE5beginEv;2B.;end::(16,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE3endEv;2B.;operator[]::(16,293)=#(16,268),(16,294)=&(16,270),(16,272),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2A.(16,295)=#(16,268),(16,283),(16,289),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEEixEi;2B.;pointer::(16,292):_ZNK6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2B.(16,291):_ZN6MAUtil6VectorINS_11ListenerSetINS_13FocusListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::FocusListener>:Tt(16,296)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,268),32,96;__base_ctor::(16,297)=#(16,296),(0,6),(16,298)=*(16,296),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2Eb;2A.;__comp_ctor::(16,297):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1Eb;2A.;begin::(16,299)=#(16,296),(16,300)=xsiterator:,(16,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE5beginEv;2A.;add::(16,301)=#(16,296),(0,6),(16,298),(16,302)=*(16,303)=xsFocusListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE3addEPS1_;2A.;remove::(16,301):_ZN6MAUtil11ListenerSetINS_13FocusListenerEE6removeEPS1_;2A.;contains::(16,304)=#(16,296),(0,4),(16,298),(16,302),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE8containsEPS1_;2A.;setRunning::(16,305)=#(16,296),(0,6),(16,298),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEE10setRunningEb;2A.;size::(16,306)=#(16,296),(0,3),(16,307)=*(16,308)=k(16,296),(0,6);:_ZNK6MAUtil11ListenerSetINS_13FocusListenerEE4sizeEv;2B.;operator=::(16,309)=#(16,296),(16,310)=&(16,296),(16,298),(16,311)=&(16,308),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEaSERKS2_;2A.;__base_ctor::(16,312)=#(16,296),(0,6),(16,298),(16,311),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC2ERKS2_;2A.;__comp_ctor::(16,312):_ZN6MAUtil11ListenerSetINS_13FocusListenerEEC1ERKS2_;2A.;__base_dtor::(16,313)=#(16,296),(0,6),(16,298),(0,6);:_ZN6MAUtil11ListenerSetINS_13FocusListenerEED2Ev;2A.;__comp_dtor::(16,313):_ZN6MAUtil11ListenerSetINS_13FocusListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CustomEventListener>::Combo>:Tt(16,314)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,315)=*(16,316)=xsCombo:,64,32;__base_ctor::(16,317)=#(16,314),(0,6),(16,318)=*(16,314),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,317):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,319)=#(16,314),(0,6),(16,318),(16,320)=*(16,321)=k(16,316),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,322)=#(16,314),(0,6),(16,318),(16,323)=&(16,324)=k(16,314),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,322):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,325)=#(16,314),(0,6),(16,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,325):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEED1Ev;2A.;operator=::(16,326)=#(16,314),(16,327)=&(16,314),(16,318),(16,323),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEaSERKS5_;2A.;add::(16,328)=#(16,314),(0,6),(16,318),(16,329)=&(16,321),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addERKS4_;2A.(16,319):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,330)=#(16,314),(0,6),(16,318),(16,315),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEPS4_;2A.(16,331)=#(16,314),(0,6),(16,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEi;2A.(16,332)=#(16,314),(0,6),(16,318),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6removeEii;2A.;insert::(16,333)=#(16,314),(0,6),(16,318),(0,3),(16,316),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6insertEiS4_;2A.;size::(16,334)=#(16,314),(0,3),(16,335)=*(16,324),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE4sizeEv;2B.;resize::(16,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE6resizeEi;2A.;reserve::(16,331):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7reserveEi;2A.;clear::(16,325):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5clearEv;2A.;empty::(16,336)=#(16,314),(0,4),(16,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5emptyEv;2B.;capacity::(16,334):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE8capacityEv;2B.;begin::(16,337)=#(16,314),(16,315),(16,318),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2A.;end::(16,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2A.;begin::(16,338)=#(16,314),(16,320),(16,335),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE5beginEv;2B.;end::(16,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE3endEv;2B.;operator[]::(16,339)=#(16,314),(16,340)=&(16,316),(16,318),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2A.(16,341)=#(16,314),(16,329),(16,335),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEEixEi;2B.;pointer::(16,338):_ZNK6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2B.(16,337):_ZN6MAUtil6VectorINS_11ListenerSetINS_19CustomEventListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::CustomEventListener>:Tt(16,342)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,314),32,96;__base_ctor::(16,343)=#(16,342),(0,6),(16,344)=*(16,342),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2Eb;2A.;__comp_ctor::(16,343):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1Eb;2A.;begin::(16,345)=#(16,342),(16,346)=xsiterator:,(16,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE5beginEv;2A.;add::(16,347)=#(16,342),(0,6),(16,344),(16,348)=*(16,349)=xsCustomEventListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE3addEPS1_;2A.;remove::(16,347):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE6removeEPS1_;2A.;contains::(16,350)=#(16,342),(0,4),(16,344),(16,348),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE8containsEPS1_;2A.;setRunning::(16,351)=#(16,342),(0,6),(16,344),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEE10setRunningEb;2A.;size::(16,352)=#(16,342),(0,3),(16,353)=*(16,354)=k(16,342),(0,6);:_ZNK6MAUtil11ListenerSetINS_19CustomEventListenerEE4sizeEv;2B.;operator=::(16,355)=#(16,342),(16,356)=&(16,342),(16,344),(16,357)=&(16,354),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEaSERKS2_;2A.;__base_ctor::(16,358)=#(16,342),(0,6),(16,344),(16,357),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC2ERKS2_;2A.;__comp_ctor::(16,358):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEEC1ERKS2_;2A.;__base_dtor::(16,359)=#(16,342),(0,6),(16,344),(0,6);:_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED2Ev;2A.;__comp_dtor::(16,359):_ZN6MAUtil11ListenerSetINS_19CustomEventListenerEED1Ev;2A.;;",128,0,46,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::TextBoxListener>::Combo>:Tt(16,360)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(16,361)=*(16,362)=xsCombo:,64,32;__base_ctor::(16,363)=#(16,360),(0,6),(16,364)=*(16,360),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(16,363):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1Ei;2A.;__base_ctor::(16,365)=#(16,360),(0,6),(16,364),(16,366)=*(16,367)=k(16,362),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(16,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(16,368)=#(16,360),(0,6),(16,364),(16,369)=&(16,370)=k(16,360),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(16,368):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(16,371)=#(16,360),(0,6),(16,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED2Ev;2A.;__comp_dtor::(16,371):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEED1Ev;2A.;operator=::(16,372)=#(16,360),(16,373)=&(16,360),(16,364),(16,369),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEaSERKS5_;2A.;add::(16,374)=#(16,360),(0,6),(16,364),(16,375)=&(16,367),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addERKS4_;2A.(16,365):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3addEPKS4_i;2A.;remove::(16,376)=#(16,360),(0,6),(16,364),(16,361),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEPS4_;2A.(16,377)=#(16,360),(0,6),(16,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEi;2A.(16,378)=#(16,360),(0,6),(16,364),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6removeEii;2A.;insert::(16,379)=#(16,360),(0,6),(16,364),(0,3),(16,362),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6insertEiS4_;2A.;size::(16,380)=#(16,360),(0,3),(16,381)=*(16,370),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE4sizeEv;2B.;resize::(16,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE6resizeEi;2A.;reserve::(16,377):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7reserveEi;2A.;clear::(16,371):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5clearEv;2A.;empty::(16,382)=#(16,360),(0,4),(16,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5emptyEv;2B.;capacity::(16,380):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE8capacityEv;2B.;begin::(16,383)=#(16,360),(16,361),(16,364),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2A.;end::(16,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2A.;begin::(16,384)=#(16,360),(16,366),(16,381),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE5beginEv;2B.;end::(16,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE3endEv;2B.;operator[]::(16,385)=#(16,360),(16,386)=&(16,362),(16,364),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2A.(16,387)=#(16,360),(16,375),(16,381),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEEixEi;2B.;pointer::(16,384):_ZNK6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2B.(16,383):_ZN6MAUtil6VectorINS_11ListenerSetINS_15TextBoxListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::TextBoxListener>:Tt(16,388)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(16,360),32,96;__base_ctor::(16,389)=#(16,388),(0,6),(16,390)=*(16,388),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2Eb;2A.;__comp_ctor::(16,389):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1Eb;2A.;begin::(16,391)=#(16,388),(16,392)=xsiterator:,(16,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE5beginEv;2A.;add::(16,393)=#(16,388),(0,6),(16,390),(16,394)=*(16,395)=xsTextBoxListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE3addEPS1_;2A.;remove::(16,393):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE6removeEPS1_;2A.;contains::(16,396)=#(16,388),(0,4),(16,390),(16,394),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE8containsEPS1_;2A.;setRunning::(16,397)=#(16,388),(0,6),(16,390),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEE10setRunningEb;2A.;size::(16,398)=#(16,388),(0,3),(16,399)=*(16,400)=k(16,388),(0,6);:_ZNK6MAUtil11ListenerSetINS_15TextBoxListenerEE4sizeEv;2B.;operator=::(16,401)=#(16,388),(16,402)=&(16,388),(16,390),(16,403)=&(16,400),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEaSERKS2_;2A.;__base_ctor::(16,404)=#(16,388),(0,6),(16,390),(16,403),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC2ERKS2_;2A.;__comp_ctor::(16,404):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEEC1ERKS2_;2A.;__base_dtor::(16,405)=#(16,388),(0,6),(16,390),(0,6);:_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED2Ev;2A.;__comp_dtor::(16,405):_ZN6MAUtil11ListenerSetINS_15TextBoxListenerEED1Ev;2A.;;",128,0,46,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/EditBox.h",130,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/Font.h",130,0,0,0
 	.stabs	"CharDescriptor:Tt(18,1)=s16x:(0,12),0,16;y:(0,12),16,16;width:(0,12),32,16;height:(0,12),48,16;xOffset:(0,13),64,16;yOffset:(0,13),80,16;xAdvance:(0,13),96,16;page:(0,12),112,16;operator=::(18,2)=#(18,1),(18,3)=&(18,1),(18,4)=*(18,1),(18,5)=&(18,6)=k(18,1),(0,6);:_ZN4MAUI14CharDescriptoraSERKS0_;2A.;__base_ctor::(18,7)=#(18,1),(0,6),(18,4),(18,5),(0,6);:_ZN4MAUI14CharDescriptorC2ERKS0_;2A.;__comp_ctor::(18,7):_ZN4MAUI14CharDescriptorC1ERKS0_;2A.;__base_ctor::(18,8)=#(18,1),(0,6),(18,4),(0,6);:_ZN4MAUI14CharDescriptorC2Ev;2A.;__comp_ctor::(18,8):_ZN4MAUI14CharDescriptorC1Ev;2A.;;",128,0,40,0
 	.stabs	"Charset:Tt(18,9)=s4122lineHeight:(0,12),0,16;base:(0,12),16,16;width:(0,12),32,16;height:(0,12),48,16;pages:(0,12),64,16;chars:(18,10)=ar(3,53);0;255;(18,1),80,32768;name:(18,11)=ar(3,53);0;15;(0,19),32848,128;operator=::(18,12)=#(18,9),(18,13)=&(18,9),(18,14)=*(18,9),(18,15)=&(18,16)=k(18,9),(0,6);:_ZN4MAUI7CharsetaSERKS0_;2A.;__base_ctor::(18,17)=#(18,9),(0,6),(18,14),(18,15),(0,6);:_ZN4MAUI7CharsetC2ERKS0_;2A.;__comp_ctor::(18,17):_ZN4MAUI7CharsetC1ERKS0_;2A.;__base_ctor::(18,18)=#(18,9),(0,6),(18,14),(0,6);:_ZN4MAUI7CharsetC2Ev;2A.;__comp_ctor::(18,18):_ZN4MAUI7CharsetC1Ev;2A.;;",128,0,55,0
-	.stabs	"Font:Tt(18,19)=s12fontImage:/1(3,10),0,32;charset:/1(18,14),32,32;mLineSpacing:/1(0,3),64,32;__base_ctor::(18,20)=#(18,19),(0,6),(18,21)=*(18,19),(3,10),(0,6);:_ZN4MAUI4FontC2Ei;2A.;__comp_ctor::(18,20):_ZN4MAUI4FontC1Ei;2A.;__base_dtor::(18,22)=#(18,19),(0,6),(18,21),(0,6);:_ZN4MAUI4FontD2Ev;2A.;__comp_dtor::(18,22):_ZN4MAUI4FontD1Ev;2A.;setResource::(18,20):_ZN4MAUI4Font11setResourceEi;2A.;getHandle::(18,23)=#(18,19),(3,10),(18,24)=*(18,25)=k(18,19),(0,6);:_ZNK4MAUI4Font9getHandleEv;2B.;getName::(18,26)=#(18,19),(18,27)=*(18,28)=k(0,19),(18,24),(0,6);:_ZNK4MAUI4Font7getNameEv;2B.;setLineSpacing::(18,29)=#(18,19),(0,6),(18,21),(0,3),(0,6);:_ZN4MAUI4Font14setLineSpacingEi;2A.;getLineSpacing::(18,30)=#(18,19),(0,3),(18,24),(0,6);:_ZNK4MAUI4Font14getLineSpacingEv;2B.;getStringDimensions::(18,31)=#(18,19),(3,11),(18,24),(18,27),(0,3),(0,6);:_ZNK4MAUI4Font19getStringDimensionsEPKci;2B.;getBoundedStringDimensions::(18,32)=#(18,19),(3,11),(18,24),(18,27),(18,33)=&(18,34)=k(18,35)=xsRect:,(0,3),(0,6);:_ZNK4MAUI4Font26getBoundedStringDimensionsEPKcRKN6MAUtil4RectEi;2B.;getLineBreak::(18,36)=#(18,19),(0,3),(18,24),(0,3),(18,27),(18,33),(0,6);:_ZNK4MAUI4Font12getLineBreakEiPKcRKN6MAUtil4RectE;2B.;calculateLine::(18,36):_ZNK4MAUI4Font13calculateLineEiPKcRKN6MAUtil4RectE;2B.;calculateRectOfIndex::(18,37)=#(18,19),(18,35),(18,24),(0,3),(18,27),(18,33),(0,6);:_ZNK4MAUI4Font20calculateRectOfIndexEiPKcRKN6MAUtil4RectE;2B.;drawString::(18,38)=#(18,19),(0,6),(18,21),(18,27),(0,3),(0,3),(0,6);:_ZN4MAUI4Font10drawStringEPKcii;2A.;drawBoundedString::(18,39)=#(18,19),(0,6),(18,21),(18,27),(0,3),(0,3),(18,33),(0,6);:_ZN4MAUI4Font17drawBoundedStringEPKciiRKN6MAUtil4RectE;2A.;getCharset::(18,40)=#(18,19),(18,15),(18,24),(0,6);:_ZNK4MAUI4Font10getCharsetEv;2B.;calcCharPos::(18,41)=#(18,19),(0,6),(18,21),(0,19),(11,34),(11,34),(0,6);:_ZN4MAUI4Font11calcCharPosEcPiS1_;1A.;calcLineBreaks::(18,42)=#(18,19),(0,6),(18,24),(18,27),(0,3),(0,3),(18,33),(0,6);:_ZNK4MAUI4Font14calcLineBreaksEPKciiRKN6MAUtil4RectE;1B.;operator=::(18,43)=#(18,19),(18,44)=&(18,19),(18,21),(18,45)=&(18,25),(0,6);:_ZN4MAUI4FontaSERKS0_;2A.;__base_ctor::(18,46)=#(18,19),(0,6),(18,21),(18,45),(0,6);:_ZN4MAUI4FontC2ERKS0_;2A.;__comp_ctor::(18,46):_ZN4MAUI4FontC1ERKS0_;2A.;;",128,0,70,0
+	.stabs	"Font:Tt(18,19)=s12mFontImage:/1(3,10),0,32;mCharset:/1(18,14),32,32;mLineSpacing:/1(0,3),64,32;__base_ctor::(18,20)=#(18,19),(0,6),(18,21)=*(18,19),(3,10),(0,6);:_ZN4MAUI4FontC2Ei;2A.;__comp_ctor::(18,20):_ZN4MAUI4FontC1Ei;2A.;__base_dtor::(18,22)=#(18,19),(0,6),(18,21),(0,6);:_ZN4MAUI4FontD2Ev;2A.;__comp_dtor::(18,22):_ZN4MAUI4FontD1Ev;2A.;setResource::(18,20):_ZN4MAUI4Font11setResourceEi;2A.;getHandle::(18,23)=#(18,19),(3,10),(18,24)=*(18,25)=k(18,19),(0,6);:_ZNK4MAUI4Font9getHandleEv;2B.;getName::(18,26)=#(18,19),(18,27)=*(18,28)=k(0,19),(18,24),(0,6);:_ZNK4MAUI4Font7getNameEv;2B.;setLineSpacing::(18,29)=#(18,19),(0,6),(18,21),(0,3),(0,6);:_ZN4MAUI4Font14setLineSpacingEi;2A.;getLineSpacing::(18,30)=#(18,19),(0,3),(18,24),(0,6);:_ZNK4MAUI4Font14getLineSpacingEv;2B.;getStringDimensions::(18,31)=#(18,19),(3,11),(18,24),(18,27),(0,3),(0,6);:_ZNK4MAUI4Font19getStringDimensionsEPKci;2B.;getBoundedStringDimensions::(18,32)=#(18,19),(3,11),(18,24),(18,27),(18,33)=&(18,34)=k(18,35)=xsRect:,(0,3),(0,6);:_ZNK4MAUI4Font26getBoundedStringDimensionsEPKcRKN6MAUtil4RectEi;2B.;getLineBreak::(18,36)=#(18,19),(0,3),(18,24),(0,3),(18,27),(18,33),(0,6);:_ZNK4MAUI4Font12getLineBreakEiPKcRKN6MAUtil4RectE;2B.;calculateLine::(18,36):_ZNK4MAUI4Font13calculateLineEiPKcRKN6MAUtil4RectE;2B.;calculateRectOfIndex::(18,37)=#(18,19),(18,35),(18,24),(0,3),(18,27),(18,33),(0,6);:_ZNK4MAUI4Font20calculateRectOfIndexEiPKcRKN6MAUtil4RectE;2B.;drawString::(18,38)=#(18,19),(0,6),(18,21),(18,27),(0,3),(0,3),(0,6);:_ZN4MAUI4Font10drawStringEPKcii;2A.;drawBoundedString::(18,39)=#(18,19),(0,6),(18,21),(18,27),(0,3),(0,3),(18,33),(0,6);:_ZN4MAUI4Font17drawBoundedStringEPKciiRKN6MAUtil4RectE;2A.;getCharset::(18,40)=#(18,19),(18,15),(18,24),(0,6);:_ZNK4MAUI4Font10getCharsetEv;2B.;calcCharPos::(18,41)=#(18,19),(0,6),(18,21),(0,19),(11,34),(11,34),(0,6);:_ZN4MAUI4Font11calcCharPosEcPiS1_;1A.;calcLineBreaks::(18,42)=#(18,19),(0,6),(18,24),(18,27),(0,3),(0,3),(18,33),(0,6);:_ZNK4MAUI4Font14calcLineBreaksEPKciiRKN6MAUtil4RectE;1B.;operator=::(18,43)=#(18,19),(18,44)=&(18,19),(18,21),(18,45)=&(18,25),(0,6);:_ZN4MAUI4FontaSERKS0_;2A.;__base_ctor::(18,46)=#(18,19),(0,6),(18,21),(18,45),(0,6);:_ZN4MAUI4FontC2ERKS0_;2A.;__comp_ctor::(18,46):_ZN4MAUI4FontC1ERKS0_;2A.;;",128,0,70,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/CharInput.h",130,0,0,0
 	.stabs	"CharInputCallback:t(19,1)=(19,2)=*(11,43)",128,0,64,0
@@ -162,8 +162,8 @@
 	.stabs	"StopTimerCallback:t(19,6)=(19,2)",128,0,75,0
 	.stabs	"CharCallback:t(19,7)=(19,8)=*(19,9)=f(0,6)",128,0,110,0
 	.stabs	"CharInput::CharMode:t(19,10)=eLOWERCASE:0,UPPERCASE:1,NUMBERS:2,;",128,0,182,0
-	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CharInputListener>::Combo>:Tt(19,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(19,12)=*(19,13)=xsCombo:,64,32;__base_ctor::(19,14)=#(19,11),(0,6),(19,15)=*(19,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(19,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1Ei;2A.;__base_ctor::(19,16)=#(19,11),(0,6),(19,15),(19,17)=&(19,18)=k(19,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(19,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(19,19)=#(19,11),(0,6),(19,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED2Ev;2A.;__comp_dtor::(19,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED1Ev;2A.;operator=::(19,20)=#(19,11),(19,21)=&(19,11),(19,15),(19,17),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEaSERKS5_;2A.;add::(19,22)=#(19,11),(0,6),(19,15),(19,23)=&(19,24)=k(19,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addERKS4_;2A.(19,25)=#(19,11),(0,6),(19,15),(19,26)=*(19,24),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addEPKS4_i;2A.;remove::(19,27)=#(19,11),(0,6),(19,15),(19,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEPS4_;2A.(19,28)=#(19,11),(0,6),(19,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEi;2A.(19,29)=#(19,11),(0,6),(19,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEii;2A.;insert::(19,30)=#(19,11),(0,6),(19,15),(0,3),(19,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6insertEiS4_;2A.;size::(19,31)=#(19,11),(0,3),(19,32)=*(19,18),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE4sizeEv;2B.;resize::(19,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6resizeEi;2A.;reserve::(19,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7reserveEi;2A.;clear::(19,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5clearEv;2A.;empty::(19,33)=#(19,11),(0,4),(19,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5emptyEv;2B.;capacity::(19,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE8capacityEv;2B.;begin::(19,34)=#(19,11),(19,12),(19,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2A.;end::(19,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2A.;begin::(19,35)=#(19,11),(19,26),(19,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2B.;end::(19,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2B.;operator[]::(19,36)=#(19,11),(19,37)=&(19,13),(19,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2A.(19,38)=#(19,11),(19,23),(19,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2B.;pointer::(19,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2B.(19,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"ListenerSet<MAUtil::CharInputListener>:Tt(19,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(19,11),32,96;__base_ctor::(19,40)=#(19,39),(0,6),(19,41)=*(19,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2Eb;2A.;__comp_ctor::(19,40):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1Eb;2A.;begin::(19,42)=#(19,39),(19,43)=xsiterator:,(19,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE5beginEv;2A.;add::(19,44)=#(19,39),(0,6),(19,41),(19,45)=*(19,46)=xsCharInputListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE3addEPS1_;2A.;remove::(19,44):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE6removeEPS1_;2A.;contains::(19,47)=#(19,39),(0,4),(19,41),(19,45),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE8containsEPS1_;2A.;setRunning::(19,48)=#(19,39),(0,6),(19,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE10setRunningEb;2A.;size::(19,49)=#(19,39),(0,3),(19,50)=*(19,51)=k(19,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_17CharInputListenerEE4sizeEv;2B.;operator=::(19,52)=#(19,39),(19,53)=&(19,39),(19,41),(19,54)=&(19,51),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEaSERKS2_;2A.;__base_ctor::(19,55)=#(19,39),(0,6),(19,41),(19,54),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2ERKS2_;2A.;__comp_ctor::(19,55):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1ERKS2_;2A.;__base_dtor::(19,56)=#(19,39),(0,6),(19,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED2Ev;2A.;__comp_dtor::(19,56):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED1Ev;2A.;;",128,0,37,0
+	.stabs	"Vector<MAUtil::ListenerSet<MAUtil::CharInputListener>::Combo>:Tt(19,11)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(19,12)=*(19,13)=xsCombo:,64,32;__base_ctor::(19,14)=#(19,11),(0,6),(19,15)=*(19,11),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2Ei;2A.;__comp_ctor::(19,14):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1Ei;2A.;__base_ctor::(19,16)=#(19,11),(0,6),(19,15),(19,17)=*(19,18)=k(19,13),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2EPKS4_i;2A.;__comp_ctor::(19,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1EPKS4_i;2A.;__base_ctor::(19,19)=#(19,11),(0,6),(19,15),(19,20)=&(19,21)=k(19,11),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC2ERKS5_;2A.;__comp_ctor::(19,19):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEC1ERKS5_;2A.;__base_dtor::(19,22)=#(19,11),(0,6),(19,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED2Ev;2A.;__comp_dtor::(19,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEED1Ev;2A.;operator=::(19,23)=#(19,11),(19,24)=&(19,11),(19,15),(19,20),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEaSERKS5_;2A.;add::(19,25)=#(19,11),(0,6),(19,15),(19,26)=&(19,18),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addERKS4_;2A.(19,16):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3addEPKS4_i;2A.;remove::(19,27)=#(19,11),(0,6),(19,15),(19,12),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEPS4_;2A.(19,28)=#(19,11),(0,6),(19,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEi;2A.(19,29)=#(19,11),(0,6),(19,15),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6removeEii;2A.;insert::(19,30)=#(19,11),(0,6),(19,15),(0,3),(19,13),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6insertEiS4_;2A.;size::(19,31)=#(19,11),(0,3),(19,32)=*(19,21),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE4sizeEv;2B.;resize::(19,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE6resizeEi;2A.;reserve::(19,28):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7reserveEi;2A.;clear::(19,22):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5clearEv;2A.;empty::(19,33)=#(19,11),(0,4),(19,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5emptyEv;2B.;capacity::(19,31):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE8capacityEv;2B.;begin::(19,34)=#(19,11),(19,12),(19,15),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2A.;end::(19,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2A.;begin::(19,35)=#(19,11),(19,17),(19,32),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE5beginEv;2B.;end::(19,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE3endEv;2B.;operator[]::(19,36)=#(19,11),(19,37)=&(19,13),(19,15),(0,3),(0,6);:_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2A.(19,38)=#(19,11),(19,26),(19,32),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEEixEi;2B.;pointer::(19,35):_ZNK6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2B.(19,34):_ZN6MAUtil6VectorINS_11ListenerSetINS_17CharInputListenerEE5ComboEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"ListenerSet<MAUtil::CharInputListener>:Tt(19,39)=s16mRunning:/0(0,4),0,8;mUpdateRequired:/0(0,4),8,8;mShouldDelete:/0(0,4),16,8;mVec:/0(19,11),32,96;__base_ctor::(19,40)=#(19,39),(0,6),(19,41)=*(19,39),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2Eb;2A.;__comp_ctor::(19,40):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1Eb;2A.;begin::(19,42)=#(19,39),(19,43)=xsiterator:,(19,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE5beginEv;2A.;add::(19,44)=#(19,39),(0,6),(19,41),(19,45)=*(19,46)=xsCharInputListener:,(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE3addEPS1_;2A.;remove::(19,44):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE6removeEPS1_;2A.;contains::(19,47)=#(19,39),(0,4),(19,41),(19,45),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE8containsEPS1_;2A.;setRunning::(19,48)=#(19,39),(0,6),(19,41),(0,4),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEE10setRunningEb;2A.;size::(19,49)=#(19,39),(0,3),(19,50)=*(19,51)=k(19,39),(0,6);:_ZNK6MAUtil11ListenerSetINS_17CharInputListenerEE4sizeEv;2B.;operator=::(19,52)=#(19,39),(19,53)=&(19,39),(19,41),(19,54)=&(19,51),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEaSERKS2_;2A.;__base_ctor::(19,55)=#(19,39),(0,6),(19,41),(19,54),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC2ERKS2_;2A.;__comp_ctor::(19,55):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEEC1ERKS2_;2A.;__base_dtor::(19,56)=#(19,39),(0,6),(19,41),(0,6);:_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED2Ev;2A.;__comp_dtor::(19,56):_ZN6MAUtil11ListenerSetINS_17CharInputListenerEED1Ev;2A.;;",128,0,46,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/Label.h",130,0,0,0
 	.stabs	"Label::HorizontalAlignment:t(20,1)=eHA_LEFT:0,HA_CENTER:1,HA_RIGHT:2,;",128,0,44,0
@@ -171,23 +171,23 @@
 	.stabs	"BasicString<char>:Tt(9,2)=s4sd:/1(20,3)=*(20,4)=xsStringData<char>:,0,32;__base_ctor::(20,5)=#(9,2),(0,6),(20,6)=*(9,2),(0,6);:_ZN6MAUtil11BasicStringIcEC2Ev;2A.;__comp_ctor::(20,5):_ZN6MAUtil11BasicStringIcEC1Ev;2A.;__base_ctor::(20,7)=#(9,2),(0,6),(20,6),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEC2Ei;2A.;__comp_ctor::(20,7):_ZN6MAUtil11BasicStringIcEC1Ei;2A.;__base_ctor::(20,8)=#(9,2),(0,6),(20,6),(18,27),(0,6);:_ZN6MAUtil11BasicStringIcEC2EPKc;2A.;__comp_ctor::(20,8):_ZN6MAUtil11BasicStringIcEC1EPKc;2A.;__base_ctor::(20,9)=#(9,2),(0,6),(20,6),(18,27),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEC2EPKci;2A.;__comp_ctor::(20,9):_ZN6MAUtil11BasicStringIcEC1EPKci;2A.;__base_ctor::(20,10)=#(9,2),(0,6),(20,6),(20,11)=&(20,12)=k(9,2),(0,6);:_ZN6MAUtil11BasicStringIcEC2ERKS1_;2A.;__comp_ctor::(20,10):_ZN6MAUtil11BasicStringIcEC1ERKS1_;2A.;c_str::(20,13)=#(9,2),(18,27),(20,14)=*(20,12),(0,6);:_ZNK6MAUtil11BasicStringIcE5c_strEv;2B.;operator=::(20,15)=#(9,2),(20,16)=&(9,2),(20,6),(20,11),(0,6);:_ZN6MAUtil11BasicStringIcEaSERKS1_;2A.;operator[]::(20,17)=#(9,2),(20,18)=&(0,19),(20,6),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcEixEi;2A.(20,19)=#(9,2),(20,20)=&(18,28),(20,14),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcEixEi;2B.;operator==::(20,21)=#(9,2),(0,4),(20,14),(20,11),(0,6);:_ZNK6MAUtil11BasicStringIcEeqERKS1_;2B.;operator!=::(20,21):_ZNK6MAUtil11BasicStringIcEneERKS1_;2B.;operator<::(20,21):_ZNK6MAUtil11BasicStringIcEltERKS1_;2B.;operator>::(20,21):_ZNK6MAUtil11BasicStringIcEgtERKS1_;2B.;operator<=::(20,21):_ZNK6MAUtil11BasicStringIcEleERKS1_;2B.;operator>=::(20,21):_ZNK6MAUtil11BasicStringIcEgeERKS1_;2B.;operator+::(20,22)=#(9,2),(9,2),(20,14),(20,11),(0,6);:_ZNK6MAUtil11BasicStringIcEplERKS1_;2B.;operator+=::(20,15):_ZN6MAUtil11BasicStringIcEpLERKS1_;2A.;operator+::(20,23)=#(9,2),(9,2),(20,14),(0,19),(0,6);:_ZNK6MAUtil11BasicStringIcEplEc;2B.;operator+=::(20,24)=#(9,2),(20,16),(20,6),(0,19),(0,6);:_ZN6MAUtil11BasicStringIcEpLEc;2A.;find::(20,25)=#(9,2),(0,3),(20,14),(20,11),(0,17),(0,6);:_ZNK6MAUtil11BasicStringIcE4findERKS1_j;2B.;findLastOf::(20,26)=#(9,2),(0,3),(20,14),(0,19),(0,6);:_ZNK6MAUtil11BasicStringIcE10findLastOfEc;2B.;findFirstOf::(20,27)=#(9,2),(0,3),(20,14),(0,19),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcE11findFirstOfEci;2B.;findFirstNotOf::(20,27):_ZNK6MAUtil11BasicStringIcE14findFirstNotOfEci;2B.;insert::(20,28)=#(9,2),(0,6),(20,6),(0,3),(20,11),(0,6);:_ZN6MAUtil11BasicStringIcE6insertEiRKS1_;2A.(20,29)=#(9,2),(0,6),(20,6),(0,3),(0,19),(0,6);:_ZN6MAUtil11BasicStringIcE6insertEic;2A.;remove::(20,30)=#(9,2),(0,6),(20,6),(0,3),(0,3),(0,6);:_ZN6MAUtil11BasicStringIcE6removeEii;2A.;substr::(20,31)=#(9,2),(9,2),(20,14),(0,3),(0,3),(0,6);:_ZNK6MAUtil11BasicStringIcE6substrEii;2B.;capacity::(20,32)=#(9,2),(0,3),(20,14),(0,6);:_ZNK6MAUtil11BasicStringIcE8capacityEv;2B.;size::(20,32):_ZNK6MAUtil11BasicStringIcE4sizeEv;2B.;length::(20,32):_ZNK6MAUtil11BasicStringIcE6lengthEv;2B.;resize::(20,7):_ZN6MAUtil11BasicStringIcE6resizeEi;2A.;reserve::(20,7):_ZN6MAUtil11BasicStringIcE7reserveEi;2A.;clear::(20,5):_ZN6MAUtil11BasicStringIcE5clearEv;2A.;append::(20,9):_ZN6MAUtil11BasicStringIcE6appendEPKci;2A.;setData::(20,33)=#(9,2),(0,6),(20,6),(20,3),(0,6);:_ZN6MAUtil11BasicStringIcE7setDataEPNS_10StringDataIcEE;2A.;pointer::(20,34)=#(9,2),(3,5),(20,6),(0,6);:_ZN6MAUtil11BasicStringIcE7pointerEv;2A.;__base_dtor::(20,5):_ZN6MAUtil11BasicStringIcED2Ev;2A.;__comp_dtor::(20,5):_ZN6MAUtil11BasicStringIcED1Ev;2A.;allocStringData::(20,9):_ZN6MAUtil11BasicStringIcE15allocStringDataEPKci;1A.;;",128,0,104,0
 	.stabn	162,0,0,0
 	.stabs	"EditBox::InputMode:t(17,1)=eIM_NUMBERS:0,IM_STANDARD:1,IM_QWERTY:2,;",128,0,69,0
-	.stabs	"Vector<MAUI::EditBoxListener*>:Tt(17,2)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(17,3)=*(17,4)=*(17,5)=xsEditBoxListener:,64,32;__base_ctor::(17,6)=#(17,2),(0,6),(17,7)=*(17,2),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2Ei;2A.;__comp_ctor::(17,6):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1Ei;2A.;__base_ctor::(17,8)=#(17,2),(0,6),(17,7),(17,9)=&(17,10)=k(17,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2ERKS4_;2A.;__comp_ctor::(17,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1ERKS4_;2A.;__base_dtor::(17,11)=#(17,2),(0,6),(17,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED2Ev;2A.;__comp_dtor::(17,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED1Ev;2A.;operator=::(17,12)=#(17,2),(17,13)=&(17,2),(17,7),(17,9),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEaSERKS4_;2A.;add::(17,14)=#(17,2),(0,6),(17,7),(17,15)=&(17,16)=k(17,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addERKS3_;2A.(17,17)=#(17,2),(0,6),(17,7),(17,18)=*(17,16),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addEPKS3_i;2A.;remove::(17,19)=#(17,2),(0,6),(17,7),(17,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEPS3_;2A.(17,20)=#(17,2),(0,6),(17,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEi;2A.(17,21)=#(17,2),(0,6),(17,7),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEii;2A.;insert::(17,22)=#(17,2),(0,6),(17,7),(0,3),(17,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6insertEiS3_;2A.;size::(17,23)=#(17,2),(0,3),(17,24)=*(17,10),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE4sizeEv;2B.;resize::(17,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6resizeEi;2A.;reserve::(17,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7reserveEi;2A.;clear::(17,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5clearEv;2A.;empty::(17,25)=#(17,2),(0,4),(17,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5emptyEv;2B.;capacity::(17,23):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE8capacityEv;2B.;begin::(17,26)=#(17,2),(17,3),(17,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2A.;end::(17,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2A.;begin::(17,27)=#(17,2),(17,18),(17,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2B.;end::(17,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2B.;operator[]::(17,28)=#(17,2),(17,29)=&(17,4),(17,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2A.(17,30)=#(17,2),(17,15),(17,24),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2B.;pointer::(17,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2B.(17,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::EditBoxListener*>:Tt(17,2)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(17,3)=*(17,4)=*(17,5)=xsEditBoxListener:,64,32;__base_ctor::(17,6)=#(17,2),(0,6),(17,7)=*(17,2),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2Ei;2A.;__comp_ctor::(17,6):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1Ei;2A.;__base_ctor::(17,8)=#(17,2),(0,6),(17,7),(17,9)=*(17,10)=k(17,4),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2EPKS3_i;2A.;__comp_ctor::(17,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1EPKS3_i;2A.;__base_ctor::(17,11)=#(17,2),(0,6),(17,7),(17,12)=&(17,13)=k(17,2),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC2ERKS4_;2A.;__comp_ctor::(17,11):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEC1ERKS4_;2A.;__base_dtor::(17,14)=#(17,2),(0,6),(17,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED2Ev;2A.;__comp_dtor::(17,14):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEED1Ev;2A.;operator=::(17,15)=#(17,2),(17,16)=&(17,2),(17,7),(17,12),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEaSERKS4_;2A.;add::(17,17)=#(17,2),(0,6),(17,7),(17,18)=&(17,10),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addERKS3_;2A.(17,8):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3addEPKS3_i;2A.;remove::(17,19)=#(17,2),(0,6),(17,7),(17,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEPS3_;2A.(17,20)=#(17,2),(0,6),(17,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEi;2A.(17,21)=#(17,2),(0,6),(17,7),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6removeEii;2A.;insert::(17,22)=#(17,2),(0,6),(17,7),(0,3),(17,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6insertEiS3_;2A.;size::(17,23)=#(17,2),(0,3),(17,24)=*(17,13),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE4sizeEv;2B.;resize::(17,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE6resizeEi;2A.;reserve::(17,20):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7reserveEi;2A.;clear::(17,14):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5clearEv;2A.;empty::(17,25)=#(17,2),(0,4),(17,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5emptyEv;2B.;capacity::(17,23):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE8capacityEv;2B.;begin::(17,26)=#(17,2),(17,3),(17,7),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2A.;end::(17,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2A.;begin::(17,27)=#(17,2),(17,9),(17,24),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE5beginEv;2B.;end::(17,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE3endEv;2B.;operator[]::(17,28)=#(17,2),(17,29)=&(17,4),(17,7),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2A.(17,30)=#(17,2),(17,18),(17,24),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEEixEi;2B.;pointer::(17,27):_ZNK6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2B.(17,26):_ZN6MAUtil6VectorIPN4MAUI15EditBoxListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/ListBox.h",130,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/Engine.h",130,0,0,0
 	.stabn	162,0,0,0
 	.stabs	"ListBox::ListBoxOrientation:t(21,1)=eLBO_HORIZONTAL:0,LBO_VERTICAL:1,;",128,0,59,0
 	.stabs	"ListBox::ListBoxAnimationType:t(21,2)=eLBA_NONE:0,LBA_LINEAR:1,;",128,0,64,0
-	.stabs	"Vector<MAUI::ItemSelectedListener*>:Tt(21,3)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(21,4)=*(21,5)=*(21,6)=xsItemSelectedListener:,64,32;__base_ctor::(21,7)=#(21,3),(0,6),(21,8)=*(21,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2Ei;2A.;__comp_ctor::(21,7):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1Ei;2A.;__base_ctor::(21,9)=#(21,3),(0,6),(21,8),(21,10)=&(21,11)=k(21,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2ERKS4_;2A.;__comp_ctor::(21,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1ERKS4_;2A.;__base_dtor::(21,12)=#(21,3),(0,6),(21,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED2Ev;2A.;__comp_dtor::(21,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED1Ev;2A.;operator=::(21,13)=#(21,3),(21,14)=&(21,3),(21,8),(21,10),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEaSERKS4_;2A.;add::(21,15)=#(21,3),(0,6),(21,8),(21,16)=&(21,17)=k(21,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addERKS3_;2A.(21,18)=#(21,3),(0,6),(21,8),(21,19)=*(21,17),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addEPKS3_i;2A.;remove::(21,20)=#(21,3),(0,6),(21,8),(21,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEPS3_;2A.(21,21)=#(21,3),(0,6),(21,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEi;2A.(21,22)=#(21,3),(0,6),(21,8),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEii;2A.;insert::(21,23)=#(21,3),(0,6),(21,8),(0,3),(21,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6insertEiS3_;2A.;size::(21,24)=#(21,3),(0,3),(21,25)=*(21,11),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE4sizeEv;2B.;resize::(21,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6resizeEi;2A.;reserve::(21,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7reserveEi;2A.;clear::(21,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5clearEv;2A.;empty::(21,26)=#(21,3),(0,4),(21,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5emptyEv;2B.;capacity::(21,24):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE8capacityEv;2B.;begin::(21,27)=#(21,3),(21,4),(21,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2A.;end::(21,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2A.;begin::(21,28)=#(21,3),(21,19),(21,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2B.;end::(21,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2B.;operator[]::(21,29)=#(21,3),(21,30)=&(21,5),(21,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2A.(21,31)=#(21,3),(21,16),(21,25),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2B.;pointer::(21,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2B.(21,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUI::ItemSelectedListener*>:Tt(21,3)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(21,4)=*(21,5)=*(21,6)=xsItemSelectedListener:,64,32;__base_ctor::(21,7)=#(21,3),(0,6),(21,8)=*(21,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2Ei;2A.;__comp_ctor::(21,7):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1Ei;2A.;__base_ctor::(21,9)=#(21,3),(0,6),(21,8),(21,10)=*(21,11)=k(21,5),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2EPKS3_i;2A.;__comp_ctor::(21,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1EPKS3_i;2A.;__base_ctor::(21,12)=#(21,3),(0,6),(21,8),(21,13)=&(21,14)=k(21,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC2ERKS4_;2A.;__comp_ctor::(21,12):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEC1ERKS4_;2A.;__base_dtor::(21,15)=#(21,3),(0,6),(21,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED2Ev;2A.;__comp_dtor::(21,15):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEED1Ev;2A.;operator=::(21,16)=#(21,3),(21,17)=&(21,3),(21,8),(21,13),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEaSERKS4_;2A.;add::(21,18)=#(21,3),(0,6),(21,8),(21,19)=&(21,11),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addERKS3_;2A.(21,9):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3addEPKS3_i;2A.;remove::(21,20)=#(21,3),(0,6),(21,8),(21,4),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEPS3_;2A.(21,21)=#(21,3),(0,6),(21,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEi;2A.(21,22)=#(21,3),(0,6),(21,8),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6removeEii;2A.;insert::(21,23)=#(21,3),(0,6),(21,8),(0,3),(21,5),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6insertEiS3_;2A.;size::(21,24)=#(21,3),(0,3),(21,25)=*(21,14),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE4sizeEv;2B.;resize::(21,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE6resizeEi;2A.;reserve::(21,21):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7reserveEi;2A.;clear::(21,15):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5clearEv;2A.;empty::(21,26)=#(21,3),(0,4),(21,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5emptyEv;2B.;capacity::(21,24):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE8capacityEv;2B.;begin::(21,27)=#(21,3),(21,4),(21,8),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2A.;end::(21,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2A.;begin::(21,28)=#(21,3),(21,10),(21,25),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE5beginEv;2B.;end::(21,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE3endEv;2B.;operator[]::(21,29)=#(21,3),(21,30)=&(21,5),(21,8),(0,3),(0,6);:_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2A.(21,31)=#(21,3),(21,19),(21,25),(0,3),(0,6);:_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEEixEi;2B.;pointer::(21,28):_ZNK6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2B.(21,27):_ZN6MAUtil6VectorIPN4MAUI20ItemSelectedListenerEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/Layout.h",130,0,0,0
 	.stabs	"Layout::HorizontalAlignment:t(23,1)=eHA_LEFT:0,HA_CENTER:1,HA_RIGHT:2,;",128,0,40,0
 	.stabs	"Layout::VerticalAlignment:t(23,2)=eVA_TOP:0,VA_CENTER:1,VA_BOTTOM:2,;",128,0,46,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/BluetoothDiscovery.h",130,0,0,0
-	.stabs	"BtDevice:Tt(24,1)=s12name:(9,1),0,32;address:(3,61),32,48;operator=::(24,2)=#(24,1),(24,3)=&(24,1),(24,4)=*(24,1),(24,5)=&(24,6)=k(24,1),(0,6);:_ZN6MAUtil8BtDeviceaSERKS0_;2A.;__base_ctor::(24,7)=#(24,1),(0,6),(24,4),(24,5),(0,6);:_ZN6MAUtil8BtDeviceC2ERKS0_;2A.;__comp_ctor::(24,7):_ZN6MAUtil8BtDeviceC1ERKS0_;2A.;__base_ctor::(24,8)=#(24,1),(0,6),(24,4),(0,6);:_ZN6MAUtil8BtDeviceC2Ev;2A.;__comp_ctor::(24,8):_ZN6MAUtil8BtDeviceC1Ev;2A.;__base_dtor::(24,8):_ZN6MAUtil8BtDeviceD2Ev;2A.;__comp_dtor::(24,8):_ZN6MAUtil8BtDeviceD1Ev;2A.;;",128,0,35,0
-	.stabs	"Vector<MAUUID>:Tt(24,9)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(3,141),64,32;__base_ctor::(24,10)=#(24,9),(0,6),(24,11)=*(24,9),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEC2Ei;2A.;__comp_ctor::(24,10):_ZN6MAUtil6VectorI6MAUUIDEC1Ei;2A.;__base_ctor::(24,12)=#(24,9),(0,6),(24,11),(24,13)=&(24,14)=k(24,9),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEC2ERKS2_;2A.;__comp_ctor::(24,12):_ZN6MAUtil6VectorI6MAUUIDEC1ERKS2_;2A.;__base_dtor::(24,15)=#(24,9),(0,6),(24,11),(0,6);:_ZN6MAUtil6VectorI6MAUUIDED2Ev;2A.;__comp_dtor::(24,15):_ZN6MAUtil6VectorI6MAUUIDED1Ev;2A.;operator=::(24,16)=#(24,9),(24,17)=&(24,9),(24,11),(24,13),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEaSERKS2_;2A.;add::(24,18)=#(24,9),(0,6),(24,11),(24,19)=&(24,20)=k(3,130),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE3addERKS1_;2A.(24,21)=#(24,9),(0,6),(24,11),(24,22)=*(24,20),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE3addEPKS1_i;2A.;remove::(24,23)=#(24,9),(0,6),(24,11),(3,141),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEPS1_;2A.(24,24)=#(24,9),(0,6),(24,11),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEi;2A.(24,25)=#(24,9),(0,6),(24,11),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEii;2A.;insert::(24,26)=#(24,9),(0,6),(24,11),(0,3),(3,121),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6insertEiS1_;2A.;size::(24,27)=#(24,9),(0,3),(24,28)=*(24,14),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE4sizeEv;2B.;resize::(24,24):_ZN6MAUtil6VectorI6MAUUIDE6resizeEi;2A.;reserve::(24,24):_ZN6MAUtil6VectorI6MAUUIDE7reserveEi;2A.;clear::(24,15):_ZN6MAUtil6VectorI6MAUUIDE5clearEv;2A.;empty::(24,29)=#(24,9),(0,4),(24,28),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE5emptyEv;2B.;capacity::(24,27):_ZNK6MAUtil6VectorI6MAUUIDE8capacityEv;2B.;begin::(24,30)=#(24,9),(3,141),(24,11),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE5beginEv;2A.;end::(24,30):_ZN6MAUtil6VectorI6MAUUIDE3endEv;2A.;begin::(24,31)=#(24,9),(24,22),(24,28),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE5beginEv;2B.;end::(24,31):_ZNK6MAUtil6VectorI6MAUUIDE3endEv;2B.;operator[]::(24,32)=#(24,9),(24,33)=&(3,130),(24,11),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEixEi;2A.(24,34)=#(24,9),(24,19),(24,28),(0,3),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDEixEi;2B.;pointer::(24,31):_ZNK6MAUtil6VectorI6MAUUIDE7pointerEv;2B.(24,30):_ZN6MAUtil6VectorI6MAUUIDE7pointerEv;2A.;;",128,0,94,0
-	.stabs	"BtService:Tt(24,35)=s20port:(0,3),0,32;name:(9,1),32,32;uuids:(24,9),64,96;operator=::(24,36)=#(24,35),(24,37)=&(24,35),(24,38)=*(24,35),(24,39)=&(24,40)=k(24,35),(0,6);:_ZN6MAUtil9BtServiceaSERKS0_;2A.;__base_ctor::(24,41)=#(24,35),(0,6),(24,38),(24,39),(0,6);:_ZN6MAUtil9BtServiceC2ERKS0_;2A.;__comp_ctor::(24,41):_ZN6MAUtil9BtServiceC1ERKS0_;2A.;__base_ctor::(24,42)=#(24,35),(0,6),(24,38),(0,6);:_ZN6MAUtil9BtServiceC2Ev;2A.;__comp_ctor::(24,42):_ZN6MAUtil9BtServiceC1Ev;2A.;__base_dtor::(24,42):_ZN6MAUtil9BtServiceD2Ev;2A.;__comp_dtor::(24,42):_ZN6MAUtil9BtServiceD1Ev;2A.;;",128,0,44,0
+	.stabs	"BtDevice:Tt(24,1)=s12name:(9,1),0,32;address:(3,61),32,48;operator=::(24,2)=#(24,1),(24,3)=&(24,1),(24,4)=*(24,1),(24,5)=&(24,6)=k(24,1),(0,6);:_ZN6MAUtil8BtDeviceaSERKS0_;2A.;__base_ctor::(24,7)=#(24,1),(0,6),(24,4),(24,5),(0,6);:_ZN6MAUtil8BtDeviceC2ERKS0_;2A.;__comp_ctor::(24,7):_ZN6MAUtil8BtDeviceC1ERKS0_;2A.;__base_ctor::(24,8)=#(24,1),(0,6),(24,4),(0,6);:_ZN6MAUtil8BtDeviceC2Ev;2A.;__comp_ctor::(24,8):_ZN6MAUtil8BtDeviceC1Ev;2A.;__base_dtor::(24,8):_ZN6MAUtil8BtDeviceD2Ev;2A.;__comp_dtor::(24,8):_ZN6MAUtil8BtDeviceD1Ev;2A.;;",128,0,54,0
+	.stabs	"Vector<MAUUID>:Tt(24,9)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(3,142),64,32;__base_ctor::(24,10)=#(24,9),(0,6),(24,11)=*(24,9),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEC2Ei;2A.;__comp_ctor::(24,10):_ZN6MAUtil6VectorI6MAUUIDEC1Ei;2A.;__base_ctor::(24,12)=#(24,9),(0,6),(24,11),(24,13)=*(24,14)=k(3,131),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEC2EPKS1_i;2A.;__comp_ctor::(24,12):_ZN6MAUtil6VectorI6MAUUIDEC1EPKS1_i;2A.;__base_ctor::(24,15)=#(24,9),(0,6),(24,11),(24,16)=&(24,17)=k(24,9),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEC2ERKS2_;2A.;__comp_ctor::(24,15):_ZN6MAUtil6VectorI6MAUUIDEC1ERKS2_;2A.;__base_dtor::(24,18)=#(24,9),(0,6),(24,11),(0,6);:_ZN6MAUtil6VectorI6MAUUIDED2Ev;2A.;__comp_dtor::(24,18):_ZN6MAUtil6VectorI6MAUUIDED1Ev;2A.;operator=::(24,19)=#(24,9),(24,20)=&(24,9),(24,11),(24,16),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEaSERKS2_;2A.;add::(24,21)=#(24,9),(0,6),(24,11),(24,22)=&(24,14),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE3addERKS1_;2A.(24,12):_ZN6MAUtil6VectorI6MAUUIDE3addEPKS1_i;2A.;remove::(24,23)=#(24,9),(0,6),(24,11),(3,142),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEPS1_;2A.(24,24)=#(24,9),(0,6),(24,11),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEi;2A.(24,25)=#(24,9),(0,6),(24,11),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6removeEii;2A.;insert::(24,26)=#(24,9),(0,6),(24,11),(0,3),(3,122),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE6insertEiS1_;2A.;size::(24,27)=#(24,9),(0,3),(24,28)=*(24,17),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE4sizeEv;2B.;resize::(24,24):_ZN6MAUtil6VectorI6MAUUIDE6resizeEi;2A.;reserve::(24,24):_ZN6MAUtil6VectorI6MAUUIDE7reserveEi;2A.;clear::(24,18):_ZN6MAUtil6VectorI6MAUUIDE5clearEv;2A.;empty::(24,29)=#(24,9),(0,4),(24,28),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE5emptyEv;2B.;capacity::(24,27):_ZNK6MAUtil6VectorI6MAUUIDE8capacityEv;2B.;begin::(24,30)=#(24,9),(3,142),(24,11),(0,6);:_ZN6MAUtil6VectorI6MAUUIDE5beginEv;2A.;end::(24,30):_ZN6MAUtil6VectorI6MAUUIDE3endEv;2A.;begin::(24,31)=#(24,9),(24,13),(24,28),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDE5beginEv;2B.;end::(24,31):_ZNK6MAUtil6VectorI6MAUUIDE3endEv;2B.;operator[]::(24,32)=#(24,9),(24,33)=&(3,131),(24,11),(0,3),(0,6);:_ZN6MAUtil6VectorI6MAUUIDEixEi;2A.(24,34)=#(24,9),(24,22),(24,28),(0,3),(0,6);:_ZNK6MAUtil6VectorI6MAUUIDEixEi;2B.;pointer::(24,31):_ZNK6MAUtil6VectorI6MAUUIDE7pointerEv;2B.(24,30):_ZN6MAUtil6VectorI6MAUUIDE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"BtService:Tt(24,35)=s20port:(0,3),0,32;name:(9,1),32,32;uuids:(24,9),64,96;operator=::(24,36)=#(24,35),(24,37)=&(24,35),(24,38)=*(24,35),(24,39)=&(24,40)=k(24,35),(0,6);:_ZN6MAUtil9BtServiceaSERKS0_;2A.;__base_ctor::(24,41)=#(24,35),(0,6),(24,38),(24,39),(0,6);:_ZN6MAUtil9BtServiceC2ERKS0_;2A.;__comp_ctor::(24,41):_ZN6MAUtil9BtServiceC1ERKS0_;2A.;__base_ctor::(24,42)=#(24,35),(0,6),(24,38),(0,6);:_ZN6MAUtil9BtServiceC2Ev;2A.;__comp_ctor::(24,42):_ZN6MAUtil9BtServiceC1Ev;2A.;__base_dtor::(24,42):_ZN6MAUtil9BtServiceD2Ev;2A.;__comp_dtor::(24,42):_ZN6MAUtil9BtServiceD1Ev;2A.;;",128,0,63,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/BluetoothConnection.h",130,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/Connection.h",130,0,0,0
@@ -228,7 +228,7 @@
 	.stabs	"Context:Tt(33,46)=s60!1,020,(33,22);mXml:/0(33,47)=*(33,48)=xsXmlListener:,448,32;init::(33,49)=#(33,46),(0,6),(33,50)=*(33,46),(33,23),(33,47),(0,6);:_ZN3Mtx7Context4initEPNS_11MtxListenerEPNS_11XmlListenerE;2A.;feed::(33,51)=#(33,46),(0,4),(33,50),(3,5),(0,6);:_ZN3Mtx7Context4feedEPc;2A.;feedProcess::(33,51):_ZN3Mtx7Context11feedProcessEPc;2A.;process::(33,52)=#(33,46),(0,3),(33,50),(3,5),(0,6);:_ZN3Mtx7Context7processEPc;2A.;operator=::(33,53)=#(33,46),(33,54)=&(33,46),(33,50),(33,55)=&(33,56)=k(33,46),(0,6);:_ZN3Mtx7ContextaSERKS0_;2A.;__base_ctor::(33,57)=#(33,46),(0,6),(33,50),(33,55),(0,6);:_ZN3Mtx7ContextC2ERKS0_;2A.;__comp_ctor::(33,57):_ZN3Mtx7ContextC1ERKS0_;2A.;__base_ctor::(33,58)=#(33,46),(0,6),(33,50),(0,6);:_ZN3Mtx7ContextC2Ev;2A.;__comp_ctor::(33,58):_ZN3Mtx7ContextC1Ev;2A.;;",128,0,394,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<MAUtil::BtDevice>:Tt(5,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(24,4),64,32;__base_ctor::(5,2)=#(5,1),(0,6),(5,3)=*(5,1),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEC2Ei;2A.;__comp_ctor::(5,2):_ZN6MAUtil6VectorINS_8BtDeviceEEC1Ei;2A.;__base_ctor::(5,4)=#(5,1),(0,6),(5,3),(5,5)=&(5,6)=k(5,1),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEC2ERKS2_;2A.;__comp_ctor::(5,4):_ZN6MAUtil6VectorINS_8BtDeviceEEC1ERKS2_;2A.;__base_dtor::(5,7)=#(5,1),(0,6),(5,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEED2Ev;2A.;__comp_dtor::(5,7):_ZN6MAUtil6VectorINS_8BtDeviceEED1Ev;2A.;operator=::(5,8)=#(5,1),(5,9)=&(5,1),(5,3),(5,5),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEaSERKS2_;2A.;add::(5,10)=#(5,1),(0,6),(5,3),(24,5),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE3addERKS1_;2A.(5,11)=#(5,1),(0,6),(5,3),(5,12)=*(24,6),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE3addEPKS1_i;2A.;remove::(5,13)=#(5,1),(0,6),(5,3),(24,4),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEPS1_;2A.(5,14)=#(5,1),(0,6),(5,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEi;2A.(5,15)=#(5,1),(0,6),(5,3),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEii;2A.;insert::(5,16)=#(5,1),(0,6),(5,3),(0,3),(24,1),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6insertEiS1_;2A.;size::(5,17)=#(5,1),(0,3),(5,18)=*(5,6),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE4sizeEv;2B.;resize::(5,14):_ZN6MAUtil6VectorINS_8BtDeviceEE6resizeEi;2A.;reserve::(5,14):_ZN6MAUtil6VectorINS_8BtDeviceEE7reserveEi;2A.;clear::(5,7):_ZN6MAUtil6VectorINS_8BtDeviceEE5clearEv;2A.;empty::(5,19)=#(5,1),(0,4),(5,18),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE5emptyEv;2B.;capacity::(5,17):_ZNK6MAUtil6VectorINS_8BtDeviceEE8capacityEv;2B.;begin::(5,20)=#(5,1),(24,4),(5,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE5beginEv;2A.;end::(5,20):_ZN6MAUtil6VectorINS_8BtDeviceEE3endEv;2A.;begin::(5,21)=#(5,1),(5,12),(5,18),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE5beginEv;2B.;end::(5,21):_ZNK6MAUtil6VectorINS_8BtDeviceEE3endEv;2B.;operator[]::(5,22)=#(5,1),(24,3),(5,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEixEi;2A.(5,23)=#(5,1),(24,5),(5,18),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEEixEi;2B.;pointer::(5,21):_ZNK6MAUtil6VectorINS_8BtDeviceEE7pointerEv;2B.(5,20):_ZN6MAUtil6VectorINS_8BtDeviceEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUtil::BtDevice>:Tt(5,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(24,4),64,32;__base_ctor::(5,2)=#(5,1),(0,6),(5,3)=*(5,1),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEC2Ei;2A.;__comp_ctor::(5,2):_ZN6MAUtil6VectorINS_8BtDeviceEEC1Ei;2A.;__base_ctor::(5,4)=#(5,1),(0,6),(5,3),(5,5)=*(24,6),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEC2EPKS1_i;2A.;__comp_ctor::(5,4):_ZN6MAUtil6VectorINS_8BtDeviceEEC1EPKS1_i;2A.;__base_ctor::(5,6)=#(5,1),(0,6),(5,3),(5,7)=&(5,8)=k(5,1),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEC2ERKS2_;2A.;__comp_ctor::(5,6):_ZN6MAUtil6VectorINS_8BtDeviceEEC1ERKS2_;2A.;__base_dtor::(5,9)=#(5,1),(0,6),(5,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEED2Ev;2A.;__comp_dtor::(5,9):_ZN6MAUtil6VectorINS_8BtDeviceEED1Ev;2A.;operator=::(5,10)=#(5,1),(5,11)=&(5,1),(5,3),(5,7),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEaSERKS2_;2A.;add::(5,12)=#(5,1),(0,6),(5,3),(24,5),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE3addERKS1_;2A.(5,4):_ZN6MAUtil6VectorINS_8BtDeviceEE3addEPKS1_i;2A.;remove::(5,13)=#(5,1),(0,6),(5,3),(24,4),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEPS1_;2A.(5,14)=#(5,1),(0,6),(5,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEi;2A.(5,15)=#(5,1),(0,6),(5,3),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6removeEii;2A.;insert::(5,16)=#(5,1),(0,6),(5,3),(0,3),(24,1),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE6insertEiS1_;2A.;size::(5,17)=#(5,1),(0,3),(5,18)=*(5,8),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE4sizeEv;2B.;resize::(5,14):_ZN6MAUtil6VectorINS_8BtDeviceEE6resizeEi;2A.;reserve::(5,14):_ZN6MAUtil6VectorINS_8BtDeviceEE7reserveEi;2A.;clear::(5,9):_ZN6MAUtil6VectorINS_8BtDeviceEE5clearEv;2A.;empty::(5,19)=#(5,1),(0,4),(5,18),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE5emptyEv;2B.;capacity::(5,17):_ZNK6MAUtil6VectorINS_8BtDeviceEE8capacityEv;2B.;begin::(5,20)=#(5,1),(24,4),(5,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEE5beginEv;2A.;end::(5,20):_ZN6MAUtil6VectorINS_8BtDeviceEE3endEv;2A.;begin::(5,21)=#(5,1),(5,5),(5,18),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEE5beginEv;2B.;end::(5,21):_ZNK6MAUtil6VectorINS_8BtDeviceEE3endEv;2B.;operator[]::(5,22)=#(5,1),(24,3),(5,3),(0,3),(0,6);:_ZN6MAUtil6VectorINS_8BtDeviceEEixEi;2A.(5,23)=#(5,1),(24,5),(5,18),(0,3),(0,6);:_ZNK6MAUtil6VectorINS_8BtDeviceEEixEi;2B.;pointer::(5,21):_ZNK6MAUtil6VectorINS_8BtDeviceEE7pointerEv;2B.(5,20):_ZN6MAUtil6VectorINS_8BtDeviceEE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\/Util.h",130,0,0,0
 	.stabs	"c:/MoSync/include/MAUI/Image.h",130,0,0,0
@@ -247,18 +247,19 @@
 	.stabs	"ImageCacheRequest:Tt(40,1)=s16card:/0(38,3),0,32;img:/0(40,2)=*(40,3)=xsImage:,32,32;height:/0(0,3),64,32;type:/0(0,3),96,32;__base_ctor::(40,4)=#(40,1),(0,6),(40,5)=*(40,1),(0,6);:_ZN17ImageCacheRequestC2Ev;2A.;__comp_ctor::(40,4):_ZN17ImageCacheRequestC1Ev;2A.;__base_ctor::(40,6)=#(40,1),(0,6),(40,5),(40,2),(38,3),(0,3),(0,3),(0,6);:_ZN17ImageCacheRequestC2EPN4MAUI5ImageEP4Cardii;2A.;__comp_ctor::(40,6):_ZN17ImageCacheRequestC1EPN4MAUI5ImageEP4Cardii;2A.;__base_dtor::(40,4):_ZN17ImageCacheRequestD2Ev;2A.;__comp_dtor::(40,4):_ZN17ImageCacheRequestD1Ev;2A.;getUrl::(40,7)=#(40,1),(9,1),(40,5),(0,6);:_ZN17ImageCacheRequest6getUrlEv;2A.;getSaveName::(40,7):_ZN17ImageCacheRequest11getSaveNameEv;2A.;getImage::(40,8)=#(40,1),(40,2),(40,5),(0,6);:_ZN17ImageCacheRequest8getImageEv;2A.;getHeight::(40,9)=#(40,1),(0,3),(40,5),(0,6);:_ZN17ImageCacheRequest9getHeightEv;2A.;getType::(40,9):_ZN17ImageCacheRequest7getTypeEv;2A.;operator=::(40,10)=#(40,1),(40,11)=&(40,1),(40,5),(40,12)=&(40,13)=k(40,1),(0,6);:_ZN17ImageCacheRequestaSERKS_;2A.;__base_ctor::(40,14)=#(40,1),(0,6),(40,5),(40,12),(0,6);:_ZN17ImageCacheRequestC2ERKS_;2A.;__comp_ctor::(40,14):_ZN17ImageCacheRequestC1ERKS_;2A.;;",128,0,14,0
 	.stabn	162,0,0,0
 	.stabs	"c:/MoSync/include/MAUtil/Downloader.h",130,0,0,0
-	.stabs	"Vector<MAUtil::DownloadListener*>:Tt(41,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(41,2)=*(41,3)=*(41,4)=xsDownloadListener:,64,32;__base_ctor::(41,5)=#(41,1),(0,6),(41,6)=*(41,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2Ei;2A.;__comp_ctor::(41,5):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1Ei;2A.;__base_ctor::(41,7)=#(41,1),(0,6),(41,6),(41,8)=&(41,9)=k(41,1),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2ERKS3_;2A.;__comp_ctor::(41,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1ERKS3_;2A.;__base_dtor::(41,10)=#(41,1),(0,6),(41,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEED2Ev;2A.;__comp_dtor::(41,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEED1Ev;2A.;operator=::(41,11)=#(41,1),(41,12)=&(41,1),(41,6),(41,8),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEaSERKS3_;2A.;add::(41,13)=#(41,1),(0,6),(41,6),(41,14)=&(41,15)=k(41,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addERKS2_;2A.(41,16)=#(41,1),(0,6),(41,6),(41,17)=*(41,15),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addEPKS2_i;2A.;remove::(41,18)=#(41,1),(0,6),(41,6),(41,2),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEPS2_;2A.(41,19)=#(41,1),(0,6),(41,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEi;2A.(41,20)=#(41,1),(0,6),(41,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEii;2A.;insert::(41,21)=#(41,1),(0,6),(41,6),(0,3),(41,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6insertEiS2_;2A.;size::(41,22)=#(41,1),(0,3),(41,23)=*(41,9),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE4sizeEv;2B.;resize::(41,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6resizeEi;2A.;reserve::(41,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7reserveEi;2A.;clear::(41,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5clearEv;2A.;empty::(41,24)=#(41,1),(0,4),(41,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5emptyEv;2B.;capacity::(41,22):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE8capacityEv;2B.;begin::(41,25)=#(41,1),(41,2),(41,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2A.;end::(41,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2A.;begin::(41,26)=#(41,1),(41,17),(41,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2B.;end::(41,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2B.;operator[]::(41,27)=#(41,1),(41,28)=&(41,3),(41,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2A.(41,29)=#(41,1),(41,14),(41,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2B.;pointer::(41,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2B.(41,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAUtil::DownloadListener*>:Tt(41,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(41,2)=*(41,3)=*(41,4)=xsDownloadListener:,64,32;__base_ctor::(41,5)=#(41,1),(0,6),(41,6)=*(41,1),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2Ei;2A.;__comp_ctor::(41,5):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1Ei;2A.;__base_ctor::(41,7)=#(41,1),(0,6),(41,6),(41,8)=*(41,9)=k(41,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2EPKS2_i;2A.;__comp_ctor::(41,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1EPKS2_i;2A.;__base_ctor::(41,10)=#(41,1),(0,6),(41,6),(41,11)=&(41,12)=k(41,1),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC2ERKS3_;2A.;__comp_ctor::(41,10):_ZN6MAUtil6VectorIPNS_16DownloadListenerEEC1ERKS3_;2A.;__base_dtor::(41,13)=#(41,1),(0,6),(41,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEED2Ev;2A.;__comp_dtor::(41,13):_ZN6MAUtil6VectorIPNS_16DownloadListenerEED1Ev;2A.;operator=::(41,14)=#(41,1),(41,15)=&(41,1),(41,6),(41,11),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEaSERKS3_;2A.;add::(41,16)=#(41,1),(0,6),(41,6),(41,17)=&(41,9),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addERKS2_;2A.(41,7):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3addEPKS2_i;2A.;remove::(41,18)=#(41,1),(0,6),(41,6),(41,2),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEPS2_;2A.(41,19)=#(41,1),(0,6),(41,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEi;2A.(41,20)=#(41,1),(0,6),(41,6),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6removeEii;2A.;insert::(41,21)=#(41,1),(0,6),(41,6),(0,3),(41,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6insertEiS2_;2A.;size::(41,22)=#(41,1),(0,3),(41,23)=*(41,12),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE4sizeEv;2B.;resize::(41,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE6resizeEi;2A.;reserve::(41,19):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7reserveEi;2A.;clear::(41,13):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5clearEv;2A.;empty::(41,24)=#(41,1),(0,4),(41,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5emptyEv;2B.;capacity::(41,22):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE8capacityEv;2B.;begin::(41,25)=#(41,1),(41,2),(41,6),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2A.;end::(41,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2A.;begin::(41,26)=#(41,1),(41,8),(41,23),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE5beginEv;2B.;end::(41,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE3endEv;2B.;operator[]::(41,27)=#(41,1),(41,28)=&(41,3),(41,6),(0,3),(0,6);:_ZN6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2A.(41,29)=#(41,1),(41,17),(41,23),(0,3),(0,6);:_ZNK6MAUtil6VectorIPNS_16DownloadListenerEEixEi;2B.;pointer::(41,26):_ZNK6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2B.(41,25):_ZN6MAUtil6VectorIPNS_16DownloadListenerEE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<MAHandle>:Tt(41,30)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(41,31)=*(3,10),64,32;__base_ctor::(41,32)=#(41,30),(0,6),(41,33)=*(41,30),(0,3),(0,6);:_ZN6MAUtil6VectorIiEC2Ei;2A.;__comp_ctor::(41,32):_ZN6MAUtil6VectorIiEC1Ei;2A.;__base_ctor::(41,34)=#(41,30),(0,6),(41,33),(41,35)=*(41,36)=k(3,10),(0,3),(0,6);:_ZN6MAUtil6VectorIiEC2EPKii;2A.;__comp_ctor::(41,34):_ZN6MAUtil6VectorIiEC1EPKii;2A.;__base_ctor::(41,37)=#(41,30),(0,6),(41,33),(41,38)=&(41,39)=k(41,30),(0,6);:_ZN6MAUtil6VectorIiEC2ERKS1_;2A.;__comp_ctor::(41,37):_ZN6MAUtil6VectorIiEC1ERKS1_;2A.;__base_dtor::(41,40)=#(41,30),(0,6),(41,33),(0,6);:_ZN6MAUtil6VectorIiED2Ev;2A.;__comp_dtor::(41,40):_ZN6MAUtil6VectorIiED1Ev;2A.;operator=::(41,41)=#(41,30),(41,42)=&(41,30),(41,33),(41,38),(0,6);:_ZN6MAUtil6VectorIiEaSERKS1_;2A.;add::(41,43)=#(41,30),(0,6),(41,33),(41,44)=&(41,36),(0,6);:_ZN6MAUtil6VectorIiE3addERKi;2A.(41,34):_ZN6MAUtil6VectorIiE3addEPKii;2A.;remove::(41,45)=#(41,30),(0,6),(41,33),(41,31),(0,6);:_ZN6MAUtil6VectorIiE6removeEPi;2A.(41,46)=#(41,30),(0,6),(41,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEi;2A.(41,47)=#(41,30),(0,6),(41,33),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIiE6removeEii;2A.;insert::(41,47):_ZN6MAUtil6VectorIiE6insertEii;2A.;size::(41,48)=#(41,30),(0,3),(41,49)=*(41,39),(0,6);:_ZNK6MAUtil6VectorIiE4sizeEv;2B.;resize::(41,46):_ZN6MAUtil6VectorIiE6resizeEi;2A.;reserve::(41,46):_ZN6MAUtil6VectorIiE7reserveEi;2A.;clear::(41,40):_ZN6MAUtil6VectorIiE5clearEv;2A.;empty::(41,50)=#(41,30),(0,4),(41,49),(0,6);:_ZNK6MAUtil6VectorIiE5emptyEv;2B.;capacity::(41,48):_ZNK6MAUtil6VectorIiE8capacityEv;2B.;begin::(41,51)=#(41,30),(41,31),(41,33),(0,6);:_ZN6MAUtil6VectorIiE5beginEv;2A.;end::(41,51):_ZN6MAUtil6VectorIiE3endEv;2A.;begin::(41,52)=#(41,30),(41,35),(41,49),(0,6);:_ZNK6MAUtil6VectorIiE5beginEv;2B.;end::(41,52):_ZNK6MAUtil6VectorIiE3endEv;2B.;operator[]::(41,53)=#(41,30),(41,54)=&(3,10),(41,33),(0,3),(0,6);:_ZN6MAUtil6VectorIiEixEi;2A.(41,55)=#(41,30),(41,44),(41,49),(0,3),(0,6);:_ZNK6MAUtil6VectorIiEixEi;2B.;pointer::(41,52):_ZNK6MAUtil6VectorIiE7pointerEv;2B.(41,51):_ZN6MAUtil6VectorIiE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
-	.stabs	"Vector<ImageCacheRequest*>:Tt(39,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(39,2)=*(40,5),64,32;__base_ctor::(39,3)=#(39,1),(0,6),(39,4)=*(39,1),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2Ei;2A.;__comp_ctor::(39,3):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1Ei;2A.;__base_ctor::(39,5)=#(39,1),(0,6),(39,4),(39,6)=&(39,7)=k(39,1),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2ERKS3_;2A.;__comp_ctor::(39,5):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1ERKS3_;2A.;__base_dtor::(39,8)=#(39,1),(0,6),(39,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestED2Ev;2A.;__comp_dtor::(39,8):_ZN6MAUtil6VectorIP17ImageCacheRequestED1Ev;2A.;operator=::(39,9)=#(39,1),(39,10)=&(39,1),(39,4),(39,6),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEaSERKS3_;2A.;add::(39,11)=#(39,1),(0,6),(39,4),(39,12)=&(39,13)=k(40,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addERKS2_;2A.(39,14)=#(39,1),(0,6),(39,4),(39,15)=*(39,13),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addEPKS2_i;2A.;remove::(39,16)=#(39,1),(0,6),(39,4),(39,2),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEPS2_;2A.(39,17)=#(39,1),(0,6),(39,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEi;2A.(39,18)=#(39,1),(0,6),(39,4),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEii;2A.;insert::(39,19)=#(39,1),(0,6),(39,4),(0,3),(40,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6insertEiS2_;2A.;size::(39,20)=#(39,1),(0,3),(39,21)=*(39,7),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE4sizeEv;2B.;resize::(39,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE6resizeEi;2A.;reserve::(39,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE7reserveEi;2A.;clear::(39,8):_ZN6MAUtil6VectorIP17ImageCacheRequestE5clearEv;2A.;empty::(39,22)=#(39,1),(0,4),(39,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5emptyEv;2B.;capacity::(39,20):_ZNK6MAUtil6VectorIP17ImageCacheRequestE8capacityEv;2B.;begin::(39,23)=#(39,1),(39,2),(39,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2A.;end::(39,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE3endEv;2A.;begin::(39,24)=#(39,1),(39,15),(39,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2B.;end::(39,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE3endEv;2B.;operator[]::(39,25)=#(39,1),(39,26)=&(40,5),(39,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEixEi;2A.(39,27)=#(39,1),(39,12),(39,21),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestEixEi;2B.;pointer::(39,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2B.(39,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2A.;;",128,0,94,0
+	.stabs	"Vector<ImageCacheRequest*>:Tt(39,1)=s12mSize:/1(0,3),0,32;mCapacity:/1(0,3),32,32;mData:/1(39,2)=*(40,5),64,32;__base_ctor::(39,3)=#(39,1),(0,6),(39,4)=*(39,1),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2Ei;2A.;__comp_ctor::(39,3):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1Ei;2A.;__base_ctor::(39,5)=#(39,1),(0,6),(39,4),(39,6)=*(39,7)=k(40,5),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2EPKS2_i;2A.;__comp_ctor::(39,5):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1EPKS2_i;2A.;__base_ctor::(39,8)=#(39,1),(0,6),(39,4),(39,9)=&(39,10)=k(39,1),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEC2ERKS3_;2A.;__comp_ctor::(39,8):_ZN6MAUtil6VectorIP17ImageCacheRequestEC1ERKS3_;2A.;__base_dtor::(39,11)=#(39,1),(0,6),(39,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestED2Ev;2A.;__comp_dtor::(39,11):_ZN6MAUtil6VectorIP17ImageCacheRequestED1Ev;2A.;operator=::(39,12)=#(39,1),(39,13)=&(39,1),(39,4),(39,9),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEaSERKS3_;2A.;add::(39,14)=#(39,1),(0,6),(39,4),(39,15)=&(39,7),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE3addERKS2_;2A.(39,5):_ZN6MAUtil6VectorIP17ImageCacheRequestE3addEPKS2_i;2A.;remove::(39,16)=#(39,1),(0,6),(39,4),(39,2),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEPS2_;2A.(39,17)=#(39,1),(0,6),(39,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEi;2A.(39,18)=#(39,1),(0,6),(39,4),(0,3),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6removeEii;2A.;insert::(39,19)=#(39,1),(0,6),(39,4),(0,3),(40,5),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE6insertEiS2_;2A.;size::(39,20)=#(39,1),(0,3),(39,21)=*(39,10),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE4sizeEv;2B.;resize::(39,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE6resizeEi;2A.;reserve::(39,17):_ZN6MAUtil6VectorIP17ImageCacheRequestE7reserveEi;2A.;clear::(39,11):_ZN6MAUtil6VectorIP17ImageCacheRequestE5clearEv;2A.;empty::(39,22)=#(39,1),(0,4),(39,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5emptyEv;2B.;capacity::(39,20):_ZNK6MAUtil6VectorIP17ImageCacheRequestE8capacityEv;2B.;begin::(39,23)=#(39,1),(39,2),(39,4),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2A.;end::(39,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE3endEv;2A.;begin::(39,24)=#(39,1),(39,6),(39,21),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestE5beginEv;2B.;end::(39,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE3endEv;2B.;operator[]::(39,25)=#(39,1),(39,26)=&(40,5),(39,4),(0,3),(0,6);:_ZN6MAUtil6VectorIP17ImageCacheRequestEixEi;2A.(39,27)=#(39,1),(39,15),(39,21),(0,3),(0,6);:_ZNK6MAUtil6VectorIP17ImageCacheRequestEixEi;2B.;pointer::(39,24):_ZNK6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2B.(39,23):_ZN6MAUtil6VectorIP17ImageCacheRequestE7pointerEv;2A.;;",128,0,94,0
 	.stabn	162,0,0,0
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\/AlbumLoadScreen.h",130,0,0,0
 	.stabn	162,0,0,0
 	.stabn	162,0,0,0
-	.stabs	"Login:Tt(0,25)=s2344!6,020,(0,26)=xsScreen:;0096,(7,33);00128,(0,27)=xsBluetoothDeviceDiscoveryListener:;00160,(0,28)=xsXCListener:;00192,(33,48);00224,(0,29)=xsConnectionListener:;previous:/0(0,30)=*(0,26),256,32;mainLayout:/0(0,31)=*(0,32)=xsLayout:,288,32;listBox:/0(0,33)=*(0,34)=xsListBox:,320,32;label:/0(0,35)=*(0,36)=xsLabel:,352,32;editBoxLogin:/0(0,37)=*(0,38)=xsEditBox:,384,32;mConn:/0(0,39)=xsBluetoothConnection:,416,544;mDiscoverer:/0(0,40)=*(0,41)=xsBluetoothDiscoverer:,960,32;mDevices:/0(5,1),992,96;mDevice:/0(24,4),1088,32;mDeviceIndex:/0(0,3),1120,32;xmlConn:/0(0,42)=xsXmlConnection:,1152,17056;parentTag:/0(9,1),18208,32;conCatenation:/0(9,1),18240,32;ret:/0(9,1),18272,32;value:/0(9,1),18304,32;value1:/0(9,1),18336,32;value2:/0(9,1),18368,32;convertAsterisk:/0(9,1),18400,32;underscore:/0(9,1),18432,32;username:/0(9,1),18464,32;encrypt:/0(9,1),18496,32;error_msg:/0(9,1),18528,32;touch:/0(9,1),18560,32;list:/0(0,4),18592,8;left:/0(0,4),18600,8;right:/0(0,4),18608,8;error:/0(0,4),18616,8;j:/0(0,3),18624,32;feed:/0(27,3),18656,32;next:/0(0,30),18688,32;mIsBusy:/0(0,4),18720,8;__base_ctor::(0,43)=#(0,25),(0,6),(0,44)=*(0,25),(27,3),(0,6);:_ZN5LoginC2EP4Feed;2A.;__comp_ctor::(0,43):_ZN5LoginC1EP4Feed;2A.;__base_dtor::(0,45)=#(0,25),(0,6),(0,44),(0,6);:_ZN5LoginD2Ev;2A.;__comp_dtor::(0,45):_ZN5LoginD1Ev;2A*0;(0,25);;__deleting_dtor::(0,45):_ZN5LoginD0Ev;2A*1;(0,25);;keyPressEvent::(0,46)=#(0,25),(0,6),(0,44),(0,3),(0,6);:_ZN5Login13keyPressEventEi;2A*5;(0,25);;selectionChanged::(0,47)=#(0,25),(0,6),(0,44),(7,3),(0,4),(0,6);:_ZN5Login16selectionChangedEPN4MAUI6WidgetEb;2A*12;(0,25);;show::(0,45):_ZN5Login4showEv;2A*7;(0,25);;hide::(0,45):_ZN5Login4hideEv;2A*11;(0,25);;pointerPressEvent::(0,48)=#(0,25),(0,6),(0,44),(3,23),(0,6);:_ZN5Login17pointerPressEventE9MAPoint2d;2A*8;(0,25);;pointerMoveEvent::(0,48):_ZN5Login16pointerMoveEventE9MAPoint2d;2A*10;(0,25);;pointerReleaseEvent::(0,48):_ZN5Login19pointerReleaseEventE9MAPoint2d;2A*9;(0,25);;locateItem::(0,48):_ZN5Login10locateItemE9MAPoint2d;2A.;btNewDevice::(0,49)=#(0,25),(0,6),(0,44),(24,5),(0,6);:_ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE;2A*13;(0,25);;btDeviceDiscoveryFinished::(0,46):_ZN5Login25btDeviceDiscoveryFinishedEi;2A*14;(0,25);;connect::(0,50)=#(0,25),(0,6),(0,44),(3,61),(3,130),(0,6);:_ZN5Login7connectE8MABtAddr6MAUUID;2A.;connectFinished::(0,51)=#(0,25),(0,6),(0,44),(0,52)=*(0,53)=xsConnection:,(0,3),(0,6);:_ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi;0A*15;(0,25);;connReadFinished::(0,51):_ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi;0A*16;(0,25);;connWriteFinished::(0,51):_ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi;0A*17;(0,25);;xcConnError::(0,46):_ZN5Login11xcConnErrorEi;0A*18;(0,25);;mtxEncoding::(0,54)=#(0,25),(0,6),(0,44),(18,27),(0,6);:_ZN5Login11mtxEncodingEPKc;0A*19;(0,25);;mtxTagStart::(0,55)=#(0,25),(0,6),(0,44),(18,27),(0,3),(0,6);:_ZN5Login11mtxTagStartEPKci;0A*20;(0,25);;mtxTagAttr::(0,56)=#(0,25),(0,6),(0,44),(18,27),(18,27),(0,6);:_ZN5Login10mtxTagAttrEPKcS1_;0A*21;(0,25);;mtxTagData::(0,55):_ZN5Login10mtxTagDataEPKci;0A*22;(0,25);;mtxTagEnd::(0,55):_ZN5Login9mtxTagEndEPKci;0A*23;(0,25);;mtxParseError::(0,45):_ZN5Login13mtxParseErrorEv;0A*24;(0,25);;mtxEmptyTagEnd::(0,45):_ZN5Login14mtxEmptyTagEndEv;0A*25;(0,25);;mtxTagStartEnd::(0,45):_ZN5Login14mtxTagStartEndEv;0A*26;(0,25);;base64::(0,57)=#(0,25),(9,1),(0,44),(0,58)=*(0,59)=k(0,10),(0,17),(0,6);:_ZN5Login6base64EPKhj;0A.;operator=::(0,60)=#(0,25),(0,61)=&(0,25),(0,44),(0,62)=&(0,63)=k(0,25),(0,6);:_ZN5LoginaSERKS_;2A.;__base_ctor::(0,64)=#(0,25),(0,6),(0,44),(0,62),(0,6);:_ZN5LoginC2ERKS_;2A.;__comp_ctor::(0,64):_ZN5LoginC1ERKS_;2A.;;~%(16,46);",128,0,21,0
+	.stabs	"Login:Tt(0,25)=s2344!6,020,(0,26)=xsScreen:;0096,(7,33);00128,(0,27)=xsBluetoothDeviceDiscoveryListener:;00160,(0,28)=xsXCListener:;00192,(33,48);00224,(0,29)=xsConnectionListener:;previous:/0(0,30)=*(0,26),256,32;mainLayout:/0(0,31)=*(0,32)=xsLayout:,288,32;listBox:/0(0,33)=*(0,34)=xsListBox:,320,32;label:/0(0,35)=*(0,36)=xsLabel:,352,32;editBoxLogin:/0(0,37)=*(0,38)=xsEditBox:,384,32;mConn:/0(0,39)=xsBluetoothConnection:,416,544;mDiscoverer:/0(0,40)=*(0,41)=xsBluetoothDiscoverer:,960,32;mDevices:/0(5,1),992,96;mDevice:/0(24,4),1088,32;mDeviceIndex:/0(0,3),1120,32;xmlConn:/0(0,42)=xsXmlConnection:,1152,17056;parentTag:/0(9,1),18208,32;conCatenation:/0(9,1),18240,32;ret:/0(9,1),18272,32;value:/0(9,1),18304,32;value1:/0(9,1),18336,32;value2:/0(9,1),18368,32;convertAsterisk:/0(9,1),18400,32;underscore:/0(9,1),18432,32;username:/0(9,1),18464,32;encrypt:/0(9,1),18496,32;error_msg:/0(9,1),18528,32;touch:/0(9,1),18560,32;list:/0(0,4),18592,8;left:/0(0,4),18600,8;right:/0(0,4),18608,8;error:/0(0,4),18616,8;j:/0(0,3),18624,32;feed:/0(27,3),18656,32;next:/0(0,30),18688,32;mIsBusy:/0(0,4),18720,8;__base_ctor::(0,43)=#(0,25),(0,6),(0,44)=*(0,25),(27,3),(0,6);:_ZN5LoginC2EP4Feed;2A.;__comp_ctor::(0,43):_ZN5LoginC1EP4Feed;2A.;__base_dtor::(0,45)=#(0,25),(0,6),(0,44),(0,6);:_ZN5LoginD2Ev;2A.;__comp_dtor::(0,45):_ZN5LoginD1Ev;2A*0;(0,25);;__deleting_dtor::(0,45):_ZN5LoginD0Ev;2A*1;(0,25);;keyPressEvent::(0,46)=#(0,25),(0,6),(0,44),(0,3),(0,6);:_ZN5Login13keyPressEventEi;2A*5;(0,25);;selectionChanged::(0,47)=#(0,25),(0,6),(0,44),(7,3),(0,4),(0,6);:_ZN5Login16selectionChangedEPN4MAUI6WidgetEb;2A*12;(0,25);;show::(0,45):_ZN5Login4showEv;2A*7;(0,25);;hide::(0,45):_ZN5Login4hideEv;2A*11;(0,25);;pointerPressEvent::(0,48)=#(0,25),(0,6),(0,44),(3,23),(0,6);:_ZN5Login17pointerPressEventE9MAPoint2d;2A*8;(0,25);;pointerMoveEvent::(0,48):_ZN5Login16pointerMoveEventE9MAPoint2d;2A*10;(0,25);;pointerReleaseEvent::(0,48):_ZN5Login19pointerReleaseEventE9MAPoint2d;2A*9;(0,25);;locateItem::(0,48):_ZN5Login10locateItemE9MAPoint2d;2A.;btNewDevice::(0,49)=#(0,25),(0,6),(0,44),(24,5),(0,6);:_ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE;2A*13;(0,25);;btDeviceDiscoveryFinished::(0,46):_ZN5Login25btDeviceDiscoveryFinishedEi;2A*14;(0,25);;connect::(0,50)=#(0,25),(0,6),(0,44),(3,61),(3,131),(0,6);:_ZN5Login7connectE8MABtAddr6MAUUID;2A.;connectFinished::(0,51)=#(0,25),(0,6),(0,44),(0,52)=*(0,53)=xsConnection:,(0,3),(0,6);:_ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi;0A*15;(0,25);;connReadFinished::(0,51):_ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi;0A*16;(0,25);;connWriteFinished::(0,51):_ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi;0A*17;(0,25);;xcConnError::(0,46):_ZN5Login11xcConnErrorEi;0A*18;(0,25);;mtxEncoding::(0,54)=#(0,25),(0,6),(0,44),(18,27),(0,6);:_ZN5Login11mtxEncodingEPKc;0A*19;(0,25);;mtxTagStart::(0,55)=#(0,25),(0,6),(0,44),(18,27),(0,3),(0,6);:_ZN5Login11mtxTagStartEPKci;0A*20;(0,25);;mtxTagAttr::(0,56)=#(0,25),(0,6),(0,44),(18,27),(18,27),(0,6);:_ZN5Login10mtxTagAttrEPKcS1_;0A*21;(0,25);;mtxTagData::(0,55):_ZN5Login10mtxTagDataEPKci;0A*22;(0,25);;mtxTagEnd::(0,55):_ZN5Login9mtxTagEndEPKci;0A*23;(0,25);;mtxParseError::(0,45):_ZN5Login13mtxParseErrorEv;0A*24;(0,25);;mtxEmptyTagEnd::(0,45):_ZN5Login14mtxEmptyTagEndEv;0A*25;(0,25);;mtxTagStartEnd::(0,45):_ZN5Login14mtxTagStartEndEv;0A*26;(0,25);;base64::(0,57)=#(0,25),(9,1),(0,44),(0,58)=*(0,59)=k(0,10),(0,17),(0,6);:_ZN5Login6base64EPKhj;0A.;operator=::(0,60)=#(0,25),(0,61)=&(0,25),(0,44),(0,62)=&(0,63)=k(0,25),(0,6);:_ZN5LoginaSERKS_;2A.;__base_ctor::(0,64)=#(0,25),(0,6),(0,44),(0,62),(0,6);:_ZN5LoginC2ERKS_;2A.;__comp_ctor::(0,64):_ZN5LoginC1ERKS_;2A.;;~%(16,46);",128,0,21,0
 	.stabs	"XCListener:Tt(0,28)=s4_vptr$XCListener:(0,65)=*(0,1),0,32;xcConnError::(0,66)=#(0,28),(0,6),(0,67)=*(0,28),(0,3),(0,6);:_ZN10XCListener11xcConnErrorEi;2A*0;(0,28);;operator=::(0,68)=#(0,28),(0,69)=&(0,28),(0,67),(0,70)=&(0,71)=k(0,28),(0,6);:_ZN10XCListeneraSERKS_;2A.;__base_ctor::(0,72)=#(0,28),(0,6),(0,67),(0,70),(0,6);:_ZN10XCListenerC2ERKS_;2A.;__comp_ctor::(0,72):_ZN10XCListenerC1ERKS_;2A.;__base_ctor::(0,73)=#(0,28),(0,6),(0,67),(0,6);:_ZN10XCListenerC2Ev;2A.;__comp_ctor::(0,73):_ZN10XCListenerC1Ev;2A.;;~%(0,28);",128,0,8,0
 	.stabs	"MtxListener:Tt(33,24)=s4_vptr$MtxListener:(0,65),0,32;mtxDataRemains::(0,74)=#(33,24),(0,6),(33,23),(18,27),(0,3),(0,6);:_ZN3Mtx11MtxListener14mtxDataRemainsEPKci;2A*0;(33,24);;operator=::(0,75)=#(33,24),(0,76)=&(33,24),(33,23),(0,77)=&(0,78)=k(33,24),(0,6);:_ZN3Mtx11MtxListeneraSERKS0_;2A.;__base_ctor::(0,79)=#(33,24),(0,6),(33,23),(0,77),(0,6);:_ZN3Mtx11MtxListenerC2ERKS0_;2A.;__comp_ctor::(0,79):_ZN3Mtx11MtxListenerC1ERKS0_;2A.;__base_ctor::(0,80)=#(33,24),(0,6),(33,23),(0,6);:_ZN3Mtx11MtxListenerC2Ev;2A.;__comp_ctor::(0,80):_ZN3Mtx11MtxListenerC1Ev;2A.;;~%(33,24);",128,0,353,0
 	.stabs	"XmlListenerT<char>:Tt(0,81)=s4_vptr$XmlListenerT:(0,65),0,32;mtxEncoding::(0,82)=#(0,81),(0,6),(0,83)=*(0,81),(18,27),(0,6);:_ZN3Mtx12XmlListenerTIcE11mtxEncodingEPKc;2A*0;(0,81);;mtxTagStart::(0,84)=#(0,81),(0,6),(0,83),(18,27),(0,3),(0,6);:_ZN3Mtx12XmlListenerTIcE11mtxTagStartEPKci;2A*1;(0,81);;mtxTagAttr::(0,85)=#(0,81),(0,6),(0,83),(18,27),(18,27),(0,6);:_ZN3Mtx12XmlListenerTIcE10mtxTagAttrEPKcS3_;2A*2;(0,81);;mtxTagStartEnd::(0,86)=#(0,81),(0,6),(0,83),(0,6);:_ZN3Mtx12XmlListenerTIcE14mtxTagStartEndEv;2A*3;(0,81);;mtxTagData::(0,84):_ZN3Mtx12XmlListenerTIcE10mtxTagDataEPKci;2A*4;(0,81);;mtxTagEnd::(0,84):_ZN3Mtx12XmlListenerTIcE9mtxTagEndEPKci;2A*5;(0,81);;mtxParseError::(0,86):_ZN3Mtx12XmlListenerTIcE13mtxParseErrorEv;2A*6;(0,81);;mtxEmptyTagEnd::(0,86):_ZN3Mtx12XmlListenerTIcE14mtxEmptyTagEndEv;2A*7;(0,81);;operator=::(0,87)=#(0,81),(0,88)=&(0,81),(0,83),(0,89)=&(0,90)=k(0,81),(0,6);:_ZN3Mtx12XmlListenerTIcEaSERKS1_;2A.;__base_ctor::(0,91)=#(0,81),(0,6),(0,83),(0,89),(0,6);:_ZN3Mtx12XmlListenerTIcEC2ERKS1_;2A.;__comp_ctor::(0,91):_ZN3Mtx12XmlListenerTIcEC1ERKS1_;2A.;__base_ctor::(0,92)=#(0,81),(0,6),(0,83),(0,6);:_ZN3Mtx12XmlListenerTIcEC2Ev;2A.;__comp_ctor::(0,92):_ZN3Mtx12XmlListenerTIcEC1Ev;2A.;;~%(0,81);",128,0,299,0
-	.stabs	"BluetoothDeviceDiscoveryListener:Tt(0,27)=s4_vptr$BluetoothDeviceDiscoveryListener:(0,65),0,32;btNewDevice::(0,93)=#(0,27),(0,6),(0,94)=*(0,27),(24,5),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListener11btNewDeviceERKNS_8BtDeviceE;2A*0;(0,27);;btDeviceDiscoveryFinished::(0,95)=#(0,27),(0,6),(0,94),(0,3),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListener25btDeviceDiscoveryFinishedEi;2A*1;(0,27);;operator=::(0,96)=#(0,27),(0,97)=&(0,27),(0,94),(0,98)=&(0,99)=k(0,27),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListeneraSERKS0_;2A.;__base_ctor::(0,100)=#(0,27),(0,6),(0,94),(0,98),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC2ERKS0_;2A.;__comp_ctor::(0,100):_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC1ERKS0_;2A.;__base_ctor::(0,101)=#(0,27),(0,6),(0,94),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC2Ev;2A.;__comp_ctor::(0,101):_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC1Ev;2A.;;~%(0,27);",128,0,54,0
+	.stabs	"BluetoothDeviceDiscoveryListener:Tt(0,27)=s4_vptr$BluetoothDeviceDiscoveryListener:(0,65),0,32;btNewDevice::(0,93)=#(0,27),(0,6),(0,94)=*(0,27),(24,5),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListener11btNewDeviceERKNS_8BtDeviceE;2A*0;(0,27);;btDeviceDiscoveryFinished::(0,95)=#(0,27),(0,6),(0,94),(0,3),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListener25btDeviceDiscoveryFinishedEi;2A*1;(0,27);;operator=::(0,96)=#(0,27),(0,97)=&(0,27),(0,94),(0,98)=&(0,99)=k(0,27),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListeneraSERKS0_;2A.;__base_ctor::(0,100)=#(0,27),(0,6),(0,94),(0,98),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC2ERKS0_;2A.;__comp_ctor::(0,100):_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC1ERKS0_;2A.;__base_ctor::(0,101)=#(0,27),(0,6),(0,94),(0,6);:_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC2Ev;2A.;__comp_ctor::(0,101):_ZN6MAUtil32BluetoothDeviceDiscoveryListenerC1Ev;2A.;;~%(0,27);",128,0,73,0
 	.stabs	"WidgetListener:Tt(7,33)=s4_vptr$WidgetListener:(0,65),0,32;triggered::(0,102)=#(7,33),(0,6),(7,32),(7,3),(0,6);:_ZN4MAUI14WidgetListener9triggeredEPNS_6WidgetE;2A*0;(7,33);;selectionChanged::(0,103)=#(7,33),(0,6),(7,32),(7,3),(0,4),(0,6);:_ZN4MAUI14WidgetListener16selectionChangedEPNS_6WidgetEb;2A*1;(7,33);;enableStateChanged::(0,103):_ZN4MAUI14WidgetListener18enableStateChangedEPNS_6WidgetEb;2A*2;(7,33);;boundsChanged::(0,104)=#(7,33),(0,6),(7,32),(7,3),(18,33),(0,6);:_ZN4MAUI14WidgetListener13boundsChangedEPNS_6WidgetERKN6MAUtil4RectE;2A*3;(7,33);;operator=::(0,105)=#(7,33),(0,106)=&(7,33),(7,32),(0,107)=&(0,108)=k(7,33),(0,6);:_ZN4MAUI14WidgetListeneraSERKS0_;2A.;__base_ctor::(0,109)=#(7,33),(0,6),(7,32),(0,107),(0,6);:_ZN4MAUI14WidgetListenerC2ERKS0_;2A.;__comp_ctor::(0,109):_ZN4MAUI14WidgetListenerC1ERKS0_;2A.;__base_ctor::(0,110)=#(7,33),(0,6),(7,32),(0,6);:_ZN4MAUI14WidgetListenerC2Ev;2A.;__comp_ctor::(0,110):_ZN4MAUI14WidgetListenerC1Ev;2A.;;~%(7,33);",128,0,55,0
 	.stabs	"RefCounted:Tt(0,111)=s8_vptr$RefCounted:(0,65),0,32;mRefCount:/0(0,3),32,32;__base_ctor::(0,112)=#(0,111),(0,6),(0,113)=*(0,111),(0,3),(0,6);:_ZN6MAUtil10RefCountedC2Ei;2A.;__comp_ctor::(0,112):_ZN6MAUtil10RefCountedC1Ei;2A.;addRef::(0,114)=#(0,111),(0,6),(0,113),(0,6);:_ZN6MAUtil10RefCounted6addRefEv;2A.;release::(0,114):_ZN6MAUtil10RefCounted7releaseEv;2A.;getRefCount::(0,115)=#(0,111),(0,3),(0,113),(0,6);:_ZN6MAUtil10RefCounted11getRefCountEv;2A.;__base_dtor::(0,114):_ZN6MAUtil10RefCountedD2Ev;2A.;__comp_dtor::(0,114):_ZN6MAUtil10RefCountedD1Ev;2A*0;(0,111);;__deleting_dtor::(0,114):_ZN6MAUtil10RefCountedD0Ev;2A*1;(0,111);;operator=::(0,116)=#(0,111),(0,117)=&(0,111),(0,113),(0,118)=&(0,119)=k(0,111),(0,6);:_ZN6MAUtil10RefCountedaSERKS0_;2A.;__base_ctor::(0,120)=#(0,111),(0,6),(0,113),(0,118),(0,6);:_ZN6MAUtil10RefCountedC2ERKS0_;2A.;__comp_ctor::(0,120):_ZN6MAUtil10RefCountedC1ERKS0_;2A.;;~%(0,111);",128,0,28,0
 	.ctor __GLOBAL__I__ZN5LoginC2EP4Feed
@@ -303,6 +304,9 @@ __ZTV5Login:
 	.long	__ZThn4_N5Login17pointerPressEventE9MAPoint2d
 	.long	__ZThn4_N5Login16pointerMoveEventE9MAPoint2d
 	.long	__ZThn4_N5Login19pointerReleaseEventE9MAPoint2d
+	.long	__ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di
+	.long	__ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di
+	.long	__ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di
 	.long	-12
 	.long	0
 	.long	__ZN4MAUI14WidgetListener9triggeredEPNS_6WidgetE
@@ -453,7 +457,7 @@ __ZTVN3Mtx12XmlListenerTIcEE:
 	.long	___cxa_pure_virtual
 .code
 	.stabs	"_ZN4MAUI14WidgetListener9triggeredEPNS_6WidgetE:f(0,6)",36,0,60,__ZN4MAUI14WidgetListener9triggeredEPNS_6WidgetE
-	.stabs	"this:P(7,44)",64,0,60,12
+	.stabs	"this:P(7,38)",64,0,60,12
 	.stabs	"widget:P(7,3)",64,0,60,13
 
 .func __ZN4MAUI14WidgetListener9triggeredEPNS_6WidgetE, 2, void
@@ -468,7 +472,7 @@ Ltext1:
 	ret
 Lscope0:
 	.stabs	"_ZN4MAUI14WidgetListener16selectionChangedEPNS_6WidgetEb:f(0,6)",36,0,63,__ZN4MAUI14WidgetListener16selectionChangedEPNS_6WidgetEb
-	.stabs	"this:P(7,44)",64,0,63,12
+	.stabs	"this:P(7,38)",64,0,63,12
 	.stabs	"widget:P(7,3)",64,0,63,13
 	.stabs	"selected:P(0,4)",64,0,63,14
 
@@ -482,7 +486,7 @@ Lscope0:
 	ret
 Lscope1:
 	.stabs	"_ZN4MAUI14WidgetListener18enableStateChangedEPNS_6WidgetEb:f(0,6)",36,0,64,__ZN4MAUI14WidgetListener18enableStateChangedEPNS_6WidgetEb
-	.stabs	"this:P(7,44)",64,0,64,12
+	.stabs	"this:P(7,38)",64,0,64,12
 	.stabs	"widget:P(7,3)",64,0,64,13
 	.stabs	"enabled:P(0,4)",64,0,64,14
 
@@ -496,7 +500,7 @@ Lscope1:
 	ret
 Lscope2:
 	.stabs	"_ZN4MAUI14WidgetListener13boundsChangedEPNS_6WidgetERKN6MAUtil4RectE:f(0,6)",36,0,67,__ZN4MAUI14WidgetListener13boundsChangedEPNS_6WidgetERKN6MAUtil4RectE
-	.stabs	"this:P(7,44)",64,0,67,12
+	.stabs	"this:P(7,38)",64,0,67,12
 	.stabs	"widget:P(7,3)",64,0,67,13
 	.stabs	"bounds:P(18,33)",64,0,67,14
 
@@ -524,8 +528,50 @@ Ltext2:
 	pop  fr,fr
 	ret
 Lscope4:
+	.stabs	"_ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di:f(0,6)",36,0,71,__ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di
+	.stabs	"this:P(0,122)=k(16,91)",64,0,71,12
+	.stabs	"p:P(3,23)",64,0,71,13
+	.stabs	"touchId:P(0,3)",64,0,71,15
+
+.func __ZN6MAUtil15PointerListener20multitouchPressEventE9MAPoint2di, 4, void
+	.line 71
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 71
+	pop  fr,fr
+	ret
+Lscope5:
+	.stabs	"_ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di:f(0,6)",36,0,72,__ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di
+	.stabs	"this:P(0,122)",64,0,72,12
+	.stabs	"p:P(3,23)",64,0,72,13
+	.stabs	"touchId:P(0,3)",64,0,72,15
+
+.func __ZN6MAUtil15PointerListener19multitouchMoveEventE9MAPoint2di, 4, void
+	.line 72
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 72
+	pop  fr,fr
+	ret
+Lscope6:
+	.stabs	"_ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di:f(0,6)",36,0,73,__ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di
+	.stabs	"this:P(0,122)",64,0,73,12
+	.stabs	"p:P(3,23)",64,0,73,13
+	.stabs	"touchId:P(0,3)",64,0,73,15
+
+.func __ZN6MAUtil15PointerListener22multitouchReleaseEventE9MAPoint2di, 4, void
+	.line 73
+	push fr,fr
+	ld   fr,sp
+	add  fr,#0x4
+	.line 73
+	pop  fr,fr
+	ret
+Lscope7:
 	.stabs	"_ZN4MAUI6Screen13keyPressEventEii:f(0,6)",36,0,60,__ZN4MAUI6Screen13keyPressEventEii
-	.stabs	"this:P(0,122)=k(0,30)",64,0,60,12
+	.stabs	"this:P(0,123)=k(0,30)",64,0,60,12
 	.stabs	"keyCode:P(0,3)",64,0,60,13
 	.stabs	"nativeCode:P(0,3)",64,0,60,14
 
@@ -539,9 +585,9 @@ Ltext3:
 	.line 60
 	pop  fr,fr
 	ret
-Lscope5:
+Lscope8:
 	.stabs	"_ZN4MAUI6Screen15keyReleaseEventEii:f(0,6)",36,0,64,__ZN4MAUI6Screen15keyReleaseEventEii
-	.stabs	"this:P(0,122)",64,0,64,12
+	.stabs	"this:P(0,123)",64,0,64,12
 	.stabs	"keyCode:P(0,3)",64,0,64,13
 	.stabs	"nativeCode:P(0,3)",64,0,64,14
 
@@ -553,9 +599,9 @@ Lscope5:
 	.line 64
 	pop  fr,fr
 	ret
-Lscope6:
+Lscope9:
 	.set	%0=__ZN5Login16selectionChangedEPN4MAUI6WidgetEb
-	.stabs	"this:P(0,123)=k(0,44)",64,0,44,12
+	.stabs	"this:P(0,124)=k(0,44)",64,0,44,12
 	.stabs	"widget:P(7,3)",64,0,44,13
 	.stabs	"selected:P(0,4)",64,0,44,14
 	.global	__ZThn12_N5Login16selectionChangedEPN4MAUI6WidgetEb
@@ -572,9 +618,9 @@ Ltext4:
 	call &%0 ; call non-native
 	pop  rt,fr
 	ret
-Lscope7:
+Lscope10:
 	.stabs	"_ZN5Login16selectionChangedEPN4MAUI6WidgetEb:F(0,6)",36,0,44,__ZN5Login16selectionChangedEPN4MAUI6WidgetEb
-	.stabs	"this:P(0,123)",64,0,44,12
+	.stabs	"this:P(0,124)",64,0,44,12
 	.stabs	"widget:P(7,3)",64,0,44,12
 	.stabs	"selected:P(0,4)",64,0,44,14
 	.global	__ZN5Login16selectionChangedEPN4MAUI6WidgetEb
@@ -592,11 +638,11 @@ Ltext5:
 	ld   d1,i2
 	and  d1,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   eq,d1,r14,#L10
+	jc   eq,d1,r14,#L13
 	.dlab LBB3
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext6
 Ltext6:
-	.line 355
+	.line 362
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB4
 	ld   r14,[r14,8]
@@ -613,12 +659,12 @@ Ltext7:
 	.line 50
 	pop  rt,d1
 	ret
-L10:
+L13:
 	.dlab LBB5
 	.dlab LBB6
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext8
 Ltext8:
-	.line 355
+	.line 362
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB7
 	ld   r14,[r14,8]
@@ -635,9 +681,9 @@ Ltext9:
 	.line 50
 	pop  rt,d1
 	ret
-Lscope8:
+Lscope11:
 	.set	%1=__ZN5Login19pointerReleaseEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,63,12
+	.stabs	"this:P(0,124)",64,0,63,12
 	.stabs	"point:P(3,23)",64,0,63,30
 	.global	__ZThn4_N5Login19pointerReleaseEventE9MAPoint2d
 
@@ -653,9 +699,9 @@ Ltext10:
 	call &%1 ; call non-native
 	pop  rt,fr
 	ret
-Lscope9:
+Lscope12:
 	.stabs	"_ZN5Login19pointerReleaseEventE9MAPoint2d:F(0,6)",36,0,63,__ZN5Login19pointerReleaseEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,63,16
+	.stabs	"this:P(0,124)",64,0,63,16
 	.stabs	"point:P(3,23)",64,0,63,13
 	.global	__ZN5Login19pointerReleaseEventE9MAPoint2d
 
@@ -672,46 +718,46 @@ Ltext11:
 	ld.b r14,[i0,2326]
 	and  r14,#0xff  ; zero extend
 	ld   r1,#0x0
-	jc   ne,r14,r1,#L24
+	jc   ne,r14,r1,#L27
 	.line 66
 	ld.b r1,[i0,2325]
 	and  r1,#0xff  ; zero extend
-	jc   eq,r1,r14,#L20
+	jc   eq,r1,r14,#L23
 	.line 67
 	ld   r14,[i0]
 	ld   d0,[r14,20]
 	ld   i1,#0x11d
 	.line 69
 	call d0 ; call non-native
-L17:
+L20:
 	.dlab LBE8
 	.line 71
 	pop  rt,d0
 	ret
-L20:
+L23:
 	.dlab LBB9
 	.line 68
 	ld.b r14,[i0,2324]
 	and  r14,#0xff  ; zero extend
-	jc   eq,r14,r1,#L17
+	jc   eq,r14,r1,#L20
 	.line 69
 	ld   r14,[i0]
 	ld   d0,[r14,20]
 	ld   i1,#0x11c
 	call d0 ; call non-native
-	jp   #L17
-L24:
+	jp   #L20
+L27:
 	.line 65
 	ld   r14,[i0]
 	ld   d0,[r14,20]
 	ld   i1,#0x11e
 	.line 69
 	call d0 ; call non-native
-	jp   #L17
+	jp   #L20
 	.dlab LBE9
-Lscope10:
+Lscope13:
 	.stabs	"_ZN5Login10locateItemE9MAPoint2d:F(0,6)",36,0,74,__ZN5Login10locateItemE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,74,5
+	.stabs	"this:P(0,124)",64,0,74,5
 	.stabs	"point:P(3,23)",64,0,74,6
 	.global	__ZN5Login10locateItemE9MAPoint2d
 
@@ -747,8 +793,8 @@ Lscope10:
 	call &__ZN4Feed8setTouchEPKc ; call non-native
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L55
-L26:
+	jc   ne,r14,r0,#L58
+L29:
 	.line 79
 	ld   r14,#0x0
 	ld.b [d1,2324],r14
@@ -770,14 +816,14 @@ Ltext12:
 Ltext13:
 	.line 85
 	ld   d2,#0x0
-	jp   #L30
-L42:
+	jp   #L33
+L45:
 	.dlab LBB15
 	.dlab LBB16
 	.dlab LBB17
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext14
 Ltext14:
-	.line 355
+	.line 362
 	ld   i0,d1
 	call &__ZN4MAUI6Screen7getMainEv ; call non-native
 	ld   i0,r14
@@ -810,18 +856,18 @@ Ltext14:
 	call d0 ; call non-native
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L56
+	jc   ne,r14,r0,#L59
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext15
 Ltext15:
 	.line 85
 	add  d2,#0x1
-L30:
+L33:
 	.dlab LBB21
 	.dlab LBB22
 	.dlab LBB23
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext16
 Ltext16:
-	.line 355
+	.line 362
 	ld   i0,d1
 	call &__ZN4MAUI6Screen7getMainEv ; call non-native
 	ld   i0,r14
@@ -840,25 +886,25 @@ Ltext16:
 	ld   i0,[r14]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB26
-	.line 258
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE26
 	.dlab LBE21
-	.line 359
-	jc   gt,r14,d2,#L42
+	.line 366
+	jc   gt,r14,d2,#L45
 	.dlab LBE14
 	.dlab LBB27
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext17
 Ltext17:
 	.line 94
 	ld   d2,#0x0
-	jp   #L43
-L54:
+	jp   #L46
+L57:
 	.dlab LBB28
 	.dlab LBB29
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext18
 Ltext18:
-	.line 355
+	.line 362
 	ld   i0,d1
 	call &__ZN4MAUI6Screen7getMainEv ; call non-native
 	ld   i0,r14
@@ -885,17 +931,17 @@ Ltext18:
 	call d0 ; call non-native
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L57
+	jc   ne,r14,r0,#L60
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext19
 Ltext19:
 	.line 94
 	add  d2,#0x1
-L43:
+L46:
 	.dlab LBB32
 	.dlab LBB33
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext20
 Ltext20:
-	.line 355
+	.line 362
 	ld   i0,d1
 	call &__ZN4MAUI6Screen7getMainEv ; call non-native
 	ld   i0,r14
@@ -908,19 +954,19 @@ Ltext20:
 	ld   i0,[r14]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB35
-	.line 258
+	.line 265
 	ld   r14,[r14]
 	.dlab LBE35
 	.dlab LBE32
-	.line 359
-	jc   gt,r14,d2,#L54
-	jp   #L25
-L56:
+	.line 366
+	jc   gt,r14,d2,#L57
+	jp   #L28
+L59:
 	.dlab LBE27
 	.dlab LBB36
 	.dlab LBB37
 	.dlab LBB38
-	.line 355
+	.line 362
 	ld   i0,d1
 	call &__ZN4MAUI6Screen7getMainEv ; call non-native
 	ld   i0,r14
@@ -944,7 +990,7 @@ Ltext21:
 	.line 90
 	ld   r14,#0x1
 	ld.b [d1,2324],r14
-L25:
+L28:
 	.dlab LBE36
 	.dlab LBE11
 	.dlab LBE10
@@ -952,7 +998,7 @@ L25:
 	add  sp,#0xc
 	pop  rt,d4
 	ret
-L55:
+L58:
 	.dlab LBB41
 	.dlab LBB42
 	.line 77
@@ -966,11 +1012,11 @@ L55:
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d4
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L26
-L57:
+	jp   #L29
+L60:
 	.dlab LBB43
 	.line 98
-	jc   ne,d2,r0,#L51
+	jc   ne,d2,r0,#L54
 	.line 99
 	ld   r14,#0x1
 	ld.b [d1,2325],r14
@@ -981,17 +1027,17 @@ L57:
 	add  sp,#0xc
 	pop  rt,d4
 	ret
-L51:
+L54:
 	.dlab LBB44
 	.dlab LBB45
 	.dlab LBB46
 	.line 100
 	ld   r0,#0x2
-	jc   ne,d2,r0,#L25
+	jc   ne,d2,r0,#L28
 	.line 101
 	ld   r14,#0x1
 	ld.b [d1,2326],r14
-	jp   #L25
+	jp   #L28
 	.dlab LBE46
 	.dlab LBE45
 	.dlab LBE44
@@ -1019,9 +1065,9 @@ L51:
 	.stabn	192,0,0,LBB46-__ZN5Login10locateItemE9MAPoint2d
 	.stabn	224,0,0,LBE46-__ZN5Login10locateItemE9MAPoint2d
 	.stabn	224,0,0,LBE45-__ZN5Login10locateItemE9MAPoint2d
-Lscope11:
+Lscope14:
 	.set	%2=__ZN5Login16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,58,12
+	.stabs	"this:P(0,124)",64,0,58,12
 	.stabs	"point:p(3,23)",160,0,58,-16
 	.global	__ZThn4_N5Login16pointerMoveEventE9MAPoint2d
 
@@ -1041,9 +1087,9 @@ Ltext22:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope12:
+Lscope15:
 	.stabs	"_ZN5Login16pointerMoveEventE9MAPoint2d:F(0,6)",36,0,58,__ZN5Login16pointerMoveEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,58,12
+	.stabs	"this:P(0,124)",64,0,58,12
 	.stabs	"point:p(3,23)",160,0,58,-16
 	.global	__ZN5Login16pointerMoveEventE9MAPoint2d
 
@@ -1064,9 +1110,9 @@ Ltext23:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope13:
+Lscope16:
 	.set	%3=__ZN5Login17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,53,12
+	.stabs	"this:P(0,124)",64,0,53,12
 	.stabs	"point:p(3,23)",160,0,53,-16
 	.global	__ZThn4_N5Login17pointerPressEventE9MAPoint2d
 
@@ -1086,9 +1132,9 @@ Ltext24:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope14:
+Lscope17:
 	.stabs	"_ZN5Login17pointerPressEventE9MAPoint2d:F(0,6)",36,0,53,__ZN5Login17pointerPressEventE9MAPoint2d
-	.stabs	"this:P(0,123)",64,0,53,12
+	.stabs	"this:P(0,124)",64,0,53,12
 	.stabs	"point:p(3,23)",160,0,53,-16
 	.global	__ZN5Login17pointerPressEventE9MAPoint2d
 
@@ -1109,9 +1155,9 @@ Ltext25:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope15:
+Lscope18:
 	.stabs	"_ZN5Login4showEv:F(0,6)",36,0,108,__ZN5Login4showEv
-	.stabs	"this:P(0,123)",64,0,108,5
+	.stabs	"this:P(0,124)",64,0,108,5
 	.global	__ZN5Login4showEv
 
 .func __ZN5Login4showEv, 1, void
@@ -1124,7 +1170,7 @@ Lscope15:
 	.dlab LBB50
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext26
 Ltext26:
-	.line 355
+	.line 362
 	ld   i0,[i0,40]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
@@ -1149,9 +1195,9 @@ Ltext27:
 	.dlab LBE49
 	pop  rt,d1
 	ret
-Lscope16:
+Lscope19:
 	.stabs	"_ZN5Login4hideEv:F(0,6)",36,0,113,__ZN5Login4hideEv
-	.stabs	"this:P(0,123)",64,0,113,5
+	.stabs	"this:P(0,124)",64,0,113,5
 	.global	__ZN5Login4hideEv
 
 .func __ZN5Login4hideEv, 1, void
@@ -1164,7 +1210,7 @@ Lscope16:
 	.dlab LBB53
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext28
 Ltext28:
-	.line 355
+	.line 362
 	ld   i0,[i0,40]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	ld   d0,r14
@@ -1189,11 +1235,11 @@ Ltext29:
 	.dlab LBE52
 	pop  rt,d1
 	ret
-Lscope17:
+Lscope20:
 	.stabs	"_ZN5Login7connectE8MABtAddr6MAUUID:F(0,6)",36,0,125,__ZN5Login7connectE8MABtAddr6MAUUID
-	.stabs	"this:P(0,123)",64,0,125,12
+	.stabs	"this:P(0,124)",64,0,125,12
 	.stabs	"address:p(3,61)",160,0,125,-16
-	.stabs	"service:p(3,130)",160,0,125,0
+	.stabs	"service:p(3,131)",160,0,125,0
 	.global	__ZN5Login7connectE8MABtAddr6MAUUID
 
 .func __ZN5Login7connectE8MABtAddr6MAUUID, 7, void
@@ -1215,9 +1261,9 @@ Lscope17:
 	add  sp,#0x8
 	pop  rt,fr
 	ret
-Lscope18:
+Lscope21:
 	.set	%4=__ZN5Login25btDeviceDiscoveryFinishedEi
-	.stabs	"this:P(0,123)",64,0,139,12
+	.stabs	"this:P(0,124)",64,0,139,12
 	.stabs	"state:P(0,3)",64,0,139,13
 	.global	__ZThn16_N5Login25btDeviceDiscoveryFinishedEi
 
@@ -1233,13 +1279,13 @@ Ltext30:
 	call &%4 ; call non-native
 	pop  rt,fr
 	ret
-Lscope19:
+Lscope22:
 .data
 LC15:
 	.ascii "No server connections founds\0"
 .code
 	.stabs	"_ZN5Login25btDeviceDiscoveryFinishedEi:F(0,6)",36,0,139,__ZN5Login25btDeviceDiscoveryFinishedEi
-	.stabs	"this:P(0,123)",64,0,139,5
+	.stabs	"this:P(0,124)",64,0,139,5
 	.stabs	"state:P(0,3)",64,0,139,13
 	.global	__ZN5Login25btDeviceDiscoveryFinishedEi
 
@@ -1262,16 +1308,16 @@ Ltext31:
 	.dlab LBB57
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext32
 Ltext32:
-	.line 258
+	.line 265
 	ld   r0,i0
 	add  r0,#0x7c
 	.dlab LBB58
 	ld   r14,[r0]
 	.dlab LBE58
 	.dlab LBE57
-	jc   le,r14,r1,#L69
+	jc   le,r14,r1,#L72
 	.dlab LBB59
-	.line 355
+	.line 362
 	ld   r14,#0x1
 	ld   [i0,140],r14
 	.dlab LBB60
@@ -1308,7 +1354,7 @@ Ltext33:
 	add  sp,#0x1c
 	pop  rt,d1
 	ret
-L69:
+L72:
 	.dlab LBB61
 	.line 146
 	ld   d0,fr
@@ -1328,18 +1374,18 @@ L69:
 	add  sp,#0x1c
 	pop  rt,d1
 	ret
-	.stabs	"this:r(0,124)=k(5,18)",64,0,258,16
+	.stabs	"this:r(0,125)=k(5,18)",64,0,265,16
 	.stabn	192,0,0,LBB57-__ZN5Login25btDeviceDiscoveryFinishedEi
 	.stabn	224,0,0,LBE57-__ZN5Login25btDeviceDiscoveryFinishedEi
-Lscope20:
+Lscope23:
 .data
 LC16:
 	.ascii "0722627309\0"
 LC17:
-	.ascii "Code[%d]\0"
+	.ascii "Starting Device Discovery [%d]\0"
 .code
 	.stabs	"_ZN5Login13keyPressEventEi:F(0,6)",36,0,156,__ZN5Login13keyPressEventEi
-	.stabs	"this:P(0,123)",64,0,156,5
+	.stabs	"this:P(0,124)",64,0,156,5
 	.stabs	"keyCode:P(0,3)",64,0,156,4
 	.global	__ZN5Login13keyPressEventEi
 
@@ -1361,41 +1407,41 @@ LC17:
 	call &__ZNK4MAUI7ListBox16getSelectedIndexEv ; call non-native
 	.dlab LBB64
 	.line 159
-	case d0,#0x111,#0xd,#L82,#L73
+	case d0,#0x111,#0xd,#L85,#L76
 .data
 	.align 4
-L82:
-	.word L80
-	.word L80
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L73
-	.word L78
+L85:
+	.word L83
+	.word L83
 	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L76
+	.word L81
+	.word L79
 .code
-L80:
+L83:
 	.dlab LBB65
-	.line 179
+	.line 178
 	ld   i0,[d1,40]
 	ld   i1,#0x1
 	call &__ZN4MAUI7ListBox16setSelectedIndexEi ; call non-native
-L73:
+L76:
 	.dlab LBE65
 	.dlab LBE64
 	.dlab LBE63
 	.dlab LBE62
-	.line 184
+	.line 183
 	add  sp,#0x108
 	pop  rt,d2
 	ret
-L76:
+L79:
 	.dlab LBB66
 	.dlab LBB67
 	.dlab LBB68
@@ -1416,7 +1462,7 @@ L76:
 	ld.b r14,[d1,2340]
 	and  r14,#0xff  ; zero extend
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L73
+	jc   ne,r14,r0,#L76
 	.dlab LBB71
 	.line 166
 	ld   r14,#0x1
@@ -1441,9 +1487,6 @@ L76:
 	ld   i1,#LC17
 	call &_sprintf ; call non-native
 	.line 170
-	ld   i0,d0
-	call &_printf ; call non-native
-	.line 171
 	ld   i0,d2
 	ld   i1,d0
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
@@ -1454,25 +1497,25 @@ L76:
 	call d0 ; call non-native
 	ld   i0,d2
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L73
-L78:
+	jp   #L76
+L81:
 	.dlab LBE71
 	.dlab LBE70
-	.line 175
+	.line 174
 	ld   i0,#0x0
 	call &_maExit ; call non-native
 	.dlab LBE69
 	.dlab LBE68
 	.dlab LBE67
 	.dlab LBE66
-	.stabs	"mBuffer:(0,125)=ar(3,53);0;254;(0,19)",128,0,168,-280
+	.stabs	"mBuffer:(0,126)=ar(3,53);0;254;(0,19)",128,0,168,-280
 	.stabn	192,0,0,LBB71-__ZN5Login13keyPressEventEi
 	.stabn	224,0,0,LBE71-__ZN5Login13keyPressEventEi
-Lscope21:
+Lscope24:
 	.set	%5=__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,186,12
-	.stabs	"http:P(0,52)",64,0,186,13
-	.stabs	"result:P(0,3)",64,0,186,14
+	.stabs	"this:P(0,124)",64,0,185,12
+	.stabs	"http:P(0,52)",64,0,185,13
+	.stabs	"result:P(0,3)",64,0,185,14
 	.global	__ZThn28_N5Login15connectFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZThn28_N5Login15connectFinishedEPN6MAUtil10ConnectionEi, 3, void
@@ -1487,42 +1530,33 @@ Ltext34:
 	call &%5 ; call non-native
 	pop  rt,fr
 	ret
-Lscope22:
-.data
-LC18:
-	.ascii "connectFinished %d\0"
-.code
-	.stabs	"_ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,186,__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,186,6
-	.stabs	"http:P(0,52)",64,0,186,7
-	.stabs	"result:P(0,3)",64,0,186,4
+Lscope25:
+	.stabs	"_ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,185,__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
+	.stabs	"this:P(0,124)",64,0,185,6
+	.stabs	"http:P(0,52)",64,0,185,7
+	.stabs	"result:P(0,3)",64,0,185,14
 	.global	__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext35
 Ltext35:
-	.line 186
+	.line 185
 	push rt,d3
 	sub  sp,#0x870
 	ld   fr,sp
 	add  fr,#0x888
 	ld   d2,i0
 	ld   d3,i1
-	ld   d0,i2
 	.dlab LBB72
-	.line 187
-	ld   [sp],i2
-	ld   i0,#LC18
-	call &_printf ; call non-native
-	.line 188
+	.line 186
 	ld   r0,#0xc8
-	jc   eq,d0,r0,#L86
+	jc   eq,i2,r0,#L89
 	ld   r14,#0x1
-	jc   eq,d0,r14,#L86
-	.line 192
+	jc   eq,i2,r14,#L89
+	.line 190
 	ld   r14,#0x14
-	jc   eq,d0,r14,#L96
-	.line 199
+	jc   eq,i2,r14,#L99
+	.line 197
 	ld   d0,fr
 	add  d0,#0xfffff788
 	ld   i0,d0
@@ -1535,59 +1569,57 @@ Ltext35:
 	call d1 ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 200
-	ld   r0,#0x0
-	ld.b [d2,2340],r0
-L84:
+	.line 198
+	ld   r14,#0x0
+	ld.b [d2,2340],r14
+L87:
 	.dlab LBE72
-	.line 202
+	.line 200
 	add  sp,#0x870
 	pop  rt,d3
 	ret
-L96:
+L99:
 	.dlab LBB73
 	.dlab LBB74
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext36
 Ltext36:
-	.line 258
-	ld   r2,d2
-	add  r2,#0x7c
+	.line 265
+	ld   r1,i0
+	add  r1,#0x7c
 	.dlab LBB75
-	ld   r14,[r2]
+	ld   r14,[r1]
 	.dlab LBE75
 	.dlab LBE74
-	ld   r0,#0x0
-	jc   le,r14,r0,#L84
+	ld   r0,[i0,140]
+	jc   le,r14,r0,#L87
 	.dlab LBB76
-	.line 355
-	ld   r14,d2
-	add  r14,#0x8c
-	ld   r0,[r14]
-	ld   r1,r0
+	.line 362
 	add  r0,#0x1
-	ld   [r14],r0
+	ld   [i0,140],r0
+	ld   r14,r0
+	add  r14,#0xffffffff
 	.dlab LBB77
-	mul  r1,#0xc
-	ld   r2,[r2,8]
-	add  r1,r2
+	mul  r14,#0xc
+	ld   r1,[r1,8]
+	add  r14,r1
 	.dlab LBE77
 	.dlab LBE76
-	ld   [d2,136],r1
+	ld   [i0,136],r14
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext37
 Ltext37:
-	.line 195
-	ld.b r14,[r1,4]
-	ld.b [fr,-2164],r14
-	ld.b r0,[r1,5]
+	.line 193
+	ld.b r0,[r14,4]
+	ld.b [fr,-2164],r0
+	ld.b r0,[r14,5]
 	ld.b [fr,-2163],r0
-	ld.b r14,[r1,6]
-	ld.b [fr,-2162],r14
-	ld.b r0,[r1,7]
+	ld.b r0,[r14,6]
+	ld.b [fr,-2162],r0
+	ld.b r0,[r14,7]
 	ld.b [fr,-2161],r0
-	ld.b r14,[r1,8]
-	ld.b [fr,-2160],r14
-	ld.b r1,[r1,9]
-	ld.b [fr,-2159],r1
+	ld.b r0,[r14,8]
+	ld.b [fr,-2160],r0
+	ld.b r14,[r14,9]
+	ld.b [fr,-2159],r14
 	ld   i0,sp
 	ld   i1,#_sUuid
 	ld   i2,#0x10
@@ -1597,14 +1629,9 @@ Ltext37:
 	ld.h i2,[fr,-2160]
 	and  i2,#0xffff ; zero extend
 	call &__ZN5Login7connectE8MABtAddr6MAUUID ; call non-native
-	.dlab LBE73
-	.line 202
-	add  sp,#0x870
-	pop  rt,d3
-	ret
-L86:
-	.dlab LBB78
-	.line 189
+	jp   #L87
+L89:
+	.line 187
 	ld   i0,[d2,48]
 	call &__ZNK4MAUI7EditBox7getTextEv ; call non-native
 	ld   i0,r14
@@ -1619,15 +1646,15 @@ L86:
 	ld   i1,d0
 	ld   i2,r14
 	call &__ZN6MAUtil10Connection5writeEPKvi ; call non-native
-	.dlab LBB79
-	.line 190
+	.dlab LBB78
+	.line 188
 	ld   d0,d2
 	add  d0,#0x90
 	ld   d1,fr
 	add  d1,#0xfffff794
 	ld   i0,d1
 	call &__ZN13XmlConnectionC1Ev ; call non-native
-	.dlab LBB80
+	.dlab LBB79
 	ld   i0,d2
 	add  i0,#0x98
 	ld   i1,fr
@@ -1648,11 +1675,11 @@ L86:
 	ld   [d0,2124],r0
 	ld   r14,[fr,-28]
 	ld   [d0,2128],r14
-	.dlab LBE80
 	.dlab LBE79
+	.dlab LBE78
 	ld   i0,d1
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.line 191
+	.line 189
 	ld   r0,[d2,44]
 	ld   [sp],r0
 	ld   i0,d0
@@ -1662,22 +1689,22 @@ L86:
 	ld   i3,d2
 	add  i3,#0x18
 	call &__ZN13XmlConnection5parseEPN6MAUtil10ConnectionEP10XCListenerPN3Mtx11XmlListenerEPN4MAUI5LabelE ; call non-native
-	.dlab LBE78
-	.line 202
+	.dlab LBE73
+	.line 200
 	add  sp,#0x870
 	pop  rt,d3
 	ret
-	.stabs	"this:r(0,124)",64,0,258,18
+	.stabs	"this:r(0,125)",64,0,265,17
 	.stabn	192,0,0,LBB74-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
 	.stabn	224,0,0,LBE74-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:r(0,126)=k(0,127)=*(0,42)",64,0,190,4
-	.stabn	192,0,0,LBB79-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
-	.stabn	224,0,0,LBE79-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
-Lscope23:
+	.stabs	"this:r(0,127)=k(0,128)=*(0,42)",64,0,188,4
+	.stabn	192,0,0,LBB78-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
+	.stabn	224,0,0,LBE78-__ZN5Login15connectFinishedEPN6MAUtil10ConnectionEi
+Lscope26:
 	.set	%6=__ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,204,12
-	.stabs	"conn:P(0,52)",64,0,204,13
-	.stabs	"result:P(0,3)",64,0,204,14
+	.stabs	"this:P(0,124)",64,0,202,12
+	.stabs	"conn:P(0,52)",64,0,202,13
+	.stabs	"result:P(0,3)",64,0,202,14
 	.global	__ZThn28_N5Login17connWriteFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZThn28_N5Login17connWriteFinishedEPN6MAUtil10ConnectionEi, 3, void
@@ -1692,28 +1719,28 @@ Ltext38:
 	call &%6 ; call non-native
 	pop  rt,fr
 	ret
-Lscope24:
-	.stabs	"_ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,204,__ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,204,12
-	.stabs	"conn:P(0,52)",64,0,204,13
-	.stabs	"result:P(0,3)",64,0,204,14
+Lscope27:
+	.stabs	"_ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,202,__ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi
+	.stabs	"this:P(0,124)",64,0,202,12
+	.stabs	"conn:P(0,52)",64,0,202,13
+	.stabs	"result:P(0,3)",64,0,202,14
 	.global	__ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN5Login17connWriteFinishedEPN6MAUtil10ConnectionEi, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext39
 Ltext39:
-	.line 204
+	.line 202
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 204
+	.line 202
 	pop  fr,fr
 	ret
-Lscope25:
+Lscope28:
 	.set	%7=__ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,206,12
-	.stabs	"conn:P(0,52)",64,0,206,13
-	.stabs	"result:P(0,3)",64,0,206,14
+	.stabs	"this:P(0,124)",64,0,204,12
+	.stabs	"conn:P(0,52)",64,0,204,13
+	.stabs	"result:P(0,3)",64,0,204,14
 	.global	__ZThn28_N5Login16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZThn28_N5Login16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
@@ -1728,27 +1755,27 @@ Ltext40:
 	call &%7 ; call non-native
 	pop  rt,fr
 	ret
-Lscope26:
-	.stabs	"_ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,206,__ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi
-	.stabs	"this:P(0,123)",64,0,206,12
-	.stabs	"conn:P(0,52)",64,0,206,13
-	.stabs	"result:P(0,3)",64,0,206,14
+Lscope29:
+	.stabs	"_ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi:F(0,6)",36,0,204,__ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi
+	.stabs	"this:P(0,124)",64,0,204,12
+	.stabs	"conn:P(0,52)",64,0,204,13
+	.stabs	"result:P(0,3)",64,0,204,14
 	.global	__ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi
 
 .func __ZN5Login16connReadFinishedEPN6MAUtil10ConnectionEi, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext41
 Ltext41:
-	.line 206
+	.line 204
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 206
+	.line 204
 	pop  fr,fr
 	ret
-Lscope27:
+Lscope30:
 	.set	%8=__ZN5Login11xcConnErrorEi
-	.stabs	"this:P(0,123)",64,0,208,12
-	.stabs	"code:P(0,3)",64,0,208,13
+	.stabs	"this:P(0,124)",64,0,206,12
+	.stabs	"code:P(0,3)",64,0,206,13
 	.global	__ZThn20_N5Login11xcConnErrorEi
 
 .func __ZThn20_N5Login11xcConnErrorEi, 2, void
@@ -1763,40 +1790,29 @@ Ltext42:
 	call &%8 ; call non-native
 	pop  rt,fr
 	ret
-Lscope28:
-.data
-LC19:
-	.ascii "internal error %d\0"
-.code
-	.stabs	"_ZN5Login11xcConnErrorEi:F(0,6)",36,0,208,__ZN5Login11xcConnErrorEi
-	.stabs	"this:P(0,123)",64,0,208,4
-	.stabs	"code:P(0,3)",64,0,208,13
+Lscope31:
+	.stabs	"_ZN5Login11xcConnErrorEi:F(0,6)",36,0,206,__ZN5Login11xcConnErrorEi
+	.stabs	"this:P(0,124)",64,0,206,12
+	.stabs	"code:P(0,3)",64,0,206,13
 	.global	__ZN5Login11xcConnErrorEi
 
 .func __ZN5Login11xcConnErrorEi, 2, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext43
 Ltext43:
-	.line 208
-	push rt,d0
-	sub  sp,#0x4
+	.line 206
+	push fr,fr
 	ld   fr,sp
-	add  fr,#0x10
-	ld   d0,i0
-	.dlab LBB81
-	.line 209
-	ld   [sp],i1
-	ld   i0,#LC19
-	call &_printf ; call non-native
-	.line 210
+	add  fr,#0x4
+	.dlab LBB80
+	.line 207
 	ld   r14,#0x0
-	ld.b [d0,2340],r14
-	.dlab LBE81
-	add  sp,#0x4
-	pop  rt,d0
+	ld.b [i0,2340],r14
+	.dlab LBE80
+	pop  fr,fr
 	ret
-Lscope29:
+Lscope32:
 	.set	%9=__ZN5Login11mtxEncodingEPKc
-	.stabs	"this:P(0,123)",64,0,213,12
+	.stabs	"this:P(0,124)",64,0,210,12
 	.global	__ZThn24_N5Login11mtxEncodingEPKc
 
 .func __ZThn24_N5Login11mtxEncodingEPKc, 2, void
@@ -1811,26 +1827,26 @@ Ltext44:
 	call &%9 ; call non-native
 	pop  rt,fr
 	ret
-Lscope30:
-	.stabs	"_ZN5Login11mtxEncodingEPKc:F(0,6)",36,0,213,__ZN5Login11mtxEncodingEPKc
-	.stabs	"this:P(0,123)",64,0,213,12
+Lscope33:
+	.stabs	"_ZN5Login11mtxEncodingEPKc:F(0,6)",36,0,210,__ZN5Login11mtxEncodingEPKc
+	.stabs	"this:P(0,124)",64,0,210,12
 	.global	__ZN5Login11mtxEncodingEPKc
 
 .func __ZN5Login11mtxEncodingEPKc, 2, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext45
 Ltext45:
-	.line 213
+	.line 210
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 213
+	.line 210
 	pop  fr,fr
 	ret
-Lscope31:
+Lscope34:
 	.set	%10=__ZN5Login11mtxTagStartEPKci
-	.stabs	"this:P(0,123)",64,0,216,12
-	.stabs	"name:P(18,27)",64,0,216,13
-	.stabs	"len:P(0,3)",64,0,216,14
+	.stabs	"this:P(0,124)",64,0,213,12
+	.stabs	"name:P(18,27)",64,0,213,13
+	.stabs	"len:P(0,3)",64,0,213,14
 	.global	__ZThn24_N5Login11mtxTagStartEPKci
 
 .func __ZThn24_N5Login11mtxTagStartEPKci, 3, void
@@ -1845,24 +1861,24 @@ Ltext46:
 	call &%10 ; call non-native
 	pop  rt,fr
 	ret
-Lscope32:
-	.stabs	"_ZN5Login11mtxTagStartEPKci:F(0,6)",36,0,216,__ZN5Login11mtxTagStartEPKci
-	.stabs	"this:P(0,123)",64,0,216,5
-	.stabs	"name:P(18,27)",64,0,216,13
-	.stabs	"len:P(0,3)",64,0,216,14
+Lscope35:
+	.stabs	"_ZN5Login11mtxTagStartEPKci:F(0,6)",36,0,213,__ZN5Login11mtxTagStartEPKci
+	.stabs	"this:P(0,124)",64,0,213,5
+	.stabs	"name:P(18,27)",64,0,213,13
+	.stabs	"len:P(0,3)",64,0,213,14
 	.global	__ZN5Login11mtxTagStartEPKci
 
 .func __ZN5Login11mtxTagStartEPKci, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext47
 Ltext47:
-	.line 216
+	.line 213
 	push rt,d1
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB82
-	.line 217
+	.dlab LBB81
+	.line 214
 	ld   d0,fr
 	add  d0,#0xffffffec
 	ld   i0,d0
@@ -1873,15 +1889,15 @@ Ltext47:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBE82
+	.dlab LBE81
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-Lscope33:
+Lscope36:
 	.set	%11=__ZN5Login10mtxTagAttrEPKcS1_
-	.stabs	"this:P(0,123)",64,0,220,12
-	.stabs	"attrName:P(18,27)",64,0,220,13
-	.stabs	"attrValue:P(18,27)",64,0,220,14
+	.stabs	"this:P(0,124)",64,0,217,12
+	.stabs	"attrName:P(18,27)",64,0,217,13
+	.stabs	"attrValue:P(18,27)",64,0,217,14
 	.global	__ZThn24_N5Login10mtxTagAttrEPKcS1_
 
 .func __ZThn24_N5Login10mtxTagAttrEPKcS1_, 3, void
@@ -1896,28 +1912,28 @@ Ltext48:
 	call &%11 ; call non-native
 	pop  rt,fr
 	ret
-Lscope34:
-	.stabs	"_ZN5Login10mtxTagAttrEPKcS1_:F(0,6)",36,0,220,__ZN5Login10mtxTagAttrEPKcS1_
-	.stabs	"this:P(0,123)",64,0,220,12
-	.stabs	"attrName:P(18,27)",64,0,220,13
-	.stabs	"attrValue:P(18,27)",64,0,220,14
+Lscope37:
+	.stabs	"_ZN5Login10mtxTagAttrEPKcS1_:F(0,6)",36,0,217,__ZN5Login10mtxTagAttrEPKcS1_
+	.stabs	"this:P(0,124)",64,0,217,12
+	.stabs	"attrName:P(18,27)",64,0,217,13
+	.stabs	"attrValue:P(18,27)",64,0,217,14
 	.global	__ZN5Login10mtxTagAttrEPKcS1_
 
 .func __ZN5Login10mtxTagAttrEPKcS1_, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext49
 Ltext49:
-	.line 220
+	.line 217
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 220
+	.line 217
 	pop  fr,fr
 	ret
-Lscope35:
+Lscope38:
 	.set	%12=__ZN5Login10mtxTagDataEPKci
-	.stabs	"this:P(0,123)",64,0,223,12
-	.stabs	"data:P(18,27)",64,0,223,13
-	.stabs	"len:P(0,3)",64,0,223,14
+	.stabs	"this:P(0,124)",64,0,220,12
+	.stabs	"data:P(18,27)",64,0,220,13
+	.stabs	"len:P(0,3)",64,0,220,14
 	.global	__ZThn24_N5Login10mtxTagDataEPKci
 
 .func __ZThn24_N5Login10mtxTagDataEPKci, 3, void
@@ -1932,25 +1948,25 @@ Ltext50:
 	call &%12 ; call non-native
 	pop  rt,fr
 	ret
-Lscope36:
-	.stabs	"_ZN5Login10mtxTagDataEPKci:F(0,6)",36,0,223,__ZN5Login10mtxTagDataEPKci
-	.stabs	"this:P(0,123)",64,0,223,5
-	.stabs	"data:P(18,27)",64,0,223,6
-	.stabs	"len:P(0,3)",64,0,223,14
+Lscope39:
+	.stabs	"_ZN5Login10mtxTagDataEPKci:F(0,6)",36,0,220,__ZN5Login10mtxTagDataEPKci
+	.stabs	"this:P(0,124)",64,0,220,5
+	.stabs	"data:P(18,27)",64,0,220,6
+	.stabs	"len:P(0,3)",64,0,220,14
 	.global	__ZN5Login10mtxTagDataEPKci
 
 .func __ZN5Login10mtxTagDataEPKci, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext51
 Ltext51:
-	.line 223
+	.line 220
 	push rt,d2
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x18
 	ld   d1,i0
 	ld   d2,i1
-	.dlab LBB83
-	.line 224
+	.dlab LBB82
+	.line 221
 	ld   d0,i0
 	add  d0,#0x8e4
 	ld   i0,d0
@@ -1959,8 +1975,8 @@ Ltext51:
 	ld   i1,[&_xml_username]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L111
-	.line 225
+	jc   ne,r14,r0,#L114
+	.line 222
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
@@ -1968,53 +1984,53 @@ Ltext51:
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d1
 	add  i0,#0x904
-L120:
-	.line 233
+L123:
+	.line 230
 	ld   i1,d0
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L110:
-	.dlab LBE83
-	.line 235
+L113:
+	.dlab LBE82
+	.line 232
 	add  sp,#0x4
 	pop  rt,d2
 	ret
-L111:
-	.dlab LBB84
-	.line 226
+L114:
+	.dlab LBB83
+	.line 223
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,r14
 	ld   i1,[&_xml_credits]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L110
-	.line 228
+	jc   eq,r14,r0,#L113
+	.line 225
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,r14
 	ld   i1,[&_xml_email]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L110
-	.line 230
+	jc   eq,r14,r0,#L113
+	.line 227
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,r14
 	ld   i1,[&_xml_handle]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L110
-	.line 232
+	jc   eq,r14,r0,#L113
+	.line 229
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,r14
 	ld   i1,[&_xml_error]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   ne,r14,r0,#L110
-	.line 233
+	jc   ne,r14,r0,#L113
+	.line 230
 	ld   d0,fr
 	add  d0,#0xffffffe8
 	ld   i0,d0
@@ -2022,13 +2038,13 @@ L111:
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d1
 	add  i0,#0x90c
-	jp   #L120
-	.dlab LBE84
-Lscope37:
+	jp   #L123
+	.dlab LBE83
+Lscope40:
 	.set	%13=__ZN5Login9mtxTagEndEPKci
-	.stabs	"this:P(0,123)",64,0,237,12
-	.stabs	"name:P(18,27)",64,0,237,13
-	.stabs	"len:P(0,3)",64,0,237,14
+	.stabs	"this:P(0,124)",64,0,234,12
+	.stabs	"name:P(18,27)",64,0,234,13
+	.stabs	"len:P(0,3)",64,0,234,14
 	.global	__ZThn24_N5Login9mtxTagEndEPKci
 
 .func __ZThn24_N5Login9mtxTagEndEPKci, 3, void
@@ -2043,59 +2059,59 @@ Ltext52:
 	call &%13 ; call non-native
 	pop  rt,fr
 	ret
-Lscope38:
+Lscope41:
 .data
-LC20:
+LC18:
 	.ascii "\0"
 .code
-	.stabs	"_ZN5Login9mtxTagEndEPKci:F(0,6)",36,0,237,__ZN5Login9mtxTagEndEPKci
-	.stabs	"this:P(0,123)",64,0,237,5
-	.stabs	"name:P(18,27)",64,0,237,4
-	.stabs	"len:P(0,3)",64,0,237,14
+	.stabs	"_ZN5Login9mtxTagEndEPKci:F(0,6)",36,0,234,__ZN5Login9mtxTagEndEPKci
+	.stabs	"this:P(0,124)",64,0,234,5
+	.stabs	"name:P(18,27)",64,0,234,4
+	.stabs	"len:P(0,3)",64,0,234,14
 	.global	__ZN5Login9mtxTagEndEPKci
 
 .func __ZN5Login9mtxTagEndEPKci, 3, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext53
 Ltext53:
-	.line 237
+	.line 234
 	push rt,d1
 	sub  sp,#0x4
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
 	ld   d0,i1
-	.dlab LBB85
-	.line 238
+	.dlab LBB84
+	.line 235
 	ld   i0,i1
 	ld   i1,[&_xml_status]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L130
-	.line 246
+	jc   eq,r14,r0,#L133
+	.line 243
 	ld   i0,d0
 	ld   i1,[&_xml_error]
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L131
-	.line 251
+	jc   eq,r14,r0,#L134
+	.line 248
 	ld.b r0,[d1,2327]
 	and  r0,#0xff  ; zero extend
 	ld   r14,#0x0
-	jc   ne,r0,r14,#L122
-	.line 252
+	jc   ne,r0,r14,#L125
+	.line 249
 	ld   r14,[d1,44]
-	jc   eq,r14,r0,#L122
-	.line 253
+	jc   eq,r14,r0,#L125
+	.line 250
 	ld   d0,fr
 	add  d0,#0xffffffec
 	ld   i0,d0
-	ld   i1,#LC20
-	jp   #L129
-L131:
-	.line 247
+	ld   i1,#LC18
+	jp   #L132
+L134:
+	.line 244
 	ld   r14,#0x1
 	ld.b [d1,2327],r14
-	.line 248
+	.line 245
 	ld   d0,d1
 	add  d0,#0x90c
 	ld   i0,d0
@@ -2103,15 +2119,15 @@ L131:
 	ld   i0,[d1,2332]
 	ld   i1,r14
 	call &__ZN4Feed15setUnsuccessfulEPKc ; call non-native
-	.line 249
+	.line 246
 	ld   i0,d0
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   d0,fr
 	add  d0,#0xffffffec
 	ld   i0,d0
 	ld   i1,r14
-L129:
-	.line 253
+L132:
+	.line 250
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d1,44]
 	ld   r14,[i0]
@@ -2120,30 +2136,30 @@ L129:
 	call d1 ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L122:
-	.dlab LBE85
-	.line 257
+L125:
+	.dlab LBE84
+	.line 254
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-L130:
-	.dlab LBB86
-	.line 239
+L133:
+	.dlab LBB85
+	.line 236
 	ld   i0,[d1,2332]
 	ld   i1,[&_success]
 	call &__ZN4Feed15setUnsuccessfulEPKc ; call non-native
-	.line 240
+	.line 237
 	ld   i0,d1
 	add  i0,#0x910
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,[d1,2332]
 	ld   i1,r14
 	call &__ZN4Feed8setTouchEPKc ; call non-native
-	.line 241
+	.line 238
 	ld   d0,fr
 	add  d0,#0xffffffec
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d1
 	add  i0,#0x90c
@@ -2151,7 +2167,7 @@ L130:
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 242
+	.line 239
 	ld   i0,d0
 	ld   i1,[d1,2332]
 	call &__ZN4Feed6getAllEv ; call non-native
@@ -2162,13 +2178,13 @@ L130:
 	call &__Z8saveDataPKcS0_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 243
+	.line 240
 	ld   i0,[&_ALBUM]
 	call &__Z7getDataPKc ; call non-native
 	ld   i0,[d1,2332]
 	ld   i1,r14
 	call &__ZN4Feed8setAlbumEPKc ; call non-native
-	.line 244
+	.line 241
 	ld   i0,#0x8d4
 	call &__Znwm ; call non-native
 	ld   d0,r14
@@ -2176,19 +2192,19 @@ L130:
 	ld   i1,[d1,2332]
 	call &__ZN15AlbumLoadScreenC1EP4Feed ; call non-native
 	ld   [d1,2336],d0
-	.line 245
+	.line 242
 	ld   r14,[d0]
 	ld   d1,[r14,28]
 	ld   i0,d0
 	call d1 ; call non-native
-	.dlab LBE86
-	.line 257
+	.dlab LBE85
+	.line 254
 	add  sp,#0x4
 	pop  rt,d1
 	ret
-Lscope39:
+Lscope42:
 	.set	%14=__ZN5Login13mtxParseErrorEv
-	.stabs	"this:P(0,123)",64,0,259,12
+	.stabs	"this:P(0,124)",64,0,256,12
 	.global	__ZThn24_N5Login13mtxParseErrorEv
 
 .func __ZThn24_N5Login13mtxParseErrorEv, 1, void
@@ -2203,24 +2219,24 @@ Ltext54:
 	call &%14 ; call non-native
 	pop  rt,fr
 	ret
-Lscope40:
-	.stabs	"_ZN5Login13mtxParseErrorEv:F(0,6)",36,0,259,__ZN5Login13mtxParseErrorEv
-	.stabs	"this:P(0,123)",64,0,259,12
+Lscope43:
+	.stabs	"_ZN5Login13mtxParseErrorEv:F(0,6)",36,0,256,__ZN5Login13mtxParseErrorEv
+	.stabs	"this:P(0,124)",64,0,256,12
 	.global	__ZN5Login13mtxParseErrorEv
 
 .func __ZN5Login13mtxParseErrorEv, 1, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext55
 Ltext55:
-	.line 259
+	.line 256
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 259
+	.line 256
 	pop  fr,fr
 	ret
-Lscope41:
+Lscope44:
 	.set	%15=__ZN5Login14mtxEmptyTagEndEv
-	.stabs	"this:P(0,123)",64,0,262,12
+	.stabs	"this:P(0,124)",64,0,259,12
 	.global	__ZThn24_N5Login14mtxEmptyTagEndEv
 
 .func __ZThn24_N5Login14mtxEmptyTagEndEv, 1, void
@@ -2235,24 +2251,24 @@ Ltext56:
 	call &%15 ; call non-native
 	pop  rt,fr
 	ret
-Lscope42:
-	.stabs	"_ZN5Login14mtxEmptyTagEndEv:F(0,6)",36,0,262,__ZN5Login14mtxEmptyTagEndEv
-	.stabs	"this:P(0,123)",64,0,262,12
+Lscope45:
+	.stabs	"_ZN5Login14mtxEmptyTagEndEv:F(0,6)",36,0,259,__ZN5Login14mtxEmptyTagEndEv
+	.stabs	"this:P(0,124)",64,0,259,12
 	.global	__ZN5Login14mtxEmptyTagEndEv
 
 .func __ZN5Login14mtxEmptyTagEndEv, 1, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext57
 Ltext57:
-	.line 262
+	.line 259
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 262
+	.line 259
 	pop  fr,fr
 	ret
-Lscope43:
+Lscope46:
 	.set	%16=__ZN5Login14mtxTagStartEndEv
-	.stabs	"this:P(0,123)",64,0,265,12
+	.stabs	"this:P(0,124)",64,0,262,12
 	.global	__ZThn24_N5Login14mtxTagStartEndEv
 
 .func __ZThn24_N5Login14mtxTagStartEndEv, 1, void
@@ -2267,30 +2283,30 @@ Ltext58:
 	call &%16 ; call non-native
 	pop  rt,fr
 	ret
-Lscope44:
-	.stabs	"_ZN5Login14mtxTagStartEndEv:F(0,6)",36,0,265,__ZN5Login14mtxTagStartEndEv
-	.stabs	"this:P(0,123)",64,0,265,12
+Lscope47:
+	.stabs	"_ZN5Login14mtxTagStartEndEv:F(0,6)",36,0,262,__ZN5Login14mtxTagStartEndEv
+	.stabs	"this:P(0,124)",64,0,262,12
 	.global	__ZN5Login14mtxTagStartEndEv
 
 .func __ZN5Login14mtxTagStartEndEv, 1, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext59
 Ltext59:
-	.line 265
+	.line 262
 	push fr,fr
 	ld   fr,sp
 	add  fr,#0x4
-	.line 265
+	.line 262
 	pop  fr,fr
 	ret
-Lscope45:
-	.stabs	"_ZN5Login6base64EPKhj:F(9,1)",36,0,268,__ZN5Login6base64EPKhj
-	.stabs	"this:P(0,123)",64,0,268,8
-	.stabs	"bytes_to_encode:P(0,58)",64,0,268,6
-	.stabs	"in_len:P(0,17)",64,0,268,5
+Lscope48:
+	.stabs	"_ZN5Login6base64EPKhj:F(9,1)",36,0,265,__ZN5Login6base64EPKhj
+	.stabs	"this:P(0,124)",64,0,265,8
+	.stabs	"bytes_to_encode:P(0,58)",64,0,265,6
+	.stabs	"in_len:P(0,17)",64,0,265,5
 	.global	__ZN5Login6base64EPKhj
 
 .func __ZN5Login6base64EPKhj, 4, int
-	.line 268
+	.line 265
 	push rt,d5
 	sub  sp,#0xc
 	ld   fr,sp
@@ -2299,13 +2315,13 @@ Lscope45:
 	ld   d4,i1
 	ld   d2,i2
 	ld   d1,i3
+	.dlab LBB86
 	.dlab LBB87
-	.dlab LBB88
-	.line 294
+	.line 291
 	ld   d0,fr
 	add  d0,#0xffffffd4
 	ld   i0,d0
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   d3,d4
 	add  d3,#0x8ec
@@ -2314,19 +2330,19 @@ Lscope45:
 	call &__ZN6MAUtil11BasicStringIcEpLERKS1_ ; call non-native
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.line 295
+	.line 292
 	ld   d0,#0x0
-	.line 306
+	.line 303
 	add  d1,#0xffffffff
 	ld   r0,#0xffffffff
-	jc   ne,d1,r0,#L146
-	jp   #L147
-L139:
+	jc   ne,d1,r0,#L149
+	jp   #L150
+L142:
 	add  d1,#0xffffffff
 	ld   r0,#0xffffffff
-	jc   eq,d1,r0,#L169
-L146:
-	.line 297
+	jc   eq,d1,r0,#L172
+L149:
+	.line 294
 	ld   r0,#0xffffffe0
 	add  r0,fr
 	add  r0,d0
@@ -2334,16 +2350,16 @@ L146:
 	add  d2,#0x1
 	ld.b [r0,-4],r14
 	add  d0,#0x1
-	.line 298
+	.line 295
 	ld   r1,#0x3
-	jc   ne,d0,r1,#L139
-	.line 299
+	jc   ne,d0,r1,#L142
+	.line 296
 	ld.b r14,[fr,-36]
 	and  r14,#0xff  ; zero extend
 	ld   r0,r14
 	srl  r0,#0x2
 	ld.b [fr,-40],r0
-	.line 300
+	.line 297
 	and  r14,r1
 	sll  r14,#0x4
 	ld.b r0,[fr,-35]
@@ -2352,7 +2368,7 @@ L146:
 	srl  r1,#0x4
 	add  r14,r1
 	ld.b [fr,-39],r14
-	.line 301
+	.line 298
 	and  r0,#0xf
 	sll  r0,#0x2
 	ld.b r1,[fr,-34]
@@ -2361,13 +2377,13 @@ L146:
 	sra  r14,#0x6
 	add  r0,r14
 	ld.b [fr,-38],r0
-	.line 302
+	.line 299
 	and  r1,#0x3f
 	ld.b [fr,-37],r1
-	.line 303
+	.line 300
 	ld   d0,#0x0
-L145:
-	.line 304
+L148:
+	.line 301
 	ld   r14,#0xffffffe0
 	add  r14,fr
 	add  r14,d0
@@ -2378,45 +2394,45 @@ L145:
 	ld   i0,d3
 	ld.b i1,[r14]
 	call &__ZN6MAUtil11BasicStringIcEpLEc ; call non-native
-	.line 303
+	.line 300
 	add  d0,#0x1
 	ld   r14,#0x3
-	jc   le,d0,r14,#L145
-	.line 306
+	jc   le,d0,r14,#L148
+	.line 303
 	ld   d0,#0x0
 	add  d1,#0xffffffff
 	ld   r0,#0xffffffff
-	jc   ne,d1,r0,#L146
-L169:
-	.line 309
+	jc   ne,d1,r0,#L149
+L172:
+	.line 306
 	ld   r1,#0x0
-	jc   eq,d0,r1,#L147
-	.line 310
+	jc   eq,d0,r1,#L150
+	.line 307
 	ld   r0,d0
 	ld   r14,#0x2
-	jc   gt,d0,r14,#L164
-L151:
+	jc   gt,d0,r14,#L167
+L154:
 	ld   [d4,2328],r0
-	.line 311
+	.line 308
 	ld   r14,#0xffffffe0
 	add  r14,fr
 	add  r14,r0
 	ld   r1,#0x0
 	ld.b [r14,-4],r1
-	.line 310
+	.line 307
 	ld   r14,r0
 	add  r14,#0x1
 	ld   r0,r14
 	ld   r1,#0x2
-	jc   le,r14,r1,#L151
-L164:
-	.line 312
+	jc   le,r14,r1,#L154
+L167:
+	.line 309
 	ld.b r14,[fr,-36]
 	and  r14,#0xff  ; zero extend
 	ld   r0,r14
 	srl  r0,#0x2
 	ld.b [fr,-40],r0
-	.line 313
+	.line 310
 	and  r14,#0x3
 	sll  r14,#0x4
 	ld.b r0,[fr,-35]
@@ -2425,7 +2441,7 @@ L164:
 	srl  r1,#0x4
 	add  r14,r1
 	ld.b [fr,-39],r14
-	.line 314
+	.line 311
 	and  r0,#0xf
 	sll  r0,#0x2
 	ld.b r1,[fr,-34]
@@ -2434,17 +2450,17 @@ L164:
 	sra  r14,#0x6
 	add  r0,r14
 	ld.b [fr,-38],r0
-	.line 315
+	.line 312
 	and  r1,#0x3f
 	ld.b [fr,-37],r1
-	.line 317
+	.line 314
 	ld   r14,#0x0
 	ld   [d4,2328],r14
 	ld   d1,d0
 	add  d1,#0x1
-	jc   le,d1,r14,#L166
-L170:
-	.line 318
+	jc   le,d1,r14,#L169
+L173:
+	.line 315
 	ld   r14,[d4,2328]
 	ld   r0,#0xffffffe0
 	add  r0,fr
@@ -2456,45 +2472,45 @@ L170:
 	ld   i0,d3
 	ld.b i1,[r14]
 	call &__ZN6MAUtil11BasicStringIcEpLEc ; call non-native
-	.line 317
+	.line 314
 	ld   r14,[d4,2328]
 	add  r14,#0x1
 	ld   [d4,2328],r14
-	jc   gt,d1,r14,#L170
-L166:
-	.line 321
+	jc   gt,d1,r14,#L173
+L169:
+	.line 318
 	ld   r14,d0
 	ld   d0,d1
 	ld   r1,#0x2
-	jc   gt,r14,r1,#L147
-L158:
+	jc   gt,r14,r1,#L150
+L161:
 	ld   i0,d3
 	ld   i1,#0x3d
 	call &__ZN6MAUtil11BasicStringIcEpLEc ; call non-native
 	ld   r14,d0
 	add  d0,#0x1
 	ld   r0,#0x2
-	jc   le,r14,r0,#L158
-L147:
-	.line 323
+	jc   le,r14,r0,#L161
+L150:
+	.line 320
 	ld   i0,d5
 	ld   i1,d3
 	call &__ZN6MAUtil11BasicStringIcEC1ERKS1_ ; call non-native
-	.dlab LBE88
 	.dlab LBE87
-	.line 324
+	.dlab LBE86
+	.line 321
 	ld   r14,d5
 	add  sp,#0xc
 	pop  rt,d5
 	ret
-	.stabs	"char_array_3:(0,128)=ar(3,53);0;2;(0,10)",128,0,291,-36
-	.stabs	"char_array_4:(0,129)=ar(3,53);0;3;(0,10)",128,0,292,-40
-	.stabs	"i:r(0,3)",64,0,295,4
-	.stabn	192,0,0,LBB88-__ZN5Login6base64EPKhj
-	.stabn	224,0,0,LBE88-__ZN5Login6base64EPKhj
-Lscope46:
+	.stabs	"char_array_3:(0,129)=ar(3,53);0;2;(0,10)",128,0,288,-36
+	.stabs	"char_array_4:(0,130)=ar(3,53);0;3;(0,10)",128,0,289,-40
+	.stabs	"i:r(0,3)",64,0,292,4
+	.stabn	192,0,0,LBB87-__ZN5Login6base64EPKhj
+	.stabn	224,0,0,LBE87-__ZN5Login6base64EPKhj
+Lscope49:
 	.set	%17=__ZN5LoginD0Ev
-	.stabs	"this:P(0,123)",64,0,42,12
+	.stabs	"this:P(0,124)",64,0,42,12
 	.global	__ZThn4_N5LoginD0Ev
 
 .func __ZThn4_N5LoginD0Ev, 1, void
@@ -2509,9 +2525,9 @@ Ltext60:
 	call &%17 ; call non-native
 	pop  rt,fr
 	ret
-Lscope47:
+Lscope50:
 	.stabs	"_ZN5LoginD0Ev:F(0,6)",36,0,42,__ZN5LoginD0Ev
-	.stabs	"this:P(0,123)",64,0,42,5
+	.stabs	"this:P(0,124)",64,0,42,5
 	.global	__ZN5LoginD0Ev
 
 .func __ZN5LoginD0Ev, 1, void
@@ -2522,21 +2538,21 @@ Ltext61:
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB89
+	.dlab LBB88
 	.line 42
 	ld   r14,#__ZTV5Login+8
 	ld   [i0],r14
 	ld   r14,#__ZTV5Login+124
 	ld   [i0,4],r14
-	ld   r14,#__ZTV5Login+152
+	ld   r14,#__ZTV5Login+164
 	ld   [i0,12],r14
-	ld   r14,#__ZTV5Login+176
+	ld   r14,#__ZTV5Login+188
 	ld   [i0,16],r14
-	ld   r14,#__ZTV5Login+192
-	ld   [i0,20],r14
 	ld   r14,#__ZTV5Login+204
+	ld   [i0,20],r14
+	ld   r14,#__ZTV5Login+216
 	ld   [i0,24],r14
-	ld   r14,#__ZTV5Login+248
+	ld   r14,#__ZTV5Login+260
 	ld   [i0,28],r14
 	add  i0,#0x910
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -2576,43 +2592,43 @@ Ltext61:
 	ld   i0,d1
 	add  i0,#0x90
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB90
+	.dlab LBB89
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext62
 Ltext62:
-	.line 135
+	.line 142
 	ld   d2,d1
 	add  d2,#0x7c
-	.dlab LBB91
-	.line 136
+	.dlab LBB90
+	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L183
+	jc   eq,i0,r14,#L186
 	ld   d0,[i0,-4]
 	mul  d0,#0xc
 	add  d0,i0
-	jc   eq,i0,d0,#L178
-L186:
+	jc   eq,i0,d0,#L181
+L189:
 	add  d0,#0xfffffff4
+	.dlab LBB91
 	.dlab LBB92
-	.dlab LBB93
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	.dlab LBE93
 	.dlab LBE92
-	jc   ne,i0,d0,#L186
-L178:
+	.dlab LBE91
+	jc   ne,i0,d0,#L189
+L181:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L183:
-	.dlab LBE91
+L186:
 	.dlab LBE90
+	.dlab LBE89
 	ld   i0,d1
 	add  i0,#0x34
 	call &__ZN6MAUtil19BluetoothConnectionD1Ev ; call non-native
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE89
+	.dlab LBE88
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext63
 Ltext63:
 	.line 42
@@ -2620,12 +2636,12 @@ Ltext63:
 	call &__ZdlPv ; call non-native
 	pop  rt,d2
 	ret
-	.stabs	"this:r(0,130)=k(5,3)",64,0,135,6
-	.stabn	192,0,0,LBB90-__ZN5LoginD0Ev
-	.stabn	224,0,0,LBE90-__ZN5LoginD0Ev
-Lscope48:
+	.stabs	"this:r(0,131)=k(5,3)",64,0,142,6
+	.stabn	192,0,0,LBB89-__ZN5LoginD0Ev
+	.stabn	224,0,0,LBE89-__ZN5LoginD0Ev
+Lscope51:
 	.set	%18=__ZN5LoginD1Ev
-	.stabs	"this:P(0,123)",64,0,42,12
+	.stabs	"this:P(0,124)",64,0,42,12
 	.global	__ZThn4_N5LoginD1Ev
 
 .func __ZThn4_N5LoginD1Ev, 1, void
@@ -2640,9 +2656,9 @@ Ltext64:
 	call &%18 ; call non-native
 	pop  rt,fr
 	ret
-Lscope49:
+Lscope52:
 	.stabs	"_ZN5LoginD1Ev:F(0,6)",36,0,42,__ZN5LoginD1Ev
-	.stabs	"this:P(0,123)",64,0,42,5
+	.stabs	"this:P(0,124)",64,0,42,5
 	.global	__ZN5LoginD1Ev
 
 .func __ZN5LoginD1Ev, 1, void
@@ -2653,21 +2669,21 @@ Ltext65:
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB94
+	.dlab LBB93
 	.line 42
 	ld   r14,#__ZTV5Login+8
 	ld   [i0],r14
 	ld   r14,#__ZTV5Login+124
 	ld   [i0,4],r14
-	ld   r14,#__ZTV5Login+152
+	ld   r14,#__ZTV5Login+164
 	ld   [i0,12],r14
-	ld   r14,#__ZTV5Login+176
+	ld   r14,#__ZTV5Login+188
 	ld   [i0,16],r14
-	ld   r14,#__ZTV5Login+192
-	ld   [i0,20],r14
 	ld   r14,#__ZTV5Login+204
+	ld   [i0,20],r14
+	ld   r14,#__ZTV5Login+216
 	ld   [i0,24],r14
-	ld   r14,#__ZTV5Login+248
+	ld   r14,#__ZTV5Login+260
 	ld   [i0,28],r14
 	add  i0,#0x910
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -2707,54 +2723,54 @@ Ltext65:
 	ld   i0,d1
 	add  i0,#0x90
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB95
+	.dlab LBB94
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext66
 Ltext66:
-	.line 135
+	.line 142
 	ld   d2,d1
 	add  d2,#0x7c
-	.dlab LBB96
-	.line 136
+	.dlab LBB95
+	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L199
+	jc   eq,i0,r14,#L202
 	ld   d0,[i0,-4]
 	mul  d0,#0xc
 	add  d0,i0
-	jc   eq,i0,d0,#L194
-L202:
+	jc   eq,i0,d0,#L197
+L205:
 	add  d0,#0xfffffff4
+	.dlab LBB96
 	.dlab LBB97
-	.dlab LBB98
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	.dlab LBE98
 	.dlab LBE97
-	jc   ne,i0,d0,#L202
-L194:
+	.dlab LBE96
+	jc   ne,i0,d0,#L205
+L197:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L199:
-	.dlab LBE96
+L202:
 	.dlab LBE95
+	.dlab LBE94
 	ld   i0,d1
 	add  i0,#0x34
 	call &__ZN6MAUtil19BluetoothConnectionD1Ev ; call non-native
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE94
+	.dlab LBE93
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext67
 Ltext67:
 	.line 42
 	pop  rt,d2
 	ret
-	.stabs	"this:r(0,130)",64,0,135,6
-	.stabn	192,0,0,LBB95-__ZN5LoginD1Ev
-	.stabn	224,0,0,LBE95-__ZN5LoginD1Ev
-Lscope50:
+	.stabs	"this:r(0,131)",64,0,142,6
+	.stabn	192,0,0,LBB94-__ZN5LoginD1Ev
+	.stabn	224,0,0,LBE94-__ZN5LoginD1Ev
+Lscope53:
 	.stabs	"_ZN5LoginD2Ev:F(0,6)",36,0,42,__ZN5LoginD2Ev
-	.stabs	"this:P(0,123)",64,0,42,5
+	.stabs	"this:P(0,124)",64,0,42,5
 	.global	__ZN5LoginD2Ev
 
 .func __ZN5LoginD2Ev, 1, void
@@ -2763,21 +2779,21 @@ Lscope50:
 	ld   fr,sp
 	add  fr,#0x14
 	ld   d1,i0
-	.dlab LBB99
+	.dlab LBB98
 	.line 42
 	ld   r14,#__ZTV5Login+8
 	ld   [i0],r14
 	ld   r14,#__ZTV5Login+124
 	ld   [i0,4],r14
-	ld   r14,#__ZTV5Login+152
+	ld   r14,#__ZTV5Login+164
 	ld   [i0,12],r14
-	ld   r14,#__ZTV5Login+176
+	ld   r14,#__ZTV5Login+188
 	ld   [i0,16],r14
-	ld   r14,#__ZTV5Login+192
-	ld   [i0,20],r14
 	ld   r14,#__ZTV5Login+204
+	ld   [i0,20],r14
+	ld   r14,#__ZTV5Login+216
 	ld   [i0,24],r14
-	ld   r14,#__ZTV5Login+248
+	ld   r14,#__ZTV5Login+260
 	ld   [i0,28],r14
 	add  i0,#0x910
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
@@ -2817,54 +2833,54 @@ Lscope50:
 	ld   i0,d1
 	add  i0,#0x90
 	call &__ZN13XmlConnectionD1Ev ; call non-native
-	.dlab LBB100
+	.dlab LBB99
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext68
 Ltext68:
-	.line 135
+	.line 142
 	ld   d2,d1
 	add  d2,#0x7c
-	.dlab LBB101
-	.line 136
+	.dlab LBB100
+	.line 143
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L214
+	jc   eq,i0,r14,#L217
 	ld   d0,[i0,-4]
 	mul  d0,#0xc
 	add  d0,i0
-	jc   eq,i0,d0,#L209
-L217:
+	jc   eq,i0,d0,#L212
+L220:
 	add  d0,#0xfffffff4
+	.dlab LBB101
 	.dlab LBB102
-	.dlab LBB103
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	.dlab LBE103
 	.dlab LBE102
-	jc   ne,i0,d0,#L217
-L209:
+	.dlab LBE101
+	jc   ne,i0,d0,#L220
+L212:
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
-L214:
-	.dlab LBE101
+L217:
 	.dlab LBE100
+	.dlab LBE99
 	ld   i0,d1
 	add  i0,#0x34
 	call &__ZN6MAUtil19BluetoothConnectionD1Ev ; call non-native
 	ld   i0,d1
 	call &__ZN4MAUI6ScreenD2Ev ; call non-native
-	.dlab LBE99
+	.dlab LBE98
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext69
 Ltext69:
 	.line 42
 	pop  rt,d2
 	ret
-	.stabs	"this:r(0,130)",64,0,135,6
-	.stabn	192,0,0,LBB100-__ZN5LoginD2Ev
-	.stabn	224,0,0,LBE100-__ZN5LoginD2Ev
-Lscope51:
+	.stabs	"this:r(0,131)",64,0,142,6
+	.stabn	192,0,0,LBB99-__ZN5LoginD2Ev
+	.stabn	224,0,0,LBE99-__ZN5LoginD2Ev
+Lscope54:
 	.stabs	"_ZN5LoginC1EP4Feed:F(0,6)",36,0,12,__ZN5LoginC1EP4Feed
-	.stabs	"this:P(0,123)",64,0,12,7
+	.stabs	"this:P(0,124)",64,0,12,7
 	.stabs	"feed:P(27,3)",64,0,12,9
 	.global	__ZN5LoginC1EP4Feed
 
@@ -2876,41 +2892,41 @@ Lscope51:
 	add  fr,#0x58
 	ld   d3,i0
 	ld   d5,i1
-	.dlab LBB104
+	.dlab LBB103
 	.line 12
 	call &__ZN4MAUI6ScreenC2Ev ; call non-native
-	.dlab LBB105
+	.dlab LBB104
 	ld   d6,d3
 	add  d6,#0xc
-	.dlab LBE105
-	.dlab LBB106
+	.dlab LBE104
+	.dlab LBB105
 	ld   i1,d3
 	add  i1,#0x1c
-	.dlab LBE106
+	.dlab LBE105
 	ld   r0,#__ZTV5Login+8
 	ld   [d3],r0
 	ld   r14,#__ZTV5Login+124
 	ld   [d3,4],r14
-	ld   r0,#__ZTV5Login+152
+	ld   r0,#__ZTV5Login+164
 	ld   [d6],r0
-	ld   r14,#__ZTV5Login+176
+	ld   r14,#__ZTV5Login+188
 	ld   [d3,16],r14
-	ld   r0,#__ZTV5Login+192
+	ld   r0,#__ZTV5Login+204
 	ld   [d3,20],r0
-	ld   r14,#__ZTV5Login+204
+	ld   r14,#__ZTV5Login+216
 	ld   [d3,24],r14
-	ld   r0,#__ZTV5Login+248
+	ld   r0,#__ZTV5Login+260
 	ld   [i1],r0
 	ld   i0,d3
 	add  i0,#0x34
 	call &__ZN6MAUtil19BluetoothConnectionC1EPNS_18ConnectionListenerE ; call non-native
-	.dlab LBB107
+	.dlab LBB106
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext70
 Ltext70:
 	.line 104
 	ld   d2,d3
 	add  d2,#0x7c
-	.dlab LBB108
+	.dlab LBB107
 	.line 109
 	ld   i0,#0x34
 	call &__Znam ; call non-native
@@ -2920,17 +2936,17 @@ Ltext70:
 	ld   [r14],r0
 	ld   d0,d4
 	ld   d1,#0x3
-L229:
+L232:
+	.dlab LBB108
 	.dlab LBB109
-	.dlab LBB110
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	.dlab LBE110
 	.dlab LBE109
+	.dlab LBE108
 	add  d0,#0xc
 	add  d1,#0xffffffff
 	ld   r14,#0xffffffff
-	jc   ne,d1,r14,#L229
+	jc   ne,d1,r14,#L232
 	ld   [d2,8],d4
 	.line 111
 	ld   r0,#0x4
@@ -2938,8 +2954,8 @@ L229:
 	.line 113
 	ld   r14,#0x0
 	ld   [d2],r14
-	.dlab LBE108
 	.dlab LBE107
+	.dlab LBE106
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext71
 Ltext71:
 	.line 12
@@ -2997,24 +3013,24 @@ Ltext71:
 	ld   i0,r14
 	ld   i1,#0x1
 	call &__ZN4MAUI6Widget17setDrawBackgroundEb ; call non-native
+	.dlab LBB110
 	.dlab LBB111
-	.dlab LBB112
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext72
 Ltext72:
-	.line 355
+	.line 362
 	ld   i0,[d3,36]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB112
+	ld   r14,[r14,8]
+	.dlab LBE112
+	.dlab LBE111
+	ld   i0,[r14]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB113
 	ld   r14,[r14,8]
-	.dlab LBE113
-	.dlab LBE112
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB114
-	ld   r14,[r14,8]
 	add  r14,#0x8
-	.dlab LBE114
-	.dlab LBE111
+	.dlab LBE113
+	.dlab LBE110
 	ld   r14,[r14]
 	ld   [d3,40],r14
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext73
@@ -3053,7 +3069,7 @@ Ltext73:
 	call d0 ; call non-native
 	.line 22
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d4
 	ld   i1,#0x30
@@ -3071,7 +3087,7 @@ Ltext73:
 	ld   d0,r14
 	add  d0,#0xfffffff6
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0xd4
 	call &__Znwm ; call non-native
@@ -3120,7 +3136,7 @@ Ltext73:
 	call d0 ; call non-native
 	.line 29
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
@@ -3128,8 +3144,8 @@ Ltext73:
 	ld   i3,[&_scrWidth]
 	ld   r14,[&_scrHeight]
 	ld   r0,#0x0
-	jc   lt,r14,r0,#L238
-L233:
+	jc   lt,r14,r0,#L241
+L236:
 	sra  r14,#0x3
 	ld   [sp],r14
 	ld   r14,#0x0
@@ -3179,7 +3195,7 @@ L233:
 	and  d0,#0xff  ; zero extend
 	add  d1,#0xfffffffc
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L239
+	jc   ne,d0,r14,#L242
 	.line 38
 	ld   i0,d1
 	ld   i1,[&_falsesz]
@@ -3193,12 +3209,12 @@ L233:
 	ld   i0,d3
 	ld   i1,[d3,36]
 	call &__ZN4MAUI6Screen7setMainEPNS_6WidgetE ; call non-native
-	.dlab LBE104
+	.dlab LBE103
 	add  sp,#0x30
 	pop  rt,d7
 	ret
-L239:
-	.dlab LBB115
+L242:
+	.dlab LBB114
 	.line 36
 	ld   i0,d1
 	ld   i1,d5
@@ -3223,25 +3239,25 @@ L239:
 	ld   i0,d3
 	ld   i1,[d3,36]
 	call &__ZN4MAUI6Screen7setMainEPNS_6WidgetE ; call non-native
-	.dlab LBE115
+	.dlab LBE114
 	add  sp,#0x30
 	pop  rt,d7
 	ret
-L238:
-	.dlab LBB116
+L241:
+	.dlab LBB115
 	.line 29
 	add  r14,#0x7
-	jp   #L233
-	.dlab LBE116
-	.stabs	"this:r(0,131)=k(0,132)=*(0,29)",64,0,12,13
+	jp   #L236
+	.dlab LBE115
+	.stabs	"this:r(0,132)=k(0,133)=*(0,29)",64,0,12,13
+	.stabn	192,0,0,LBB105-__ZN5LoginC1EP4Feed
+	.stabn	224,0,0,LBE105-__ZN5LoginC1EP4Feed
+	.stabs	"this:r(0,131)",64,0,104,6
 	.stabn	192,0,0,LBB106-__ZN5LoginC1EP4Feed
 	.stabn	224,0,0,LBE106-__ZN5LoginC1EP4Feed
-	.stabs	"this:r(0,130)",64,0,104,6
-	.stabn	192,0,0,LBB107-__ZN5LoginC1EP4Feed
-	.stabn	224,0,0,LBE107-__ZN5LoginC1EP4Feed
-Lscope52:
+Lscope55:
 	.stabs	"_ZN5LoginC2EP4Feed:F(0,6)",36,0,12,__ZN5LoginC2EP4Feed
-	.stabs	"this:P(0,123)",64,0,12,7
+	.stabs	"this:P(0,124)",64,0,12,7
 	.stabs	"feed:P(27,3)",64,0,12,9
 	.global	__ZN5LoginC2EP4Feed
 
@@ -3253,41 +3269,41 @@ Lscope52:
 	add  fr,#0x58
 	ld   d3,i0
 	ld   d5,i1
-	.dlab LBB117
+	.dlab LBB116
 	.line 12
 	call &__ZN4MAUI6ScreenC2Ev ; call non-native
-	.dlab LBB118
+	.dlab LBB117
 	ld   d6,d3
 	add  d6,#0xc
-	.dlab LBE118
-	.dlab LBB119
+	.dlab LBE117
+	.dlab LBB118
 	ld   i1,d3
 	add  i1,#0x1c
-	.dlab LBE119
+	.dlab LBE118
 	ld   r0,#__ZTV5Login+8
 	ld   [d3],r0
 	ld   r14,#__ZTV5Login+124
 	ld   [d3,4],r14
-	ld   r0,#__ZTV5Login+152
+	ld   r0,#__ZTV5Login+164
 	ld   [d6],r0
-	ld   r14,#__ZTV5Login+176
+	ld   r14,#__ZTV5Login+188
 	ld   [d3,16],r14
-	ld   r0,#__ZTV5Login+192
+	ld   r0,#__ZTV5Login+204
 	ld   [d3,20],r0
-	ld   r14,#__ZTV5Login+204
+	ld   r14,#__ZTV5Login+216
 	ld   [d3,24],r14
-	ld   r0,#__ZTV5Login+248
+	ld   r0,#__ZTV5Login+260
 	ld   [i1],r0
 	ld   i0,d3
 	add  i0,#0x34
 	call &__ZN6MAUtil19BluetoothConnectionC1EPNS_18ConnectionListenerE ; call non-native
-	.dlab LBB120
+	.dlab LBB119
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext74
 Ltext74:
 	.line 104
 	ld   d2,d3
 	add  d2,#0x7c
-	.dlab LBB121
+	.dlab LBB120
 	.line 109
 	ld   i0,#0x34
 	call &__Znam ; call non-native
@@ -3297,17 +3313,17 @@ Ltext74:
 	ld   [r14],r0
 	ld   d0,d4
 	ld   d1,#0x3
-L251:
+L254:
+	.dlab LBB121
 	.dlab LBB122
-	.dlab LBB123
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	.dlab LBE123
 	.dlab LBE122
+	.dlab LBE121
 	add  d0,#0xc
 	add  d1,#0xffffffff
 	ld   r14,#0xffffffff
-	jc   ne,d1,r14,#L251
+	jc   ne,d1,r14,#L254
 	ld   [d2,8],d4
 	.line 111
 	ld   r0,#0x4
@@ -3315,8 +3331,8 @@ L251:
 	.line 113
 	ld   r14,#0x0
 	ld   [d2],r14
-	.dlab LBE121
 	.dlab LBE120
+	.dlab LBE119
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext75
 Ltext75:
 	.line 12
@@ -3374,24 +3390,24 @@ Ltext75:
 	ld   i0,r14
 	ld   i1,#0x1
 	call &__ZN4MAUI6Widget17setDrawBackgroundEb ; call non-native
+	.dlab LBB123
 	.dlab LBB124
-	.dlab LBB125
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext76
 Ltext76:
-	.line 355
+	.line 362
 	ld   i0,[d3,36]
+	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
+	.dlab LBB125
+	ld   r14,[r14,8]
+	.dlab LBE125
+	.dlab LBE124
+	ld   i0,[r14]
 	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
 	.dlab LBB126
 	ld   r14,[r14,8]
-	.dlab LBE126
-	.dlab LBE125
-	ld   i0,[r14]
-	call &__ZN4MAUI6Widget11getChildrenEv ; call non-native
-	.dlab LBB127
-	ld   r14,[r14,8]
 	add  r14,#0x8
-	.dlab LBE127
-	.dlab LBE124
+	.dlab LBE126
+	.dlab LBE123
 	ld   r14,[r14]
 	ld   [d3,40],r14
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext77
@@ -3430,7 +3446,7 @@ Ltext77:
 	call d0 ; call non-native
 	.line 22
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,d4
 	ld   i1,#0x30
@@ -3448,7 +3464,7 @@ Ltext77:
 	ld   d0,r14
 	add  d0,#0xfffffff6
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0xd4
 	call &__Znwm ; call non-native
@@ -3497,7 +3513,7 @@ Ltext77:
 	call d0 ; call non-native
 	.line 29
 	ld   i0,d4
-	ld   i1,#LC20
+	ld   i1,#LC18
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#0x9c
 	call &__Znwm ; call non-native
@@ -3505,8 +3521,8 @@ Ltext77:
 	ld   i3,[&_scrWidth]
 	ld   r14,[&_scrHeight]
 	ld   r0,#0x0
-	jc   lt,r14,r0,#L260
-L255:
+	jc   lt,r14,r0,#L263
+L258:
 	sra  r14,#0x3
 	ld   [sp],r14
 	ld   r14,#0x0
@@ -3556,7 +3572,7 @@ L255:
 	and  d0,#0xff  ; zero extend
 	add  d1,#0xfffffffc
 	ld   r14,#0x0
-	jc   ne,d0,r14,#L261
+	jc   ne,d0,r14,#L264
 	.line 38
 	ld   i0,d1
 	ld   i1,[&_falsesz]
@@ -3570,12 +3586,12 @@ L255:
 	ld   i0,d3
 	ld   i1,[d3,36]
 	call &__ZN4MAUI6Screen7setMainEPNS_6WidgetE ; call non-native
-	.dlab LBE117
+	.dlab LBE116
 	add  sp,#0x30
 	pop  rt,d7
 	ret
-L261:
-	.dlab LBB128
+L264:
+	.dlab LBB127
 	.line 36
 	ld   i0,d1
 	ld   i1,d5
@@ -3600,25 +3616,25 @@ L261:
 	ld   i0,d3
 	ld   i1,[d3,36]
 	call &__ZN4MAUI6Screen7setMainEPNS_6WidgetE ; call non-native
-	.dlab LBE128
+	.dlab LBE127
 	add  sp,#0x30
 	pop  rt,d7
 	ret
-L260:
-	.dlab LBB129
+L263:
+	.dlab LBB128
 	.line 29
 	add  r14,#0x7
-	jp   #L255
-	.dlab LBE129
-	.stabs	"this:r(0,131)",64,0,12,13
+	jp   #L258
+	.dlab LBE128
+	.stabs	"this:r(0,132)",64,0,12,13
+	.stabn	192,0,0,LBB118-__ZN5LoginC2EP4Feed
+	.stabn	224,0,0,LBE118-__ZN5LoginC2EP4Feed
+	.stabs	"this:r(0,131)",64,0,104,6
 	.stabn	192,0,0,LBB119-__ZN5LoginC2EP4Feed
 	.stabn	224,0,0,LBE119-__ZN5LoginC2EP4Feed
-	.stabs	"this:r(0,130)",64,0,104,6
-	.stabn	192,0,0,LBB120-__ZN5LoginC2EP4Feed
-	.stabn	224,0,0,LBE120-__ZN5LoginC2EP4Feed
-Lscope53:
+Lscope56:
 	.set	%19=__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:P(0,123)",64,0,129,12
+	.stabs	"this:P(0,124)",64,0,129,12
 	.stabs	"dev:P(24,5)",64,0,129,13
 	.global	__ZThn16_N5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 
@@ -3634,17 +3650,17 @@ Ltext78:
 	call &%19 ; call non-native
 	pop  rt,fr
 	ret
-Lscope54:
+Lscope57:
 .data
-LC21:
+LC19:
 	.ascii "Found new device %s\0"
-LC22:
-	.ascii "Nokia E51\0"
-LC23:
+LC20:
+	.ascii "MOBI-MYTCG\0"
+LC21:
 	.ascii "Identified possible server\0"
 .code
 	.stabs	"_ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE:F(0,6)",36,0,129,__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:P(0,123)",64,0,129,6
+	.stabs	"this:P(0,124)",64,0,129,6
 	.stabs	"dev:P(24,5)",64,0,129,7
 	.global	__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 
@@ -3658,8 +3674,8 @@ Ltext79:
 	add  fr,#0x12c
 	ld   d2,i0
 	ld   d3,i1
+	.dlab LBB129
 	.dlab LBB130
-	.dlab LBB131
 	.line 131
 	ld   i0,i1
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
@@ -3667,7 +3683,7 @@ Ltext79:
 	add  d0,#0xfffffedc
 	ld   [sp],r14
 	ld   i0,d0
-	ld   i1,#LC21
+	ld   i1,#LC19
 	call &_sprintf ; call non-native
 	.line 132
 	ld   d1,fr
@@ -3686,22 +3702,22 @@ Ltext79:
 	ld   i0,d3
 	call &__ZNK6MAUtil11BasicStringIcE5c_strEv ; call non-native
 	ld   i0,r14
-	ld   i1,#LC22
+	ld   i1,#LC20
 	call &_strcmp ; call non-native
 	ld   r0,#0x0
-	jc   eq,r14,r0,#L318
-	.dlab LBE131
+	jc   eq,r14,r0,#L321
 	.dlab LBE130
+	.dlab LBE129
 	.line 137
 	add  sp,#0x108
 	pop  rt,d6
 	ret
-L318:
+L321:
+	.dlab LBB131
 	.dlab LBB132
-	.dlab LBB133
 	.line 134
 	ld   i0,d1
-	ld   i1,#LC23
+	ld   i1,#LC21
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,[d2,44]
 	ld   r14,[i0]
@@ -3710,43 +3726,43 @@ L318:
 	call d0 ; call non-native
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	.dlab LBB134
+	.dlab LBB133
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext80
 Ltext80:
-	.line 160
+	.line 167
 	add  d2,#0x7c
-	.dlab LBB135
-	.line 161
+	.dlab LBB134
+	.line 168
 	ld   r1,[d2,4]
 	ld   r14,r1
 	add  r14,#0xffffffff
 	ld   r0,[d2]
-	jc   lt,r0,r14,#L313
-	.line 162
+	jc   lt,r0,r14,#L316
+	.line 169
 	ld   r14,#0x0
-	jc   eq,r1,r14,#L266
-	.dlab LBB136
-	.line 286
+	jc   eq,r1,r14,#L269
+	.dlab LBB135
+	.line 293
 	ld   d5,r1
 	add  d5,r1
+	.dlab LBB136
 	.dlab LBB137
-	.dlab LBB138
-	.line 288
-	jc   lt,r1,d5,#L319
-L313:
+	.line 295
+	jc   lt,r1,d5,#L322
+L316:
 	ld   i0,[d2,8]
-L265:
-	.dlab LBE138
+L268:
 	.dlab LBE137
 	.dlab LBE136
-	.dlab LBB139
-	.line 167
+	.dlab LBE135
+	.dlab LBB138
+	.line 174
 	ld   d0,r0
 	mul  d0,#0xc
 	add  d0,i0
 	add  r0,#0x1
 	ld   [d2],r0
-	.dlab LBB140
+	.dlab LBB139
 	ld   i0,d0
 	ld   i1,d3
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
@@ -3762,29 +3778,29 @@ L265:
 	ld.b [d0,8],r0
 	ld.b d3,[d3,9]
 	ld.b [d0,9],d3
-	.dlab LBE140
 	.dlab LBE139
-	.dlab LBE135
+	.dlab LBE138
 	.dlab LBE134
 	.dlab LBE133
 	.dlab LBE132
+	.dlab LBE131
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext81
 Ltext81:
 	.line 137
 	add  sp,#0x108
 	pop  rt,d6
 	ret
-L319:
+L322:
+	.dlab LBB140
 	.dlab LBB141
 	.dlab LBB142
 	.dlab LBB143
 	.dlab LBB144
 	.dlab LBB145
 	.dlab LBB146
-	.dlab LBB147
 	.stabs	"c:/MoSync/include/MAUtil/Vector.h",132,0,0,Ltext82
 Ltext82:
-	.line 291
+	.line 298
 	ld   i0,d5
 	mul  i0,#0xc
 	add  i0,#0x4
@@ -3794,36 +3810,36 @@ Ltext82:
 	ld   [r14],d5
 	ld   d1,d6
 	ld   d0,d5
-	jp   #L314
-L320:
+	jp   #L317
+L323:
+	.dlab LBB147
 	.dlab LBB148
-	.dlab LBB149
 	.line 109
 	ld   i0,d1
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	.dlab LBE149
 	.dlab LBE148
-	.line 291
+	.dlab LBE147
+	.line 298
 	add  d1,#0xc
-L314:
+L317:
 	add  d0,#0xffffffff
 	ld   r0,#0xffffffff
-	jc   ne,d0,r0,#L320
-	.dlab LBB150
-	.line 293
+	jc   ne,d0,r0,#L323
+	.dlab LBB149
+	.line 300
 	ld   d4,#0x0
-L315:
+L318:
 	ld   r0,[d2]
-	jc   le,r0,d4,#L309
-	.dlab LBB151
-	.line 167
+	jc   le,r0,d4,#L312
+	.dlab LBB150
+	.line 174
 	ld   r14,d4
 	mul  r14,#0xc
 	ld   d1,r14
 	add  d1,d6
 	ld   d0,[d2,8]
 	add  d0,r14
-	.dlab LBB152
+	.dlab LBB151
 	ld   i0,d1
 	ld   i1,d0
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
@@ -3839,20 +3855,20 @@ L315:
 	ld.b [d1,8],r14
 	ld.b d0,[d0,9]
 	ld.b [d1,9],d0
-	.dlab LBE152
 	.dlab LBE151
-	.line 293
-	add  d4,#0x1
-	jp   #L315
-L266:
 	.dlab LBE150
-	.dlab LBE147
+	.line 300
+	add  d4,#0x1
+	jp   #L318
+L269:
+	.dlab LBE149
 	.dlab LBE146
 	.dlab LBE145
+	.dlab LBE144
+	.dlab LBB152
 	.dlab LBB153
 	.dlab LBB154
-	.dlab LBB155
-	.line 291
+	.line 298
 	ld   i0,#0x34
 	call &__Znam ; call non-native
 	ld   d5,r14
@@ -3861,36 +3877,36 @@ L266:
 	ld   [r14],r0
 	ld   d0,d5
 	ld   d1,#0x3
-L289:
+L292:
 	ld   r14,#0xffffffff
-	jc   eq,d1,r14,#L290
+	jc   eq,d1,r14,#L293
+	.dlab LBB155
 	.dlab LBB156
-	.dlab LBB157
 	.line 109
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcEC1Ev ; call non-native
-	.dlab LBE157
 	.dlab LBE156
-	.line 291
+	.dlab LBE155
+	.line 298
 	add  d0,#0xc
 	add  d1,#0xffffffff
-	jp   #L289
-L290:
-	.dlab LBB158
-	.line 293
+	jp   #L292
+L293:
+	.dlab LBB157
+	.line 300
 	ld   d4,#0x0
-L316:
+L319:
 	ld   r0,[d2]
-	jc   le,r0,d4,#L311
-	.dlab LBB159
-	.line 167
+	jc   le,r0,d4,#L314
+	.dlab LBB158
+	.line 174
 	ld   r14,d4
 	mul  r14,#0xc
 	ld   d1,r14
 	add  d1,d5
 	ld   d0,[d2,8]
 	add  d0,r14
-	.dlab LBB160
+	.dlab LBB159
 	ld   i0,d1
 	ld   i1,d0
 	call &__ZN6MAUtil11BasicStringIcEaSERKS1_ ; call non-native
@@ -3906,155 +3922,155 @@ L316:
 	ld.b [d1,8],r0
 	ld.b d0,[d0,9]
 	ld.b [d1,9],d0
-	.dlab LBE160
 	.dlab LBE159
-	.line 293
-	add  d4,#0x1
-	jp   #L316
-L311:
 	.dlab LBE158
-	.line 297
+	.line 300
+	add  d4,#0x1
+	jp   #L319
+L314:
+	.dlab LBE157
+	.line 304
 	ld   r14,#0x4
 	ld   [d2,4],r14
-	.line 298
+	.line 305
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L300
+	jc   eq,i0,r14,#L303
 	ld   d0,[i0,-4]
 	mul  d0,#0xc
 	add  d0,i0
-L301:
-	jc   eq,i0,d0,#L302
+L304:
+	jc   eq,i0,d0,#L305
 	add  d0,#0xfffffff4
+	.dlab LBB160
 	.dlab LBB161
-	.dlab LBB162
-	.line 136
+	.line 143
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	jp   #L301
-L302:
-	.dlab LBE162
+	jp   #L304
+L305:
 	.dlab LBE161
+	.dlab LBE160
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
 	ld   r0,[d2]
-L300:
-	.line 300
+L303:
+	.line 307
 	ld   i0,d5
 	ld   [d2,8],i0
-	jp   #L265
-L309:
-	.dlab LBE155
+	jp   #L268
+L312:
 	.dlab LBE154
 	.dlab LBE153
+	.dlab LBE152
+	.dlab LBB162
 	.dlab LBB163
 	.dlab LBB164
-	.dlab LBB165
-	.line 297
+	.line 304
 	ld   [d2,4],d5
-	.line 298
+	.line 305
 	ld   i0,[d2,8]
 	ld   r14,#0x0
-	jc   eq,i0,r14,#L280
+	jc   eq,i0,r14,#L283
 	ld   d0,[i0,-4]
 	mul  d0,#0xc
 	add  d0,i0
-L281:
-	jc   eq,i0,d0,#L282
+L284:
+	jc   eq,i0,d0,#L285
 	add  d0,#0xfffffff4
+	.dlab LBB165
 	.dlab LBB166
-	.dlab LBB167
-	.line 136
+	.line 143
 	ld   i0,d0
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	ld   i0,[d2,8]
-	jp   #L281
-L282:
-	.dlab LBE167
+	jp   #L284
+L285:
 	.dlab LBE166
+	.dlab LBE165
 	add  i0,#0xfffffffc
 	call &__ZdaPv ; call non-native
 	ld   r0,[d2]
-L280:
-	.line 300
+L283:
+	.line 307
 	ld   i0,d6
-	.dlab LBE165
 	.dlab LBE164
 	.dlab LBE163
+	.dlab LBE162
+	.dlab LBB167
 	.dlab LBB168
 	.dlab LBB169
-	.dlab LBB170
 	ld   [d2,8],i0
-	jp   #L265
-	.dlab LBE170
+	jp   #L268
 	.dlab LBE169
 	.dlab LBE168
-	.dlab LBE144
+	.dlab LBE167
 	.dlab LBE143
 	.dlab LBE142
 	.dlab LBE141
-	.stabs	"mBuffer:(0,125)",128,0,130,-292
-	.stabn	192,0,0,LBB131-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE131-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"mBuffer:(0,125)",128,0,130,-292
+	.dlab LBE140
+	.stabs	"mBuffer:(0,126)",128,0,130,-292
+	.stabn	192,0,0,LBB130-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabn	224,0,0,LBE130-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"mBuffer:(0,126)",128,0,130,-292
+	.stabn	192,0,0,LBB132-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"this:r(0,131)",64,0,167,6
 	.stabn	192,0,0,LBB133-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:r(0,130)",64,0,160,6
-	.stabn	192,0,0,LBB134-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"newCapacity:r(0,3)",64,0,286,9
-	.stabn	192,0,0,LBB136-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE136-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE134-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"newCapacity:r(0,3)",64,0,293,9
+	.stabn	192,0,0,LBB135-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabn	224,0,0,LBE135-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 	.stabn	224,0,0,LBE133-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"mBuffer:(0,125)",128,0,130,-292
+	.stabn	224,0,0,LBE132-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"mBuffer:(0,126)",128,0,130,-292
+	.stabn	192,0,0,LBB141-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"this:r(0,131)",64,0,167,6
 	.stabn	192,0,0,LBB142-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:r(0,130)",64,0,160,6
-	.stabn	192,0,0,LBB143-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"newCapacity:r(0,3)",64,0,286,9
-	.stabn	192,0,0,LBB145-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"i:r(0,3)",64,0,293,8
+	.stabs	"newCapacity:r(0,3)",64,0,293,9
+	.stabn	192,0,0,LBB144-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"i:r(0,3)",64,0,300,8
+	.stabn	192,0,0,LBB149-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"this:r(0,134)=k(24,4)",64,0,174,5
+	.stabs	"_ctor_arg:r(24,5)",64,0,174,4
 	.stabn	192,0,0,LBB150-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:r(0,133)=k(24,4)",64,0,167,5
-	.stabs	"_ctor_arg:r(24,5)",64,0,167,4
-	.stabn	192,0,0,LBB151-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE151-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 	.stabn	224,0,0,LBE150-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE145-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"i:r(0,3)",64,0,293,8
+	.stabn	224,0,0,LBE149-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabn	224,0,0,LBE144-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"i:r(0,3)",64,0,300,8
+	.stabn	192,0,0,LBB157-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"this:r(0,134)",64,0,174,5
+	.stabs	"_ctor_arg:r(24,5)",64,0,174,4
 	.stabn	192,0,0,LBB158-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"this:r(0,133)",64,0,167,5
-	.stabs	"_ctor_arg:r(24,5)",64,0,167,4
-	.stabn	192,0,0,LBB159-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE159-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 	.stabn	224,0,0,LBE158-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabs	"newCapacity:r(0,3)",64,0,286,9
-	.stabn	192,0,0,LBB163-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE163-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-	.stabn	224,0,0,LBE143-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabn	224,0,0,LBE157-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabs	"newCapacity:r(0,3)",64,0,293,9
+	.stabn	192,0,0,LBB162-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+	.stabn	224,0,0,LBE162-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
 	.stabn	224,0,0,LBE142-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
-Lscope55:
+	.stabn	224,0,0,LBE141-__ZN5Login11btNewDeviceERKN6MAUtil8BtDeviceE
+Lscope58:
 .data
-LC24:
+LC22:
 	.ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\0"
-LC25:
+LC23:
 	.ascii "http://voucher.mytcg.net/_phone/\0"
-LC26:
+LC24:
 	.ascii "?userdetails=1\0"
-LC27:
+LC25:
 	.ascii "?usercategories=1\0"
-LC28:
+LC26:
 	.ascii "?cardsincategory=\0"
-LC29:
+LC27:
 	.ascii "?tradecard=1\0"
 .code
-	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,324,__Z41__static_initialization_and_destruction_0ii
-	.stabs	"__initialize_p:P(0,3)",64,0,324,12
-	.stabs	"__priority:P(0,3)",64,0,324,13
+	.stabs	"_Z41__static_initialization_and_destruction_0ii:f(0,6)",36,0,321,__Z41__static_initialization_and_destruction_0ii
+	.stabs	"__initialize_p:P(0,3)",64,0,321,12
+	.stabs	"__priority:P(0,3)",64,0,321,13
 
 .func __Z41__static_initialization_and_destruction_0ii, 2, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext83
 Ltext83:
-	.line 324
+	.line 321
 	push rt,d0
 	sub  sp,#0x4
 	ld   fr,sp
@@ -4063,23 +4079,23 @@ Ltext83:
 Ltext84:
 	.line 61
 	ld   r14,#0xffff
-	jc   eq,i1,r14,#L357
-L321:
+	jc   eq,i1,r14,#L360
+L324:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext85
 Ltext85:
-	.line 324
+	.line 321
 	add  sp,#0x4
 	pop  rt,d0
 	ret
-L357:
+L360:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\/Util.h",132,0,0,Ltext86
 Ltext86:
 	.line 61
 	ld   r14,#0x1
-	jc   eq,i0,r14,#L358
+	jc   eq,i0,r14,#L361
 	.line 77
 	ld   r14,#0x0
-	jc   ne,i0,r14,#L321
+	jc   ne,i0,r14,#L324
 	ld   i0,#_TRADE
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 75
@@ -4097,29 +4113,29 @@ Ltext86:
 	.line 61
 	ld   i0,#_base64_chars
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-L359:
+L362:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext87
 Ltext87:
-	.line 324
+	.line 321
 	add  sp,#0x4
 	pop  rt,d0
 	ret
-L358:
+L361:
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\/Util.h",132,0,0,Ltext88
 Ltext88:
 	.line 65
 	ld   i0,#_base64_chars
-	ld   i1,#LC24
+	ld   i1,#LC22
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	.line 69
 	ld   i0,#_URL
-	ld   i1,#LC25
+	ld   i1,#LC23
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	.line 71
 	ld   d0,fr
 	add  d0,#0xfffffff0
 	ld   i0,d0
-	ld   i1,#LC26
+	ld   i1,#LC24
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_USER
 	ld   i1,#_URL
@@ -4129,7 +4145,7 @@ Ltext88:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 73
 	ld   i0,d0
-	ld   i1,#LC27
+	ld   i1,#LC25
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_ALBUMS
 	ld   i1,#_URL
@@ -4139,7 +4155,7 @@ Ltext88:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 75
 	ld   i0,d0
-	ld   i1,#LC28
+	ld   i1,#LC26
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_CARDS
 	ld   i1,#_URL
@@ -4149,7 +4165,7 @@ Ltext88:
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
 	.line 77
 	ld   i0,d0
-	ld   i1,#LC29
+	ld   i1,#LC27
 	call &__ZN6MAUtil11BasicStringIcEC1EPKc ; call non-native
 	ld   i0,#_TRADE
 	ld   i1,#_URL
@@ -4158,38 +4174,38 @@ Ltext88:
 	ld   i0,d0
 	.line 61
 	call &__ZN6MAUtil11BasicStringIcED1Ev ; call non-native
-	jp   #L359
-Lscope56:
-	.stabs	"_GLOBAL__I__ZN5LoginC2EP4Feed:f(0,6)",36,0,325,__GLOBAL__I__ZN5LoginC2EP4Feed
+	jp   #L362
+Lscope59:
+	.stabs	"_GLOBAL__I__ZN5LoginC2EP4Feed:f(0,6)",36,0,322,__GLOBAL__I__ZN5LoginC2EP4Feed
 
 .func __GLOBAL__I__ZN5LoginC2EP4Feed, 0, void
 	.stabs	"E:\\My Dropbox\\workspace\\GameCards\\BTVouchers\\Login.cpp",132,0,0,Ltext89
 Ltext89:
-	.line 325
+	.line 322
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 325
+	.line 322
 	ld   i0,#0x1
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
-Lscope57:
-	.stabs	"_GLOBAL__D__ZN5LoginC2EP4Feed:f(0,6)",36,0,326,__GLOBAL__D__ZN5LoginC2EP4Feed
+Lscope60:
+	.stabs	"_GLOBAL__D__ZN5LoginC2EP4Feed:f(0,6)",36,0,323,__GLOBAL__D__ZN5LoginC2EP4Feed
 
 .func __GLOBAL__D__ZN5LoginC2EP4Feed, 0, void
-	.line 326
+	.line 323
 	push rt,fr
 	ld   fr,sp
 	add  fr,#0x8
-	.line 326
+	.line 323
 	ld   i0,#0x0
 	ld   i1,#0xffff
 	call &__Z41__static_initialization_and_destruction_0ii ; call non-native
 	pop  rt,fr
 	ret
-Lscope58:
+Lscope61:
 	.stabs	"base64_chars:S(28,12)",40,0,61,_base64_chars
 	.stabs	"URL:S(9,1)",40,0,69,_URL
 	.stabs	"USER:S(9,1)",40,0,71,_USER
@@ -4211,7 +4227,7 @@ Lscope58:
 	.stabs	"xml_status:S(18,27)",38,0,155,_xml_status
 	.stabs	"FEED:S(18,27)",38,0,158,_FEED
 	.stabs	"ALBUM:S(18,27)",38,0,159,_ALBUM
-	.stabs	"sUuid:S(24,20)",38,0,10,_sUuid
+	.stabs	"sUuid:S(24,14)",38,0,10,_sUuid
 	.text
 	.stabs "",100,0,0,Letext
 Letext:

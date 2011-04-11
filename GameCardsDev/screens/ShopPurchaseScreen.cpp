@@ -2,13 +2,15 @@
 #include <madmath.h>
 #include <MAUI/Image.h>
 
+#include "AlbumLoadScreen.h"
 #include "ShopPurchaseScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
 ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
-
+	imageCache = new ImageCache();
+	next = NULL;
 	//check that the user can afford the product
 	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
 		canPurchase = true;
@@ -46,24 +48,20 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
-	//layout->getChildren().clear();
-	//kinListBox->getChildren().clear();
-
-	//delete kinListBox;
 	delete layout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	parentTag="";
 	temp="";
 	temp1="";
 	error_msg="";
+	id="";
+	description="";
+	quality="";
+	urlfront="";
+	urlback="";
+	if (imageCache != NULL) {
+		delete imageCache;
+		imageCache = NULL;
+	}
 }
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
@@ -83,7 +81,7 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	kinListBox->setPosition(0, 0);
 	kinListBox->setHeight(scrHeight - 42);
 
-	updateSoftKeyLayout("", done, "",layout);
+	updateSoftKeyLayout(done, albumlbl, details,layout);
 
 	height = kinListBox->getHeight()-70;
 	if (card != NULL) {
@@ -98,17 +96,15 @@ void ShopPurchaseScreen::drawPostPurchaseScreen() {
 	lbl->setAutoSizeY(true);
 	kinListBox->add(lbl);
 
-	imge = new Image(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
+	imge = new MobImage(0, 100, scrWidth-PADDING*2, height, kinListBox, false, false, RES_LOADING);
 
-	if (card != NULL) {
-		retrieveFront(imge, card, height - lbl->getHeight(), new ImageCache());
-	}
+	retrieveFront(imge, card, height - lbl->getHeight(), imageCache);
 
 	kinListBox->setSelectedIndex(0);
 
 	kinListBox->requestRepaint();
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopPurchaseScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -162,7 +158,7 @@ void ShopPurchaseScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -176,10 +172,10 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				maUpdateScreen();
 
 				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+					retrieveBack(imge, card, height-PADDING*2, imageCache);
 				}
 				else {
-					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+					retrieveFront(imge, card, height-PADDING*2, imageCache);
 				}
 				flip = !flip;
 			}
@@ -190,7 +186,8 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
-				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(), product->getId().c_str(), scrHeight, scrWidth);
+				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(),
+						product->getId().c_str(), getMaxImageHeight(), scrWidth);
 
 				int res = mHttp.create(url, HTTP_GET);
 
@@ -204,12 +201,21 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				delete [] url;
 			}
 			else if (purchased) {
-				orig->show();
+				if (next != NULL) {
+					delete next;
+				}
+
+				next = new AlbumLoadScreen(origMenu, feed, AlbumLoadScreen::ST_ALBUMS);
+				next->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
 			if (!purchased) {
 				previous->show();
+			}
+			else
+			{
+				orig->show();
 			}
 			break;
 		case MAK_UP:
@@ -250,9 +256,9 @@ void ShopPurchaseScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_urlfront)) {
+	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
 		urlfront += data;
-	} else if(!strcmp(parentTag.c_str(), xml_urlback)) {
+	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
 		urlback += data;
 	} else if(!strcmp(parentTag.c_str(), xml_quality)) {
 		quality += data;

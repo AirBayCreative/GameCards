@@ -1,31 +1,38 @@
 #include <conprint.h>
 
+#include "AlbumViewScreen.h"
 #include "ImageScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Util.h"
-#include "AuctionCreateScreen.h"
-//#include "TradeOptionsScreen.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, bool hasConnection,
-		bool canAuction) : previous(previous), img(img), flip(flip), card(card), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
+ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
+		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
 	//TODO add touch
+	busy = false;
 	next = NULL;
-	mainLayout = createImageLayout(back);
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-	height = listBox->getHeight()-70;
+	imageCache = new ImageCache();
+
 	if (card != NULL) {
-		if (feed->getTouchEnabled()) {
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?auction:"", "");
-		} else {
-			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?auction:"", flipit);
+		if (screenType == ST_NEW_CARD) {
+			mainLayout =  createImageLayout(rejectlbl, acceptlbl, "");
+		}
+		else {
+#if defined(MA_PROF_SUPPORT_STYLUS)
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
+#else
+			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
+#endif
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
+	}else{
+		mainLayout = createImageLayout(back);
+		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		height = listBox->getHeight()-70;
 	}
-	imge = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
 	this->setMain(mainLayout);
-
 	if (card != NULL) {
-		imageCache = new ImageCache();
 		if (flip) {
 			retrieveBack(imge, card, height-PADDING*2, imageCache);
 		} else {
@@ -36,7 +43,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		imageCache = NULL;
 	}
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -111,24 +118,14 @@ void ImageScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 ImageScreen::~ImageScreen() {
-	if (card != NULL) {
+	/*if (card != NULL) {
 		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 			maDestroyObject(imge->getResource());
 		}
-	} // <-- dont delete!
-	//this->getMain()->getChildren().clear();
-	//delete listBox;
+	} // <-- dont delete!*/
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	img = -1;
 	if (next != NULL) {
 		delete next;
@@ -136,29 +133,35 @@ ImageScreen::~ImageScreen() {
 	}
 	if (imageCache != NULL) {
 		delete imageCache;
-		imageCache = NULL;
 	}
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_SOFTRIGHT:
-			if (card != NULL && hasConnection && canAuction) {
-				/*if (next != NULL) {
-					delete next;
+			if (screenType == ST_NEW_CARD) {
+				busy = true;
+				acceptCard();
+			}
+			else {
+				if (card != NULL && hasConnection && canAuction) {
+					if (next != NULL) {
+						delete next;
+					}
+					next = new OptionsScreen(feed,
+							OptionsScreen::ST_CARD_OPTIONS, this, card);
+					next->show();
 				}
-				next = new TradeOptionsScreen(this, feed, card,
-						TradeOptionsScreen::ST_TRADE_OPTIONS);
-				next->show();*/
-				if (next != NULL) {
-					delete next;
-				}
-				next = new AuctionCreateScreen(this, feed, card);
-				next->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
-			previous->show();
+			if (screenType == ST_NEW_CARD) {
+				busy = true;
+				rejectCard();
+			}
+			else {
+				previous->show();
+			}
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
@@ -171,9 +174,9 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				imge->requestRepaint();
 				maUpdateScreen();
 				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, new ImageCache());
+					retrieveBack(imge, card, height-PADDING*2, imageCache);
 				} else {
-					retrieveFront(imge, card, height-PADDING*2, new ImageCache());
+					retrieveFront(imge, card, height-PADDING*2, imageCache);
 				}
 			} else {
 				previous->show();
@@ -182,3 +185,83 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void ImageScreen::acceptCard() {
+	//work out how long the url will be
+	int urlLength = ACCEPTCARD.length() + card->getId().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+}
+
+void ImageScreen::rejectCard() {
+	//work out how long the url will be
+	int urlLength = REJECTCARD.length() + card->getId().length();
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+}
+
+void ImageScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	if (result == 200) {
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(http, this, this);
+	} else {
+		mHttp.close();
+	}
+}
+
+void ImageScreen::connReadFinished(Connection* conn, int result) {}
+
+void ImageScreen::xcConnError(int code) {
+	if (code == -6) {
+		return;
+	} else {
+		//TODO handle error
+	}
+}
+
+void ImageScreen::mtxEncoding(const char* ) {
+}
+
+void ImageScreen::mtxTagStart(const char* name, int len) {
+	parentTag = name;
+}
+
+void ImageScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+}
+
+void ImageScreen::mtxTagData(const char* data, int len) {
+}
+
+void ImageScreen::mtxTagEnd(const char* name, int len) {
+	if(!strcmp(name, xml_result)) {
+		((AlbumViewScreen *)previous)->refresh();
+	}
+}
+
+void ImageScreen::mtxParseError() {
+}
+
+void ImageScreen::mtxEmptyTagEnd() {
+}
+
+void ImageScreen::mtxTagStartEnd() {
+}

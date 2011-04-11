@@ -3,12 +3,14 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Auction.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -21,10 +23,12 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void drawList();
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
 
 	typedef Vector<Auction*> AuctionVector;
 
@@ -32,7 +36,7 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
-	Image *tempImage;
+	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
@@ -40,6 +44,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
+	Vector<Widget*> tempWidgets;
 	String parentTag, cardText;
 	String cardId, description, thumburl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, fullDesc, endDate, lastBidUser;
 	int moved, screenType;
@@ -63,6 +68,7 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
+	void clearListBox();
 	void clearAuctions();
 };
 

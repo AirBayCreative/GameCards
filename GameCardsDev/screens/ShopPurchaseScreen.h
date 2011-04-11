@@ -6,12 +6,15 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
+#include "../utils/ImageCache.h"
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
 #include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -21,18 +24,20 @@ public:
 	ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product);
 	~ShopPurchaseScreen();
 	void keyPressEvent(int keyCode);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
 private:
 	Feed *feed;
 	Layout *layout;
 	KineticListBox* kinListBox;
 	Label *lbl, *notice;
-	Screen *previous;
-	Image *imge;
-
+	Screen *next, *previous;
+	MobImage *imge;
+	ImageCache *imageCache;
 	Product *product;
 	Card *card;
 

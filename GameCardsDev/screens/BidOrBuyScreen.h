@@ -6,12 +6,15 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Auction.h"
 #include "../UI/Widgets/MobEditBox.h"
+#if defined(MA_PROF_SUPPORT_STYLUS)
 #include "../UI/MobKeyboard.h"
+#endif
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -22,10 +25,12 @@ public:
 	~BidOrBuyScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
 private:
 	Feed *feed;
 	Layout *layout;
@@ -39,7 +44,9 @@ private:
 	Vector<Widget*> tempWidgets;
 
 	MobEditBox *bidEditBox;
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	MobKeyboard *keyboard;
+#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

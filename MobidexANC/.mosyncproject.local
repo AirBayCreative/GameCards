@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="1.1">
+<<<<<<< HEAD
 <target-profile device="iPhone" vendor="Apple"/>
+=======
+<target-profile device="Dream" vendor="HTC"/>
+>>>>>>> 4516f374a215b14867aadbad920c26ca7b3da64c
 <properties/>
 </project>

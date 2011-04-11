@@ -4,50 +4,34 @@
 #include "../utils/Util.h"
 #include "MenuScreen.h"
 
-Login::Login(Feed *feed) : mHttp(this), feed(feed) {
+Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
 	moved = 0;
 	changed = false;
 	isBusy = false;
+	kbShown = false;
 
 	response = "";
 
-	screen = S_LOGIN;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
+		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
+#endif
 
-	mainLayout = createMainLayout(exit, login, reg, true);
+	mainLayout = createMainLayout("", "", "", true);
 
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
-	listBox->add(label);
-
-	label = createEditLabel("");
-	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
-	editBoxLogin->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
-
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
-	listBox->add(label);
-
-	label = createEditLabel("");
-	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
-	editBoxPass->setDrawBackground(false);
-	label->addWidgetListener(this);
-
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-	listBox->add(label);
-
-	label = new Label(0,0, scrWidth, scrHeight/8, NULL, "", 0, gFontBlack);
-	label->setMultiLine(true);
-	listBox->add(label);
-
-	listBox->setSelectedIndex(1);
+	switch (screen) {
+		case S_LOGIN:
+			drawLoginScreen();
+			break;
+		case S_REGISTER:
+			drawRegisterScreen();
+			break;
+	}
 
 	if (feed->getUnsuccessful() != success) {
 		label->setCaption(feed->getUnsuccessful());
@@ -59,13 +43,14 @@ Login::Login(Feed *feed) : mHttp(this), feed(feed) {
 Login::~Login() {}
 
 void Login::drawLoginScreen() {
-	listBox->setYOffset(0);
+	//listBox->setYOffset(0);
 	moved = 0;
 	changed = true;
 	screen = S_LOGIN;
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
+#endif
 	clearListBox();
 
 	updateSoftKeyLayout(exit, login, reg, mainLayout);
@@ -99,12 +84,13 @@ void Login::drawRegisterScreen() {
 	moved = 0;
 	changed = true;
 	screen = S_REGISTER;
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
+#endif
 	clearListBox();
 
-	updateSoftKeyLayout(cancellbl, apply, "", mainLayout);
+	updateSoftKeyLayout(exit, apply, login, mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
@@ -158,9 +144,10 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void Login::pointerPressEvent(MAPoint2d point)
 {
+	kbShown = keyboard->isShown();
     locateItem(point);
 }
 
@@ -173,9 +160,9 @@ void Login::pointerMoveEvent(MAPoint2d point)
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (!(keyboard->isShown()) && right) {
+		if (!kbShown && right) {
 			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (!(keyboard->isShown()) && left) {
+		} else if (!kbShown && left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
@@ -221,6 +208,14 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		moved = 0;
 		changed = false;
 	}
+
+	if (keyboard->isShown()) {
+		listBox->setEnabled(false);
+	}
+	else {
+		listBox->setEnabled(true);
+	}
+	kbShown = false;
 }
 
 void Login::locateItem(MAPoint2d point)
@@ -260,7 +255,7 @@ void Login::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void Login::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
@@ -280,6 +275,9 @@ void Login::keyPressEvent(int keyCode) {
 				case S_LOGIN:
 					drawRegisterScreen();
 					break;
+				case S_REGISTER:
+					drawLoginScreen();
+					break;
 			}
 			break;
 		case MAK_SOFTRIGHT:
@@ -290,8 +288,7 @@ void Login::keyPressEvent(int keyCode) {
 							isBusy = true;
 							notice->setCaption(loggingin);
 							conCatenation = editBoxPass->getText().c_str();
-							ret = "";
-							value = base64(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
+							value = base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
 							feed->setUsername(editBoxLogin->getText().c_str());
 							feed->setUnsuccessful(truesz);
@@ -359,14 +356,7 @@ void Login::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTLEFT:
-			switch (screen) {
-				case S_LOGIN:
-					maExit(0);
-					break;
-				case S_REGISTER:
-					drawLoginScreen();
-					break;
-			}
+			maExit(0);
 			break;
 		case MAK_UP:
 			if (index-2 > 0) {
@@ -433,6 +423,13 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful(success);
 		feed->setTouch(touch.c_str());
+		int seconds = maLocalTime();
+		int secondsLength = intlen(seconds);
+		char *secString = new char[secondsLength];
+		memset(secString,'\0',secondsLength);
+		sprintf(secString, "%d", seconds);
+		feed->setSeconds(secString);
+		delete secString;
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
@@ -454,12 +451,13 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	delete keyboard;
+#endif
 	delete mainLayout;
 
 	parentTag = "";
 	conCatenation = "";
-	ret = "";
 	value = "";
 	value1 = "";
 	value2 = "";
@@ -472,7 +470,6 @@ void Login::cleanup() {
 	email = "";
 	handle = "";
 	touch = "";
-	j = 0;
 }
 
 void Login::mtxParseError() {
@@ -482,62 +479,4 @@ void Login::mtxEmptyTagEnd() {
 }
 
 void Login::mtxTagStartEnd() {
-}
-
-String Login::base64(unsigned char const* bytes_to_encode, unsigned int in_len) {
-	/* Copyright (C) 2004-2008 René Nyffenegger
-
-	   This source code is provided 'as-is', without any express or implied
-	   warranty. In no event will the author be held liable for any damages
-	   arising from the use of this software.
-
-	   Permission is granted to anyone to use this software for any purpose,
-	   including commercial applications, and to alter it and redistribute it
-	   freely, subject to the following restrictions:
-
-	   1. The origin of this source code must not be misrepresented; you must not
-		  claim that you wrote the original source code. If you use this source code
-		  in a product, an acknowledgment in the product documentation would be
-		  appreciated but is not required.
-
-	   2. Altered source versions must be plainly marked as such, and must not be
-		  misrepresented as being the original source code.
-
-	   3. This notice may not be removed or altered from any source distribution.
-
-	   René Nyffenegger rene.nyffenegger@adp-gmbh.ch */
-
-	unsigned char char_array_3[3];
-	unsigned char char_array_4[4];
-
-	ret += "";
-	int i = 0;
-	while (in_len--) {
-		char_array_3[i++] = *(bytes_to_encode++);
-		if (i == 3) {
-			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-			char_array_4[3] = char_array_3[2] & 0x3f;
-			for(i = 0; (i <4) ; i++) {
-				ret += base64_chars[char_array_4[i]];
-			}
-			i = 0;
-		}
-	}
-	if (i) {
-		for(j = i; j < 3; j++)
-			char_array_3[j] = '\0';
-			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
-			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
-			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
-			char_array_4[3] = char_array_3[2] & 0x3f;
-
-			for (j = 0; (j < i + 1); j++)
-				ret += base64_chars[char_array_4[j]];
-
-		while((i++ < 3))
-		ret += '=';
-	}
-	return ret;
 }

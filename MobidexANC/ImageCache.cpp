@@ -116,7 +116,7 @@ void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
 		}
 	}
 	else {
-		printf("result: %d\nmNextRequest->getUrl().c_str(): %s", result, mNextRequest->getUrl().c_str());
+		//printf("result: %d\nmNextRequest->getUrl().c_str(): %s", result, mNextRequest->getUrl().c_str());
 		//finishedDownloading();
 	}
 }

@@ -3,6 +3,7 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
@@ -10,6 +11,7 @@
 #include "../utils/CardStat.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -22,19 +24,19 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+#endif
 	typedef Map<String, Card*> StringCardMap;
 	typedef Vector<CardStat*> CardStatVector;
 	enum phases {P_SELECT_CARD = 0, P_SELECT_STAT, P_RESULTS, P_LOADING, P_FINISHED, P_CARD_DETAILS};
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
-	Image *tempImage;
+	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;

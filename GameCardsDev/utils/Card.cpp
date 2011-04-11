@@ -11,7 +11,29 @@ Card::Card() {
 	rate = "";
 	value = "";
 	fullDesc = "";
+	note = "";
 	loaded = false;
+	updated = false;
+}
+
+Card::~Card() {
+	quantity = "";
+	text = "";
+	thumb = "";
+	front = "";
+	back = "";
+	id = "";
+	rate = "";
+	value = "";
+	fullDesc = "";
+	note = "";
+	for (int i = 0; i < stats.size(); i++) {
+		if (stats[i] != NULL) {
+			delete stats[i];
+			stats[i] == NULL;
+		}
+		stats.clear();
+	}
 }
 
 void Card::setLoaded(bool load) {
@@ -20,6 +42,14 @@ void Card::setLoaded(bool load) {
 
 bool Card::getLoaded() {
 	return loaded;
+}
+
+void Card::setUpdated(bool u) {
+	updated = u;
+}
+
+bool Card::getUpdated() {
+	return updated;
 }
 
 String Card::getQuantity() {
@@ -100,8 +130,21 @@ void Card::setGamePlayerCardId(const char *g) {
 	gamePlayerCardId = g;
 }
 
+String Card::getNote() {
+	return note;
+}
+
+void Card::setNote(const char *n) {
+	note = n;
+}
+
 String Card::getAll() {
-	return getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim;
+	String all = getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+
+			delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim+getNote()+delim;
+	for (int i = 0; i < stats.size(); i++) {
+		all += stats[i]->getAll() + innerDelim;
+	}
+	return all;
 }
 
 void Card::setAll(const char* allch) {
@@ -131,6 +174,19 @@ void Card::setAll(const char* allch) {
 			indexof = all.find(delim);
 			setValue(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
+			indexof = all.find(delim);
+			setNote(all.substr(0,indexof++).c_str());
+			all=all.substr(indexof);
+
+			Stat *newStat;
+			while (all.length() > 1) {
+				indexof = all.find(innerDelim);
+				newStat = new Stat();
+				newStat->setAll(all.substr(0,indexof++).c_str());
+				stats.add(newStat);
+				all=all.substr(indexof);
+			}
+
 			setLoaded(true);
 			if ((getText().length() <= 0)||(getQuantity().length() <= 0)) {
 				setQuantity("");
@@ -146,6 +202,30 @@ void Card::setAll(const char* allch) {
 			setId("");
 			setRate("");
 			setValue("");
+			setNote("");
 			setLoaded(false);
 		}
+}
+
+void Card::addStat(Stat *stat) {
+	stats.add(stat);
+}
+
+void Card::removeStatAt(int index) {
+	if (index < stats.size()) {
+		stats.remove(index);
+	}
+}
+
+void Card::setStats(Vector<Stat*> s) {
+	stats.clear();
+	stats = s;
+}
+
+Vector<Stat*> Card::getStats() {
+	return stats;
+}
+
+Stat* Card::getStatAt(int index) {
+	return stats[index];
 }

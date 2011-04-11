@@ -124,7 +124,8 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	softKeys = createSoftKeyBar(42, left, right, centre);
 	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
 
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
+			mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -143,7 +144,8 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()),
+				NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		listBox->add(mBox);
 	}
 	setPadding(listBox);

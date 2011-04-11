@@ -3,6 +3,7 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
@@ -22,11 +23,15 @@ public:
 	int getCount();
 	void Add(const char* id, const char* name);
 	String *Retrieve(int id);
-	void AlbumLoadScreen::drawList();
-	void pointerPressEvent(MAPoint2d point);
-	void pointerMoveEvent(MAPoint2d point);
-	void pointerReleaseEvent(MAPoint2d point);
-	void locateItem(MAPoint2d point);
+	void drawList();
+
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		void pointerPressEvent(MAPoint2d point);
+		void pointerMoveEvent(MAPoint2d point);
+		void pointerReleaseEvent(MAPoint2d point);
+		void locateItem(MAPoint2d point);
+	#endif
+
 	void refresh();
 
 	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES};
@@ -38,16 +43,16 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
+	Vector<String> path;
 	Vector<Widget*> tempWidgets;
-	String parentTag, currentAlbum;
-	String temp,temp1,error_msg,hasCards;
+	String parentTag;
+	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved, screenType;
-	bool list, left, right, empt;
+	bool list, left, right, mid, empt, hasConnection;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *notice, *label;
-	Label **labelList;
 
 	Feed *feed;
 	Albums *album;
@@ -65,9 +70,8 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	void clearLabelPointers();
-
 	void clearListBox();
+	void loadCategory();
 };
 
 #endif	//_ALBUMLOADSCREEN_H_*/

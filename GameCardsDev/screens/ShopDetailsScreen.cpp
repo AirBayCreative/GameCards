@@ -1,11 +1,14 @@
 #include "ShopDetailsScreen.h"
+#include "ShopPurchaseScreen.h"
+#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
+#include "../UI/Widgets/MobImage.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Card *card) : previous(previous), feed(feed), screenType(screenType), product(product), card(card) {
-	mainLayout = createMainLayout(back, "", true);
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
+	mainLayout = createMainLayout(back, purchase, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-
+	next = NULL;
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
@@ -13,10 +16,11 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	Image *tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	mImageCache = new ImageCache();
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-	String nameDesc = "";
-	String fullDesc = "";
+	nameDesc = "";
+	fullDesc = "";
 
 	switch (screenType) {
 		case ST_PRODUCT:
@@ -26,10 +30,10 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			fullDesc = product->getDetailsString();
 			break;
 		case ST_AUCTION:
-			retrieveThumb(tempImage, card, mImageCache);
+			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
-			nameDesc = card->getText();
-			fullDesc = card->getFullDesc();
+			nameDesc = auction->getCard()->getText();
+			fullDesc = auction->getCard()->getFullDesc();
 			break;
 	}
 
@@ -49,21 +53,14 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
-	//mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
+	if(mImageCache != NULL){
+		delete mImageCache;
 	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
+	nameDesc = "";
+	fullDesc = "";
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -113,18 +110,35 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
 		{
 			if (i == 0) {
 				left = true;
+				moved=0;
+			} else if (i == 1) {
+				list = true;
+				moved = 0;
 			} else if (i == 2) {
 				right = true;
+				moved=0;
 			}
 			return;
 		}
 	}
 }
-
+#endif
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			if (next != NULL) {
+				delete next;
+			}
+			switch (screenType) {
+				case ST_AUCTION:
+					next = new BidOrBuyScreen(this, feed, auction);
+					break;
+				case ST_PRODUCT:
+					next = new ShopPurchaseScreen(this, feed, product);
+					break;
+			}
+			next->show();
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();

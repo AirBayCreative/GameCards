@@ -13,18 +13,9 @@ Logout::Logout(Screen *previous, Feed *feed) : previous(previous), feed(feed) {
 }
 
 Logout::~Logout() {
-	delete listBox;
-	if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}
+	delete mainLayout;
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void Logout::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -78,7 +69,7 @@ void Logout::locateItem(MAPoint2d point)
 		}
 	}
 }
-
+#endif
 void Logout::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		widget->getChildren()[0]->setSelected(true);
@@ -126,6 +117,4 @@ void Logout::cleanup() {
 	saveData(ALBUM,"");
 
 	maExit(0);
-	/*previous = new Login(feed);
-	previous->show();*/
 }

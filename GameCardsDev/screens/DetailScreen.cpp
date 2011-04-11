@@ -1,8 +1,11 @@
 #include "DetailScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "../utils/Stat.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
-	mainLayout = createMainLayout(back, "", true);
+DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
+		feed(feed), screenType(screenType), card(card) {
+	mainLayout = createMainLayout(back, screenType==CARD?select:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	switch (screenType) {
@@ -13,9 +16,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			label = createLabel(feed->getUsername());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getUsername(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(label);
 
 			//EMAIL
@@ -24,9 +24,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			label = createLabel(feed->getEmail());
 			label->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getEmail(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(label);
 			break;
 		case BALANCE:
@@ -35,25 +32,41 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 
 			balanceLabel = createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
-			//editBox = new EditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, feed->getCredits(), 0, gFontBlack, true, false, 45);
-			//editBox->setDrawBackground(false);
-			//label->addWidgetListener(this);
 			listBox->add(balanceLabel);
+			break;
+		case CARD:
+			for (int i = 0; i < card->getStats().size(); i++) {
+				/*label = createLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
+				label->setVerticalAlignment(Label::VA_CENTER);
+				setPadding(label);
+				listBox->add(label);*/
+				label = createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
+				label->setPaddingBottom(5);
+				label->addWidgetListener(this);
+				listBox->add(label);
+			}
+			if (card->getStats().size() == 0) {
+				label = createSubLabel(empty);
+				label->setPaddingBottom(5);
+				label->addWidgetListener(this);
+				listBox->add(label);
+			}
 			break;
 	}
 
+	if (screenType != CARD) {
+		int res = mHttp.create(USER.c_str(), HTTP_GET);
 
-	int res = mHttp.create(USER.c_str(), HTTP_GET);
+		if(res < 0) {
 
-	if(res < 0) {
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption(checking_info);
 
-	} else {
-		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption(checking_info);
-
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
 	}
 
 	this->setMain(mainLayout);
@@ -62,19 +75,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType) : mHttp
 }
 
 DetailScreen::~DetailScreen() {
-	mainLayout->getChildren().clear();
-	//listBox->getChildren().clear();
-	//delete listBox;
 	delete mainLayout;
-	/*if (image != NULL) {
-		delete image;
-		image = NULL;
-	}
-	if (softKeys != NULL) {
-		softKeys->getChildren().clear();
-		delete softKeys;
-		softKeys = NULL;
-	}*/
 	username = "";
 	credits = "";
 	encrypt = "";
@@ -83,6 +84,7 @@ DetailScreen::~DetailScreen() {
 	email = "";
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -139,12 +141,22 @@ void DetailScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
+#endif
 
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
+	if (screenType == CARD) {
+		if(selected) {
+			((Label *)widget)->setFont(gFontBlue);
+		} else {
+			((Label *)widget)->setFont(gFontBlack);
+		}
+	}
+	else {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
 	}
 }
 
@@ -162,6 +174,33 @@ void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			switch (screenType) {
+				case CARD:
+					int index = listBox->getSelectedIndex();
+					Stat *stat = card->getStats()[index];
+					if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+						if (next != NULL) {
+							delete next;
+							next == NULL;
+						}
+						next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
+						next->show();
+					}
+					else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+
+					}
+					else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+						String url = stat->getDisplay();
+						//maPlatformRequest will only work if the url starts with http://
+						//so we need to check for it, and add it if it isnt there
+						if (url.find("http://") != 0) {
+							url = "http://"+url;
+						}
+						maPlatformRequest(url.c_str());
+					}
+					break;
+			}
+			break;
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

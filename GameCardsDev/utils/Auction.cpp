@@ -14,6 +14,14 @@ Auction::Auction() {
 }
 
 Auction::~Auction() {
+	openingBid = "";
+	price = "";
+	userCardId = "";
+	auctionCardId = "";
+	username = "";
+	buyNowPrice = "";
+	endDate = "";
+	lastBidUser = "";
 	if (card != NULL) {
 		delete card;
 		card = NULL;

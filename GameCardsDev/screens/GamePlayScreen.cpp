@@ -4,7 +4,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
-#include "TradeOptionsScreen.h"
+#include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier) : mHttp(this),
@@ -42,11 +42,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	imageCache = new ImageCache();
 
-	if (feed->getTouchEnabled()) {
-		mainLayout = createMainLayout(back, "", "", true);
-	} else {
-		mainLayout = createMainLayout(back, "", "", true);
-	}
+	mainLayout = createMainLayout(back, "", "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(true);
@@ -76,7 +72,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
+				gameId.c_str(), getMaxImageHeight(), scrWidth);
 	}
 
 	mHttp = HttpConnection(this);
@@ -126,7 +123,7 @@ void GamePlayScreen::drawCardList(int selectedIndex) {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		tempImage = new Image(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		retrieveThumb(tempImage, itr->second, imageCache);
 
@@ -245,13 +242,11 @@ void GamePlayScreen::drawCardDetailsScreen() {
 
 	int height = listBox->getHeight();
 
-	tempImage = new Image(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
+	tempImage = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
 
 	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
-
-	listBox->setYOffset(0);
 }
-
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void GamePlayScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
@@ -314,11 +309,14 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-
+#endif
 GamePlayScreen::~GamePlayScreen() {
 	delete mainLayout;
 
-	delete next;
+	if (next != NULL) {
+		delete next;
+		next = NULL;
+	}
 	delete imageCache;
 
 	delete [] feedLayouts;
@@ -362,11 +360,6 @@ void GamePlayScreen::show() {
 		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	}
 	Screen::show();
-
-	if (next != NULL) {
-		delete next;
-		next = NULL;
-	}
 }
 
 void GamePlayScreen::hide() {
@@ -414,7 +407,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						next = NULL;
 					}
 					feed->setGameId(gameId.c_str());
-					next = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_GAME_OPTIONS);
+					next = new OptionsScreen(feed, OptionsScreen::ST_GAME_OPTIONS, this);
 					next->show();
 					break;
 			}
@@ -422,11 +415,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			switch (phase) {
 				case P_SELECT_CARD:
-					/*if (next != NULL) {
-						delete next;
-					}
-					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, true, false);
-					next->show();*/
 					card = cards.find(index[selected])->second;
 					cardIndex = selected;
 					yOffset = listBox->getYOffset();
@@ -476,7 +464,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), scrHeight, scrWidth);
+						sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
+								game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
 
 						clearCardMap();
 						clearListBox();
@@ -608,7 +597,8 @@ void GamePlayScreen::xcConnError(int code) {
 		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(listBox->getHeight()) + intlen(scrWidth);
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id, gameId.c_str(), listBox->getHeight(), scrWidth);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
+				game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
 
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);

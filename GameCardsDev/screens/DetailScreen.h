@@ -3,7 +3,9 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
+#include <maprofile.h>
 
+#include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
@@ -13,20 +15,22 @@ using namespace MAUtil;
 
 class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType);
+	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
 	~DetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
 
-	enum screenType {PROFILE, BALANCE};
+	enum screenType {PROFILE, BALANCE, CARD};
 private:
-	Screen *previous;
+	Screen *previous, *next;
 	EditBox *editBox;
 	Layout *mainLayout;
 	Label *label, *balanceLabel;
@@ -39,6 +43,7 @@ private:
 	String username, credits, encrypt, error_msg, parentTag, email;
 	int i,j, moved, screenType;
 
+	Card *card;
 	Feed *feed;
 
 	void refreshData();

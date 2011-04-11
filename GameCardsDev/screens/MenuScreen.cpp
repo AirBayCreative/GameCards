@@ -5,27 +5,27 @@
 #include "ImageScreen.h"
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
-#include "TradeOptionsScreen.h"
-#include "../utils/MAHeaders.h"
+#include "OptionsScreen.h"
 #include "Logout.h"
 #include "NewVersionScreen.h"
+#include "../utils/MAHeaders.h"
 #include "../utils/Util.h"
 
-MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
+MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
-	menu = new Screen();
-	if (feed->getTouchEnabled()) {
+	menu = NULL;
+#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(exit, "", true);
-	} else {
+#else
 		mainLayout = createMainLayout(exit, select, true);
-	}
+#endif
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(play);
-	label->addWidgetListener(this);
-	listBox->add(label);
+	//label = createSubLabel(play);
+	//label->addWidgetListener(this);
+	//listBox->add(label);
 	label = createSubLabel(shoplbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -46,9 +46,30 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 
 	moved=0;
 
+	char buf[64] = "";
+	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+	char *os = MA_PROF_STRING_PLATFORM;
+	char *make = MA_PROF_STRING_VENDOR;
+	char *model = "temp";//MA_PROF_STRING_DEVICE;
+	int touch = 0;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	touch = 1;
+#endif
+	//work out how long the url will be, the 16 is for the & and = symbals
+	int urlLength = UPDATE.length() + strlen(update_imsi) + intlen(imsi) + strlen(update_imei) + intlen(imei)
+			+ strlen(update_os) + strlen(os) + strlen(update_make) + strlen(make)
+			+ strlen(update_model) + strlen(model) + strlen(update_touch) + intlen(touch) + 16
+			+ strlen(update_width) + intlen(scrWidth) + strlen(update_height) + intlen(scrHeight);
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", UPDATE.c_str(), update_imsi,
+			imsi, update_imei, imei, update_os, os, update_make, make, update_model, model, update_touch, touch,
+			update_width, scrWidth, update_height, scrHeight);
+	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
-	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
+	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 
 	} else {
@@ -57,80 +78,17 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 		mHttp.finish();
 	}
 
+	delete [] url;
+
 	this->setMain(mainLayout);
 
 	origMenu = this;
 }
 
 MenuScreen::~MenuScreen() {
-}
-
-void MenuScreen::pointerPressEvent(MAPoint2d point)
-{
-    locateItem(point);
-}
-
-void MenuScreen::pointerMoveEvent(MAPoint2d point)
-{
-	moved++;
-    locateItem(point);
-}
-
-void MenuScreen::pointerReleaseEvent(MAPoint2d point)
-{
-	if (moved <= 8) {
-		if (right) {
-			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (left) {
-			keyPressEvent(MAK_SOFTLEFT);
-		} else if (list) {
-			keyPressEvent(MAK_FIRE);
-		}
-	}
-	moved = 0;
-}
-
-void MenuScreen::locateItem(MAPoint2d point)
-{
-	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
-	}
-	list = false;
-	left = false;
-	right = false;
-
-    Point p;
-    p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-    {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-        {
-        	list = true;
-        }
-    }
-    for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
-	{
-		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
-		{
-
-			if (i == 0) {
-				moved=0;
-				left = true;
-			} else if (i == 2) {
-				moved=0;
-				right = true;
-			}
-			return;
-		}
-	}
-}
-
-
-void MenuScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontBlack);
+	delete mainLayout;
+	if(menu!=NULL){
+		delete menu;
 	}
 }
 
@@ -140,31 +98,44 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			int index = listBox->getSelectedIndex();
 			if(index == 0) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
-			} /*else if(index == 1) {
-				delete menu;
+			} else if(index == 1) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 2) {
-				delete menu;
-				menu = new TradeOptionsScreen(this, feed, NULL, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				if(menu!=NULL){
+					delete menu;
+				}
+				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 3) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
 			} else if(index == 4) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
 				menu->show();
 			} else if (index == 5) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new Logout(this, feed);
 				menu->show();
-			}*/else if(index == 1) {
+			}/*else if(index == 1) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_PLAY_OPTIONS);
+				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
 			} else if(index == 2) {
 				delete menu;
@@ -172,7 +143,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 3) {
 				delete menu;
-				menu = new TradeOptionsScreen(this, feed, TradeOptionsScreen::ST_AUCTION_OPTIONS);
+				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 4) {
 				delete menu;
@@ -180,15 +151,22 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			} else if(index == 5) {
 				delete menu;
-				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
 			} else if (index == 6) {
 				delete menu;
 				menu = new Logout(this, feed);
 				menu->show();
-			}
+			}*/
 			break;
 		case MAK_SOFTLEFT:
+			int seconds = maLocalTime();
+			int secondsLength = intlen(seconds);
+			char *secString = new char[secondsLength];
+			memset(secString,'\0',secondsLength);
+			sprintf(secString, "%d", seconds);
+			feed->setSeconds(secString);
+			saveData(FEED, feed->getAll().c_str());
 			maExit(0);
 			break;
 		case MAK_DOWN:
@@ -200,54 +178,12 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	}
 }
 
-/*void MenuScreen::customEvent(const MAEvent& event)
-{
-	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
-	{
-		this->getMain()->requestRepaint();
-	}
-}*/
-
-void MenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
-	if (result == 200) {
-		xmlConn = XmlConnection::XmlConnection();
-		xmlConn.parse(http, this, this);
-	} else {
-		mHttp.close();
-	}
-}
-
-void MenuScreen::connReadFinished(Connection* conn, int result) {
-}
-
-void MenuScreen::xcConnError(int code) {
-}
-
-void MenuScreen::mtxEncoding(const char* ) {
-}
-
-void MenuScreen::mtxTagStart(const char* name, int len) {
-}
-
-void MenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-}
-
 void MenuScreen::mtxTagData(const char* data, int len) {
 	if (len > 0) {
-		delete menu;
+		if(menu!=NULL){
+			delete menu;
+		}
 		menu = new NewVersionScreen(this, data, feed);
 		menu->show();
 	}
-}
-
-void MenuScreen::mtxTagEnd(const char* name, int len) {
-}
-
-void MenuScreen::mtxParseError() {
-}
-
-void MenuScreen::mtxEmptyTagEnd() {
-}
-
-void MenuScreen::mtxTagStartEnd() {
 }

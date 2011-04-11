@@ -3,11 +3,14 @@
 
 #include <MAUtil/String.h>
 
+#include "Stat.h"
+
 using namespace MAUtil;
 
 class Card  {
 public:
 	Card();
+	~Card();
 
 	String getQuantity();
 	void setQuantity(const char *name);
@@ -39,14 +42,28 @@ public:
 	String getGamePlayerCardId();
 	void setGamePlayerCardId(const char *gamePlayerCardId);
 
+	String getNote();
+	void setNote(const char *note);
+
 	bool getLoaded();
 	void setLoaded(bool load);
 
+	bool getUpdated();
+	void setUpdated(bool update);
+
 	String getAll();
 	void setAll(const char*);
+
+	void addStat(Stat *stat);
+	void removeStatAt(int index);
+	void setStats(Vector<Stat*> stats);
+	Vector<Stat*> getStats();
+	Stat* getStatAt(int index);
 private:
-	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId;
-	bool loaded;
+	//the note is generally saved in base64
+	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note;
+	bool loaded, updated;
+	Vector<Stat*> stats;
 };
 
 #endif	//_CARD_H_

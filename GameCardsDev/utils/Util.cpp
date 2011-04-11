@@ -1,6 +1,7 @@
 #include <mavsprintf.h>
 #include <conprint.h>
 
+#include "../UI/Widgets/MobImage.h"
 #include "../UI/KineticListBox.h"
 #include "ImageCacheRequest.h"
 #include "MAHeaders.h"
@@ -27,6 +28,7 @@ WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
 WidgetSkin *gSkinKeyboard;
 Screen *orig;
+Screen *origAlbum;
 Screen *origMenu;
 int scrWidth;
 int scrHeight;
@@ -74,13 +76,11 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 }
 
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
-	int scaledHeight = ((height*0.1)>scrHeight?height:(int)(scrHeight*0.1));
-
-	Layout *layout = new Layout(0, 0, scrWidth, scaledHeight, NULL, 3, 1);
+	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
 	layout->setSkin(gSkinBack);
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, scaledHeight, NULL, left, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -89,7 +89,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), scaledHeight, NULL, centre, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -97,7 +97,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, scaledHeight, NULL, right, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -121,7 +121,7 @@ Layout* createNoHeaderLayout() {
 Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	softKeys = createSoftKeyBar(42, left, right, centre);
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
@@ -156,7 +156,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 Layout* createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(42, left, "", "");
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -183,7 +183,7 @@ Layout* createImageLayout(const char *left, bool useKinetic) {
 
 Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(42, left, right, centre);
+	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
@@ -209,14 +209,13 @@ void updateSoftKeyLayout(const char *left, const char *right, const char *centre
 		delete currentSoftKeys;
 	}
 
-	currentSoftKeys = createSoftKeyBar(42, left, right, centre);
+	currentSoftKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	mainLayout->add(currentSoftKeys);
 }
 
 void saveData(const char* storefile, const char *value) {
-
-	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (strlen(value) == 0) {
 		maCloseStore(store, 1);
 	} else if (store > 0) {
@@ -232,7 +231,7 @@ void saveData(const char* storefile, const char *value) {
 }
 
 void saveFile(const char* storefile, MAHandle data) {
-	MAHandle store = maOpenStore(storefile, MAS_CREATE_IF_NECESSARY);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (store > 0) {
 		maWriteStore(store, data);
 	}
@@ -241,7 +240,7 @@ void saveFile(const char* storefile, MAHandle data) {
 }
 
 char* getData(const char* storefile) {
-	MAHandle store = maOpenStore(storefile, 0);
+	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
@@ -259,7 +258,7 @@ char* getData(const char* storefile) {
 	return "";
 }
 
-void returnImage(Image *img, MAHandle i, int height)
+void returnImage(MobImage *img, MAHandle i, int height)
 {
 	MAHandle imageh = maCreatePlaceholder();
 	maCreateImageFromData(imageh, i, 0, maGetDataSize(i));
@@ -271,13 +270,13 @@ void returnImage(Image *img, MAHandle i, int height)
 	i = -1;
 }
 
-void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
+void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -299,13 +298,13 @@ void retrieveThumb(Image *img, Card *card, ImageCache *mImageCache)
 	}
 }
 
-void retrieveProductThumb(Image *img, Product *product, ImageCache *mImageCache)
+void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)
 {
 	if (product == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore(("prod_"+product->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+"prod_"+product->getId()+".sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT)
 	{
@@ -329,13 +328,13 @@ void retrieveProductThumb(Image *img, Product *product, ImageCache *mImageCache)
 	store = -1;
 }
 
-void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
+void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+"f.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -355,36 +354,15 @@ void retrieveFront(Image *img, Card *card, int height, ImageCache *mImageCache)
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
 		mImageCache->request(req1);
 	}
-
-	/*if (card == NULL) {
-		return;
-	}
-	if (card->getFront().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getFront().c_str(), 0);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, height);
-			}
-		}
-		cacheimage = -1;
-		store = -1;
-	} else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 1);
-		mImageCache->request(req1);
-	}*/
 }
-void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
+
+void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore((card->getId()+"b.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b.sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -404,27 +382,6 @@ void retrieveBack(Image *img, Card *card, int height, ImageCache *mImageCache)
 		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
 		mImageCache->request(req1);
 	}
-	/*if (card == NULL) {
-		return;
-	}
-	if (card->getBack().find("http://") == -1) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		MAHandle store = maOpenStore(card->getBack().c_str(), 0);
-		if(store != STERR_NONEXISTENT)
-		{
-			maReadStore(store, cacheimage);
-			maCloseStore(store, 0);
-
-			if (maGetDataSize(cacheimage) > 0) {
-				returnImage(img, cacheimage, height);
-			}
-		}
-		cacheimage = -1;
-		store = -1;
-	} else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, height, 2);
-		mImageCache->request(req1);
-	}*/
 }
 
 bool isNumeric(String isValid) {
@@ -460,3 +417,126 @@ bool validateEmailAddress(String email) {
 	}
 	return true;
 }
+
+int getSoftKeyBarHeight() {
+	//42 is the default height. It needs to scale up a bit for bigger screens
+	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
+
+	return scaledHeight;
+}
+
+int getMaxImageHeight() {
+	return scrHeight - getSoftKeyBarHeight() - (PADDING * 4);
+}
+
+String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+	/* Copyright (C) 2004-2008 René Nyffenegger
+
+	   This source code is provided 'as-is', without any express or implied
+	   warranty. In no event will the author be held liable for any damages
+	   arising from the use of this software.
+
+	   Permission is granted to anyone to use this software for any purpose,
+	   including commercial applications, and to alter it and redistribute it
+	   freely, subject to the following restrictions:
+
+	   1. The origin of this source code must not be misrepresented; you must not
+		  claim that you wrote the original source code. If you use this source code
+		  in a product, an acknowledgment in the product documentation would be
+		  appreciated but is not required.
+
+	   2. Altered source versions must be plainly marked as such, and must not be
+		  misrepresented as being the original source code.
+
+	   3. This notice may not be removed or altered from any source distribution.
+
+	   René Nyffenegger rene.nyffenegger@adp-gmbh.ch */
+
+	unsigned char char_array_3[3];
+	unsigned char char_array_4[4];
+
+	String ret = "";
+	int i = 0;
+	int j = 0;
+	while (in_len--) {
+		char_array_3[i++] = *(bytes_to_encode++);
+		if (i == 3) {
+			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+			char_array_4[3] = char_array_3[2] & 0x3f;
+			for(i = 0; (i <4) ; i++) {
+				ret += base64_chars[char_array_4[i]];
+			}
+			i = 0;
+		}
+	}
+	if (i) {
+		for(j = i; j < 3; j++)
+			char_array_3[j] = '\0';
+			char_array_4[0] = (char_array_3[0] & 0xfc) >> 2;
+			char_array_4[1] = ((char_array_3[0] & 0x03) << 4) + ((char_array_3[1] & 0xf0) >> 4);
+			char_array_4[2] = ((char_array_3[1] & 0x0f) << 2) + ((char_array_3[2] & 0xc0) >> 6);
+			char_array_4[3] = char_array_3[2] & 0x3f;
+
+			for (j = 0; (j < i + 1); j++)
+				ret += base64_chars[char_array_4[j]];
+
+		while((i++ < 3))
+		ret += '=';
+	}
+	return ret;
+}
+
+String base64_decode(String encoded_string) {
+	int in_len = encoded_string.size();
+	int i = 0;
+	int j = 0;
+	int in_ = 0;
+	unsigned char char_array_4[4], char_array_3[3];
+	String ret;
+	String temp = "";
+
+	while (in_len-- && ( encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+		char_array_4[i++] = encoded_string[in_]; in_++;
+		if (i ==4) {
+			for (i = 0; i <4; i++) {
+				temp += char_array_4[i];
+				char_array_4[i] = base64_chars.find(temp.c_str());
+				temp.clear();
+			}
+
+			char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+			char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+			char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+			for (i = 0; (i < 3); i++)
+				ret += char_array_3[i];
+			i = 0;
+		}
+	}
+
+	if (i) {
+		for (j = i; j <4; j++)
+			char_array_4[j] = 0;
+
+		for (j = 0; j <4; j++) {
+			temp += char_array_4[j];
+			char_array_4[j] = base64_chars.find(temp.c_str());
+			temp.clear();
+		}
+
+		char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+		char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+		char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+		for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+	}
+
+	return ret;
+}
+
+static inline bool is_base64(unsigned char c) {
+	return (isalnum(c) || (c == '+') || (c == '/'));
+}
+

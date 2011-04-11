@@ -1,11 +1,12 @@
-#ifndef _TRADEFRIENDMETHODSCREEN_H_
-#define _TRADEFRIENDMETHODSCREEN_H_
+#ifndef _OPTIONSSCREEN_H_
+#define _OPTIONSSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
@@ -13,28 +14,27 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendMethodScreen : public Screen, WidgetListener {
+class OptionsScreen : public Screen, WidgetListener {
 public:
-	TradeFriendMethodScreen(Screen *previous, Feed *feed, Card *card);
-	~TradeFriendMethodScreen();
+	OptionsScreen(Feed *feed, int screenType);
+	~OptionsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
+#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+#endif
+	enum screenTypes {ST_LOGIN_OPTIONS};
 private:
 	Feed *feed;
 	Layout *layout;
 	ListBox* listBox;
-	Label *lbl;
+	Label *lbl, *notice;
 	Screen *menu;
-	String filename;
-	Screen *previous;
-	Card *card;
 	bool list, left, right;
-
-	int index;
+	int index, screenType;
 };
 
 #endif
