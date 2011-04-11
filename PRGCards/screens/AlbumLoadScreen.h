@@ -68,6 +68,7 @@ private:
 
 	void clearListBox();
 	void loadCategory();
+	void cleanup();
 };
 
 #endif	//_ALBUMLOADSCREEN_H_*/

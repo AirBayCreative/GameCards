@@ -9,10 +9,6 @@
 .res RES_FONT_BLACK
 .bin
 .include "nobileblack.mof"
- 
-.res RES_FONT_WHITE
-.bin
-.include "nobilewhite.mof"  
 
 .res RES_SELECTED_EDITBOX
 .ubin 
@@ -60,17 +56,9 @@
 .ubin
 .image "emptythumb.png"
 
-.res RES_SOON
-.ubin
-.image "coming soon.png"
-
 .res RES_TEMP
 .ubin
 .image "empty.png"
-
-.res RES_LOGOUT
-.ubin
-.image "log out.png"
 
 .res RES_LOADINGTHUMB
 .ubin
@@ -88,14 +76,6 @@
 .ubin
 .image "keyboard_unsel.png"
 
-.res RES_MISSINGTHUMB
-.ubin
-.image "missingcardthumb.png"
-
-.res RES_CHANGE_STAR
-.ubin
-.image "change_star.png"
-
 .res RES_FONT_BLACK_BOLD
 .bin
 .include "nobileblackbold.mof"
@@ -111,3 +91,7 @@
 .res RES_FONT_WHITE_BOLD
 .bin
 .include "nobilewhitebold.mof"
+
+.res RES_FONT_WHITE
+.bin
+.include "nobilewhite.mof"
