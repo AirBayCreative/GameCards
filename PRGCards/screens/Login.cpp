@@ -4,7 +4,7 @@
 #include "../utils/Util.h"
 #include "AlbumLoadScreen.h"
 
-Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
+Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed), previous(previous), screen(screen) {
 	moved = 0;
 	changed = false;
 	isBusy = false;
@@ -56,7 +56,7 @@ void Login::drawLoginScreen() {
 #endif
 	clearListBox();
 
-	updateSoftKeyLayout(exit, login, reg, mainLayout);
+	updateSoftKeyLayout(back, login, "", mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, cellLbl, 0, gFontBlack);
@@ -82,7 +82,7 @@ void Login::drawRegisterScreen() {
 #endif
 	clearListBox();
 
-	updateSoftKeyLayout(exit, apply, login, mainLayout);
+	updateSoftKeyLayout(back, apply, "", mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, namelbl, 0, gFontBlack);
@@ -264,15 +264,6 @@ void Login::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
-			switch (screen) {
-				case S_LOGIN:
-					drawRegisterScreen();
-					break;
-				case S_REGISTER:
-					drawLoginScreen();
-					break;
-			}
-			break;
 		case MAK_SOFTRIGHT:
 			if (!isBusy) {
 				switch (screen) {
@@ -352,7 +343,7 @@ void Login::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTLEFT:
-			maExit(0);
+			previous->show();
 			break;
 		case MAK_UP:
 			if (index-2 > 0) {
