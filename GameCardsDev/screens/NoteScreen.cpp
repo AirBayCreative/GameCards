@@ -169,6 +169,9 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
 						sprintf(url, "%s%s&%s=%s", SAVENOTE.c_str(), encodedNote.c_str(), xml_cardid, card->getId().c_str());
+						if(mHttp.isOpen()){
+							mHttp.close();
+						}
 						mHttp = HttpConnection(this);
 						int res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {

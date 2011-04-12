@@ -75,7 +75,9 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
 				gameId.c_str(), getMaxImageHeight(), scrWidth);
 	}
-
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -469,7 +471,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 
 						clearCardMap();
 						clearListBox();
-
+						if(mHttp.isOpen()){
+							mHttp.close();
+						}
 						mHttp = HttpConnection(this);
 						int res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {
@@ -522,6 +526,9 @@ void GamePlayScreen::selectCard(Card *selected) {
 	clearCardStats();
 	clearListBox();
 
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -554,6 +561,9 @@ void GamePlayScreen::selectStat(int selected) {
 	clearCardStats();
 	clearListBox();
 
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -600,6 +610,9 @@ void GamePlayScreen::xcConnError(int code) {
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
 				game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
 
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {

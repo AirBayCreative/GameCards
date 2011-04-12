@@ -340,7 +340,7 @@ void MobKeyboard::pointerReleaseEvent(MAPoint2d p)
 			((MobEditBox*) m_attachedWidget)->moveCursorHorizontal(1, true);
 		}
 		else {
-			requestRepaint();
+			this->hide();
 		}
 	}
 	else

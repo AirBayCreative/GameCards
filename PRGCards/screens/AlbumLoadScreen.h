@@ -44,7 +44,7 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved;
-	bool list, left, right, mid, empt, hasConnection;
+	bool list, left, right, mid, empt, hasConnection, checkedUpdate;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;
@@ -69,6 +69,8 @@ private:
 	void clearListBox();
 	void loadCategory();
 	void cleanup();
+
+	void updateApp();
 };
 
 #endif	//_ALBUMLOADSCREEN_H_*/

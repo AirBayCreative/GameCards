@@ -22,6 +22,9 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s&%s=%s", PRODUCTS.c_str(), categoryid, category.c_str());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 
 	int res = mHttp.create(url, HTTP_GET);

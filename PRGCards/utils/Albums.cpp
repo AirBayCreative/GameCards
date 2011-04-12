@@ -20,7 +20,6 @@ bool Albums::getLoaded() {
 String Albums::getAll() {
 	String all = "";
 	for(int i = 0; i < albumList.size(); i++) {
-		// The iterator needs to be dereferenced.
 		all+=albumList[i]->getDescription();
 		all+=delim;
 		all+=albumList[i]->getId();
@@ -49,6 +48,7 @@ int Albums::size() {
 }
 
 void Albums::setAll(const char* allch) {
+	clearAll();
 	String all = allch;
 	int indexof = 0;
 	int indentindexof = 0;
@@ -83,6 +83,9 @@ void Albums::clearAll() {
 		i->second = NULL;
 	}
 	album.clear();
+	for (int i = 0; i < albumList.size(); i++) {
+		albumList[i] == NULL;
+	}
 	albumList.clear();
 }
 

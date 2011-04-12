@@ -283,7 +283,10 @@ void ShareScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_result)) {
 		notice->setCaption("");
 		if(!strcmp(value.c_str(), "0")) {
-			maSendTextSMS(editBoxCell->getText().c_str(), editBoxMessage->getText().c_str());
+			int sent = maSendTextSMS(editBoxCell->getText().c_str(), editBoxMessage->getText().c_str());
+			if (sent < 0) {
+				notice->setCaption("Failed to send sms.");
+			}
 		}
 		else {
 			notice->setCaption(value);
