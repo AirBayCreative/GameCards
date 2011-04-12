@@ -5,10 +5,19 @@
 #include "utils/MAHeaders.h"
 #include "screens/Login.h"
 #include "screens/MenuScreen.h"
+#include "maprofile.h"
+
+
 
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
+
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		lprintfln("has touch");
+	#else
+		lprintfln("No touch");
+	#endif
 	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
 	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
     gFontBlue = new MAUI::Font(RES_FONT_BLUE);

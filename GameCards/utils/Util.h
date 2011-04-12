@@ -78,7 +78,7 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"/";						  // 63
 
 //URL info
-static String URL = "http://www.mytcg.net/_phone/";
+static String URL = "http://dev.mytcg.net/_phone/";
 //Get user details
 static String USER = URL+"?userdetails=1";
 //get products in category

@@ -1,0 +1,56 @@
+PerformanceFrequency: 1948300
+StartCount: 582445367334
+Hello World!
+argc: 12
+1:-program
+3:-resource
+5:-resolution
+8:-fd
+Emulator connected.
+10:-id
+fmt->BitsPerPixel: 32
+InitVM .. 
+LoadVM
+maxCustomEventSize: 0xc
+Head.DataSize: 0x40000
+Head.StackSize: 0x10000
+Head.HeapSize: 0x20000
+Head.EntryPoint: 0x139e7
+Head.CodeLen: 0x28348
+CODE_SEGMENT_SIZE: 0x40000
+Head.DataLen: 0x33a0
+Head.DataSize: 0x40000
+DATA_SEGMENT_SIZE: 0x40000
+Head.IntLen: 0x46e
+Type 2, size 9168
+Type 4, size 6732
+Type 2, size 4449
+Type 2, size 3123
+Type 2, size 2893
+Type 2, size 3246
+Type 2, size 2901
+Type 2, size 3169
+Type 2, size 2922
+Type 1, size 0
+Type 1, size 0
+Type 2, size 8392
+ResLoad complete
+IDL version match!
+Exit 0
+DumpCallStackEx:
+reportCallStack
+0
+IP: 0x5c16
+Call stack: 5 frames
+0: 0x13a11
+1: 0x89c5
+2: 0x1de7a
+3: 0x19793
+4: 0x5c18
+Exit @ IP 0x5c16  SP 0x3fe48
+InstCount: 416169
+IP: 0x139E7
+Profile dumped.
+level: 5
+maxLevel: 19
+nodes: 2826

@@ -48,7 +48,8 @@ MenuScreen::MenuScreen(Feed *feed) : feed(feed), mHttp(this) {
 
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
-	int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
+	//int res = mHttp.create(UPDATE.c_str(), HTTP_GET);
+	int res = mHttp.create("http://dev.mytcg.net/_phone/?cardsincategory=3", HTTP_GET);
 	if(res < 0) {
 
 	} else {
@@ -233,11 +234,11 @@ void MenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void MenuScreen::mtxTagData(const char* data, int len) {
-	if (len > 0) {
+	/*if (len > 0) {
 		delete menu;
 		menu = new NewVersionScreen(this, data, feed);
 		menu->show();
-	}
+	}*/
 }
 
 void MenuScreen::mtxTagEnd(const char* name, int len) {

@@ -13,6 +13,7 @@ void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlList
     mPtr = mBuffer;
     mConn->recv(mBuffer, sizeof(mBuffer)-1);
 }
+
 XmlConnection::~XmlConnection() {
 
 }

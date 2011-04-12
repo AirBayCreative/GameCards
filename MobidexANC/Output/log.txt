@@ -1,0 +1,73 @@
+PerformanceFrequency: 1948291
+StartCount: 1010577254786
+Hello World!
+argc: 12
+1:-program
+3:-resource
+5:-resolution
+8:-fd
+Emulator connected.
+10:-id
+fmt->BitsPerPixel: 32
+InitVM .. 
+LoadVM
+maxCustomEventSize: 0xc
+Head.DataSize: 0x80000
+Head.StackSize: 0x8000
+Head.HeapSize: 0x64000
+Head.EntryPoint: 0x2466f
+Head.CodeLen: 0x47605
+CODE_SEGMENT_SIZE: 0x80000
+Head.DataLen: 0x6fd4
+Head.DataSize: 0x80000
+DATA_SEGMENT_SIZE: 0x80000
+Head.IntLen: 0x7e3
+Type 2, size 11342
+Type 4, size 6774
+Type 4, size 6169
+Type 4, size 6732
+Type 2, size 3232
+Type 2, size 3226
+Type 2, size 3440
+Type 2, size 3651
+Type 2, size 2842
+Type 2, size 3636
+Type 2, size 2867
+Type 2, size 3769
+Type 2, size 2887
+Type 1, size 0
+Type 1, size 0
+Type 2, size 8269
+Type 2, size 58851
+Type 2, size 37916
+Type 2, size 56095
+Type 2, size 8392
+Type 2, size 40664
+Type 2, size 3361
+Type 2, size 3017
+Type 2, size 8105
+Type 4, size 9644
+ResLoad complete
+IDL version match!
+open(stores/fd.sav, 0x8000) failed: 2(No such file or directory)
+open(stores/lb.sav, 0x8000) failed: 2(No such file or directory)
+open(stores/1, 0x8000) failed: 2(No such file or directory)
+open(stores/1, 0x8000) failed: 2(No such file or directory)
+Exit 0
+DumpCallStackEx:
+reportCallStack
+0
+IP: 0x12327
+Call stack: 5 frames
+0: 0x24699
+1: 0xeb18
+2: 0x40138
+3: 0x3b0e4
+4: 0x12329
+Exit @ IP 0x12327  SP 0x7ff38
+InstCount: 1906209
+IP: 0x2466F
+Profile dumped.
+level: 5
+maxLevel: 24
+nodes: 4088

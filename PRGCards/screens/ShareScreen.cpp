@@ -8,7 +8,7 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 	moved = 0;
 	isBusy = false;
 	kbShown = false;
-
+	next = NULL;
 	value = "";
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -17,7 +17,7 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 #endif
 
-	mainLayout = createMainLayout(back, share, "", true);
+	mainLayout = createMainLayout(back, share, contact, true);
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	setPadding(listBox);
@@ -62,6 +62,7 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 
 ShareScreen::~ShareScreen() {
 	delete mainLayout;
+	next = NULL;
 	mainLayout = NULL;
 }
 
@@ -165,7 +166,13 @@ void ShareScreen::locateItem(MAPoint2d point)
 	}
 }
 #endif
+
 void ShareScreen::show() {
+	if (next != NULL) {
+		char msg[1024];
+		sprintf(msg, "%S", next->getNum().c_str());
+		editBoxCell->setText(msg);
+	}
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
@@ -180,6 +187,13 @@ void ShareScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
+			if (next != NULL) {
+				delete next;
+				next = NULL;
+			}
+			next = new ContactScreen(this, feed);
+			next->show();
+			break;
 		case MAK_SOFTRIGHT:
 			if (!isBusy) {
 				if (editBoxCell->getText().length() > 0) {

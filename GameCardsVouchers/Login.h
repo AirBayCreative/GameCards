@@ -7,7 +7,7 @@
 #include <MAUI/Layout.h>
 
 #include "Feed.h"
-#include "XmlConnection.h"
+#include "utils/XmlConnection.h"
 #include "UI/MobKeyboard.h"
 #include "UI/Widgets/MobEditBox.h"
 

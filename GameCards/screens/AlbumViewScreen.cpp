@@ -31,7 +31,8 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String filename) 
 	int urlLength = CARDS.length() + filename.length() + 15 + intlen(scrHeight) + intlen(scrWidth);
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
+	sprintf(url, "%s%s&heigth=%d&width=%d", CARDS.c_str(), "3", scrHeight, scrWidth);
+	lprintfln("%s%s&heigth=%d&width=%d", CARDS.c_str(), filename.c_str(), scrHeight, scrWidth);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {

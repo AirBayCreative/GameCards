@@ -8,7 +8,7 @@
 #include <MAUI/Screen.h>
 
 #include "Feed.h"
-#include "XmlConnection.h"
+#include "utils/XmlConnection.h"
 #include "Card.h"
 
 using namespace MAUI;
