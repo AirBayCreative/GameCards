@@ -142,9 +142,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					maDestroyObject(imge->getResource());
 				}
 				imge->setResource(RES_LOADING);
-				imge->update();
 				imge->requestRepaint();
-				maUpdateScreen();
 				if (flip) {
 					retrieveBack(imge, card, height-PADDING*2, imageCache);
 				} else {

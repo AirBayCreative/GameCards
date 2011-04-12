@@ -19,7 +19,7 @@ MAUIMoblet::MAUIMoblet() {
     gSkinHeaderImage = new WidgetSkin(RES_IMAGE, RES_IMAGE, 3, 7, 90, 91, true, true);
 	gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 22, 26, true, true);
 	gSkinButton = new WidgetSkin(RES_SELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
-	gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 1, 38, 1, 38, true, true);
+	gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 1, 39, 1, 39, true, true);
 	gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 14, 21, 2, 46, true, true);
 	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 16, 32, 16, 32, true, true);
 	gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);

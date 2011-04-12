@@ -24,6 +24,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 		feed(feed) {
+	checkedUpdate = false;
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -439,7 +440,7 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_albumdone) || !strcmp(name, categories)) {
+	if (!strcmp(name, xml_albumdone)) {
 		album->clearAll();
 	}
 	parentTag = name;
@@ -472,7 +473,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		temp = "";
 		hasCards = "";
 		updated = "";
-	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
+	} else if (!strcmp(name, xml_albumdone)) {
 		drawList();
 		notice->setCaption("");
 		if (path.size() == 0) {
@@ -484,6 +485,10 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
 			saveData(file, album->getAll().c_str());
 			delete file;
+		}
+
+		if (!checkedUpdate) {
+			//updateApp();
 		}
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
