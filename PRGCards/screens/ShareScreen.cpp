@@ -44,7 +44,6 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 	listBox->add(label);
 
 	int height = listBox->getHeight() - (96 + PADDING * 4);
-	lprintfln("height: %d", height);
 
 	label = createEditLabel("", height < 160 ? 160 : height);
 	editBoxMessage = new MobEditBox(0, 12, label->getWidth()-PADDING*2,
