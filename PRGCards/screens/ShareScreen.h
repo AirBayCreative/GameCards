@@ -8,6 +8,7 @@
 #include <maprofile.h>
 
 #include "../utils/Feed.h"
+#include "../screens/ContactScreen.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobEditBox.h"
 #include "../UI/KineticListBox.h"
@@ -28,6 +29,7 @@ public:
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
+	void ShareScreen::pop(String num);
 	void hide();
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
@@ -43,6 +45,7 @@ private:
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	MobKeyboard *keyboard;
 #endif
+	ContactScreen *next;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

@@ -201,6 +201,7 @@ static const char* album_newcards = "-3";
 static const char* album_mycards = "-2";
 //share
 static const char* share = "Share";
+static const char* contact = "Contacts";
 static const char* messagelbl = "Message:";
 static const char* message_start = "Go to http://prg.mytcg.net/ to download the Paul Roos Mobile Application.";
 //<CARD>
