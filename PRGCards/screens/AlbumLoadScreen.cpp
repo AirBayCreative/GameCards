@@ -3,6 +3,7 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "ShareScreen.h"
+#include "NewVersionScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -35,6 +36,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 	temp = "";
 	temp1 = "";
 	updated = "0";
+	urlData = "";
 
 	next = NULL;
 	#if defined(MA_PROF_SUPPORT_STYLUS)
@@ -364,7 +366,7 @@ void AlbumLoadScreen::loadCategory() {
 }
 
 void AlbumLoadScreen::updateApp() {
-	notice->setCaption(updating_app);
+	checkedUpdate = true;
 
 	char buf[64] = "";
 	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
@@ -389,6 +391,12 @@ void AlbumLoadScreen::updateApp() {
 	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
+	lprintfln(url);
+
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 
@@ -429,6 +437,10 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumLoadScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumLoadScreen::xcConnError(int code) {
+	if (!checkedUpdate) {
+		updateApp();
+	}
+
 	if (code == -6) {
 		return;
 	} else {
@@ -462,6 +474,8 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		hasCards += data;
 	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
 		updated += data;
+	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+		urlData += data;
 	}
 }
 
@@ -486,10 +500,12 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			saveData(file, album->getAll().c_str());
 			delete file;
 		}
-
-		if (!checkedUpdate) {
-			//updateApp();
+	} else if(!strcmp(name, xml_result)) {
+		if(next!=NULL){
+			delete next;
 		}
+		next = new NewVersionScreen(this, urlData, feed);
+		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
