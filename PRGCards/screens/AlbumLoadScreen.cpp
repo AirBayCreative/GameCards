@@ -391,7 +391,6 @@ void AlbumLoadScreen::updateApp() {
 	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
-	lprintfln(url);
 
 	if(mHttp.isOpen()){
 		mHttp.close();
