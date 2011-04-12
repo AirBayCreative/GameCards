@@ -44,7 +44,7 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated, urlData;
 	int size, i, moved;
-	bool list, left, right, mid, empt, hasConnection, checkedUpdate;
+	bool list, left, right, mid, empt, hasConnection, checkedUpdate, canShare;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;

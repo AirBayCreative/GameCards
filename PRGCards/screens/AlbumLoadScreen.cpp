@@ -25,6 +25,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 		feed(feed) {
+	canShare = false;
 	checkedUpdate = false;
 	size = 0;
 	moved = 0;
@@ -37,6 +38,18 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 	temp1 = "";
 	updated = "0";
 	urlData = "";
+
+//check the platform, and if it supports pim
+#if defined(MA_PROF_STRING_PLATFORM)
+	String platform = MA_PROF_STRING_PLATFORM;
+	if (strcmp(platform.c_str(), "s60v5") == 0 ||
+			strcmp(platform.c_str(), "s60v3") == 0 ||
+			strcmp(platform.c_str(), "JavaME") == 0 ||
+			strcmp(platform.c_str(), "wm6pro") == 0) {
+		canShare = true;
+	}
+	platform = "";
+#endif
 
 	next = NULL;
 	#if defined(MA_PROF_SUPPORT_STYLUS)
@@ -192,12 +205,14 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	//add the share option
-	label = createSubLabel(sharelbl);
-	label->setPaddingBottom(5);
-	label->addWidgetListener(this);
-	listBox->add(label);
-	size++;
+	if (canShare) {
+		//add the share option
+		label = createSubLabel(sharelbl);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+	}
 	//add the logout option
 	label = createSubLabel(logout);
 	label->setPaddingBottom(5);
@@ -263,7 +278,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				if (listBox->getSelectedIndex() == (size-1)) {
 					cleanup();
 				}
-				else if (listBox->getSelectedIndex() == (size-2)) {
+				else if (canShare && listBox->getSelectedIndex() == (size-2)) {
 					//the share option
 					if (next != NULL) {
 						delete next;
