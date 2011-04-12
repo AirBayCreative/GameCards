@@ -73,9 +73,14 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 }
 
 ShareScreen::~ShareScreen() {
+	if(next!=NULL){
+			delete next;
+	}
 	delete mainLayout;
-	next = NULL;
 	mainLayout = NULL;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	delete keyboard;
+#endif
 }
 
 void ShareScreen::selectionChanged(Widget *widget, bool selected) {
@@ -219,6 +224,9 @@ void ShareScreen::keyPressEvent(int keyCode) {
 					url = new char[urlLength];
 					memset(url,'\0',urlLength);
 					sprintf(url, "%s%s", TRADE.c_str(), editBoxCell->getText().c_str());
+					if(mHttp.isOpen()){
+						mHttp.close();
+					}
 					mHttp = HttpConnection(this);
 					lprintfln(url);
 					int res = mHttp.create(url, HTTP_GET);

@@ -30,6 +30,10 @@ ContactScreen::ContactScreen(Screen *previous, Feed *feed) : previous(previous),
 ContactScreen::~ContactScreen() {
 	delete mainLayout;
 	mainLayout = NULL;
+	num.clear();
+	for(Vector<WString>::iterator itr = numbers.begin(); itr != numbers.end(); itr++) {
+			itr->clear();
+	}
 }
 
 void ContactScreen::contactReceived(Contact& c) {
@@ -38,7 +42,7 @@ void ContactScreen::contactReceived(Contact& c) {
 		sprintf(msg, "%S : %S", c.name.c_str(), c.numbers[i].c_str());
 		char* num;
 		numbers.add(c.numbers[i]);
-		lprintfln(msg);
+
 		lbl = createSubLabel(msg);
 		lbl->addWidgetListener(this);
 		listBox->add(lbl);
@@ -125,13 +129,9 @@ void ContactScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			lprintfln("softright");
 			index = listBox->getSelectedIndex();
-			lprintfln("index");
 			num = numbers[index].c_str();
-			lprintfln(msg);
 			previous->show();
-			lprintfln("done");
 			break;
 		case MAK_SOFTLEFT:
 			previous->show();
