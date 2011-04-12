@@ -189,20 +189,18 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	if (path.size() == 0) {
-		//add the share option
-		label = createSubLabel(sharelbl);
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-		size++;
-		//add the logout option
-		label = createSubLabel(logout);
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-		size++;
-	}
+	//add the share option
+	label = createSubLabel(sharelbl);
+	label->setPaddingBottom(5);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	size++;
+	//add the logout option
+	label = createSubLabel(logout);
+	label->setPaddingBottom(5);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	size++;
 
 	listBox->setSelectedIndex(0);
 }
@@ -259,10 +257,10 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			if (!empt) {
-				if (listBox->getSelectedIndex() == (size-1) && path.size() == 0) {
+				if (listBox->getSelectedIndex() == (size-1)) {
 					cleanup();
 				}
-				else if (listBox->getSelectedIndex() == (size-2) && path.size() == 0) {
+				else if (listBox->getSelectedIndex() == (size-2)) {
 					//the share option
 					if (next != NULL) {
 						delete next;
@@ -364,6 +362,44 @@ void AlbumLoadScreen::loadCategory() {
 	}
 }
 
+void AlbumLoadScreen::updateApp() {
+	notice->setCaption(updating_app);
+
+	char buf[64] = "";
+	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+	char *os = MA_PROF_STRING_PLATFORM;
+	char *make = MA_PROF_STRING_VENDOR;
+	char *model = "temp";//MA_PROF_STRING_DEVICE;
+	int touch = 0;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	touch = 1;
+#endif
+	//work out how long the url will be, the 16 is for the & and = symbals
+	int urlLength = UPDATE.length() + strlen(update_imsi) + intlen(imsi) + strlen(update_imei) + intlen(imei)
+			+ strlen(update_os) + strlen(os) + strlen(update_make) + strlen(make)
+			+ strlen(update_model) + strlen(model) + strlen(update_touch) + intlen(touch) + 16
+			+ strlen(update_width) + intlen(scrWidth) + strlen(update_height) + intlen(scrHeight);
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", UPDATE.c_str(), update_imsi,
+			imsi, update_imei, imei, update_os, os, update_make, make, update_model, model, update_touch, touch,
+			update_width, scrWidth, update_height, scrHeight);
+	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
+	//when the page has loaded, check for a new version in the background
+	//www.mytcg.net/_phone/update=version_number
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+
+	delete [] url;
+}
+
 void AlbumLoadScreen::cleanup() {
 	Albums *albums = feed->getAlbum();
 	Vector<String> tmp = albums->getIDs();
@@ -429,7 +465,7 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_album) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
+	if(!strcmp(name, xml_album)) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
 		temp1 = "";
@@ -437,8 +473,8 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		hasCards = "";
 		updated = "";
 	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
-		notice->setCaption("");
 		drawList();
+		notice->setCaption("");
 		if (path.size() == 0) {
 			this->feed->getAlbum()->setAll(album->getAll().c_str());
 			saveData(ALBUM, album->getAll().c_str());

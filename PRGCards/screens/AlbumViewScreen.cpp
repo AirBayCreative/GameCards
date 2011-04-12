@@ -374,10 +374,10 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_carddone)) {
-		notice->setCaption("");
 		clearCardList();
 		cards = tmp;
 		drawList();
+		notice->setCaption("");
 		busy = false;
 		saveData(filename.c_str(), getAll().c_str());
 	} else {

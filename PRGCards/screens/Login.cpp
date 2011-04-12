@@ -82,7 +82,7 @@ void Login::drawRegisterScreen() {
 #endif
 	clearListBox();
 
-	updateSoftKeyLayout(back, apply, "", mainLayout);
+	updateSoftKeyLayout(back, reg, "", mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, namelbl, 0, gFontBlack);
