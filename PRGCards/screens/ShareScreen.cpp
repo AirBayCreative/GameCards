@@ -44,7 +44,6 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 	listBox->add(label);
 
 	int height = listBox->getHeight() - (96 + PADDING * 4);
-	lprintfln("height: %d", height);
 
 	label = createEditLabel("", height < 160 ? 160 : height);
 	editBoxMessage = new MobEditBox(0, 12, label->getWidth()-PADDING*2,
@@ -62,9 +61,14 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 }
 
 ShareScreen::~ShareScreen() {
+	if(next!=NULL){
+			delete next;
+	}
 	delete mainLayout;
-	next = NULL;
 	mainLayout = NULL;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	delete keyboard;
+#endif
 }
 
 void ShareScreen::selectionChanged(Widget *widget, bool selected) {
@@ -206,6 +210,9 @@ void ShareScreen::keyPressEvent(int keyCode) {
 					url = new char[urlLength];
 					memset(url,'\0',urlLength);
 					sprintf(url, "%s%s", TRADE.c_str(), editBoxCell->getText().c_str());
+					if(mHttp.isOpen()){
+						mHttp.close();
+					}
 					mHttp = HttpConnection(this);
 					lprintfln(url);
 					int res = mHttp.create(url, HTTP_GET);
