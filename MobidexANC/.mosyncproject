@@ -4,6 +4,7 @@
 <property key="build.prefs:additional.include.paths" value=""/>
 <property key="build.prefs:additional.libraries" value="MAUI.lib,MAUtil.lib,MTXml.lib"/>
 <property key="build.prefs:additional.library.paths" value=""/>
+<property key="build.prefs:app.name" value="Mobidex ANC"/>
 <property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access Vibrate"/>
 <property key="build.prefs:extra.link.sw" value=""/>
 <property key="build.prefs:extra.res.sw" value=""/>
