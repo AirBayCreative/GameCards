@@ -1,32 +1,23 @@
-#ifndef _GAMECARDSCREEN_H_
-#define _GAMECARDSCREEN_H_
+#ifndef _NOTESCREEN_H_
+#define _NOTESCREEN_H_
 
-#include <ma.h>
-#include <MAUI/ListBox.h>
-#include <MAUI/Label.h>
-#include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
+#include <MAUI/EditBox.h>
 #include <maprofile.h>
 
-#include "../utils/XmlConnection.h"
-#include "../utils/ImageCache.h"
-#include "../utils/Feed.h"
-#include "../utils/Product.h"
 #include "../utils/Card.h"
+#include "../utils/Feed.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/Widgets/MobEditBox.h"
 #include "../UI/KineticListBox.h"
-#include "../UI/Widgets/MobImage.h"
 #if defined(MA_PROF_SUPPORT_STYLUS)
 #include "../UI/MobKeyboard.h"
 #endif
 
-using namespace MAUI;
-using namespace MAUtil;
-
-class GameCardScreen : public Screen, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
+class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	GameCardScreen(Screen *previous, Feed *feed, int screenType = -1);
-	~GameCardScreen();
-
+	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
+	~NoteScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
@@ -34,26 +25,28 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	void selectionChanged(Widget *widget, bool selected);
 
-	void show();
-	void hide();
+	enum screenTypes {ST_CARD_NOTE, ST_SMS};
+private:
+	Layout *mainLayout;
+	KineticListBox *listBox;
+	Label *label, *notice;
+	MobEditBox *editBoxNote;
+#if defined(MA_PROF_SUPPORT_STYLUS)
+	MobKeyboard *keyboard;
+#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label;
+	String parentTag, note, origionalNote, encodedNote, detail;
+	bool list, left, right, isBusy, kbShown;
+	int moved, screenType;
+
+	Screen *previous;
+
 	Feed *feed;
-
-	Screen *next, *previous;
-
-	bool list, left, right;
-	int moved;
-
-	String parentTag;
-	int screenType;
+	Card *card;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -68,4 +61,4 @@ public:
 	void mtxTagStartEnd();
 };
 
-#endif
+#endif	//_NOTESCREEN_H_

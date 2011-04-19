@@ -1,5 +1,5 @@
-#ifndef _GAMECARDSCREEN_H_
-#define _GAMECARDSCREEN_H_
+#ifndef _OPTIONSSCREEN_H_
+#define _OPTIONSSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
@@ -8,52 +8,45 @@
 #include <MAUI/Screen.h>
 #include <maprofile.h>
 
-#include "../utils/XmlConnection.h"
-#include "../utils/ImageCache.h"
 #include "../utils/Feed.h"
-#include "../utils/Product.h"
 #include "../utils/Card.h"
-#include "../UI/KineticListBox.h"
-#include "../UI/Widgets/MobImage.h"
-#if defined(MA_PROF_SUPPORT_STYLUS)
-#include "../UI/MobKeyboard.h"
-#endif
+#include "../utils/XmlConnection.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class GameCardScreen : public Screen, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
+class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	GameCardScreen(Screen *previous, Feed *feed, int screenType = -1);
-	~GameCardScreen();
-
+	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
+	~OptionsScreen();
 	void keyPressEvent(int keyCode);
+	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	void selectionChanged(Widget *widget, bool selected);
-
-	void show();
-	void hide();
+	enum screenTypes {ST_CARD_OPTIONS,
+		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
+private:
+	Feed *feed;
+	Layout *layout;
+	ListBox* listBox;
+	Label *lbl, *notice;
+	Screen *menu;
+	Screen *previous;
+	Card *card;
+	bool list, left, right, connError, busy;
+	int index, screenType;
+	String error_msg, number;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label;
-	Feed *feed;
-
-	Screen *next, *previous;
-
-	bool list, left, right;
-	int moved;
-
-	String parentTag;
-	int screenType;
+	void acceptCard();
+	void rejectCard();
+	void deleteCard();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
