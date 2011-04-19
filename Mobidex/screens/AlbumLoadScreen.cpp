@@ -2,6 +2,7 @@
 
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
+#include "SearchScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -161,7 +162,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
-	//listBox->getChildren().clear();
 	clearListBox();
 
 	Vector<String> display = album->getNames();
@@ -183,6 +183,13 @@ void AlbumLoadScreen::drawList() {
 
 		size++;
 	}
+
+	//add the search option
+	label = createSubLabel(search);
+	label->setPaddingBottom(5);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	size++;
 
 	//add the logout option
 	label = createSubLabel(logout);
@@ -245,7 +252,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (listBox->getSelectedIndex() == (size-1)) {
+			if (listBox->getSelectedIndex() == (size-2)) {
+				if (next != NULL) {
+					delete next;
+					next = NULL;
+				}
+				next = new SearchScreen(feed, this);
+				next->show();
+			}
+			else if (listBox->getSelectedIndex() == (size-1)) {
 				cleanup();
 			}
 			else if (!empt) {

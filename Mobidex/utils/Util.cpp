@@ -79,9 +79,12 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right) {
 Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
 	layout->setSkin(gSkinBack);
+	layout->setPaddingLeft(PADDING);
+	layout->setPaddingRight(PADDING);
+	layout->setMarginX(PADDING);
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth/3 - (PADDING*2), height - PADDING, NULL, left, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -90,7 +93,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height - PADDING, NULL, centre, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -98,7 +101,7 @@ Widget* createSoftKeyBar(int height, const char *left, const char *right, const 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 - (PADDING*2), height - PADDING, NULL, right, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
