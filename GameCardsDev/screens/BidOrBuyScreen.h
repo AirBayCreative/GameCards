@@ -11,10 +11,7 @@
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Auction.h"
-#include "../UI/Widgets/MobEditBox.h"
-#if defined(MA_PROF_SUPPORT_STYLUS)
-#include "../UI/MobKeyboard.h"
-#endif
+#include "../UI/Native/NativeEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -43,10 +40,7 @@ private:
 	int screenPhase;
 	Vector<Widget*> tempWidgets;
 
-	MobEditBox *bidEditBox;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	MobKeyboard *keyboard;
-#endif
+	NativeEditBox *bidEditBox;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

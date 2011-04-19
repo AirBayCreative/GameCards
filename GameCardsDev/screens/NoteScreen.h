@@ -2,47 +2,42 @@
 #define _NOTESCREEN_H_
 
 #include <MAUI/Screen.h>
-#include <MAUI/EditBox.h>
+#include <MAUI/Label.h>
+#include <../UI/Native/NativeEditBox.h>
 #include <maprofile.h>
 
 #include "../utils/Card.h"
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-#include "../UI/Widgets/MobEditBox.h"
 #include "../UI/KineticListBox.h"
-#if defined(MA_PROF_SUPPORT_STYLUS)
-#include "../UI/MobKeyboard.h"
-#endif
+
+using namespace MAUI;
 
 class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
 	~NoteScreen();
 	void keyPressEvent(int keyCode);
+	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-
 	enum screenTypes {ST_CARD_NOTE, ST_SMS};
 private:
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label, *notice;
-	MobEditBox *editBoxNote;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	MobKeyboard *keyboard;
-#endif
-
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	String parentTag, note, origionalNote, encodedNote, detail;
-	bool list, left, right, isBusy, kbShown;
+	bool list, left, right, isBusy;
 	int moved, screenType;
 
+	Layout *mainLayout;
+	KineticListBox *listBox;
+	Label *notice, *label;
+	NativeEditBox *editBoxNote;
 	Screen *previous;
 
 	Feed *feed;

@@ -117,6 +117,16 @@ OptionsScreen::~OptionsScreen() {
 	}
 }
 
+void OptionsScreen::show() {
+	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	Screen::show();
+}
+
+void OptionsScreen::hide() {
+    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+	Screen::hide();
+}
+
 void OptionsScreen::checkForGames() {
 	connError = true;
 	album = new Albums();
@@ -265,6 +275,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if (index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							menu = NULL;
 						}
 						menu = new NoteScreen(this, feed, card);
 						menu->show();

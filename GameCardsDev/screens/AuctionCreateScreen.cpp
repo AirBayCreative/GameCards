@@ -20,19 +20,11 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 
 	busy = false;
 
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-						scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-	#endif
-
 	drawDataInputScreen();
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
 	delete mainLayout;
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		delete keyboard;
-	#endif
 	delete mImageCache;
 }
 
@@ -51,13 +43,12 @@ void AuctionCreateScreen::pointerMoveEvent(MAPoint2d point)
 void AuctionCreateScreen::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (right && !keyboard->isShown()) {
+		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (left && !keyboard->isShown()) {
+		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
 			keyPressEvent(MAK_FIRE);
-			setKeyboardDetails(point);
 		}
 	}
 	moved = 0;
@@ -154,13 +145,13 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					if (listBox->getSelectedIndex() > 1) {
 						listBox->setSelectedIndex(listBox->getSelectedIndex() - 2);
 					}
-					setSelectedEditBox();
+					//setSelectedEditBox();
 					break;
 				case MAK_DOWN:
 					if (listBox->getSelectedIndex() < 5) {
 						listBox->setSelectedIndex(listBox->getSelectedIndex() + 2);
 					}
-					setSelectedEditBox();
+					//setSelectedEditBox();
 					break;
 			}
 			break;
@@ -225,6 +216,14 @@ void AuctionCreateScreen::setSelectedEditBox() {
 	}
 }
 
+void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
+	}
+}
+
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
 		mainLayout = createMainLayout(back, auction, true);
@@ -256,8 +255,9 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxOpening = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, openingText, 0, gFontBlack, true, false);
-	editBoxOpening->setInputMode(MobEditBox::IM_NUMBERS);
+	//editBoxOpening = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, openingText, 0, gFontBlack, true, false);
+	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
+	editBoxOpening->setCaption(openingText);
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -266,8 +266,9 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxBuyNow = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, buyNowText, 0, gFontBlack, true, false);
-	editBoxBuyNow->setInputMode(MobEditBox::IM_NUMBERS);
+	//editBoxBuyNow = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, buyNowText, 0, gFontBlack, true, false);
+	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
+	editBoxBuyNow->setCaption(buyNowText);
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -276,8 +277,9 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxDays = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, daysText, 0, gFontBlack, true, false);
-	editBoxDays->setInputMode(MobEditBox::IM_NUMBERS);
+	//editBoxDays = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, daysText, 0, gFontBlack, true, false);
+	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
+	editBoxDays->setCaption(daysText);
 	editBoxDays->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -343,7 +345,7 @@ void AuctionCreateScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
+/*#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionCreateScreen::setKeyboardDetails(MAPoint2d point){
 	int index = listBox->getSelectedIndex();
 	int yClick = point.y;
@@ -399,7 +401,7 @@ void AuctionCreateScreen::setKeyboardDetails(MAPoint2d point){
 		mainLayout->draw(true);
 	}
 }
-#endif
+#endif*/
 
 void AuctionCreateScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {

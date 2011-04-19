@@ -8,14 +8,14 @@ Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
 	moved = 0;
 	changed = false;
 	isBusy = false;
-	kbShown = false;
+	//kbShown = false;
 
 	response = "";
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
+/*#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
 		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-#endif
+#endif*/
 
 	mainLayout = createMainLayout("", "", "", true);
 
@@ -47,10 +47,10 @@ void Login::drawLoginScreen() {
 	moved = 0;
 	changed = true;
 	screen = S_LOGIN;
-#if defined(MA_PROF_SUPPORT_STYLUS)
+/*#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
-#endif
+#endif*/
 	clearListBox();
 
 	updateSoftKeyLayout(exit, login, reg, mainLayout);
@@ -61,7 +61,8 @@ void Login::drawLoginScreen() {
 
 	label = createEditLabel("");
 	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
+	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "andre", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -71,7 +72,8 @@ void Login::drawLoginScreen() {
 
 	label = createEditLabel("");
 	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
+	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "aaaaaa", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -84,10 +86,10 @@ void Login::drawRegisterScreen() {
 	moved = 0;
 	changed = true;
 	screen = S_REGISTER;
-#if defined(MA_PROF_SUPPORT_STYLUS)
+/*#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard->deAttachEditBox();
 	keyboard->hide();
-#endif
+#endif*/
 	clearListBox();
 
 	updateSoftKeyLayout(exit, apply, login, mainLayout);
@@ -97,7 +99,8 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -106,7 +109,8 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -115,7 +119,8 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxEmail = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	//editBoxEmail = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Email:");
 	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -147,7 +152,7 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void Login::pointerPressEvent(MAPoint2d point)
 {
-	kbShown = keyboard->isShown();
+	//kbShown = keyboard->isShown();
     locateItem(point);
 }
 
@@ -160,9 +165,9 @@ void Login::pointerMoveEvent(MAPoint2d point)
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (!kbShown && right) {
+		if (/*!kbShown && */right) {
 			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (!kbShown && left) {
+		} else if (/*!kbShown &&*/ left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
@@ -170,16 +175,16 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 		if (!changed) {
 			int yClick = point.y;
-			int keyboardY = keyboard->getPosition().y;
+			//int keyboardY = keyboard->getPosition().y;
 
 			int index = listBox->getSelectedIndex();
-			if (list && (index == 1 || index == 3 || index == 5)) {
+			/*if (list && (index == 1 || index == 3 || index == 5)) {
 				int dispY = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 				if (index == 1 && (yClick < keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER) || !(keyboard->isShown()))) {
-					keyboard->attachWidget(editBoxLogin);
+					//keyboard->attachWidget(editBoxLogin);
 				}
 				else if (index == 3 && (yClick < keyboardY || !(keyboard->isShown()))) {
-					keyboard->attachWidget(editBoxPass);
+					//keyboard->attachWidget(editBoxPass);
 					if (!((scrHeight - (editBoxPass->getPosition().y + editBoxPass->getHeight())) > scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)) {
 						dispY = 70;
 					}
@@ -190,15 +195,15 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 						dispY = 70;
 					}
 				}
-				keyboard->setPosition(0, dispY);
-				keyboard->show();
+				//keyboard->setPosition(0, dispY);
+				//keyboard->show();
 			}
 			else if (keyboard->isShown() && (yClick < keyboardY || yClick > keyboardY + (scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER))) {
-				keyboard->deAttachEditBox();
-				keyboard->hide();
+				//keyboard->deAttachEditBox();
+				//keyboard->hide();
 
 				mainLayout->draw(true);
-			}
+			}*/
 		}
 		else {
 			changed = false;
@@ -209,13 +214,13 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		changed = false;
 	}
 
-	if (keyboard->isShown()) {
+	/*if (keyboard->isShown()) {
 		listBox->setEnabled(false);
 	}
 	else {
 		listBox->setEnabled(true);
-	}
-	kbShown = false;
+	}*/
+	//kbShown = false;
 }
 
 void Login::locateItem(MAPoint2d point)
@@ -451,9 +456,9 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	delete keyboard;
-#endif
+//#if defined(MA_PROF_SUPPORT_STYLUS)
+//	delete keyboard;
+//#endif
 	delete mainLayout;
 
 	parentTag = "";
