@@ -9,14 +9,11 @@
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-#include "../UI/Widgets/MobEditBox.h"
+#include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
-
-class MobKeyboard;
-class MobEditBox;
 
 class SearchScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
@@ -36,7 +33,7 @@ private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *label, *notice;
-	MobEditBox *editBoxSearch;
+	NativeEditBox *editBoxSearch;
 	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
@@ -44,13 +41,13 @@ private:
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
-	bool list, left, right, mid, error;
+	bool left, right, mid, error;
 	int moved;
 
 	Feed *feed;
 
 	Screen *next, *prev;
-	bool isBusy, changed;
+	bool isBusy;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

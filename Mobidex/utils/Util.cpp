@@ -49,6 +49,7 @@ int getCount() {
 }
 
 void setPadding(Widget *w) {
+	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);
 }
 

@@ -9,12 +9,9 @@
 #include <maprofile.h>
 
 #include "../utils/Feed.h"
-#include "../UI/Widgets/MobEditBox.h"
+#include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
-#if defined(MA_PROF_SUPPORT_STYLUS)
-#include "../UI/MobKeyboard.h"
-#endif
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -45,13 +42,10 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, sending;
+	bool left, right, sending;
 	String method, methodLabel, friendDetail, parentTag;
 	String temp, temp1, error_msg, result;
-	MobEditBox *contactEditBox;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	MobKeyboard *keyboard;
-#endif
+	NativeEditBox *contactEditBox;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

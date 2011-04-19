@@ -22,7 +22,7 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxSearch = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
+	editBoxSearch = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Search term:");
 	editBoxSearch->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -95,22 +95,12 @@ void SearchScreen::locateItem(MAPoint2d point)
 	if (feed->setTouch(touch.c_str())) {
 		saveData(FEED, feed->getAll().c_str());
 	}
-	list = false;
 	left = false;
 	right = false;
 	mid = false;
 
     Point p;
     p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-    {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-        {
-        	if (moved <= 1) listBox->setSelectedIndex(i);
-        	list = true;
-            return;
-        }
-    }
     for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))

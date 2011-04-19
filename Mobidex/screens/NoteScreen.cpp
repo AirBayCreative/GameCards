@@ -6,11 +6,9 @@
 NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
 feed(feed), card(card), screenType(screenType), detail(detail) {
 	moved = 0;
-	list = false;
 	left = false;
 	right = false;
 	isBusy = false;
-	kbShown = false;
 
 	parentTag = "";
 	note = "";
@@ -44,8 +42,10 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, gFontBlack);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
-	editBoxNote = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight(), label, "", 0, gFontBlack, true, true, 140);
+	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note:");
 	editBoxNote->setDrawBackground(false);
+	editBoxNote->setMaxLength(140);
+	editBoxNote->setMultiLine(true);
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
@@ -60,17 +60,9 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	editBoxNote->setSelected(true);
 	listBox->setSelectedIndex(1);
-
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-#endif
 }
 
 NoteScreen::~NoteScreen() {
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	delete keyboard;
-#endif
 	delete mainLayout;
 
 	parentTag = "";
@@ -82,7 +74,6 @@ NoteScreen::~NoteScreen() {
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void NoteScreen::pointerPressEvent(MAPoint2d point)
 {
-	kbShown = keyboard->isShown();
     locateItem(point);
 }
 
@@ -95,50 +86,32 @@ void NoteScreen::pointerMoveEvent(MAPoint2d point)
 void NoteScreen::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (!kbShown && right) {
+		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (!kbShown && left) {
+		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		}
-
-		if (list) {
-			keyboard->attachWidget(editBoxNote);
-			keyboard->show();
-		}
-		else if (!kbShown) {
-			keyboard->hide();
 		}
 	}
 	else {
 		moved = 0;
 	}
+}
 
-	if (keyboard->isShown()) {
-		listBox->setEnabled(false);
+void NoteScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
 	}
-	else {
-		listBox->setEnabled(true);
-	}
-	kbShown = false;
 }
 
 void NoteScreen::locateItem(MAPoint2d point)
 {
-	list = false;
 	left = false;
 	right = false;
 
     Point p;
     p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-    {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-        {
-        	if (moved <= 1) listBox->setSelectedIndex(i);
-        	list = true;
-            return;
-        }
-    }
     for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
@@ -193,6 +166,8 @@ void NoteScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTLEFT:
+			editBoxNote->setSelected(false);
+			editBoxNote->disableListener();
 			previous->show();
 			break;
 	}
