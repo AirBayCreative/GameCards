@@ -8,8 +8,20 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 	moved = 0;
 	isBusy = false;
 	kbShown = false;
+	hasPim = false;
 	next = NULL;
 	value = "";
+
+//check the platform, and if it supports pim
+#if defined(MA_PROF_STRING_PLATFORM)
+	String platform = MA_PROF_STRING_PLATFORM;
+	if (strcmp(platform.c_str(), "s60v5") == 0 ||
+			strcmp(platform.c_str(), "s60v3") == 0 ||
+			strcmp(platform.c_str(), "JavaME") == 0) {
+		hasPim = true;
+	}
+	platform = "";
+#endif
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	defaultKBPos = (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
@@ -17,7 +29,7 @@ ShareScreen::ShareScreen(Screen *previous, Feed *feed) : mHttp(this), previous(p
 		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
 #endif
 
-	mainLayout = createMainLayout(back, share, contact, true);
+	mainLayout = createMainLayout(back, share, hasPim?contact:"", true);
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	setPadding(listBox);
@@ -192,12 +204,14 @@ void ShareScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
-			if (next != NULL) {
-				delete next;
-				next = NULL;
+			if (hasPim) {
+				if (next != NULL) {
+					delete next;
+					next = NULL;
+				}
+				next = new ContactScreen(this, feed);
+				next->show();
 			}
-			next = new ContactScreen(this, feed);
-			next->show();
 			break;
 		case MAK_SOFTRIGHT:
 			if (!isBusy) {

@@ -31,7 +31,7 @@ private:
     Mtx::Context mContext;
     MAUtil::Connection* mConn;
     XCListener* mXc;
-    char mBuffer[2048];
+    char mBuffer[4096];
     char* mPtr;
 
     void mtxDataRemains(const char* data, int len);

@@ -95,7 +95,6 @@ void GameCardScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
-
 void GameCardScreen::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();

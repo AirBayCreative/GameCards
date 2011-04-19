@@ -3,6 +3,7 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "ShareScreen.h"
+#include "NewVersionScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -24,6 +25,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 		feed(feed) {
+	canShare = false;
 	checkedUpdate = false;
 	size = 0;
 	moved = 0;
@@ -35,6 +37,19 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 	temp = "";
 	temp1 = "";
 	updated = "0";
+	urlData = "";
+
+//check the platform, and if it supports pim
+#if defined(MA_PROF_STRING_PLATFORM)
+	String platform = MA_PROF_STRING_PLATFORM;
+	if (strcmp(platform.c_str(), "s60v5") == 0 ||
+			strcmp(platform.c_str(), "s60v3") == 0 ||
+			strcmp(platform.c_str(), "JavaME") == 0 ||
+			strcmp(platform.c_str(), "wm6pro") == 0) {
+		canShare = true;
+	}
+	platform = "";
+#endif
 
 	next = NULL;
 	#if defined(MA_PROF_SUPPORT_STYLUS)
@@ -190,12 +205,14 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	//add the share option
-	label = createSubLabel(sharelbl);
-	label->setPaddingBottom(5);
-	label->addWidgetListener(this);
-	listBox->add(label);
-	size++;
+	if (canShare) {
+		//add the share option
+		label = createSubLabel(sharelbl);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+	}
 	//add the logout option
 	label = createSubLabel(logout);
 	label->setPaddingBottom(5);
@@ -261,7 +278,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				if (listBox->getSelectedIndex() == (size-1)) {
 					cleanup();
 				}
-				else if (listBox->getSelectedIndex() == (size-2)) {
+				else if (canShare && listBox->getSelectedIndex() == (size-2)) {
 					//the share option
 					if (next != NULL) {
 						delete next;
@@ -364,7 +381,7 @@ void AlbumLoadScreen::loadCategory() {
 }
 
 void AlbumLoadScreen::updateApp() {
-	notice->setCaption(updating_app);
+	checkedUpdate = true;
 
 	char buf[64] = "";
 	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
@@ -389,6 +406,11 @@ void AlbumLoadScreen::updateApp() {
 	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
+
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 
@@ -429,6 +451,10 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AlbumLoadScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumLoadScreen::xcConnError(int code) {
+	if (!checkedUpdate) {
+		updateApp();
+	}
+
 	if (code == -6) {
 		return;
 	} else {
@@ -462,6 +488,8 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		hasCards += data;
 	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
 		updated += data;
+	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+		urlData += data;
 	}
 }
 
@@ -486,10 +514,12 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			saveData(file, album->getAll().c_str());
 			delete file;
 		}
-
-		if (!checkedUpdate) {
-			//updateApp();
+	} else if(!strcmp(name, xml_result)) {
+		if(next!=NULL){
+			delete next;
 		}
+		next = new NewVersionScreen(this, urlData, feed);
+		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {

@@ -51,7 +51,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,value;
-	bool list, left, right, mid, error, kbShown;
+	bool list, left, right, mid, error, kbShown, hasPim;
 	int moved, defaultKBPos;
 
 	Feed *feed;
