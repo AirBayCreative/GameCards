@@ -14,10 +14,6 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
 	layout->setDrawBackground(TRUE);
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-			scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-#endif
 	this->setMain(layout);
 
 	drawMethodScreen();
@@ -33,9 +29,6 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 	error_msg="";
 	result="";
 	delete layout;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	delete keyboard;
-#endif
 	if (menu != NULL) {
 		delete menu;
 		menu = NULL;
@@ -80,9 +73,10 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
-	contactEditBox = new MobEditBox(0, 12, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
+	//contactEditBox = new MobEditBox(0, 12, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
+	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethod, "", L"");
 	if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
-		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
+		contactEditBox->setOptions(MA_TB_TYPE_NUMERIC);
 	}
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
@@ -151,26 +145,9 @@ void TradeFriendDetailScreen::pointerMoveEvent(MAPoint2d point) {
 }
 
 void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
-	if (phase == SP_DETAIL) {
-		int yClick = point.y;
-		int keyboardY = keyboard->getPosition().y;
-
-		if (list && !(keyboard->isShown())) {
-			keyboard->attachWidget(contactEditBox);
-			//keyboard->setPosition(0, 0);
-			keyboard->show();
-		}
-		else if (yClick < keyboardY || yClick > keyboardY + keyboard->getHeight()) {
-			keyboard->deAttachEditBox();
-			keyboard->hide();
-
-			layout->draw(true);
-		}
-	}
-
-	if (!(keyboard->isShown()) && right) {
+	if (right) {
 		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (!(keyboard->isShown()) && left) {
+	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (phase != SP_DETAIL && list) {
 		keyPressEvent(MAK_FIRE);

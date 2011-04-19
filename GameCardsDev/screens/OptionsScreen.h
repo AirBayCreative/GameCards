@@ -20,6 +20,8 @@ public:
 	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
 	~OptionsScreen();
 	void keyPressEvent(int keyCode);
+	void show();
+	void hide();
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);

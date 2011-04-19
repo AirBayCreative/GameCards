@@ -180,26 +180,28 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			switch (screenType) {
 				case CARD:
 					int index = listBox->getSelectedIndex();
-					Stat *stat = card->getStats()[index];
-					if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
-						if (next != NULL) {
-							delete next;
-							next == NULL;
+					if(card->getStats()[index]!=NULL){
+						Stat *stat = card->getStats()[index];
+						if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+							if (next != NULL) {
+								delete next;
+								next == NULL;
+							}
+							next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
+							next->show();
 						}
-						next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
-						next->show();
-					}
-					else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+						else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
 
-					}
-					else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
-						String url = stat->getDisplay();
-						//maPlatformRequest will only work if the url starts with http://
-						//so we need to check for it, and add it if it isnt there
-						if (url.find("http://") != 0) {
-							url = "http://"+url;
 						}
-						maPlatformRequest(url.c_str());
+						else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+							String url = stat->getDisplay();
+							//maPlatformRequest will only work if the url starts with http://
+							//so we need to check for it, and add it if it isnt there
+							if (url.find("http://") != 0) {
+								url = "http://"+url;
+							}
+							maPlatformRequest(url.c_str());
+						}
 					}
 					break;
 			}

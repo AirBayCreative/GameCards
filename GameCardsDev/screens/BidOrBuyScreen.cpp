@@ -6,7 +6,6 @@
 #include "../utils/MAHeaders.h"
 
 BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):mHttp(this), previous(previous), feed(feed), auction(auction) {
-	fromChoose = false;
 	canPurchase = false;
 	busy = false;
 
@@ -21,20 +20,10 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):m
 	drawChoosePhase();
 
 	this->setMain(layout);
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
-		scrWidth, (int)floor((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER));
-#endif
 }
 
 BidOrBuyScreen::~BidOrBuyScreen() {
 	delete layout;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	if (keyboard != NULL) {
-		delete keyboard;
-		keyboard = NULL;
-	}
-#endif
 }
 
 void BidOrBuyScreen::drawChoosePhase() {
@@ -125,8 +114,8 @@ void BidOrBuyScreen::drawPlaceBidPhase() {
 	listBox->add(lbl);
 
 	editBoxLabel = createEditLabel("");
-	bidEditBox = new MobEditBox(0, 12, editBoxLabel->getWidth()-PADDING*2, editBoxLabel->getHeight()-PADDING*2, editBoxLabel, "", 0, gFontBlack, true, false);
-	bidEditBox->setInputMode(MobEditBox::IM_NUMBERS);
+	//bidEditBox = new MobEditBox(0, 12, editBoxLabel->getWidth()-PADDING*2, editBoxLabel->getHeight()-PADDING*2, editBoxLabel, "", 0, gFontBlack, true, false);
+	bidEditBox = new NativeEditBox(0, 0, editBoxLabel->getWidth()-PADDING*2, editBoxLabel->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, editBoxLabel, "", L"Your Bid:");
 	bidEditBox->setDrawBackground(false);
 	editBoxLabel->addWidgetListener(this);
 	listBox->add(editBoxLabel);
@@ -189,15 +178,15 @@ void BidOrBuyScreen::pointerMoveEvent(MAPoint2d point)
 
 void BidOrBuyScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (!(keyboard->isShown()) && right) {
+	if (right) {
 		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (!(keyboard->isShown()) && left) {
+	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (list) {
 		keyPressEvent(MAK_FIRE);
 	}
 
-	if (!fromChoose) {
+	/*if (!fromChoose) {
 		int yClick = point.y;
 		int keyboardY = keyboard->getPosition().y;
 
@@ -216,7 +205,7 @@ void BidOrBuyScreen::pointerReleaseEvent(MAPoint2d point)
 				break;
 		}
 	}
-	fromChoose = false;
+	fromChoose = false;*/
 }
 
 void BidOrBuyScreen::locateItem(MAPoint2d point)
@@ -270,7 +259,6 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					int index = listBox->getSelectedIndex();
 					if(index == 0) {
 						screenPhase = SP_PLACE_BID;
-						fromChoose = true;
 						drawPlaceBidPhase();
 					} else if(index == 1) {
 						screenPhase = SP_BUY_NOW;
