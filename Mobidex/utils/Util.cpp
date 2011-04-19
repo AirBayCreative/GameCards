@@ -299,36 +299,6 @@ void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 	}
 }
 
-void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)
-{
-	if (product == NULL) {
-		return;
-	}
-
-	MAHandle store = maOpenStore((FILE_PREFIX+"prod_"+product->getId()+".sav").c_str(), -1);
-	ImageCacheRequest* req1;
-	if(store != STERR_NONEXISTENT)
-	{
-		MAHandle cacheimage = maCreatePlaceholder();
-		maReadStore(store, cacheimage);
-		maCloseStore(store, 0);
-
-		if (maGetDataSize(cacheimage) > 0) {
-			returnImage(img, cacheimage, 64);
-		}
-		else {
-			req1 = new ImageCacheRequest(img, product, 64, 0);
-			mImageCache->request(req1);
-		}
-		cacheimage = -1;
-	}
-	else {
-		req1 = new ImageCacheRequest(img, product, 64, 0);
-		mImageCache->request(req1);
-	}
-	store = -1;
-}
-
 void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {

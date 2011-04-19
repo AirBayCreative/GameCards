@@ -10,7 +10,6 @@
 #include <conprint.h>
 
 #include "Card.h"
-#include "Product.h"
 #include "ImageCache.h"
 
 using namespace MAUI;
@@ -40,7 +39,6 @@ void saveFile(const char* storefile, MAHandle data);
 void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
 void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache);
-void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache);
 void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache);
 void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache);
 void returnImage(MobImage *img, MAHandle i, int height);

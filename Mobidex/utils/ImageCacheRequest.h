@@ -7,7 +7,6 @@
 
 #include "../UI/Widgets/MobImage.h"
 #include "Card.h"
-#include "Product.h"
 
 using namespace MAUtil;
 using namespace MAUI;
@@ -17,7 +16,6 @@ class ImageCacheRequest
   public:
     ImageCacheRequest();
     ImageCacheRequest(MobImage *img, Card *card, int height, int type);
-    ImageCacheRequest(MobImage *img, Product *product, int height, int type);
     ~ImageCacheRequest();
 
     String getUrl();
@@ -28,7 +26,6 @@ class ImageCacheRequest
 
   private:
     Card *card;
-    Product *product;
     MobImage *img;
 	int height, type;
 };
