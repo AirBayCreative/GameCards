@@ -97,14 +97,6 @@ void NoteScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 }
 
-void NoteScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
-	}
-}
-
 void NoteScreen::locateItem(MAPoint2d point)
 {
 	left = false;
@@ -126,6 +118,14 @@ void NoteScreen::locateItem(MAPoint2d point)
 	}
 }
 #endif
+
+void NoteScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
+	}
+}
 
 void NoteScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
