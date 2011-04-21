@@ -141,6 +141,8 @@ static String ACCEPTCARD = URL+"?savecard=";
 static String REJECTCARD = URL+"?rejectcard=";
 //delete a card
 static String DELETECARD = URL+"?deletecard=";
+//search for cards
+static String SEARCH = URL+"?search=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -227,6 +229,7 @@ static const char* xml_hascards = "hascards";
 static const char* category = "category";
 static const char* seconds = "seconds";
 //special album ids
+static const char* album_search = "-4";
 static const char* album_newcards = "-3";
 static const char* album_mycards = "-2";
 //<CARD>
@@ -250,6 +253,8 @@ static const char* xml_result = "result";
 static const char* acceptlbl = "Accept Card";
 static const char* rejectlbl = "Reject Card";
 static const char* showall = "showall";
+static const char* width = "width";
+static const char* height = "height";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";

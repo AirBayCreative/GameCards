@@ -6,7 +6,7 @@
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType) : mHttp(this),
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) : mHttp(this),
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
 	busy = true;
 	emp = true;
@@ -14,6 +14,17 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 
 	next = NULL;
 	error_msg = "";
+	id = "";
+	description = "";
+	quantity = "";
+	thumburl = "";
+	fronturl = "";
+	backurl = "";
+	rate = "";
+	value = "";
+	updated = "";
+	note = "";
+	searchString = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
 		mainLayout = createMainLayout(back, options, "", true);
 	#else
@@ -21,44 +32,70 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	#endif
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	notice->setCaption(checking_cards);
 
 	mImageCache = new ImageCache();
-	loadFile();
-	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
-	if(mHttp.isOpen()){
-		mHttp.close();
+	switch (albumType) {
+		case AT_SEARCH:
+			notice->setCaption("Searching...");
+			cards = map;
+			drawList();
+			notice->setCaption("");
+			busy = false;
+			break;
+		default:
+			notice->setCaption(checking_cards);
+			loadFile();
+			//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+			int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
+			char *url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+			int res = mHttp.create(url, HTTP_GET);
+			if(res < 0) {
+				busy = false;
+				hasConnection = false;
+				notice->setCaption("");
+			} else {
+				hasConnection = true;
+				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+				mHttp.finish();
+			}
+			delete [] url;
+			break;
 	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-		busy = false;
-		hasConnection = false;
-		notice->setCaption("");
-	} else {
-		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
-	delete [] url;
 	this->setMain(mainLayout);
 	moved=0;
 	origAlbum = this;
 }
 
 void AlbumViewScreen::refresh() {
-	tmp.clear();
-	notice->setCaption(checking_cards);
-	//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	int urlLength = 0;
+	char *url = NULL;
+	switch (albumType) {
+		case AT_SEARCH:
+			notice->setCaption("Searching...");
+			urlLength = SEARCH.length() + searchString.length() + strlen(seconds) + feed->getSeconds().length()
+				+ strlen(height) + intlen(getMaxImageHeight()) + strlen(width) + intlen(scrWidth) + 6;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), searchString.c_str(), seconds,
+				feed->getSeconds().c_str(), height, getMaxImageHeight(), width, scrWidth);
+			break;
+		default:
+			tmp.clear();
+			notice->setCaption(checking_cards);
+			//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+			urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+			break;
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -153,15 +190,6 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 
 #endif
 
-/*void AlbumViewScreen::clearFeedLayouts() {
-	if (feedLayouts != NULL && listSizes > 0) {
-		for (int i = 0; i < listSizes; i++) {
-			delete feedLayouts[i];
-		}
-		delete [] feedLayouts;
-		feedLayouts = NULL;
-	}
-}*/
 void AlbumViewScreen::clearListBox() {
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
@@ -230,7 +258,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 	if(feedLayouts!=NULL){
 		delete [] feedLayouts;
 	}
-	saveData(filename.c_str(), getAll().c_str());
+	if (albumType != AT_SEARCH) {
+		saveData(filename.c_str(), getAll().c_str());
+	}
 	clearCardMap();
 	tmp.clear();
 	parentTag="";
@@ -278,7 +308,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_SOFTLEFT:
-			saveData(filename.c_str(), getAll().c_str());
+			if (albumType != AT_SEARCH) {
+				saveData(filename.c_str(), getAll().c_str());
+			}
 			previous->show();
 			break;
 		case MAK_FIRE:
@@ -455,6 +487,11 @@ void AlbumViewScreen::mtxEmptyTagEnd() {
 
 void AlbumViewScreen::mtxTagStartEnd() {
 }
+
 int AlbumViewScreen::getCount() {
 	return size;
+}
+
+void AlbumViewScreen::setSearchString(String ss) {
+	searchString = ss;
 }

@@ -9,6 +9,7 @@
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
+#include "../utils/Card.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
 
@@ -39,8 +40,8 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, response;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value;
+	String error_msg, id,description,quantity, thumburl, fronturl, backurl, updated;
 	bool left, right, mid, error;
 	int moved;
 
@@ -48,6 +49,13 @@ private:
 
 	Screen *next, *prev;
 	bool isBusy;
+
+	Map<String, Card*> cards;
+	Vector<Stat*> stats;
+	Stat *stat;
+
+	void doSearch();
+	void clearCardMap();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

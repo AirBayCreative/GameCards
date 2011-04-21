@@ -24,6 +24,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 #endif
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
 		mainLayout = createImageLayout(back);

@@ -184,12 +184,14 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	//add the search option
-	label = createSubLabel(search);
-	label->setPaddingBottom(5);
-	label->addWidgetListener(this);
-	listBox->add(label);
-	size++;
+	if (path.size() == 0) {
+		//add the search option
+		label = createSubLabel(search);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+	}
 
 	//add the logout option
 	label = createSubLabel(logout);
@@ -252,7 +254,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (listBox->getSelectedIndex() == (size-2)) {
+			if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
