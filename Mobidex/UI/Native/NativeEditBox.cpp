@@ -17,6 +17,8 @@ void NativeEditBox::textBoxClosed(int res, int length) {
 			mListener->nativeEditFinished();
 		}
 	}
+	int result = maIOCtl(111,0,0,0);
+	lprintfln("result: %i",result);
 	mListener = NULL;
 	Environment::getEnvironment().removeTextBoxListener(this);
 }
@@ -90,17 +92,21 @@ void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
 	mListener = listener;
-	int res = maTextBox((const wchar*)mTitleString.c_str(), (wchar*)mString,
+	Environment::getEnvironment().addTextBoxListener(this);
+	wsprintf(mString, L"%s",getCaption().c_str());
+	int res = maShowVirtualKeyboard();
+	lprintfln("%i",res);
+	res = maTextBox((const wchar*)mTitleString.c_str(), (wchar*)mString,
 		(wchar*)mString, mMaxSize, mOptions);
 	if(res < 0) {
 		PANIC_MESSAGE("maTextBox failed");
 	}
-	Environment::getEnvironment().addTextBoxListener(this);
 }
 
 void NativeEditBox::setTitleString(const WString& titleString) {
 	mTitleString = titleString;
 }
+
 const WString& NativeEditBox::getTitleString() const {
 	return mTitleString;
 }

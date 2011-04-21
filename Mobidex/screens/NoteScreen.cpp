@@ -17,10 +17,10 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = createMainLayout(back, savelbl, "", true);
+			mainLayout = createMainLayout(back, savelbl, true);
 			break;
 		case ST_SMS:
-			mainLayout = createMainLayout(back, sendlbl, "", true);
+			mainLayout = createMainLayout(back, sendlbl, true);
 		break;
 	}
 

@@ -12,6 +12,7 @@
 #include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -36,13 +37,13 @@ private:
 
 	Feed *feed;
 	Layout *layout;
-	ListBox* listBox;
+	KineticListBox* listBox;
 	Label *lbl, *lblMethod, *notice;
 
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool left, right, sending;
+	bool left, right, sending, list;
 	String method, methodLabel, friendDetail, parentTag;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *contactEditBox;

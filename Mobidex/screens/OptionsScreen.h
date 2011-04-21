@@ -11,6 +11,7 @@
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -32,7 +33,7 @@ public:
 private:
 	Feed *feed;
 	Layout *layout;
-	ListBox* listBox;
+	KineticListBox* listBox;
 	Label *lbl, *notice;
 	Screen *menu;
 	Screen *previous;

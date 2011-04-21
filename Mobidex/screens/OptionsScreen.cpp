@@ -18,12 +18,12 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = createMainLayout(exit, select);
+		layout = createMainLayout(exit, select, true);
 	}
 	else {
-		layout = createMainLayout(back, select);
+		layout = createMainLayout(back, select, true);
 	}
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
@@ -115,7 +115,7 @@ void OptionsScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+        	//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;
         }
     }

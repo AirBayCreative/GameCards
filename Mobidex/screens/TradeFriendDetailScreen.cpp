@@ -9,8 +9,8 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = createMainLayout(back, continuelbl);
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+	layout = createMainLayout(back, continuelbl, "", true);
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
 	layout->setDrawBackground(TRUE);
@@ -66,7 +66,7 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	notice->setCaption("");
 	clearListBox();
-
+	setPadding(listBox);
 	updateSoftKeyLayout(back, continuelbl, "", layout);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel+":", 0, gFontBlack);
@@ -85,6 +85,7 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	contactEditBox->setText("");
 	contactEditBox->setSelected(true);
+
 	listBox->setSelectedIndex(1);
 }
 
@@ -123,6 +124,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 }
 
 void TradeFriendDetailScreen::clearListBox() {
+	listBox->setPaddingLeft(0);
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -153,17 +155,26 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		keyPressEvent(MAK_SOFTRIGHT);
 	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
-	} else if (phase != SP_DETAIL) {
+	} else if (phase != SP_DETAIL && list) {
 		keyPressEvent(MAK_FIRE);
 	}
 }
 
 void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
+	list = false;
 	left = false;
 	right = false;
 
 	Point p;
 	p.set(point.x, point.y);
+	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
+	{
+		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+		{
+			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+			list = true;
+		}
+	}
 	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
@@ -248,7 +259,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					} else {
 						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-
 						mHttp.finish();
 					}
 					delete [] url;
