@@ -307,6 +307,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			listBox->selectNextItem();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			if (albumType != AT_SEARCH) {
 				saveData(filename.c_str(), getAll().c_str());

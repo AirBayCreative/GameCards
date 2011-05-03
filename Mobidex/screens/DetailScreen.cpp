@@ -206,6 +206,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

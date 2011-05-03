@@ -219,6 +219,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:

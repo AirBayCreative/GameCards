@@ -171,6 +171,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 				doSearch();
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			prev->show();
 			break;
