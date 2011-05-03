@@ -418,11 +418,11 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim).c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
-		if (cardExists != cards.end()) {
+		/*if (cardExists != cards.end()) {
 			newCard->setThumb(cardExists->second->getThumb().c_str());
 			newCard->setBack(cardExists->second->getBack().c_str());
 			newCard->setFront(cardExists->second->getFront().c_str());
-		}
+		}*/
 		newCard->setUpdated(updated == "1");
 		tmp.insert(newCard->getId(),newCard);
 		id = "";
