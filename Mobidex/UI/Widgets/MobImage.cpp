@@ -17,6 +17,11 @@ void MobImage::setHasNote(bool n) {
 	hasNote = n;
 }
 
+void MobImage::selectStat(int x, int y, int width, int height){
+	Gfx_setColor(0,0,0);
+	Gfx_fillRect(x,y,width,height);
+}
+
 void MobImage::drawWidget() {
 	if (resource) {
 		Gfx_drawImage(resource, (paddedBounds.width >> 1) - (imageWidth >> 1),
