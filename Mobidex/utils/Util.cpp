@@ -140,6 +140,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setPaddingLeft(PADDING);
 	listBox->add(label);
 
 	if (useKinetic) {

@@ -25,7 +25,7 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Feed *feed) : mHttp(this),
+AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 		feed(feed) {
 	size = 0;
 	moved = 0;
@@ -50,8 +50,15 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed) : mHttp(this),
 
 	album = new Albums();
 
+	if (al == NULL) {
+		album = new Albums();
+		album->setAll(this->feed->getAlbum()->getAll().c_str());
+	}
+	else {
+		album = al;
+	}
+
 	notice->setCaption(checking_albums);
-	album->setAll(this->feed->getAlbum()->getAll().c_str());
 	drawList();
 	urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
 	url = new char[urlLength];

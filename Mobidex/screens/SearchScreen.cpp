@@ -143,11 +143,12 @@ void SearchScreen::hide() {
 
 void SearchScreen::doSearch() {
 	String searchString = editBoxSearch->getCaption();
-	int urlLength = SEARCH.length() + searchString.length() + strlen(seconds) + feed->getSeconds().length()
+	String base64SearchString = base64_encode(reinterpret_cast<const unsigned char*>(searchString.c_str()), searchString.length());
+	int urlLength = SEARCH.length() + base64SearchString.length() + strlen(seconds) + feed->getSeconds().length()
 			+ strlen(height) + intlen(getMaxImageHeight()) + strlen(width) + intlen(scrWidth) + 6;
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), searchString.c_str(), seconds,
+	sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), base64SearchString.c_str(), seconds,
 			feed->getSeconds().c_str(), height, getMaxImageHeight(), width, scrWidth);
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -164,6 +165,7 @@ void SearchScreen::doSearch() {
 	}
 	delete [] url;
 	searchString = "";
+	base64SearchString = "";
 }
 
 void SearchScreen::keyPressEvent(int keyCode) {

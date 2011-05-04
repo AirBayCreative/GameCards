@@ -42,10 +42,13 @@ private:
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
+	String temp,temp1,hasCards,updated;
+
 	bool list, left, right, mid, error;
 	int screen, moved;
 
 	Feed *feed;
+	Albums *album;
 
 	Screen *next, *prev;
 	bool isBusy;

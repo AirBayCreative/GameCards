@@ -84,7 +84,7 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 
 //URL info
 //static String URL = "http://www.mytcg.net/_phone/"; //live index
-static String URL = "http://dev.mytcg.net/_phone/"; //dev index
+static String URL = "http://dex.mytcg.net/_phone/"; //dev index
 //Get user details
 static String USER = URL+"?userdetails=1";
 //get products in category
@@ -381,7 +381,6 @@ static const char* update_height = "height";
 static const char* username = "username";
 static const char* password = "password";
 static const char* email = "email";
-static const char* xml_response = "response";
 //the following game phase string need to match the descriptions in the mytcg_gamephase table
 static const char* phase_card = "card";
 static const char* phase_stat = "stat";

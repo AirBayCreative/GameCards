@@ -14,7 +14,7 @@ using namespace MAUtil;
 
 class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Feed *feed);
+	AlbumLoadScreen(Feed *feed, Albums *album = NULL);
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
