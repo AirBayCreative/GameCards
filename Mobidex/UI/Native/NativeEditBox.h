@@ -28,6 +28,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include <MAUtil/Environment.h>
 #include <MAUtil/String.h>
 #include <MAUI/Widget.h>
+#include <conprint.h>
 
 namespace MAUI {
 
@@ -73,7 +74,6 @@ protected:
 	int mMaxSize;
 	int mOptions;
 	int x,y,width,height;
-
 	int mStartX, mStartY;
 
 	NativeEditBoxListener* mListener;

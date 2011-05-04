@@ -48,7 +48,7 @@ private:
 	Feed *feed;
 
 	Screen *next, *prev;
-	bool isBusy;
+	bool isBusy, isActive;
 
 	Map<String, Card*> cards;
 	Vector<Stat*> stats;

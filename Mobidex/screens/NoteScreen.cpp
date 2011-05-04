@@ -165,6 +165,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			editBoxNote->setSelected(false);
 			editBoxNote->disableListener();

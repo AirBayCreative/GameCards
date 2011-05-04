@@ -291,6 +291,7 @@ void Login::keyPressEvent(int keyCode) {
 				}
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			prev->show();
 			break;

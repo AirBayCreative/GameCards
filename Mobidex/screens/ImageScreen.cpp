@@ -155,6 +155,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				}
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
