@@ -7,6 +7,8 @@
 SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(feed), prev(previous) {
 	moved = 0;
 	isBusy = false;
+	isActive = true;
+	next = NULL;
 
 	statDesc = "";
 	statDisplay = "";
@@ -50,7 +52,9 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 
 SearchScreen::~SearchScreen() {
 	delete mainLayout;
-
+	if (next != NULL) {
+		delete next;
+	}
 	statDesc = "";
 	statDisplay = "";
 	statIVal = "";
@@ -145,6 +149,9 @@ void SearchScreen::doSearch() {
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), searchString.c_str(), seconds,
 			feed->getSeconds().c_str(), height, getMaxImageHeight(), width, scrWidth);
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -173,6 +180,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
+			isActive = false;
 			prev->show();
 			break;
 		case MAK_UP:
@@ -200,13 +208,15 @@ void SearchScreen::connReadFinished(Connection* conn, int result) {}
 
 void SearchScreen::xcConnError(int code) {
 	mHttp.close();
-	if (next != NULL) {
-		delete next;
-		next = NULL;
+	if(isActive){
+		if (next != NULL) {
+			delete next;
+			next = NULL;
+		}
+		next = new AlbumViewScreen(this, feed, album_search, AlbumViewScreen::AT_SEARCH, cards);
+		((AlbumViewScreen*)next)->setSearchString(editBoxSearch->getCaption());
+		next->show();
 	}
-	next = new AlbumViewScreen(this, feed, album_search, AlbumViewScreen::AT_SEARCH, cards);
-	((AlbumViewScreen*)next)->setSearchString(editBoxSearch->getCaption());
-	next->show();
 }
 
 void SearchScreen::mtxEncoding(const char* ) {
@@ -295,12 +305,12 @@ void SearchScreen::mtxTagEnd(const char* name, int len) {
 }
 
 void SearchScreen::clearCardMap() {
-	for (Map<String, Card*>::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
-		if (iter->second != NULL) {
-			delete iter->second;
-			iter->second = NULL;
-		}
-	}
+	//for (Map<String, Card*>::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
+	//	if (iter->second != NULL) {
+	//		delete iter->second;
+	//		iter->second = NULL;
+	//	}
+	//}
 	cards.clear();
 }
 
