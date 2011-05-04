@@ -332,6 +332,9 @@ void Login::mtxEncoding(const char* ) {
 
 void Login::mtxTagStart(const char* name, int len) {
 	parentTag = name;
+	if (!strcmp(name, xml_albumdone)) {
+		album = new Albums();
+	}
 }
 
 void Login::mtxTagAttr(const char* attrName, const char* attrValue) {
@@ -348,8 +351,18 @@ void Login::mtxTagData(const char* data, int len) {
 		handle = data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg = data;
-	} else if (!strcmp(parentTag.c_str(), xml_response)) {
+	} else if (!strcmp(parentTag.c_str(), xml_result)) {
 		response += data;
+	} else if (!strcmp(parentTag.c_str(), xml_albumdone)) {
+		album->clearAll();
+	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
+		temp1 += data;
+	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
+		temp += data;
+	} else if (!strcmp(parentTag.c_str(), xml_hascards)) {
+		hasCards += data;
+	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
+		updated += data;
 	}
 }
 
@@ -370,15 +383,50 @@ void Login::mtxTagEnd(const char* name, int len) {
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
+		if (next != NULL) {
+			delete next;
+		}
 		next = new AlbumLoadScreen(feed);
 		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
 		feed->setUnsuccessful(error_msg.c_str());
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_response)) {
+	} else if (!strcmp(name, xml_result)) {
 		isBusy = false;
 		notice->setCaption(response);
+	} else if(!strcmp(name, xml_album)) {
+		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
+		temp1 = "";
+		temp = "";
+		hasCards = "";
+		updated = "";
+	} else if (!strcmp(name, xml_albumdone)) {
+		this->feed->getAlbum()->setAll(album->getAll().c_str());
+		saveData(ALBUM, album->getAll().c_str());
+
+		feed->setEncrypt(base64_encode(reinterpret_cast<const unsigned char*>(editBoxPass->getText().c_str()), editBoxPass->getText().length()).c_str());
+		feed->setUsername(editBoxLogin->getText().c_str());
+		feed->setCredits("0");
+		feed->setHandle("");
+		feed->setEmail(editBoxEmail->getText().c_str());
+		feed->setUnsuccessful(success);
+		feed->setTouch("");
+		int seconds = maLocalTime();
+		int secondsLength = intlen(seconds);
+		char *secString = new char[secondsLength];
+		memset(secString,'\0',secondsLength);
+		sprintf(secString, "%d", seconds);
+		feed->setSeconds(secString);
+		delete secString;
+		username,error_msg= "";
+		saveData(FEED, feed->getAll().c_str());
+
+		if (next != NULL) {
+			delete next;
+		}
+		next = new AlbumLoadScreen(feed, album);
+		next->show();
 	} else {
 		if (!error) {
 			if (notice != NULL) {
