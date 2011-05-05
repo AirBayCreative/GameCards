@@ -221,16 +221,9 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
-			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-			tempImage->setHasNote(itr->second->getNote().length()>0);
-			retrieveThumb(tempImage, itr->second, mImageCache);
-		}
-		else {
-			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
-		}
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage->setHasNote(itr->second->getNote().length()>0);
+		retrieveThumb(tempImage, itr->second, mImageCache);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 		label->setVerticalAlignment(Label::VA_CENTER);

@@ -3,6 +3,7 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "SearchScreen.h"
+#include "RedeemScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -192,6 +193,13 @@ void AlbumLoadScreen::drawList() {
 	}
 
 	if (path.size() == 0) {
+		//add the redeem option
+		label = createSubLabel(redeem);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+
 		//add the search option
 		label = createSubLabel(search);
 		label->setPaddingBottom(5);
@@ -262,7 +270,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
+			if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
+				if (next != NULL) {
+					delete next;
+					next = NULL;
+				}
+				next = new RedeemScreen(feed, this);
+				next->show();
+			}
+			else if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
