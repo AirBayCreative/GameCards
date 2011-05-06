@@ -10,6 +10,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	//TODO add touch
 	busy = false;
 	next = NULL;
+	flipOrSelect = 1;
 	imageCache = new ImageCache();
 
 	if (card != NULL) {
@@ -190,12 +191,6 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						retrieveBack(imge, card, height-PADDING*2, imageCache);
 					} else {
 						retrieveFront(imge, card, height-PADDING*2, imageCache);
-					}
-				}
-				else{
-					if(flip){
-						imge->selectStat(15,115,50,50);
-						maUpdateScreen();
 					}
 				}
 			} else {

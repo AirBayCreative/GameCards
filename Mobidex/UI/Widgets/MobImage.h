@@ -16,7 +16,6 @@ public:
 	~MobImage();
 
 	void setHasNote(bool n);
-	void selectStat(int x, int y, int width, int height);
 protected:
 	virtual void drawWidget();
 
