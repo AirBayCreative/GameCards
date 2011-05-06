@@ -379,6 +379,13 @@ int intlen(float start) {
 	return end;
 }
 
+int absoluteValue(int num){
+	if(num <0){
+		num = num * -1;
+	}
+	return num;
+}
+
 bool validateEmailAddress(String email) {
 	int atIndex = email.findFirstOf('@');
 	int lastDotIndex = email.findLastOf('.');

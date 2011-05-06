@@ -10,6 +10,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	//TODO add touch
 	busy = false;
 	next = NULL;
+	flipOrSelect = 1;
 	imageCache = new ImageCache();
 
 	if (card != NULL) {
@@ -47,6 +48,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
+	pointPressed = point;
     locateItem(point);
 }
 
@@ -57,6 +59,7 @@ void ImageScreen::pointerMoveEvent(MAPoint2d point)
 
 void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 {
+	pointReleased = point;
 	if (right) {
 		keyPressEvent(MAK_SOFTRIGHT);
 		return;
@@ -66,6 +69,14 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 	if (card != NULL) {
 		if (list) {
+			//lprintfln("pointPressed.x: %i pointReleased.x: %i",pointPressed.x,pointReleased.x);
+			//lprintfln("absoluteValue(pointPressed.x-pointReleased.y): %i",absoluteValue(pointPressed.x-pointReleased.x));
+			//lprintfln("imge->getWidth()/100*15: %i",imge->getWidth()/100*15);
+			if(absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
+				flipOrSelect = 1;
+			}else{
+				flipOrSelect = 0;
+			}
 			keyPressEvent(MAK_FIRE);
 		}
 	}
@@ -167,18 +178,22 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
-				flip=!flip;
-				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-					maDestroyObject(imge->getResource());
-				}
-				imge->setResource(RES_LOADING);
-				imge->update();
-				imge->requestRepaint();
-				maUpdateScreen();
-				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, imageCache);
-				} else {
-					retrieveFront(imge, card, height-PADDING*2, imageCache);
+				if(flipOrSelect){
+					flip=!flip;
+					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+						maDestroyObject(imge->getResource());
+					}
+					imge->setResource(RES_LOADING);
+					imge->update();
+					imge->requestRepaint();
+					maUpdateScreen();
+					if (flip) {
+						retrieveBack(imge, card, height-PADDING*2, imageCache);
+					} else {
+						retrieveFront(imge, card, height-PADDING*2, imageCache);
+					}
+				}else{
+					flipOrSelect=1;
 				}
 			} else {
 				previous->show();

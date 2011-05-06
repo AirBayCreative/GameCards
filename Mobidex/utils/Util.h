@@ -46,6 +46,7 @@ void increase();
 void decrease();
 int getCount();
 bool isNumeric(String isValid);
+int absoluteValue(int num);
 int intlen(float start);
 bool validateEmailAddress(String email);
 int getSoftKeyBarHeight();
