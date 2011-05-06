@@ -164,9 +164,10 @@ void RedeemScreen::keyPressEvent(int keyCode) {
 	}
 }
 
-void RedeemScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+void RedeemScreen::httpFinished(MAUtil::HttpConnection* http, int res) {
 	error_msg = "";
-	if (result == 200) {
+	result = "";
+	if (res == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
