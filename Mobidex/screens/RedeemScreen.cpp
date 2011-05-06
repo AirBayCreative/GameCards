@@ -151,6 +151,8 @@ void RedeemScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			((AlbumLoadScreen*)prev)->refresh();
+			editBoxRedeem->setSelected(false);
+			editBoxRedeem->disableListener();
 			prev->show();
 			break;
 		case MAK_UP:

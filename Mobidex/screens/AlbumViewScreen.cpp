@@ -412,16 +412,24 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim).c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
-		/*if (category == album_updates) {
+		if (category == album_updates) {
 			MAHandle store = maOpenStore((FILE_PREFIX+newCard->getId()+".sav").c_str(), -1);
-			lprintfln("1");
 			if(store != STERR_NONEXISTENT) {
-				lprintfln("1.2");
-				maFileDelete(store);
-				lprintfln("2");
+				maCloseStore(store,1);
 			}
-			lprintfln("3");
-		}*/
+		}
+		if (category == album_updates) {
+			MAHandle store = maOpenStore((FILE_PREFIX+newCard->getId()+"f.sav").c_str(), -1);
+			if(store != STERR_NONEXISTENT) {
+				maCloseStore(store,1);
+			}
+		}
+		if (category == album_updates) {
+			MAHandle store = maOpenStore((FILE_PREFIX+newCard->getId()+"b.sav").c_str(), -1);
+			if(store != STERR_NONEXISTENT) {
+				maCloseStore(store,1);
+			}
+		}
 		newCard->setUpdated(updated == "1");
 		tmp.insert(newCard->getId(),newCard);
 		id = "";

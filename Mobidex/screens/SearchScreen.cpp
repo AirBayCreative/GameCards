@@ -183,6 +183,8 @@ void SearchScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			isActive = false;
+			editBoxSearch->setSelected(false);
+			editBoxSearch->disableListener();
 			prev->show();
 			break;
 		case MAK_UP:
