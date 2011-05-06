@@ -412,10 +412,15 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim).c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
-		/*if (cardExists != cards.end()) {
-			newCard->setThumb(cardExists->second->getThumb().c_str());
-			newCard->setBack(cardExists->second->getBack().c_str());
-			newCard->setFront(cardExists->second->getFront().c_str());
+		/*if (category == album_updates) {
+			MAHandle store = maOpenStore((FILE_PREFIX+newCard->getId()+".sav").c_str(), -1);
+			lprintfln("1");
+			if(store != STERR_NONEXISTENT) {
+				lprintfln("1.2");
+				maFileDelete(store);
+				lprintfln("2");
+			}
+			lprintfln("3");
 		}*/
 		newCard->setUpdated(updated == "1");
 		tmp.insert(newCard->getId(),newCard);
