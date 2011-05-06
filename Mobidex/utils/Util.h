@@ -144,6 +144,8 @@ static String REJECTCARD = URL+"?rejectcard=";
 static String DELETECARD = URL+"?deletecard=";
 //search for cards
 static String SEARCH = URL+"?search=";
+//redeem a card
+static String REDEEM = URL+"?redeemcode=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -167,11 +169,13 @@ static const char* reg = "Register";
 static const char* apply = "Apply";
 static const char* cancellbl = "Cancel";
 static const char* search = "Search";
+static const char* redeem = "Redeem";
 static const char* logout = "Log Out";
 static const char* log_out = "Do you want to log out from Game Cards?";
 static const char* coming_soon = "Coming soon...";
 static const char* exit = "Exit";
 static const char* searchTermlbl = "Search term:";
+static const char* redeemCodelbl = "Redeem code:";
 static const char* userlbl = "Username:";
 static const char* passlbl = "Password:";
 static const char* emaillbl = "Email:";
@@ -387,6 +391,9 @@ static const char* phase_card = "card";
 static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
+//redeem results
+static const char* redeem_success = "1";
+static const char* redeem_failed = "0";
 //contact labels
 static const char* calllbl = "Call";
 static const char* smslbl = "SMS";
