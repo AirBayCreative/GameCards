@@ -200,12 +200,7 @@ void RedeemScreen::mtxTagData(const char* data, int len) {
 
 void RedeemScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_result)) {
-		if (strcmp(result.c_str(), redeem_success) == 0) {
-			notice->setCaption("Card redeemed.");
-		}
-		else {
-			notice->setCaption("Redeem failed.");
-		}
+		notice->setCaption(result);
 		isBusy = false;
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());

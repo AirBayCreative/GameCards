@@ -93,6 +93,24 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, fullNamelbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	editBoxFullname = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Full Name:");
+	editBoxFullname->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, cellNumberlbl, 0, gFontBlack);
+	listBox->add(label);
+
+	label = createEditLabel("");
+	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Cell Number:");
+	editBoxCell->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
 	listBox->add(label);
 
@@ -255,12 +273,16 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption(password_too_short);
 							maVibrate(1000);
 						}
-						else if (editBoxEmail->getText().length() == 0) {
-							notice->setCaption(enter_email);
+						else if (editBoxFullname->getText().length() < 1) {
+							notice->setCaption(enter_name);
 							maVibrate(1000);
 						}
-						else if (!validateEmailAddress(editBoxEmail->getText())) {
-							notice->setCaption(valid_email);
+						else if (editBoxCell->getText().length() < 10) {
+							notice->setCaption(cell_too_short);
+							maVibrate(1000);
+						}
+						else if (editBoxEmail->getText().length() < 1) {
+							notice->setCaption(enter_email);
 							maVibrate(1000);
 						}
 						else {
@@ -268,14 +290,18 @@ void Login::keyPressEvent(int keyCode) {
 							isBusy = true;
 							notice->setCaption(registering);
 
+							String encodedName = base64_encode(reinterpret_cast<const unsigned char*>(editBoxFullname->getText().c_str()),
+									editBoxFullname->getText().length());
 							char *url = NULL;
-							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = REGISTER.length() + strlen(xml_username) + editBoxLogin->getText().length()
-									+ strlen(password) + editBoxPass->getText().length() + strlen(xml_email) + editBoxEmail->getText().length() + 6;
+							//work out how long the url will be, the 10 is for the & and = symbols
+							int urlLength = REGISTER.length() + strlen(reg_name) + encodedName.length()
+									+ strlen(reg_username) + editBoxLogin->getText().length() + strlen(reg_cell) + editBoxCell->getText().length()
+									+ strlen(password) + editBoxPass->getText().length() + strlen(reg_email) + editBoxEmail->getText().length() + 10;
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), xml_username, editBoxLogin->getText().c_str(),
-									password, editBoxPass->getText().c_str(), xml_email, editBoxEmail->getText().c_str());
+							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), reg_name, encodedName.c_str(),
+									reg_username, editBoxLogin->getText().c_str(), reg_cell, editBoxCell->getText().c_str(),
+									password, editBoxPass->getText().c_str(), reg_email, editBoxEmail->getText().c_str());
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
@@ -286,6 +312,7 @@ void Login::keyPressEvent(int keyCode) {
 								mHttp.finish();
 							}
 							delete url;
+							encodedName = "";
 						}
 						break;
 				}

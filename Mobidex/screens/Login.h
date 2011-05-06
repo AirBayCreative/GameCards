@@ -34,7 +34,7 @@ private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *label, *notice;
-	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
+	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxFullname, *editBoxCell, *editBoxEmail;
 	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;

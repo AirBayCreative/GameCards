@@ -178,6 +178,8 @@ static const char* redeemCodelbl = "Redeem code:";
 static const char* userlbl = "Username:";
 static const char* passlbl = "Password:";
 static const char* emaillbl = "Email:";
+static const char* fullNamelbl = "Full Name:";
+static const char* cellNumberlbl = "Cell Number:";
 static const char* notelbl = "Note:";
 static const char* phoneNumlbl = "Phone Number";
 static const char* emaillblNoColon = "Email";
@@ -233,7 +235,8 @@ static const char* xml_hascards = "hascards";
 static const char* category = "category";
 static const char* seconds = "seconds";
 //special album ids
-static const char* album_search = "-4";
+static const char* album_search = "-5";
+static const char* album_updates = "-4";
 static const char* album_newcards = "-3";
 static const char* album_mycards = "-2";
 //<CARD>
@@ -390,9 +393,6 @@ static const char* phase_card = "card";
 static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
-//redeem results
-static const char* redeem_success = "1";
-static const char* redeem_failed = "0";
 //contact labels
 static const char* calllbl = "Call";
 static const char* smslbl = "SMS";
@@ -404,5 +404,12 @@ static const char* contact_number = "Mobile No";
 static const char* contact_website = "Web Address";
 //misc
 static const char* updated_symbol = "*";
+//login stuff
+static const char* cell_too_short = "Your cell needs to be at least 10 numbers long";
+static const char* enter_name = "Please enter your name";
+static const char* reg_name = "name";
+static const char* reg_cell = "cell";
+static const char* reg_username = "username";
+static const char* reg_email = "email";
 
 #endif	//_UTIL_H_

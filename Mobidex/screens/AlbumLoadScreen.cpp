@@ -15,7 +15,11 @@ void AlbumLoadScreen::refresh() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	int urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+	char* url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
 
@@ -24,6 +28,7 @@ void AlbumLoadScreen::refresh() {
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	delete url;
 }
 
 AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
