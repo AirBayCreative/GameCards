@@ -192,6 +192,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					} else {
 						retrieveFront(imge, card, height-PADDING*2, imageCache);
 					}
+				}else{
+					flipOrSelect=1;
 				}
 			} else {
 				previous->show();
