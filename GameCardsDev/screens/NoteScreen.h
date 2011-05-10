@@ -3,9 +3,9 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <../UI/Native/NativeEditBox.h>
 #include <maprofile.h>
 
+#include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"

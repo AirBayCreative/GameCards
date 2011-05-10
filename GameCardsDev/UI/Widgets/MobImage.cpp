@@ -1,4 +1,5 @@
 #include <MAUtil/Graphics.h>
+#include <conprint.h>
 
 #include "../../utils/MAHeaders.h"
 #include "MobImage.h"
@@ -32,8 +33,12 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 void MobImage::selectStat(int x, int y, int width, int height){
 	Gfx_setColor(0,0,0);
 	Gfx_clearMatrix();
-	drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
-	//drawRectangle((x*imageWidth/250),(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);
+	lprintfln("x %i",x);
+	lprintfln("this->getWidth() %i",this->getWidth());
+	lprintfln("imageWidth %i",imageWidth);
+	//lprintfln("(imageWidth>>1) %i",(imageWidth>>1));
+	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
+	drawRectangle((x*imageWidth/250),(y*this->getHeight()/350),width*imageWidth/250,height*this->getHeight()/350);
 	//Gfx_fillRect((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	Gfx_updateScreen();
 }
