@@ -118,12 +118,14 @@ OptionsScreen::~OptionsScreen() {
 }
 
 void OptionsScreen::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	if (listBox->getChildren().size() > listBox->getSelectedIndex()) {
+		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	}
 	Screen::show();
 }
 
 void OptionsScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    //listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 

@@ -1,5 +1,6 @@
 #include <conprint.h>
 
+#include "RedeemScreen.h"
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
 #include "ImageScreen.h"
@@ -23,13 +24,16 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
-	//label = createSubLabel(play);
-	//label->addWidgetListener(this);
-	//listBox->add(label);
+	label = createSubLabel(play);
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = createSubLabel(shoplbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = createSubLabel(auctionlbl);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = createSubLabel(redeemlbl);
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = createSubLabel(ballbl);
@@ -107,57 +111,45 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
-				menu->show();
-			} else if(index == 2) {
-				if(menu!=NULL){
-					delete menu;
-				}
-				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
-				menu->show();
-			} else if(index == 3) {
-				if(menu!=NULL){
-					delete menu;
-				}
-				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
-				menu->show();
-			} else if(index == 4) {
-				if(menu!=NULL){
-					delete menu;
-				}
-				menu = new DetailScreen(this, feed, DetailScreen::PROFILE);
-				menu->show();
-			} else if (index == 5) {
-				if(menu!=NULL){
-					delete menu;
-				}
-				menu = new Logout(this, feed);
-				menu->show();
-			}/*else if(index == 1) {
-				delete menu;
 				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
 			} else if(index == 2) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
 			} else if(index == 3) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
 				menu->show();
 			} else if(index == 4) {
-				delete menu;
-				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				if(menu!=NULL){
+					delete menu;
+				}
+				menu = new RedeemScreen(feed, this);
 				menu->show();
 			} else if(index == 5) {
-				delete menu;
+				if(menu!=NULL){
+					delete menu;
+				}
+				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				menu->show();
+			} else if(index == 6) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
-			} else if (index == 6) {
-				delete menu;
+			} else if (index == 7) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new Logout(this, feed);
 				menu->show();
-			}*/
+			}
 			break;
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
