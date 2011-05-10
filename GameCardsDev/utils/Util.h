@@ -143,6 +143,8 @@ static String ACCEPTCARD = URL+"?savecard=";
 static String REJECTCARD = URL+"?rejectcard=";
 //delete a card
 static String DELETECARD = URL+"?deletecard=";
+//redeem a card
+static String REDEEM = URL+"?redeemcode=";
 //constants
 static const char* delim = ",";
 static const char* concat = ":";
@@ -184,6 +186,8 @@ static const char* tradelbl = "Trade";
 static const char* sendToAuctionlbl = "Send card to auction";
 static const char* sendToFriendlbl = "Send card to friend";
 static const char* auctionlbl = "Auctions";
+static const char* redeemlbl = "Redeem";
+static const char* redeemCodelbl = "Redeem code:";
 static const char* shoplbl = "Shop";
 static const char* details = "Details";
 static const char* ballbl = "My Balance";
