@@ -20,8 +20,21 @@ public:
 
 	String getAll();
 	void setAll(const char*);
+
+	int getTop();
+	void setTop(int);
+
+	int getLeft();
+	void setLeft(int);
+
+	int getWidth();
+	void setWidth(int);
+
+	int getHeight();
+	void setHeight(int);
 private:
 	String desc, display, iVal;
+	int top, left, width, height;
 };
 
 #endif	//_STAT_H_

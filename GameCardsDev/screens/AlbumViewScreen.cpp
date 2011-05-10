@@ -1,4 +1,5 @@
 #include <conprint.h>
+#include <mastdlib.h>
 
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
@@ -277,6 +278,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			listBox->selectNextItem();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			saveData(filename.c_str(), getAll().c_str());
 			previous->show();
@@ -345,8 +347,16 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	if(!strcmp(parentTag.c_str(), xml_stat)) {
 		if(!strcmp(attrName, xml_desc)) {
 			statDesc += attrValue;
-		} else if(!strcmp(attrName, xml_ival)) {
+		}else if(!strcmp(attrName, xml_ival)) {
 			statIVal += attrValue;
+		}else if(!strcmp(attrName, xml_top)) {
+			statTop = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_left)) {
+			statLeft = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_width)) {
+			statWidth = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_height)) {
+			statHeight = atoi(attrValue);
 		}
 	}
 }
@@ -409,6 +419,10 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setDesc(statDesc.c_str());
 		stat->setDisplay(statDisplay.c_str());
 		stat->setIVal(statIVal.c_str());
+		stat->setTop(statTop);
+		stat->setLeft(statLeft);
+		stat->setWidth(statWidth);
+		stat->setHeight(statHeight);
 
 		stats.add(stat);
 

@@ -159,6 +159,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu->show();
 			}*/
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			int seconds = maLocalTime();
 			int secondsLength = intlen(seconds);

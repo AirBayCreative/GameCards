@@ -93,6 +93,7 @@ void Logout::keyPressEvent(int keyCode) {
 			// Go back to menu screen
 			previous->show();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			// Clear user settings and redirect to login screen
 			cleanup();

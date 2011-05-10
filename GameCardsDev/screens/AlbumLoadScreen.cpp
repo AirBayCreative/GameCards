@@ -270,6 +270,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			listBox->selectNextItem();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			if (path.size() > 0) {
 				path.remove(path.size()-1);

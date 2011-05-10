@@ -52,3 +52,35 @@ void Stat::setAll(const char* allch) {
 		setIVal("");
 	}
 }
+
+void Stat::setTop(int i) {
+	top = i;
+}
+
+int Stat::getTop() {
+	return top;
+}
+
+void Stat::setLeft(int i) {
+	left = i;
+}
+
+int Stat::getLeft() {
+	return left;
+}
+
+void Stat::setWidth(int i) {
+	width = i;
+}
+
+int Stat::getWidth() {
+	return width;
+}
+
+void Stat::setHeight(int i) {
+	height = i;
+}
+
+int Stat::getHeight() {
+	return height;
+}

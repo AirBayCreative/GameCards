@@ -212,6 +212,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				next->show();
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			if (!purchased) {
 				previous->show();

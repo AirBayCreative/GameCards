@@ -35,13 +35,14 @@ public:
 private:
 	Screen *previous, *next;
 	MAHandle img;
+	MAPoint2d pointPressed, pointReleased;
 	Card *card;
 	Feed *feed;
 	MobImage *imge;
 	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
-	int height, screenType;
+	int height, screenType, flipOrSelect, currentSelectedStat;
 	bool flip, busy;
 	bool left, right, list, hasConnection, canAuction;
 	String parentTag;

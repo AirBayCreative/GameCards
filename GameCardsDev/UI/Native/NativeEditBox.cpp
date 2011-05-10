@@ -90,6 +90,7 @@ void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
 	mListener = listener;
+	wsprintf(mString, L"%s",getCaption().c_str());
 	int res = maTextBox((const wchar*)mTitleString.c_str(), (wchar*)mString,
 		(wchar*)mString, mMaxSize, mOptions);
 	if(res < 0) {

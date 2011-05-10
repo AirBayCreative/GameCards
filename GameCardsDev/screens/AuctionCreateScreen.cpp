@@ -134,6 +134,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 						}
 					}
 					break;
+				case MAK_BACK:
 				case MAK_SOFTLEFT:
 					editBoxOpening->setSelected(false);
 					editBoxBuyNow->setSelected(false);
@@ -164,6 +165,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			break;
 		case ST_INVALID:
 			switch(keyCode) {
+				case MAK_BACK:
 				case MAK_SOFTLEFT:
 					screenMode = ST_DATA;
 					drawDataInputScreen();

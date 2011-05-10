@@ -264,6 +264,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				break;
 		}
 		break;
+	case MAK_BACK:
 	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:

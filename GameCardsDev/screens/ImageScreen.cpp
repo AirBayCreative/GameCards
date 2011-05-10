@@ -10,6 +10,8 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	//TODO add touch
 	busy = false;
 	next = NULL;
+	currentSelectedStat = -1;
+	flipOrSelect = 0;
 	imageCache = new ImageCache();
 
 	if (card != NULL) {
@@ -46,6 +48,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
+	pointPressed = point;
     locateItem(point);
 }
 
@@ -56,6 +59,7 @@ void ImageScreen::pointerMoveEvent(MAPoint2d point)
 
 void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 {
+	pointReleased = point;
 	if (right) {
 		keyPressEvent(MAK_SOFTRIGHT);
 		return;
@@ -65,6 +69,17 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 	if (card != NULL) {
 		if (list) {
+			if(absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
+				flipOrSelect = 1;
+			}else{
+				flipOrSelect = 0;
+				currentSelectedStat = -1;
+				for(int i = 0;i<card->getStats().size();i++){
+					if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
+						currentSelectedStat = i;
+					}
+				}
+			}
 			keyPressEvent(MAK_FIRE);
 		}
 	}
@@ -138,6 +153,33 @@ ImageScreen::~ImageScreen() {
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
+		case MAK_UP:
+			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+				if(flip){
+					if(card->getStats().size()>0){
+						currentSelectedStat--;
+						if(currentSelectedStat == -1){
+							currentSelectedStat = 0;
+						}
+						imge->refreshWidget();
+						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight());
+					}
+				}
+			}
+			break;
+		case MAK_DOWN:
+			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+				if(flip){
+					if(card->getStats().size()>0){
+						if(currentSelectedStat < card->getStats().size()-1){
+							currentSelectedStat++;
+						}
+						imge->refreshWidget();
+						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight());
+					}
+				}
+			}
+			break;
 		case MAK_SOFTRIGHT:
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
@@ -154,6 +196,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				}
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
@@ -165,18 +208,52 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
-				flip=!flip;
-				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-					maDestroyObject(imge->getResource());
+				if(flipOrSelect){
+					flip=!flip;
+					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+						maDestroyObject(imge->getResource());
+					}
+					imge->setResource(RES_LOADING);
+					imge->update();
+					imge->requestRepaint();
+					maUpdateScreen();
+					if (flip) {
+						retrieveBack(imge, card, height-PADDING*2, imageCache);
+					} else {
+						retrieveFront(imge, card, height-PADDING*2, imageCache);
+					}
+					flipOrSelect=0;
 				}
-				imge->setResource(RES_LOADING);
-				imge->update();
-				imge->requestRepaint();
-				maUpdateScreen();
-				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, imageCache);
-				} else {
-					retrieveFront(imge, card, height-PADDING*2, imageCache);
+				else{
+					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+						if(flip){
+							if(currentSelectedStat!=-1){
+								imge->refreshWidget();
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight());
+
+								Stat *stat = card->getStats()[currentSelectedStat];
+								if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+									if (next != NULL) {
+										delete next;
+										next == NULL;
+									}
+									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
+									next->show();
+								}
+								else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+								}
+								else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+									String url = stat->getDisplay();
+									//maPlatformRequest will only work if the url starts with http://
+									//so we need to check for it, and add it if it isnt there
+									if (url.find("http://") != 0) {
+										url = "http://"+url;
+									}
+									maPlatformRequest(url.c_str());
+								}
+							}
+						}
+					}
 				}
 			} else {
 				previous->show();

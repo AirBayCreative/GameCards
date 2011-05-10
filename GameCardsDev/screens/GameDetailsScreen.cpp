@@ -122,6 +122,7 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			orig->show();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			break;
 		case MAK_UP:

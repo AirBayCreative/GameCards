@@ -82,6 +82,7 @@ void NewVersionScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			maPlatformRequest(downloadUrl.c_str());
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

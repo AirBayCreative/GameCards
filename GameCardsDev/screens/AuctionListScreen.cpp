@@ -267,6 +267,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			listBox->selectNextItem();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

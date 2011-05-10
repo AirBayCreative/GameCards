@@ -72,6 +72,7 @@ NoteScreen::~NoteScreen() {
 	encodedNote = "";
 }
 
+#if defined(MA_PROF_SUPPORT_STYLUS)
 void NoteScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -103,16 +104,7 @@ void NoteScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 }
 
-void NoteScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
-	}
-}
-
-void NoteScreen::locateItem(MAPoint2d point)
-{
+void NoteScreen::locateItem(MAPoint2d point){
 	list = false;
 	left = false;
 	right = false;
@@ -139,6 +131,15 @@ void NoteScreen::locateItem(MAPoint2d point)
 			}
 			return;
 		}
+	}
+}
+#endif
+
+void NoteScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
 	}
 }
 
@@ -180,6 +181,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			editBoxNote->setSelected(false);
 			editBoxNote->disableListener();

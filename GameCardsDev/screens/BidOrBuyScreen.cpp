@@ -335,6 +335,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			switch(screenPhase) {
 				case SP_CHOOSE_ACTION:

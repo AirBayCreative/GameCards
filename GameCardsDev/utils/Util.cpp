@@ -189,11 +189,11 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, true);
-		setPadding(mKineticBox);
+		mKineticBox->setPaddingLeft(PADDING);
 	}
 	else {
 		ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-		setPadding(listBox);
+		listBox->setPaddingLeft(PADDING);
 	}
 
 	mainLayout->add(softKeys);
@@ -402,6 +402,13 @@ int intlen(float start) {
 		end++;
 	}
 	return end;
+}
+
+int absoluteValue(int num){
+	if(num <0){
+		num = num * -1;
+	}
+	return num;
 }
 
 bool validateEmailAddress(String email) {

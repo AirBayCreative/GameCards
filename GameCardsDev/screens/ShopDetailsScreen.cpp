@@ -140,6 +140,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			next->show();
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			previous->show();
 			break;

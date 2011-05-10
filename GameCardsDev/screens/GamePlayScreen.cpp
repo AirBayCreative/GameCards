@@ -394,6 +394,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			switch (phase) {
 				case P_LOADING:
