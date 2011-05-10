@@ -33,9 +33,9 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 void MobImage::selectStat(int x, int y, int width, int height){
 	Gfx_setColor(0,0,0);
 	Gfx_clearMatrix();
-	lprintfln("x %i",x);
-	lprintfln("this->getWidth() %i",this->getWidth());
-	lprintfln("imageWidth %i",imageWidth);
+	//lprintfln("x %i",x);
+	//lprintfln("this->getWidth() %i",this->getWidth());
+	//lprintfln("imageWidth %i",imageWidth);
 	//lprintfln("(imageWidth>>1) %i",(imageWidth>>1));
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	drawRectangle((x*imageWidth/250),(y*this->getHeight()/350),width*imageWidth/250,height*this->getHeight()/350);
