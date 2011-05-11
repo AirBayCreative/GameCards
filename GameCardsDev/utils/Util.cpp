@@ -147,7 +147,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		listBox->add(mBox);
 	}
-	setPadding(listBox);
+	listBox->setPaddingLeft(PADDING);
 
 	imgSize = -1;
 	mainLayout->add(softKeys);
