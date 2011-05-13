@@ -49,7 +49,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "andre", L"Username:");
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -58,7 +58,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "aaaaaa", L"Password:");
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
