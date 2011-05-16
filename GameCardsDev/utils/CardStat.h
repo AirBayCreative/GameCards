@@ -20,9 +20,25 @@ public:
 	String getStatType();
 	void setStatType(const char *statType);
 
+	int getTop();
+	void setTop(int);
+
+	int getLeft();
+	void setLeft(int);
+
+	int getWidth();
+	void setWidth(int);
+
+	int getHeight();
+	void setHeight(int);
+
+	int getFrontOrBack();
+	void setFrontOrBack(int);
+
 	String toString();
 private:
 	String cardStatId, statDescription, statType;
+	int top, left, width, height, frontOrBack;
 };
 
 #endif	//_CARDSTAT_H_

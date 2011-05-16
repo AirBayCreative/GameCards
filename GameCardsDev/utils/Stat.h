@@ -9,6 +9,9 @@ class Stat  {
 public:
 	Stat();
 
+	String getCardStatId();
+	void setCardStatId(const char *name);
+
 	String getDesc();
 	void setDesc(const char *name);
 
@@ -32,9 +35,12 @@ public:
 
 	int getHeight();
 	void setHeight(int);
+
+	int getFrontOrBack();
+	void setFrontOrBack(int);
 private:
-	String desc, display, iVal;
-	int top, left, width, height;
+	String desc, display, iVal, cardStatId;
+	int top, left, width, height, frontOrBack;
 };
 
 #endif	//_STAT_H_

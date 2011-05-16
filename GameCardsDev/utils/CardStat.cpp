@@ -36,6 +36,46 @@ void CardStat::setStatType(const char *t) {
 	statType = t;
 }
 
+void CardStat::setTop(int i) {
+	top = i;
+}
+
+int CardStat::getTop() {
+	return top;
+}
+
+void CardStat::setLeft(int i) {
+	left = i;
+}
+
+int CardStat::getLeft() {
+	return left;
+}
+
+void CardStat::setWidth(int i) {
+	width = i;
+}
+
+int CardStat::getWidth() {
+	return width;
+}
+
+void CardStat::setHeight(int i) {
+	height = i;
+}
+
+int CardStat::getHeight() {
+	return height;
+}
+
+void CardStat::setFrontOrBack(int i) {
+	frontOrBack = i;
+}
+
+int CardStat::getFrontOrBack() {
+	return frontOrBack;
+}
+
 String CardStat::toString() {
 	String result = "";
 	result += "statType: " +statType;

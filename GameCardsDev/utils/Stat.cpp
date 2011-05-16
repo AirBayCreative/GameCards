@@ -7,6 +7,14 @@ Stat::Stat() {
 	iVal = "";
 }
 
+void Stat::setCardStatId(const char *d) {
+	cardStatId = d;
+}
+
+String Stat::getCardStatId() {
+	return cardStatId;
+}
+
 void Stat::setDesc(const char *d) {
 	desc = d;
 }
@@ -83,4 +91,12 @@ void Stat::setHeight(int i) {
 
 int Stat::getHeight() {
 	return height;
+}
+
+void Stat::setFrontOrBack(int i) {
+	frontOrBack = i;
+}
+
+int Stat::getFrontOrBack() {
+	return frontOrBack;
 }

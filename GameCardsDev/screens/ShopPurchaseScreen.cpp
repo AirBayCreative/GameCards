@@ -62,6 +62,9 @@ ShopPurchaseScreen::~ShopPurchaseScreen() {
 		delete imageCache;
 		imageCache = NULL;
 	}
+	if(next!=NULL){
+		delete next;
+	}
 }
 
 void ShopPurchaseScreen::drawPostPurchaseScreen() {
@@ -163,7 +166,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 			if (purchased) {
-				if (imge->getResource() != RES_LOADING) {
+				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 					maDestroyObject(imge->getResource());
 				}
 				imge->setResource(RES_LOADING);

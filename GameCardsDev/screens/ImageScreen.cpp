@@ -75,8 +75,10 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				flipOrSelect = 0;
 				currentSelectedStat = -1;
 				for(int i = 0;i<card->getStats().size();i++){
-					if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
-						currentSelectedStat = i;
+					if(flip==card->getStats()[i]->getFrontOrBack()){
+						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
+							currentSelectedStat = i;
+						}
 					}
 				}
 			}
@@ -155,10 +157,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_UP:
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-				if(flip){
-					if(card->getStats().size()>0){
+				if(card->getStats().size()>0){
+					if(flip==card->getStats()[0]->getFrontOrBack()){
 						currentSelectedStat--;
-						if(currentSelectedStat == -1){
+						if(currentSelectedStat < 0){
 							currentSelectedStat = 0;
 						}
 						imge->refreshWidget();
@@ -169,8 +171,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_DOWN:
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-				if(flip){
-					if(card->getStats().size()>0){
+				if(card->getStats().size()>0){
+					if(flip==card->getStats()[0]->getFrontOrBack()){
 						if(currentSelectedStat < card->getStats().size()-1){
 							currentSelectedStat++;
 						}
@@ -226,8 +228,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				}
 				else{
 					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-						if(flip){
-							if(currentSelectedStat!=-1){
+						if(currentSelectedStat!=-1){
+							if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 								imge->refreshWidget();
 								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight());
 

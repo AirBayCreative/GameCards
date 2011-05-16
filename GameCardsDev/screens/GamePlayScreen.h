@@ -49,21 +49,25 @@ private:
 
 	String parentTag, cardText, gameId, categoryId;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
-	String statType, statDescription, cardStatId, cardName;
+	String statType, statDescription, cardStatId, cardName, statDesc, statIVal;
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack;
 	String userScore, opponentScore, explanation, outcome;
-	int i, moved, phase, cardIndex, yOffset, storeHeight;
-	bool list, left, right, hasConnection, newGame, busy, flip;
+	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;;
+	bool list, left, right, hasConnection, newGame, busy, flip, loadingGame;
+	MAPoint2d pointPressed, pointReleased;
 	Card *card;
 
+	Stat *newStat;
 	Feed *feed;
 	StringCardMap cards;
-	CardStatVector cardStats;
+	Vector<Stat*> cardStats;
 	Vector<String> index, stats;
 
 	void drawCardListScreen(int index = 0, int yOffset = 0);
 	void drawStatListScreen();
 	void drawResultsScreen();
 	void drawCardDetailsScreen();
+	void drawCardSelectStatScreen();
 
 	void drawCardList(int index = 0);
 	void drawStatList();
