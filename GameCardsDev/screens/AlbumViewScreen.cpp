@@ -359,6 +359,12 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 			statHeight = atoi(attrValue);
 		}else if(!strcmp(attrName, xml_frontorback)) {
 			statFrontOrBack = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_red)) {
+			statRed = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_green)) {
+			statGreen = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_blue)) {
+			statBlue = atoi(attrValue);
 		}
 	}
 }
@@ -426,6 +432,9 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setWidth(statWidth);
 		stat->setHeight(statHeight);
 		stat->setFrontOrBack(statFrontOrBack);
+		stat->setColorRed(statRed);
+		stat->setColorGreen(statGreen);
+		stat->setColorBlue(statBlue);
 		stats.add(stat);
 
 		statDesc = "";

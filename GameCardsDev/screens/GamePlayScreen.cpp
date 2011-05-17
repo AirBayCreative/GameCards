@@ -439,7 +439,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								lprintfln("aaagetTop %i",cardStats[currentSelectedStat]->getTop());
 								lprintfln("aaagetLeft %i",cardStats[currentSelectedStat]->getLeft());
 								tempImage->refreshWidget();
-								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight());
+								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue());
 							}
 						}
 					}
@@ -465,7 +465,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								lprintfln("aaagetTop %i",cardStats[currentSelectedStat]->getTop());
 								lprintfln("aaagetLeft %i",cardStats[currentSelectedStat]->getLeft());
 								tempImage->refreshWidget();
-								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight());
+								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue());
 							}
 						}
 					}
@@ -526,7 +526,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							if(currentSelectedStat>-1){
 								if(flip==cardStats[currentSelectedStat]->getFrontOrBack()){
 									tempImage->refreshWidget();
-									tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight());
+									tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue());
 
 									selectStat(currentSelectedStat);
 								}
@@ -749,6 +749,12 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 			statHeight = atoi(attrValue);
 		}else if(!strcmp(attrName, xml_frontorback)) {
 			statFrontOrBack = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_red)) {
+			statRed = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_green)) {
+			statGreen = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_blue)) {
+			statBlue = atoi(attrValue);
 		}
 	}
 }
@@ -839,6 +845,9 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		newStat->setWidth(statWidth);
 		newStat->setHeight(statHeight);
 		newStat->setFrontOrBack(statFrontOrBack);
+		newStat->setColorRed(statRed);
+		newStat->setColorGreen(statGreen);
+		newStat->setColorBlue(statBlue);
 		cardStats.add(newStat);
 		cardStatId = "";
 		statDescription = "";
