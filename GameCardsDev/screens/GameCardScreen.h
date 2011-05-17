@@ -34,11 +34,6 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	void selectionChanged(Widget *widget, bool selected);
-
-	void show();
-	void hide();
-
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 

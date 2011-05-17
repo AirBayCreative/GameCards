@@ -96,6 +96,24 @@ MenuScreen::~MenuScreen() {
 	}
 }
 
+void MenuScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		((Label *)widget)->setFont(gFontBlue);
+	} else {
+		((Label *)widget)->setFont(gFontBlack);
+	}
+}
+
+void MenuScreen::show() {
+	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	Screen::show();
+}
+
+void MenuScreen::hide() {
+    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+	Screen::hide();
+}
+
 void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
