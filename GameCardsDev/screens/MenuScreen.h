@@ -10,6 +10,11 @@ public:
 
 	void keyPressEvent(int keyCode);
 private:
+	void selectionChanged(Widget *widget, bool selected);
+
+	void show();
+	void hide();
+
 	Screen *menu;
 	int c;
 
