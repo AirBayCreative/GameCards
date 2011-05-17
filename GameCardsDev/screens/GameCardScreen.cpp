@@ -87,24 +87,6 @@ void GameCardScreen::locateItem(MAPoint2d point)
 }
 #endif
 
-void GameCardScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
-	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
-	}
-}
-
-void GameCardScreen::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
-	Screen::show();
-}
-
-void GameCardScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
-	Screen::hide();
-}
-
 void GameCardScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
