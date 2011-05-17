@@ -44,9 +44,9 @@ private:
 	Screen *previous;
 	Card *card;
 	bool left, right, sending, list;
-	String method, methodLabel, friendDetail, parentTag;
+	String method, methodLabel, friendDetail, friendNote, parentTag;
 	String temp, temp1, error_msg, result;
-	NativeEditBox *contactEditBox;
+	NativeEditBox *contactEditBox, *editBoxNote;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

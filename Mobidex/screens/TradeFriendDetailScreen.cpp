@@ -5,6 +5,7 @@
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
 	sending = false;
 	friendDetail = "";
+	friendNote = "";
 	methodLabel = "";
 	method = "";
 	result = "";
@@ -25,6 +26,7 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 	method="";
 	methodLabel="";
 	friendDetail="";
+	friendNote = "";
 	parentTag="";
 	temp="";
 	temp1="";
@@ -89,6 +91,18 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	contactEditBox->setSelected(true);
 
 	listBox->setSelectedIndex(1);
+
+	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, gFontBlack);
+	lblMethod->setSkin(gSkinEditBox);
+	setPadding(lblMethod);
+	editBoxNote = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 140, MA_TB_TYPE_ANY, lblMethod, "", L"Note:");
+	editBoxNote->setDrawBackground(false);
+	editBoxNote->setMaxLength(140);
+	editBoxNote->setMultiLine(true);
+
+
+	lblMethod->addWidgetListener(this);
+	listBox->add(lblMethod);
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -102,7 +116,16 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + methodLabel + " " + friendDetail + "?";
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
+	lbl->setHorizontalAlignment(Label::HA_LEFT);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setSkin(gSkinBack);
+	lbl->setMultiLine(true);
+	listBox->add(lbl);
+
+	confirmLabel = "Note:\n\n" + friendNote;
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
+	lbl->setHorizontalAlignment(Label::HA_LEFT);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
@@ -194,10 +217,10 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontBlack);
-	}
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
 }
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
@@ -232,6 +255,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				else {
 					notice->setCaption("");
 					friendDetail = contactEditBox->getText();
+					friendNote = editBoxNote->getText();
 					drawConfirmScreen();
 				}
 				break;
@@ -243,12 +267,12 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					//make the http connection to trade the card
 					int urlLength = TRADE.length() + card->getId().length() + strlen(trade_method) +
-							method.length() + strlen(trade_by_detail) + friendDetail.length() + 4;
+							method.length() + strlen(trade_by_detail) + friendDetail.length() + 4 + friendNote.length();
 					char *url = new char[urlLength];
 					memset(url, '\0', urlLength);
 
 					sprintf(url, "%s%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
-							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str());
+							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str(), friendNote.c_str());
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
 						mHttp.close();
