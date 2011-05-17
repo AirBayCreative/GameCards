@@ -199,11 +199,11 @@ void AlbumLoadScreen::drawList() {
 
 	if (path.size() == 0) {
 		//add the redeem option
-		label = createSubLabel(redeem);
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-		size++;
+		//label = createSubLabel(redeem);
+		//label->setPaddingBottom(5);
+		//label->addWidgetListener(this);
+		//listBox->add(label);
+		//size++;
 
 		//add the search option
 		label = createSubLabel(search);
@@ -275,7 +275,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
+			/*if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
@@ -283,7 +283,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				next = new RedeemScreen(feed, this);
 				next->show();
 			}
-			else if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
+			else */if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;

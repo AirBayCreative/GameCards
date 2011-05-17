@@ -16,7 +16,9 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	layout->setDrawBackground(TRUE);
 	this->setMain(layout);
 
-	drawMethodScreen();
+	method = by_phone_number;
+	methodLabel = phoneNumlbl;
+	drawDetailScreen();
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
@@ -271,6 +273,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		break;
 	case MAK_BACK:
 	case MAK_SOFTLEFT:
+		previous->show();
+		break;
 		switch(phase) {
 			case SP_METHOD:
 				previous->show();

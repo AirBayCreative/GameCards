@@ -154,6 +154,7 @@ static const char* innerDelim = "$";
 static const char* demo = "Demo Deck";
 static const char* demoid = "-1";
 static const char* back = "Back";
+static const char* home = "Home";
 static const char* download = "Download";
 static const char* auction = "Auction";
 static const char* empty = "Empty";
@@ -373,7 +374,7 @@ static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
 static const char* noteslbl = "Notes";
-static const char* sharelbl = "Share";
+static const char* sharelbl = "Send";
 static const char* contactlbl = "Contact";
 static const char* deletecardlbl = "Delete Card";
 //update vars

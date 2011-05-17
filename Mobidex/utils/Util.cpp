@@ -68,7 +68,7 @@ Label* createEditLabel(String str, int height) {
 
 Label* createSubLabel(String str, int height) {
 	Label *label = new Label(0, 0, scrWidth, height, NULL, str, 0, gFontBlack);
-	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setHorizontalAlignment(Label::HA_LEFT);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(gSkinList);
 	return label;

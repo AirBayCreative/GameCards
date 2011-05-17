@@ -2,7 +2,7 @@
 
 #include "Login.h"
 #include "../utils/Util.h"
-#include "AlbumLoadScreen.h"
+#include "SearchScreen.h"
 
 Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed), prev(previous), screen(screen) {
 	moved = 0;
@@ -413,7 +413,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		if (next != NULL) {
 			delete next;
 		}
-		next = new AlbumLoadScreen(feed);
+		next = new SearchScreen(feed, NULL);
 		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
@@ -452,7 +452,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		if (next != NULL) {
 			delete next;
 		}
-		next = new AlbumLoadScreen(feed, album);
+		next = new SearchScreen(feed, NULL);
 		next->show();
 	} else {
 		if (!error) {

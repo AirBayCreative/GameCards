@@ -213,8 +213,8 @@ void AlbumViewScreen::drawList() {
 
 		index.add(itr->second->getId());
 		cardText = (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		cardText += "\nQuantity: ";
-		cardText += itr->second->getQuantity();
+		//cardText += "\nQuantity: ";
+		//cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth(), 74, listBox, 3, 1);
 		feedlayout->setSkin(gSkinAlbum);
