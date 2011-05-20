@@ -155,6 +155,23 @@ ImageScreen::~ImageScreen() {
 
 void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
+		case MAK_LEFT:
+		case MAK_RIGHT:
+			flip=!flip;
+			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+				maDestroyObject(imge->getResource());
+			}
+			imge->setResource(RES_LOADING);
+			imge->update();
+			imge->requestRepaint();
+			maUpdateScreen();
+			if (flip) {
+				retrieveBack(imge, card, height-PADDING*2, imageCache);
+			} else {
+				retrieveFront(imge, card, height-PADDING*2, imageCache);
+			}
+			currentSelectedStat = -1;
+			break;
 		case MAK_UP:
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
@@ -225,6 +242,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						retrieveFront(imge, card, height-PADDING*2, imageCache);
 					}
 					flipOrSelect=0;
+					currentSelectedStat = -1;
 				}
 				else{
 					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {

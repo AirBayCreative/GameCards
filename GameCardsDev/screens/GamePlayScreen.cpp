@@ -163,6 +163,7 @@ void GamePlayScreen::drawStatList() {
 void GamePlayScreen::drawCardListScreen(int index, int yOffset) {
 	phase = P_SELECT_CARD;
 	listBox->setEnabled(true);
+	listBox->setSelected(true);
 	clearListBox();
 
 	updateSoftKeyLayout(options, select, details, mainLayout);
@@ -193,7 +194,7 @@ void GamePlayScreen::drawStatListScreen() {
 void GamePlayScreen::drawResultsScreen() {
 	clearListBox();
 
-	updateSoftKeyLayout("", continuelbl, "", mainLayout);
+	updateSoftKeyLayout(options, continuelbl, "", mainLayout);
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
@@ -275,7 +276,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	int height = listBox->getHeight();
 
 	tempImage = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
-
+	lprintfln("wtfffs %s ", card->getId().c_str());
 	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
 }
 
@@ -292,22 +293,24 @@ void GamePlayScreen::pointerMoveEvent(MAPoint2d point) {
 
 void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 	pointReleased = point;
-	if (moved <= 8) {
+	if (moved <= 8 || phase==P_SELECT_STAT || phase == P_CARD_DETAILS) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
-			if(phase==P_SELECT_STAT){
+			if(phase==P_SELECT_STAT || phase == P_CARD_DETAILS){
 				if(absoluteValue(pointPressed.x-pointReleased.x) >tempImage->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
 					flipOrSelect = 1;
 				}else{
 					flipOrSelect = 0;
 					currentSelectedStat = -1;
-					for(int i = 0;i<cardStats.size();i++){
-						if(flip==cardStats[i]->getFrontOrBack()){
-							if(tempImage->statContains(cardStats[i]->getLeft(),cardStats[i]->getTop(),cardStats[i]->getWidth(),cardStats[i]->getHeight(),point.x, point.y)){
-								currentSelectedStat = i;
+					if(phase==P_SELECT_STAT){
+						for(int i = 0;i<cardStats.size();i++){
+							if(flip==cardStats[i]->getFrontOrBack()){
+								if(tempImage->statContains(cardStats[i]->getLeft(),cardStats[i]->getTop(),cardStats[i]->getWidth(),cardStats[i]->getHeight(),point.x, point.y)){
+									currentSelectedStat = i;
+								}
 							}
 						}
 					}
@@ -422,6 +425,30 @@ void GamePlayScreen::hide() {
 void GamePlayScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 	switch(keyCode) {
+		case MAK_LEFT:
+		case MAK_RIGHT:
+			switch(phase){
+				case P_SELECT_STAT:
+				case P_CARD_DETAILS:
+					flip = !flip;
+					int height = listBox->getHeight();
+					if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
+						maDestroyObject(tempImage->getResource());
+					}
+					tempImage->setResource(RES_LOADING);
+					tempImage->update();
+					tempImage->requestRepaint();
+					maUpdateScreen();
+					if (flip) {
+						retrieveBack(tempImage, card, height-PADDING*2, imageCache);
+					}
+					else {
+						retrieveFront(tempImage, card, height-PADDING*2, imageCache);
+					}
+					currentSelectedStat=-1;
+					break;
+			}
+			break;
 		case MAK_UP:
 			switch (phase) {
 				case P_SELECT_CARD:
@@ -521,6 +548,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							retrieveFront(tempImage, card, height-PADDING*2, imageCache);
 						}
 						flipOrSelect=0;
+						currentSelectedStat=-1;
 					}else{
 						if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
 							if(currentSelectedStat>-1){
@@ -542,7 +570,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 
 				switch (phase) {
 					case P_SELECT_CARD:
-						selectCard(cards.find(index[selected])->second);
+						card = cards.find(index[selected])->second;
+						selectCard(card);
 						break;
 					case P_CARD_DETAILS:
 						//resetHeights();
@@ -819,6 +848,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		newCard->setThumb(thumburl.c_str());
 		newCard->setFront(fronturl.c_str());
 		newCard->setBack(backurl.c_str());
+		lprintfln("OMGSIGH %s ", id.c_str());
 		newCard->setId(id.c_str());
 		newCard->setGamePlayerCardId(gamePlayerCardId.c_str());
 		newCard->setStats(cardStats);
