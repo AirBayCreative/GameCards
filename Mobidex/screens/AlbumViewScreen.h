@@ -60,6 +60,7 @@ private:
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category, searchString;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, albumType;
 	bool list, left, right, emp, hasConnection, busy;
 

@@ -42,7 +42,7 @@ private:
 	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
-	int height, screenType, flipOrSelect;
+	int height, screenType, flipOrSelect, currentSelectedStat;
 	bool flip, busy;
 	bool left, right, list, hasConnection, canAuction;
 	String parentTag;

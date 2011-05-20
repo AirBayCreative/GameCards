@@ -5,6 +5,9 @@ Stat::Stat() {
 	desc = "";
 	display = "";
 	iVal = "";
+	colorRed = 0;
+	colorGreen = 0;
+	colorBlue = 0;
 }
 
 void Stat::setDesc(const char *d) {
@@ -51,4 +54,68 @@ void Stat::setAll(const char* allch) {
 		setDisplay("");
 		setIVal("");
 	}
+}
+
+void Stat::setTop(int i) {
+	top = i;
+}
+
+int Stat::getTop() {
+	return top;
+}
+
+void Stat::setLeft(int i) {
+	left = i;
+}
+
+int Stat::getLeft() {
+	return left;
+}
+
+void Stat::setWidth(int i) {
+	width = i;
+}
+
+int Stat::getWidth() {
+	return width;
+}
+
+void Stat::setHeight(int i) {
+	height = i;
+}
+
+int Stat::getHeight() {
+	return height;
+}
+
+void Stat::setFrontOrBack(int i) {
+	frontOrBack = i;
+}
+
+int Stat::getFrontOrBack() {
+	return frontOrBack;
+}
+
+void Stat::setColorRed(int i) {
+	colorRed = i;
+}
+
+int Stat::getColorRed() {
+	return colorRed;
+}
+
+void Stat::setColorGreen(int i) {
+	colorGreen = i;
+}
+
+int Stat::getColorGreen() {
+	return colorGreen;
+}
+
+void Stat::setColorBlue(int i) {
+	colorBlue = i;
+}
+
+int Stat::getColorBlue() {
+	return colorBlue;
 }
