@@ -30,8 +30,8 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 	return r->contains(pointX, pointY);
 }
 
-void MobImage::selectStat(int x, int y, int width, int height){
-	Gfx_setColor(0,0,0);
+void MobImage::selectStat(int x, int y, int width, int height, int red, int green, int blue){
+	Gfx_setColor(red,green,blue);
 	Gfx_clearMatrix();
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	drawRectangle((5 + (paddedBounds.width >> 1) - (imageWidth >> 1))+(x*imageWidth/250),((paddedBounds.height >> 1) - (imageHeight >> 1))+(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);

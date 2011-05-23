@@ -16,7 +16,7 @@ public:
 	~MobImage();
 
 	void setHasNote(bool n);
-	void selectStat(int x, int y, int width, int height);
+	void selectStat(int x, int y, int width, int height, int red, int green, int blue);
 	bool statContains(int x, int y, int width, int height, int pointX, int pointY);
 	void drawRectangle(int x, int y, int width, int height);
 	void refreshWidget();

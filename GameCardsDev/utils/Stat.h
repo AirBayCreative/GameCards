@@ -38,9 +38,18 @@ public:
 
 	int getFrontOrBack();
 	void setFrontOrBack(int);
+
+	int getColorRed();
+	void setColorRed(int);
+
+	int getColorGreen();
+	void setColorGreen(int);
+
+	int getColorBlue();
+	void setColorBlue(int);
 private:
 	String desc, display, iVal, cardStatId;
-	int top, left, width, height, frontOrBack;
+	int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue;
 };
 
 #endif	//_STAT_H_

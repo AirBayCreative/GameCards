@@ -5,6 +5,9 @@ Stat::Stat() {
 	desc = "";
 	display = "";
 	iVal = "";
+	colorRed = 0;
+	colorGreen = 0;
+	colorBlue = 0;
 }
 
 void Stat::setCardStatId(const char *d) {
@@ -99,4 +102,28 @@ void Stat::setFrontOrBack(int i) {
 
 int Stat::getFrontOrBack() {
 	return frontOrBack;
+}
+
+void Stat::setColorRed(int i) {
+	colorRed = i;
+}
+
+int Stat::getColorRed() {
+	return colorRed;
+}
+
+void Stat::setColorGreen(int i) {
+	colorGreen = i;
+}
+
+int Stat::getColorGreen() {
+	return colorGreen;
+}
+
+void Stat::setColorBlue(int i) {
+	colorBlue = i;
+}
+
+int Stat::getColorBlue() {
+	return colorBlue;
 }
