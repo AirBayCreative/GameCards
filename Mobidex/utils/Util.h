@@ -183,6 +183,7 @@ static const char* emaillbl = "Email:";
 static const char* fullNamelbl = "Full Name:";
 static const char* cellNumberlbl = "Cell Number:";
 static const char* notelbl = "Note:";
+static const char* noteLlbl = "note";
 static const char* phoneNumlbl = "Phone Number";
 static const char* personalNotelbl = "Personal Note:";
 static const char* emaillblNoColon = "Email";

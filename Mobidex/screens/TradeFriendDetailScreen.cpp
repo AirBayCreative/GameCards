@@ -271,14 +271,16 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					lbl->setCaption(sending_card_message);
 
+					String noteStr = base64_encode(reinterpret_cast<const unsigned char*>(friendNote.c_str()), friendNote.length());
+
 					//make the http connection to trade the card
 					int urlLength = TRADE.length() + card->getId().length() + strlen(trade_method) +
-							method.length() + strlen(trade_by_detail) + friendDetail.length() + 4 + friendNote.length();
+							method.length() + strlen(trade_by_detail) + friendDetail.length() + 6 + strlen(noteLlbl) + noteStr.length();
 					char *url = new char[urlLength];
 					memset(url, '\0', urlLength);
 
-					sprintf(url, "%s%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
-							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str(), friendNote.c_str());
+					sprintf(url, "%s%s&%s=%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
+							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str(), noteLlbl, noteStr.c_str());
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
 						mHttp.close();
