@@ -9,12 +9,12 @@
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
-	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
+	gFontBlack = new MAUI::Font(RES_FONT_WHITE);
 	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
-    gFontBlue = new MAUI::Font(RES_FONT_BLUE);
+    gFontBlue = new MAUI::Font(RES_FONT_WHITE);
 
 	gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 22, 26, true, true);
-	gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
+	gSkinButton = new WidgetSkin(RES_SELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
 	gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 10, 70, 10, 70, true, true);
 	gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 21, 37, 16, 32, true, true);
 	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 2, 32, 16, 32, true, true);

@@ -232,6 +232,7 @@ void AlbumViewScreen::drawList() {
 		label->setAutoSizeY();
 		label->setAutoSizeX(true);
 		label->setMultiLine(true);
+		label->setDrawBackground(false);
 	}
 
 	if (cards.size() >= 1) {
