@@ -3,7 +3,6 @@
 #include "SearchScreen.h"
 #include "../utils/Util.h"
 #include "AlbumViewScreen.h"
-#include "AlbumLoadScreen.h"
 
 SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(feed), prev(previous) {
 	moved = 0;
@@ -27,7 +26,7 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	parentTag = "";
 	error_msg = "";
 
-	mainLayout = createMainLayout(home, search, "", true);
+	mainLayout = createMainLayout(back, search, "", true);
 
 	mainLayout->setDrawBackground(true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -186,8 +185,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			isActive = false;
 			editBoxSearch->setSelected(false);
 			editBoxSearch->disableListener();
-			next = new AlbumLoadScreen(feed);
-			next->show();
+			prev->show();
 			break;
 		case MAK_UP:
 			break;

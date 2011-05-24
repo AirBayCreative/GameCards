@@ -1,5 +1,6 @@
 #include "TradeFriendDetailScreen.h"
 #include "AlbumViewScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
@@ -92,6 +93,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	listBox->setSelectedIndex(1);
 
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, personalNotelbl, 0, gFontBlack);
+	lbl->setSkin(gSkinBack);
+
 	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, gFontBlack);
 	lblMethod->setSkin(gSkinEditBox);
 	setPadding(lblMethod);
@@ -102,6 +106,8 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 
 	lblMethod->addWidgetListener(this);
+
+	listBox->add(lbl);
 	listBox->add(lblMethod);
 }
 
@@ -297,6 +303,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		break;
 	case MAK_BACK:
 	case MAK_SOFTLEFT:
+		//previous = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
+									//this, card);
 		previous->show();
 		break;
 		switch(phase) {

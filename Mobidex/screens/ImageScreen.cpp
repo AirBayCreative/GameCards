@@ -20,7 +20,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		}
 		else {
 #if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
 #else
 			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
 #endif
@@ -227,6 +227,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
+			flipOrSelect = true;
 			if (card != NULL) {
 				if(flipOrSelect){
 					flip=!flip;

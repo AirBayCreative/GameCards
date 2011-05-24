@@ -4,7 +4,7 @@
 #include "utils/Util.h"
 #include "utils/MAHeaders.h"
 #include "screens/OptionsScreen.h"
-#include "screens/SearchScreen.h"
+#include "screens/AlbumLoadScreen.h"
 
 MAUIMoblet *moblet;
 
@@ -31,7 +31,7 @@ MAUIMoblet::MAUIMoblet() {
 	feed.setAll(getData(FEED));
 	feed.setAlbum(getData(ALBUM));
 	if (feed.getLoaded()) {
-		next = new SearchScreen(&feed, NULL);
+		next = new AlbumLoadScreen(&feed);
 		next->show();
 	} else {
 		next = new OptionsScreen(&feed, OptionsScreen::ST_LOGIN_OPTIONS);

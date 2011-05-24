@@ -6,6 +6,7 @@
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
+#include "TradeFriendDetailScreen.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) : mHttp(this),
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
@@ -27,9 +28,9 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	note = "";
 	searchString = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, options, "", true);
+		mainLayout = createMainLayout(back, sharelbl, "", true);
 	#else
-		mainLayout = createMainLayout(back, options, select, true);
+		mainLayout = createMainLayout(back, sharelbl, select, true);
 	#endif
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -335,8 +336,10 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 							this, cards.find(index[selected])->second);
 				}
 				else {
-					next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
-							this, cards.find(index[selected])->second);
+					//next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
+							//this, cards.find(index[selected])->second);
+
+					next = new TradeFriendDetailScreen(this, feed, cards.find(index[selected])->second);
 				}
 				next->show();
 			}
