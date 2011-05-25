@@ -28,9 +28,15 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	note = "";
 	searchString = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, sharelbl, "", true);
+		if (albumType != AT_SHARE)
+			mainLayout = createMainLayout(back, options, "", true);
+		else
+			mainLayout = createMainLayout(back, sharelbl, "", true);
 	#else
-		mainLayout = createMainLayout(back, sharelbl, select, true);
+		if (albumType != AT_SHARE)
+			mainLayout = createMainLayout(back, options, "", true);
+		else
+			mainLayout = createMainLayout(back, sharelbl, select, true);
 	#endif
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -222,12 +228,13 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
+		feedlayout->setPaddingTop(2);
 
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 		tempImage->setHasNote(itr->second->getNote().length()>0);
 		retrieveThumb(tempImage, itr->second, mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontWhite);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setAutoSizeX(true);
@@ -280,7 +287,7 @@ void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
+		((Label *)widget->getChildren()[1])->setFont(gFontWhite);
 	}
 }
 
@@ -336,11 +343,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
 							this, cards.find(index[selected])->second);
 				}
-				else {
-					//next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
-							//this, cards.find(index[selected])->second);
-
+				else if (albumType == AT_SHARE) {
 					next = new TradeFriendDetailScreen(this, feed, cards.find(index[selected])->second);
+				}
+				else
+				{
+					next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
+												this, cards.find(index[selected])->second);
 				}
 				next->show();
 			}

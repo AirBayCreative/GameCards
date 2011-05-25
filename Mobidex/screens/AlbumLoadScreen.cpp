@@ -241,7 +241,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -302,13 +302,21 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 
 				if (val->getHasCards()) {
-					if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+					if (listBox->getSelectedIndex() == (size-4))
+					{
+						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_SHARE);
 						next->show();
 					}
-					else {
-						next = new AlbumViewScreen(this, feed, val->getId());
-						next->show();
+					else
+					{
+						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+							next->show();
+						}
+						else {
+							next = new AlbumViewScreen(this, feed, val->getId());
+							next->show();
+						}
 					}
 				}
 				else {

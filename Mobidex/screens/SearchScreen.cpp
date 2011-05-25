@@ -34,7 +34,7 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, searchTermlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, searchTermlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");

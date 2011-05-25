@@ -48,7 +48,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 	updateSoftKeyLayout(back, select, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -74,7 +74,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	setPadding(listBox);
 	updateSoftKeyLayout(back, continuelbl, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel+":", 0, gFontBlack);
+	Label* l;
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel, 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
 	lblMethod = createEditLabel("");
@@ -93,10 +95,12 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	listBox->setSelectedIndex(1);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, personalNotelbl, 0, gFontBlack);
+	l = lbl;
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, personalNotelbl, 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, gFontBlack);
+	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, gFontWhite);
 	lblMethod->setSkin(gSkinEditBox);
 	setPadding(lblMethod);
 	editBoxNote = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 140, MA_TB_TYPE_ANY, lblMethod, "", L"Note:");
@@ -109,6 +113,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	listBox->add(lbl);
 	listBox->add(lblMethod);
+
+	lbl = l;
+	l = NULL;
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -121,16 +128,16 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + methodLabel + " " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_LEFT);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
 
-	confirmLabel = "Note:\n\n" + friendNote;
+	confirmLabel = "Personal Note\n\n" + friendNote;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_LEFT);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -146,7 +153,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	updateSoftKeyLayout("", continuelbl, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
@@ -257,14 +264,15 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			case SP_DETAIL:
 				if (contactEditBox->getText() == "") {
 					notice->setCaption(no_contact + method + ".");
+					break;
 				}
 				else {
 					notice->setCaption("");
 					friendDetail = contactEditBox->getText();
 					friendNote = editBoxNote->getText();
-					drawConfirmScreen();
+					//drawConfirmScreen();
+					phase = SP_CONFIRM;
 				}
-				break;
 			case SP_CONFIRM:
 				if (!sending) {
 					sending = true;

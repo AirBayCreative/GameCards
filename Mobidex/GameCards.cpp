@@ -9,7 +9,7 @@
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
-	gFontBlack = new MAUI::Font(RES_FONT_WHITE);
+	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
 	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
     gFontBlue = new MAUI::Font(RES_FONT_WHITE);
 
@@ -20,7 +20,7 @@ MAUIMoblet::MAUIMoblet() {
 	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 2, 32, 16, 32, true, true);
 	gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
 	gSkinKeyboard = new WidgetSkin(RES_KEYBOARD_SEL, RES_KEYBOARD_UNSEL, 12, 13, 12, 13, true);
-	gSkinHeader = new WidgetSkin(RES_IMAGE, RES_IMAGE, 240, 252, 83, 84, true);
+	gSkinHeader = new WidgetSkin(RES_IMAGE, RES_IMAGE, 236, 252, 83, 84, true);
 	Engine& engine = Engine::getSingleton();
 	engine.setDefaultFont(gFontBlack);
 	engine.setDefaultSkin(gSkinBack);

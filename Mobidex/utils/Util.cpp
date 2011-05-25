@@ -54,20 +54,20 @@ void setPadding(Widget *w) {
 }
 
 Label* createLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
 	label->setSkin(gSkinText);
 	setPadding(label);
 	return label;
 }
 Label* createEditLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
 	return label;
 }
 
 Label* createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth, height, NULL, str, 0, gFontBlack);
+	Label *label = new Label(0, 0, scrWidth, height, NULL, str, 0, gFontWhite);
 	label->setHorizontalAlignment(Label::HA_LEFT);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(gSkinList);
@@ -127,7 +127,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontWhite);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
