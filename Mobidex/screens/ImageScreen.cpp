@@ -227,7 +227,6 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-			flipOrSelect = true;
 			if (card != NULL) {
 				if(flipOrSelect){
 					flip=!flip;
