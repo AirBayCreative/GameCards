@@ -30,16 +30,16 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontWhite);
 			listBox->add(label);
 			break;
 		case ST_SMS:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, smslbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, smslbl, 0, gFontWhite);
 			listBox->add(label);
 		break;
 	}
 
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, gFontBlack);
+	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, gFontWhite);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
 	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note:");

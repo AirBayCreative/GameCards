@@ -11,7 +11,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	switch (screenType) {
 		case PROFILE:
 			//USERNAME
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 			listBox->add(label);
 
 			label = createLabel(feed->getUsername());
@@ -19,7 +19,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 
 			//EMAIL
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
 			listBox->add(label);
 
 			label = createLabel(feed->getEmail());
@@ -27,7 +27,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case BALANCE:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontWhite);
 			listBox->add(label);
 
 			balanceLabel = createLabel(feed->getCredits());
@@ -151,7 +151,7 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		if(selected) {
 			((Label *)widget)->setFont(gFontBlue);
 		} else {
-			((Label *)widget)->setFont(gFontBlack);
+			((Label *)widget)->setFont(gFontWhite);
 		}
 	}
 	else {

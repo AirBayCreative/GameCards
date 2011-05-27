@@ -20,7 +20,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		}
 		else {
 #if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
+			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
 #else
 			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
 #endif

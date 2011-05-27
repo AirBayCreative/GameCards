@@ -176,6 +176,7 @@ static const char* passlbl = "Password:";
 static const char* emaillbl = "Email:";
 static const char* notelbl = "Note:";
 static const char* phoneNumlbl = "Phone Number";
+static const char* personalNotelbl = "Personal Note";
 static const char* emaillblNoColon = "Email";
 static const char* userlblNoColon = "Username";
 static const char* continuelbl = "Continue";

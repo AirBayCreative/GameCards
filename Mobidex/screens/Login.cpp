@@ -45,7 +45,7 @@ void Login::drawLoginScreen() {
 	updateSoftKeyLayout(back, login, "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -54,7 +54,7 @@ void Login::drawLoginScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -75,7 +75,7 @@ void Login::drawRegisterScreen() {
 	updateSoftKeyLayout(back, reg, "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -84,7 +84,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -93,7 +93,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, fullNamelbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, fullNamelbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -102,7 +102,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, cellNumberlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, cellNumberlbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");
@@ -111,7 +111,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
 	listBox->add(label);
 
 	label = createEditLabel("");

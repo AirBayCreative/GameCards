@@ -95,3 +95,7 @@
 .res RES_NOTE
 .ubin
 .image "note.png"
+
+.res RES_SELECTED_BUTTON
+.ubin
+.image "background_button_sel.png"

@@ -44,7 +44,7 @@ public:
 
 	void refresh();
 
-	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH};
+	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH, AT_SHARE};
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;

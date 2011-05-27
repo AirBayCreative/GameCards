@@ -199,11 +199,11 @@ void AlbumLoadScreen::drawList() {
 
 	if (path.size() == 0) {
 		//add the redeem option
-		label = createSubLabel(redeem);
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-		size++;
+		//label = createSubLabel(redeem);
+		//label->setPaddingBottom(5);
+		//label->addWidgetListener(this);
+		//listBox->add(label);
+		//size++;
 
 		//add the search option
 		label = createSubLabel(search);
@@ -241,7 +241,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(gFontBlue);
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(gFontWhite);
 	}
 }
 
@@ -275,7 +275,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
-			if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
+			/*if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
@@ -283,7 +283,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				next = new RedeemScreen(feed, this);
 				next->show();
 			}
-			else if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
+			else */if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
@@ -302,13 +302,21 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 
 				if (val->getHasCards()) {
-					if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+					if (listBox->getSelectedIndex() == (size-4))
+					{
+						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_SHARE);
 						next->show();
 					}
-					else {
-						next = new AlbumViewScreen(this, feed, val->getId());
-						next->show();
+					else
+					{
+						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+							next->show();
+						}
+						else {
+							next = new AlbumViewScreen(this, feed, val->getId());
+							next->show();
+						}
 					}
 				}
 				else {
