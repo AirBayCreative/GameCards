@@ -4,7 +4,7 @@
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
-	layout = createMainLayout(back, download);
+	layout = createMainLayout(download, back);
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -79,11 +79,11 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 void NewVersionScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			maPlatformRequest(downloadUrl.c_str());
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_DOWN:

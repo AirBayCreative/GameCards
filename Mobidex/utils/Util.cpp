@@ -133,10 +133,13 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgHeight = EXTENT_Y(imgSize);
+	int imgWidth = EXTENT_X(imgSize);
+	image = new Image((int)((scrWidth-imgWidth)/2), 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	listBox->add(image);
 
-	ListBox *mBox = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-	mBox->setSkin(gSkinHeader);
-	listBox->add(mBox);
+	//ListBox *mBox = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+	//mBox->setSkin(gSkinHeader);
+	//listBox->add(mBox);
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
@@ -153,7 +156,6 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 		listBox->add(mListBox);
 	}
 	//setPadding(listBox);
-
 	imgSize = -1;
 	mainLayout->add(softKeys);
 
@@ -167,8 +169,8 @@ Layout* createImageLayout(const char *left, bool useKinetic) {
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
-
 	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	image->setPaddingLeft((int)((scrWidth-imgWidth)/2));
 	listBox->add(image);
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),

@@ -43,7 +43,7 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool left, right, sending, list;
+	bool left, right, sending, list, fresh;
 	String method, methodLabel, friendDetail, friendNote, parentTag;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *contactEditBox, *editBoxNote;

@@ -5,13 +5,14 @@
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
 	sending = false;
+	fresh = true;
 	friendDetail = "";
 	friendNote = "";
 	methodLabel = "";
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = createMainLayout(back, continuelbl, "", true);
+	layout = createMainLayout(sharelbl, back, "", true);
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
@@ -46,7 +47,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(back, select, "", layout);
+	updateSoftKeyLayout(select, back, "", layout);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontWhite);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
@@ -72,25 +73,31 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	notice->setCaption("");
 	clearListBox();
 	setPadding(listBox);
-	updateSoftKeyLayout(back, continuelbl, "", layout);
+	updateSoftKeyLayout(sharelbl, back, "", layout);
 
 	Label* l;
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel, 0, gFontWhite);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod = createEditLabel("");
-	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethod, "", L"");
-	if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
+	lblMethod = createEditLabel("enter cell number");
+	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER/*MA_TB_TYPE_ANY*/, lblMethod, "enter cell number", L"", fresh);
+	//if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
 		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
-	}
+	//}
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
+
+	/*lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Enter the cell number of the person you want to share your card with", 0, gFontWhite);
+	lbl->setMultiLine(true);
+	lbl->setHorizontalAlignment(Label::HA_CENTER);
+	lbl->setSkin(gSkinBack);*/
 
 	listBox->add(lbl);
 	listBox->add(lblMethod);
 
-	contactEditBox->setText("");
+
+	//contactEditBox->setText("");
 	contactEditBox->setSelected(true);
 
 	listBox->setSelectedIndex(1);
@@ -124,7 +131,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(back, confirm, "", layout);
+	updateSoftKeyLayout(confirm, back, "", layout);
 
 	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + methodLabel + " " + friendDetail + "?";
 
@@ -148,17 +155,18 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 void TradeFriendDetailScreen::drawCompleteScreen() {
 	phase = SP_COMPLETE;
 
-	notice->setCaption("");
-	clearListBox();
+	notice->setCaption(result);
+	//lbl->setCaption("");
+	//clearListBox();
 
-	updateSoftKeyLayout("", continuelbl, "", layout);
+	//updateSoftKeyLayout(continuelbl, "", "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontWhite);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
-	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	//lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontWhite);
+	//lbl->setHorizontalAlignment(Label::HA_CENTER);
+	//lbl->setVerticalAlignment(Label::VA_CENTER);
+	//lbl->setSkin(gSkinBack);
+	//lbl->setMultiLine(true);
+	//listBox->add(lbl);
 }
 
 void TradeFriendDetailScreen::clearListBox() {
@@ -237,10 +245,23 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
+	int index = listBox->getSelectedIndex();
+	if (fresh) {
+		String text = contactEditBox->getText();
+		if (text.length() == 16) {
+			text.remove(0,text.length());
+		} else if (text.length() == 17){
+			text.remove(0,17);
+		} else if (text.length() == 18) {
+			text.remove(0,17);
+		}
+		contactEditBox->setText(text);
+		fresh = !fresh;
+	}
 	switch(keyCode) {
 	case MAK_FIRE:
 		//break;
-	case MAK_SOFTRIGHT:
+	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:
 				int index = listBox->getSelectedIndex();
@@ -277,7 +298,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				if (!sending) {
 					sending = true;
 
-					lbl->setCaption(sending_card_message);
+					notice->setCaption(sending_card_message);
 
 					String noteStr = base64_encode(reinterpret_cast<const unsigned char*>(friendNote.c_str()), friendNote.length());
 
@@ -290,6 +311,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					sprintf(url, "%s%s&%s=%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
 							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str(), noteLlbl, noteStr.c_str());
 					//url.append("&sms=Yes", 8);
+
 					if(mHttp.isOpen()){
 						mHttp.close();
 					}
@@ -312,43 +334,28 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		}
 		break;
 	case MAK_BACK:
-	case MAK_SOFTLEFT:
+	case MAK_SOFTRIGHT:
 		//previous = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
 									//this, card);
+		editBoxNote->setSelected(false);
+		editBoxNote->disableListener();
+		contactEditBox->setSelected(false);
+		contactEditBox->disableListener();
 		previous->show();
 		break;
-		switch(phase) {
-			case SP_METHOD:
-				previous->show();
-				break;
-			case SP_DETAIL:
-				contactEditBox->setSelected(false);
-				drawMethodScreen();
-				break;
-			case SP_CONFIRM:
-				drawDetailScreen();
-				break;
-		}
-		break;
 	case MAK_DOWN:
-		switch(phase) {
-			case SP_METHOD:
-				listBox->selectNextItem();
-				break;
-			case SP_DETAIL:
-				contactEditBox->setSelected(true);
-				break;
+		if (index == 1) {
+			listBox->setSelectedIndex(3);
+		} else if (index == 3) {
+			listBox->setSelectedIndex(1);
 		}
 		break;
 	case MAK_UP:
-		switch(phase) {
-			case SP_METHOD:
-				if (listBox->getSelectedIndex() > 1)
-					listBox->selectPreviousItem();
-				break;
-			case SP_DETAIL:
-				contactEditBox->setSelected(true);
-				break;
+		//int index = listBox->getSelectedIndex();
+		if (index == 3) {
+			listBox->setSelectedIndex(1);
+		} else if (index == 1) {
+			listBox->setSelectedIndex(3);
 		}
 		break;
 	}
@@ -384,7 +391,13 @@ void TradeFriendDetailScreen::mtxTagAttr(const char* attrName, const char* attrV
 
 void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 	if (strcmp(parentTag.c_str(), xml_result) == 0) {
-		result = data;
+		String check = data;
+		if (!(check.find("User not found."))) {
+			maSendTextSMS(contactEditBox->getText().c_str(), check.substr(16).c_str());
+			result = "User not found. Invite Sent.";
+		} else {
+			result = data;
+		}
 	}
 	else {
 		result = error_sending_card_message;

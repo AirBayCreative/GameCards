@@ -60,17 +60,9 @@
 .ubin
 .image "emptythumb.png"
 
-.res RES_SOON
-.ubin
-.image "coming soon.png"
-
 .res RES_TEMP
 .ubin
 .image "empty.png"
-
-.res RES_LOGOUT
-.ubin
-.image "log out.png"
 
 .res RES_LOADINGTHUMB
 .ubin
@@ -79,14 +71,6 @@
 .res RES_LOADING
 .ubin
 .image "loading.png"
-
-.res RES_KEYBOARD_SEL
-.ubin
-.image "keyboard_sel.png"
-
-.res RES_KEYBOARD_UNSEL
-.ubin
-.image "keyboard_unsel.png"
 
 .res RES_MISSINGTHUMB
 .ubin

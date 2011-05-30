@@ -26,22 +26,33 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	parentTag = "";
 	error_msg = "";
 
-	mainLayout = createMainLayout(back, search, "", true);
+	mainLayout = createMainLayout(searchb, back, "", true);
 
 	mainLayout->setDrawBackground(true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	setPadding(listBox);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	notice->setMultiLine(true);
+	//notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, searchTermlbl, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 16, NULL, "", 0, gFontWhite);
 	listBox->add(label);
 
-	label = createEditLabel("");
-	editBoxSearch = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Search term:");
+	label = createEditLabel("enter search term");
+	fresh = true;
+	editBoxSearch = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, 48-PADDING*2, 64, MA_TB_TYPE_ANY, label, "enter search term",L"Search term:", fresh);
 	editBoxSearch->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
+
+	Label *n = new Label(0,0, scrWidth-PADDING*2, scrHeight, NULL, "You can search by name, company or even email. Any detail on a Mobidex card will help you find it.", 0, gFontWhite);
+	n->setMultiLine(true);
+	n->setHorizontalAlignment(Label::HA_CENTER);
+	//label->setVerticalAlignment(Label::VA_CENTER);
+	listBox->add(n);
+	//delete n;
+
+	//NativeLabel *test = new NativeLabel("You can search by name, company or even email. Any detail on a Mobidex card will help you find it.", 0xffffff, true);
+	//listBox->add(test);
 
 	if (feed->getUnsuccessful() != success) {
 		label->setCaption(feed->getUnsuccessful());
@@ -142,38 +153,60 @@ void SearchScreen::hide() {
 }
 
 void SearchScreen::doSearch() {
-	String searchString = editBoxSearch->getCaption();
-	String base64SearchString = base64_encode(reinterpret_cast<const unsigned char*>(searchString.c_str()), searchString.length());
-	int urlLength = SEARCH.length() + base64SearchString.length() + strlen(seconds) + feed->getSeconds().length()
-			+ strlen(height) + intlen(getMaxImageHeight()) + strlen(width) + intlen(scrWidth) + 6;
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), base64SearchString.c_str(), seconds,
-			feed->getSeconds().c_str(), height, getMaxImageHeight(), width, scrWidth);
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-		notice->setCaption(no_connect);
+	String searchString = editBoxSearch->getText();
+	notice->setCaption("");
+	if (searchString.length() == 0) {
+		notice->setCaption("Please enter search term");
+		isBusy = false;
 	} else {
-		notice->setCaption("Searching...");
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
+		String base64SearchString = base64_encode(reinterpret_cast<const unsigned char*>(searchString.c_str()), searchString.length());
+		int urlLength = SEARCH.length() + base64SearchString.length() + strlen(seconds) + feed->getSeconds().length()
+				+ strlen(height) + intlen(getMaxImageHeight()) + strlen(width) + intlen(scrWidth) + 6;
+		char *url = new char[urlLength];
+		memset(url,'\0',urlLength);
+		sprintf(url, "%s%s&%s=%s&%s=%d&%s=%d", SEARCH.c_str(), base64SearchString.c_str(), seconds,
+				feed->getSeconds().c_str(), height, getMaxImageHeight(), width, scrWidth);
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			notice->setCaption(no_connect);
+		} else {
+			notice->setCaption("Searching...");
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+		delete [] url;
+		searchString = "";
+		base64SearchString = "";
 	}
-	delete [] url;
-	searchString = "";
-	base64SearchString = "";
 }
 
 void SearchScreen::keyPressEvent(int keyCode) {
 	error = false;
+	if (fresh) {
+		String text = editBoxSearch->getText();
+		//enter search term
+		if (text.length() == 16) {
+			text.remove(0,text.length());
+		} else if (text.length() == 17){
+			text.remove(0,17);
+		} else if (text.length() == 18) {
+			text.remove(0,17);
+		}
+		editBoxSearch->setText(text);
+		//editBoxSearch->clearText();
+		//editBoxSearch->
+		//editBoxSearch->setText("");
+		fresh = !fresh;
+	}
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				isBusy = true;
 				clearCardMap();
@@ -181,7 +214,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			isActive = false;
 			editBoxSearch->setSelected(false);
 			editBoxSearch->disableListener();
@@ -217,7 +250,7 @@ void SearchScreen::xcConnError(int code) {
 			delete next;
 			next = NULL;
 		}
-		next = new AlbumViewScreen(this, feed, album_search, AlbumViewScreen::AT_SEARCH, cards);
+		next = new AlbumViewScreen(this, feed, album_search, AT_SEARCH, cards);
 		((AlbumViewScreen*)next)->setSearchString(editBoxSearch->getCaption());
 		next->show();
 	}
@@ -234,8 +267,24 @@ void SearchScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	if(!strcmp(parentTag.c_str(), xml_stat)) {
 		if(!strcmp(attrName, xml_desc)) {
 			statDesc += attrValue;
-		} else if(!strcmp(attrName, xml_ival)) {
+		}else if(!strcmp(attrName, xml_ival)) {
 			statIVal += attrValue;
+		}else if(!strcmp(attrName, xml_top)) {
+			statTop = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_left)) {
+			statLeft = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_width)) {
+			statWidth = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_height)) {
+			statHeight = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_frontorback)) {
+			statFrontOrBack = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_red)) {
+			statRed = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_green)) {
+			statGreen = atoi(attrValue);
+		}else if(!strcmp(attrName, xml_blue)) {
+			statBlue = atoi(attrValue);
 		}
 	}
 }
@@ -292,7 +341,14 @@ void SearchScreen::mtxTagEnd(const char* name, int len) {
 		stat->setDesc(statDesc.c_str());
 		stat->setDisplay(statDisplay.c_str());
 		stat->setIVal(statIVal.c_str());
-
+		stat->setTop(statTop);
+		stat->setLeft(statLeft);
+		stat->setWidth(statWidth);
+		stat->setHeight(statHeight);
+		stat->setFrontOrBack(statFrontOrBack);
+		stat->setColorRed(statRed);
+		stat->setColorGreen(statGreen);
+		stat->setColorBlue(statBlue);
 		stats.add(stat);
 
 		statDesc = "";

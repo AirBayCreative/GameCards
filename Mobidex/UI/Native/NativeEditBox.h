@@ -43,7 +43,8 @@ public:
 	NativeEditBox(int x=0, int y=0, int width=0, int height=0,
 		int maxSize=128, int options=MA_TB_TYPE_ANY, Widget* parent=NULL,
 		const MAUtil::String& initialText="",
-		const MAUtil::WString& titleString=L"");
+		const MAUtil::WString& titleString=L"",
+		bool fresh=false);
 
 	~NativeEditBox();
 
@@ -53,6 +54,7 @@ public:
 
 	void setTitleString(const MAUtil::WString& mTitleString);
 	const MAUtil::WString& getTitleString() const;
+	//const MAUtil::String getCaption();
 
 	bool pointerPressed(MAPoint2d p, int id);
 	bool pointerMoved(MAPoint2d p, int id);
@@ -75,6 +77,7 @@ protected:
 	int mOptions;
 	int x,y,width,height;
 	int mStartX, mStartY;
+	bool fresh;
 
 	NativeEditBoxListener* mListener;
 };

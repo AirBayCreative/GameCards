@@ -20,14 +20,14 @@ void NativeEditBox::textBoxClosed(int res, int length) {
 	mListener = NULL;
 	Environment::getEnvironment().removeTextBoxListener(this);
 }
-
 NativeEditBox::NativeEditBox(int x, int y, int width, int height, int maxSize, int options, Widget *parent,
-	const String& initialText, const WString& titleString) :
+	const String& initialText, const WString& titleString, bool fresh) :
 	EditBox(x, y, width, height, parent),
 mTitleString(titleString),
 mString(NULL),
-mOptions(options), x(x), y(y), width(width), height(height)
+mOptions(options), x(x), y(y), width(width), height(height), fresh(fresh)
 {
+	//wsprintf(mString, L"%s","");
 	setMaxSize(maxSize);
 	setCaption(initialText);
 	Environment::getEnvironment().addPointerListener(this);
@@ -91,7 +91,10 @@ void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
 	mListener = listener;
 	Environment::getEnvironment().addTextBoxListener(this);
-	wsprintf(mString, L"%s",getCaption().c_str());
+	if (!fresh) {
+		wsprintf(mString, L"%s",getCaption().c_str());
+		fresh = !fresh;
+	}
 	int res = maTextBox((const wchar*)mTitleString.c_str(), (wchar*)mString,
 		(wchar*)mString, mMaxSize, mOptions);
 	if(res < 0) {

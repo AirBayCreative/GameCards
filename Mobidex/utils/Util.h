@@ -55,6 +55,9 @@ String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
 String base64_decode(String encoded_string);
 static inline bool is_base64(unsigned char c);
 
+
+enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH, AT_SHARE};
+
 //UI Components
 extern Font *gFontGrey;
 extern Font *gFontBlue;
@@ -156,6 +159,9 @@ static const char* demoid = "-1";
 static const char* back = "Back";
 static const char* home = "Home";
 static const char* download = "Download";
+static const char* mobile = "Mobile No";
+static const char* company = "Company Name";
+static const char* searchb = "Search";
 static const char* auction = "Auction";
 static const char* empty = "Empty";
 static const char* done = "Done";
@@ -169,7 +175,10 @@ static const char* login = "Log In";
 static const char* reg = "Register";
 static const char* apply = "Apply";
 static const char* cancellbl = "Cancel";
-static const char* search = "Search";
+static const char* search = "Search Cards";
+static const char* direc = "- My Directories";
+static const char* direcc = "+ My Directories";
+static const char* crds = "My Cards";
 static const char* redeem = "Redeem";
 static const char* logout = "Log Out";
 static const char* log_out = "Do you want to log out from Game Cards?";
@@ -185,7 +194,7 @@ static const char* cellNumberlbl = "Cell Number";
 static const char* notelbl = "Personal Note";
 static const char* noteLlbl = "note";
 static const char* phoneNumlbl = "Cell Number";
-static const char* personalNotelbl = "Personal Note";
+static const char* personalNotelbl = "Add a personal note";
 static const char* emaillblNoColon = "Email";
 static const char* userlblNoColon = "Username";
 static const char* continuelbl = "Continue";
@@ -240,9 +249,9 @@ static const char* category = "category";
 static const char* seconds = "seconds";
 //special album ids
 static const char* album_search = "-5";
-static const char* album_updates = "-4";
-static const char* album_newcards = "-3";
-static const char* album_mycards = "-2";
+static const char* album_updates = "-3";
+static const char* album_newcards = "-2";
+static const char* album_mycards = "-1";
 //<CARD>
 static const char* xml_cardid = "cardid";
 static const char* xml_carddescription = "description";
@@ -425,3 +434,5 @@ static const char* reg_username = "username";
 static const char* reg_email = "email";
 
 #endif	//_UTIL_H_
+
+

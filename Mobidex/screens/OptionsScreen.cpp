@@ -18,10 +18,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = createMainLayout(exit, select, true);
+		layout = createMainLayout(select, exit, true);
 	}
 	else {
-		layout = createMainLayout(back, select, true);
+		layout = createMainLayout(select, back, true);
 	}
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -29,38 +29,48 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	switch(screenType) {
 		case ST_CARD_OPTIONS:
 			lbl = createSubLabel(noteslbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(sharelbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(details);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(deletecardlbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_NEW_CARD:
 			lbl = createSubLabel(acceptlbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(rejectlbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 		case ST_NUMBER_OPTIONS:
 			lbl = createSubLabel(calllbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(smslbl);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_LOGIN_OPTIONS:
 			lbl = createSubLabel(login);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(reg);
+			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -144,7 +154,7 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 void OptionsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			index = listBox->getSelectedIndex();
 			switch(screenType) {
 				case ST_CARD_OPTIONS:
@@ -220,7 +230,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
 					maExit(0);
@@ -334,6 +344,9 @@ void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
+	if(!strcmp(data, "Complete!")) {
+		notice->setCaption("Action completed.");
+	}
 
 }
 
