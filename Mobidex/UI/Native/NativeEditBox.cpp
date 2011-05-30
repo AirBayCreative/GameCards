@@ -20,7 +20,6 @@ void NativeEditBox::textBoxClosed(int res, int length) {
 	mListener = NULL;
 	Environment::getEnvironment().removeTextBoxListener(this);
 }
-
 NativeEditBox::NativeEditBox(int x, int y, int width, int height, int maxSize, int options, Widget *parent,
 	const String& initialText, const WString& titleString) :
 	EditBox(x, y, width, height, parent),

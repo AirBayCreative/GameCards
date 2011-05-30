@@ -26,7 +26,7 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	parentTag = "";
 	error_msg = "";
 
-	mainLayout = createMainLayout(back, search, "", true);
+	mainLayout = createMainLayout(searchb, back, "", true);
 
 	mainLayout->setDrawBackground(true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -34,14 +34,25 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, searchTermlbl, 0, gFontWhite);
+	label = new Label(0,0, scrWidth-PADDING*2, 16, NULL, "", 0, gFontWhite);
 	listBox->add(label);
 
-	label = createEditLabel("");
-	editBoxSearch = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Search term:");
+	label = createEditLabel("enter search term");
+	fresh = true;
+	editBoxSearch = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "enter search term",L"Search term:");
 	editBoxSearch->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
+
+	Label *n = new Label(0,0, scrWidth-PADDING*2, scrHeight, NULL, "You can search by name, company or even email. Any detail on a Mobidex card will help you find it.", 0, gFontWhite);
+	n->setMultiLine(true);
+	n->setHorizontalAlignment(Label::HA_CENTER);
+	//label->setVerticalAlignment(Label::VA_CENTER);
+	listBox->add(n);
+	//delete n;
+
+	//NativeLabel *test = new NativeLabel("You can search by name, company or even email. Any detail on a Mobidex card will help you find it.", 0xffffff, true);
+	//listBox->add(test);
 
 	if (feed->getUnsuccessful() != success) {
 		label->setCaption(feed->getUnsuccessful());
@@ -169,11 +180,25 @@ void SearchScreen::doSearch() {
 }
 
 void SearchScreen::keyPressEvent(int keyCode) {
+	if (fresh) {
+		String text = editBoxSearch->getText();
+		//enter search term
+		if (text.length() < 17) {
+			text.remove(0,text.length());
+		} else {
+			text.remove(0,17);
+		}
+		editBoxSearch->setText(text);
+		//editBoxSearch->clearText();
+		//editBoxSearch->
+		//editBoxSearch->setText("");
+		fresh = !fresh;
+	}
 	error = false;
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				isBusy = true;
 				clearCardMap();
@@ -181,7 +206,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			isActive = false;
 			editBoxSearch->setSelected(false);
 			editBoxSearch->disableListener();
@@ -217,7 +242,7 @@ void SearchScreen::xcConnError(int code) {
 			delete next;
 			next = NULL;
 		}
-		next = new AlbumViewScreen(this, feed, album_search, AlbumViewScreen::AT_SEARCH, cards);
+		next = new AlbumViewScreen(this, feed, album_search, AT_SEARCH, cards);
 		((AlbumViewScreen*)next)->setSearchString(editBoxSearch->getCaption());
 		next->show();
 	}

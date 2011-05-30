@@ -42,7 +42,7 @@ private:
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value;
 	String error_msg, id,description,quantity, thumburl, fronturl, backurl, updated;
-	bool left, right, mid, error;
+	bool left, right, mid, error, fresh;
 	int moved;
 
 	Feed *feed;

@@ -6,12 +6,14 @@
 #include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
+#include "AlbumLoadScreen.h"
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/Stat.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "../utils/Util.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -43,8 +45,6 @@ public:
 	typedef Map<String, Card*> StringCardMap;
 
 	void refresh();
-
-	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH, AT_SHARE};
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;

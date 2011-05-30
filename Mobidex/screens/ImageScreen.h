@@ -12,6 +12,7 @@
 #include "../utils/ImageCache.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
+#include "TradeFriendDetailScreen.h"
 
 using namespace MAUI;
 

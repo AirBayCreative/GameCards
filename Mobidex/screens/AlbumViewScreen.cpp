@@ -27,17 +27,12 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	updated = "";
 	note = "";
 	searchString = "";
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		if (albumType != AT_SHARE)
-			mainLayout = createMainLayout(back, options, "", true);
-		else
-			mainLayout = createMainLayout(back, sharelbl, "", true);
-	#else
-		if (albumType != AT_SHARE)
-			mainLayout = createMainLayout(back, options, "", true);
-		else
-			mainLayout = createMainLayout(back, sharelbl, select, true);
-	#endif
+
+	if (albumType != AT_SHARE)
+		mainLayout = createMainLayout(options, back, "", true);
+	else
+		mainLayout = createMainLayout(sharelbl, back, "", true);
+
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
@@ -47,7 +42,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 			notice->setCaption("Searching...");
 			cards = map;
 			drawList();
-			notice->setCaption("");
+			//notice->setCaption("");
 			busy = false;
 			break;
 		default:
@@ -76,6 +71,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 			delete [] url;
 			break;
 	}
+
 	this->setMain(mainLayout);
 	moved=0;
 	origAlbum = this;
@@ -217,11 +213,25 @@ void AlbumViewScreen::drawList() {
 	//listBox->clear();
 	clearListBox();
 	index.clear();
+	if (albumType == AT_SEARCH) {
+		char* text = new char[40];
+		memset(text,'\0',40);
+		sprintf(text, "(%d) Mobidex cards matched.", cards.size());
+		notice->setCaption(text);
+	}
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
 		cardText = (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		//cardText += "\nQuantity: ";
+		Vector<Stat *> stats = itr->second->getStats();
+		for (int i = 0; i < stats.size(); i++) {
+			if ((stats[i]->getDesc() == company)||(stats[i]->getDesc() == mobile)) {
+				cardText += "\n";
+				cardText += stats[i]->getDisplay();
+			}
+		}
+
+		//cardText += itr->second->get;
 		//cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth(), 74, listBox, 3, 1);
@@ -311,11 +321,15 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			if (albumType != AT_SEARCH) {
 				saveData(filename.c_str(), getAll().c_str());
+				((AlbumLoadScreen *)previous)->refresh();
+			} else if (albumType == AT_SEARCH) {
+				previous->show();
 			}
-			previous->show();
+
+			//previous->show();
 			break;
 		case MAK_FIRE:
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
@@ -324,14 +338,15 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				}
 				if (albumType == AT_NEW_CARDS) {
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
-				}
-				else {
+				} else if (albumType == AT_SHARE){
+					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, AT_SHARE);
+				} else {
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
 				}
 				next->show();
 			}
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!emp && !hasConnection) {
 				notice->setCaption(no_connect);
 			}

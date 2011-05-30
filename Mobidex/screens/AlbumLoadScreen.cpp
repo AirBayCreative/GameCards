@@ -3,7 +3,6 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "SearchScreen.h"
-#include "RedeemScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -14,13 +13,15 @@ void AlbumLoadScreen::refresh() {
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
+
+	notice->setCaption(checking_albums);
+
 	mHttp = HttpConnection(this);
 	int urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
 	char* url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
 	int res = mHttp.create(url, HTTP_GET);
-
 	if(res < 0) {
 
 	} else {
@@ -35,6 +36,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 		feed(feed) {
 	size = 0;
 	moved = 0;
+	collapsed = false;
 	int res = -1;
 	char *url = NULL;
 	int urlLength = 0;
@@ -45,11 +47,11 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 	updated = "0";
 
 	next = NULL;
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(exit, "", true);
-  	#else
-		mainLayout = createMainLayout(exit, select, true);
-  	#endif
+	//#if defined(MA_PROF_SUPPORT_STYLUS)
+		mainLayout = createMainLayout("", exit, true);
+  	//#else
+		//mainLayout = createMainLayout("", exit, select, true);
+  	//#endif
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -57,7 +59,6 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
 	album = new Albums();
 
 	if (al == NULL) {
-		album = new Albums();
 		album->setAll(this->feed->getAlbum()->getAll().c_str());
 	}
 	else {
@@ -127,7 +128,7 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
-			keyPressEvent(MAK_SOFTRIGHT);
+			keyPressEvent(MAK_SOFTLEFT);
 		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -175,53 +176,88 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
+	int index = listBox->getSelectedIndex();
 	clearListBox();
 
 	Vector<String> display = album->getNames();
 	size = 0;
+
+	if (path.size() == 0) {
+			label = createSubLabel(search);
+			label->setPaddingBottom(5);
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			size++;
+		}
+
+	int count = 0;
+	bool dirc = false;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		label = createSubLabel(itr->c_str());
 		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-
+		label->setPaddingLeft(5);
+		if (dirc) {
+			label->setPaddingLeft(20);
+		} else {
+			label->addWidgetListener(this);
+		}
+		if (label->getCaption() == crds) {
+			if (!collapsed) {
+				label = createSubLabel(direc);
+				label->setPaddingBottom(5);
+				label->setPaddingLeft(5);
+				listBox->add(label);
+				size++;
+				label = createSubLabel(itr->c_str());
+				label->setPaddingBottom(5);
+				label->setPaddingLeft(20);
+				label->addWidgetListener(this);
+				dirc = true;
+			} else {
+				label = createSubLabel(direcc);
+				label->setPaddingBottom(5);
+				label->setPaddingLeft(5);
+				listBox->add(label);
+				size++;
+				dirc = true;
+			}
+		} else {
+			label->addWidgetListener(this);
+		}
+		if ((!collapsed)||(!dirc)) {
+			listBox->add(label);
+		}
+		count++;
 		size++;
 	}
 
 	if (album->size() == 0) {
 		empt = true;
 		label = createSubLabel(empty);
-		label->addWidgetListener(this);
-		listBox->add(label);
-
-		size++;
-	}
-
-	if (path.size() == 0) {
-		//add the redeem option
-		//label = createSubLabel(redeem);
-		//label->setPaddingBottom(5);
-		//label->addWidgetListener(this);
-		//listBox->add(label);
-		//size++;
-
-		//add the search option
-		label = createSubLabel(search);
 		label->setPaddingBottom(5);
+		label->setPaddingLeft(5);
 		label->addWidgetListener(this);
 		listBox->add(label);
+
 		size++;
 	}
 
 	//add the logout option
 	label = createSubLabel(logout);
 	label->setPaddingBottom(5);
+	label->setPaddingLeft(5);
 	label->addWidgetListener(this);
 	listBox->add(label);
 	size++;
 
-	listBox->setSelectedIndex(0);
+	if (index < size) {
+		listBox->setSelectedIndex(index);
+	} else {
+		listBox->setSelectedIndex(index);
+	}
 }
+
 
 void AlbumLoadScreen::clearListBox() {
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
@@ -259,12 +295,13 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
+\
 			break;
 		case MAK_DOWN:
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			if (path.size() > 0) {
 				path.remove(path.size()-1);
 				loadCategory();
@@ -274,7 +311,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			/*if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
 				if (next != NULL) {
 					delete next;
@@ -283,7 +320,14 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				next = new RedeemScreen(feed, this);
 				next->show();
 			}
-			else */if (path.size() == 0 && listBox->getSelectedIndex() == (size-2)) {
+			else */
+			if (((((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()) == direc)||((((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()) == direcc)) {
+				collapsed = !collapsed;
+				drawList();
+				break;
+			}
+
+			if (path.size() == 0 && listBox->getSelectedIndex() == (0)) {
 				if (next != NULL) {
 					delete next;
 					next = NULL;
@@ -300,17 +344,16 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					delete next;
 					next = NULL;
 				}
-
 				if (val->getHasCards()) {
-					if (listBox->getSelectedIndex() == (size-4))
+					if (listBox->getSelectedIndex() == (1))
 					{
-						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_SHARE);
+						next = new AlbumViewScreen(this, feed, val->getId(), AT_SHARE);
 						next->show();
 					}
 					else
 					{
 						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+							next = new AlbumViewScreen(this, feed, val->getId(), AT_NEW_CARDS);
 							next->show();
 						}
 						else {
@@ -333,11 +376,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumLoadScreen::loadCategory() {
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		updateSoftKeyLayout(path.size() == 0?exit:back, "", "", mainLayout);
-	#else
-		updateSoftKeyLayout(path.size() == 0?exit:back, select, "", mainLayout);
-	#endif
+	updateSoftKeyLayout(path.size() == 0?exit:back, "", "", mainLayout);
 
 	//the list needs to be cleared
 	album->clearAll();
@@ -463,6 +502,7 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_album)) {
 		notice->setCaption("");
+		//album->names.add(temp1);
 		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
 		temp1 = "";
 		temp = "";

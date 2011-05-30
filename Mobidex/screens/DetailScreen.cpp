@@ -5,7 +5,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = createMainLayout(back, screenType==CARD?select:"", true);
+	mainLayout = createMainLayout(screenType==CARD?select:"", back, true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	switch (screenType) {
@@ -176,7 +176,7 @@ void DetailScreen::hide() {
 void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case CARD:
 					int index = listBox->getSelectedIndex();
@@ -207,7 +207,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_UP:

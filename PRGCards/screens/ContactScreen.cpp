@@ -11,7 +11,6 @@ ContactScreen::ContactScreen(Screen *previous, Feed *feed) : previous(previous),
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Looking up Contact info");
-
 	found = false;
 
 	lbl = createSubLabel("Empty");
