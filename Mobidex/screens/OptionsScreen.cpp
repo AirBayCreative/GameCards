@@ -341,18 +341,16 @@ void OptionsScreen::mtxTagStart(const char* name, int len) {
 }
 
 void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-	lprintfln("mtxTagAttr[%s]", attrName);
 }
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(data, "Complete!")) {
-		notice->setCaption("Card deleted");
+		notice->setCaption("Action completed.");
 	}
 
 }
 
 void OptionsScreen::mtxTagEnd(const char* name, int len) {
-	lprintfln("mtxTagEnd[%s]", name);
 
 }
 

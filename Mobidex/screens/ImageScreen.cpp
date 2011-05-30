@@ -71,10 +71,12 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				flipOrSelect = 1;
 			}else{
 				flipOrSelect = 0;
-				currentSelectedStat = -1;
+				//currentSelectedStat = -1;
 				for(int i = 0;i<card->getStats().size();i++){
 					if(flip==card->getStats()[i]->getFrontOrBack()){
 						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							imge->refreshWidget();
 							currentSelectedStat = i;
 						}
 					}
@@ -155,6 +157,11 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
+			updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+			imge->refreshWidget();
+			imge->statAdded = false;
+			currentSelectedStat = -1;
+
 			flip=!flip;
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 				maDestroyObject(imge->getResource());
@@ -218,7 +225,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
 				acceptCard();
-			} else if (screenType = AT_SHARE) {
+			} else if (screenType == AT_SHARE) {
 				if (next != NULL) {
 					delete next;
 				}
@@ -249,6 +256,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (card != NULL) {
 				if((flipOrSelect)||(currentSelectedStat == -1)){
 					flip=!flip;
+					updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+					imge->refreshWidget();
+					imge->statAdded = false;
+					currentSelectedStat = -1;
 					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 						maDestroyObject(imge->getResource());
 					}

@@ -42,6 +42,7 @@ private:
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value;
 	String error_msg, id,description,quantity, thumburl, fronturl, backurl, updated;
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	bool left, right, mid, error, fresh;
 	int moved;
 

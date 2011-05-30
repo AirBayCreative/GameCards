@@ -28,10 +28,19 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	note = "";
 	searchString = "";
 
-	if (albumType != AT_SHARE)
-		mainLayout = createMainLayout(options, back, "", true);
-	else
-		mainLayout = createMainLayout(sharelbl, back, "", true);
+	if (albumType != AT_SHARE) {
+		#if defined(MA_PROF_SUPPORT_STYLUS)
+			mainLayout = createMainLayout("", back, "", true);
+		#else
+			mainLayout = createMainLayout(options, back, "", true);
+		#endif
+	} else {
+		#if defined(MA_PROF_SUPPORT_STYLUS)
+			mainLayout = createMainLayout("", back, "", true);
+		#else
+			mainLayout = createMainLayout(sharelbl, back, "", true);
+		#endif
+	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -339,7 +348,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (albumType == AT_NEW_CARDS) {
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 				} else if (albumType == AT_SHARE){
-					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, AT_SHARE);
+					next = new TradeFriendDetailScreen(this, feed, cards.find(index[selected])->second);
 				} else {
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
 				}
