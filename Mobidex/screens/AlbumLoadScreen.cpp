@@ -10,12 +10,10 @@
 void AlbumLoadScreen::refresh() {
 	show();
 	path.clear();
+	notice->setCaption(checking_albums);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
-
-	notice->setCaption(checking_albums);
-
 	mHttp = HttpConnection(this);
 	int urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
 	char* url = new char[urlLength];
@@ -32,8 +30,7 @@ void AlbumLoadScreen::refresh() {
 	delete url;
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this),
-		feed(feed) {
+AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(feed) {
 	size = 0;
 	moved = 0;
 	collapsed = false;
@@ -183,13 +180,13 @@ void AlbumLoadScreen::drawList() {
 	size = 0;
 
 	if (path.size() == 0) {
-			label = createSubLabel(search);
-			label->setPaddingBottom(5);
-			label->setPaddingLeft(5);
-			label->addWidgetListener(this);
-			listBox->add(label);
-			size++;
-		}
+		label = createSubLabel(search);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
+	}
 
 	int count = 0;
 	bool dirc = false;
@@ -203,6 +200,7 @@ void AlbumLoadScreen::drawList() {
 			label->addWidgetListener(this);
 		}
 		if (label->getCaption() == crds) {
+			delete label;
 			if (!collapsed) {
 				label = createSubLabel(direc);
 				label->setPaddingBottom(5);
@@ -227,9 +225,9 @@ void AlbumLoadScreen::drawList() {
 		}
 		if ((!collapsed)||(!dirc)) {
 			listBox->add(label);
+			size++;
 		}
 		count++;
-		size++;
 	}
 
 	if (album->size() == 0) {
@@ -256,6 +254,7 @@ void AlbumLoadScreen::drawList() {
 	} else {
 		listBox->setSelectedIndex(index);
 	}
+	display.clear();
 }
 
 
@@ -295,7 +294,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
-\
 			break;
 		case MAK_DOWN:
 			listBox->selectNextItem();

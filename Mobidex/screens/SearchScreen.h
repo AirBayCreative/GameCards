@@ -32,7 +32,7 @@ public:
 #endif
 private:
 	Layout *mainLayout;
-	KineticListBox *listBox;
+	ListBox *listBox;
 	Label *label, *notice;
 	NativeEditBox *editBoxSearch;
 	Vector<Widget*> tempWidgets;

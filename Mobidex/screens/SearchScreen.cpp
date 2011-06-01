@@ -26,11 +26,11 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	parentTag = "";
 	error_msg = "";
 
-	mainLayout = createMainLayout(searchb, back, "", true);
+	mainLayout = createMainLayout(searchb, back, "", false);
 
 	mainLayout->setDrawBackground(true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	setPadding(listBox);
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox->setPaddingLeft(PADDING);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	//notice->setMultiLine(true);
 
@@ -198,6 +198,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			text.remove(0,17);
 		}
 		editBoxSearch->setText(text);
+		text.clear();
 		//editBoxSearch->clearText();
 		//editBoxSearch->
 		//editBoxSearch->setText("");

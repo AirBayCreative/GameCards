@@ -12,8 +12,6 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, 
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
 	busy = true;
 	emp = true;
-	feedLayouts = NULL;
-
 	next = NULL;
 	error_msg = "";
 	id = "";
@@ -108,6 +106,9 @@ void AlbumViewScreen::refresh() {
 			memset(url,'\0',urlLength);
 			sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
 			break;
+	}
+	if(mHttp.isOpen()){
+		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
@@ -277,9 +278,6 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete next;
 	}
 	delete mImageCache;
-	if(feedLayouts!=NULL){
-		delete [] feedLayouts;
-	}
 	if (albumType != AT_SEARCH) {
 		saveData(filename.c_str(), getAll().c_str());
 	}

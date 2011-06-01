@@ -32,8 +32,8 @@ Card::~Card() {
 			delete stats[i];
 			stats[i] == NULL;
 		}
-		stats.clear();
 	}
+	stats.clear();
 }
 
 void Card::setLoaded(bool load) {
