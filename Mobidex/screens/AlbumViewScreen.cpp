@@ -134,7 +134,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	int indexof = 0;
 	int indentindexof = 0;
 	String tmp;
-	String id, name;
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
@@ -142,6 +141,8 @@ void AlbumViewScreen::loadImages(const char *text) {
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
 	}
+	tmp="";
+	all="";
 	drawList();
 }
 
