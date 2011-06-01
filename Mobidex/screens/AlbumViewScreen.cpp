@@ -140,6 +140,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
+		newCard = NULL;
 	}
 	tmp="";
 	all="";
@@ -241,7 +242,7 @@ void AlbumViewScreen::drawList() {
 				cardText += stats[i]->getDisplay();
 			}
 		}
-
+		stats.clear();
 		//cardText += itr->second->get;
 		//cardText += itr->second->getQuantity();
 
@@ -299,6 +300,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	updated="";
 	note="";
 	category="";
+	searchString="";
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
@@ -510,7 +512,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setColorGreen(statGreen);
 		stat->setColorBlue(statBlue);
 		stats.add(stat);
-
+		stat = NULL;
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
