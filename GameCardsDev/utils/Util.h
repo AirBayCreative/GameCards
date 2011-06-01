@@ -125,12 +125,12 @@ static String PLAYABLE_CATEGORIES = URL+"?playablecategories=1";
 static String NEWGAME = URL+"?newgame=1";
 //load a game
 static String LOADGAME = URL+"?loadgame=1";
+//continue a game
+static String CONTINUEGAME = URL+"?continuegame=1";
 //list users incomplete games
 static String LISTGAMES = URL+"?getusergames=1";
 //get details on the users current games
 static String GAMEDETAILS = URL+"?viewgamedetails=1";
-//select a card to play, return a list of its stats
-static String SELECTCARD = URL+"?selectcard=1";
 //select a stat to play, return matchup results
 static String SELECTSTAT = URL+"?selectstat=1";
 //register a new user
@@ -355,6 +355,7 @@ static const char* leave_game = "Leave Game";
 static const char* view_details = "View Game Details";
 static const char* play_card = "Play Card";
 static const char* play_stat = "Play Stat";
+static const char* refresh = "Refresh";
 static const char* xml_game = "game";
 static const char* xml_games = "games";
 static const char* xml_phase = "phase";
@@ -374,6 +375,7 @@ static const char* xml_card_name = "card_name";
 static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
+static const char* xml_message = "message";
 static const char* noteslbl = "Notes";
 static const char* sharelbl = "Share";
 static const char* contactlbl = "Contact";
@@ -397,6 +399,7 @@ static const char* phase_card = "card";
 static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
+static const char* phase_waiting = "waiting";
 //contact labels
 static const char* calllbl = "Call";
 static const char* smslbl = "SMS";

@@ -362,7 +362,7 @@ void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache
 	if (card == NULL) {
 		return;
 	}
-
+	lprintfln((FILE_PREFIX+card->getId()+"b.sav").c_str());
 	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b.sav").c_str(), -1);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
