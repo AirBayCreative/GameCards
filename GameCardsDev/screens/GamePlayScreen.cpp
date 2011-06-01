@@ -28,6 +28,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	opponentScore = "";
 	explanation = "";
 	outcome = "";
+	message = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -117,32 +118,6 @@ void GamePlayScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
-void GamePlayScreen::drawCardList(int selectedIndex) {
-	Layout *feedlayout;
-	index.clear();
-	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
-		index.add(itr->second->getGamePlayerCardId());
-		cardText = itr->second->getText();
-
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
-		feedlayout->setSkin(gSkinAlbum);
-		feedlayout->setDrawBackground(true);
-		feedlayout->addWidgetListener(this);
-
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-
-		retrieveThumb(tempImage, itr->second, imageCache);
-
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
-		label->setVerticalAlignment(Label::VA_CENTER);
-		label->setAutoSizeY();
-		label->setMultiLine(true);
-	}
-	if (listBox->getChildren().size() >= (selectedIndex+1)) {
-		listBox->setSelectedIndex(selectedIndex);
-	}
-}
-
 void GamePlayScreen::drawStatList() {
 	for(int i = 0; i < cardStats.size(); i++) {
 		label = createSubLabel(cardStats[i]->getDesc() + " : " + cardStats[i]->getDisplay());
@@ -158,22 +133,6 @@ void GamePlayScreen::drawStatList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
-}
-
-void GamePlayScreen::drawCardListScreen(int index, int yOffset) {
-	phase = P_SELECT_CARD;
-	listBox->setEnabled(true);
-	listBox->setSelected(true);
-	clearListBox();
-
-	updateSoftKeyLayout(options, select, details, mainLayout);
-
-	notice->setCaption(select_card);
-
-	drawCardList(index);
-
-	listBox->setYOffset(yOffset);
-	listBox->requestRepaint();
 }
 
 void GamePlayScreen::drawStatListScreen() {
@@ -192,6 +151,8 @@ void GamePlayScreen::drawStatListScreen() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
+	lprintfln("explanation: %s", explanation.c_str());
+
 	clearListBox();
 
 	updateSoftKeyLayout(options, continuelbl, "", mainLayout);
@@ -276,8 +237,24 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	int height = listBox->getHeight();
 
 	tempImage = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, RES_LOADING);
-	lprintfln("wtfffs %s ", card->getId().c_str());
 	retrieveBack(tempImage, card, height-PADDING*2, imageCache);
+}
+
+void GamePlayScreen::drawWaitingScreen() {
+	clearListBox();
+
+	updateSoftKeyLayout(options, refresh, "", mainLayout);
+
+	notice->setCaption("");
+
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(gFontBlack);
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+	lbl->setCaption(message);
+	listBox->add(lbl);
+
+	message = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -331,7 +308,7 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 	p.set(point.x, point.y);
 
 	//this is for if you want a click in the list to trigger an event
-	if (phase == P_SELECT_STAT || phase == P_CARD_DETAILS || phase == P_SELECT_CARD) {
+	if (phase == P_SELECT_STAT || phase == P_CARD_DETAILS) {
 		for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
 		{
 			if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
@@ -374,7 +351,6 @@ GamePlayScreen::~GamePlayScreen() {
 
 	delete [] feedLayouts;
 
-	clearCardMap();
 	clearCardStats();
 	parentTag="";
 	cardText="";
@@ -389,17 +365,11 @@ GamePlayScreen::~GamePlayScreen() {
 	cardStatId = "";
 	cardName = "";
 	outcome = "";
+	message = "";
 }
 
 void GamePlayScreen::selectionChanged(Widget *widget, bool selected) {
-	if (phase == P_SELECT_CARD) {
-		if(selected) {
-			((Label *)widget->getChildren()[1])->setFont(gFontBlue);
-		} else {
-			((Label *)widget->getChildren()[1])->setFont(gFontBlack);
-		}
-	}
-	else if (phase == P_SELECT_STAT) {
+	if (phase == P_SELECT_STAT) {
 		if(selected) {
 			((Label *)widget)->setFont(gFontBlue);
 		} else {
@@ -409,14 +379,14 @@ void GamePlayScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void GamePlayScreen::show() {
-	if (phase == P_SELECT_CARD || phase == P_SELECT_STAT) {
+	if (phase == P_SELECT_STAT) {
 		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	}
 	Screen::show();
 }
 
 void GamePlayScreen::hide() {
-	if (phase == P_SELECT_CARD || phase == P_SELECT_STAT) {
+	if (phase == P_SELECT_STAT) {
 		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
 	}
 	Screen::hide();
@@ -451,9 +421,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_UP:
 			switch (phase) {
-				case P_SELECT_CARD:
-					listBox->selectPreviousItem();
-					break;
 				case P_SELECT_STAT:
 				case P_CARD_DETAILS:
 					if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
@@ -463,8 +430,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								if(currentSelectedStat < 0){
 									currentSelectedStat = 0;
 								}
-								lprintfln("aaagetTop %i",cardStats[currentSelectedStat]->getTop());
-								lprintfln("aaagetLeft %i",cardStats[currentSelectedStat]->getLeft());
 								tempImage->refreshWidget();
 								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue());
 							}
@@ -475,22 +440,14 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_DOWN:
 			switch (phase) {
-				case P_SELECT_CARD:
-					listBox->selectNextItem();
-					break;
 				case P_SELECT_STAT:
 				case P_CARD_DETAILS:
-					lprintfln("aaa1");
 					if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
-						lprintfln("aaa2 %i",cardStats.size());
 						if(cardStats.size()>0){
 							if(flip==cardStats[0]->getFrontOrBack()){
-								lprintfln("aaa4");
 								if(currentSelectedStat < cardStats.size()-1){
 									currentSelectedStat++;
 								}
-								lprintfln("aaagetTop %i",cardStats[currentSelectedStat]->getTop());
-								lprintfln("aaagetLeft %i",cardStats[currentSelectedStat]->getLeft());
 								tempImage->refreshWidget();
 								tempImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue());
 							}
@@ -505,10 +462,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_LOADING:
 					previous->show();
 					break;
-				case P_CARD_DETAILS:
+				/*case P_CARD_DETAILS:
 					resetHeights();
 					drawCardListScreen(cardIndex, yOffset);
-					break;
+					break;*/
 				default:
 					if (next != NULL) {
 						delete next;
@@ -522,16 +479,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			switch (phase) {
-				case P_SELECT_CARD:
-					card = cards.find(index[selected])->second;
-					cardIndex = selected;
-					yOffset = listBox->getYOffset();
-					drawCardDetailsScreen();
-					break;
 				case P_SELECT_STAT:
 				case P_CARD_DETAILS:
 					if(flipOrSelect){
-						lprintfln("wut");
 						flip = !flip;
 						int height = listBox->getHeight();
 						if (tempImage->getResource() != RES_LOADING && tempImage->getResource() != RES_TEMP) {
@@ -567,38 +517,34 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (!busy) {
 				busy = true;
-
+				int urlLength, res;
+				char *url = NULL;
 				switch (phase) {
-					case P_SELECT_CARD:
-						card = cards.find(index[selected])->second;
-						selectCard(card);
-						break;
-					case P_CARD_DETAILS:
+					/*case P_CARD_DETAILS:
 						//resetHeights();
-						selectCard(card);
-						break;
+						//selectCard(card);
+						break;*/
 					case P_SELECT_STAT:
 						if(currentSelectedStat>-1){
 							this->selectStat(currentSelectedStat);
 						}
 						break;
-					case P_RESULTS:
-						notice->setCaption("Loading remaining cards...");
+					case P_WAITING:
+						notice->setCaption("Refreshing...");
 
 						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-						int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
-						char *url = new char[urlLength];
+						urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+						url = new char[urlLength];
 						memset(url,'\0',urlLength);
 						sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
 								game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
 
-						clearCardMap();
 						clearListBox();
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
 						mHttp = HttpConnection(this);
-						int res = mHttp.create(url, HTTP_GET);
+						res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {
 							hasConnection = false;
 							notice->setCaption("Connection error.");
@@ -608,14 +554,41 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 							mHttp.finish();
 						}
+						break;
+					case P_RESULTS:
+						notice->setCaption("loading next card...");
 
-						if (url != NULL) {
-							delete url;
+						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+						urlLength = CONTINUEGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+						url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
+								game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
+
+						clearListBox();
+						if(mHttp.isOpen()){
+							mHttp.close();
+						}
+						mHttp = HttpConnection(this);
+						res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							hasConnection = false;
+							notice->setCaption("Connection error.");
+						} else {
+							hasConnection = true;
+							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.finish();
 						}
 						break;
 					case P_FINISHED:
 						origMenu->show();
 						break;
+				}
+				urlLength = 0;
+				res = 0;
+				if (url != NULL) {
+					delete url;
 				}
 			}
 			break;
@@ -626,43 +599,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 void GamePlayScreen::resetHeights() {
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(storeHeight);
 	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()+storeHeight + 20));
-}
-
-void GamePlayScreen::selectCard(Card *selected) {
-	char *url = NULL;
-	int urlLength = 0;
-	int res = 0;
-	//listBox->setEnabled(true);
-	phase = P_SELECT_STAT;
-
-	//notice->setCaption("Loading stats...");
-
-	cardName = "";
-
-	//work out how long the url will be, the 4 is for the & and = symbals
-	urlLength = SELECTCARD.length() + 4 + strlen(game_id) + gameId.length() +
-			strlen(game_player_card_id) + selected->getGamePlayerCardId().length();
-	url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s&%s=%s", SELECTCARD.c_str(), game_id, gameId.c_str(), game_player_card_id, selected->getGamePlayerCardId().c_str());
-
-	clearCardStats();
-	//clearListBox();
-
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-		hasConnection = false;
-		notice->setCaption("Connection error.");
-	} else {
-		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
 }
 
 void GamePlayScreen::selectStat(int selected) {
@@ -756,11 +692,12 @@ void GamePlayScreen::mtxEncoding(const char* ) {
 }
 
 void GamePlayScreen::mtxTagStart(const char* name, int len) {
+	lprintfln("mtxTagStart: %s", name);
 	parentTag = name;
 }
 
 void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-	lprintfln("ftl %s ", attrName);
+	lprintfln("mtxTagAttr: mtxTagAttr:%s, attrValue: %s", attrName, attrValue);
 	if(!strcmp(parentTag.c_str(), xml_cardstat)) {
 		if(!strcmp(attrName, xml_cardstat_id)) {
 			cardStatId += attrValue;
@@ -789,8 +726,7 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void GamePlayScreen::mtxTagData(const char* data, int len) {
-	lprintfln("parentTag %s ", parentTag.c_str());
-	lprintfln("tt %s ", data);
+	lprintfln("mtxTagData: %s", data);
 	if(!strcmp(parentTag.c_str(), xml_cardid)) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
@@ -823,10 +759,12 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		explanation += data;
 	} else if(!strcmp(parentTag.c_str(), xml_outcome)) {
 		outcome += data;
+	} else if(!strcmp(parentTag.c_str(), xml_message)) {
+		message += data;
 	} else if (!strcmp(parentTag.c_str(), xml_phase)) {
 		listBox->setEnabled(true);
-		if (!strcmp(data, phase_card)) {
-			phase = P_SELECT_CARD;
+		if (!strcmp(data, phase_waiting)) {
+			phase = P_WAITING;
 		}
 		else if (!strcmp(data, phase_stat)) {
 			phase = P_SELECT_STAT;
@@ -841,18 +779,16 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 }
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
-	lprintfln("gg %s ", name);
+	lprintfln("mtxTagEnd: %s", name);
 	if (!strcmp(name, xml_backurl)) {
 		Card *newCard = new Card();
 		newCard->setText(description.c_str());
 		newCard->setThumb(thumburl.c_str());
 		newCard->setFront(fronturl.c_str());
 		newCard->setBack(backurl.c_str());
-		lprintfln("OMGSIGH %s ", id.c_str());
 		newCard->setId(id.c_str());
 		newCard->setGamePlayerCardId(gamePlayerCardId.c_str());
 		newCard->setStats(cardStats);
-		cards.insert(newCard->getGamePlayerCardId(),newCard);
 		if(loadingGame){
 			loadingGame = false;
 			card = newCard;
@@ -863,7 +799,6 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		fronturl = "";
 		backurl = "";
 		gamePlayerCardId = "";
-		//cardStats.clear();
 	} else if (!strcmp(name, xml_cardstat)) {
 		newStat = new Stat();
 		newStat->setCardStatId(cardStatId.c_str());
@@ -890,8 +825,8 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		if (!newGame) {
 			busy = false;
 			switch (phase) {
-				case P_SELECT_CARD:
-					drawCardListScreen();
+				case P_WAITING:
+					drawWaitingScreen();
 					break;
 				case P_SELECT_STAT:
 					drawCardSelectStatScreen();
@@ -908,16 +843,6 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 	} else {
 		notice->setCaption("");
 	}
-}
-
-void GamePlayScreen::clearCardMap() {
-	for (StringCardMap::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
-		if (iter->second != NULL) {
-			delete iter->second;
-			iter->second = NULL;
-		}
-	}
-	cards.clear();
 }
 
 void GamePlayScreen::clearCardStats() {

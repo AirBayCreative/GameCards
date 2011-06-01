@@ -30,9 +30,8 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	typedef Map<String, Card*> StringCardMap;
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_SELECT_CARD = 0, P_SELECT_STAT, P_RESULTS, P_LOADING, P_FINISHED, P_CARD_DETAILS};
+	enum phases {P_SELECT_STAT = 0, P_RESULTS, P_LOADING, P_FINISHED, P_CARD_DETAILS, P_WAITING};
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
@@ -49,7 +48,7 @@ private:
 
 	String parentTag, cardText, gameId, categoryId;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
-	String statType, statDescription, cardStatId, cardName, statDesc, statIVal;
+	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	String userScore, opponentScore, explanation, outcome;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;;
@@ -59,17 +58,15 @@ private:
 
 	Stat *newStat;
 	Feed *feed;
-	StringCardMap cards;
 	Vector<Stat*> cardStats;
 	Vector<String> index, stats;
 
-	void drawCardListScreen(int index = 0, int yOffset = 0);
 	void drawStatListScreen();
 	void drawResultsScreen();
 	void drawCardDetailsScreen();
 	void drawCardSelectStatScreen();
+	void drawWaitingScreen();
 
-	void drawCardList(int index = 0);
 	void drawStatList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
@@ -85,12 +82,10 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	void clearCardMap();
 	void clearCardStats();
 	void clearListBox();
 
 	void selectStat(int selected);
-	void selectCard(Card *selected);
 
 	void resetHeights();
 };
