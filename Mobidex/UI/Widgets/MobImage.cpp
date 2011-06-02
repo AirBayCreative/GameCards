@@ -71,7 +71,7 @@ void MobImage::drawWidget() {
 				(paddedBounds.height >> 1) - (imageHeight >> 1));
 		}
 		if (statAdded) {
-			selectStat(_x,_y,_width,_height,_red,_green,_blue);
+			selectStat(_x - 5,_y,_width,_height,_red,_green,_blue);
 		}
 	}
 }
