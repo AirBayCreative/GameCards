@@ -429,7 +429,7 @@ void BidOrBuyScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void BidOrBuyScreen::mtxParseError() {
+void BidOrBuyScreen::mtxParseError(int offSet) {
 }
 
 void BidOrBuyScreen::mtxEmptyTagEnd() {

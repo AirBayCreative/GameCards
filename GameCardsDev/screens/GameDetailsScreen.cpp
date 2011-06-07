@@ -17,10 +17,9 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed)
 
 	this->setMain(layout);
 
-	playerScore = "";
-	opponentScore = "";
+	playerDeck = "";
+	opponentDeck = "";
 	error_msg = "";
-	progress = "";
 	toPlay = "";
 	display="";
 	moved = 0;
@@ -50,9 +49,8 @@ GameDetailsScreen::~GameDetailsScreen() {
 	delete layout;
 
 	parentTag="";
-	playerScore="";
-	opponentScore="";
-	progress="";
+	playerDeck="";
+	opponentDeck="";
 	toPlay="";
 	error_msg="";
 	display="";
@@ -161,12 +159,10 @@ void GameDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 void GameDetailsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_turn)) {
 		toPlay += data;
-	} else if(!strcmp(parentTag.c_str(), xml_player_score)) {
-		playerScore += data;
-	} else if(!strcmp(parentTag.c_str(), xml_opponent_score)) {
-		opponentScore += data;
-	} else if(!strcmp(parentTag.c_str(), xml_progress)) {
-		progress += data;
+	} else if(!strcmp(parentTag.c_str(), xml_player_deck)) {
+		playerDeck += data;
+	} else if(!strcmp(parentTag.c_str(), xml_opponent_deck)) {
+		opponentDeck += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
 	}
@@ -180,9 +176,8 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 		lbl->setMultiLine(true);
 		lbl->setFont(gFontBlack);
 
-		display = "Progress: " + progress + "%\n";
-		display += "To play: " + toPlay;
-		display += "\n\nScores\nYou: "+playerScore+"\nOpponent: "+opponentScore;
+		display = "To play: " + toPlay;
+		display += "\n\nRemaining Cards:\nYou: "+playerDeck+"\nOpponent: "+opponentDeck;
 
 		lbl->setCaption(display);
 		notice->setCaption("");
@@ -190,7 +185,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void GameDetailsScreen::mtxParseError() {
+void GameDetailsScreen::mtxParseError(int offSet) {
 }
 
 void GameDetailsScreen::mtxEmptyTagEnd() {

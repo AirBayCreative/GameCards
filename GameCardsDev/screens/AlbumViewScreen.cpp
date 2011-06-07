@@ -34,6 +34,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
+	lprintfln(url);
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -472,7 +473,7 @@ void AlbumViewScreen::clearCardMap() {
 	cards.clear();
 }
 
-void AlbumViewScreen::mtxParseError() {
+void AlbumViewScreen::mtxParseError(int offSet) {
 }
 
 void AlbumViewScreen::mtxEmptyTagEnd() {

@@ -50,9 +50,9 @@ private:
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	String userScore, opponentScore, explanation, outcome;
+	String explanation, outcome;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;;
-	bool list, left, right, hasConnection, newGame, busy, flip, loadingGame;
+	bool list, left, right, hasConnection, newGame, busy, flip;
 	MAPoint2d pointPressed, pointReleased;
 	Card *card;
 
@@ -78,7 +78,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError();
+	void mtxParseError(int offSet);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 

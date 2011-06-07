@@ -360,7 +360,7 @@ void ImageScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void ImageScreen::mtxParseError() {
+void ImageScreen::mtxParseError(int offSet) {
 }
 
 void ImageScreen::mtxEmptyTagEnd() {

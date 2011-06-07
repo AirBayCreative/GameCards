@@ -297,7 +297,7 @@ void ShopPurchaseScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void ShopPurchaseScreen::mtxParseError() {
+void ShopPurchaseScreen::mtxParseError(int offSet) {
 }
 
 void ShopPurchaseScreen::mtxEmptyTagEnd() {

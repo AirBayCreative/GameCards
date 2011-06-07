@@ -24,8 +24,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	statDescription = "";
 	cardStatId = "";
 	cardName = "";
-	userScore = "";
-	opponentScore = "";
 	explanation = "";
 	outcome = "";
 	message = "";
@@ -35,7 +33,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	busy = false;
 	flip = false;
-	loadingGame = false;
 
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -70,7 +67,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	}
 	else {
 		gameId = identifier;
-		loadingGame = true;
 		notice->setCaption(loading_game);
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
@@ -151,8 +147,6 @@ void GamePlayScreen::drawStatListScreen() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
-	lprintfln("explanation: %s", explanation.c_str());
-
 	clearListBox();
 
 	updateSoftKeyLayout(options, continuelbl, "", mainLayout);
@@ -163,18 +157,9 @@ void GamePlayScreen::drawResultsScreen() {
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
-	String display = "";
-	if (phase == P_FINISHED) {
-		lbl->setCaption("Final score");
-		display += "Scores\nYou: "+userScore+"\nOpponent: "+opponentScore;
-		display += "\nResult: " + outcome;
-	}
-	else {
-		lbl->setCaption("Turn results");
+	lbl->setCaption("Turn results");
 
-		display = explanation;
-		display += "\n\nScores\nYou: "+userScore+"\nOpponent: "+opponentScore;
-	}
+	String display = explanation;
 	listBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
@@ -184,8 +169,6 @@ void GamePlayScreen::drawResultsScreen() {
 	lbl->setCaption(display);
 	listBox->add(lbl);
 
-	userScore = "";
-	opponentScore = "";
 	explanation = "";
 }
 
@@ -556,7 +539,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case P_RESULTS:
-						notice->setCaption("loading next card...");
+						notice->setCaption("Continuing game...");
 
 						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
 						urlLength = CONTINUEGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
@@ -564,7 +547,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						memset(url,'\0',urlLength);
 						sprintf(url, "%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
 								game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
-
 						clearListBox();
 						if(mHttp.isOpen()){
 							mHttp.close();
@@ -692,12 +674,10 @@ void GamePlayScreen::mtxEncoding(const char* ) {
 }
 
 void GamePlayScreen::mtxTagStart(const char* name, int len) {
-	lprintfln("mtxTagStart: %s", name);
 	parentTag = name;
 }
 
 void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-	lprintfln("mtxTagAttr: mtxTagAttr:%s, attrValue: %s", attrName, attrValue);
 	if(!strcmp(parentTag.c_str(), xml_cardstat)) {
 		if(!strcmp(attrName, xml_cardstat_id)) {
 			cardStatId += attrValue;
@@ -726,7 +706,6 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void GamePlayScreen::mtxTagData(const char* data, int len) {
-	lprintfln("mtxTagData: %s", data);
 	if(!strcmp(parentTag.c_str(), xml_cardid)) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
@@ -751,10 +730,6 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		cardStatId += data;
 	} else if(!strcmp(parentTag.c_str(), xml_card_name)) {
 		cardName += data;
-	} else if(!strcmp(parentTag.c_str(), xml_player_score)) {
-		userScore += data;
-	} else if(!strcmp(parentTag.c_str(), xml_opponent_score)) {
-		opponentScore += data;
 	} else if(!strcmp(parentTag.c_str(), xml_explanation)) {
 		explanation += data;
 	} else if(!strcmp(parentTag.c_str(), xml_outcome)) {
@@ -779,20 +754,19 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 }
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
-	lprintfln("mtxTagEnd: %s", name);
 	if (!strcmp(name, xml_backurl)) {
-		Card *newCard = new Card();
-		newCard->setText(description.c_str());
-		newCard->setThumb(thumburl.c_str());
-		newCard->setFront(fronturl.c_str());
-		newCard->setBack(backurl.c_str());
-		newCard->setId(id.c_str());
-		newCard->setGamePlayerCardId(gamePlayerCardId.c_str());
-		newCard->setStats(cardStats);
-		if(loadingGame){
-			loadingGame = false;
-			card = newCard;
+		if (card != NULL) {
+			delete card;
 		}
+		card = new Card();
+		card->setText(description.c_str());
+		card->setThumb(thumburl.c_str());
+		card->setFront(fronturl.c_str());
+		card->setBack(backurl.c_str());
+		card->setId(id.c_str());
+		card->setGamePlayerCardId(gamePlayerCardId.c_str());
+		card->setStats(cardStats);
+
 		id = "";
 		description = "";
 		thumburl = "";
@@ -855,7 +829,7 @@ void GamePlayScreen::clearCardStats() {
 	cardStats.clear();
 }
 
-void GamePlayScreen::mtxParseError() {
+void GamePlayScreen::mtxParseError(int offSet) {
 }
 
 void GamePlayScreen::mtxEmptyTagEnd() {

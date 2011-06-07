@@ -38,7 +38,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag, gameId;
-	String playerScore, opponentScore, error_msg, progress, toPlay, display;
+	String playerDeck, opponentDeck, error_msg, toPlay, display;
 	int moved;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
@@ -49,7 +49,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError();
+	void mtxParseError(int offSet);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 };
