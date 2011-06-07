@@ -3,6 +3,7 @@
 #include "Login.h"
 #include "../utils/Util.h"
 #include "MenuScreen.h"
+#include "ShopCategoriesScreen.h"
 
 Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
 	moved = 0;
@@ -10,7 +11,7 @@ Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
 	isBusy = false;
 	//kbShown = false;
 
-	response = "";
+	result = "";
 
 /*#if defined(MA_PROF_SUPPORT_STYLUS)
 	keyboard = new MobKeyboard(0, (int)floor((double)scrHeight - ((double)scrHeight * VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER)),
@@ -333,7 +334,7 @@ void Login::keyPressEvent(int keyCode) {
 							maVibrate(1000);
 						}
 						else {
-							response = "";
+							result = "";
 							isBusy = true;
 							notice->setCaption(registering);
 
@@ -417,8 +418,8 @@ void Login::mtxTagData(const char* data, int len) {
 		handle = data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg = data;
-	} else if (!strcmp(parentTag.c_str(), xml_response)) {
-		response += data;
+	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+		result += data;
 	}
 }
 
@@ -439,15 +440,20 @@ void Login::mtxTagEnd(const char* name, int len) {
 		username,error_msg= "";
 		saveData(FEED, feed->getAll().c_str());
 		feed->setAlbum(getData(ALBUM));
-		next = new MenuScreen(feed);
+
+		// Check result
+		if (strcmp("0", xml_result))
+			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
+		else
+			next = new MenuScreen(feed);
 		next->show();
 	} else if(!strcmp(name, xml_error)) {
 		error = true;
 		feed->setUnsuccessful(error_msg.c_str());
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_response)) {
+	} else if (!strcmp(name, xml_result)) {
 		isBusy = false;
-		notice->setCaption(response);
+		notice->setCaption(result);
 	} else {
 		if (!error) {
 			if (notice != NULL) {

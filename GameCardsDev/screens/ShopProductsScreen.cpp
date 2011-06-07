@@ -6,10 +6,15 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category) : mHttp(this), category(category), previous(previous), feed(feed) {
+ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free) : mHttp(this), category(category), previous(previous), feed(feed) {
 	next = NULL;
 
-	mainLayout = createMainLayout(back, purchase, details, true);
+	if (free)
+		mainLayout = createMainLayout(back, confirm, details, true);
+	else
+		mainLayout = createMainLayout(back, purchase, details, true);
+
+
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -49,6 +54,8 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	price = "";
 	thumb = "";
 	cardsInPack = "";
+
+	freebie = free;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
@@ -116,7 +123,11 @@ void ShopProductsScreen::drawList() {
 	for(int i = 0; i < products.size(); i++) {
 		cardText = products[i]->getName();
 		cardText += "\n";
-		cardText += "Price: " + products[i]->getPrice();
+
+		if (!freebie)
+			cardText += "Price: " + products[i]->getPrice();
+		else
+			cardText += "Price: Free";
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -189,7 +200,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, (products[listBox->getSelectedIndex()]));
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, freebie, (products[listBox->getSelectedIndex()]));
 				next->show();
 			}
 			break;
@@ -198,7 +209,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]));
+				next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]), freebie);
 				next->show();
 			}
 			break;

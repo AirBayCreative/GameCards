@@ -5,8 +5,12 @@
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
-	mainLayout = createMainLayout(back, purchase, "", true);
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
+	if (free)
+		mainLayout = createMainLayout(back, confirm, "", true);
+	else
+		mainLayout = createMainLayout(back, purchase, "", true);
+
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 	Layout *feedlayout;
@@ -50,6 +54,8 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	this->setMain(mainLayout);
 
 	moved = 0;
+
+	freebie = free;
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
@@ -135,7 +141,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					next = new BidOrBuyScreen(this, feed, auction);
 					break;
 				case ST_PRODUCT:
-					next = new ShopPurchaseScreen(this, feed, product);
+					next = new ShopPurchaseScreen(this, feed, product, freebie);
 					break;
 			}
 			next->show();

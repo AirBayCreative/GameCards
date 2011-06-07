@@ -276,7 +276,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, NULL, auctions[listBox->getSelectedIndex()]);
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()]);
 				next->show();
 			}
 			break;

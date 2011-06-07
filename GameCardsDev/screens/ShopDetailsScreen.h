@@ -16,7 +16,7 @@ using namespace MAUtil;
 
 class ShopDetailsScreen : public Screen, WidgetListener {
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, Product *product = NULL, Auction *auction = NULL);
+	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
 	~ShopDetailsScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -34,7 +34,7 @@ private:
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 
-	bool list, left, right;
+	bool list, left, right, freebie;
 
 	int moved, screenType;
 

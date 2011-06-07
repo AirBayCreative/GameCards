@@ -17,7 +17,7 @@ using namespace MAUtil;
 
 class ShopProductsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ShopProductsScreen(Screen *previous, Feed *feed, String category);
+	ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free);
 	~ShopProductsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -43,7 +43,7 @@ private:
 	String parentTag,cardText;
 	String id, productType, productName, price, thumb, cardsInPack, category;
 	int i, moved;
-	bool list, left, right, emp;
+	bool list, left, right, emp, freebie;
 
 	Feed *feed;
 	ProductVector products;

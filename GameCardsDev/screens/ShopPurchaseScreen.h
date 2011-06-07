@@ -21,7 +21,7 @@ using namespace MAUtil;
 
 class ShopPurchaseScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product);
+	ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product, bool free = false);
 	~ShopPurchaseScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -41,7 +41,7 @@ private:
 	Product *product;
 	Card *card;
 
-	bool list, left, right, canPurchase, purchased, flip;
+	bool list, left, right, canPurchase, purchased, flip, freebie;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

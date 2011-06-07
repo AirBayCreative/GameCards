@@ -7,7 +7,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product)
+ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product, bool free)
 		:mHttp(this), previous(previous), feed(feed), product(product) {
 	imageCache = new ImageCache();
 	next = NULL;
@@ -20,7 +20,14 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	}
 
 	String confirmLabel = "";
-	if (canPurchase) {
+	if (free)
+	{
+		canPurchase = true;
+
+		layout = createMainLayout(back, confirm, true);
+				confirmLabel += "Are you sure you want the free booster pack " + product->getName() + " ?";
+	}
+	else if (canPurchase) {
 		layout = createMainLayout(back, confirm, true);
 		confirmLabel += sure_you_want_to_purchase + product->getName() + priceFor +
 				product->getPrice() + " credits?";
@@ -45,6 +52,8 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	flip = true;
 	height = 0;
 	moved = 0;
+
+	freebie = false;
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {
@@ -186,11 +195,11 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			if (canPurchase && !purchased) {
 				lbl->setCaption(purchasing);
-				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + 15;
+				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + strlen(freebie_string) + 18;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
-				sprintf(url, "%s%s&height=%d&width=%d", BUYPRODUCT.c_str(),
-						product->getId().c_str(), getMaxImageHeight(), scrWidth);
+				sprintf(url, "%s%s&height=%d&width=%d&%s=%d", BUYPRODUCT.c_str(),
+						product->getId().c_str(), getMaxImageHeight(), scrWidth, freebie_string, freebie ? 1 : 0);
 				if(mHttp.isOpen()){
 					mHttp.close();
 				}

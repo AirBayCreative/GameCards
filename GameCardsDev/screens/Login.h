@@ -52,7 +52,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, response;
+	String username,credits,encrypt,error_msg,email,handle, touch, result;
 	bool list, left, right, mid, error/*, kbShown*/;
 	int screen, moved;
 

@@ -222,6 +222,7 @@ static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
 static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
 static const char* savelbl = "Save";
+static const char* freebie = "To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with";
 
 //XML constants <ALBUM>
 static const char* xml_album = "album";
@@ -305,6 +306,7 @@ static const char* xml_productthumb = "productthumb";
 static const char* xml_id = "id";
 static const char* xml_count = "count";
 static const char* xml_quality = "quality";
+static const char* freebie_string = "freebie";
 //Auctions
 static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";

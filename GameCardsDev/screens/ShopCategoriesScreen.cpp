@@ -14,6 +14,7 @@ void ShopCategoriesScreen::refresh() {
 	mHttp = HttpConnection(this);
 	int res = -1;
 	switch(screenType) {
+		case ST_FREEBIE:
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
@@ -50,6 +51,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 
 	int res = -1;
 	switch(screenType) {
+		case ST_FREEBIE:
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
@@ -157,6 +159,9 @@ void ShopCategoriesScreen::drawList() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
+
+	if (screenType == ST_FREEBIE)
+		notice->setCaption(freebie);
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
@@ -182,6 +187,18 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
+				case ST_FREEBIE:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+						}
+						next = new ShopProductsScreen(this, feed, category, true);
+						next->show();
+					}
+					break;
 				case ST_SHOP:
 					if (!empt) {
 						orig = this;
@@ -190,7 +207,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						if (next != NULL) {
 							delete next;
 						}
-						next = new ShopProductsScreen(this, feed, category);
+						next = new ShopProductsScreen(this, feed, category, false);
 						next->show();
 					}
 					break;
