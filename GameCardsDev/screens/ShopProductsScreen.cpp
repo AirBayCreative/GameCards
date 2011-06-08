@@ -1,7 +1,6 @@
 #include <conprint.h>
 
 #include "ShopProductsScreen.h"
-#include "ShopDetailsScreen.h"
 #include "ShopPurchaseScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
@@ -196,14 +195,6 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
-			if (!emp) {
-				if (next != NULL) {
-					delete next;
-				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, freebie, (products[listBox->getSelectedIndex()]));
-				next->show();
-			}
-			break;
 		case MAK_SOFTRIGHT:
 			if (!emp) {
 				if (next != NULL) {

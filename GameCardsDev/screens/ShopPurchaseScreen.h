@@ -49,6 +49,7 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg;
 	String id, description, quality, urlfront, urlback;
+	String nameDesc, fullDesc;
 	int height, moved;
 
 	void drawPostPurchaseScreen();

@@ -5,7 +5,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = createMainLayout(back, screenType==CARD?select:"", true);
+	mainLayout = createMainLayout(back, screenType==CARD?select:screenType==BALANCE?purchase:screenType==PROFILE?savelbl:"", screenType==BALANCE?log_string:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	switch (screenType) {
@@ -14,17 +14,49 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
 			listBox->add(label);
 
-			label = createLabel(feed->getUsername());
-			label->setVerticalAlignment(Label::VA_CENTER);
+			//label = createLabel(feed->getUsername());
+			//label->setVerticalAlignment(Label::VA_CENTER);
+			//listBox->add(label);
+
+			label = createEditLabel("");
+			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getUsername(), L"Username:");
+			editBoxUsername->setDrawBackground(false);
+			label->addWidgetListener(this);
 			listBox->add(label);
 
 			//EMAIL
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
 			listBox->add(label);
 
-			label = createLabel(feed->getEmail());
-			label->setVerticalAlignment(Label::VA_CENTER);
+			//label = createLabel(feed->getEmail());
+			//label->setVerticalAlignment(Label::VA_CENTER);
+			//listBox->add(label);
+
+			label = createEditLabel("");
+			editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getEmail(), L"Email:");
+			editBoxEmail->setDrawBackground(false);
+			label->addWidgetListener(this);
 			listBox->add(label);
+
+			//HANDLE
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontBlack);
+			listBox->add(label);
+
+			label = createEditLabel("");
+			editBoxHandle = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getHandle(), L"Handle:");
+			editBoxHandle->setDrawBackground(false);
+			label->addWidgetListener(this);
+			listBox->add(label);
+
+			//ID
+			//label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "ID", 0, gFontBlack);
+			//listBox->add(label);
+
+			//label = createEditLabel("");
+			//editBoxID = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getGameId(), L"ID:");
+			//editBoxID->setDrawBackground(false);
+			//label->addWidgetListener(this);
+			//listBox->add(label);
 			break;
 		case BALANCE:
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontBlack);
@@ -33,6 +65,9 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			balanceLabel = createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
+
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, last_trans, 0, gFontBlack);
+			listBox->add(label);
 			break;
 		case CARD:
 			for (int i = 0; i < card->getStats().size(); i++) {
@@ -203,6 +238,9 @@ void DetailScreen::keyPressEvent(int keyCode) {
 							maPlatformRequest(url.c_str());
 						}
 					}
+					break;
+				case PROFILE:
+					label->setCaption("# extra field(s) filled in. You received x Credits.");
 					break;
 			}
 			break;

@@ -200,6 +200,7 @@ static const char* registering = "Attempting to register user...";
 static const char* enter_email = "You need to enter an email address";
 static const char* valid_email = "Please enter a valid email address";
 static const char* avail_credits = "Available Credits:";
+static const char* last_trans = "Last Transactions:";
 static const char* checking_albums = "Checking for new albums...";
 static const char* checking_categories = "Checking for shop categories...";
 static const char* choose_category = "Please choose a card category.";
@@ -307,6 +308,7 @@ static const char* xml_id = "id";
 static const char* xml_count = "count";
 static const char* xml_quality = "quality";
 static const char* freebie_string = "freebie";
+static const char* log_string = "Log";
 //Auctions
 static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";
