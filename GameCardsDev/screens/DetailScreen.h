@@ -9,6 +9,7 @@
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Native/NativeEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -31,7 +32,7 @@ public:
 	enum screenType {PROFILE, BALANCE, CARD};
 private:
 	Screen *previous, *next;
-	EditBox *editBox;
+	EditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
 	Layout *mainLayout;
 	Label *label, *balanceLabel;
 	KineticListBox *listBox;

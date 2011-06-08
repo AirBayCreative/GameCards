@@ -25,10 +25,10 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 		canPurchase = true;
 
 		layout = createMainLayout(back, confirm, true);
-				confirmLabel += "Are you sure you want the free booster pack " + product->getName() + " ?";
+		confirmLabel += "Are you sure you want the free booster pack " + product->getName() + " ?";
 	}
 	else if (canPurchase) {
-		layout = createMainLayout(back, confirm, true);
+		layout = createMainLayout(back, purchase, true);
 		confirmLabel += sure_you_want_to_purchase + product->getName() + priceFor +
 				product->getPrice() + " credits?";
 	}
@@ -44,6 +44,34 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
+	kinListBox->add(lbl);
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
+	feedlayout->setSkin(gSkinBack);
+	feedlayout->setDrawBackground(true);
+	feedlayout->addWidgetListener(this);
+
+	imageCache = new ImageCache();
+	imge = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+
+	nameDesc = "";
+	fullDesc = "";
+
+	retrieveProductThumb(imge, product, imageCache);
+
+	nameDesc = product->getName();
+	fullDesc = product->getDetailsString();
+
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontBlack);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setAutoSizeY();
+	lbl->setMultiLine(true);
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontBlack);
+	lbl->setMultiLine(true);
+	lbl->setAutoSizeY(true);
 	kinListBox->add(lbl);
 
 	this->setMain(layout);
@@ -194,7 +222,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_SOFTRIGHT:
 			if (canPurchase && !purchased) {
-				lbl->setCaption(purchasing);
+				notice->setCaption(purchasing);
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + strlen(freebie_string) + 18;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
@@ -302,7 +330,7 @@ void ShopPurchaseScreen::mtxTagEnd(const char* name, int len) {
 		purchased = true;
 		drawPostPurchaseScreen();
 	} else {
-		lbl->setCaption("");
+		notice->setCaption("Failed to purchase");
 	}
 }
 
