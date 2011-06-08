@@ -283,12 +283,12 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 					if (!busy) {
 						busy = true;
 						//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
-						int urlLength = BUY_AUCTION_NOW.length() + feed->getUsername().length() + auction->getBuyNowPrice().length() +
-								auction->getAuctionCardId().length() + auction->getUserCardId().length() + 50;
+						int urlLength = BUY_AUCTION_NOW.length() +
+								auction->getAuctionCardId().length() + 15;
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s&username=%s&buynowprice=%s&auctioncardid=%s&usercardid=%s", BUY_AUCTION_NOW.c_str(),
-								feed->getUsername().c_str(), auction->getBuyNowPrice().c_str(), auction->getAuctionCardId().c_str(), auction->getUserCardId().c_str());
+						sprintf(url, "%s&auctioncardid=%s", BUY_AUCTION_NOW.c_str(),
+								auction->getAuctionCardId().c_str());
 						int res = mHttp.create(url, HTTP_GET);
 
 						if(res < 0) {
