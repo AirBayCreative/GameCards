@@ -91,6 +91,8 @@ static String URL = "http://dev.mytcg.net/_phone/"; //dev index
 static String USER = URL+"?userdetails=1";
 //get products in category
 static String PRODUCTS = URL+"?categoryproducts=1";
+//get products in category
+static String PAYMENTS = URL+"?getpayments=1";
 //Get user categories
 static String ALBUMS = URL+"?usercategories=1";
 //Get user sub categories
@@ -309,6 +311,15 @@ static const char* xml_count = "count";
 static const char* xml_quality = "quality";
 static const char* freebie_string = "freebie";
 static const char* log_string = "Log";
+static const char* xml_paymentid = "paymentid";
+static const char* xml_paymentthumb = "thumbnailurl";
+static const char* xml_paymentmethod = "paymethodid";
+static const char* xml_paymentdesc = "desc";
+static const char* xml_paymentval = "val";
+static const char* xml_paymentcreditam = "creditam";
+static const char* xml_paymentcred = "cred";
+static const char* xml_payment = "payment";
+static const char* xml_payments_done = "payments";
 //Auctions
 static const char* checking_auction_categories = "Checking for auction categories...";
 static const char* opening_bid = "Opening bid";

@@ -1,5 +1,6 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
+#include "ShopProductsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 
@@ -241,6 +242,10 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					break;
 				case PROFILE:
 					label->setCaption("# extra field(s) filled in. You received x Credits.");
+					break;
+				case BALANCE:
+					next = new ShopProductsScreen(this, feed, "credits", false);
+					next->show();
 					break;
 			}
 			break;

@@ -7,12 +7,16 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product, bool free)
-		:mHttp(this), previous(previous), feed(feed), product(product) {
+ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *product, bool free, bool credit)
+		:mHttp(this), previous(previous), feed(feed), product(product), freebie(free), credits(credit) {
 	imageCache = new ImageCache();
 	next = NULL;
 	//check that the user can afford the product
-	if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
+	if (credits)
+	{
+		canPurchase = true;
+	}
+	else if (atof(feed->getCredits().c_str()) >= atof(product->getPrice().c_str())) {
 		canPurchase = true;
 	}
 	else {
@@ -20,7 +24,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	}
 
 	String confirmLabel = "";
-	if (free)
+	if (freebie)
 	{
 		canPurchase = true;
 
@@ -29,8 +33,15 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	}
 	else if (canPurchase) {
 		layout = createMainLayout(back, purchase, true);
+		if (credits)
+		{
+			confirmLabel += "Are you sure you want to purchase " + product->getPrice() + " credits using " + product->getName() + "?";
+		}
+		else
+		{
 		confirmLabel += sure_you_want_to_purchase + product->getName() + priceFor +
 				product->getPrice() + " credits?";
+		}
 	}
 	else {
 		layout = createMainLayout(back, "", true);
@@ -46,33 +57,36 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	lbl->setMultiLine(true);
 	kinListBox->add(lbl);
 
-	Layout *feedlayout;
+	if (!credits)
+	{
+		Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
-	feedlayout->setSkin(gSkinBack);
-	feedlayout->setDrawBackground(true);
-	feedlayout->addWidgetListener(this);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
+		feedlayout->setSkin(gSkinBack);
+		feedlayout->setDrawBackground(true);
+		feedlayout->addWidgetListener(this);
 
-	imageCache = new ImageCache();
-	imge = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		imageCache = new ImageCache();
+		imge = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-	nameDesc = "";
-	fullDesc = "";
+		nameDesc = "";
+		fullDesc = "";
 
-	retrieveProductThumb(imge, product, imageCache);
+		retrieveProductThumb(imge, product, imageCache);
 
-	nameDesc = product->getName();
-	fullDesc = product->getDetailsString();
+		nameDesc = product->getName();
+		fullDesc = product->getDetailsString();
 
-	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontBlack);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setAutoSizeY();
-	lbl->setMultiLine(true);
+		lbl = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontBlack);
+		lbl->setVerticalAlignment(Label::VA_CENTER);
+		lbl->setAutoSizeY();
+		lbl->setMultiLine(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontBlack);
-	lbl->setMultiLine(true);
-	lbl->setAutoSizeY(true);
-	kinListBox->add(lbl);
+		lbl = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontBlack);
+		lbl->setMultiLine(true);
+		lbl->setAutoSizeY(true);
+		kinListBox->add(lbl);
+	}
 
 	this->setMain(layout);
 
@@ -80,8 +94,6 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	flip = true;
 	height = 0;
 	moved = 0;
-
-	freebie = false;
 }
 
 ShopPurchaseScreen::~ShopPurchaseScreen() {

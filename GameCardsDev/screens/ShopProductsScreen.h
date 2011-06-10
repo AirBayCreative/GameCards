@@ -43,7 +43,7 @@ private:
 	String parentTag,cardText;
 	String id, productType, productName, price, thumb, cardsInPack, category;
 	int i, moved;
-	bool list, left, right, emp, freebie;
+	bool list, left, right, emp, freebie, credits;
 
 	Feed *feed;
 	ProductVector products;
