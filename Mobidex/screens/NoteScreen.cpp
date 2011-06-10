@@ -209,7 +209,7 @@ void NoteScreen::mtxTagEnd(const char* name, int len) {
 	notice->setCaption("Note Updated.");
 }
 
-void NoteScreen::mtxParseError() {
+void NoteScreen::mtxParseError(int offSet) {
 }
 
 void NoteScreen::mtxEmptyTagEnd() {
