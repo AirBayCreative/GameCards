@@ -168,15 +168,15 @@ void AuctionListScreen::drawList() {
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
 		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
-			cardText += "\nCurrent bid: ";
+			cardText += "\nCurrent Bid: ";
 			cardText += auctions[i]->getPrice();
 		}
 		else {
-			cardText += "\nOpening bid: ";
+			cardText += "\nOpening Bid: ";
 			cardText += auctions[i]->getOpeningBid();
 		}
-		cardText += "\nBuy now price: ";
-		cardText += auctions[i]->getBuyNowPrice();
+		cardText += "\nTime Left: ";
+		cardText += auctions[i]->getEndDate();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -189,6 +189,9 @@ void AuctionListScreen::drawList() {
 		tmp = auctions[i]->getCard();
 
 		retrieveThumb(tempImage, tmp, mImageCache);
+
+		if (strcmp(auctions[i]->getUsername().c_str(), feed->getUsername().c_str()) == 0)
+			tempImage->setHasNote(true);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -272,25 +275,13 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_FIRE:
+		case MAK_SOFTRIGHT:
 			if (!emp) {
 				if (next != NULL) {
 					delete next;
 				}
 				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()]);
 				next->show();
-			}
-			break;
-		case MAK_SOFTRIGHT:
-			if (!emp) {
-				switch (screenType) {
-					case ST_CATEGORY:
-						if (next != NULL) {
-							delete next;
-						}
-						next = new BidOrBuyScreen(this, feed, auctions[listBox->getSelectedIndex()]);
-						next->show();
-						break;
-				}
 			}
 			break;
 	}

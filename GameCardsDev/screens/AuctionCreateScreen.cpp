@@ -1,4 +1,5 @@
 #include "AuctionCreateScreen.h"
+#include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
@@ -159,7 +160,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 		case ST_CREATED:
 			switch(keyCode) {
 				case MAK_SOFTRIGHT:
-					orig->show();
+					((ShopCategoriesScreen *)orig)->refresh();
 					break;
 			}
 			break;

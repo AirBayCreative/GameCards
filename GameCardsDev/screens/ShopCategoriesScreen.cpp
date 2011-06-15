@@ -73,8 +73,6 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	this->setMain(mainLayout);
 
 	moved = 0;
-
-	orig = this;
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
@@ -227,6 +225,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_AUCTIONS:
 					if (!empt) {
+						orig = this;
 						int i = listBox->getSelectedIndex();
 
 						if (next != NULL) {

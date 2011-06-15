@@ -105,7 +105,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		delete url;
 	}
 
-	orig = this;
+	//orig = this;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {

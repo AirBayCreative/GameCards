@@ -2,6 +2,7 @@
 
 #include "BidOrBuyScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "ImageScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -117,6 +118,7 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 	clearListBox();
 
+
 	updateSoftKeyLayout("", confirm, "", layout);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontBlack);
@@ -125,6 +127,9 @@ void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
+
+	Screen* next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
+	next->show();;
 }
 
 void BidOrBuyScreen::drawPlaceBidPhase() {
@@ -380,21 +385,6 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
 			previous->show();
-			break;
-			switch(screenPhase) {
-				case SP_CHOOSE_ACTION:
-					previous->show();
-					break;
-				case SP_BUY_NOW:
-					screenPhase = SP_CHOOSE_ACTION;
-					drawChoosePhase();
-					break;
-				case SP_PLACE_BID:
-					bidEditBox->setSelected(false);
-					screenPhase = SP_CHOOSE_ACTION;
-					drawChoosePhase();
-					break;
-			}
 			break;
 		case MAK_DOWN:
 			switch(screenPhase) {
