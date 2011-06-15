@@ -3,6 +3,7 @@
 #include "ShopCategoriesScreen.h"
 #include "ShopProductsScreen.h"
 #include "AuctionListScreen.h"
+#include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 
 void ShopCategoriesScreen::refresh() {
@@ -72,6 +73,8 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	this->setMain(mainLayout);
 
 	moved = 0;
+
+	orig = this;
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
@@ -145,6 +148,17 @@ void ShopCategoriesScreen::locateItem(MAPoint2d point)
 void ShopCategoriesScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();
+
+	if (screenType == ST_AUCTIONS)
+	{
+		label = createSubLabel(my_auctions);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		label = createSubLabel(create_auction);
+		label->addWidgetListener(this);
+		listBox->add(label);
+	}
+
 	for(Map<String, String>::Iterator categoryIter = categories.begin(); categoryIter != categories.end(); categoryIter++) {
 		label = createSubLabel(categoryIter->first);
 		label->addWidgetListener(this);
@@ -213,14 +227,31 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_AUCTIONS:
 					if (!empt) {
-						orig = this;
-						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-						String category = categories.find(selectedCaption)->second.c_str();
+						int i = listBox->getSelectedIndex();
+
 						if (next != NULL) {
 							delete next;
 						}
-						next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);
-						next->show();
+
+						if (i == 0)
+						{
+							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
+							next->show();
+						}
+						else if (i == 1)
+						{
+							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS, NULL, true);
+							next->show();
+						}
+						else
+						{
+							orig = this;
+							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();
+							String category = categories.find(selectedCaption)->second.c_str();
+
+							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);
+							next->show();
+						}
 					}
 					break;
 			}

@@ -6,7 +6,12 @@
 #include "../UI/Widgets/MobImage.h"
 
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
-	if (free)
+
+	if (screenType == ST_AUCTION)
+	{
+		mainLayout = createMainLayout(back, buy_now, bid, true);
+	}
+	else if (free)
 		mainLayout = createMainLayout(back, confirm, "", true);
 	else
 		mainLayout = createMainLayout(back, purchase, "", true);
@@ -50,6 +55,20 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);
+
+	if (screenType == ST_AUCTION)
+	{
+		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, place_bid, 0, gFontBlack);
+		label->setMultiLine(true);
+		label->setAutoSizeY(true);
+		listBox->add(label);
+
+		label = createEditLabel("");
+		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Bid:");
+		editBidBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+	}
 
 	this->setMain(mainLayout);
 
@@ -107,7 +126,7 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	list = true;
+        	//list = true;
         }
     }
     for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
@@ -129,16 +148,32 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
 	}
 }
 #endif
+
+void ShopDetailsScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
+	}
+}
+
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
+			switch (screenType) {
+				case ST_AUCTION:
+					next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
+					next->show();
+					break;
+			}
+			break;
 		case MAK_SOFTRIGHT:
 			if (next != NULL) {
 				delete next;
 			}
 			switch (screenType) {
 				case ST_AUCTION:
-					next = new BidOrBuyScreen(this, feed, auction);
+					next = new BidOrBuyScreen(this, feed, auction, 2);
 					break;
 				case ST_PRODUCT:
 					next = new ShopPurchaseScreen(this, feed, product, freebie);

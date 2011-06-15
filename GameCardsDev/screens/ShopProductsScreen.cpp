@@ -143,6 +143,9 @@ void ShopProductsScreen::drawList() {
 		else
 			cardText += "Price: " + products[i]->getPrice();
 
+		cardText += "\n";
+		cardText += "Cards: " + products[i]->getCardsInPack();
+
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);

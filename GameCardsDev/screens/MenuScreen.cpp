@@ -141,7 +141,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
+				//menu = new OptionsScreen(feed, OptionsScreen::ST_AUCTION_OPTIONS, this);
+				//menu->show();
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
 				menu->show();
 			} else if(index == 4) {
 				if(menu!=NULL){
