@@ -1,5 +1,7 @@
 Collaborators;
-James Sinclair
-Andre Cronje
+james@mytcg.net
+andre@mytcg.net
+heinz@mytcg.net
+stefan@mytcg.net
 Company;
-mytcg
+mytcg.net

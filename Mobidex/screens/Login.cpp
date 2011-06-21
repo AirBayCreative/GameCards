@@ -482,7 +482,7 @@ void Login::cleanup() {
 	touch = "";
 }
 
-void Login::mtxParseError(int offSet) {
+void Login::mtxParseError(/*int offSet*/) {
 }
 
 void Login::mtxEmptyTagEnd() {
