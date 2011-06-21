@@ -548,7 +548,7 @@ void AlbumViewScreen::clearCardMap() {
 	cards.clear();
 }
 
-void AlbumViewScreen::mtxParseError(int offSet) {
+void AlbumViewScreen::mtxParseError(/*int offSet*/) {
 }
 
 void AlbumViewScreen::mtxEmptyTagEnd() {
