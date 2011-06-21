@@ -185,7 +185,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void GameDetailsScreen::mtxParseError(int offSet) {
+void GameDetailsScreen::mtxParseError() {
 }
 
 void GameDetailsScreen::mtxEmptyTagEnd() {

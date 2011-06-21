@@ -724,7 +724,7 @@ void GamePlayScreen::clearCardStats() {
 	cardStats.clear();
 }
 
-void GamePlayScreen::mtxParseError(int offSet) {
+void GamePlayScreen::mtxParseError() {
 }
 
 void GamePlayScreen::mtxEmptyTagEnd() {
