@@ -42,10 +42,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			listBox->add(lbl);
 			break;
 		case ST_AUCTION_OPTIONS:
-			lbl = createSubLabel(all_auctions);
+			lbl = createSubLabel(my_auctions);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(my_auctions);
+			lbl = createSubLabel(create_auction);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;

@@ -14,7 +14,7 @@ using namespace MAUtil;
 
 class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL);
+	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false);
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -48,7 +48,7 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved, screenType;
-	bool list, left, right, mid, empt, hasConnection;
+	bool list, left, right, mid, empt, hasConnection, isAuction;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;

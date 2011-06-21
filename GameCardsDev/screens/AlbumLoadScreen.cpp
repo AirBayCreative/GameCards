@@ -25,8 +25,8 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a) : mHttp(this),
-		previous(previous), feed(feed), screenType(screenType) {
+AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction) : mHttp(this),
+		previous(previous), feed(feed), screenType(screenType), isAuction(auction) {
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -105,7 +105,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		delete url;
 	}
 
-	orig = this;
+	//orig = this;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
@@ -292,11 +292,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					case ST_ALBUMS:
 						if (val->getHasCards()) {
 							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS);
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
 								next->show();
 							}
 							else {
-								next = new AlbumViewScreen(this, feed, val->getId());
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
 								next->show();
 							}
 						}

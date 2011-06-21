@@ -10,6 +10,7 @@
 #include "../utils/Auction.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/Native/NativeEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -18,6 +19,7 @@ class ShopDetailsScreen : public Screen, WidgetListener {
 public:
 	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
 	~ShopDetailsScreen();
+	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
@@ -33,6 +35,7 @@ private:
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
+	EditBox *editBidBox;
 
 	bool list, left, right, freebie;
 

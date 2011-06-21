@@ -2,10 +2,11 @@
 
 #include "BidOrBuyScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "ImageScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):mHttp(this), previous(previous), feed(feed), auction(auction) {
+BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction, int phaseType, String bidAmount):mHttp(this), previous(previous), feed(feed), auction(auction) {
 	canPurchase = false;
 	busy = false;
 
@@ -16,8 +17,46 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction):m
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
-	screenPhase = SP_CHOOSE_ACTION;
-	drawChoosePhase();
+
+	if (phaseType == SP_BUY_NOW)
+	{
+		screenPhase = SP_BUY_NOW;
+		drawBuyNowPhase();
+	}
+	else if (phaseType == SP_PLACE_BID)
+	{
+		screenPhase = SP_PLACE_BID;
+
+		notice->setCaption("placing bid");
+
+		if (!busy) {
+			String valid = validateBid(bidAmount);
+			notice->setCaption(valid);
+
+			if (valid.length() == 0) {
+				//bidEditBox->setSelected(false);
+
+				busy = true;
+				//work out how long the url will be, the number is for the & and = symbols and hard coded params
+				int urlLength = AUCTION_BID.length() + feed->getUsername().length() +  bidEditBox->getCaption().length() +
+						auction->getAuctionCardId().length() + 30;
+				char *url = new char[urlLength];
+				memset(url,'\0',urlLength);
+				sprintf(url, "%s&username=%s&bid=%s&auctioncardid=%s", AUCTION_BID.c_str(),
+						feed->getUsername().c_str(), bidEditBox->getCaption().c_str(), auction->getAuctionCardId().c_str());
+				int res = mHttp.create(url, HTTP_GET);
+
+				if(res < 0) {
+
+				} else {
+					mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+					mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+					mHttp.finish();
+				}
+				delete [] url;
+			}
+		}
+	}
 
 	this->setMain(layout);
 }
@@ -79,6 +118,7 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 	clearListBox();
 
+
 	updateSoftKeyLayout("", confirm, "", layout);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontBlack);
@@ -87,6 +127,9 @@ void BidOrBuyScreen::drawPostSubmitPhase(String message) {
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
+
+	Screen* next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
+	next->show();;
 }
 
 void BidOrBuyScreen::drawPlaceBidPhase() {
@@ -139,8 +182,12 @@ void BidOrBuyScreen::clearListBox() {
 /**
 * Returns a blank string if the bid is valid.
 */
-String BidOrBuyScreen::validateBid(){
-	String bid = bidEditBox->getCaption();
+String BidOrBuyScreen::validateBid(String bidAmount){
+	String bid = bidAmount;
+	if (strcmp(bidAmount.c_str(), "") == 0)
+	{
+		bid = bidEditBox->getCaption();
+	}
 	String errorString = "";
 
 	if (bid.length() == 0) {
@@ -337,20 +384,7 @@ void BidOrBuyScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTLEFT:
-			switch(screenPhase) {
-				case SP_CHOOSE_ACTION:
-					previous->show();
-					break;
-				case SP_BUY_NOW:
-					screenPhase = SP_CHOOSE_ACTION;
-					drawChoosePhase();
-					break;
-				case SP_PLACE_BID:
-					bidEditBox->setSelected(false);
-					screenPhase = SP_CHOOSE_ACTION;
-					drawChoosePhase();
-					break;
-			}
+			previous->show();
 			break;
 		case MAK_DOWN:
 			switch(screenPhase) {
@@ -415,7 +449,7 @@ void BidOrBuyScreen::mtxTagEnd(const char* name, int len) {
 			break;
 		case SP_PLACE_BID:
 			if(!strcmp(name, "result")) {
-				bidEditBox->setSelected(false);
+				//bidEditBox->setSelected(false);
 				screenPhase = SP_POST_SUBMIT;
 				if (!strcmp(result.c_str(), xml_bid_success)) {
 					drawPostSubmitPhase("Bid success!");

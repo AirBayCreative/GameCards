@@ -6,9 +6,10 @@
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
+#include "AuctionCreateScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType) : mHttp(this),
-filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
+AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, bool bAction) : mHttp(this),
+filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType), isAuction(bAction) {
 	busy = true;
 	emp = true;
 	feedLayouts = NULL;
@@ -16,9 +17,9 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	next = NULL;
 	error_msg = "";
 	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, options, "", true);
+		mainLayout = createMainLayout(back, isAuction ? auction : options, "", true);
 	#else
-		mainLayout = createMainLayout(back, options, select, true);
+		mainLayout = createMainLayout(back, isAuction ? auction : options, select, true);
 	#endif
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -186,8 +187,13 @@ void AlbumViewScreen::drawList() {
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
-		cardText = (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		cardText += "\nQuantity: ";
+		cardText = "Name: ";
+		cardText += (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
+		cardText += "\tValue: ";
+		cardText += "TODO";//cardText += itr->second->getValue();
+		cardText += "\nRarity: ";
+		cardText += "TODO";//cardText += itr->second->Rarity();
+		cardText += "\tQuantity: ";
 		cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
@@ -306,7 +312,12 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				if (albumType == AT_NEW_CARDS) {
+				if (isAuction)
+				{
+					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
+					next->show();
+				}
+				else if (albumType == AT_NEW_CARDS) {
 					next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
 							this, cards.find(index[selected])->second);
 				}

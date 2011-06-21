@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class BidOrBuyScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction);
+	BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction, int phaseType=0, String bidAmount="");
 	~BidOrBuyScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -47,7 +47,7 @@ private:
 
 	enum screenPhases {SP_CHOOSE_ACTION, SP_PLACE_BID, SP_BUY_NOW, SP_POST_SUBMIT};
 
-	String validateBid();
+	String validateBid(String bidAmount="");
 
 	void drawChoosePhase();
 	void drawBuyNowPhase();
