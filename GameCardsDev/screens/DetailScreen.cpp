@@ -242,6 +242,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					break;
 				case PROFILE:
 					label->setCaption("# extra field(s) filled in. You received x Credits.");
+
+					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
 					next = new ShopProductsScreen(this, feed, "credits", false);

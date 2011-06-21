@@ -187,8 +187,13 @@ void AlbumViewScreen::drawList() {
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
-		cardText = (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		cardText += "\nQuantity: ";
+		cardText = "Name: ";
+		cardText += (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
+		cardText += "\tValue: ";
+		cardText += "TODO";//cardText += itr->second->getValue();
+		cardText += "\nRarity: ";
+		cardText += "TODO";//cardText += itr->second->Rarity();
+		cardText += "\tQuantity: ";
 		cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
