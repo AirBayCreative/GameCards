@@ -483,11 +483,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-<<<<<<< HEAD
 void AlbumLoadScreen::mtxParseError() {
-=======
-void AlbumLoadScreen::mtxParseError(/*int offSet*/) {
->>>>>>> 40a473dca1f447440790b1948a37393bea84a771
 }
 
 void AlbumLoadScreen::mtxEmptyTagEnd() {
