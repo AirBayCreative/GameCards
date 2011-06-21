@@ -343,7 +343,7 @@ void ShopProductsScreen::clearProductsList() {
 	products.clear();
 }
 
-void ShopProductsScreen::mtxParseError(int offSet) {
+void ShopProductsScreen::mtxParseError() {
 }
 
 void ShopProductsScreen::mtxEmptyTagEnd() {

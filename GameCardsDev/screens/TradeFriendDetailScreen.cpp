@@ -433,7 +433,7 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 void TradeFriendDetailScreen::mtxTagEnd(const char* name, int len) {
 }
 
-void TradeFriendDetailScreen::mtxParseError(int offSet) {
+void TradeFriendDetailScreen::mtxParseError() {
 }
 
 void TradeFriendDetailScreen::mtxEmptyTagEnd() {

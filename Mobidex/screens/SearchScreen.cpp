@@ -375,7 +375,7 @@ void SearchScreen::clearCardMap() {
 	cards.clear();
 }
 
-void SearchScreen::mtxParseError(int offSet) {
+void SearchScreen::mtxParseError(/*int offSet*/) {
 }
 
 void SearchScreen::mtxEmptyTagEnd() {

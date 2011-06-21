@@ -418,7 +418,7 @@ void AuctionListScreen::clearAuctions() {
 	auctions.clear();
 }
 
-void AuctionListScreen::mtxParseError(int offSet) {
+void AuctionListScreen::mtxParseError() {
 }
 
 void AuctionListScreen::mtxEmptyTagEnd() {

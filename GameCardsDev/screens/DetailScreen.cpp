@@ -322,7 +322,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void DetailScreen::mtxParseError(int offSet) {
+void DetailScreen::mtxParseError() {
 }
 
 void DetailScreen::mtxEmptyTagEnd() {

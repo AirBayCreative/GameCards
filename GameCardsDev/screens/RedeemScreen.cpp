@@ -208,7 +208,7 @@ void RedeemScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void RedeemScreen::mtxParseError(int offSet) {
+void RedeemScreen::mtxParseError() {
 }
 
 void RedeemScreen::mtxEmptyTagEnd() {

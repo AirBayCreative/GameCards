@@ -31,7 +31,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_SELECT_STAT = 0, P_RESULTS, P_LOADING, P_FINISHED, P_CARD_DETAILS, P_WAITING};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING};
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
@@ -51,23 +51,18 @@ private:
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	String explanation, outcome;
-	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;;
-	bool list, left, right, hasConnection, newGame, busy, flip;
+	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
+	bool list, left, right, hasConnection, newGame, busy, flip, active;
 	MAPoint2d pointPressed, pointReleased;
-	Card *card;
+	Card *card, *oppCard;
 
 	Stat *newStat;
 	Feed *feed;
 	Vector<Stat*> cardStats;
 	Vector<String> index, stats;
 
-	void drawStatListScreen();
 	void drawResultsScreen();
-	void drawCardDetailsScreen();
 	void drawCardSelectStatScreen();
-	void drawWaitingScreen();
-
-	void drawStatList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -78,7 +73,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError(int offSet);
+	void mtxParseError();
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
