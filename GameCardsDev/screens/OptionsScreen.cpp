@@ -68,7 +68,16 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl = createSubLabel(sharelbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
+			lbl = createSubLabel(auction);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(comparelbl);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
 			lbl = createSubLabel(details);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(addDecklbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(deletecardlbl);
@@ -286,11 +295,17 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new OptionsScreen(feed,
-								OptionsScreen::ST_TRADE_OPTIONS, this, card);
+						menu = new TradeFriendDetailScreen(this, feed, card);
 						menu->show();
 					}
 					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AuctionCreateScreen(this, feed, card);
+						menu->show();
+					}
+					else if (index == 3) {
 						if (menu != NULL) {
 							delete menu;
 						}
@@ -298,7 +313,23 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 								DetailScreen::CARD, card);
 						menu->show();
 					}
-					else if (index == 3 && !busy) {
+					else if (index == 4) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new DetailScreen(this, feed,
+								DetailScreen::CARD, card);
+						menu->show();
+					}
+					else if (index == 5) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new DetailScreen(this, feed,
+								DetailScreen::CARD, card);
+						menu->show();
+					}
+					else if (index == 6 && !busy) {
 						busy = true;
 						notice->setCaption("Deleting...");
 						deleteCard();

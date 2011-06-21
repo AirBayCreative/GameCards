@@ -1,6 +1,7 @@
 #include "TradeFriendDetailScreen.h"
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
 	sending = false;
@@ -33,35 +34,12 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 		delete menu;
 		menu = NULL;
 	}
+
+	cardText="";
+	delete mImageCache;
 }
 
 void TradeFriendDetailScreen::drawMethodScreen() {
-	phase = SP_METHOD;
-
-	notice->setCaption("");
-	clearListBox();
-
-	updateSoftKeyLayout(back, select, "", layout);
-
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontBlack);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
-	listBox->add(lbl);
-	lbl = createSubLabel(userlblNoColon);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	lbl = createSubLabel(emaillblNoColon);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	listBox->setSelectedIndex(2);
-	lbl = createSubLabel(phoneNumlbl);
-	lbl->addWidgetListener(this);
-	listBox->add(lbl);
-	listBox->setSelectedIndex(1);
-}
-
-void TradeFriendDetailScreen::drawDetailScreen() {
 	phase = SP_DETAIL;
 
 	notice->setCaption("");
@@ -69,23 +47,94 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	updateSoftKeyLayout(back, continuelbl, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel+":", 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share Card " + card->getText() + " With?", 0, gFontBlack);
+	lbl->setHorizontalAlignment(Label::HA_CENTER);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setSkin(gSkinBack);
+	listBox->add(lbl);
+
+	Layout *feedlayout;
+
+	mImageCache = new ImageCache();
+
+	cardText = "Name: ";
+	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += "\tValue: ";
+	cardText += "TODO";//cardText += itr->second->getValue();
+	cardText += "\nRarity: ";
+	cardText += "TODO";//cardText += itr->second->Rarity();
+	cardText += "\tQuantity: ";
+	cardText += card->getQuantity();
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setDrawBackground(true);
+	//feedlayout->addWidgetListener(this);
+
+	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
+		//if the user has one or more of the card, the image must be downloaded
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage->setHasNote(card->getNote().length()>0);
+		retrieveThumb(tempImage, card, mImageCache);
+	}
+	else {
+		//we use the blank image for cards they dont have yet
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+	}
+
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setAutoSizeY();
+	lbl->setAutoSizeX(true);
+	lbl->setMultiLine(true);
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlblNoColon, 0, gFontBlack);
 	lbl->setSkin(gSkinBack);
 
-	lblMethod = createEditLabel("");
-	//contactEditBox = new MobEditBox(0, 12, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, lblMethod, "", 0, gFontBlack, true, false);
-	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethod, "", L"");
-	if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
-		contactEditBox->setOptions(MA_TB_TYPE_NUMERIC);
-	}
-	contactEditBox->setDrawBackground(false);
-	lblMethod->addWidgetListener(this);
+	lblMethodUserName = createEditLabel("");
+	usernameEditBox = new NativeEditBox(0, 0, lblMethodUserName->getWidth()-PADDING*2, lblMethodUserName->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodUserName, "", L"");
+	usernameEditBox->setOptions(MA_TB_TYPE_ANY);
+
+	usernameEditBox->setDrawBackground(false);
+	lblMethodUserName->addWidgetListener(this);
 
 	listBox->add(lbl);
-	listBox->add(lblMethod);
+	listBox->add(lblMethodUserName);
 
-	contactEditBox->setText("");
-	contactEditBox->setSelected(true);
+	usernameEditBox->setText("");
+	usernameEditBox->setSelected(true);
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillblNoColon, 0, gFontBlack);
+	lbl->setSkin(gSkinBack);
+
+	lblMethodEmail = createEditLabel("");
+	emailEditBox = new NativeEditBox(0, 0, lblMethodEmail->getWidth()-PADDING*2, lblMethodEmail->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodEmail, "", L"");
+	emailEditBox->setOptions(MA_TB_TYPE_EMAILADDR);
+
+	emailEditBox->setDrawBackground(false);
+	lblMethodEmail->addWidgetListener(this);
+
+	listBox->add(lbl);
+	listBox->add(lblMethodEmail);
+
+	emailEditBox->setText("");
+	emailEditBox->setSelected(true);
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, phoneNumlbl, 0, gFontBlack);
+	lbl->setSkin(gSkinBack);
+
+	lblMethodPhonenumber = createEditLabel("");
+	phonenumberEditBox = new NativeEditBox(0, 0, lblMethodPhonenumber->getWidth()-PADDING*2, lblMethodPhonenumber->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodPhonenumber, "", L"");
+	phonenumberEditBox->setOptions(MA_TB_TYPE_NUMERIC);
+
+	phonenumberEditBox->setDrawBackground(false);
+	lblMethodPhonenumber->addWidgetListener(this);
+
+	listBox->add(lbl);
+	listBox->add(lblMethodPhonenumber);
+
+	phonenumberEditBox->setText("");
+	phonenumberEditBox->setSelected(true);
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -104,6 +153,41 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
+
+	mImageCache = new ImageCache();
+
+	cardText = "Name: ";
+	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += "\tValue: ";
+	cardText += "TODO";//cardText += itr->second->getValue();
+	cardText += "\nRarity: ";
+	cardText += "TODO";//cardText += itr->second->Rarity();
+	cardText += "\tQuantity: ";
+	cardText += card->getQuantity();
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setDrawBackground(true);
+	//feedlayout->addWidgetListener(this);
+
+	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
+		//if the user has one or more of the card, the image must be downloaded
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage->setHasNote(card->getNote().length()>0);
+		retrieveThumb(tempImage, card, mImageCache);
+	}
+	else {
+		//we use the blank image for cards they dont have yet
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+	}
+
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setAutoSizeY();
+	lbl->setAutoSizeX(true);
+	lbl->setMultiLine(true);
 }
 
 void TradeFriendDetailScreen::drawCompleteScreen() {
@@ -149,7 +233,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		keyPressEvent(MAK_SOFTRIGHT);
 	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
-	} else if (phase != SP_DETAIL && list) {
+	} else if (list) {
 		keyPressEvent(MAK_FIRE);
 	}
 }
@@ -190,40 +274,45 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	} else {
 		((Label *)widget)->setFont(gFontBlack);
 	}
+
+	//notice->setCaption("");
+	usernameEditBox->setText("");
+	emailEditBox->setText("");
+	phonenumberEditBox->setText("");
 }
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 	case MAK_FIRE:
-		//break;
 	case MAK_SOFTRIGHT:
 		switch(phase) {
 			case SP_METHOD:
-				int index = listBox->getSelectedIndex();
-				if (index == 0) {
-					listBox->setSelectedIndex(1);
-				}
-				else {
-					if(index == 1) {
-						method = by_username;
-						methodLabel = userlblNoColon;
-					} else if(index == 2) {
-						method = by_email;
-						methodLabel = emaillblNoColon;
-					} else if(index == 3) {
-						method = by_phone_number;
-						methodLabel = phoneNumlbl;
-					}
-					drawDetailScreen();
-				}
-				break;
 			case SP_DETAIL:
-				if (contactEditBox->getText() == "") {
+				if (usernameEditBox->getText() == ""
+					&& emailEditBox->getText() == ""
+					&& phonenumberEditBox->getText() == "") {
 					notice->setCaption(no_contact + method + ".");
 				}
 				else {
 					notice->setCaption("");
-					friendDetail = contactEditBox->getText();
+					if (usernameEditBox->getText() != "")
+					{
+						friendDetail = usernameEditBox->getText();
+						methodLabel = userlblNoColon;
+						method = by_username;
+					}
+					else if (emailEditBox->getText() != "")
+					{
+						friendDetail = emailEditBox->getText();
+						methodLabel = emaillblNoColon;
+						method = by_email;
+					}
+					else if (phonenumberEditBox->getText() != "")
+					{
+						friendDetail = phonenumberEditBox->getText();
+						methodLabel = phoneNumlbl;
+						method = by_phone_number;
+					}
 					drawConfirmScreen();
 				}
 				break;
@@ -231,7 +320,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				if (!sending) {
 					sending = true;
 
-					lbl->setCaption(sending_card_message);
+					notice->setCaption(sending_card_message);
 
 					//make the http connection to trade the card
 					int urlLength = TRADE.length() + card->getId().length() + strlen(trade_method) +
@@ -271,11 +360,11 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				previous->show();
 				break;
 			case SP_DETAIL:
-				contactEditBox->setSelected(false);
-				drawMethodScreen();
+				//contactEditBox->setSelected(false);
+				previous->show();
 				break;
 			case SP_CONFIRM:
-				drawDetailScreen();
+				drawMethodScreen();
 				break;
 		}
 		break;
@@ -285,7 +374,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				listBox->selectNextItem();
 				break;
 			case SP_DETAIL:
-				contactEditBox->setSelected(true);
+				//contactEditBox->setSelected(true);
 				break;
 		}
 		break;
@@ -296,7 +385,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					listBox->selectPreviousItem();
 				break;
 			case SP_DETAIL:
-				contactEditBox->setSelected(true);
+				//contactEditBox->setSelected(true);
 				break;
 		}
 		break;

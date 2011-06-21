@@ -10,6 +10,8 @@
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "../utils/ImageCache.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 
@@ -30,7 +32,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, note, origionalNote, encodedNote, detail;
+	String parentTag, note, origionalNote, encodedNote, detail, cardText;
 	bool list, left, right, isBusy;
 	int moved, screenType;
 
@@ -39,6 +41,9 @@ private:
 	Label *notice, *label;
 	NativeEditBox *editBoxNote;
 	Screen *previous;
+
+	ImageCache *mImageCache;
+	MobImage *tempImage;
 
 	Feed *feed;
 	Card *card;
