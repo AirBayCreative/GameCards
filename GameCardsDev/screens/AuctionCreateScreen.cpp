@@ -18,6 +18,7 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 	daysText = "";
 	parentTag = "";
 	createResult = "";
+	cardText = "";
 
 	busy = false;
 
@@ -249,7 +250,16 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	retrieveThumb(tempImage, card, mImageCache);
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, card->getText(), 0, gFontBlack);
+	cardText = "Name: ";
+	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += "\tValue: ";
+	cardText += card->getValue();
+	cardText += "\nRarity: ";
+	cardText += card->getRarity();
+	cardText += "\tQuantity: ";
+	cardText += card->getQuantity();
+
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);

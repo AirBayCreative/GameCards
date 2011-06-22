@@ -37,9 +37,9 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			cardText = "Name: ";
 			cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
 			cardText += "\tValue: ";
-			cardText += "TODO";//cardText += itr->second->getValue();
+			cardText += card->getValue();
 			cardText += "\nRarity: ";
-			cardText += "TODO";//cardText += itr->second->Rarity();
+			cardText += card->getRarity();
 			cardText += "\tQuantity: ";
 			cardText += card->getQuantity();
 

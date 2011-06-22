@@ -72,10 +72,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			break;
 		case CARD:
 			for (int i = 0; i < card->getStats().size(); i++) {
-				/*label = createLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
-				label->setVerticalAlignment(Label::VA_CENTER);
-				setPadding(label);
-				listBox->add(label);*/
 				label = createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
 				label->setPaddingBottom(5);
 				label->addWidgetListener(this);
