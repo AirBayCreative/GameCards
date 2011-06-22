@@ -14,6 +14,7 @@
 
 #include <MAUtil/String.h>
 #include <matime.h>
+#include "snprintf.h"
 using namespace MAUtil;
 
 class Convert

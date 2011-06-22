@@ -46,31 +46,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			nameDesc = auction->getCard()->getText();
 			fullDesc = auction->getCard()->getFullDesc();
 
-			//testing date/time
-			lprintfln(auction->getEndDate().c_str());
-
-			struct tm * tim_p = new tm;
-			struct tm * cmp_p = new tm;
-
-			cmp_p->tm_hour = 0;
-			cmp_p->tm_min = 0;
-			cmp_p->tm_sec = 0;
-			cmp_p->tm_year = 2011;
-			cmp_p->tm_mon = 6;
-			cmp_p->tm_mday = 19;
-
-
-			split_time(maTime(), tim_p);
-			printf("system hour is %d ", tim_p->tm_hour);
-			printf("system min is %d ", tim_p->tm_min);
-			printf("system sec is %d ", tim_p->tm_sec);
-			printf("Daylight Saving Time flag %d ", tim_p->tm_isdst);
-			printf("Day of the month %d ", tim_p->tm_mday);
-			printf("Months since January %d ", tim_p->tm_mon);
-			printf("Days since Sunday %d ", tim_p->tm_wday);
-			printf("Days since January 1 %d ", tim_p->tm_yday);
-			printf("Years since 1900 %d ", tim_p->tm_year);
-
 			break;
 	}
 
@@ -90,6 +65,9 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
+
+		MAUtil::Environment::getEnvironment().addTimer(this, 1000, -1);
+		//requestRepaint();
 
 		label = createEditLabel("");
 		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
@@ -115,6 +93,49 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	moved = 0;
 
 	freebie = free;
+}
+
+void ShopDetailsScreen::runTimerEvent() {
+	editBidBox->setText(getTime().c_str());
+	//requestRepaint();
+}
+
+String ShopDetailsScreen::getTime() {
+	String all = auction->getEndDate();
+	String year = "";
+	String month = "";
+	String day = "";
+
+	struct tm * cmp_p = new tm;
+
+	int indexof = all.find("-");
+	if (indexof > -1) {
+		year = all.substr(0,indexof++).c_str();
+		all=all.substr(indexof);
+	}
+	indexof = all.find("-");
+	if (indexof > -1) {
+		month = all.substr(0,indexof++).c_str();
+		all=all.substr(indexof);
+		day = all;
+	}
+	cmp_p->tm_hour = 23;
+	cmp_p->tm_min = 59;
+	cmp_p->tm_sec = 59;
+	cmp_p->tm_year = Convert::toInt(year)-1900;
+	cmp_p->tm_mon = Convert::toInt(month)-1;
+	cmp_p->tm_mday = Convert::toInt(day);
+	time_t test = mktime(cmp_p);
+	time_t timeleft = test - maTime();
+	if (timeleft < 0) {
+		//should be set to zero, for now gonna use negative inferred value for testing
+		timeleft = timeleft*-1;
+	}
+	split_time(timeleft, cmp_p);
+
+	char buffer[36];
+	snprintf(buffer, 128, "D %d, H %d, M %d, S %d", cmp_p->tm_mday, cmp_p->tm_hour, cmp_p->tm_min, cmp_p->tm_sec);
+	return buffer;
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
