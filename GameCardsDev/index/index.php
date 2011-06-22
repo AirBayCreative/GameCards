@@ -1774,7 +1774,8 @@ if ($_GET['selectstat']) {
 	$categoryStatId = $categoryStatQuery[0]['categorystat_id'];
 	
 	//build xml with scores and explanation and send it back
-	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
+	$sOP = selectStat($iUserID, $oppId, $gameId, $categoryStatId);
+	echo $sOP;
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	continueGame($gameId, $iHeight, $iWidth);
@@ -1917,9 +1918,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	}
 	
 	//add the log message, so players can see what happened.
-	myqu('INSERT INTO mytcg_gamelog
-		(game_id, date, message)
-		VALUES('.$gameId.', now(), \''.$exp.'\')');
+	myqu('INSERT INTO mytcg_gamelog 
+		(game_id, date, message, categorystat_id)
+		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.')');
 	
 	//if there was a winner, assign cards
 	if ($winnerId != 0 && $loserId != 0) {
