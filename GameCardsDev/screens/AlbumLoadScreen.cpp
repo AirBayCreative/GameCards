@@ -39,11 +39,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	updated = "0";
 
 	next = NULL;
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, "", true);
-  	#else
-		mainLayout = createMainLayout(back, select, true);
-  	#endif
+	mainLayout = createMainLayout("", back, true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -271,7 +267,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			if (path.size() > 0) {
 				path.remove(path.size()-1);
 				loadCategory();
@@ -281,7 +277,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {

@@ -3,6 +3,7 @@
 #include "ShopProductsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
+#include "../UI/CheckBox.h"
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
@@ -11,53 +12,27 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	next=NULL;
 	switch (screenType) {
 		case PROFILE:
-			//USERNAME
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+
+
+			//loop for each entry found in user_details. if Answered test->flip() to set checked.
+			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, userlbl, 0, gFontBlack);
 			listBox->add(label);
 
-			//label = createLabel(feed->getUsername());
-			//label->setVerticalAlignment(Label::VA_CENTER);
-			//listBox->add(label);
+			Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
+			feedlayout->setDrawBackground(true);
+			feedlayout->addWidgetListener(this);
 
-			label = createEditLabel("");
-			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getUsername(), L"Username:");
+			label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, gFontBlack);
+			label->setSkin(gSkinEditBox);
+			setPadding(label);
+			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getUsername(), L"Username:");
 			editBoxUsername->setDrawBackground(false);
 			label->addWidgetListener(this);
-			listBox->add(label);
+			feedlayout->add(label);
 
-			//EMAIL
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
-			listBox->add(label);
+			CheckBox *test = new CheckBox(scrWidth - 40, 0, 36, 46, feedlayout);
+			test->setPaddingTop(10);
 
-			//label = createLabel(feed->getEmail());
-			//label->setVerticalAlignment(Label::VA_CENTER);
-			//listBox->add(label);
-
-			label = createEditLabel("");
-			editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getEmail(), L"Email:");
-			editBoxEmail->setDrawBackground(false);
-			label->addWidgetListener(this);
-			listBox->add(label);
-
-			//HANDLE
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, handlelbl, 0, gFontBlack);
-			listBox->add(label);
-
-			label = createEditLabel("");
-			editBoxHandle = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getHandle(), L"Handle:");
-			editBoxHandle->setDrawBackground(false);
-			label->addWidgetListener(this);
-			listBox->add(label);
-
-			//ID
-			//label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "ID", 0, gFontBlack);
-			//listBox->add(label);
-
-			//label = createEditLabel("");
-			//editBoxID = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getGameId(), L"ID:");
-			//editBoxID->setDrawBackground(false);
-			//label->addWidgetListener(this);
-			//listBox->add(label);
 			break;
 		case BALANCE:
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontBlack);

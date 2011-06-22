@@ -5,7 +5,7 @@
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
 
-Login::Login(Feed *feed, int screen) : mHttp(this), feed(feed), screen(screen) {
+Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
 	moved = 0;
 	changed = false;
 	isBusy = false;
@@ -54,15 +54,13 @@ void Login::drawLoginScreen() {
 #endif*/
 	clearListBox();
 
-	updateSoftKeyLayout(exit, login, reg, mainLayout);
+	updateSoftKeyLayout(login, back, "", mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	//editBoxLogin = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"admin"*/"andre", 0, gFontBlack, true, false);
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "andre", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
@@ -72,8 +70,6 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, "", 0, gFontBlack, true, false);
-	//editBoxPass = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, /*"1qazxsw2"*/"aaaaaa", 0, gFontBlack, true, false);
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "aaaaaa", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
@@ -93,7 +89,7 @@ void Login::drawRegisterScreen() {
 #endif*/
 	clearListBox();
 
-	updateSoftKeyLayout(exit, apply, login, mainLayout);
+	updateSoftKeyLayout(reg, back, "", mainLayout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
@@ -276,7 +272,7 @@ void Login::keyPressEvent(int keyCode) {
 	error = false;
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
-		case MAK_FIRE:
+		/*case MAK_FIRE:
 			switch (screen) {
 				case S_LOGIN:
 					drawRegisterScreen();
@@ -285,8 +281,9 @@ void Login::keyPressEvent(int keyCode) {
 					drawLoginScreen();
 					break;
 			}
-			break;
-		case MAK_SOFTRIGHT:
+			break;*/
+		case MAK_FIRE:
+		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				switch (screen) {
 					case S_LOGIN:
@@ -362,8 +359,8 @@ void Login::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
-			maExit(0);
+		case MAK_SOFTRIGHT:
+			previous->show();
 			break;
 		case MAK_UP:
 			if (index-2 > 0) {

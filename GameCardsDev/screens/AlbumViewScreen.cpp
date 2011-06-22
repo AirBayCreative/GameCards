@@ -17,11 +17,8 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 
 	next = NULL;
 	error_msg = "";
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, isAuction ? auction : options, "", true);
-	#else
-		mainLayout = createMainLayout(back, isAuction ? auction : options, select, true);
-	#endif
+	mainLayout = createMainLayout(isAuction ? auction : options, back , "", true);
+
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_cards);
@@ -287,7 +284,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			saveData(filename.c_str(), getAll().c_str());
 			previous->show();
 			break;
@@ -307,7 +304,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				next->show();
 			}
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!emp && !hasConnection) {
 				notice->setCaption(no_connect);
 			}

@@ -28,11 +28,11 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 	{
 		canPurchase = true;
 
-		layout = createMainLayout(back, confirm, true);
-		confirmLabel += "Are you sure you want the free booster pack " + product->getName() + " ?";
+		layout = createMainLayout(confirm, back, true);
+		confirmLabel += "Are you sure you want  " + product->getName() + " ?";
 	}
 	else if (canPurchase) {
-		layout = createMainLayout(back, purchase, true);
+		layout = createMainLayout(purchase, back, true);
 		if (credits)
 		{
 			confirmLabel += "Are you sure you want to purchase " + product->getPrice() + " credits using " + product->getName() + "?";
@@ -44,7 +44,7 @@ ShopPurchaseScreen::ShopPurchaseScreen(Screen *previous, Feed *feed, Product *pr
 		}
 	}
 	else {
-		layout = createMainLayout(back, "", true);
+		layout = createMainLayout("", back, true);
 		confirmLabel += not_enough_credits;
 	}
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -214,25 +214,9 @@ void ShopPurchaseScreen::locateItem(MAPoint2d point)
 void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-			if (purchased) {
-				if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-					maDestroyObject(imge->getResource());
-				}
-				imge->setResource(RES_LOADING);
-				imge->update();
-				imge->requestRepaint();
-				maUpdateScreen();
-
-				if (flip) {
-					retrieveBack(imge, card, height-PADDING*2, imageCache);
-				}
-				else {
-					retrieveFront(imge, card, height-PADDING*2, imageCache);
-				}
-				flip = !flip;
-			}
+			//purchase goes to display all cards in albumview
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (canPurchase && !purchased) {
 				notice->setCaption(purchasing);
 				int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + strlen(freebie_string) + 18;
@@ -265,7 +249,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			if (!purchased) {
 				previous->show();
 			}

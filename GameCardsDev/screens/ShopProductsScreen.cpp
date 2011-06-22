@@ -13,12 +13,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	else
 		credits = false;
 
-	if (credits)
-		mainLayout = createMainLayout(back, purchase, "", true);
-	else if (free)
-		mainLayout = createMainLayout(back, confirm, details, true);
-	else
-		mainLayout = createMainLayout(back, purchase, details, true);
+	mainLayout = createMainLayout("", back, "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -209,11 +204,11 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!emp) {
 				if (next != NULL) {
 					delete next;

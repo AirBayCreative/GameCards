@@ -24,10 +24,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = createMainLayout(exit, select);
+		layout = createMainLayout(select, exit);
 	}
 	else {
-		layout = createMainLayout(back, select);
+		layout = createMainLayout(select, back);
 	}
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -220,7 +220,7 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 void OptionsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			index = listBox->getSelectedIndex();
 			switch(screenType) {
 				case ST_TRADE_OPTIONS:
@@ -365,21 +365,21 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new Login(feed, Login::S_LOGIN);
+						menu = new Login(this, feed, Login::S_LOGIN);
 						menu->show();
 					}
 					else if(index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new Login(feed, Login::S_REGISTER);
+						menu = new Login(this, feed, Login::S_REGISTER);
 						menu->show();
 					}
 					break;
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
 					maExit(0);

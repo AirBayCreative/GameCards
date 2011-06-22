@@ -2648,13 +2648,12 @@ function getProducts($categoryId, $products) {
 /** give user details */
 if ($_GET['userdetails']){
 	global $iUserID;
-	$aUserDetails=myqu('SELECT username, email_address, name, credits, freebie '
+	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
 	$sOP='<userdetails>'.$sCRLF;
 	$sOP.=$sTab.'<username>'.trim($aUserDetails[0]['username']).'</username>'.$sCRLF;	
 	$sOP.=$sTab.'<email>'.trim($aUserDetails[0]['email_address']).'</email>'.$sCRLF;
-	$sOP.=$sTab.'<name>'.trim($aUserDetails[0]['name']).'</name>'.$sCRLF;
 	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
 	$sOP.=$sTab.'<freebie>'.trim($aUserDetails[0]['freebie']).'</freebie>'.$sCRLF;
 	$sOP.=$sTab.'<status></status>'.$sCRLF;
@@ -2662,6 +2661,30 @@ if ($_GET['userdetails']){
 	$aUserTransactions=myqu('SELECT description FROM mytcg_credits WHERE userid = '.$iUserID.' ORDER BY creditid DESC LIMIT 10');
 	
 	$sOP.='</userdetails>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** give user profile details */
+if ($_GET['profiledetails']){
+	$aUserDetails=myqu('SELECT d.desc, d.detail_id, a.answer_id, a.answer, a.answered '
+		.'FROM mytcg_user_answer a, mytcg_user_detail d '
+		.'WHERE a.detail_id = d.detail_id '
+		.'AND a.user_id="'.$iUserID.'"');
+	$sOP='<profiledetails>'.$sCRLF;
+	$iCount=0;
+	while ($aCategory=$aCategories[$iCount]){
+	$sOP='<detail>'.$sCRLF;
+	$sOP.=$sTab.'<answer_id>'.trim($aUserDetails[0]['answer_id']).'</answer_id>'.$sCRLF;
+	$sOP.=$sTab.'<detail_id>'.trim($aUserDetails[0]['detail_id']).'</detail_id>'.$sCRLF;	
+	$sOP.=$sTab.'<desc>'.trim($aUserDetails[0]['desc']).'</desc>'.$sCRLF;	
+	$sOP.=$sTab.'<answer>'.trim($aUserDetails[0]['answer']).'</answer>'.$sCRLF;
+	$sOP.=$sTab.'<answered>'.trim($aUserDetails[0]['answered']).'</answered>'.$sCRLF;
+	$sOP='</detail>'.$sCRLF;
+	}
+	
+	$sOP.='</profiledetails>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
