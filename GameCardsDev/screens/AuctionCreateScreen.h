@@ -59,7 +59,7 @@ private:
 	void drawCreatedScreen();
 	void drawInvalidInputScreen();
 
-	String openingText, buyNowText, daysText, errorString, parentTag, createResult;
+	String openingText, buyNowText, daysText, errorString, parentTag, createResult, cardText;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
