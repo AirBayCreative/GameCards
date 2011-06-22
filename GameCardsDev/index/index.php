@@ -1774,8 +1774,7 @@ if ($_GET['selectstat']) {
 	$categoryStatId = $categoryStatQuery[0]['categorystat_id'];
 	
 	//build xml with scores and explanation and send it back
-	$sOP = selectStat($iUserID, $oppId, $gameId, $categoryStatId);
-	echo $sOP;
+	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	continueGame($gameId, $iHeight, $iWidth);
@@ -1797,7 +1796,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		INNER JOIN mytcg_user u 
 		ON u.user_id = gp.user_id 
 		WHERE gp.user_id = '.$oppUserId
-		.'AND gp.game_id = '.$gameId);
+		.' AND gp.game_id = '.$gameId);
 	$oppPlayerId = $oppPlayerIdQuery[0]['gameplayer_id'];
 	$oppPlayerUsername = $oppPlayerIdQuery[0]['username'];
 	
@@ -1807,12 +1806,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		INNER JOIN mytcg_user u 
 		ON u.user_id = gp.user_id 
 		WHERE gp.user_id = '.$userId
-		.'AND gp.game_id = '.$gameId);
+		.' AND gp.game_id = '.$gameId);
 	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
 	$userPlayerUsername = $userPlayerIdQuery[0]['username'];
-	
-	$sOP = '$oppPlayerId: '.$oppPlayerId.' $oppPlayerUsername: '.$oppPlayerUsername.' $userPlayerId: '.$userPlayerId.' $userPlayerUsername: '.$userPlayerUsername;
-	return $sOP;
 	
 	//get stat value and typeId for user
 	$cardStatDetails = myqu('SELECT gpc.pos position, gpc.gameplayercard_id, c.description card_name, cs.statvalue, cs.description statdescription
