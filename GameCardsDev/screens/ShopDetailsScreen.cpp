@@ -55,6 +55,9 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			cmp_p->tm_hour = 0;
 			cmp_p->tm_min = 0;
 			cmp_p->tm_sec = 0;
+			cmp_p->tm_year = 2011;
+			cmp_p->tm_mon = 6;
+			cmp_p->tm_mday = 19;
 
 
 			split_time(maTime(), tim_p);

@@ -2,6 +2,7 @@
 
 #include "NoteScreen.h"
 #include "../utils/Util.h"
+#include "../utils/MAHeaders.h"
 #include "MenuScreen.h"
 
 NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
@@ -31,6 +32,40 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
+			mImageCache = new ImageCache();
+
+			cardText = "Name: ";
+			cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+			cardText += "\tValue: ";
+			cardText += "TODO";//cardText += itr->second->getValue();
+			cardText += "\nRarity: ";
+			cardText += "TODO";//cardText += itr->second->Rarity();
+			cardText += "\tQuantity: ";
+			cardText += card->getQuantity();
+
+			Layout *feedlayout;
+
+			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+			feedlayout->setSkin(gSkinAlbum);
+			feedlayout->setDrawBackground(true);
+			feedlayout->addWidgetListener(this);
+
+			if (strcmp(card->getQuantity().c_str(), "0") != 0) {
+				//if the user has one or more of the card, the image must be downloaded
+				tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+				tempImage->setHasNote(card->getNote().length()>0);
+				retrieveThumb(tempImage, card, mImageCache);
+			}
+			else {
+				//we use the blank image for cards they dont have yet
+				tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+			}
+
+			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setAutoSizeY();
+			label->setAutoSizeX(true);
+			label->setMultiLine(true);
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontBlack);
 			listBox->add(label);
 			break;
@@ -66,10 +101,15 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 NoteScreen::~NoteScreen() {
 	delete mainLayout;
+
 	parentTag = "";
 	note = "";
 	origionalNote = "";
 	encodedNote = "";
+	cardText = "";
+
+	if(mImageCache!=NULL)
+		delete mImageCache;
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)

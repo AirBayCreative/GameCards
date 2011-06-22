@@ -12,6 +12,8 @@
 #include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../UI/Widgets/MobImage.h"
+#include "../utils/ImageCache.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -37,21 +39,23 @@ private:
 	Feed *feed;
 	Layout *layout;
 	ListBox* listBox;
-	Label *lbl, *lblMethod, *notice;
+	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *notice;
 
 	Screen *menu;
 	Screen *previous;
 	Card *card;
 	bool list, left, right, sending;
-	String method, methodLabel, friendDetail, parentTag;
+	String method, methodLabel, friendDetail, parentTag, cardText;
 	String temp, temp1, error_msg, result;
-	NativeEditBox *contactEditBox;
+	NativeEditBox *usernameEditBox, *emailEditBox, *phonenumberEditBox;
+
+	ImageCache *mImageCache;
+	MobImage *tempImage;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
 	void drawMethodScreen();
-	void drawDetailScreen();
 	void drawConfirmScreen();
 	void drawCompleteScreen();
 

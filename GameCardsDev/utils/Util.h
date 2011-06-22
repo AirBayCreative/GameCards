@@ -218,7 +218,7 @@ static const char* truesz = "true";
 static const char* falsesz = "false";
 static const char* no_connect = "Unable to connect, try again later...";
 static const char* no_user = "Ensure that you have entered your username and password.";
-static const char* no_contact = "Ensure that you have entered\n your friend's ";
+static const char* no_contact = "Ensure that you have entered\n your friend's details";
 static const char* sure_you_want_to_send = "Are you sure you want to send your ";
 static const char* friend_with = " to your friend with ";
 static const char* sending_card_message = "Sending card...";
@@ -229,6 +229,8 @@ static const char* error_sending_card_message = "Error sending card.";
 static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
 static const char* savelbl = "Save";
 static const char* freebie = "To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with";
+static const char* comparelbl = "Compare";
+static const char* addDecklbl = "Add to Deck";
 
 //XML constants <ALBUM>
 static const char* xml_album = "album";
