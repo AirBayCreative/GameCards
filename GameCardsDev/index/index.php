@@ -2674,13 +2674,13 @@ if ($_GET['profiledetails']){
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
 	while ($aUserDetail=$aUserDetails[$iCount]){
-	$sOP='<detail>'.$sCRLF;
+	$sOP.='<detail>'.$sCRLF;
 	$sOP.=$sTab.'<answer_id>'.trim($aUserDetail['answer_id']).'</answer_id>'.$sCRLF;
 	$sOP.=$sTab.'<detail_id>'.trim($aUserDetail['detail_id']).'</detail_id>'.$sCRLF;	
 	$sOP.=$sTab.'<desc>'.trim($aUserDetail['desc']).'</desc>'.$sCRLF;	
 	$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
 	$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
-	$sOP='</detail>'.$sCRLF;
+	$sOP.='</detail>'.$sCRLF;
 	$iCount++;
 	}
 	
