@@ -15,12 +15,16 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener {
+class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener {
 public:
 	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
 	~ShopDetailsScreen();
 	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
+	String ShopDetailsScreen::getTime();
+
+	void runTimerEvent();
+
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);

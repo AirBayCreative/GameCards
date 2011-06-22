@@ -12,6 +12,7 @@
 #include "Card.h"
 #include "Product.h"
 #include "ImageCache.h"
+#include "Convert.h"
 
 using namespace MAUI;
 

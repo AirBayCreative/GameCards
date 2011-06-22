@@ -6,7 +6,6 @@
  */
 #include "Convert.h"
 #include <mavsprintf.h>
-#include "snprintf.h"
 #include <mawstring.h>
 #include <wchar.h>
 
