@@ -2808,6 +2808,12 @@ function registerUser ($username, $password, $email) {
 	$crypPass = substr(md5($userId),$iMod,10).md5($password);
 	myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$userId}");
 	
+	//create the empty data fields in mytcg_user_answer
+	myqu("INSERT INTO mytcg_user_answer
+		(detail_id, user_id)
+		SELECT detail_id, {$userId}
+		FROM mytcg_user_detail");
+	
 	$sOP.='<registration><result>';
 	$sOP.='User created successfully!';
 	$sOP.='</result></registration>';
