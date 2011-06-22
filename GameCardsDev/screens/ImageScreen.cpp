@@ -16,12 +16,13 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
-			mainLayout =  createImageLayout(rejectlbl, acceptlbl, "");
+			mainLayout =  createImageLayout(acceptlbl, rejectlbl, "");
 		}
 		else {
-			mainLayout =  createImageLayout((hasConnection&&canAuction)?options:"", back , "");
+			mainLayout =  createImageLayout((hasConnection&&canAuction)?options:"", back , flipit);
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
 		mainLayout = createImageLayout(back);
@@ -153,6 +154,11 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
+			updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+			imge->refreshWidget();
+			imge->statAdded = false;
+			currentSelectedStat = -1;
+
 			flip=!flip;
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 				maDestroyObject(imge->getResource());
@@ -173,11 +179,20 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
 						currentSelectedStat--;
-						if(currentSelectedStat < 0){
-							currentSelectedStat = 0;
+						if(currentSelectedStat < -1){
+							currentSelectedStat = 2;
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+						} else if (currentSelectedStat == -1) {
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+							imge->refreshWidget();
+							imge->statAdded = false;
+						} else {
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
 						}
-						imge->refreshWidget();
-						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
 					}
 				}
 			}
@@ -186,16 +201,24 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
-						if(currentSelectedStat < card->getStats().size()-1){
+						if(currentSelectedStat <= card->getStats().size()-1){
 							currentSelectedStat++;
 						}
-						imge->refreshWidget();
-						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+						if (currentSelectedStat > card->getStats().size()-1) {
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+							imge->refreshWidget();
+							imge->statAdded = false;
+							currentSelectedStat = -1;
+						} else {
+							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+						}
 					}
 				}
 			}
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
 				acceptCard();
@@ -212,7 +235,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
 				rejectCard();
@@ -223,8 +246,12 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
-				if(flipOrSelect){
+				if((flipOrSelect)||(currentSelectedStat == -1)){
 					flip=!flip;
+					updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+					imge->refreshWidget();
+					imge->statAdded = false;
+					currentSelectedStat = -1;
 					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 						maDestroyObject(imge->getResource());
 					}
