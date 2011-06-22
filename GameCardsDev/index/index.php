@@ -175,7 +175,7 @@ function openStarter($userID,$packID){
 		ON cq.cardquality_id = c.cardquality_id
 		WHERE pc.product_id={$packID}");
   $iNumCards = sizeof($aGetCards);
-	$cardIds = array();
+	$cards = array();
   for ($i = 0; $i < $iNumCards; $i++){
     //GET CARD FROM STACK
     $iCardID = $aGetCards[$i]['card_id'];
@@ -191,13 +191,23 @@ function openStarter($userID,$packID){
 			FROM mytcg_usercardstatus
 			WHERE description = 'Album'");
 		
-		$cardIds[sizeof($cardIds)] = $iCardID;
+		$card;
+		if ($cards[$iCardID] == null) {
+			$card = array();
+			$card['cardId'] = $iCardID;
+			$card['quantity'] = 1;
+		}
+		else {
+			$card = $cards[$iCardID];
+			$card['quantity'] = $card['quantity']+1;
+		}
+		$cards[$iCardID] = $card;
   }
 	
 	//we can remove one of the products from stock though
 	myqui("UPDATE mytcg_product SET in_stock=in_stock-1 WHERE product_id={$packID}");
 	
-	return $cardIds;
+	return $cards;
 }
 
 //GENERATES THE CONTENTS OF A BOOSTER PACK AND GIVES IT TO THE USER
@@ -217,7 +227,7 @@ function openBooster($userID,$packID){
 		WHERE pc.product_id = {$packID} 
 		ORDER BY booster_probability ASC");
 	$iQualityID = 0;
-	$cardIds = array();
+	$cards = array();
 	
 	//GET CARDS
 	for ($i = 0; $i < $iPackCount; $i++){
@@ -245,13 +255,23 @@ function openBooster($userID,$packID){
 			FROM mytcg_usercardstatus
 			WHERE description = 'Album'");
 		
-		$cardIds[sizeof($cardIds)] = $iCardID;
+		$card;
+		if ($cards[$iCardID] == null) {
+			$card = array();
+			$card['cardId'] = $iCardID;
+			$card['quantity'] = 1;
+		}
+		else {
+			$card = $cards[$iCardID];
+			$card['quantity'] = $card['quantity']+1;
+		}
+		$cards[$iCardID] = $card;
 	}
 	
 	//we can remove one of the products from stock though
 	myqui("UPDATE mytcg_product SET in_stock=in_stock-1 WHERE product_id={$packID}");
 	
-	return $cardIds;
+	return $cards;
 }
 
 //ROLL DICE AND CHECK WHAT QUALITY CARD THE USER RECEIVES 
@@ -332,7 +352,7 @@ if ($_GET['buyproduct']){
   $iReleasedBuffer=1;
   //VALIDATE USER CREDITS
   //User credits
-  $iCreditsQuery=myqu("SELECT credits, (freebie <> 1) freebie FROM mytcg_user WHERE user_id='{$iUserID}'");
+  $iCreditsQuery=myqu("SELECT credits, freebie FROM mytcg_user WHERE user_id='{$iUserID}'");
   $iCredits=$iCreditsQuery[0]['credits'];
 	$hasFreebie=$iCreditsQuery[0]['freebie'];
   
@@ -369,10 +389,7 @@ if ($_GET['buyproduct']){
 		);
 		
 		$sOP = '<cards>';
-		$iCount = 0;
-		while ($iCount < sizeof($packCards)) {
-			$iCardID = $packCards[$iCount];
-			$iCount++;
+		foreach ($packCards as $card) {
 		
 			//get the card details
 			$aCardDetails=myqu('SELECT c.card_id,c.description,c.front_phone_imageserver_id, 
@@ -387,14 +404,14 @@ if ($_GET['buyproduct']){
 					AND usercardnotestatus_id = 1 
 				) n 
 				ON n.card_id = c.card_id 
-				WHERE c.card_id='.$iCardID);
+				WHERE c.card_id='.$card['cardId']);
 			
 			$sOP.= $sTab.'<card>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<cardid>'.$aCardDetails[0]['card_id'].'</cardid>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<image_id>'.$aCardDetails[0]['image'].'</image_id>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<description>'.$aCardDetails[0]['description'].'</description>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quality>'.$aCardDetails[0]['quality_name'].'</quality>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<quantity>1</quantity>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<quantity>'.$card['quantity'].'</quantity>'.$sCRLF;
 			
 			//before setting the front and back urls, make sure the card is resized for the height
 			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image']);
@@ -2630,13 +2647,12 @@ function getProducts($categoryId, $products) {
 /** give user details */
 if ($_GET['userdetails']){
 	global $iUserID;
-	$aUserDetails=myqu('SELECT username, email_address, name, credits, freebie '
+	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
 	$sOP='<userdetails>'.$sCRLF;
 	$sOP.=$sTab.'<username>'.trim($aUserDetails[0]['username']).'</username>'.$sCRLF;	
 	$sOP.=$sTab.'<email>'.trim($aUserDetails[0]['email_address']).'</email>'.$sCRLF;
-	$sOP.=$sTab.'<name>'.trim($aUserDetails[0]['name']).'</name>'.$sCRLF;
 	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
 	$sOP.=$sTab.'<freebie>'.trim($aUserDetails[0]['freebie']).'</freebie>'.$sCRLF;
 	$sOP.=$sTab.'<status></status>'.$sCRLF;
@@ -2644,6 +2660,30 @@ if ($_GET['userdetails']){
 	$aUserTransactions=myqu('SELECT description FROM mytcg_credits WHERE userid = '.$iUserID.' ORDER BY creditid DESC LIMIT 10');
 	
 	$sOP.='</userdetails>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** give user profile details */
+if ($_GET['profiledetails']){
+	$aUserDetails=myqu('SELECT d.desc, d.detail_id, a.answer_id, a.answer, a.answered '
+		.'FROM mytcg_user_answer a, mytcg_user_detail d '
+		.'WHERE a.detail_id = d.detail_id '
+		.'AND a.user_id="'.$iUserID.'"');
+	$sOP='<profiledetails>'.$sCRLF;
+	$iCount=0;
+	while ($aCategory=$aCategories[$iCount]){
+	$sOP='<detail>'.$sCRLF;
+	$sOP.=$sTab.'<answer_id>'.trim($aUserDetails[0]['answer_id']).'</answer_id>'.$sCRLF;
+	$sOP.=$sTab.'<detail_id>'.trim($aUserDetails[0]['detail_id']).'</detail_id>'.$sCRLF;	
+	$sOP.=$sTab.'<desc>'.trim($aUserDetails[0]['desc']).'</desc>'.$sCRLF;	
+	$sOP.=$sTab.'<answer>'.trim($aUserDetails[0]['answer']).'</answer>'.$sCRLF;
+	$sOP.=$sTab.'<answered>'.trim($aUserDetails[0]['answered']).'</answered>'.$sCRLF;
+	$sOP='</detail>'.$sCRLF;
+	}
+	
+	$sOP.='</profiledetails>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
