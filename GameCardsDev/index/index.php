@@ -2681,6 +2681,7 @@ if ($_GET['profiledetails']){
 	$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
 	$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
 	$sOP='</detail>'.$sCRLF;
+	$iCount++;
 	}
 	
 	$sOP.='</profiledetails>';
