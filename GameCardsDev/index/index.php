@@ -96,7 +96,7 @@ echo $sOP;
 exit;*/	
 
 
-//$iUserID = 24;
+$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -2667,21 +2667,21 @@ if ($_GET['userdetails']){
 
 /** give user profile details */
 if ($_GET['profiledetails']){
-	$aUserDetails=myqu('SELECT d.desc, d.detail_id, a.answer_id, a.answer, a.answered '
-		.'FROM mytcg_user_answer a, mytcg_user_detail d '
-		.'WHERE a.detail_id = d.detail_id '
-		.'AND a.user_id="'.$iUserID.'"');
+	$aUserDetails=myqu('SELECT d.desc, d.detail_id, a.answer_id, a.answered, a.answer 
+		FROM mytcg_user_answer a, mytcg_user_detail d 
+		WHERE a.detail_id = d.detail_id 
+		AND a.user_id='.$iUserID);
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
 	while ($aUserDetail=$aUserDetails[$iCount]){
-	$sOP.='<detail>'.$sCRLF;
-	$sOP.=$sTab.'<answer_id>'.trim($aUserDetail['answer_id']).'</answer_id>'.$sCRLF;
-	$sOP.=$sTab.'<detail_id>'.trim($aUserDetail['detail_id']).'</detail_id>'.$sCRLF;	
-	$sOP.=$sTab.'<desc>'.trim($aUserDetail['desc']).'</desc>'.$sCRLF;	
-	$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
-	$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
-	$sOP.='</detail>'.$sCRLF;
-	$iCount++;
+		$sOP.='<detail>'.$sCRLF;
+		$sOP.=$sTab.'<answer_id>'.trim($aUserDetail['answer_id']).'</answer_id>'.$sCRLF;
+		$sOP.=$sTab.'<detail_id>'.trim($aUserDetail['detail_id']).'</detail_id>'.$sCRLF;	
+		$sOP.=$sTab.'<desc>'.trim($aUserDetail['desc']).'</desc>'.$sCRLF;	
+		$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
+		$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
+		$sOP.='</detail>'.$sCRLF;
+		$iCount++;
 	}
 	
 	$sOP.='</profiledetails>';

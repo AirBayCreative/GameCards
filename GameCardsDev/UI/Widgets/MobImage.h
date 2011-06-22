@@ -24,7 +24,7 @@ public:
 
 protected:
 	virtual void drawWidget();
-	int _x, _y, _width, _height, _red, _green, _blue;
+	int _x, _y, _width, _height, _red, _green, _blue, _orientation;
 	bool hasNote;
 };
 

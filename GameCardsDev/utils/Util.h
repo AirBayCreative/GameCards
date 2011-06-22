@@ -93,6 +93,8 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 static String URL = "http://dev.mytcg.net/_phone/"; //dev index
 //Get user details
 static String USER = URL+"?userdetails=1";
+//Get user questions
+static String PROFILEURL = URL+"?profiledetails=1";
 //get products in category
 static String PRODUCTS = URL+"?categoryproducts=1";
 //get products in category
@@ -285,6 +287,13 @@ static const char* xml_handle = "name";
 static const char* xml_credits = "credits";
 static const char* xml_error = "error";
 static const char* xml_status = "status";
+//Profile Details
+static const char* xml_answer_id = "answer_id";
+static const char* xml_detail_id = "detail_id";
+static const char* xml_answer = "answer";
+static const char* xml_answered = "answered";
+static const char* xml_detail = "detail";
+static const char* xml_profiledetails = "profiledetails";
 //File info
 static String FILE_PREFIX = "dev_";
 static const char* ALBUMEND = "-lst.sav";
