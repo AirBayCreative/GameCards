@@ -2630,7 +2630,7 @@ function getProducts($categoryId, $products) {
 /** give user details */
 if ($_GET['userdetails']){
 	global $iUserID;
-	$aUserDetails=myqu('SELECT username, email_address, name, credits, freebie '
+	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
 	$sOP='<userdetails>'.$sCRLF;
