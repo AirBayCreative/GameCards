@@ -20,8 +20,11 @@ public:
 	bool statContains(int x, int y, int width, int height, int pointX, int pointY);
 	void drawRectangle(int x, int y, int width, int height);
 	void refreshWidget();
+	bool statAdded;
+
 protected:
 	virtual void drawWidget();
+	int _x, _y, _width, _height, _red, _green, _blue;
 	bool hasNote;
 };
 
