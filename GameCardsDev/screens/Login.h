@@ -24,7 +24,7 @@ class MobEditBox;
 
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	Login(Feed *feed, int screen);
+	Login(Screen *previous, Feed *feed, int screen);
 	~Login();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -41,6 +41,7 @@ private:
 	Layout *mainLayout;
 	KineticListBox *listBox;
 	Label *label, *notice;
+	Screen * previous;
 	//MobEditBox  *editBoxLogin, *editBoxPass, *editBoxEmail;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
 	Vector<Widget*> tempWidgets;

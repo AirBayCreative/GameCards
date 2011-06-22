@@ -87,3 +87,11 @@
 .res RES_EMPTY_FLIP
 .ubin
 .image "empty_flip.png"
+
+.res RES_BOX_SELECTED
+.ubin
+.image "box_selected.png"
+
+.res RES_BOX_UNSELECTED
+.ubin
+.image "box_unselected.png"

@@ -14,11 +14,8 @@
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	menu = NULL;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(exit, "", true);
-#else
-		mainLayout = createMainLayout(exit, select, true);
-#endif
+	mainLayout = createMainLayout("", exit, true);
+
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = createSubLabel(albumlbl);
 	label->addWidgetListener(this);
@@ -116,7 +113,7 @@ void MenuScreen::hide() {
 void MenuScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			int index = listBox->getSelectedIndex();
 			if(index == 0) {
 				if(menu!=NULL){
@@ -183,7 +180,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			int seconds = maLocalTime();
 			int secondsLength = intlen(seconds);
 			char *secString = new char[secondsLength];

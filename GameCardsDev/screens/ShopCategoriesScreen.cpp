@@ -37,11 +37,7 @@ void ShopCategoriesScreen::refresh() {
 ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
 	next = NULL;
 	label = NULL;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-		mainLayout = createMainLayout(back, "", true);
-#else
-		mainLayout = createMainLayout(back, select, true);
-#endif
+	mainLayout = createMainLayout("", back, true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -193,11 +189,11 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case ST_FREEBIE:
 					if (!empt) {

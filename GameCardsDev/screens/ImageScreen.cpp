@@ -19,11 +19,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 			mainLayout =  createImageLayout(rejectlbl, acceptlbl, "");
 		}
 		else {
-#if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
-#else
-			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
-#endif
+			mainLayout =  createImageLayout((hasConnection&&canAuction)?options:"", back , "");
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
