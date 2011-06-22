@@ -2677,13 +2677,13 @@ if ($_GET['profiledetails']){
 		.'AND a.user_id="'.$iUserID.'"');
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
-	while ($aCategory=$aCategories[$iCount]){
+	while ($aUserDetail=$aUserDetails[$iCount]){
 	$sOP='<detail>'.$sCRLF;
-	$sOP.=$sTab.'<answer_id>'.trim($aUserDetails[0]['answer_id']).'</answer_id>'.$sCRLF;
-	$sOP.=$sTab.'<detail_id>'.trim($aUserDetails[0]['detail_id']).'</detail_id>'.$sCRLF;	
-	$sOP.=$sTab.'<desc>'.trim($aUserDetails[0]['desc']).'</desc>'.$sCRLF;	
-	$sOP.=$sTab.'<answer>'.trim($aUserDetails[0]['answer']).'</answer>'.$sCRLF;
-	$sOP.=$sTab.'<answered>'.trim($aUserDetails[0]['answered']).'</answered>'.$sCRLF;
+	$sOP.=$sTab.'<answer_id>'.trim($aUserDetail['answer_id']).'</answer_id>'.$sCRLF;
+	$sOP.=$sTab.'<detail_id>'.trim($aUserDetail['detail_id']).'</detail_id>'.$sCRLF;	
+	$sOP.=$sTab.'<desc>'.trim($aUserDetail['desc']).'</desc>'.$sCRLF;	
+	$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
+	$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
 	$sOP='</detail>'.$sCRLF;
 	}
 	
