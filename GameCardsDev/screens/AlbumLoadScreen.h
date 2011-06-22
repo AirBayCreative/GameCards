@@ -66,11 +66,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-<<<<<<< HEAD
-	void mtxParseError();
-=======
 	void mtxParseError(/*int offSet*/);
->>>>>>> 40a473dca1f447440790b1948a37393bea84a771
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 

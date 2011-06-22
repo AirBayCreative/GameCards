@@ -43,6 +43,7 @@ void ImageCache::process(bool afterFin)
     }
     mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
+	lprintfln("downloadurl %s", mNextRequest->getUrl().c_str());
 	if(res < 0) {
 		//lprintfln("Error creating http connection in ImageCache.\nres = %d", res);
 	} else {

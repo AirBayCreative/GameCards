@@ -5,6 +5,7 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
+#include "CompareScreen.h"
 #include "OptionsScreen.h"
 #include "AuctionCreateScreen.h"
 
@@ -31,7 +32,7 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -61,7 +62,7 @@ void AlbumViewScreen::refresh() {
 	int urlLength = CARDS.length() + category.length() + 24 + intlen(getMaxImageHeight()) + intlen(scrWidth) + feed->getSeconds().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), scrWidth);
+	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), getMaxImageWidth());
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -189,10 +190,10 @@ void AlbumViewScreen::drawList() {
 		index.add(itr->second->getId());
 		cardText = "Name: ";
 		cardText += (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		cardText += "\tValue: ";
-		cardText += "TODO";//cardText += itr->second->getValue();
+		cardText += "\tRanking: ";
+		cardText += itr->second->getRanking();
 		cardText += "\nRarity: ";
-		cardText += "TODO";//cardText += itr->second->Rarity();
+		cardText += itr->second->getRarity();
 		cardText += "\tQuantity: ";
 		cardText += itr->second->getQuantity();
 
@@ -299,6 +300,8 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 				}
 				else {
+					//testing CompareScreen
+					//next = new CompareScreen(this, RES_LOADING_FLIP, feed, false, cards.find(index[selected])->second);
 					next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
 				}
 				next->show();
@@ -392,10 +395,18 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		thumburl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
 		fronturl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_frontflipurl)) {
+		frontflipurl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
 		backurl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_backflipurl)) {
+		backflipurl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_rate)) {
 		rate += data;
+	} else if(!strcmp(parentTag.c_str(), xml_ranking)) {
+		ranking += data;
+	} else if(!strcmp(parentTag.c_str(), xml_rarity)) {
+		rarity += data;
 	} else if(!strcmp(parentTag.c_str(), xml_value)) {
 		value += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
@@ -413,13 +424,15 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_card)) {
 		notice->setCaption("");
 		Card *newCard = new Card();
-		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim).c_str());
+		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim+ranking+delim+rarity+delim+frontflipurl+delim+backflipurl+delim).c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
 		if (cardExists != cards.end()) {
 			newCard->setThumb(cardExists->second->getThumb().c_str());
 			newCard->setBack(cardExists->second->getBack().c_str());
 			newCard->setFront(cardExists->second->getFront().c_str());
+			newCard->setBackFlip(cardExists->second->getBackFlip().c_str());
+			newCard->setFrontFlip(cardExists->second->getFrontFlip().c_str());
 		}
 		newCard->setUpdated(updated == "1");
 		tmp.insert(newCard->getId(),newCard);
@@ -431,6 +444,10 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		backurl = "";
 		rate = "";
 		value = "";
+		rarity = "";
+		ranking = "";
+		frontflipurl = "";
+		backflipurl = "";
 		updated = "";
 		note = "";
 		stats.clear();

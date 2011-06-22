@@ -30,11 +30,19 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 	return r->contains(pointX, pointY);
 }
 
-void MobImage::selectStat(int x, int y, int width, int height, int red, int green, int blue){
+void MobImage::selectStat(int x, int y, int width, int height, int red, int green, int blue, int orientation){
 	Gfx_setColor(red,green,blue);
 	Gfx_clearMatrix();
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
-	drawRectangle((5 + (paddedBounds.width >> 1) - (imageWidth >> 1))+(x*imageWidth/250),((paddedBounds.height >> 1) - (imageHeight >> 1))+(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);
+	//code for portrait
+	if (orientation == 0) {
+		drawRectangle((5 + (paddedBounds.width >> 1) - (imageWidth >> 1))+(x*imageWidth/250),((paddedBounds.height >> 1) - (imageHeight >> 1))+(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);
+	} else if (orientation == 1) {
+		drawRectangle((((paddedBounds.width >> 1) + (imageWidth >> 1))-((y*imageWidth/350)+height*imageWidth/350))+3
+				,((paddedBounds.height >> 1) - (imageHeight >> 1))+(x*imageHeight/250),
+				height*imageWidth/350,
+				width*imageHeight/250);
+	}
 	Gfx_updateScreen();
 }
 

@@ -28,6 +28,7 @@ $sTab=chr(9);
 $sCRLF="";
 $sTab="";
 
+
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
 	$username = $_REQUEST['username'];
@@ -97,7 +98,7 @@ exit;*/
 
 //$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
-/*if ($iUserID == 0){
+if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
 	//$sOP.=substr(md5('28'),9,10).md5('champion');
 	$sOP.=$sTab.'<result>Invalid User Details</result>'.$sCRLF;	
@@ -108,7 +109,7 @@ exit;*/
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;	
-}*/
+}
 
 if ($iTestVersion=$_GET['update']){
   
@@ -803,12 +804,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	// D.usercardnotestatus_id = 1 = Normal
 	if ($iCategory == -1) {
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
-					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
-					ON A.card_id=B.card_id 
+					ON B.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					INNER JOIN mytcg_usercardstatus C 
 					ON C.usercardstatus_id=A.usercardstatus_id 
 					LEFT OUTER JOIN 
@@ -824,21 +827,25 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					UNION 
 					SELECT B.card_id, 0, B.image, 0, 
-					B.description, "", "", "", 
+					B.description, "", "", "", B.ranking, D.description quality, 
 					0, "", 0 
 					FROM mytcg_card B 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					WHERE B.card_id NOT IN (SELECT uc.card_id from mytcg_usercard uc, mytcg_usercardstatus ucs 
 						where uc.user_id = '.$iUserID.' and uc.usercardstatus_id = ucs.usercardstatus_id and ucs.usercardstatus_id=1) 
 					GROUP BY B.card_id 
 					ORDER BY description');
 	} else if ($iCategory == -2) {
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
-					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					INNER JOIN mytcg_usercardstatus C 
 					ON C.usercardstatus_id=A.usercardstatus_id 
 					LEFT OUTER JOIN 
@@ -854,12 +861,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
-					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					INNER JOIN mytcg_usercardstatus C 
 					ON C.usercardstatus_id=A.usercardstatus_id 
 					LEFT OUTER JOIN 
@@ -875,12 +884,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id ');
 	} else if ($iShowAll == 0){
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
-					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					INNER JOIN mytcg_usercardstatus C 
 					ON C.usercardstatus_id=A.usercardstatus_id 
 					LEFT OUTER JOIN 
@@ -897,12 +908,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id ');
 	} else {
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
-					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					INNER JOIN mytcg_usercardstatus C 
 					ON C.usercardstatus_id=A.usercardstatus_id 
 					LEFT OUTER JOIN 
@@ -919,12 +932,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					UNION 
 					SELECT B.card_id, 0, B.image, 0, 
-					B.description, "", "", "", 
+					B.description, "", "", "", B.ranking, D.description quality, 
 					0, "", 0 
 					FROM mytcg_card B 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
 					WHERE (B.category_id='.$iCategory.' OR B.category_id IN (SELECT category_child_id FROM mytcg_category_x WHERE category_parent_id = '.$iCategory.')) 
 					AND B.card_id NOT IN (SELECT uc.card_id from mytcg_usercard uc, mytcg_usercardstatus ucs 
-						where uc.user_id = "'.$iUserID.'" and uc.usercardstatus_id = ucs.usercardstatus_id and ucs.usercardstatus_id=1) 
+						where uc.user_id = '.$iUserID.' and uc.usercardstatus_id = ucs.usercardstatus_id and ucs.usercardstatus_id=1) 
 					GROUP BY B.card_id 
 					ORDER BY description');
 	}
@@ -938,6 +953,8 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$sOP.=$sTab.$sTab.'<quantity>'.$aOneCard['quantity'].'</quantity>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>'.$aOneCard['updated'].'</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<ranking>'.$aOneCard['ranking'].'</ranking>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<quality>'.$aOneCard['quality'].'</quality>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -963,6 +980,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		}
     
 		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 		$sFound='';
 		$iCountServer=0;
@@ -975,6 +993,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		}
     
 		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
 		A.left, top, width, height, frontorback, 
@@ -1073,6 +1092,11 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$iHeight = 520;
 	}
 	
+	if ($iWidth > 520) {
+		//for now, max = 520
+		$iWidth = 520;
+	}
+	
 	//Check directory for resized version
 	chmod("../img",0777);
 	$dir = '../img/'.$iHeight;
@@ -1098,6 +1122,15 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
+	$filename = '../img/cards/'.$iImage.'_front.png';
+	$filenameResized = $dir.$iImage.'_front_flip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iWidth, $iHeight);
+		$image->save($filenameResized);
+	}
+	
 	//Check and create new resized back image
 	$filename = '../img/cards/'.$iImage.'_back.png';
 	$filenameResized = $dir.$iImage.'_back.png';
@@ -1105,6 +1138,15 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image = new SimpleImage();
 		$image->load($filename);
 		$image->resizeToHeight($iHeight);
+		$image->save($filenameResized);
+	}
+	
+	$filename = '../img/cards/'.$iImage.'_back.png';
+	$filenameResized = $dir.$iImage.'_back_flip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iWidth, $iHeight);
 		$image->save($filenameResized);
 	}
 	

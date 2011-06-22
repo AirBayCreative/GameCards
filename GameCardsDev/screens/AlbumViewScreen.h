@@ -58,7 +58,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category;
-	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
+	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, albumType;
 	bool list, left, right, emp, hasConnection, busy, isAuction;

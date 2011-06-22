@@ -4,6 +4,8 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
+#include <mastdlib.h>
+#include "../utils/Convert.h"
 
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
 
@@ -20,7 +22,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/scrHeight/2, listBox, 2, 1);
 	feedlayout->setSkin(gSkinBack);
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -43,18 +45,41 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 			nameDesc = auction->getCard()->getText();
 			fullDesc = auction->getCard()->getFullDesc();
+
+			//testing date/time
+			lprintfln(auction->getEndDate().c_str());
+
+			struct tm * tim_p = new tm;
+			struct tm * cmp_p = new tm;
+
+			cmp_p->tm_hour = 0;
+			cmp_p->tm_min = 0;
+			cmp_p->tm_sec = 0;
+
+
+			split_time(maTime(), tim_p);
+			printf("system hour is %d ", tim_p->tm_hour);
+			printf("system min is %d ", tim_p->tm_min);
+			printf("system sec is %d ", tim_p->tm_sec);
+			printf("Daylight Saving Time flag %d ", tim_p->tm_isdst);
+			printf("Day of the month %d ", tim_p->tm_mday);
+			printf("Months since January %d ", tim_p->tm_mon);
+			printf("Days since Sunday %d ", tim_p->tm_wday);
+			printf("Days since January 1 %d ", tim_p->tm_yday);
+			printf("Years since 1900 %d ", tim_p->tm_year);
+
 			break;
 	}
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, nameDesc, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, fullDesc, 0, gFontBlack);
+	/*label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "", 0, gFontBlack);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
-	listBox->add(label);
+	listBox->add(label);*/
 
 	if (screenType == ST_AUCTION)
 	{
@@ -64,8 +89,20 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		listBox->add(label);
 
 		label = createEditLabel("");
-		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Bid:");
+		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
+		int num;
+		if (!strcmp(auction->getPrice().c_str(), "")) {
+			num = Convert::toInt(auction->getOpeningBid().c_str());
+			num+=10;
+			editBidBox->setText(Convert::toString(num));
+		} else {
+			num = Convert::toInt(auction->getPrice().c_str());
+			num+=10;
+			editBidBox->setText(Convert::toString(num));
+		}
 		editBidBox->setDrawBackground(false);
+		editBidBox->setSelected(true);
+		label->setSelected(true);
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}

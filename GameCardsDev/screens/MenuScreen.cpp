@@ -7,7 +7,6 @@
 #include "MenuScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "OptionsScreen.h"
-#include "Logout.h"
 #include "NewVersionScreen.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Util.h"
@@ -167,8 +166,20 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new Logout(this, feed);
-				menu->show();
+				Albums *albums = feed->getAlbum();
+				Vector<String> tmp = albums->getIDs();
+				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
+					String s = itr->c_str();
+					s+="-lst.sav";
+					saveData(s.c_str(),"");
+				}
+				feed->setAll("");
+				saveData(FEED,"");
+				saveData(ALBUM,"");
+
+				maExit(0);
+				//menu = new Logout(this, feed);
+				//menu->show();
 			}
 			break;
 		case MAK_BACK:

@@ -75,11 +75,11 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	switch (screenType) {
 		case ST_CATEGORY:
 			sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
-					categoryId.c_str(), getMaxImageHeight(), scrWidth);
+					categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
 			break;
 		case ST_USER:
 			sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
-					feed->getUsername().c_str(), getMaxImageHeight(), scrWidth);
+					feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
 			break;
 	}
 	if(mHttp.isOpen()){

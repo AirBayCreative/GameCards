@@ -26,6 +26,10 @@ String ImageCacheRequest::getUrl()
 				return card->getFront();
 			case 2:
 				return card->getBack();
+			case 3:
+				return card->getFrontFlip();
+			case 4:
+				return card->getBackFlip();
 		}
   return "";
 }
@@ -48,6 +52,12 @@ String ImageCacheRequest::getSaveName()
 			case 2:
 				card->setBack((card->getId()+"b.sav").c_str());
 				return (card->getId()+"b.sav");
+			case 3:
+				card->setFrontFlip((card->getId()+"f_flip.sav").c_str());
+				return (card->getId()+"f_flip.sav");
+			case 4:
+				card->setBackFlip((card->getId()+"b_flip.sav").c_str());
+				return (card->getId()+"b_flip.sav");
 		}
   return "";
 }

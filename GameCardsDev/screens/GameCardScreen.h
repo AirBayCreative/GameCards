@@ -15,9 +15,6 @@
 #include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
-#if defined(MA_PROF_SUPPORT_STYLUS)
-#include "../UI/MobKeyboard.h"
-#endif
 
 using namespace MAUI;
 using namespace MAUtil;

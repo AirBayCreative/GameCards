@@ -12,6 +12,10 @@ Card::Card() {
 	value = "";
 	fullDesc = "";
 	note = "";
+	frontflip = "";
+	backflip = "";
+	ranking = "";
+	rarity = "";
 	loaded = false;
 	updated = false;
 }
@@ -25,6 +29,10 @@ Card::~Card() {
 	id = "";
 	rate = "";
 	value = "";
+	frontflip = "";
+	backflip = "";
+	ranking = "";
+	rarity = "";
 	fullDesc = "";
 	note = "";
 	for (int i = 0; i < stats.size(); i++) {
@@ -82,12 +90,28 @@ void Card::setFront(const char *fron) {
 	front = fron;
 }
 
+String Card::getFrontFlip() {
+	return frontflip;
+}
+
+void Card::setFrontFlip(const char *fron) {
+	frontflip = fron;
+}
+
 String Card::getBack() {
 	return back;
 }
 
 void Card::setBack(const char *bac) {
 	back = bac;
+}
+
+String Card::getBackFlip() {
+	return backflip;
+}
+
+void Card::setBackFlip(const char *bac) {
+	backflip = bac;
 }
 
 String Card::getId() {
@@ -104,6 +128,22 @@ String Card::getRate() {
 
 void Card::setRate(const char *rat) {
 	rate = rat;
+}
+
+String Card::getRanking() {
+	return ranking;
+}
+
+void Card::setRanking(const char *rat) {
+	ranking = rat;
+}
+
+String Card::getRarity() {
+	return rarity;
+}
+
+void Card::setRarity(const char *rat) {
+	rarity = rat;
 }
 
 String Card::getValue() {
@@ -140,7 +180,8 @@ void Card::setNote(const char *n) {
 
 String Card::getAll() {
 	String all = getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+
-			delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim+getNote()+delim;
+			delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim+getNote()+delim+
+			getRanking()+delim+getRarity()+delim+getFrontFlip()+delim+getBackFlip()+delim;
 	for (int i = 0; i < stats.size(); i++) {
 		all += stats[i]->getAll() + innerDelim;
 	}
@@ -154,37 +195,74 @@ void Card::setAll(const char* allch) {
 			setQuantity(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
 			indexof = all.find(delim);
-			setText(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setText(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setThumb(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setThumb(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setFront(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setFront(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setBack(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setBack(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setId(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setId(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setRate(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setRate(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setValue(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
+			if (indexof > -1) {
+				setValue(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			indexof = all.find(delim);
-			setNote(all.substr(0,indexof++).c_str());
-			all=all.substr(indexof);
-
+			if (indexof > -1) {
+				setNote(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
+			indexof = all.find(delim);
+			if (indexof > -1) {
+				setRanking(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
+			indexof = all.find(delim);
+			if (indexof > -1) {
+				setRarity(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
+			indexof = all.find(delim);
+			if (indexof > -1) {
+				setFrontFlip(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
+			indexof = all.find(delim);
+			if (indexof > -1) {
+				setBackFlip(all.substr(0,indexof++).c_str());
+				all=all.substr(indexof);
+			}
 			Stat *newStat;
 			while (all.length() > 1) {
 				indexof = all.find(innerDelim);
-				newStat = new Stat();
-				newStat->setAll(all.substr(0,indexof++).c_str());
-				stats.add(newStat);
-				all=all.substr(indexof);
+				if (indexof > -1) {
+					newStat = new Stat();
+					newStat->setAll(all.substr(0,indexof++).c_str());
+					stats.add(newStat);
+					all=all.substr(indexof);
+				}
 			}
 
 			setLoaded(true);
@@ -193,6 +271,7 @@ void Card::setAll(const char* allch) {
 				setText("");
 				setLoaded(false);
 			}
+
 		} else {
 			setQuantity("");
 			setText("");
@@ -203,6 +282,10 @@ void Card::setAll(const char* allch) {
 			setRate("");
 			setValue("");
 			setNote("");
+			setRarity("");
+			setRanking("");
+			setBackFlip("");
+			setFrontFlip("");
 			setLoaded(false);
 		}
 }

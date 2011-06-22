@@ -24,14 +24,26 @@ public:
 	String getFront();
 	void setFront(const char *front);
 
+	String getFrontFlip();
+	void setFrontFlip(const char *front);
+
 	String getBack();
 	void setBack(const char *back);
+
+	String getBackFlip();
+	void setBackFlip(const char *back);
 
 	String getId();
 	void setId(const char *id);
 
 	String getRate();
 	void setRate(const char *rate);
+
+	String getRanking();
+	void setRanking(const char *rate);
+
+	String getRarity();
+	void setRarity(const char *rate);
 
 	String getValue();
 	void setValue(const char *value);
@@ -61,7 +73,7 @@ public:
 	Stat* getStatAt(int index);
 private:
 	//the note is generally saved in base64
-	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note;
+	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note, frontflip, backflip, ranking, rarity;
 	bool loaded, updated;
 	Vector<Stat*> stats;
 };

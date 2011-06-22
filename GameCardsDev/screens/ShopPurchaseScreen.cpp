@@ -239,7 +239,7 @@ void ShopPurchaseScreen::keyPressEvent(int keyCode) {
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
 				sprintf(url, "%s%s&height=%d&width=%d&%s=%d", BUYPRODUCT.c_str(),
-						product->getId().c_str(), getMaxImageHeight(), scrWidth, freebie_string, freebie ? 1 : 0);
+						product->getId().c_str(), getMaxImageHeight(), getMaxImageWidth(), freebie_string, freebie ? 1 : 0);
 				if(mHttp.isOpen()){
 					mHttp.close();
 				}

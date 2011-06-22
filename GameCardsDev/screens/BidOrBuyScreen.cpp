@@ -141,8 +141,7 @@ void BidOrBuyScreen::drawPlaceBidPhase() {
 
 	if (!strcmp(auction->getPrice().c_str(), "")) {
 		bidDetails += "Opening Bid: " + auction->getOpeningBid();
-	}
-	else {
+	} else {
 		bidDetails += "Current Bid: " + auction->getPrice();
 	}
 
@@ -157,8 +156,8 @@ void BidOrBuyScreen::drawPlaceBidPhase() {
 	listBox->add(lbl);
 
 	editBoxLabel = createEditLabel("");
-	//bidEditBox = new MobEditBox(0, 12, editBoxLabel->getWidth()-PADDING*2, editBoxLabel->getHeight()-PADDING*2, editBoxLabel, "", 0, gFontBlack, true, false);
 	bidEditBox = new NativeEditBox(0, 0, editBoxLabel->getWidth()-PADDING*2, editBoxLabel->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, editBoxLabel, "", L"Your Bid:");
+	bidEditBox->setText(auction->getOpeningBid().c_str());
 	bidEditBox->setDrawBackground(false);
 	editBoxLabel->addWidgetListener(this);
 	listBox->add(editBoxLabel);

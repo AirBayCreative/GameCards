@@ -60,17 +60,9 @@
 .ubin
 .image "emptythumb.png"
 
-.res RES_SOON
-.ubin
-.image "coming soon.png"
-
 .res RES_TEMP
 .ubin
 .image "empty.png"
-
-.res RES_LOGOUT
-.ubin
-.image "log out.png"
 
 .res RES_LOADINGTHUMB
 .ubin
@@ -80,14 +72,6 @@
 .ubin
 .image "loading.png"
 
-.res RES_KEYBOARD_SEL
-.ubin
-.image "keyboard_sel.png"
-
-.res RES_KEYBOARD_UNSEL
-.ubin
-.image "keyboard_unsel.png"
-
 .res RES_MISSINGTHUMB
 .ubin
 .image "missingcardthumb.png"
@@ -95,3 +79,11 @@
 .res RES_CHANGE_STAR
 .ubin
 .image "change_star.png"
+
+.res RES_LOADING_FLIP
+.ubin
+.image "loading_flip.png"
+
+.res RES_EMPTY_FLIP
+.ubin
+.image "empty_flip.png"

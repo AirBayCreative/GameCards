@@ -76,7 +76,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
-				gameId.c_str(), getMaxImageHeight(), scrWidth);
+				gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
 	}
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -426,7 +426,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						url = new char[urlLength];
 						memset(url,'\0',urlLength);
 						sprintf(url, "%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
-								game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
+								game_id, gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
 						clearListBox();
 						if(mHttp.isOpen()){
 							mHttp.close();
@@ -528,7 +528,7 @@ void GamePlayScreen::xcConnError(int code) {
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
-				game_id, gameId.c_str(), getMaxImageHeight(), scrWidth);
+				game_id, gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
 
 		if(mHttp.isOpen()){
 			mHttp.close();

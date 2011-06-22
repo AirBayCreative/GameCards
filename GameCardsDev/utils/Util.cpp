@@ -357,6 +357,34 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 	}
 }
 
+void retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+{
+	if (card == NULL) {
+		return;
+	}
+
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f_flip.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 3);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 3);
+		mImageCache->request(req1);
+	}
+}
+
 void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
@@ -380,11 +408,38 @@ void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 2);
 		mImageCache->request(req1);
 	}
 }
 
+void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+{
+	if (card == NULL) {
+		return;
+	}
+
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b_flip.sav").c_str(), -1);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 4);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	}
+	else {
+		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 4);
+		mImageCache->request(req1);
+	}
+}
 bool isNumeric(String isValid) {
 	const char* isValArr = isValid.c_str();
 	for (int i = 0; i < isValid.length(); i++) {
@@ -433,6 +488,9 @@ int getSoftKeyBarHeight() {
 	return scaledHeight;
 }
 
+int getMaxImageWidth() {
+	return scrWidth - (PADDING * 4);
+}
 int getMaxImageHeight() {
 	return scrHeight - getSoftKeyBarHeight() - (PADDING * 4);
 }
