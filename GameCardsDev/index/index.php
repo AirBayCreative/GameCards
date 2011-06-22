@@ -1811,6 +1811,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
 	$userPlayerUsername = $userPlayerIdQuery[0]['username'];
 	
+	$sOP = '$oppPlayerId: '.$oppPlayerId.' $oppPlayerUsername: '.$oppPlayerUsername.' $userPlayerId: '.$userPlayerId.' $userPlayerUsername: '.$userPlayerUsername;
+	return $sOP;
+	
 	//get stat value and typeId for user
 	$cardStatDetails = myqu('SELECT gpc.pos position, gpc.gameplayercard_id, c.description card_name, cs.statvalue, cs.description statdescription
 		FROM mytcg_gameplayercard gpc
