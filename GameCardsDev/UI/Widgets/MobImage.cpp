@@ -31,8 +31,17 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 }
 
 void MobImage::selectStat(int x, int y, int width, int height, int red, int green, int blue, int orientation){
+	_x = x;
+	_y = y;
+	_width = width;
+	_height = height;
+	_red = red;
+	_green = green;
+	_blue = blue;
+	statAdded = true;
+
 	Gfx_setColor(red,green,blue);
-	Gfx_clearMatrix();
+	//Gfx_clearMatrix();
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	//code for portrait
 	if (orientation == 0) {
@@ -64,6 +73,9 @@ void MobImage::drawWidget() {
 		if (hasNote) {
 			Gfx_drawImage(RES_CHANGE_STAR, (paddedBounds.width >> 1) - (imageWidth >> 1),
 				(paddedBounds.height >> 1) - (imageHeight >> 1));
+		}
+		if (statAdded) {
+			selectStat(_x - 5,_y,_width,_height,_red,_green,_blue);
 		}
 	}
 }

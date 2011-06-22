@@ -143,7 +143,7 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
-			keyPressEvent(MAK_SOFTRIGHT);
+			keyPressEvent(MAK_FIRE);
 		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -319,11 +319,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumLoadScreen::loadCategory() {
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		updateSoftKeyLayout(back, "", "", mainLayout);
-	#else
-		updateSoftKeyLayout(back, select, "", mainLayout);
-	#endif
+	updateSoftKeyLayout("", back, "", mainLayout);
 
 	//the list needs to be cleared
 	album->clearAll();
