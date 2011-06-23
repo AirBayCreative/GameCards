@@ -41,8 +41,8 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, email;
-	int i,j, moved, screenType;
+	String encrypt, error_msg, parentTag, desc, answer;
+	int i,j, moved, screenType, answered;
 
 	Card *card;
 	Feed *feed;

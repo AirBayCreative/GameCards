@@ -5,9 +5,8 @@
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
 
-CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
-		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
-	//TODO add touch
+CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), previous(previous), img(img), flip(flip), card(card), feed(feed), compare(compare) {
+
 	busy = false;
 	next = NULL;
 	currentSelectedStat = -1;
@@ -15,16 +14,7 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 	imageCache = new ImageCache();
 
 	if (card != NULL) {
-		if (screenType == ST_NEW_CARD) {
-			mainLayout =  createImageLayout(rejectlbl, acceptlbl, "");
-		}
-		else {
-#if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout =  createImageLayout(back, (hasConnection&&canAuction)?options:"", "");
-#else
-			mainLayout = createImageLayout(back, (hasConnection&&canAuction)?options:"", flipit);
-#endif
-		}
+		mainLayout = createImageLayout("", back, flipit);
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}else{
@@ -38,10 +28,10 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 	if (card != NULL) {
 		if (flip) {
 			retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
-			retrieveBackFlip(cmpge, card, height-PADDING*2, imageCache);
+			retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
 		} else {
 			retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
-			retrieveFrontFlip(cmpge, card, height-PADDING*2, imageCache);
+			retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
 		}
 	}
 	else {
@@ -160,6 +150,11 @@ void CompareScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
+			updateSoftKeyLayout("", back, flipit, mainLayout);
+			imge->refreshWidget();
+			imge->statAdded = false;
+			currentSelectedStat = -1;
+
 			flip=!flip;
 			if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
 				maDestroyObject(imge->getResource());
@@ -175,10 +170,10 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			maUpdateScreen();
 			if (flip) {
 				retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
-				retrieveBackFlip(cmpge, card, height-PADDING*2, imageCache);
+				retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
 			} else {
 				retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
-				retrieveFrontFlip(cmpge, card, height-PADDING*2, imageCache);
+				retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
 			}
 			currentSelectedStat = -1;
 			break;
@@ -187,11 +182,20 @@ void CompareScreen::keyPressEvent(int keyCode) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
 						currentSelectedStat--;
-						if(currentSelectedStat < 0){
-							currentSelectedStat = 0;
+						if(currentSelectedStat < -1){
+							currentSelectedStat = 2;
+							updateSoftKeyLayout("", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+						} else if (currentSelectedStat == -1) {
+							updateSoftKeyLayout("", back, flipit, mainLayout);
+							imge->refreshWidget();
+							imge->statAdded = false;
+						} else {
+							updateSoftKeyLayout("", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), 1);
 						}
-						imge->refreshWidget();
-						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), 1);
 					}
 				}
 			}
@@ -200,48 +204,41 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
-						if(currentSelectedStat < card->getStats().size()-1){
+						if(currentSelectedStat <= card->getStats().size()-1){
 							currentSelectedStat++;
 						}
-						imge->refreshWidget();
-						imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+						if (currentSelectedStat > card->getStats().size()-1) {
+							updateSoftKeyLayout("", back, flipit, mainLayout);
+							imge->refreshWidget();
+							imge->statAdded = false;
+							currentSelectedStat = -1;
+						} else {
+							updateSoftKeyLayout("", back, select, mainLayout);
+							imge->refreshWidget();
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+						}
 					}
 				}
 			}
 			break;
-		case MAK_SOFTRIGHT:
-			if (screenType == ST_NEW_CARD) {
-				busy = true;
-				acceptCard();
-			}
-			else {
-				if (card != NULL && hasConnection && canAuction) {
-					if (next != NULL) {
-						delete next;
-					}
-					next = new OptionsScreen(feed,
-							OptionsScreen::ST_CARD_OPTIONS, this, card);
-					next->show();
-				}
-			}
+		case MAK_SOFTLEFT:
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
-			if (screenType == ST_NEW_CARD) {
-				busy = true;
-				rejectCard();
-			}
-			else {
-				previous->show();
-			}
+		case MAK_SOFTRIGHT:
+			previous->show();
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
 				if(flipOrSelect){
 					flip=!flip;
-					if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
+					updateSoftKeyLayout("", back, flipit, mainLayout);
+					imge->refreshWidget();
+					imge->statAdded = false;
+					currentSelectedStat = -1;
+					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 						maDestroyObject(imge->getResource());
 					}
+
 					imge->setResource(RES_LOADING_FLIP);
 					imge->update();
 					imge->requestRepaint();
@@ -253,10 +250,10 @@ void CompareScreen::keyPressEvent(int keyCode) {
 					maUpdateScreen();
 					if (flip) {
 						retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
-						retrieveBackFlip(cmpge, card, height-PADDING*2, imageCache);
+						retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
 					} else {
 						retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
-						retrieveFrontFlip(cmpge, card, height-PADDING*2, imageCache);
+						retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
 					}
 					flipOrSelect=0;
 					currentSelectedStat = -1;
@@ -297,46 +294,6 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 	}
-}
-
-void CompareScreen::acceptCard() {
-	//work out how long the url will be
-	int urlLength = ACCEPTCARD.length() + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
-	delete [] url;
-}
-
-void CompareScreen::rejectCard() {
-	//work out how long the url will be
-	int urlLength = REJECTCARD.length() + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
-	delete [] url;
 }
 
 void CompareScreen::httpFinished(MAUtil::HttpConnection* http, int result) {

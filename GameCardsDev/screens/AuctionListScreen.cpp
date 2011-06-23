@@ -182,7 +182,6 @@ void AuctionListScreen::drawList() {
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
-
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		Card *tmp;

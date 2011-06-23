@@ -25,8 +25,8 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction) : mHttp(this),
-		previous(previous), feed(feed), screenType(screenType), isAuction(auction) {
+AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card) : mHttp(this),
+		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card) {
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -47,6 +47,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	album = new Albums();
 	switch(screenType) {
 		case ST_ALBUMS:
+		case ST_COMPARE:
 			notice->setCaption(checking_albums);
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
 			drawList();
@@ -295,6 +296,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
 								next->show();
 							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_COMPARE:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+							next->show();
 						}
 						else {
 							//if a category has no cards, it means it has sub categories.

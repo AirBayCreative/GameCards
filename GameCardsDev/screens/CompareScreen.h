@@ -21,8 +21,7 @@ using namespace MAUI;
  */
 class CompareScreen : public Screen, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	CompareScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, int screenType = ST_NORMAL,
-			bool hasConnection = true, bool canAuction = true);
+	CompareScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, Card *compare);
 	~CompareScreen();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -31,28 +30,23 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	enum screenTypes {ST_NORMAL, ST_NEW_CARD};
 private:
 	Screen *previous, *next;
 	MAHandle img;
 	MAPoint2d pointPressed, pointReleased;
-	Card *card;
+	Card *card, *compare;
 	Feed *feed;
 	MobImage *imge, *cmpge;
 	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
-	int height, screenType, flipOrSelect, currentSelectedStat;
+	int height, flipOrSelect, currentSelectedStat;
 	bool flip, busy;
-	bool left, right, list, hasConnection, canAuction;
+	bool left, right, list;
 	String parentTag;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
-
-	void acceptCard();
-	void rejectCard();
-	void checkForGames();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
