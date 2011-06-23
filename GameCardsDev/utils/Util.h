@@ -233,7 +233,7 @@ static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
 static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
 static const char* savelbl = "Save";
-static const char* freebie = "To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with";
+static const char* freebielbl = "To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with";
 static const char* comparelbl = "Compare";
 static const char* addDecklbl = "Add to Deck";
 
@@ -289,6 +289,7 @@ static const char* xml_handle = "name";
 static const char* xml_credits = "credits";
 static const char* xml_error = "error";
 static const char* xml_status = "status";
+static const char* xml_freebie = "freebie";
 //Profile Details
 static const char* xml_answer_id = "answer_id";
 static const char* xml_detail_id = "detail_id";
@@ -412,6 +413,7 @@ static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
 static const char* xml_message = "message";
+static const char* xml_active = "active";
 static const char* noteslbl = "Notes";
 static const char* sharelbl = "Share";
 static const char* contactlbl = "Contact";

@@ -175,7 +175,7 @@ void ShopCategoriesScreen::drawList() {
 	}
 
 	if (screenType == ST_FREEBIE)
-		notice->setCaption(freebie);
+		notice->setCaption(freebielbl);
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
