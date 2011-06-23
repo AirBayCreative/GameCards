@@ -7,7 +7,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = createMainLayout(back, screenType==CARD?select:screenType==BALANCE?purchase:screenType==PROFILE?savelbl:"", screenType==BALANCE?log_string:"", true);
+	mainLayout = createMainLayout(screenType==CARD?select:screenType==BALANCE?purchase:screenType==PROFILE?savelbl:"", back, screenType==BALANCE?log_string:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	switch (screenType) {
@@ -62,7 +62,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	}
 
 	if (screenType != CARD) {
-		int res = mHttp.create(USER.c_str(), HTTP_GET);
+		int res = mHttp.create(PROFILEURL.c_str(), HTTP_GET);
 
 		if(res < 0) {
 
@@ -86,12 +86,12 @@ DetailScreen::~DetailScreen() {
 	if(next!=NULL){
 		delete next;
 	}
-	username = "";
-	credits = "";
+	//username = "";
+	//credits = "";
 	encrypt = "";
 	error_msg = "";
 	parentTag = "";
-	email = "";
+	//email = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -183,7 +183,7 @@ void DetailScreen::hide() {
 void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case CARD:
 					int index = listBox->getSelectedIndex();
@@ -223,7 +223,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_UP:
@@ -260,12 +260,17 @@ void DetailScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void DetailScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_username)) {
-		username += data;
-	} else if(!strcmp(parentTag.c_str(), xml_credits)) {
-		credits += data;
-	} else if(!strcmp(parentTag.c_str(), xml_email)) {
-		email += data;
+	if(!strcmp(parentTag.c_str(), xml_answer_id)) {
+		//username += data;
+	} else if(!strcmp(parentTag.c_str(), xml_detail_id)) {
+		//credits += data;
+	} else if(!strcmp(parentTag.c_str(), xml_desc)) {
+		desc += data;
+	} else if(!strcmp(parentTag.c_str(), xml_answer)) {
+		answer += data;
+	} else if(!strcmp(parentTag.c_str(), xml_answered)) {
+		lprintfln("data %d", data);
+		answered = Convert::toInt(data);
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
 	}
@@ -273,15 +278,43 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	//TODO not currently updating screen components. Only on screen recreate.
-	if(!strcmp(name, xml_status)) {
-		label->setCaption("");
-		feed->setCredits(credits.c_str());
-		feed->setEmail(email.c_str());
-		feed->setUnsuccessful(success);
-		username,error_msg= "";
-		saveData(FEED, feed->getAll().c_str());
+	if(!strcmp(name, xml_profiledetails)) {
+		//label->setCaption("");
+		//feed->setCredits(credits.c_str());
+		//feed->setEmail(email.c_str());
+		//feed->setUnsuccessful(success);
+		//username,error_msg= "";
+		//saveData(FEED, feed->getAll().c_str());
 
-		refreshData();
+		//refreshData();
+	} else if(!strcmp(name, xml_detail)) {
+
+
+		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, gFontBlack);
+		listBox->add(label);
+
+		Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
+		feedlayout->setDrawBackground(true);
+		feedlayout->addWidgetListener(this);
+
+		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, gFontBlack);
+		label->setSkin(gSkinEditBox);
+		setPadding(label);
+		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Username:");
+		editBoxUsername->setDrawBackground(false);
+		label->addWidgetListener(this);
+		feedlayout->add(label);
+
+		CheckBox *test = new CheckBox(scrWidth - 40, 0, 36, 46, feedlayout);
+		if (answered) {
+			test->flip();
+		}
+		test->setPaddingTop(10);
+
+
+		desc = "";
+		answered = 0;
+		answer = "";
 	} else if(!strcmp(name, xml_error)) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());

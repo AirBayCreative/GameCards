@@ -9,6 +9,7 @@
 #include "NoteScreen.h"
 #include "DetailScreen.h"
 #include "Login.h"
+#include "CompareScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
@@ -309,14 +310,18 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new DetailScreen(this, feed,
-								DetailScreen::CARD, card);
+						//menu = new DetailScreen(this, feed,
+							//	DetailScreen::CARD, card);
+						//menu = new CompareScreen(this, RES_LOADING_FLIP, feed, false, card);
+						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
+						//lprintfln("AlbumLoadScreen");
 						menu->show();
 					}
 					else if (index == 4) {
 						if (menu != NULL) {
 							delete menu;
 						}
+						//menu = new CompareScreen(this, RES_LOADING_FLIP, feed, false, card);
 						menu = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
 						menu->show();

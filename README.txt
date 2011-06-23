@@ -4,4 +4,4 @@ andre@mytcg.net
 heinz@mytcg.net
 stefan@mytcg.net
 Company;
-mytcg.net
+www.mytcg.net

@@ -7,6 +7,7 @@
 MobImage::MobImage(int x, int y, int width, int height,
 		Widget* parent, bool autosizeX, bool autosizeY, MAHandle res)
 	: Image(x, y, width, height, parent, autosizeX, autosizeY, res) {
+	statAdded = false;
 	hasNote = false;
 }
 
@@ -38,15 +39,19 @@ void MobImage::selectStat(int x, int y, int width, int height, int red, int gree
 	_red = red;
 	_green = green;
 	_blue = blue;
+	_orientation = orientation;
 	statAdded = true;
+
 
 	Gfx_setColor(red,green,blue);
 	//Gfx_clearMatrix();
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	//code for portrait
+	lprintfln("orientation %d", orientation);
 	if (orientation == 0) {
 		drawRectangle((5 + (paddedBounds.width >> 1) - (imageWidth >> 1))+(x*imageWidth/250),((paddedBounds.height >> 1) - (imageHeight >> 1))+(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);
 	} else if (orientation == 1) {
+		lprintfln("horizontal drawing");
 		drawRectangle((((paddedBounds.width >> 1) + (imageWidth >> 1))-((y*imageWidth/350)+height*imageWidth/350))+3
 				,((paddedBounds.height >> 1) - (imageHeight >> 1))+(x*imageHeight/250),
 				height*imageWidth/350,
@@ -75,7 +80,7 @@ void MobImage::drawWidget() {
 				(paddedBounds.height >> 1) - (imageHeight >> 1));
 		}
 		if (statAdded) {
-			selectStat(_x - 5,_y,_width,_height,_red,_green,_blue);
+			//selectStat(_x - 5,_y,_width,_height,_red,_green,_blue,_orientation);
 		}
 	}
 }
