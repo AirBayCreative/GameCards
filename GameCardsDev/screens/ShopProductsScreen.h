@@ -41,7 +41,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,cardText;
-	String id, productType, productName, price, thumb, cardsInPack, category;
+	String id, productType, productName, price, thumb, cardsInPack, category, cred;
 	int i, moved;
 	bool list, left, right, emp, freebie, credits;
 

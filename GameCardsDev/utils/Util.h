@@ -96,7 +96,8 @@ static String USER = URL+"?userdetails=1";
 //Get user questions
 static String PROFILEURL = URL+"?profiledetails=1";
 //get products in category
-static String PRODUCTS = URL+"?categoryproducts=1";
+static String PRODUCTS = URL+"?categoryproducts=2";
+static String PRODUCTSFREE = URL+"?categoryproducts=1";
 //get products in category
 static String PAYMENTS = URL+"?getpayments=1";
 //Get user categories
@@ -110,7 +111,8 @@ static String TRADE = URL+"?tradecard=";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
 //Lists all categories with products assigned to them, or their children
-static String PRODUCTCATEGORIES = URL+"?productcategories=1";
+static String PRODUCTCATEGORIES = URL+"?productcategories=2";
+static String PRODUCTFREEBIES = URL+"?productcategories=1";
 //Lists all categories with auctions assigned to them, or their children
 static String AUCTIONCATEGORIES = URL+"?auctioncategories=1";
 //use for making a purchase
@@ -308,7 +310,7 @@ static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
 static const char* trade_method = "trademethod";
 //Shop
-static const char* not_enough_credits = "You do not have enough credits to make that purchase.";
+static const char* not_enough_credits = "You do not have enough credits to make this purchase.";
 static const char* sure_you_want_to_purchase = "Are you sure you want to purchase a ";
 static const char* priceFor = " for ";
 static const char* purchaseComplete = "Purchase successful! The cards have been added to your album, and you received the following premium card:";

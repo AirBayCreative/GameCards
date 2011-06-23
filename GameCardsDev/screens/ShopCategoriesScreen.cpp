@@ -16,6 +16,9 @@ void ShopCategoriesScreen::refresh() {
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
+			notice->setCaption(checking_categories);
+			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			break;
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
@@ -49,6 +52,9 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
+			notice->setCaption(checking_categories);
+			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			break;
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
