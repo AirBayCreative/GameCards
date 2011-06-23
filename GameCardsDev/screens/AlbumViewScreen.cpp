@@ -88,7 +88,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	int indexof = 0;
 	int indentindexof = 0;
 	String tmp;
-	String id, name;
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
@@ -97,6 +96,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		all = all.substr(indexof);
 	}
 	drawList();
+	tmp, all = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -233,6 +233,7 @@ void AlbumViewScreen::drawList() {
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(ind);
 	}
+	cardText="";
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
