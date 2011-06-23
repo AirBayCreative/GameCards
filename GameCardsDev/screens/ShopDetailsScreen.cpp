@@ -1,5 +1,4 @@
 #include "ShopDetailsScreen.h"
-#include "ShopPurchaseScreen.h"
 #include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
@@ -7,16 +6,16 @@
 #include <mastdlib.h>
 #include "../utils/Convert.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), mHttp(this) {
 
 	if (screenType == ST_AUCTION)
 	{
-		mainLayout = createMainLayout(back, buy_now, bid, true);
+		mainLayout = createMainLayout(buy_now, back, bid, true);
 	}
 	else if (free)
-		mainLayout = createMainLayout(back, confirm, "", true);
+		mainLayout = createMainLayout(confirm, back, "", true);
 	else
-		mainLayout = createMainLayout(back, purchase, "", true);
+		mainLayout = createMainLayout(purchase, back, "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
@@ -36,15 +35,14 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	switch (screenType) {
 		case ST_PRODUCT:
 			retrieveProductThumb(tempImage, product, mImageCache);
-
 			nameDesc = product->getName();
-			fullDesc = product->getDetailsString();
+			fullDesc = product->getName() + "\n" + product->getDetailsString();
 			break;
 		case ST_AUCTION:
 			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
 			nameDesc = auction->getCard()->getText();
-			fullDesc = auction->getCard()->getFullDesc();
+			fullDesc = auction->getCard()->getText() + "\n" + auction->getCard()->getFullDesc();
 
 			break;
 	}
@@ -54,11 +52,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	/*label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "", 0, gFontBlack);
-	label->setMultiLine(true);
-	label->setAutoSizeY(true);
-	listBox->add(label);*/
-
 	if (screenType == ST_AUCTION)
 	{
 		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, place_bid, 0, gFontBlack);
@@ -67,7 +60,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		listBox->add(label);
 
 		MAUtil::Environment::getEnvironment().addTimer(this, 1000, -1);
-		//requestRepaint();
 
 		label = createEditLabel("");
 		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
@@ -97,7 +89,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 void ShopDetailsScreen::runTimerEvent() {
 	editBidBox->setText(getTime().c_str());
-	//requestRepaint();
 }
 
 String ShopDetailsScreen::getTime() {
@@ -228,7 +219,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (next != NULL) {
 				delete next;
 			}
@@ -237,13 +228,33 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					next = new BidOrBuyScreen(this, feed, auction, 2);
 					break;
 				case ST_PRODUCT:
-					next = new ShopPurchaseScreen(this, feed, product, freebie);
+					//notice->setCaption(purchasing);
+					int urlLength = BUYPRODUCT.length() + product->getId().length() + intlen(scrHeight) + intlen(scrWidth) + strlen(freebie_string) + 18;
+					char *url = new char[urlLength];
+					memset(url,'\0',urlLength);
+					sprintf(url, "%s%s&height=%d&width=%d&%s=%d", BUYPRODUCT.c_str(),
+							product->getId().c_str(), getMaxImageHeight(), getMaxImageWidth(), freebie_string, freebie ? 1 : 0);
+					if(mHttp.isOpen()){
+						mHttp.close();
+					}
+					mHttp = HttpConnection(this);
+					int res = mHttp.create(url, HTTP_GET);
+
+					if(res < 0) {
+
+					} else {
+						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+						mHttp.finish();
+					}
+					delete [] url;
+					//next = new ShopPurchaseScreen(this, feed, product, freebie);
 					break;
 			}
-			next->show();
+			//next->show();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_UP:
@@ -254,3 +265,51 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			break;
 	}
 }
+
+void ShopDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	if (result == 200) {
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(http, this, this);
+	} else {
+		mHttp.close();
+	}
+}
+
+void ShopDetailsScreen::connReadFinished(Connection* conn, int result) {}
+
+void ShopDetailsScreen::xcConnError(int code) {
+}
+
+void ShopDetailsScreen::mtxEncoding(const char* ) {
+}
+
+void ShopDetailsScreen::mtxTagStart(const char* name, int len) {
+	parentTag = name;
+}
+
+void ShopDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+}
+
+void ShopDetailsScreen::mtxTagData(const char* data, int len) {
+	if(!strcmp(parentTag.c_str(), xml_id)) {
+
+	}
+}
+
+void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
+	if(!strcmp(name, xml_card)) {
+		//this is going to be card data after purchase
+	} else {
+		//notice->setCaption("Failed to purchase");
+	}
+}
+
+void ShopDetailsScreen::mtxParseError() {
+}
+
+void ShopDetailsScreen::mtxEmptyTagEnd() {
+}
+
+void ShopDetailsScreen::mtxTagStartEnd() {
+}
+
