@@ -11,11 +11,13 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener {
+class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
 	~ShopDetailsScreen();
@@ -43,6 +45,12 @@ private:
 
 	bool list, left, right, freebie;
 
+	HttpConnection mHttp;
+	XmlConnection xmlConn;
+
+	String parentTag;
+	String temp,temp1,error_msg;
+
 	int moved, screenType;
 
 	String nameDesc, fullDesc;
@@ -50,6 +58,18 @@ private:
 	Product *product;
 	Auction *auction;
 	Feed *feed;
+
+	void httpFinished(MAUtil::HttpConnection*, int);
+	void connReadFinished(Connection*, int);
+	void xcConnError(int code);
+	void mtxEncoding(const char*);
+	void mtxTagStart(const char*, int);
+	void mtxTagAttr(const char*, const char*);
+	void mtxTagData(const char*, int);
+	void mtxTagEnd(const char*, int);
+	void mtxParseError();
+	void mtxEmptyTagEnd();
+	void mtxTagStartEnd();
 };
 
 #endif	//_SHOPDETAILSSCREEN_H_

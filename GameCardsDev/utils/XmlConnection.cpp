@@ -1,4 +1,5 @@
 #include "XmlConnection.h"
+#include "snprintf.h"
 #include <conprint.h>
 #include <mastdlib.h>
 
@@ -22,6 +23,8 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
         mXc->xcConnError(result);
         return;
     }
+    char buffer[1024];
+	snprintf(buffer, 1024, "%s", mBuffer);
     lprintfln("----");
     //lprintfln(mBuffer);
 

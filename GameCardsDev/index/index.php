@@ -96,7 +96,7 @@ echo $sOP;
 exit;*/	
 
 
-$iUserID = 24;
+//$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -392,7 +392,7 @@ if ($_GET['buyproduct']){
 		foreach ($packCards as $card) {
 		
 			//get the card details
-			$aCardDetails=myqu('SELECT c.card_id,c.description,c.front_phone_imageserver_id, 
+			$aCardDetails=myqu('SELECT c.card_id,c.description,c.front_phone_imageserver_id, c.value, c.ranking, 
 				c.back_phone_imageserver_id, c.thumbnail_phone_imageserver_id,cq.description quality_name,c.image, n.note 
 				FROM mytcg_card c 
 				INNER JOIN mytcg_cardquality AS cq 
@@ -412,6 +412,8 @@ if ($_GET['buyproduct']){
 			$sOP.= $sTab.$sTab.'<description>'.$aCardDetails[0]['description'].'</description>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quality>'.$aCardDetails[0]['quality_name'].'</quality>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quantity>'.$card['quantity'].'</quantity>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<ranking>'.$card['ranking'].'</ranking>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<value>'.$card['value'].'</value>'.$sCRLF;
 			
 			//before setting the front and back urls, make sure the card is resized for the height
 			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image']);
@@ -439,6 +441,7 @@ if ($_GET['buyproduct']){
 			}
 			
 			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front.png</fronturl>'.$sCRLF;
+			$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 			$sFound='';
 			$iCountServer=0;
@@ -451,6 +454,7 @@ if ($_GET['buyproduct']){
 			}
 			
 			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back.png</backurl>'.$sCRLF; 
+			$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 			
 			$sOP.= $sTab.$sTab.'<note>'.$aCardDetails[0]['note'].'</note>'.$sCRLF;
 			
@@ -820,7 +824,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	// C.usercardstatus_id = 1 = Album
 	// D.usercardnotestatus_id = 1 = Normal
 	if ($iCategory == -1) {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -843,7 +847,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1
 					GROUP BY B.card_id 
 					UNION 
-					SELECT B.card_id, 0, B.image, 0, 
+					SELECT B.card_id, 0, B.image, 0, B.value, 
 					B.description, "", "", "", B.ranking, D.description quality, 
 					0, "", 0 
 					FROM mytcg_card B 
@@ -854,7 +858,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					ORDER BY description');
 	} else if ($iCategory == -2) {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
@@ -877,7 +881,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -900,7 +904,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=4
 					GROUP BY B.card_id ');
 	} else if ($iShowAll == 0){
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -924,7 +928,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, 
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -948,7 +952,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id 
 					UNION 
-					SELECT B.card_id, 0, B.image, 0, 
+					SELECT B.card_id, 0, B.image, 0,  B.value, 
 					B.description, "", "", "", B.ranking, D.description quality, 
 					0, "", 0 
 					FROM mytcg_card B 
@@ -972,6 +976,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<ranking>'.$aOneCard['ranking'].'</ranking>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<quality>'.$aOneCard['quality'].'</quality>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<value>'.$aOneCard['value'].'</value>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -2453,14 +2458,7 @@ if ($_GET['allcategories']) {
 }
 
 /** return a list of categories with products in them */
-if ($_GET['productcategories']) {
-	/*$aCategories=myqu('SELECT C.category_id, C.description '
-			.'FROM mytcg_category C, mytcg_category_x X '
-			.'WHERE C.CATEGORY_ID = X.CATEGORY_CHILD_ID '
-			.'AND X.CATEGORY_PARENT_ID is null '
-			.'AND C.is_deleted is null '
-			.'ORDER BY C.description'
-		);*/
+if ($iFreebie=$_GET['productcategories']) {
 	$aCategories=myqu('SELECT c.category_id, c.description
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
@@ -2468,7 +2466,7 @@ if ($_GET['productcategories']) {
 	$sOP='<cardcategories>'.$sCRLF;
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]){
-		if (hasProducts($aCategory['category_id']) == true) {
+		if (hasProducts($aCategory['category_id'], $iFreebie) == true) {
 			$sOP.='<album>';
 			$sOP.=$sTab.'<albumid>'.trim($aCategory['category_id']).'</albumid>'.$sCRLF;
 			$sOP.=$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
@@ -2483,13 +2481,23 @@ if ($_GET['productcategories']) {
 }
 
 //recurring function to check if a category has children with products
-function hasProducts($categoryId) {
-	$hasProdsQuery = myqu('SELECT count(*) prods 
-		FROM mytcg_productcategory_x pc 
-		INNER JOIN mytcg_product p
-		ON p.product_id = pc.product_id
-		WHERE p.in_stock > 0
-		AND pc.category_id = '.$categoryId);
+function hasProducts($categoryId, $iFreebie) {
+	if ($iFreebie == 1) {
+		$hasProdsQuery = myqu('SELECT count(*) prods 
+			FROM mytcg_productcategory_x pc 
+			INNER JOIN mytcg_product p
+			ON p.product_id = pc.product_id
+			WHERE p.in_stock > 0
+			AND p.freebie = 1
+			AND pc.category_id = '.$categoryId);
+	} else {
+		$hasProdsQuery = myqu('SELECT count(*) prods 
+			FROM mytcg_productcategory_x pc 
+			INNER JOIN mytcg_product p
+			ON p.product_id = pc.product_id
+			WHERE p.in_stock > 0
+			AND pc.category_id = '.$categoryId);
+	}
 	$prods = $hasProdsQuery[0]['prods'];
 	
 	if ($prods > 0) {
@@ -2504,7 +2512,7 @@ function hasProducts($categoryId) {
 			ORDER BY C.description');
 		$count = 0;
 		while ($category = $catChildrenQuery[$count]) {
-			if (hasProducts($category['category_id']) == true) {
+			if (hasProducts($category['category_id'], $iFreebie) == true) {
 				return true;
 			}
 			$count++;
@@ -2577,13 +2585,20 @@ function hasAuctions($categoryId) {
 }
 
 /** return a list of products in a category */
-if ($_GET['categoryproducts']){
+if ($iFreebie = $_GET['categoryproducts']){
 	$iCategoryId= $_REQUEST['categoryId'];
 
 	$aProducts = array();
-	$aProducts = getProducts($iCategoryId, $aProducts);
+	$aProducts = getProducts($iCategoryId, $aProducts, $iFreebie);
 	
 	$sOP='<categoryproducts>'.$sCRLF;
+	
+	
+	$aUserDetails=myqu('SELECT credits 
+		FROM mytcg_user 
+		WHERE user_id='.$iUserID);
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	
 	$iCount=0;
 	while ($aProduct=$aProducts[$iCount]){
 		if ($aProduct['IN_STOCK'] > 0) {
@@ -2605,21 +2620,37 @@ if ($_GET['categoryproducts']){
 }
 
 //recurring function to get all products within a category and its children. it take an array and adds onto it
-function getProducts($categoryId, $products) {
-	$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
-		P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
-		P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
-		FROM mytcg_category C, mytcg_imageserver I, 
-		mytcg_productcategory_x PC, 
-		mytcg_producttype M, mytcg_product P 
-		WHERE PC.CATEGORY_ID = C.CATEGORY_ID 
-		AND P.PRODUCT_ID = PC.PRODUCT_ID 
-		AND M.producttype_id = P.producttype_id 
-		AND I.IMAGESERVER_ID = P.THUMBNAIL_IMAGESERVER_ID 
-		AND C.CATEGORY_ID = '.$categoryId.' 
-		GROUP BY P.PRODUCT_ID 
-		ORDER BY P.DESCRIPTION');
-	
+function getProducts($categoryId, $products, $iFreebie) {
+	if ($iFreebie == 1) {
+		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
+			P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
+			FROM mytcg_category C, mytcg_imageserver I, 
+			mytcg_productcategory_x PC, 
+			mytcg_producttype M, mytcg_product P 
+			WHERE PC.CATEGORY_ID = C.CATEGORY_ID 
+			AND P.freebie = 1
+			AND P.PRODUCT_ID = PC.PRODUCT_ID 
+			AND M.producttype_id = P.producttype_id 
+			AND I.IMAGESERVER_ID = P.THUMBNAIL_IMAGESERVER_ID 
+			AND C.CATEGORY_ID = '.$categoryId.' 
+			GROUP BY P.PRODUCT_ID 
+			ORDER BY P.DESCRIPTION');
+	} else {
+		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
+			P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
+			FROM mytcg_category C, mytcg_imageserver I, 
+			mytcg_productcategory_x PC, 
+			mytcg_producttype M, mytcg_product P 
+			WHERE PC.CATEGORY_ID = C.CATEGORY_ID 
+			AND P.PRODUCT_ID = PC.PRODUCT_ID 
+			AND M.producttype_id = P.producttype_id 
+			AND I.IMAGESERVER_ID = P.THUMBNAIL_IMAGESERVER_ID 
+			AND C.CATEGORY_ID = '.$categoryId.' 
+			GROUP BY P.PRODUCT_ID 
+			ORDER BY P.DESCRIPTION');
+		}
 	$count = 0;
 	$index = sizeof($products);
 	
@@ -2638,7 +2669,7 @@ function getProducts($categoryId, $products) {
 		ORDER BY C.description');
 	$count = 0;
 	while ($category = $catChildrenQuery[$count]) {
-		$products = getProducts($category['category_id'], $products);
+		$products = getProducts($category['category_id'], $products, $iFreebie);
 		$count++;
 	}
 	return $products;

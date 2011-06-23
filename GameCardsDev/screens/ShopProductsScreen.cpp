@@ -1,7 +1,7 @@
 #include <conprint.h>
 
 #include "ShopProductsScreen.h"
-#include "ShopPurchaseScreen.h"
+#include "ShopDetailsScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -28,10 +28,17 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 		url = (char*)PAYMENTS.c_str();
 	else
 	{
-		urlLength = PRODUCTS.length() + strlen(categoryid) + category.length() + 2;
-		url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s", PRODUCTS.c_str(), categoryid, category.c_str());
+		if (!free) {
+			urlLength = PRODUCTS.length() + strlen(categoryid) + category.length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", PRODUCTS.c_str(), categoryid, category.c_str());
+		} else if (free) {
+			urlLength = PRODUCTSFREE.length() + strlen(categoryid) + category.length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", PRODUCTSFREE.c_str(), categoryid, category.c_str());
+		}
 	}
 
 	if(mHttp.isOpen()){
@@ -134,9 +141,9 @@ void ShopProductsScreen::drawList() {
 		if (credits)
 			cardText += "Credits: " + products[i]->getPrice();
 		else if (freebie)
-			cardText += "Price: Free";
+			cardText += "Credits: Free";
 		else
-			cardText += "Price: " + products[i]->getPrice();
+			cardText += "Credits: " + products[i]->getPrice();
 
 		cardText += "\n";
 		cardText += "Cards: " + products[i]->getCardsInPack();
@@ -213,7 +220,8 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]), freebie, credits);
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL);
+				//next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]), freebie, credits);
 				next->show();
 			}
 			break;
@@ -269,7 +277,9 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 	}
 	else
 	{
-		if(!strcmp(parentTag.c_str(), xml_productid)) {
+		if(!strcmp(parentTag.c_str(), xml_credits)) {
+			cred += data;
+		} else if(!strcmp(parentTag.c_str(), xml_productid)) {
 			id += data;
 		} else if(!strcmp(parentTag.c_str(), xml_productname)) {
 			productName += data;
@@ -299,6 +309,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			price = "";
 			thumb = "";
 			cardsInPack = "";
+			credits = "";
 		} else if (!strcmp(name, xml_payments_done)) {
 			notice->setCaption("");
 			drawList();
@@ -320,7 +331,12 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			thumb = "";
 			cardsInPack = "";
 		} else if (!strcmp(name, xml_product_done)) {
-			notice->setCaption("");
+			if (strcmp(cred.c_str(), "")) {
+				String msg = "Current credits: " + cred;
+				notice->setCaption(msg.c_str());
+			} else {
+				notice->setCaption("");
+			}
 			drawList();
 		} else {
 			notice->setCaption("");
