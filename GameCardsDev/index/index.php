@@ -1660,6 +1660,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			}
 			
 			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+			$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 			$sFound='';
 			$iCountServer=0;
@@ -1672,6 +1673,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			}
 			
 			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
+			$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 		}
 		else {
 			$gamePhase = 'waiting';
