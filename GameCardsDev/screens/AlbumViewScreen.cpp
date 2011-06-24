@@ -13,7 +13,6 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, 
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card) {
 	busy = true;
 	emp = true;
-	feedLayouts = NULL;
 
 	next = NULL;
 	error_msg = "";
@@ -64,6 +63,9 @@ void AlbumViewScreen::refresh() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), getMaxImageWidth());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -91,6 +93,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
+		//lprintfln("wawa %s",tmp.c_str());
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
@@ -233,7 +236,6 @@ void AlbumViewScreen::drawList() {
 		listBox->add(createSubLabel(empty));
 		listBox->setSelectedIndex(ind);
 	}
-	cardText="";
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
@@ -242,9 +244,6 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete next;
 	}
 	delete mImageCache;
-	if(feedLayouts!=NULL){
-		delete [] feedLayouts;
-	}
 	saveData(filename.c_str(), getAll().c_str());
 	clearCardMap();
 	tmp.clear();
@@ -462,6 +461,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		updated = "";
 		note = "";
 		stats.clear();
+		newCard = NULL;
 	} else if(!strcmp(name, xml_stat)) {
 		stat = new Stat();
 		stat->setDesc(statDesc.c_str());
@@ -495,7 +495,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 }
 
 String AlbumViewScreen::getAll() {
-	String all;
+	String all = "";
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		all += itr->second->getAll() + "#";
 	}

@@ -10,10 +10,7 @@ ImageCacheRequest::ImageCacheRequest(MobImage *img, Product *product, int height
 	card = NULL;
 }
 
-ImageCacheRequest::~ImageCacheRequest() {
-	delete card;
-	delete product;
-}
+ImageCacheRequest::~ImageCacheRequest() {}
 
 String ImageCacheRequest::getUrl()
 {
