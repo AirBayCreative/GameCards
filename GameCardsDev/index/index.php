@@ -1666,12 +1666,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		$lastResultQuery = myqu('SELECT message
 			FROM mytcg_gamelog
 			WHERE game_id = '.$gameId.' 
-			ORDER BY gamelog_id desc'
-		
-		'SELECT last_result  
-			FROM mytcg_gameplayer 
-			WHERE user_id = '.$userId.' 
-			AND game_id = '.$gameId);
+			ORDER BY gamelog_id desc');
 		
 		$sOP.='<explanation>'.$sCRLF;
 		$sOP.=$lastResultQuery[0]['last_result'].$sCRLF;
@@ -1965,31 +1960,28 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		GROUP BY gameplayer_id');
 	
 	$draw = false; //if both have no playable cards, the game is a draw
-	$over = false; //if either of then have no playable cards, the game is over
-	$loserId = 0;
-	$count = 0;
-	while ($result = $gameOverQuery[$count]) {
-		if ($result['cards'] == 0) {
-			if ($over) {
-				$draw = true;
-			}
-			else {
-				$over = true;
-				$loserId = $result['gameplayer_id'];
-			}
-		}
-		$count++;
+	$over = true; //if either of then have no playable cards, the game is over
+	$winnerId = 0;
+	
+	if (sizeof($gameOverQuery) == 0) {
+		$draw = true;
+	}
+	else if (sizeof($gameOverQuery) == 1) {
+		$winnerId = $gameOverQuery[0]['gameplayer_id'];
+	}
+	else {
+		$over = false;
 	}
 	
-	$exp = '';
 	//if the game is over, we can set the phase to results, and add an entry to mytcg_gamelog
 	if ($over) {
+		$exp = '';
 		if ($draw) {
 			$exp = 'The game ended in a draw!';
 		}
 		else {
 			$winnerName = '';
-			if ($loserId == $userPlayerId) {
+			if ($winnerId == $userPlayerId) {
 				$winnerName = $userPlayerUsername;
 			}
 			else {
