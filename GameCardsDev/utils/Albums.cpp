@@ -1,7 +1,12 @@
 #include "Albums.h"
 #include "Util.h"
 
+int cmp(const String &a, const String &b) {
+	return 0;
+}
+
 Albums::Albums() {
+	album = MAUtil::Map<String,Album*>(&cmp);
 	loaded = false;
 }
 
@@ -32,7 +37,7 @@ String Albums::getAll() {
 }
 
 String Albums::getId(String val) {
-	Map<String,Album*>::Iterator i = album.find(val);
+	Map<String,Album*>::Iterator i = album.find(albumnames.find(val)->second);
 	if(i != album.end()) {
 		return i->second->getId();
 	} else {
@@ -41,7 +46,8 @@ String Albums::getId(String val) {
 }
 
 Album* Albums::getAlbum(String val) {
-	return album.find(val)->second;
+
+	return album.find(albumnames.find(val)->second)->second;
 }
 
 int Albums::size() {
@@ -68,7 +74,8 @@ void Albums::setAll(const char* allch) {
 			indentindexof = tmp.find(delim);
 			hasCards = tmp=="true";
 
-			album.insert(name, new Album(id, name, hasCards));
+			albumnames.insert(name,id);
+			album.insert(id, new Album(id, name, hasCards));
 		}
 		all = all.substr(indexof);
 	}
@@ -82,7 +89,8 @@ void Albums::clearAll() {
 }
 
 void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
-	album.insert(((updated?updated_symbol:"")+name).c_str(), new Album(id, name.c_str(), hasCards, updated));
+	albumnames.insert(((updated?updated_symbol:"")+name).c_str(), id);
+	album.insert(id, new Album(id, name.c_str(), hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {
@@ -92,7 +100,7 @@ void Albums::removeAlbum(const char* id) {
 Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
-		// The iterator needs to be dereferenced.
+		 //The iterator needs to be dereferenced.
 		names.add((itr->second->getUpdated()?updated_symbol:"")+itr->second->getDescription());
 	}
 	return names;

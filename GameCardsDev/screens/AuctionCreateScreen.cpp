@@ -92,7 +92,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			switch(keyCode) {
 				case MAK_FIRE:
 					break;
-				case MAK_SOFTRIGHT:
+				case MAK_SOFTLEFT:
 					if (!busy) {
 						openingText = editBoxOpening->getCaption();
 						buyNowText = editBoxBuyNow->getCaption();
@@ -137,7 +137,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case MAK_BACK:
-				case MAK_SOFTLEFT:
+				case MAK_SOFTRIGHT:
 					editBoxOpening->setSelected(false);
 					editBoxBuyNow->setSelected(false);
 					editBoxDays->setSelected(false);
@@ -230,13 +230,13 @@ void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
 
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
-		mainLayout = createMainLayout(back, auction, true);
+		mainLayout = createMainLayout(auction, back, true);
 		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
 		clearListBox();
-		updateSoftKeyLayout(back, auction, "", mainLayout);
+		updateSoftKeyLayout(auction, back, "", mainLayout);
 	}
 
 	Layout *feedlayout;

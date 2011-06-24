@@ -4,6 +4,7 @@
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "AuctionListScreen.h"
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
 		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
@@ -41,6 +42,8 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	else {
 		imageCache = NULL;
 	}
+
+	isAuction = false;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
@@ -241,7 +244,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				rejectCard();
 			}
 			else {
-				((AlbumViewScreen *)previous)->refresh();
+				if (isAuction)
+					((AuctionListScreen *)previous)->refresh();
+				else
+					((AlbumViewScreen *)previous)->refresh();
 			}
 			break;
 		case MAK_FIRE:

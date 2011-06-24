@@ -32,6 +32,8 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	enum screenTypes {ST_NORMAL, ST_NEW_CARD};
+
+	bool isAuction; // TODO need to handle this cleaner
 private:
 	Screen *previous, *next;
 	MAHandle img;

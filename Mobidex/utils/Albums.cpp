@@ -89,10 +89,6 @@ void Albums::clearAll() {
 }
 
 void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
-	//album.CompareFunction = &CompareFunction;
-	//album = MAUtil::Map<String,Album*>(&CompareFunction);
-	//album.init(&CompareFunction);
-	//album.insert(((updated?updated_symbol:"")+name).c_str(), new Album(id, name.c_str(), hasCards, updated));
 	albumnames.insert(((updated?updated_symbol:"")+name).c_str(), id);
 	album.insert(id, new Album(id, name.c_str(), hasCards, updated));
 }
