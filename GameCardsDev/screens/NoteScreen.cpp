@@ -20,10 +20,10 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = createMainLayout(back, savelbl, "", true);
+			mainLayout = createMainLayout(savelbl, back, "", true);
 			break;
 		case ST_SMS:
-			mainLayout = createMainLayout(back, sendlbl, "", true);
+			mainLayout = createMainLayout(sendlbl, back, "", true);
 		break;
 	}
 
@@ -34,14 +34,16 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 		case ST_CARD_NOTE:
 			mImageCache = new ImageCache();
 
-			cardText = "Name: ";
+
+			cardText = "";
 			cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
-			cardText += "\tValue: ";
-			cardText += card->getValue();
-			cardText += "\nRarity: ";
-			cardText += card->getRarity();
-			cardText += "\tQuantity: ";
+			cardText += " (";
 			cardText += card->getQuantity();
+			cardText += ")\n";
+			cardText += card->getRarity();
+			cardText += "\nRating: ";
+			cardText += card->getRanking();
+			//cardText += "\nRarity: ";
 
 			Layout *feedlayout;
 
@@ -185,7 +187,7 @@ void NoteScreen::selectionChanged(Widget *widget, bool selected) {
 
 void NoteScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			note = editBoxNote->getCaption();
 			switch (screenType) {
 				case ST_CARD_NOTE:
@@ -222,7 +224,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			editBoxNote->setSelected(false);
 			editBoxNote->disableListener();
 			previous->show();

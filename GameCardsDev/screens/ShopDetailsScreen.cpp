@@ -22,7 +22,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 
-	if (first) {
+	if ((first)&&(free)) {
 		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, freebielbl, 0, gFontBlack);
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);

@@ -341,7 +341,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 		} else if (!strcmp(name, xml_product_done)) {
 			if (strcmp(cred.c_str(), "")) {
 				String msg = "Current credits: " + cred;
-				if (first) {
+				if ((first)&&(free)) {
 					msg = freebielbl;
 				}
 				notice->setCaption(msg.c_str());
