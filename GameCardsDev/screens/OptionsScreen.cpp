@@ -92,6 +92,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl = createSubLabel(rejectlbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
+			break;
 		case ST_NUMBER_OPTIONS:
 			lbl = createSubLabel(calllbl);
 			lbl->addWidgetListener(this);

@@ -2270,7 +2270,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1) {
-		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID);
+		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -2279,7 +2279,7 @@ if ($_GET['usercategories']){
 }
 
 
-function subcategories($lastCheckSeconds, $cat, $iUserID) {
+function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
 	$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		cx.category_parent_id,
 		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -2388,6 +2388,24 @@ function subcategories($lastCheckSeconds, $cat, $iUserID) {
 	}
 	
 	$sOP='<usercategories>'.$sCRLF;
+	
+	if ($aMine['cnt'] > 0) {
+		$sOP.=$sTab.'<album>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumid>-2</albumid>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<updated>0</updated>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumname>My Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.'</album>'.$sCRLF;
+	}
+	if ($aCard['cnt'] > 0) {
+		$sOP.=$sTab.'<album>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.'</album>'.$sCRLF;
+	}
+	
 	$iCount=0;
 	while ($aCategory=$subCats[$iCount]){
 		$sOP.=$sTab.'<album>'.$sCRLF;
@@ -2421,7 +2439,7 @@ if ($_GET['usersubcategories']){
 
 	$cat = $_GET['category'];
 	//this gets the categories that the user has cards in, and their parents
-	echo subcategories($lastCheckSeconds, $cat, $iUserID);
+	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '');
 	exit;
 }
 
