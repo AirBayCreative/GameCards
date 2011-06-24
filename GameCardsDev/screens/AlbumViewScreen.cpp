@@ -140,7 +140,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
 	int indexof = 0;
 	int indentindexof = 0;
-	String tmp;
+	String tmp = "";
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
@@ -148,6 +148,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
+		newCard = NULL;
 	}
 	drawList();
 	tmp, all = "";
@@ -222,9 +223,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 	}
 }*/
 void AlbumViewScreen::clearListBox() {
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
-	}
+	tempWidgets = listBox->getChildren();
 	listBox->clear();
 	listBox->getChildren().clear();
 
@@ -295,7 +294,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete next;
 	}
 	delete mImageCache;
-	saveData(filename.c_str(), getAll().c_str());
+	String all = getAll();
+	saveData(filename.c_str(), all.c_str());
+	all="";
 	clearCardMap();
 	tmp.clear();
 	parentTag="";
@@ -335,6 +336,7 @@ void AlbumViewScreen::hide() {
 
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
+	String all = "";
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -344,7 +346,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			saveData(filename.c_str(), getAll().c_str());
+			all = getAll();
+			saveData(filename.c_str(), all.c_str());
+			all = "";
 			if (albumType == AT_BUY) {
 				origMenu->show();
 				break;
@@ -547,7 +551,9 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		cards = tmp;
 		drawList();
 		busy = false;
-		saveData(filename.c_str(), getAll().c_str());
+		String all = getAll();
+		saveData(filename.c_str(), all.c_str());
+		all = "";
 	} else if (!strcmp(name, xml_cards)) {
 		notice->setCaption("");
 		clearCardMap();

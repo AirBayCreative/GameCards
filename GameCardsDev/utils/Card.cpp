@@ -290,6 +290,7 @@ void Card::setAll(const char* allch) {
 			setFrontFlip("");
 			setLoaded(false);
 		}
+		all = "";
 }
 
 void Card::addStat(Stat *stat) {
