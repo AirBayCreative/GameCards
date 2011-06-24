@@ -44,15 +44,22 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
 			nameDesc = auction->getCard()->getText();
-			fullDesc = auction->getCard()->getFullDesc();
-
+			fullDesc = "Name: " + nameDesc;
+			fullDesc += "\nCurrent Bid: ";
+			fullDesc += auction->getPrice();
+			fullDesc += "\nBuy Out Price: ";
+			fullDesc += auction->getBuyNowPrice();
+			fullDesc += "\nTime Left: ";
+			fullDesc += getTime().c_str();
+			fullDesc += "\nBidder: ";
+			fullDesc += auction->getLastBidUser();
 			break;
 	}
 
-	label = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setAutoSizeY();
-	label->setMultiLine(true);
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
+	cardLabel->setVerticalAlignment(Label::VA_CENTER);
+	cardLabel->setAutoSizeY();
+	cardLabel->setMultiLine(true);
 
 	/*label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "", 0, gFontBlack);
 	label->setMultiLine(true);
@@ -95,9 +102,27 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	freebie = free;
 }
 
+void ShopDetailsScreen::refresh()
+{
+	show();
+}
+
 void ShopDetailsScreen::runTimerEvent() {
-	editBidBox->setText(getTime().c_str());
-	//requestRepaint();
+
+	if (auction != NULL)
+	{
+		fullDesc = "Name: " + nameDesc;
+		fullDesc += "\nCurrent Bid: ";
+		fullDesc += auction->getPrice();
+		fullDesc += "\nBuy Out Price: ";
+		fullDesc += auction->getBuyNowPrice();
+		fullDesc += "\nTime Left: ";
+		fullDesc += getTime().c_str();
+		fullDesc += "\nBidder: ";
+		fullDesc += auction->getLastBidUser();
+
+		cardLabel->setCaption(fullDesc);
+	}
 }
 
 String ShopDetailsScreen::getTime() {
@@ -145,6 +170,8 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	}
 	nameDesc = "";
 	fullDesc = "";
+
+	MAUtil::Environment::getEnvironment().removeTimer(this);
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
@@ -234,7 +261,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			switch (screenType) {
 				case ST_AUCTION:
-					next = new BidOrBuyScreen(this, feed, auction, 2);
+					next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
 					break;
 				case ST_PRODUCT:
 					next = new ShopPurchaseScreen(this, feed, product, freebie);

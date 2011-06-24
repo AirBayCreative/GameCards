@@ -23,6 +23,8 @@ public:
 	void keyPressEvent(int keyCode);
 	String ShopDetailsScreen::getTime();
 
+	void refresh();
+
 	void runTimerEvent();
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -35,7 +37,7 @@ public:
 private:
 	Screen *next, *previous;
 	Layout *mainLayout;
-	Label *label;
+	Label *label, *cardLabel;
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;

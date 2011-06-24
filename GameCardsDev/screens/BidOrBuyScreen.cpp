@@ -2,6 +2,7 @@
 
 #include "BidOrBuyScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "ShopDetailsScreen.h"
 #include "ImageScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
@@ -34,16 +35,14 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction, i
 			notice->setCaption(valid);
 
 			if (valid.length() == 0) {
-				//bidEditBox->setSelected(false);
-
 				busy = true;
 				//work out how long the url will be, the number is for the & and = symbols and hard coded params
-				int urlLength = AUCTION_BID.length() + feed->getUsername().length() +  bidEditBox->getCaption().length() +
+				int urlLength = AUCTION_BID.length() + feed->getUsername().length() + bidAmount.length() +
 						auction->getAuctionCardId().length() + 30;
 				char *url = new char[urlLength];
 				memset(url,'\0',urlLength);
 				sprintf(url, "%s&username=%s&bid=%s&auctioncardid=%s", AUCTION_BID.c_str(),
-						feed->getUsername().c_str(), bidEditBox->getCaption().c_str(), auction->getAuctionCardId().c_str());
+						feed->getUsername().c_str(), bidAmount.c_str() , auction->getAuctionCardId().c_str());
 				int res = mHttp.create(url, HTTP_GET);
 
 				if(res < 0) {
@@ -116,20 +115,26 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 }
 
 void BidOrBuyScreen::drawPostSubmitPhase(String message) {
-	clearListBox();
+	notice->setCaption("Placing Bid");
 
+	//clearListBox();
 
-	updateSoftKeyLayout("", confirm, "", layout);
+	//updateSoftKeyLayout("", confirm, "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontBlack);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setAutoSizeY(true);
-	lbl->setSkin(gSkinBack);
-	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	//lbl = new Label(0,0, scrWidth-PADDING*2, 0, NULL, message, 0, gFontBlack);
+	//lbl->setHorizontalAlignment(Label::HA_CENTER);
+	//lbl->setAutoSizeY(true);
+	//lbl->setSkin(gSkinBack);
+	//lbl->setMultiLine(true);
+	//listBox->add(lbl);
 
-	Screen* next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
-	next->show();;
+	//Screen* next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
+	//next->show();
+
+	//Screen* next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auction, message);
+	//next->show();
+
+	((ShopDetailsScreen*)previous)->refresh();
 }
 
 void BidOrBuyScreen::drawPlaceBidPhase() {
