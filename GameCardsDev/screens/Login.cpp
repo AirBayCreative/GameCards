@@ -359,6 +359,8 @@ void Login::mtxTagData(const char* data, int len) {
 		error_msg = data;
 	} else if (!strcmp(parentTag.c_str(), xml_result)) {
 		result += data;
+	} else if(!strcmp(parentTag.c_str(), xml_freebie)) {
+		freebie = data;
 	}
 }
 
@@ -381,7 +383,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setAlbum(getData(ALBUM));
 
 		// Check result
-		if (!strcmp("0", freebie.c_str()))
+		if (strcmp("0", freebie.c_str()) == 0)
 			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
 		else
 			next = new MenuScreen(feed);

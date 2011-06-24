@@ -440,6 +440,7 @@ void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageC
 		mImageCache->request(req1);
 	}
 }
+
 bool isNumeric(String isValid) {
 	const char* isValArr = isValid.c_str();
 	for (int i = 0; i < isValid.length(); i++) {

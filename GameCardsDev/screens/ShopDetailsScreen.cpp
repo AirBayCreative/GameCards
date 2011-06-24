@@ -23,7 +23,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 
 	if (first) {
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, freebie, 0, gFontBlack);
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, freebielbl, 0, gFontBlack);
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);

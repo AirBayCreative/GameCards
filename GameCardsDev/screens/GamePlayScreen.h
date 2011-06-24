@@ -35,7 +35,7 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
-	MobImage *tempImage;
+	MobImage *userImage, *oppImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
@@ -47,7 +47,7 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag, cardText, gameId, categoryId;
-	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg;
+	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	String explanation, outcome;
