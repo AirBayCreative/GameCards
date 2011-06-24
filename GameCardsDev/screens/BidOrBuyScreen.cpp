@@ -14,7 +14,7 @@ BidOrBuyScreen::BidOrBuyScreen(Screen *previous, Feed *feed, Auction *auction, i
 	bidEditBox = NULL;
 	editBoxLabel = NULL;
 
-	layout = createMainLayout(back, select);
+	layout = createMainLayout("", back);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
@@ -96,12 +96,12 @@ void BidOrBuyScreen::drawBuyNowPhase() {
 
 	String confirmLabel = "";
 	if (canPurchase) {
-		updateSoftKeyLayout(back, confirm, "", layout);
+		updateSoftKeyLayout(confirm, back, "", layout);
 		confirmLabel += sure_you_want_to_buy_now + auction->getCard()->getText() + priceFor +
 				auction->getBuyNowPrice() + " credits?";
 	}
 	else {
-		updateSoftKeyLayout(back, "", "", layout);
+		updateSoftKeyLayout("", back, "", layout);
 		confirmLabel += not_enough_credits;
 	}
 
