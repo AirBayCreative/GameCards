@@ -253,26 +253,34 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_AUCTIONS:
-					if (!empt) {
-						orig = this;
-						int i = listBox->getSelectedIndex();
 
-						if (next != NULL) {
-							delete next;
-						}
+						int i = listBox->getSelectedIndex();
+						orig = this;
 
 						if (i == 0)
 						{
+							if (next != NULL) {
+								delete next;
+							}
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 							next->show();
 						}
 						else if (i == 1)
 						{
+							if (next != NULL) {
+								delete next;
+							}
+
 							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS, NULL, true);
 							next->show();
 						}
-						else
+						else if (!empt)
 						{
+
+							if (next != NULL) {
+								delete next;
+							}
+
 							orig = this;
 							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();
 							String category = categories.find(selectedCaption)->second.c_str();
@@ -280,7 +288,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);
 							next->show();
 						}
-					}
+
 					break;
 			}
 			break;

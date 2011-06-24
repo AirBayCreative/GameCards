@@ -508,8 +508,10 @@ void ShopDetailsScreen::drawBuyNow(bool success)
 {
 	if (success)
 	{
-		next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
+		next = new ImageScreen(previous, RES_LOADING, feed, false, auction->getCard());
+		((ImageScreen*)next)->isAuction = true;
 		next->show();
+		auction = NULL;
 	}
 	else
 	{
