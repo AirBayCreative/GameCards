@@ -2,6 +2,7 @@
 #include <mastdlib.h>
 
 #include "AlbumViewScreen.h"
+#include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
@@ -246,14 +247,16 @@ void AlbumViewScreen::drawList() {
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
-		cardText = "Name: ";
+		cardText = "";
 		cardText += (itr->second->getUpdated()?updated_symbol:"")+itr->second->getText();
-		cardText += "\tRanking: ";
-		cardText += itr->second->getRanking();
-		cardText += "\nRarity: ";
-		cardText += itr->second->getRarity();
-		cardText += "\tQuantity: ";
+		cardText += " (";
 		cardText += itr->second->getQuantity();
+		cardText += ")\n";
+		cardText += itr->second->getRarity();
+		cardText += "\nRating: ";
+		cardText += itr->second->getRanking();
+		//cardText += "\nRarity: ";
+
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 		feedlayout->setSkin(gSkinAlbum);
@@ -280,11 +283,15 @@ void AlbumViewScreen::drawList() {
 
 	if (cards.size() >= 1) {
 		emp = false;
-		listBox->setSelectedIndex(ind);
+		if (ind < cards.size()) {
+			listBox->setSelectedIndex(ind);
+		} else {
+			listBox->setSelectedIndex(0);
+		}
 	} else {
 		emp = true;
 		listBox->add(createSubLabel(empty));
-		listBox->setSelectedIndex(ind);
+		listBox->setSelectedIndex(0);
 	}
 }
 
@@ -354,7 +361,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
-			previous->show();
+			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {

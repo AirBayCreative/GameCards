@@ -241,7 +241,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				rejectCard();
 			}
 			else {
-				previous->show();
+				((AlbumViewScreen *)previous)->refresh();
 			}
 			break;
 		case MAK_FIRE:

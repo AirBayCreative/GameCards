@@ -13,15 +13,53 @@ void AlbumLoadScreen::refresh() {
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
+
+	int res = -1;
+	char *url = NULL;
+	int urlLength = 0;
+
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(ALBUMS.c_str(), HTTP_GET);
+	album = new Albums();
 
+	switch(screenType) {
+		case ST_ALBUMS:
+		case ST_COMPARE:
+			notice->setCaption(checking_albums);
+			album->setAll(this->feed->getAlbum()->getAll().c_str());
+			drawList();
+			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_PLAY:
+			notice->setCaption(checking_albums);
+
+			drawList();
+			//work out how long the url will be, the 2 is for the & and = symbols
+			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_GAMES:
+			break;
+	}
 	if(res < 0) {
-
+		hasConnection = false;
+		notice->setCaption("");
 	} else {
+		hasConnection = true;
 		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
+	}
+	this->setMain(mainLayout);
+
+	if (url != NULL) {
+		delete url;
 	}
 }
 
@@ -196,9 +234,9 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
-	//listBox->getChildren().clear();
 	clearListBox();
 
+	int ind = listBox->getSelectedIndex();
 	Vector<String> display = album->getNames();
 	String albumname = "";
 	size = 0;
@@ -211,9 +249,12 @@ void AlbumLoadScreen::drawList() {
 
 		size++;
 	}
-
-	if (album->size() > 1) {
-		listBox->setSelectedIndex(0);
+	if (album->size() >= 1) {
+		if (ind < album->size()) {
+			listBox->setSelectedIndex(ind);
+		} else {
+			listBox->setSelectedIndex(0);
+		}
 	} else {
 		empt = true;
 		label = createSubLabel(empty);
@@ -426,17 +467,17 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	if (!strcmp(parentTag.c_str(), xml_albumdone)) {
 		album->clearAll();
 	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
-		temp1 += data;
+		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
 		temp += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
 	} else if(!strcmp(parentTag.c_str(), category_name)) {
-		temp1 += data;
+		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), category_id)) {
 		temp += data;
 	} else if(!strcmp(parentTag.c_str(), xml_game_description)) {
-		temp1 += data;
+		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
 		temp += data;
 	} else if (!strcmp(parentTag.c_str(), xml_hascards)) {
@@ -450,14 +491,13 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_album) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
-		temp1 = "";
 		temp = "";
 		hasCards = "";
 		updated = "";
 	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
 		switch (screenType) {
 			case ST_PLAY:
-				notice->setCaption("Please choose the cards you want to play with.");
+				notice->setCaption("Choose game cards.");
 				break;
 			case ST_GAMES:
 				notice->setCaption("Please choose a game to continue.");
@@ -478,54 +518,56 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				delete file;
 			}
 		}
-		//drawList();
+		drawList();
 		if (album->size() == 1) {
-			Album* val = album->getAlbum(name);
-			if (next != NULL) {
-				delete next;
-				next = NULL;
-			}
-			switch (screenType) {
-				case ST_ALBUMS:
-					if (val->getHasCards()) {
-						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
-							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+			Album* val = album->getAlbum(temp1);
+			if (val != NULL) {
+				if (next != NULL) {
+					delete next;
+					next = NULL;
+				}
+				switch (screenType) {
+					case ST_ALBUMS:
+						if (val->getHasCards()) {
+							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+								next->show();
+							}
+							else {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
+								next->show();
+							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_COMPARE:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
 							next->show();
 						}
 						else {
-							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
-							next->show();
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
 						}
-					}
-					else {
-						//if a category has no cards, it means it has sub categories.
-						//it is added to the path so we can back track
-						path.add(val->getId());
-						//then it must be loaded
-						loadCategory();
-					}
-					break;
-				case ST_COMPARE:
-					if (val->getHasCards()) {
-						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+						break;
+					case ST_PLAY:
+						next = new GamePlayScreen(this, feed, true, val->getId());
 						next->show();
+						break;
+					case ST_GAMES:
+						next = new GamePlayScreen(this, feed, false, val->getId());
+						next->show();
+						break;
 					}
-					else {
-						//if a category has no cards, it means it has sub categories.
-						//it is added to the path so we can back track
-						path.add(val->getId());
-						//then it must be loaded
-						loadCategory();
-					}
-					break;
-				case ST_PLAY:
-					next = new GamePlayScreen(this, feed, true, val->getId());
-					next->show();
-					break;
-				case ST_GAMES:
-					next = new GamePlayScreen(this, feed, false, val->getId());
-					next->show();
-					break;
 				}
 			}
 	} else if(!strcmp(name, xml_error)) {

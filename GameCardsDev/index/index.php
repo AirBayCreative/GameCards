@@ -2267,23 +2267,19 @@ if ($_GET['usercategories']){
 		$sOP.=$sTab.'</album>'.$sCRLF;
 		$iCount++;
 	}
-	
 	$sOP.='</usercategories>'.$sCRLF;
+	
+	if ($iCount==1) {
+		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID);
+	}
+	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
 }
 
-/** returns a list of the sub categories of a category that the user has cards in, 
-		also skips a category if it has no cards and only one child, and checks its child instead. (recurring)*/
-if ($_GET['usersubcategories']){
-	$lastCheckSeconds = "";
-	if (!($lastCheckSeconds = $_GET['seconds'])) {
-		$lastCheckSeconds = "0";
-	}
 
-	$cat = $_GET['category'];
-	//this gets the categories that the user has cards in, and their parents
+function subcategories($lastCheckSeconds, $cat, $iUserID) {
 	$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		cx.category_parent_id,
 		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -2411,7 +2407,21 @@ if ($_GET['usersubcategories']){
 	}
 	$sOP.='</usercategories>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
-	echo $sOP;
+	//echo $sOP;
+	return $sOP;
+}
+
+/** returns a list of the sub categories of a category that the user has cards in, 
+		also skips a category if it has no cards and only one child, and checks its child instead. (recurring)*/
+if ($_GET['usersubcategories']){
+	$lastCheckSeconds = "";
+	if (!($lastCheckSeconds = $_GET['seconds'])) {
+		$lastCheckSeconds = "0";
+	}
+
+	$cat = $_GET['category'];
+	//this gets the categories that the user has cards in, and their parents
+	echo subcategories($lastCheckSeconds, $cat, $iUserID);
 	exit;
 }
 
