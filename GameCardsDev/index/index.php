@@ -1620,6 +1620,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		
 		$selectedGameCardId = $selectedGameCardIdQuery[0]['gameplayercard_id'];
 		
+		$sOP.=$sTab.'<usercard>'.$sCRLF; 
 		//the getCardStats function reutrns xml of the stats, but it needs the gameplayercard_id
 		$sOP.=getCardStats($selectedGameCardId);
 		$sOP.=$sTab.'<cardid>'.$selectedGameCardIdQuery[0]['card_id'].'</cardid>'.$sCRLF; 
@@ -1660,6 +1661,70 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		
 		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
 		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
+		$sOP.=$sTab.'</usercard>'.$sCRLF;
+		
+		//we return the opponent's card too
+		//we need to get the gameplayercard_id of the selected card
+		$selectedGameCardIdQuery = myqu('SELECT MIN(gpc.pos) position, gpc.gameplayercard_id, c.image, 
+			c.front_phone_imageserver_id, c.back_phone_imageserver_id, c.card_id
+		FROM mytcg_gameplayer gp
+		INNER JOIN mytcg_gameplayercard gpc
+		ON gpc.gameplayer_id = gp.gameplayer_id
+		INNER JOIN mytcg_gameplayercardstatus gpcs
+		ON gpcs.gameplayercardstatus_id = gpc.gameplayercardstatus_id
+		INNER JOIN mytcg_usercard uc
+		ON gpc.usercard_id = uc.usercard_id
+		INNER JOIN mytcg_card c
+		ON uc.card_id = c.card_id
+		WHERE lower(gpcs.description) = "normal"
+		AND gp.game_id = '.$gameId.' 
+		AND gp.user_id != '.$userId.' 
+		GROUP BY gpc.pos');
+		
+		$selectedGameCardId = $selectedGameCardIdQuery[0]['gameplayercard_id'];
+		
+		$sOP.=$sTab.'<oppcard>'.$sCRLF; 
+		//the getCardStats function reutrns xml of the stats, but it needs the gameplayercard_id
+		$sOP.=getCardStats($selectedGameCardId);
+		$sOP.=$sTab.'<cardid>'.$selectedGameCardIdQuery[0]['card_id'].'</cardid>'.$sCRLF; 
+		$sOP.=$sTab.'<gameplayercard_id>'.$selectedGameCardIdQuery[0]['gameplayercard_id'].'</gameplayercard_id>'.$sCRLF; 
+		
+		//if we are loading a game, then the card image url is not on the phone yet, so we need to send it through here
+		//get the image server stuff
+		$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
+			.'FROM mytcg_imageserver b '
+			.'ORDER BY b.description DESC '
+		);
+		
+		//before setting the front and back urls, make sure the card is resized for the height
+		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image']);
+		
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['front_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+		
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['back_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+		
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
+		$sOP.=$sTab.'</oppcard>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will load the last log from mytcg_gamelog, and set the user's pending off

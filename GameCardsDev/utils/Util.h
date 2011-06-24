@@ -287,6 +287,8 @@ static const char* xml_blue = "blue";
 static const char* acceptlbl = "Accept";
 static const char* rejectlbl = "Reject";
 static const char* showall = "showall";
+static const char* xml_usercard = "usercard";
+static const char* xml_opponentcard = "oppcard";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";

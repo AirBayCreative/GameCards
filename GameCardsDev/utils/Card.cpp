@@ -305,7 +305,9 @@ void Card::removeStatAt(int index) {
 
 void Card::setStats(Vector<Stat*> s) {
 	stats.clear();
-	stats = s;
+	for (int i = 0; i < s.size(); i++) {
+		stats.add(s[i]);
+	}
 }
 
 Vector<Stat*> Card::getStats() {

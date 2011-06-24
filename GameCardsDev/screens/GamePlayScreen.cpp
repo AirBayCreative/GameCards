@@ -166,7 +166,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lprintfln("drawCardSelectStatScreen 3");
 	clearListBox();
 
-	updateSoftKeyLayout(play_stat, options, "", mainLayout);
+	updateSoftKeyLayout(active?play_stat:"", options, "", mainLayout);
 
 	int height = listBox->getHeight();
 	lprintfln("drawCardSelectStatScreen 4");
@@ -204,9 +204,10 @@ void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 					flipOrSelect = 0;
 					currentSelectedStat = -1;
 					if(phase==P_CARD_DETAILS) {
-						for(int i = 0;i<cardStats.size();i++) {
-							if(flip==cardStats[i]->getFrontOrBack()) {
-								if(userImage->statContains(cardStats[i]->getLeft(),cardStats[i]->getTop(),cardStats[i]->getWidth(),cardStats[i]->getHeight(),point.x, point.y)) {
+						for(int i = 0;i<card->getStats().size();i++) {
+							if(flip==card->getStats()[i]->getFrontOrBack()) {
+								if(userImage->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),
+										card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)) {
 									currentSelectedStat = i;
 								}
 							}
@@ -330,20 +331,20 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
-						if(cardStats.size()>0){
-							if(flip==cardStats[0]->getFrontOrBack()){
+						if(card->getStats().size()>0){
+							if(flip==card->getStats()[0]->getFrontOrBack()){
 								currentSelectedStat--;
 								if(currentSelectedStat < 0){
 									currentSelectedStat = 0;
 								}
 								userImage->refreshWidget();
-								userImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue(), 1);
+								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
 							}
 						}
 					}
-					lprintfln("currentSelectedStat: %d", currentSelectedStat);
-					lprintfln("desc: %s", card->getStatAt(currentSelectedStat)->getDisplay().c_str());
-					lprintfln("statId: %s", card->getStatAt(currentSelectedStat)->getCardStatId().c_str());
 					break;
 			}
 			break;
@@ -351,19 +352,19 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
-						if(cardStats.size()>0){
-							if(flip==cardStats[0]->getFrontOrBack()){
-								if(currentSelectedStat < cardStats.size()-1){
+						if(card->getStats().size()>0){
+							if(flip==card->getStats()[0]->getFrontOrBack()){
+								if(currentSelectedStat < card->getStats().size()-1){
 									currentSelectedStat++;
 								}
 								userImage->refreshWidget();
-								userImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue(), 1);
+								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
 							}
 						}
 					}
-					lprintfln("currentSelectedStat: %d", currentSelectedStat);
-					lprintfln("desc: %s", card->getStatAt(currentSelectedStat)->getDisplay().c_str());
-					lprintfln("statId: %s", card->getStatAt(currentSelectedStat)->getCardStatId().c_str());
 					break;
 			}
 			break;
@@ -412,9 +413,12 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					} else if (active) {
 						if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
 							if(currentSelectedStat>-1){
-								if(flip==cardStats[currentSelectedStat]->getFrontOrBack()){
+								if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 									userImage->refreshWidget();
-									userImage->selectStat(cardStats[currentSelectedStat]->getLeft(),cardStats[currentSelectedStat]->getTop(),cardStats[currentSelectedStat]->getWidth(),cardStats[currentSelectedStat]->getHeight(), cardStats[currentSelectedStat]->getColorRed(), cardStats[currentSelectedStat]->getColorGreen(), cardStats[currentSelectedStat]->getColorBlue(), 1);
+									userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+											card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+											card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+											card->getStats()[currentSelectedStat]->getColorBlue(), 1);
 
 									selectStat(currentSelectedStat);
 								}
@@ -467,11 +471,11 @@ void GamePlayScreen::selectStat(int selected) {
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
 	urlLength = SELECTSTAT.length() + 19 + strlen(game_id) + gameId.length() +
-			strlen(stat_id) + cardStats[selected]->getCardStatId().length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+			strlen(stat_id) + card->getStats()[selected]->getCardStatId().length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", SELECTSTAT.c_str(), game_id, gameId.c_str(),
-			stat_id, cardStats[selected]->getCardStatId().c_str(), getMaxImageHeight(), getMaxImageWidth());
+			stat_id, card->getStats()[selected]->getCardStatId().c_str(), getMaxImageHeight(), getMaxImageWidth());
 	lprintfln(url);
 	clearCardStats();
 	clearListBox();
@@ -667,7 +671,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 }
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
-	if (!strcmp(name, xml_backflipurl)) {
+	if (!strcmp(name, xml_usercard)) {
 		if (card == NULL) {
 			//delete card;
 			card = new Card();
@@ -682,6 +686,34 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		card->setId(id.c_str());
 		card->setGamePlayerCardId(gamePlayerCardId.c_str());
 		card->setStats(cardStats);
+
+		clearCardStats();
+
+		id = "";
+		description = "";
+		thumburl = "";
+		fronturl = "";
+		backurl = "";
+		gamePlayerCardId = "";
+		frontflipurl = "";
+		backflipurl = "";
+	} else if (!strcmp(name, xml_opponentcard)) {
+		if (oppCard == NULL) {
+			//delete card;
+			oppCard = new Card();
+		}
+
+		oppCard->setText(description.c_str());
+		oppCard->setThumb(thumburl.c_str());
+		oppCard->setFront(fronturl.c_str());
+		oppCard->setBack(backurl.c_str());
+		oppCard->setFrontFlip(frontflipurl.c_str());
+		oppCard->setBackFlip(backflipurl.c_str());
+		oppCard->setId(id.c_str());
+		oppCard->setGamePlayerCardId(gamePlayerCardId.c_str());
+		oppCard->setStats(cardStats);
+
+		clearCardStats();
 
 		id = "";
 		description = "";
@@ -726,9 +758,10 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					break;
 			}
 		}
-	} else {
+	} /*else {
+		lprintfln("blank caption");
 		notice->setCaption("");
-	}
+	}*/
 }
 
 void GamePlayScreen::clearCardStats() {
