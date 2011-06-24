@@ -1522,12 +1522,8 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 	$gamePhase = $gamePhaseQuery[0]['description'];
 	
 	if ($gamePhase == 'stat') {
-		//set the game phase to stat
-		myqu('UPDATE mytcg_game SET gamephase_id = (SELECT gamephase_id
-			FROM mytcg_gamephase gp
-			WHERE lower(gp.description) = "stat") WHERE game_id = '.$gameId);
 		
-		//with the phase now set to stat, if the player is playing against the ai, the ai needs to make a move, if the ai is the active user
+		//if the player is playing against the ai, the ai needs to make a move, if the ai is the active user
 		//get the admins userId
 		$adminUserIdQuery = myqu('SELECT user_id 
 			FROM mytcg_user 
@@ -1666,29 +1662,30 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
-		//results will say whether the user won or lost the round, or that the other player still needs to view the results
-		//we first need to check if the users continue is pending
-		$pendingUserQuery = myqu('SELECT gameplayerstatus_id 
+		//results will load the last log from mytcg_gamelog, and set the user's pending off
+		$lastResultQuery = myqu('SELECT message
+			FROM mytcg_gamelog
+			WHERE game_id = '.$gameId.' 
+			ORDER BY gamelog_id desc'
+		
+		'SELECT last_result  
 			FROM mytcg_gameplayer 
 			WHERE user_id = '.$userId.' 
 			AND game_id = '.$gameId);
-		$isPending = $pendingUserQuery[0]['gameplayerstatus_id'];
-		//1 for pending, 2 for waiting
-		if ($isPending == 1) {
-			$lastResultQuery = myqu('SELECT last_result  
-				FROM mytcg_gameplayer 
-				WHERE user_id = '.$userId.' 
-				AND game_id = '.$gameId);
-			
-			$sOP.='<explanation>'.$sCRLF;
-			$sOP.=$lastResultQuery[0]['last_result'].$sCRLF;
-			$sOP.='</explanation>'.$sCRLF;
-		}
-		else if ($isPending == 2) {
-			$gamePhase = 'waiting';
-			$sOP.='<message>'.$sCRLF;
-			$sOP.='Your opponent still needs to view the results from the last match.'.$sCRLF;
-			$sOP.='</message>'.$sCRLF;
+		
+		$sOP.='<explanation>'.$sCRLF;
+		$sOP.=$lastResultQuery[0]['last_result'].$sCRLF;
+		$sOP.='</explanation>'.$sCRLF;
+		
+		//we also need to turn off the pending for the user
+		myqu('UPDATE mytcg_gameplayer SET pending = 0 WHERE user_id = '.$userId.' AND game_id = '.$gameId);
+		
+		//and if neither user is pending, end the game
+		$pendingQuery = myqu('SELECT count(*) pending_users FROM mytcg_gameplayer WHERE game_id = '.$gameId);
+		$pending = $pendingQuery[0]['pending_users'];
+		if ($pending == 0) {
+			//set the gamephase to incomplete
+			myqu('UPDATE mytcg_game SET gamestatus_id = 2 WHERE game_id = '.$gameId);
 		}
 	}
 	
@@ -1765,20 +1762,19 @@ if ($_GET['selectstat']) {
 		FROM mytcg_cardstat
 		WHERE cardstat_id = '.$cardStatId);
 	$categoryStatId = $categoryStatQuery[0]['categorystat_id'];
-	echo 'weo1';
+	
 	//build xml with scores and explanation and send it back
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
-	echo 'weo2';
+	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	continueGame($gameId, $iUserID, $iHeight, $iWidth);
-	echo 'weo3';
+	
 	//load the game for the user
 	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
-	echo 'weo4';
+	
 	//send xml with results back to the user
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
-	echo 'weo5';
 }
 
 //given the user's id, opponent's id and selected stat type, we can find the outcome and continue the game accordingly
@@ -1961,11 +1957,59 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			WHERE gameplayercard_id = '.$winningCardId);
 	}
 	
-	//build xml with scores and explanation and send it back
-	$sOP = '<results><phase>result</phase><explanation>'.$exp.'</explanation></results>';
+	//we need to check if the game is over. that is, if one of the players has no more playable cards.
+	$gameOverQuery = myqu('SELECT count(gameplayercard_id) cards, gameplayer_id 
+		FROM mytcg_gameplayercard 
+		WHERE gameplayer_id in ('.$userPlayerId.', '.$oppPlayerId.') 
+		AND gameplayercardstatus_id = 1 
+		GROUP BY gameplayer_id');
 	
-	//send xml with results back to the user
-	return $sOP;
+	$draw = false; //if both have no playable cards, the game is a draw
+	$over = false; //if either of then have no playable cards, the game is over
+	$loserId = 0;
+	$count = 0;
+	while ($result = $gameOverQuery[$count]) {
+		if ($result['cards'] == 0) {
+			if ($over) {
+				$draw = true;
+			}
+			else {
+				$over = true;
+				$loserId = $result['gameplayer_id'];
+			}
+		}
+		$count++;
+	}
+	
+	$exp = '';
+	//if the game is over, we can set the phase to results, and add an entry to mytcg_gamelog
+	if ($over) {
+		if ($draw) {
+			$exp = 'The game ended in a draw!';
+		}
+		else {
+			$winnerName = '';
+			if ($loserId == $userPlayerId) {
+				$winnerName = $userPlayerUsername;
+			}
+			else {
+				$winnerName = $oppPlayerUsername;
+			}
+			$exp = $winnerName.' wins!';
+		}
+		
+		//add the log message, so players can see the outcome
+		myqu('INSERT INTO mytcg_gamelog 
+			(game_id, date, message, categorystat_id) 
+			VALUES('.$gameId.', now(), \''.$exp.'\', 0)');
+		//and set the game phase to results
+		$gamePhaseIdQuery = myqu('SELECT gamephase_id 
+			FROM mytcg_gamephase 
+			WHERE description = "result"');
+		$resultStatus = $gamePhaseIdQuery[0]['gamephase_id'];
+		myqu('UPDATE mytcg_game SET gamephase_id = '.$resultStatus.' WHERE game_id = '.$gameId);
+		myqu('UPDATE mytcg_gameplayer SET pending = 1 WHERE game_id = '.$gameId);
+	}
 }
 
 /** creates a new game, against AI, and returns the gameId */
