@@ -11,6 +11,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	left = false;
 	right = false;
 	list = false;
+	shouldUpdateAuction = false;
 
 	parentTag = "";
 	cardText = "";
@@ -43,16 +44,16 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	switch (screenType) {
 		case ST_CATEGORY:
 			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout(back, bidOrBuy, "", true);
+				mainLayout = createMainLayout(bidOrBuy, back, "", true);
 			#else
-				mainLayout = createMainLayout(back, bidOrBuy, details, true);
+				mainLayout = createMainLayout(details, back, bidOrBuy, true);
 			#endif
 			break;
 		case ST_USER:
 			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout(back, "", "", true);
+				mainLayout = createMainLayout("", back, "", true);
 			#else
-				mainLayout = createMainLayout(back, "", details, true);
+				mainLayout = createMainLayout(details, back, "", true);
 			#endif
 			break;
 	}
@@ -175,7 +176,7 @@ void AuctionListScreen::drawList() {
 			cardText += "\nOpening Bid: ";
 			cardText += auctions[i]->getOpeningBid();
 		}
-		cardText += "\nTime Left: ";
+		cardText += "\nEnd Date: ";
 		cardText += auctions[i]->getEndDate();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
@@ -224,6 +225,95 @@ void AuctionListScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
+void AuctionListScreen::refresh()
+{
+	clearAuctions();
+
+	//work out how long the url will be, the number is for the & and = symbols as well as hard coded params
+	int urlLength = 0;
+	switch (screenType) {
+		case ST_CATEGORY:
+			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+			break;
+		case ST_USER:
+			urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+			break;
+	}
+	char *url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	switch (screenType) {
+		case ST_CATEGORY:
+			sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
+					categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+			break;
+		case ST_USER:
+			sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
+					feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
+			break;
+	}
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		drawList();
+
+		notice->setCaption(no_connect);
+	} else {
+		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
+
+	show();
+}
+
+void AuctionListScreen::updateAuctions()
+{
+	clearAuctions();
+	shouldUpdateAuction = true;
+
+	//work out how long the url will be, the number is for the & and = symbols as well as hard coded params
+		int urlLength = 0;
+		switch (screenType) {
+			case ST_CATEGORY:
+				urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+				break;
+			case ST_USER:
+				urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+				break;
+		}
+		char *url = new char[urlLength];
+		memset(url,'\0',urlLength);
+		switch (screenType) {
+			case ST_CATEGORY:
+				sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
+						categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+				break;
+			case ST_USER:
+				sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
+						feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
+				break;
+		}
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			drawList();
+
+			notice->setCaption(no_connect);
+		} else {
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+		delete [] url;
+}
+
 AuctionListScreen::~AuctionListScreen() {
 	delete mainLayout;
 	if (next != NULL) {
@@ -270,11 +360,11 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!emp) {
 				if (next != NULL) {
 					delete next;
@@ -402,8 +492,16 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_auctionsdone)) {
-		notice->setCaption("Building list...");
-		drawList();
+		if (!shouldUpdateAuction)
+		{
+			notice->setCaption("Building list...");
+			drawList();
+		}
+		else
+		{
+			((ShopDetailsScreen*)next)->auction = auctions[listBox->getSelectedIndex()];
+			shouldUpdateAuction = false;
+		}
 	}
 }
 

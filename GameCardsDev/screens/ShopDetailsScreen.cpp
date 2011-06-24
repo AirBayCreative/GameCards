@@ -1,14 +1,18 @@
+#include <madmath.h>
+#include <mastdlib.h>
+
 #include "ShopDetailsScreen.h"
 //#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
-#include <mastdlib.h>
 #include "../utils/Convert.h"
 #include "AlbumViewScreen.h"
 #include "ShopProductsScreen.h"
+#include "ImageScreen.h"
+#include "AuctionListScreen.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), first(first), free(free) {
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : mHttp(this), previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), first(first), free(free) {
 
 	if (screenType == ST_AUCTION)
 	{
@@ -19,6 +23,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	else
 		mainLayout = createMainLayout(purchase, back, "", true);
 
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 
@@ -61,15 +66,22 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
 			nameDesc = auction->getCard()->getText();
-			fullDesc = auction->getCard()->getText() + "\n" + auction->getCard()->getFullDesc();
-
+			fullDesc = "Name: " + nameDesc;
+			fullDesc += "\nCurrent Bid: ";
+			fullDesc += auction->getPrice();
+			fullDesc += "\nBuy Out Price: ";
+			fullDesc += auction->getBuyNowPrice();
+			fullDesc += "\nTime Left: ";
+			fullDesc += getTime().c_str();
+			fullDesc += "\nBidder: ";
+			fullDesc += auction->getLastBidUser();
 			break;
 	}
 
-	label = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setAutoSizeY();
-	label->setMultiLine(true);
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
+	cardLabel->setVerticalAlignment(Label::VA_CENTER);
+	cardLabel->setAutoSizeY();
+	cardLabel->setMultiLine(true);
 
 	if (screenType == ST_AUCTION)
 	{
@@ -102,10 +114,32 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	this->setMain(mainLayout);
 
 	moved = 0;
+	busy = false;
+	bidOrBuy = false;
+	hasBid = false;
+}
+
+void ShopDetailsScreen::refresh()
+{
+	show();
 }
 
 void ShopDetailsScreen::runTimerEvent() {
-	editBidBox->setText(getTime().c_str());
+
+	if (auction != NULL)
+	{
+		fullDesc = "Name: " + nameDesc;
+		fullDesc += "\nCurrent Bid: ";
+		fullDesc += auction->getPrice();
+		fullDesc += "\nBuy Out Price: ";
+		fullDesc += auction->getBuyNowPrice();
+		fullDesc += "\nTime Left: ";
+		fullDesc += getTime().c_str();
+		fullDesc += "\nBidder: ";
+		fullDesc += auction->getLastBidUser();
+
+		cardLabel->setCaption(fullDesc);
+	}
 }
 
 String ShopDetailsScreen::getTime() {
@@ -153,6 +187,8 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	}
 	nameDesc = "";
 	fullDesc = "";
+
+	MAUtil::Environment::getEnvironment().removeTimer(this);
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
@@ -229,10 +265,14 @@ void ShopDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
+			if (hasBid)
+				break;
+
 			switch (screenType) {
-				case ST_AUCTION:
+				case ST_AUCTION: // Bid
 					//next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
 					//next->show();
+					postBid();
 					break;
 			}
 			break;
@@ -241,8 +281,9 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 				delete next;
 			}
 			switch (screenType) {
-				case ST_AUCTION:
+				case ST_AUCTION: // Buy
 					//next = new BidOrBuyScreen(this, feed, auction, 2);
+					buyNow();
 					break;
 				case ST_PRODUCT:
 					if (free) {
@@ -250,13 +291,22 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					} else {
 						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY);
 					}
+					next->show();
 					break;
 			}
-			next->show();
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			switch (screenType) {
+				case ST_AUCTION: // Buy
+					MAUtil::Environment::getEnvironment().removeTimer(this);
+					((AuctionListScreen*)previous)->refresh();
+					break;
+				case ST_PRODUCT:
+					previous->show();
+					break;
+			}
+
 			break;
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -267,3 +317,246 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void ShopDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
+	if (result == 200) {
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(http, this, this);
+	} else {
+		mHttp.close();
+	}
+}
+
+void ShopDetailsScreen::connReadFinished(Connection* conn, int result) {}
+
+void ShopDetailsScreen::xcConnError(int code) {
+}
+
+void ShopDetailsScreen::mtxEncoding(const char* ) {
+}
+
+void ShopDetailsScreen::mtxTagStart(const char* name, int len) {
+	parentTag = name;
+}
+
+void ShopDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+}
+
+void ShopDetailsScreen::mtxTagData(const char* data, int len) {
+	if(!strcmp(parentTag.c_str(), "result")) {
+		result += data;
+	}
+}
+
+void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
+	if (bidOrBuy) {
+		if(!strcmp(name, "result")) {
+			busy = false;
+
+			if (!strcmp(result.c_str(), xml_buyout_success)) {
+				//drawPostSubmitPhase("Purchase success!");
+				drawBuyNow(true);
+			}
+			else {
+				//drawPostSubmitPhase("Purchase failed.");
+				drawBuyNow(false);
+			}
+
+		}
+	}
+	else
+	{
+		if(!strcmp(name, "result")) {
+			busy = false;
+
+			//bidEditBox->setSelected(false);
+			if (!strcmp(result.c_str(), xml_bid_success)) {
+				drawPostBid(true);
+			}
+			else {
+				drawPostBid(false);
+			}
+
+		}
+	}
+}
+
+void ShopDetailsScreen::mtxParseError() {
+}
+
+void ShopDetailsScreen::mtxEmptyTagEnd() {
+}
+
+void ShopDetailsScreen::mtxTagStartEnd() {
+}
+
+void ShopDetailsScreen::postBid()
+{
+	if (!busy) {
+		String valid = validateBid();
+		notice->setCaption(valid);
+
+		if (valid.length() == 0) {
+			bidOrBuy = false;
+			busy = true;
+			result = "";
+			//work out how long the url will be, the number is for the & and = symbols and hard coded params
+			int urlLength = AUCTION_BID.length() + feed->getUsername().length() + editBidBox->getCaption().length() +
+					auction->getAuctionCardId().length() + 30;
+			char *url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&username=%s&bid=%s&auctioncardid=%s", AUCTION_BID.c_str(),
+					feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
+
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+
+			int res = mHttp.create(url, HTTP_GET);
+
+			if(res < 0) {
+
+			} else {
+				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+				mHttp.finish();
+			}
+			delete [] url;
+		}
+	}
+}
+
+void ShopDetailsScreen::buyNow()
+{
+	if (!busy)
+	{
+		bool canPurchase;
+
+		//check that the user can afford the buy out price
+		if (atof(feed->getCredits().c_str()) >= atof(auction->getBuyNowPrice().c_str())) {
+			canPurchase = true;
+		}
+		else {
+			canPurchase = false;
+		}
+
+		if (canPurchase)
+		{
+			notice->setCaption("Purchasing");
+			bidOrBuy = true;
+			result = "";
+			busy = true;
+			//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
+			int urlLength = BUY_AUCTION_NOW.length() +
+					auction->getAuctionCardId().length() + 15;
+			char *url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&auctioncardid=%s", BUY_AUCTION_NOW.c_str(),
+					auction->getAuctionCardId().c_str());
+
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+
+			int res = mHttp.create(url, HTTP_GET);
+
+			if(res < 0) {
+
+			} else {
+				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+				mHttp.finish();
+			}
+			delete [] url;
+		}
+		else
+		{
+			notice->setCaption(not_enough_credits);
+		}
+	}
+}
+
+void ShopDetailsScreen::drawPostBid(bool success)
+{
+	if (success)
+	{
+		notice->setCaption("");
+
+		//delete listBox->getChildren()[listBox->getChildren().size() - 1];
+		//listBox->getChildren()[listBox->getChildren().size() - 1] = NULL;
+
+		((Label*)listBox->getChildren()[listBox->getChildren().size() - 2])->setCaption("You are the current highest bidder");
+
+		listBox->getChildren()[listBox->getChildren().size() - 1]->setEnabled(false);
+		listBox->getChildren()[listBox->getChildren().size() - 1]->removeWidgetListener(this);
+
+		updateSoftKeyLayout(buy_now, back, "", mainLayout);
+
+		((AuctionListScreen*)previous)->updateAuctions();
+		auction = NULL;
+
+		hasBid = true;
+	}
+	else
+	{
+		notice->setCaption("Bid failed");
+	}
+}
+
+void ShopDetailsScreen::drawBuyNow(bool success)
+{
+	if (success)
+	{
+		next = new ImageScreen(orig, RES_LOADING, feed, false, auction->getCard());
+		next->show();
+	}
+	else
+	{
+		notice->setCaption("Buy now failed");
+	}
+}
+
+void ShopDetailsScreen::clearListBox() {
+	for (int i = 0; i < listBox->getChildren().size() - 1; i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		listBox->add(tempWidgets[j]);
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
+/**
+* Returns a blank string if the bid is valid.
+*/
+String ShopDetailsScreen::validateBid(){
+	String bid = editBidBox->getCaption();
+
+	String errorString = "";
+
+	if (bid.length() == 0) {
+		errorString = "Please enter a bid.";
+	}
+	else if (!isNumeric(bid)) {
+		errorString += "Please enter a numeric value.\n";
+	}
+	else if (atof(bid.c_str()) >= atof(feed->getCredits().c_str())) {
+		errorString = "You do not have enough credits to make that bid.";
+	}
+	else if (auction->getPrice().length() > 0 && (atof(auction->getPrice().c_str()) >= atof(bid.c_str()))) {
+		errorString = "Your bid needs to be higher than the current bid.";
+	}
+	else if (auction->getPrice().length() == 0 && (atof(auction->getOpeningBid().c_str()) > atof(bid.c_str()))) {
+		errorString = "Your bid needs to equal or exceed the opening bid.";
+	}
+	else if (atof(auction->getBuyNowPrice().c_str()) <= atof(bid.c_str())) {
+		errorString = "Your bid should be lower than the buy now price.";
+	}
+
+	return errorString;
+}
