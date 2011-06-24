@@ -10,7 +10,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = createMainLayout(back, continuelbl);
+	layout = createMainLayout(continuelbl, back);
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
@@ -45,26 +45,21 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(back, continuelbl, "", layout);
-
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share Card " + card->getText() + " With?", 0, gFontBlack);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
-	listBox->add(lbl);
+	updateSoftKeyLayout(continuelbl, back, "", layout);
 
 	Layout *feedlayout;
 
 	mImageCache = new ImageCache();
 
-	cardText = "Name: ";
+	cardText = "";
 	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
-	cardText += "\tValue: ";
-	cardText += card->getValue();
-	cardText += "\nRarity: ";
-	cardText += card->getRarity();
-	cardText += "\tQuantity: ";
+	cardText += " (";
 	cardText += card->getQuantity();
+	cardText += ")\n";
+	cardText += card->getRarity();
+	cardText += "\nRating: ";
+	cardText += card->getRanking();
+	//cardText += "\nRarity: ";
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 	feedlayout->setSkin(gSkinAlbum);
@@ -88,7 +83,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlblNoColon, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareuserlbl, 0, gFontBlack);
 	lbl->setSkin(gSkinBack);
 
 	lblMethodUserName = createEditLabel("");
@@ -104,7 +99,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	usernameEditBox->setText("");
 	usernameEditBox->setSelected(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillblNoColon, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareemaillbl, 0, gFontBlack);
 	lbl->setSkin(gSkinBack);
 
 	lblMethodEmail = createEditLabel("");
@@ -120,7 +115,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	emailEditBox->setText("");
 	emailEditBox->setSelected(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, phoneNumlbl, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, sharephoneNumlbl, 0, gFontBlack);
 	lbl->setSkin(gSkinBack);
 
 	lblMethodPhonenumber = createEditLabel("");
@@ -135,6 +130,8 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 	phonenumberEditBox->setText("");
 	phonenumberEditBox->setSelected(true);
+
+	listBox->setSelectedIndex(2);
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -284,7 +281,7 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 	case MAK_FIRE:
-	case MAK_SOFTRIGHT:
+	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:
 			case SP_DETAIL:
@@ -354,7 +351,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		}
 		break;
 	case MAK_BACK:
-	case MAK_SOFTLEFT:
+	case MAK_SOFTRIGHT:
 		switch(phase) {
 			case SP_METHOD:
 				previous->show();
@@ -374,7 +371,12 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				listBox->selectNextItem();
 				break;
 			case SP_DETAIL:
-				//contactEditBox->setSelected(true);
+				int ind = listBox->getSelectedIndex();
+				ind += 2;
+				if (ind == 8) {
+					ind = 2;
+				}
+				listBox->setSelectedIndex(ind);
 				break;
 		}
 		break;
@@ -385,7 +387,12 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					listBox->selectPreviousItem();
 				break;
 			case SP_DETAIL:
-				//contactEditBox->setSelected(true);
+				int ind = listBox->getSelectedIndex();
+				ind -= 2;
+				if (ind == 0) {
+					ind = 6;
+				}
+				listBox->setSelectedIndex(ind);
 				break;
 		}
 		break;
