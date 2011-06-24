@@ -51,7 +51,6 @@ private:
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
-	Layout **feedLayouts;
 	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;

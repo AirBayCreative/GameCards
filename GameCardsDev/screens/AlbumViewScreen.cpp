@@ -15,10 +15,9 @@ AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, 
 filename(category+ALBUMEND), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card) {
 	busy = true;
 	emp = true;
-	feedLayouts = NULL;
 
+	id = "", description = "", quantity = "", thumburl = "", fronturl = "", frontflipurl = "", backurl = "", backflipurl = "", rate = "", ranking = "", rarity = "", value = "", error_msg = "", updated = "", statDisplay = "", note = "", statDesc = "", statIVal = "";
 	next = NULL;
-	error_msg = "";
 	if (albumType == AT_COMPARE) {
 		mainLayout = createMainLayout("", back , "", true);
 	} else {
@@ -116,6 +115,9 @@ void AlbumViewScreen::refresh() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", CARDS.c_str(), category.c_str(), feed->getSeconds().c_str(), getMaxImageHeight(), getMaxImageWidth());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -139,16 +141,18 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
 	int indexof = 0;
 	int indentindexof = 0;
-	String tmp;
-	String id, name;
+	String tmp = "";
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
+		//lprintfln("wawa %s",tmp.c_str());
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
+		newCard = NULL;
 	}
 	drawList();
+	tmp, all = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -220,9 +224,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 	}
 }*/
 void AlbumViewScreen::clearListBox() {
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
-	}
+	tempWidgets = listBox->getChildren();
 	listBox->clear();
 	listBox->getChildren().clear();
 
@@ -299,20 +301,24 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete next;
 	}
 	delete mImageCache;
-	if(feedLayouts!=NULL){
-		delete [] feedLayouts;
-	}
-	saveData(filename.c_str(), getAll().c_str());
+	String all = getAll();
+	saveData(filename.c_str(), all.c_str());
+	all="";
 	clearCardMap();
 	tmp.clear();
+	index.clear();
 	parentTag="";
 	cardText="";
 	id="";
 	description="";
 	quantity="";
+	ranking="";
+	rarity="";
 	thumburl="";
 	fronturl="";
+	frontflipurl="";
 	backurl="";
+	backflipurl="";
 	filename="";
 	error_msg="";
 	rate="";
@@ -342,6 +348,7 @@ void AlbumViewScreen::hide() {
 
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
+	String all = "";
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -351,7 +358,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			saveData(filename.c_str(), getAll().c_str());
+			all = getAll();
+			saveData(filename.c_str(), all.c_str());
+			all = "";
 			if (albumType == AT_BUY) {
 				origMenu->show();
 				break;
@@ -527,6 +536,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		updated = "";
 		note = "";
 		stats.clear();
+		newCard = NULL;
 	} else if(!strcmp(name, xml_stat)) {
 		stat = new Stat();
 		stat->setDesc(statDesc.c_str());
@@ -545,6 +555,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
+		stat = NULL;
 	} else if(!strcmp(name, xml_result)) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_carddone)) {
@@ -553,7 +564,9 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		cards = tmp;
 		drawList();
 		busy = false;
-		saveData(filename.c_str(), getAll().c_str());
+		String all = getAll();
+		saveData(filename.c_str(), all.c_str());
+		all = "";
 	} else if (!strcmp(name, xml_cards)) {
 		notice->setCaption("");
 		clearCardMap();
@@ -566,7 +579,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 }
 
 String AlbumViewScreen::getAll() {
-	String all;
+	String all = "";
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 		all += itr->second->getAll() + "#";
 	}

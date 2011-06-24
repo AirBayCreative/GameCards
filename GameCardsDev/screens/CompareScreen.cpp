@@ -25,7 +25,7 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, img);
 	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, img);
 	this->setMain(mainLayout);
-	if (card != NULL) {
+	if (card != NULL && compare != NULL) {
 		if (flip) {
 			retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
 			retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
@@ -235,7 +235,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 					imge->refreshWidget();
 					imge->statAdded = false;
 					currentSelectedStat = -1;
-					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+					if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
 						maDestroyObject(imge->getResource());
 					}
 

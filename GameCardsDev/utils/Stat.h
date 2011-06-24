@@ -8,6 +8,7 @@ using namespace MAUtil;
 class Stat  {
 public:
 	Stat();
+	~Stat();
 
 	String getCardStatId();
 	void setCardStatId(const char *name);

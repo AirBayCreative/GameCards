@@ -2778,6 +2778,22 @@ if ($_GET['profiledetails']){
 	exit;
 }
 
+
+if ($_GET['saveprofiledetails']){
+	$iAnswerID=$_GET['answer_id'];
+	$iAnswer=$_GET['answer'];
+	
+	myqui('UPDATE mytcg_user_answer 
+			SET answer = '.$iAnswer.'
+			WHERE card_id = '.$iAnswerID.' 
+	');
+	
+	$sOP = "<result>Complete!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 /** Searches on a string and returns a list of cards belonging to the user */
 if ($searchstring=$_GET['search']) {
 	if (!($iHeight=$_GET['height'])) {

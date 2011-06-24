@@ -19,6 +19,7 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 0;
 
 	mHttp = HttpConnection(this);
+	delete album;
 	album = new Albums();
 
 	switch(screenType) {

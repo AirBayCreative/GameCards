@@ -10,6 +10,12 @@ Stat::Stat() {
 	colorBlue = 0;
 }
 
+Stat::~Stat() {
+	desc = "";
+	display = "";
+	iVal = "";
+}
+
 void Stat::setCardStatId(const char *d) {
 	cardStatId = d;
 }
