@@ -299,6 +299,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	all="";
 	clearCardMap();
 	tmp.clear();
+	index.clear();
 	parentTag="";
 	cardText="";
 	id="";
