@@ -1669,7 +1669,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			ORDER BY gamelog_id desc');
 		
 		$sOP.='<explanation>'.$sCRLF;
-		$sOP.=$lastResultQuery[0]['last_result'].$sCRLF;
+		$sOP.=$lastResultQuery[0]['message'].$sCRLF;
 		$sOP.='</explanation>'.$sCRLF;
 		
 		//we also need to turn off the pending for the user
@@ -1762,7 +1762,7 @@ if ($_GET['selectstat']) {
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
-	continueGame($gameId, $iUserID, $iHeight, $iWidth);
+	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
 	//load the game for the user
 	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
@@ -2123,15 +2123,20 @@ function getAllUserCatCards($userId,$categoryId,$results){
 /** list incomplete games for the user */
 if ($_GET['getusergames']){
 	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, "\n%Y-%m-%d %H:%i")) description, g.game_id
-		FROM mytcg_game g
+		FROM mytcg_game g 
 		INNER JOIN mytcg_category c
 		ON c.category_id = g.category_id
 		INNER JOIN mytcg_gameplayer gp
 		ON g.game_id = gp.game_id
 		INNER JOIN mytcg_gamestatus gs
 		ON gs.gamestatus_id = g.gamestatus_id
+		INNER JOIN mytcg_gamephase gph
+		ON gph.gamephase_id = g.gamephase_id
 		WHERE gp.user_id = '.$iUserID.' 
 		AND lower(gs.description) = "incomplete"
+		AND (lower(gph.description) != "result"
+		OR (lower(gph.description) = "result"
+			AND gp.pending = 1))
 		ORDER BY g.game_id');
 	$sOP='<games>'.$sCRLF;
 	$iCount=0;

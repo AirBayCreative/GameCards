@@ -133,7 +133,7 @@ void GamePlayScreen::drawResultsScreen() {
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
-	lbl->setCaption("Turn results");
+	lbl->setCaption("Match Results:");
 
 	String display = explanation;
 	listBox->add(lbl);
@@ -438,29 +438,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case P_RESULTS:
-						notice->setCaption("Continuing game...");
-
-						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-						urlLength = CONTINUEGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
-						url = new char[urlLength];
-						memset(url,'\0',urlLength);
-						sprintf(url, "%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
-								game_id, gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
-						clearListBox();
-						if(mHttp.isOpen()){
-							mHttp.close();
-						}
-						mHttp = HttpConnection(this);
-						res = mHttp.create(url, HTTP_GET);
-						if(res < 0) {
-							hasConnection = false;
-							notice->setCaption("Connection error.");
-						} else {
-							hasConnection = true;
-							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-							mHttp.finish();
-						}
+						origMenu->show();
 						break;
 				}
 				urlLength = 0;

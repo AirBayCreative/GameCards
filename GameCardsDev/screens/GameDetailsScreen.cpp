@@ -9,7 +9,7 @@
 GameDetailsScreen::GameDetailsScreen(Feed *feed)
 		:mHttp(this), feed(feed), gameId(feed->getGameId()) {
 
-	layout = createMainLayout("", continuelbl, true);
+	layout = createMainLayout(continuelbl, "", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -118,10 +118,10 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			break;
 		case MAK_SOFTRIGHT:
-			orig->show();
-			break;
 		case MAK_BACK:
+			break;
 		case MAK_SOFTLEFT:
+			orig->show();
 			break;
 		case MAK_UP:
 			kinListBox->selectPreviousItem();
