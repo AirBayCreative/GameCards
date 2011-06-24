@@ -8,13 +8,14 @@
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "../utils/Card.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
 class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false);
+	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false, Card *card = NULL);
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -34,7 +35,7 @@ public:
 
 	void refresh();
 
-	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES};
+	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_COMPARE};
 private:
 
 	Screen *previous;
@@ -56,6 +57,7 @@ private:
 
 	Feed *feed;
 	Albums *album;
+	Card *card;
 
 	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);

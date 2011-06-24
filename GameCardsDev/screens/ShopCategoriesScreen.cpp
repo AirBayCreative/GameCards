@@ -16,6 +16,9 @@ void ShopCategoriesScreen::refresh() {
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
+			notice->setCaption(checking_categories);
+			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			break;
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
@@ -49,6 +52,9 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
+			notice->setCaption(checking_categories);
+			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			break;
 		case ST_SHOP:
 			notice->setCaption(checking_categories);
 			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
@@ -159,8 +165,35 @@ void ShopCategoriesScreen::drawList() {
 		listBox->add(label);
 	}
 
-	if (categories.size() >= 1) {
+	if (categories.size() > 1) {
 		listBox->setSelectedIndex(0);
+	} else if (categories.size() == 1) {
+		switch (screenType) {
+			case ST_FREEBIE:
+				if (!empt) {
+					orig = this;
+					String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+					String category = categories.find(selectedCaption)->second.c_str();
+					if (next != NULL) {
+						delete next;
+					}
+					next = new ShopProductsScreen(this, feed, category, true, true);
+					next->show();
+				}
+				break;
+			case ST_SHOP:
+				if (!empt) {
+					orig = this;
+					String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+					String category = categories.find(selectedCaption)->second.c_str();
+					if (next != NULL) {
+						delete next;
+					}
+					next = new ShopProductsScreen(this, feed, category, false, true);
+					next->show();
+				}
+				break;
+		}
 	} else {
 		empt = true;
 		label = createSubLabel(empty);
@@ -169,7 +202,7 @@ void ShopCategoriesScreen::drawList() {
 	}
 
 	if (screenType == ST_FREEBIE)
-		notice->setCaption(freebie);
+		notice->setCaption(freebielbl);
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
@@ -303,7 +336,7 @@ void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 		temp1 = "";
 		temp = "";
 	} else if (!strcmp(name, xml_cardcategories)) {
-		//notice->setCaption(choose_category);
+		notice->setCaption(choose_category);
 		drawList();
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());

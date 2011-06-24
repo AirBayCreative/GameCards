@@ -1,25 +1,33 @@
 #include "ShopDetailsScreen.h"
-#include "ShopPurchaseScreen.h"
 #include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 #include <mastdlib.h>
 #include "../utils/Convert.h"
+#include "AlbumViewScreen.h"
+#include "ShopProductsScreen.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction) {
+ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), first(first), free(free) {
 
 	if (screenType == ST_AUCTION)
 	{
-		mainLayout = createMainLayout(back, buy_now, bid, true);
+		mainLayout = createMainLayout(buy_now, back, bid, true);
 	}
 	else if (free)
-		mainLayout = createMainLayout(back, confirm, "", true);
+		mainLayout = createMainLayout(confirm, back, "", true);
 	else
-		mainLayout = createMainLayout(back, purchase, "", true);
+		mainLayout = createMainLayout(purchase, back, "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
+
+	if (first) {
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, freebielbl, 0, gFontBlack);
+		label->setMultiLine(true);
+		label->setAutoSizeY(true);
+		listBox->add(label);
+	}
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/scrHeight/2, listBox, 2, 1);
@@ -36,9 +44,18 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	switch (screenType) {
 		case ST_PRODUCT:
 			retrieveProductThumb(tempImage, product, mImageCache);
-
-			nameDesc = product->getName();
-			fullDesc = product->getDetailsString();
+			if (free) {
+				fullDesc = product->getName();
+				fullDesc += "\n";
+				fullDesc += "Credits: Free";
+				fullDesc += "\n";
+				fullDesc += "Cards in pack: " + product->getCardsInPack();
+				fullDesc += "Pack Type: " + product->getProductType();
+				nameDesc = product->getName();
+			} else {
+				nameDesc = product->getName();
+				fullDesc = product->getName() + "\n" + product->getDetailsString();
+			}
 			break;
 		case ST_AUCTION:
 			retrieveThumb(tempImage, auction->getCard(), mImageCache);
@@ -61,11 +78,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine(true);
 
-	/*label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "", 0, gFontBlack);
-	label->setMultiLine(true);
-	label->setAutoSizeY(true);
-	listBox->add(label);*/
-
 	if (screenType == ST_AUCTION)
 	{
 		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, place_bid, 0, gFontBlack);
@@ -74,7 +86,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		listBox->add(label);
 
 		MAUtil::Environment::getEnvironment().addTimer(this, 1000, -1);
-		//requestRepaint();
 
 		label = createEditLabel("");
 		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
@@ -98,8 +109,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	this->setMain(mainLayout);
 
 	moved = 0;
-
-	freebie = free;
 }
 
 void ShopDetailsScreen::refresh()
@@ -250,12 +259,12 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			switch (screenType) {
 				case ST_AUCTION:
-					next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
-					next->show();
+					//next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
+					//next->show();
 					break;
 			}
 			break;
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (next != NULL) {
 				delete next;
 			}
@@ -264,13 +273,17 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
 					break;
 				case ST_PRODUCT:
-					next = new ShopPurchaseScreen(this, feed, product, freebie);
+					if (free) {
+						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_FREE);
+					} else {
+						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY);
+					}
 					break;
 			}
 			next->show();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_UP:
@@ -281,3 +294,4 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			break;
 	}
 }
+

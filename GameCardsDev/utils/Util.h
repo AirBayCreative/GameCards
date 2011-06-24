@@ -93,8 +93,11 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 static String URL = "http://dev.mytcg.net/_phone/"; //dev index
 //Get user details
 static String USER = URL+"?userdetails=1";
+//Get user questions
+static String PROFILEURL = URL+"?profiledetails=1";
 //get products in category
-static String PRODUCTS = URL+"?categoryproducts=1";
+static String PRODUCTS = URL+"?categoryproducts=2";
+static String PRODUCTSFREE = URL+"?categoryproducts=1";
 //get products in category
 static String PAYMENTS = URL+"?getpayments=1";
 //Get user categories
@@ -108,7 +111,8 @@ static String TRADE = URL+"?tradecard=";
 //List all the categories
 static String ALLCATEGORIES = URL+"?allcategories=1";
 //Lists all categories with products assigned to them, or their children
-static String PRODUCTCATEGORIES = URL+"?productcategories=1";
+static String PRODUCTCATEGORIES = URL+"?productcategories=2";
+static String PRODUCTFREEBIES = URL+"?productcategories=1";
 //Lists all categories with auctions assigned to them, or their children
 static String AUCTIONCATEGORIES = URL+"?auctioncategories=1";
 //use for making a purchase
@@ -209,7 +213,7 @@ static const char* avail_credits = "Available Credits:";
 static const char* last_trans = "Last Transactions:";
 static const char* checking_albums = "Checking for new albums...";
 static const char* checking_categories = "Checking for shop categories...";
-static const char* choose_category = "Please choose a card category.";
+static const char* choose_category = "Choose a category.";
 static const char* checking_products = "Checking for products...";
 static const char* checking_cards = "Checking for new cards...";
 static const char* checking_info = "Checking for updated info...";
@@ -229,7 +233,8 @@ static const char* error_numeric_card_message = "Only use numbers.";
 static const char* error_sending_card_message = "Error sending card.";
 static const char* new_version_available = "There is a new version of the Game Cards app available, please download it before continuing.";
 static const char* savelbl = "Save";
-static const char* freebie = "To say thank you for joining we have given you 150 credits and you get to choose a free booster to start out with";
+//static const char* freebie = "Received: 300 credits and a free starter pack.";
+static const char* freebielbl = "Received: 300 credits and a free starter pack.";
 static const char* comparelbl = "Compare";
 static const char* addDecklbl = "Add to Deck";
 
@@ -258,6 +263,7 @@ static const char* xml_ranking = "ranking";
 static const char* xml_rarity = "quality";
 static const char* xml_value = "value";
 static const char* xml_carddone = "cardsincategory";
+static const char* xml_cards = "cards";
 static const char* xml_cardcategories = "cardcategories";
 static const char* xml_updated = "updated";
 static const char* xml_stat = "stat";
@@ -282,9 +288,17 @@ static const char* showall = "showall";
 static const char* xml_username = "username";
 static const char* xml_email = "email";
 static const char* xml_handle = "name";
+static const char* xml_freebie = "freebie";
 static const char* xml_credits = "credits";
 static const char* xml_error = "error";
 static const char* xml_status = "status";
+//Profile Details
+static const char* xml_answer_id = "answer_id";
+static const char* xml_detail_id = "detail_id";
+static const char* xml_answer = "answer";
+static const char* xml_answered = "answered";
+static const char* xml_detail = "detail";
+static const char* xml_profiledetails = "profiledetails";
 //File info
 static String FILE_PREFIX = "dev_";
 static const char* ALBUMEND = "-lst.sav";
@@ -299,13 +313,14 @@ static const char* by_phone_number = "phone_number";
 static const char* trade_by_detail = "detail";
 static const char* trade_method = "trademethod";
 //Shop
-static const char* not_enough_credits = "You do not have enough credits to make that purchase.";
+static const char* not_enough_credits = "You do not have enough credits to make this purchase.";
 static const char* sure_you_want_to_purchase = "Are you sure you want to purchase a ";
 static const char* priceFor = " for ";
 static const char* purchaseComplete = "Purchase successful! The cards have been added to your album, and you received the following premium card:";
 static const char* purchase = "Purchase";
 static const char* categoryid = "categoryId";
 static const char* purchasing = "Purchasing...";
+static const char* receiving = "Receiving...";
 static const char* buyout_failed = "Buyout failed.";
 static const char* buyout_success = "Buyout success.";
 static const char* xml_product_done = "categoryproducts";
@@ -401,6 +416,7 @@ static const char* xml_results = "results";
 static const char* xml_explanation = "explanation";
 static const char* xml_outcome = "outcome";
 static const char* xml_message = "message";
+static const char* xml_active = "active";
 static const char* noteslbl = "Notes";
 static const char* sharelbl = "Share";
 static const char* contactlbl = "Contact";

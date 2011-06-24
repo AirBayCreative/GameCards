@@ -11,18 +11,19 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "../utils/XmlConnection.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener {
+class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener{
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
+	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
 	~ShopDetailsScreen();
 	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
 	String ShopDetailsScreen::getTime();
-
 	void refresh();
 
 	void runTimerEvent();
@@ -43,7 +44,10 @@ private:
 	MobImage *tempImage;
 	EditBox *editBidBox;
 
-	bool list, left, right, freebie;
+	bool list, left, right, free, first;
+
+	String parentTag;
+	String temp,temp1,error_msg;
 
 	int moved, screenType;
 

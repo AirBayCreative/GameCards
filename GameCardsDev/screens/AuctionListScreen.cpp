@@ -43,16 +43,16 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	switch (screenType) {
 		case ST_CATEGORY:
 			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout(back, bidOrBuy, "", true);
+				mainLayout = createMainLayout(bidOrBuy, back, "", true);
 			#else
-				mainLayout = createMainLayout(back, bidOrBuy, details, true);
+				mainLayout = createMainLayout(details, back, bidOrBuy, true);
 			#endif
 			break;
 		case ST_USER:
 			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout(back, "", "", true);
+				mainLayout = createMainLayout("", back, "", true);
 			#else
-				mainLayout = createMainLayout(back, "", details, true);
+				mainLayout = createMainLayout(details, back, "", true);
 			#endif
 			break;
 	}
@@ -182,7 +182,6 @@ void AuctionListScreen::drawList() {
 		feedlayout->setSkin(gSkinAlbum);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
-
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 		Card *tmp;
@@ -271,16 +270,16 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 		case MAK_BACK:
-		case MAK_SOFTLEFT:
+		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTRIGHT:
+		case MAK_SOFTLEFT:
 			if (!emp) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()]);
+				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()], false);
 				next->show();
 			}
 			break;
