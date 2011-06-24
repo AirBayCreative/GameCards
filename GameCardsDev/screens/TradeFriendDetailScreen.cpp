@@ -103,7 +103,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	lbl->setSkin(gSkinBack);
 
 	lblMethodEmail = createEditLabel("");
-	emailEditBox = new NativeEditBox(0, 0, lblMethodEmail->getWidth()-PADDING*2, lblMethodEmail->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodEmail, "", L"");
+	emailEditBox = new NativeEditBox(0, 0, lblMethodEmail->getWidth()-PADDING*2, lblMethodEmail->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, lblMethodEmail, "", L"");
 	emailEditBox->setOptions(MA_TB_TYPE_EMAILADDR);
 
 	emailEditBox->setDrawBackground(false);
@@ -119,7 +119,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	lbl->setSkin(gSkinBack);
 
 	lblMethodPhonenumber = createEditLabel("");
-	phonenumberEditBox = new NativeEditBox(0, 0, lblMethodPhonenumber->getWidth()-PADDING*2, lblMethodPhonenumber->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodPhonenumber, "", L"");
+	phonenumberEditBox = new NativeEditBox(0, 0, lblMethodPhonenumber->getWidth()-PADDING*2, lblMethodPhonenumber->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, lblMethodPhonenumber, "", L"");
 	phonenumberEditBox->setOptions(MA_TB_TYPE_NUMERIC);
 
 	phonenumberEditBox->setDrawBackground(false);
@@ -140,9 +140,9 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(back, confirm, "", layout);
+	updateSoftKeyLayout(confirm, back, "", layout);
 
-	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + methodLabel + " " + friendDetail + "?";
+	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + friendDetail + "?";
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
@@ -153,14 +153,15 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	mImageCache = new ImageCache();
 
-	cardText = "Name: ";
+	cardText = "";
 	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
-	cardText += "\tValue: ";
-	cardText += "TODO";//cardText += itr->second->getValue();
-	cardText += "\nRarity: ";
-	cardText += "TODO";//cardText += itr->second->Rarity();
-	cardText += "\tQuantity: ";
+	cardText += " (";
 	cardText += card->getQuantity();
+	cardText += ")\n";
+	cardText += card->getRarity();
+	cardText += "\nRating: ";
+	cardText += card->getRanking();
+	//cardText += "\nRarity: ";
 
 	Layout *feedlayout;
 
@@ -193,14 +194,52 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout("", continuelbl, "", layout);
+	updateSoftKeyLayout(confirm, "", "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontBlack);
+	String confirmLabel = result;
+
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontBlack);
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setSkin(gSkinBack);
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
+
+	mImageCache = new ImageCache();
+
+	cardText = "";
+	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += " (";
+	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
+	cardText += ")\n";
+	cardText += card->getRarity();
+	cardText += "\nRating: ";
+	cardText += card->getRanking();
+	//cardText += "\nRarity: ";
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setDrawBackground(true);
+	//feedlayout->addWidgetListener(this);
+
+	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
+		//if the user has one or more of the card, the image must be downloaded
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage->setHasNote(card->getNote().length()>0);
+		retrieveThumb(tempImage, card, mImageCache);
+	}
+	else {
+		//we use the blank image for cards they dont have yet
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+	}
+
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setAutoSizeY();
+	lbl->setAutoSizeX(true);
+	lbl->setMultiLine(true);
 }
 
 void TradeFriendDetailScreen::clearListBox() {
@@ -288,7 +327,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				if (usernameEditBox->getText() == ""
 					&& emailEditBox->getText() == ""
 					&& phonenumberEditBox->getText() == "") {
-					notice->setCaption(no_contact + method + ".");
+					notice->setCaption(no_contact);
 				}
 				else {
 					notice->setCaption("");
