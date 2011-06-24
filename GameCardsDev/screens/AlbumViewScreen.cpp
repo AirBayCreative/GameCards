@@ -16,8 +16,8 @@ filename(category+ALBUMEND), category(category), previous(previous), feed(feed),
 	busy = true;
 	emp = true;
 
+	id = "", description = "", quantity = "", thumburl = "", fronturl = "", frontflipurl = "", backurl = "", backflipurl = "", rate = "", ranking = "", rarity = "", value = "", error_msg = "", updated = "", statDisplay = "", note = "", statDesc = "", statIVal = "";
 	next = NULL;
-	error_msg = "";
 	if (albumType == AT_COMPARE) {
 		mainLayout = createMainLayout("", back , "", true);
 	} else {
@@ -312,9 +312,13 @@ AlbumViewScreen::~AlbumViewScreen() {
 	id="";
 	description="";
 	quantity="";
+	ranking="";
+	rarity="";
 	thumburl="";
 	fronturl="";
+	frontflipurl="";
 	backurl="";
+	backflipurl="";
 	filename="";
 	error_msg="";
 	rate="";
@@ -551,6 +555,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
+		stat = NULL;
 	} else if(!strcmp(name, xml_result)) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_carddone)) {
