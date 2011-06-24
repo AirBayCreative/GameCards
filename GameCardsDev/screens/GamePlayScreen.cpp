@@ -197,16 +197,16 @@ void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
-			if(phase == P_CARD_DETAILS){
-				if(absoluteValue(pointPressed.x-pointReleased.x) >userImage->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
+			if (phase == P_CARD_DETAILS){
+				if (absoluteValue(pointPressed.x-pointReleased.x) >userImage->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
 					flipOrSelect = 1;
-				}else{
+				} else if (active) {
 					flipOrSelect = 0;
 					currentSelectedStat = -1;
-					if(phase==P_CARD_DETAILS){
-						for(int i = 0;i<cardStats.size();i++){
-							if(flip==cardStats[i]->getFrontOrBack()){
-								if(userImage->statContains(cardStats[i]->getLeft(),cardStats[i]->getTop(),cardStats[i]->getWidth(),cardStats[i]->getHeight(),point.x, point.y)){
+					if(phase==P_CARD_DETAILS) {
+						for(int i = 0;i<cardStats.size();i++) {
+							if(flip==cardStats[i]->getFrontOrBack()) {
+								if(userImage->statContains(cardStats[i]->getLeft(),cardStats[i]->getTop(),cardStats[i]->getWidth(),cardStats[i]->getHeight(),point.x, point.y)) {
 									currentSelectedStat = i;
 								}
 							}
@@ -240,10 +240,8 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 	}
 
 	//this is for the buttons at the bottom
-	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
-	{
-		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
-		{
+	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++) {
+		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p)) {
 			if (i == 0) {
 				left = true;
 				moved=0;
@@ -331,7 +329,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_UP:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
 						if(cardStats.size()>0){
 							if(flip==cardStats[0]->getFrontOrBack()){
 								currentSelectedStat--;
@@ -352,7 +350,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
 						if(cardStats.size()>0){
 							if(flip==cardStats[0]->getFrontOrBack()){
 								if(currentSelectedStat < cardStats.size()-1){
@@ -393,7 +391,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if(flipOrSelect){
+					if (flipOrSelect) {
 						flip = !flip;
 						int height = listBox->getHeight();
 						if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
@@ -411,7 +409,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						}
 						flipOrSelect=0;
 						currentSelectedStat=-1;
-					}else{
+					} else if (active) {
 						if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
 							if(currentSelectedStat>-1){
 								if(flip==cardStats[currentSelectedStat]->getFrontOrBack()){

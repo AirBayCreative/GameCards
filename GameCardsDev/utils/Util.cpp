@@ -144,7 +144,7 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+label->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+image->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		listBox->add(mBox);
 	}
 	listBox->setPaddingLeft(PADDING);
