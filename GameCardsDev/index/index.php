@@ -42,16 +42,6 @@ if ($_GET['registeruser']) {
 	exit;
 }
 
-/** get username and password from http headers */
-/*
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
-	echo 'Text to send if user hits Cancel';
-}
-*/
-/*
-print_r($_SERVER);
-exit;
-*/
 $sUsername = $_SERVER['HTTP_AUTH_USER'];
 $sPassword = base64_decode($_SERVER['HTTP_AUTH_PW']);
 $iUserID=0;
@@ -85,16 +75,6 @@ $sPassword=substr(md5($iUserID),$iMod,10).md5($sPassword);
 if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
-
-//echo '['.$sUsername.']';
-
-/*$sOP='<password>'.$sCRLF;
-$sOP.=substr(md5('38'),9,10).md5('aaaaaa');
-$sOP.='</password>'.$sCRLF;
-header('xml_length: '.strlen($sOP));
-echo $sOP;
-exit;*/	
-
 
 //$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
@@ -412,8 +392,8 @@ if ($_GET['buyproduct']){
 			$sOP.= $sTab.$sTab.'<description>'.$aCardDetails[0]['description'].'</description>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quality>'.$aCardDetails[0]['quality_name'].'</quality>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quantity>'.$card['quantity'].'</quantity>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<ranking>'.$card['ranking'].'</ranking>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<value>'.$card['value'].'</value>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<ranking>'.$aCardDetails[0]['ranking'].'</ranking>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<value>'.$aCardDetails[0]['value'].'</value>'.$sCRLF;
 			
 			//before setting the front and back urls, make sure the card is resized for the height
 			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image']);
@@ -463,7 +443,11 @@ if ($_GET['buyproduct']){
 		$sOP .= '</cards>';
 		header('xml_length: '.strlen($sOP));
 		echo $sOP;
+		exit;
   }
+  $sOP = '<result>Insufficient funds.</result>';
+  header('xml_length: '.strlen($sOP));
+  echo $sOP;
   exit;
 }
 
@@ -1517,7 +1501,7 @@ if ($_GET['continuegame']) {
 	}
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
-	continueGame($gameId, $iHeight, $iWidth);
+	continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
 	//load the game for the user
 	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
@@ -1528,7 +1512,7 @@ if ($_GET['continuegame']) {
 }
 
 //takes a game on the results and sets it to the select stat phase
-function continueGame($gameId, $iHeight, $iWidth) {
+function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 	$gamePhaseQuery = myqu('SELECT g.gamephase_id, lower(gp.description) as description
 		FROM mytcg_game g
 		INNER JOIN mytcg_gamephase gp
@@ -1537,7 +1521,7 @@ function continueGame($gameId, $iHeight, $iWidth) {
 	
 	$gamePhase = $gamePhaseQuery[0]['description'];
 	
-	if ($gamePhase == 'result') {
+	if ($gamePhase == 'stat') {
 		//set the game phase to stat
 		myqu('UPDATE mytcg_game SET gamephase_id = (SELECT gamephase_id
 			FROM mytcg_gamephase gp
@@ -1618,72 +1602,68 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			AND game_id = '.$gameId);
 		$isActive = $activeUserQuery[0]['is_active'];
 		
-		//is the user is the active player, we return their card stats. Otherwise we return a waiting message.
-		if ($isActive == '1') {
-			//we need to get the gameplayercard_id of the selected card
-			$selectedGameCardIdQuery = myqu('SELECT MIN(gpc.pos) position, gpc.gameplayercard_id, c.image, 
-				c.front_phone_imageserver_id, c.back_phone_imageserver_id, c.card_id
-			FROM mytcg_gameplayer gp
-			INNER JOIN mytcg_gameplayercard gpc
-			ON gpc.gameplayer_id = gp.gameplayer_id
-			INNER JOIN mytcg_gameplayercardstatus gpcs
-			ON gpcs.gameplayercardstatus_id = gpc.gameplayercardstatus_id
-			INNER JOIN mytcg_usercard uc
-			ON gpc.usercard_id = uc.usercard_id
-			INNER JOIN mytcg_card c
-			ON uc.card_id = c.card_id
-			WHERE lower(gpcs.description) = "normal"
-			AND gp.game_id = '.$gameId.' 
-			AND gp.user_id = '.$userId.' 
-			GROUP BY gpc.pos');
-			
-			$selectedGameCardId = $selectedGameCardIdQuery[0]['gameplayercard_id'];
-			
-			//the getCardStats function reutrns xml of the stats, but it needs the gameplayercard_id
-			$sOP.=getCardStats($selectedGameCardId);
-			$sOP.=$sTab.'<cardid>'.$selectedGameCardIdQuery[0]['card_id'].'</cardid>'.$sCRLF; 
-			$sOP.=$sTab.'<gameplayercard_id>'.$selectedGameCardIdQuery[0]['gameplayercard_id'].'</gameplayercard_id>'.$sCRLF; 
-			
-			//if we are loading a game, then the card image url is not on the phone yet, so we need to send it through here
-			//get the image server stuff
-			$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
-				.'FROM mytcg_imageserver b '
-				.'ORDER BY b.description DESC '
-			);
-			
-			//before setting the front and back urls, make sure the card is resized for the height
-			$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image']);
-			
-			$sFound='';
-			$iCountServer=0;
-			while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
-				if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['front_phone_imageserver_id']){
-					$sFound=$aOneServer['URL'];
-				} else {
-					$iCountServer++;
-				}
+		$sOP='<active>'.$isActive.'</active>';
+		
+		//we return the user's card regardless of whether they are active or not
+		//we need to get the gameplayercard_id of the selected card
+		$selectedGameCardIdQuery = myqu('SELECT MIN(gpc.pos) position, gpc.gameplayercard_id, c.image, 
+			c.front_phone_imageserver_id, c.back_phone_imageserver_id, c.card_id
+		FROM mytcg_gameplayer gp
+		INNER JOIN mytcg_gameplayercard gpc
+		ON gpc.gameplayer_id = gp.gameplayer_id
+		INNER JOIN mytcg_gameplayercardstatus gpcs
+		ON gpcs.gameplayercardstatus_id = gpc.gameplayercardstatus_id
+		INNER JOIN mytcg_usercard uc
+		ON gpc.usercard_id = uc.usercard_id
+		INNER JOIN mytcg_card c
+		ON uc.card_id = c.card_id
+		WHERE lower(gpcs.description) = "normal"
+		AND gp.game_id = '.$gameId.' 
+		AND gp.user_id = '.$userId.' 
+		GROUP BY gpc.pos');
+		
+		$selectedGameCardId = $selectedGameCardIdQuery[0]['gameplayercard_id'];
+		
+		//the getCardStats function reutrns xml of the stats, but it needs the gameplayercard_id
+		$sOP.=getCardStats($selectedGameCardId);
+		$sOP.=$sTab.'<cardid>'.$selectedGameCardIdQuery[0]['card_id'].'</cardid>'.$sCRLF; 
+		$sOP.=$sTab.'<gameplayercard_id>'.$selectedGameCardIdQuery[0]['gameplayercard_id'].'</gameplayercard_id>'.$sCRLF; 
+		
+		//if we are loading a game, then the card image url is not on the phone yet, so we need to send it through here
+		//get the image server stuff
+		$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
+			.'FROM mytcg_imageserver b '
+			.'ORDER BY b.description DESC '
+		);
+		
+		//before setting the front and back urls, make sure the card is resized for the height
+		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image']);
+		
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['front_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
 			}
-			
-			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+		}
+		
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
-			$sFound='';
-			$iCountServer=0;
-			while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
-				if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['back_phone_imageserver_id']){
-					$sFound=$aOneServer['URL'];
-				} else {
-					$iCountServer++;
-				}
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$selectedGameCardIdQuery[0]['back_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
 			}
-			
-			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
 		}
-		else {
-			$gamePhase = 'waiting';
-			$sOP.='<message>'.$sCRLF;
-			$sOP.='Your opponent is busy selecting a stat.'.$sCRLF;
-			$sOP.='</message>'.$sCRLF;
-		}
+		
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will say whether the user won or lost the round, or that the other player still needs to view the results
@@ -1762,6 +1742,14 @@ function getCardStats($gamePlayerCardId) {
 
 /** for when a user selects a stat. Compares to the corresponding stat on the opponents card and returns results */
 if ($_GET['selectstat']) {
+	//sizes first
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+
 	$cardStatId = $_GET['statid'];
 	$gameId = $_GET['gameid'];
 	
@@ -1777,19 +1765,20 @@ if ($_GET['selectstat']) {
 		FROM mytcg_cardstat
 		WHERE cardstat_id = '.$cardStatId);
 	$categoryStatId = $categoryStatQuery[0]['categorystat_id'];
-	
+	echo 'weo1';
 	//build xml with scores and explanation and send it back
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
-	
+	echo 'weo2';
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
-	continueGame($gameId, $iHeight, $iWidth);
-	
+	continueGame($gameId, $iUserID, $iHeight, $iWidth);
+	echo 'weo3';
 	//load the game for the user
 	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
-	
+	echo 'weo4';
 	//send xml with results back to the user
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	echo 'weo5';
 }
 
 //given the user's id, opponent's id and selected stat type, we can find the outcome and continue the game accordingly
@@ -1801,7 +1790,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		INNER JOIN mytcg_user u 
 		ON u.user_id = gp.user_id 
 		WHERE gp.user_id = '.$oppUserId
-		.'AND gp.game_id = '.$gameId);
+		.' AND gp.game_id = '.$gameId);
 	$oppPlayerId = $oppPlayerIdQuery[0]['gameplayer_id'];
 	$oppPlayerUsername = $oppPlayerIdQuery[0]['username'];
 	
@@ -1811,7 +1800,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		INNER JOIN mytcg_user u 
 		ON u.user_id = gp.user_id 
 		WHERE gp.user_id = '.$userId
-		.'AND gp.game_id = '.$gameId);
+		.' AND gp.game_id = '.$gameId);
 	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
 	$userPlayerUsername = $userPlayerIdQuery[0]['username'];
 	
@@ -1886,7 +1875,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	if ($oppStatValue > $userStatValue) {
 		//the opponent won, set the last result and active player
 		$exp = $oppPlayerUsername.' won! Their '.$statType.' of '.$oppStatDescription.
-			' beat '.$userPlayerUsername.'\'s '.$userCardName.' with a '.$statType.
+			' beat '.$userPlayerUsername.'\\\'s '.$userCardName.' with a '.$statType.
 			' of '.$userStatDescription.'.';
 		myqu('UPDATE mytcg_gameplayer SET is_active = 1, gameplayerstatus_id = '.$oppStatusId.' WHERE gameplayer_id = '.$oppPlayerId);
 		
@@ -1899,7 +1888,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	else if ($oppStatValue < $userStatValue) {
 		//the user won, set the last result and active player
 		$exp = $userPlayerUsername.' won! Their '.$statType.' of '.$userStatDescription.
-			' beat '.$oppPlayerUsername.'\'s '.$oppCardName.' with a '.$statType.
+			' beat '.$oppPlayerUsername.'\\\'s '.$oppCardName.' with a '.$statType.
 			' of '.$oppStatDescription.'.';
 		myqu('UPDATE mytcg_gameplayer SET is_active = 0, gameplayerstatus_id = '.$oppStatusId.' WHERE gameplayer_id = '.$oppPlayerId);
 		
@@ -1911,8 +1900,8 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	}
 	else {
 		//it was a draw
-		$exp = 'Draw! Your opponent\'s '.$statType.' of '.$oppStatDescription.
-			' equals your\'s!';
+		$exp = 'Draw! Your opponent\\\'s '.$statType.' of '.$oppStatDescription.
+			' equals your\\\'s!';
 		myqu('UPDATE mytcg_gameplayer SET gameplayerstatus_id = 1 WHERE gameplayer_id = '.$userPlayerId);
 		myqu('UPDATE mytcg_gameplayer SET gameplayerstatus_id = '.$oppStatusId.' WHERE gameplayer_id = '.$oppPlayerId);
 			
@@ -1922,9 +1911,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	}
 	
 	//add the log message, so players can see what happened.
-	myqu('INSERT INTO mytcg_gamelog
-		(game_id, date, message)
-		VALUES('.$gameId.', now(), \''.$exp.'\')');
+	myqu('INSERT INTO mytcg_gamelog 
+		(game_id, date, message, categorystat_id) 
+		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.')');
 	
 	//if there was a winner, assign cards
 	if ($winnerId != 0 && $loserId != 0) {
@@ -1971,11 +1960,6 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			SET pos = '.$pos.' 
 			WHERE gameplayercard_id = '.$winningCardId);
 	}
-	
-	//set the game phase to result
-	myqu('UPDATE mytcg_game SET gamephase_id = (SELECT gamephase_id
-		FROM mytcg_gamephase gp
-		WHERE lower(gp.description) = "result") WHERE game_id = '.$gameId);
 	
 	//build xml with scores and explanation and send it back
 	$sOP = '<results><phase>result</phase><explanation>'.$exp.'</explanation></results>';
@@ -2678,6 +2662,11 @@ function getProducts($categoryId, $products, $iFreebie) {
 /** give user details */
 if ($_GET['userdetails']){
 	global $iUserID;
+	echo userdetails($iUserID);
+	exit;
+}
+
+function userdetails($iUserID) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
@@ -2692,8 +2681,7 @@ if ($_GET['userdetails']){
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
-	echo $sOP;
-	exit;
+	return $sOP;
 }
 
 /** give user profile details */
@@ -2866,46 +2854,67 @@ if ($searchstring=$_GET['search']) {
 function registerUser ($username, $password, $email) {
 	$sOP='';
 	
-	//check if the username is untaken
-	$aUserDetails=myqu('SELECT username '
-		.'FROM mytcg_user '
-		.'WHERE username="'.$username.'"');
-	if (sizeof($aUserDetails) > 0) {
-		$sOP.='<result>';
-		$sOP.='That username already exists.';
-		$sOP.='</result>';
-		return $sOP;
-	}
-	
-	//check if the email address is already in the database
-	$aUserDetails=myqu('SELECT email_address '
-		.'FROM mytcg_user '
-		.'WHERE email_address="'.$email.'"');
-	if (sizeof($aUserDetails) > 0) {
-		$sOP.='<result>';
-		$sOP.='That email address is already in use.';
-		$sOP.='</result>';
-		return $sOP;
-	}
-	
-	myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
-	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
-	$userId = $aUserDetails[0]['user_id'];
-	$iMod=(intval($userId) % 10)+1;
-	$crypPass = substr(md5($userId),$iMod,10).md5($password);
-	myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$userId}");
-	
-	//create the empty data fields in mytcg_user_answer
-	myqu("INSERT INTO mytcg_user_answer
-		(detail_id, user_id)
-		SELECT detail_id, {$userId}
-		FROM mytcg_user_detail");
-	
-	$sOP.='<registration><result>';
-	$sOP.='User created successfully!';
-	$sOP.='</result></registration>';
-	return $sOP;
+	if (sizeof($aUserDetails) > 0) {
+		$userId = $aUserDetails[0]['user_id'];
+		$aValidUser=myqu(
+								"SELECT user_id, username, password, date_last_visit, credits "
+								."FROM mytcg_user "
+								."WHERE username='".$username."' "
+								."AND is_active='1'"
+		);
+		$iUserID=$aValidUser[0]["user_id"];
+		$iMod=(intval($iUserID) % 10)+1;
+		$sPassword=substr(md5($iUserID),$iMod,10).md5($password);
+		if ($sPassword!=$aValidUser[0]['password']){
+			$iUserID=0;
+		} else {
+			echo userdetails($iUserID);
+			exit;
+		}
+	}
+	if ($iUserID==0) {
+		
+		//check if the username is untaken
+		$aUserDetails=myqu('SELECT username '
+			.'FROM mytcg_user '
+			.'WHERE username="'.$username.'"');
+		if (sizeof($aUserDetails) > 0) {
+			$sOP.='<result>';
+			$sOP.='That username already exists.';
+			$sOP.='</result>';
+			return $sOP;
+		}
+		
+		//check if the email address is already in the database
+		$aUserDetails=myqu('SELECT email_address '
+			.'FROM mytcg_user '
+			.'WHERE email_address="'.$email.'"');
+		if (sizeof($aUserDetails) > 0) {
+			$sOP.='<result>';
+			$sOP.='That email address is already in use.';
+			$sOP.='</result>';
+			return $sOP;
+		}
+		
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
+		
+		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
+		$iUserID = $aUserDetails[0]['user_id'];
+		$iMod=(intval($iUserID) % 10)+1;
+		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
+		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
+		
+		//create the empty data fields in mytcg_user_answer
+		myqu("INSERT INTO mytcg_user_answer
+			(detail_id, user_id)
+			SELECT detail_id, {$iUserID}
+			FROM mytcg_user_detail");
+		
+		//return userdetails
+		echo userdetails($iUserID);
+		exit;
+	}
 }
 
 /** 

@@ -17,14 +17,13 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopDetailsScreen : public Screen, WidgetListener, public MAUtil::TimerListener{
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL);
+	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
 	~ShopDetailsScreen();
 	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
 	String ShopDetailsScreen::getTime();
-
 	void runTimerEvent();
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -43,10 +42,7 @@ private:
 	MobImage *tempImage;
 	EditBox *editBidBox;
 
-	bool list, left, right, freebie;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
+	bool list, left, right, free, first;
 
 	String parentTag;
 	String temp,temp1,error_msg;
@@ -58,18 +54,6 @@ private:
 	Product *product;
 	Auction *auction;
 	Feed *feed;
-
-	void httpFinished(MAUtil::HttpConnection*, int);
-	void connReadFinished(Connection*, int);
-	void xcConnError(int code);
-	void mtxEncoding(const char*);
-	void mtxTagStart(const char*, int);
-	void mtxTagAttr(const char*, const char*);
-	void mtxTagData(const char*, int);
-	void mtxTagEnd(const char*, int);
-	void mtxParseError();
-	void mtxEmptyTagEnd();
-	void mtxTagStartEnd();
 };
 
 #endif	//_SHOPDETAILSSCREEN_H_

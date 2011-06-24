@@ -64,7 +64,7 @@ void CompareScreen::pointerReleaseEvent(MAPoint2d point)
 		if (list) {
 			if(absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
 				flipOrSelect = 1;
-			}else{
+			} else {
 				flipOrSelect = 0;
 				currentSelectedStat = -1;
 				for(int i = 0;i<card->getStats().size();i++){
