@@ -42,16 +42,6 @@ if ($_GET['registeruser']) {
 	exit;
 }
 
-/** get username and password from http headers */
-/*
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
-	echo 'Text to send if user hits Cancel';
-}
-*/
-/*
-print_r($_SERVER);
-exit;
-*/
 $sUsername = $_SERVER['HTTP_AUTH_USER'];
 $sPassword = base64_decode($_SERVER['HTTP_AUTH_PW']);
 $iUserID=0;
@@ -85,16 +75,6 @@ $sPassword=substr(md5($iUserID),$iMod,10).md5($sPassword);
 if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
-
-//echo '['.$sUsername.']';
-
-/*$sOP='<password>'.$sCRLF;
-$sOP.=substr(md5('38'),9,10).md5('aaaaaa');
-$sOP.='</password>'.$sCRLF;
-header('xml_length: '.strlen($sOP));
-echo $sOP;
-exit;*/	
-
 
 //$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
@@ -412,8 +392,8 @@ if ($_GET['buyproduct']){
 			$sOP.= $sTab.$sTab.'<description>'.$aCardDetails[0]['description'].'</description>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quality>'.$aCardDetails[0]['quality_name'].'</quality>'.$sCRLF;
 			$sOP.= $sTab.$sTab.'<quantity>'.$card['quantity'].'</quantity>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<ranking>'.$card['ranking'].'</ranking>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<value>'.$card['value'].'</value>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<ranking>'.$aCardDetails[0]['ranking'].'</ranking>'.$sCRLF;
+			$sOP.= $sTab.$sTab.'<value>'.$aCardDetails[0]['value'].'</value>'.$sCRLF;
 			
 			//before setting the front and back urls, make sure the card is resized for the height
 			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image']);
@@ -463,7 +443,11 @@ if ($_GET['buyproduct']){
 		$sOP .= '</cards>';
 		header('xml_length: '.strlen($sOP));
 		echo $sOP;
+		exit;
   }
+  $sOP = '<result>Insufficient funds.</result>';
+  header('xml_length: '.strlen($sOP));
+  echo $sOP;
   exit;
 }
 
@@ -2678,6 +2662,11 @@ function getProducts($categoryId, $products, $iFreebie) {
 /** give user details */
 if ($_GET['userdetails']){
 	global $iUserID;
+	echo userdetails($iUserID);
+	exit;
+}
+
+function userdetails($iUserID) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
@@ -2692,8 +2681,7 @@ if ($_GET['userdetails']){
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
-	echo $sOP;
-	exit;
+	return $sOP;
 }
 
 /** give user profile details */
@@ -2850,46 +2838,67 @@ if ($searchstring=$_GET['search']) {
 function registerUser ($username, $password, $email) {
 	$sOP='';
 	
-	//check if the username is untaken
-	$aUserDetails=myqu('SELECT username '
-		.'FROM mytcg_user '
-		.'WHERE username="'.$username.'"');
-	if (sizeof($aUserDetails) > 0) {
-		$sOP.='<result>';
-		$sOP.='That username already exists.';
-		$sOP.='</result>';
-		return $sOP;
-	}
-	
-	//check if the email address is already in the database
-	$aUserDetails=myqu('SELECT email_address '
-		.'FROM mytcg_user '
-		.'WHERE email_address="'.$email.'"');
-	if (sizeof($aUserDetails) > 0) {
-		$sOP.='<result>';
-		$sOP.='That email address is already in use.';
-		$sOP.='</result>';
-		return $sOP;
-	}
-	
-	myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
-	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
-	$userId = $aUserDetails[0]['user_id'];
-	$iMod=(intval($userId) % 10)+1;
-	$crypPass = substr(md5($userId),$iMod,10).md5($password);
-	myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$userId}");
-	
-	//create the empty data fields in mytcg_user_answer
-	myqu("INSERT INTO mytcg_user_answer
-		(detail_id, user_id)
-		SELECT detail_id, {$userId}
-		FROM mytcg_user_detail");
-	
-	$sOP.='<registration><result>';
-	$sOP.='User created successfully!';
-	$sOP.='</result></registration>';
-	return $sOP;
+	if (sizeof($aUserDetails) > 0) {
+		$userId = $aUserDetails[0]['user_id'];
+		$aValidUser=myqu(
+								"SELECT user_id, username, password, date_last_visit, credits "
+								."FROM mytcg_user "
+								."WHERE username='".$username."' "
+								."AND is_active='1'"
+		);
+		$iUserID=$aValidUser[0]["user_id"];
+		$iMod=(intval($iUserID) % 10)+1;
+		$sPassword=substr(md5($iUserID),$iMod,10).md5($password);
+		if ($sPassword!=$aValidUser[0]['password']){
+			$iUserID=0;
+		} else {
+			echo userdetails($iUserID);
+			exit;
+		}
+	}
+	if ($iUserID==0) {
+		
+		//check if the username is untaken
+		$aUserDetails=myqu('SELECT username '
+			.'FROM mytcg_user '
+			.'WHERE username="'.$username.'"');
+		if (sizeof($aUserDetails) > 0) {
+			$sOP.='<result>';
+			$sOP.='That username already exists.';
+			$sOP.='</result>';
+			return $sOP;
+		}
+		
+		//check if the email address is already in the database
+		$aUserDetails=myqu('SELECT email_address '
+			.'FROM mytcg_user '
+			.'WHERE email_address="'.$email.'"');
+		if (sizeof($aUserDetails) > 0) {
+			$sOP.='<result>';
+			$sOP.='That email address is already in use.';
+			$sOP.='</result>';
+			return $sOP;
+		}
+		
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
+		
+		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
+		$iUserID = $aUserDetails[0]['user_id'];
+		$iMod=(intval($iUserID) % 10)+1;
+		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
+		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
+		
+		//create the empty data fields in mytcg_user_answer
+		myqu("INSERT INTO mytcg_user_answer
+			(detail_id, user_id)
+			SELECT detail_id, {$iUserID}
+			FROM mytcg_user_detail");
+		
+		//return userdetails
+		echo userdetails($iUserID);
+		exit;
+	}
 }
 
 /** 

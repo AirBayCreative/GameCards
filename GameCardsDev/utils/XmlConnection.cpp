@@ -34,7 +34,7 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
    	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 }
 
-void XmlConnection::connReadFinished(){
+void XmlConnection::connReadFinished() {
 
 }
 

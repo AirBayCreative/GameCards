@@ -2,10 +2,11 @@
 
 #include "ShopProductsScreen.h"
 #include "ShopDetailsScreen.h"
+#include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free) : mHttp(this), category(category), previous(previous), feed(feed) {
+ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), previous(previous), feed(feed), first(first), free(free) {
 	next = NULL;
 
 	if (strcmp(category.c_str(), "credits") == 0)
@@ -68,8 +69,6 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	price = "";
 	thumb = "";
 	cardsInPack = "";
-
-	freebie = free;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
@@ -133,14 +132,13 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 #endif
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
-	//listBox->getChildren().clear();
 	for(int i = 0; i < products.size(); i++) {
 		cardText = products[i]->getName();
 		cardText += "\n";
 
 		if (credits)
 			cardText += "Credits: " + products[i]->getPrice();
-		else if (freebie)
+		else if (free)
 			cardText += "Credits: Free";
 		else
 			cardText += "Credits: " + products[i]->getPrice();
@@ -162,8 +160,15 @@ void ShopProductsScreen::drawList() {
 		label->setAutoSizeY();
 		label->setMultiLine(true);
 	}
-	if (products.size() >= 1) {
+	if (products.size() > 1) {
 		emp = false;
+	} else if (products.size() == 1) {
+		if (free) {
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, true);
+		} else {
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, true);
+		}
+		next->show();
 	} else {
 		emp = true;
 		listBox->add(createSubLabel(empty));
@@ -220,8 +225,11 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL);
-				//next = new ShopPurchaseScreen(this, feed, (products[listBox->getSelectedIndex()]), freebie, credits);
+				if (free) {
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, false);
+				} else {
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, false);
+				}
 				next->show();
 			}
 			break;
@@ -333,6 +341,9 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 		} else if (!strcmp(name, xml_product_done)) {
 			if (strcmp(cred.c_str(), "")) {
 				String msg = "Current credits: " + cred;
+				if (first) {
+					msg = freebie;
+				}
 				notice->setCaption(msg.c_str());
 			} else {
 				notice->setCaption("");

@@ -200,8 +200,10 @@ void AlbumLoadScreen::drawList() {
 	clearListBox();
 
 	Vector<String> display = album->getNames();
+	String albumname = "";
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
+		albumname = itr->c_str();
 		label = createSubLabel(itr->c_str());
 		label->setPaddingBottom(5);
 		label->addWidgetListener(this);
@@ -210,7 +212,7 @@ void AlbumLoadScreen::drawList() {
 		size++;
 	}
 
-	if (album->size() >= 1) {
+	if (album->size() > 1) {
 		listBox->setSelectedIndex(0);
 	} else {
 		empt = true;
@@ -234,11 +236,6 @@ void AlbumLoadScreen::clearListBox() {
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
-
-	//delete listBox;
-	//listBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+(mainLayout->getChildren()[0]->getChildren()[0])->getHeight()),
-	//				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
-	//mainLayout->getChildren()[0]->getChildren().insert(2, listBox);
 }
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
@@ -469,7 +466,6 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				notice->setCaption("");
 				break;
 		}
-		drawList();
 		if (screenType == ST_ALBUMS) {
 			if (path.size() == 0) {
 				this->feed->getAlbum()->setAll(album->getAll().c_str());
@@ -482,6 +478,56 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				delete file;
 			}
 		}
+		//drawList();
+		if (album->size() == 1) {
+			Album* val = album->getAlbum(name);
+			if (next != NULL) {
+				delete next;
+				next = NULL;
+			}
+			switch (screenType) {
+				case ST_ALBUMS:
+					if (val->getHasCards()) {
+						if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+							next->show();
+						}
+						else {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
+							next->show();
+						}
+					}
+					else {
+						//if a category has no cards, it means it has sub categories.
+						//it is added to the path so we can back track
+						path.add(val->getId());
+						//then it must be loaded
+						loadCategory();
+					}
+					break;
+				case ST_COMPARE:
+					if (val->getHasCards()) {
+						next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+						next->show();
+					}
+					else {
+						//if a category has no cards, it means it has sub categories.
+						//it is added to the path so we can back track
+						path.add(val->getId());
+						//then it must be loaded
+						loadCategory();
+					}
+					break;
+				case ST_PLAY:
+					next = new GamePlayScreen(this, feed, true, val->getId());
+					next->show();
+					break;
+				case ST_GAMES:
+					next = new GamePlayScreen(this, feed, false, val->getId());
+					next->show();
+					break;
+				}
+			}
 	} else if(!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else {
