@@ -1598,7 +1598,26 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			AND game_id = '.$gameId);
 		$isActive = $activeUserQuery[0]['is_active'];
 		
-		$sOP='<active>'.$isActive.'</active>';
+		$sOP.='<active>'.$isActive.'</active>';
+		
+		//we need to get the amount of cards left in each deck
+		$cardsQuery = myqu('SELECT count(gpc.gameplayercard_id) cards, gp.user_id 
+			FROM mytcg_gameplayercard gpc
+			INNER JOIN mytcg_gameplayer gp
+			ON gp.gameplayer_id = gpc.gameplayer_id
+			WHERE gp.game_id = 1 
+			GROUP BY gp.gameplayer_id');
+		
+		$count = 0;
+		while ($cards = $cardsQuery[$count]) {
+			$count++;
+			if ($cards['user_id'] == $userId) {
+				$sOP.='<usercards>'.$cards['cards'].'</usercards>';
+			}
+			else {
+				$sOP.='<oppcards>'.$cards['cards'].'</oppcards>';
+			}
+		}
 		
 		//we return the user's card regardless of whether they are active or not
 		//we need to get the gameplayercard_id of the selected card

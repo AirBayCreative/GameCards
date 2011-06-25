@@ -287,8 +287,6 @@ static const char* xml_blue = "blue";
 static const char* acceptlbl = "Accept";
 static const char* rejectlbl = "Reject";
 static const char* showall = "showall";
-static const char* xml_usercard = "usercard";
-static const char* xml_opponentcard = "oppcard";
 //<USERDETAILS>
 static const char* xml_username = "username";
 static const char* xml_email = "email";
@@ -426,6 +424,10 @@ static const char* noteslbl = "Notes";
 static const char* sharelbl = "Share";
 static const char* contactlbl = "Contact";
 static const char* deletecardlbl = "Delete Card";
+static const char* xml_usercard = "usercard";
+static const char* xml_opponentcard = "oppcard";
+static const char* xml_usercards = "usercards";
+static const char* xml_opponentcards = "oppcards";
 //update vars
 static const char* update_imsi = "imsi";
 static const char* update_imei = "imei";

@@ -29,6 +29,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	message = "";
 	frontflipurl = "";
 	backflipurl = "";
+	userCards = "";
+	oppCards = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -149,11 +151,10 @@ void GamePlayScreen::drawResultsScreen() {
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
-	lprintfln("drawCardSelectStatScreen 1");
 	imageCache->clearImageCache();
 	listBox->setEnabled(false);
 	phase = P_CARD_DETAILS;
-	lprintfln("drawCardSelectStatScreen 2");
+
 	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
 	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
@@ -163,19 +164,31 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	flip = true;
 
 	notice->setCaption("");
-	lprintfln("drawCardSelectStatScreen 3");
 	clearListBox();
 
 	updateSoftKeyLayout(active?play_stat:"", options, "", mainLayout);
 
 	int height = listBox->getHeight();
-	lprintfln("drawCardSelectStatScreen 4");
+	String lblString = "User: ";
+	lblString += userCards;
+	lblString += " cards, ";
+	lblString += active?"Select a stat":"Waiting";
+	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,gFontBlack);
+	userLabel->setAutoSizeY(true);
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
-	lprintfln("drawCardSelectStatScreen 4.1");
 	retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
-	lprintfln("drawCardSelectStatScreen 4.2");
+
+	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
-	lprintfln("drawCardSelectStatScreen 5");
+	lblString = "Opponent: ";
+	lblString += oppCards;
+	lblString += " cards, ";
+	lblString += (!active)?"Selecting stat...":"Waiting";
+	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,gFontBlack);
+	userLabel->setAutoSizeY(true);
+	if (!active) {
+		retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+	}
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -648,6 +661,10 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		outcome += data;
 	} else if(!strcmp(parentTag.c_str(), xml_message)) {
 		message += data;
+	} else if(!strcmp(parentTag.c_str(), xml_usercards)) {
+		userCards = data;
+	} else if(!strcmp(parentTag.c_str(), xml_opponentcards)) {
+		oppCards = data;
 	} else if(!strcmp(parentTag.c_str(), xml_active)) {
 		lprintfln("xml_active: %s", data);
 		lprintfln("strcmp(data, \"1\"): %d", strcmp(data, "1"));
@@ -661,12 +678,6 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		else if (!strcmp(data, phase_result)) {
 			phase = P_RESULTS;
 		}
-	} else if(!strcmp(parentTag.c_str(), xml_turn)) {
-		lprintfln("xml_turn: %s", data);
-	} else if(!strcmp(parentTag.c_str(), xml_opponent_deck)) {
-		lprintfln("xml_opponent_deck: %s", data);
-	} else if(!strcmp(parentTag.c_str(), xml_player_deck)) {
-		lprintfln("xml_player_deck: %s", data);
 	}
 }
 
@@ -751,23 +762,18 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 			switch (phase) {
 				case P_CARD_DETAILS:
 					drawCardSelectStatScreen();
-					//drawStatListScreen();
 					break;
 				case P_RESULTS:
 					drawResultsScreen();
 					break;
 			}
 		}
-	} /*else {
-		lprintfln("blank caption");
-		notice->setCaption("");
-	}*/
+	}
 }
 
 void GamePlayScreen::clearCardStats() {
 	for (int i = 0; i < cardStats.size(); i++) {
 		if (cardStats[i] != NULL) {
-			//delete cardStats[i];
 			cardStats[i] = NULL;
 		}
 	}
