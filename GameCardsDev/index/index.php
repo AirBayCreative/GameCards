@@ -472,6 +472,10 @@ if ($_GET['auctionbid']){
 		$result = myqu($query);
 		
 		if ($aBid=$result[0]) {
+			if ($aBid['user_id'] == $iUserID) {
+				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
+				exit;
+			}
 			//if there was a previous bid
 			$prevBid = $aBid['price'];
 			$prevUserId = $aBid['user_id'];
@@ -487,10 +491,10 @@ if ($_GET['auctionbid']){
 			.", ".$iUserID.", ".$bid.", now())";
 		myqu($query);
 		
-		echo $sTab.'<result>1</result>'.$sCRLF;
+		echo $sTab.'<result>Bid successfull</result>'.$sCRLF;
 	}
 	else {
-		echo $sTab.'<result>0</result>'.$sCRLF;
+		echo $sTab.'<result>You do not have enough credits.</result>'.$sCRLF;
 	}
   exit;
 }
@@ -1177,7 +1181,7 @@ if ($_GET['categoryauction']){
 	
 	$auctionCards = array();
 	
-	$auctionCards = getAuctionCards($categoryId, $auctionCards);
+	$auctionCards = getAuctionCards($categoryId, $auctionCards, $iUserID);
 	
 	$sOP='<auctionsincategory>'.$sCRLF;
 	$iCount=0;
@@ -1213,7 +1217,7 @@ if ($_GET['categoryauction']){
 }
 
 //recurring function to get all cards on auction within a category and its children
-function getAuctionCards($categoryId, $cards) {
+function getAuctionCards($categoryId, $cards, $iUserID) {
 	$aAuctionCards = myqu('SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
 		ac.price buy_now_price, c.thumbnail_phone_imageserver_id, 
 		max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
@@ -1231,6 +1235,7 @@ function getAuctionCards($categoryId, $cards) {
 		ON ub.user_id = ab.user_id
 		WHERE ac.marketstatus_id = 1
 		AND c.category_id = '.$categoryId.' 
+		AND ac.user_id <> '.$iUserID.' 
 		GROUP BY ac.market_id');
 		
 	$count = 0;
@@ -1247,7 +1252,7 @@ function getAuctionCards($categoryId, $cards) {
 		
 	$count = 0;
 	while ($category = $childCategories[$count]) {
-		$cards = getAuctionCards($category['category_child_id'], $cards);
+		$cards = getAuctionCards($category['category_child_id'], $cards, $iUserID);
 		$count++;
 	}
 	
@@ -2668,14 +2673,41 @@ if ($_GET['auctioncategories']) {
 			.'AND C.is_deleted is null '
 			.'ORDER BY C.description'
 		);*/
+		
+		
+	$aAuctionCards=myqu('SELECT count(*) as cnt 
+		FROM mytcg_usercard UC 
+		INNER JOIN mytcg_market AC 
+		ON UC.usercard_id=AC.usercard_id 
+		INNER JOIN mytcg_card C 
+		ON UC.card_id=C.card_id 
+		INNER JOIN mytcg_user U 
+		ON UC.user_id=U.user_id 
+		LEFT OUTER JOIN mytcg_marketcard AB 
+		ON AC.market_id=AB.market_id 
+		LEFT OUTER JOIN mytcg_user UB 
+		ON AB.user_id=UB.user_id 
+		WHERE AC.marketstatus_id="1" 
+		AND U.user_id='.$iUserID);
+		
+		
+	$sOP='<cardcategories>'.$sCRLF;
+	if ($aMine=$aAuctionCards[0]) {
+		if ($aMine['cnt'] > 0) {
+			$sOP.="<album>";
+			$sOP.=$sTab.'<albumid>-2</albumid>'.$sCRLF;
+			$sOP.=$sTab.'<albumname>My Auctions</albumname>'.$sCRLF;
+			$sOP.="</album>";
+		}
+	}
+		
 	$aCategories=myqu('SELECT c.category_id, c.description
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
 			FROM mytcg_category_x) ORDER BY c.description');
-	$sOP='<cardcategories>'.$sCRLF;
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]){
-		if (hasAuctions($aCategory['category_id']) == true) {
+		if (hasAuctions($aCategory['category_id'], $iUserID) == true) {
 			$sOP.="<album>";
 			$sOP.=$sTab.'<albumid>'.trim($aCategory['category_id']).'</albumid>'.$sCRLF;
 			$sOP.=$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
@@ -2690,7 +2722,7 @@ if ($_GET['auctioncategories']) {
 }
 
 //recurring function to check if a category has children with auctions
-function hasAuctions($categoryId) {
+function hasAuctions($categoryId, $iUserID) {
 	$hasAuctionsQuery = myqu('SELECT count(*) auctions
 		FROM mytcg_card c
 		INNER JOIN mytcg_usercard uc
@@ -2698,6 +2730,7 @@ function hasAuctions($categoryId) {
 		INNER JOIN mytcg_market ac
 		ON uc.usercard_id = ac.usercard_id
 		WHERE ac.marketstatus_id = 1 
+		AND uc.user_id <> '.$iUserID.' 
 		AND	c.category_id = '.$categoryId);
 	$auctions = $hasAuctionsQuery[0]['auctions'];
 	
@@ -2713,7 +2746,7 @@ function hasAuctions($categoryId) {
 			ORDER BY C.description');
 		$count = 0;
 		while ($category = $catChildrenQuery[$count]) {
-			if (hasAuctions($category['category_id']) == true) {
+			if (hasAuctions($category['category_id'], $iUserID) == true) {
 				return true;
 			}
 			$count++;

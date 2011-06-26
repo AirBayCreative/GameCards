@@ -131,8 +131,9 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							delete [] url;
 						}
 						else {
-							screenMode = ST_INVALID;
-							drawInvalidInputScreen();
+							notice->setCaption(errorString);
+							//screenMode = ST_INVALID;
+							//drawInvalidInputScreen();
 						}
 					}
 					break;
@@ -185,13 +186,6 @@ void AuctionCreateScreen::validateInput() {
 	}
 	else if (!isNumeric(openingText)) {
 		errorString += "Please enter a valid opening bid.\n";
-	}
-
-	if (buyNowText.length() == 0) {
-		errorString += "Please enter a buy now price.\n";
-	}
-	else if (!isNumeric(buyNowText)) {
-		errorString += "Please enter a valid buy now price.\n";
 	}
 
 	if (daysText.length() == 0) {
@@ -250,14 +244,14 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	retrieveThumb(tempImage, card, mImageCache);
 
-	cardText = "Name: ";
-	cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
-	cardText += "\tValue: ";
-	cardText += card->getValue();
-	cardText += "\nRarity: ";
-	cardText += card->getRarity();
-	cardText += "\tQuantity: ";
+	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += " (";
 	cardText += card->getQuantity();
+	cardText += ")";
+	cardText += "\nValue: ";
+	cardText += card->getValue();
+	cardText += "\n";
+	cardText += card->getRarity();
 
 	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
@@ -268,9 +262,8 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxOpening = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, openingText, 0, gFontBlack, true, false);
 	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
-	editBoxOpening->setCaption(openingText);
+	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())+10));
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -279,7 +272,6 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxBuyNow = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, buyNowText, 0, gFontBlack, true, false);
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
 	editBoxBuyNow->setCaption(buyNowText);
 	editBoxBuyNow->setDrawBackground(false);
@@ -290,9 +282,8 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = createEditLabel("");
-	//editBoxDays = new MobEditBox(0, 12, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, label, daysText, 0, gFontBlack, true, false);
 	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
-	editBoxDays->setCaption(daysText);
+	editBoxDays->setCaption("3");
 	editBoxDays->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -306,7 +297,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 void AuctionCreateScreen::drawCreatedScreen() {
 	clearListBox();
-	updateSoftKeyLayout("", confirm, "", mainLayout);
+	updateSoftKeyLayout("", back, "", mainLayout);
 
 	String result = "";
 	if (!strcmp(createResult.c_str(), auction_created_successfully_result)) {
@@ -316,10 +307,44 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = auction_failed;
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, result, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, result + "\n", 0, gFontBlack);
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 114, listBox, 2, 1);
+	feedlayout->setSkin(gSkinBack);
+	feedlayout->setDrawBackground(true);
+	feedlayout->addWidgetListener(this);
+
+	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+
+	retrieveThumb(tempImage, card, mImageCache);
+
+	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += " (";
+	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
+	cardText += ")";
+	cardText += "\n";
+	cardText += card->getRarity();
+	cardText += "\nBid: ";
+	cardText += editBoxOpening->getCaption();
+	if((!strcmp(editBoxBuyNow->getCaption().c_str(), ""))||(!strcmp(editBoxBuyNow->getCaption().c_str(), "0"))) {
+
+	} else {
+		cardText += "\nBuyout: ";
+			cardText += editBoxBuyNow->getCaption();
+	}
+
+	cardText += "\nDays: ";
+	cardText += editBoxDays->getCaption();
+
+	label = new Label(0,0, scrWidth-86, 114, feedlayout, cardText, 0, gFontBlack);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setAutoSizeY();
+	label->setMultiLine(true);
 
 	this->setMain(mainLayout);
 
@@ -357,64 +382,6 @@ void AuctionCreateScreen::clearListBox() {
 	}
 	tempWidgets.clear();
 }
-
-/*#if defined(MA_PROF_SUPPORT_STYLUS)
-void AuctionCreateScreen::setKeyboardDetails(MAPoint2d point){
-	int index = listBox->getSelectedIndex();
-	int yClick = point.y;
-	int yKeyboardTop = keyboard->getPosition().y;
-	int yKeyboardBot = keyboard->getPosition().y + keyboard->getHeight();
-	if ((yClick > yKeyboardTop && yClick < yKeyboardBot) ||
-			(index == 2 || index == 4 || index == 6)) {
-
-		if (!keyboard->isShown() || (keyboard->isShown() && (yClick < yKeyboardTop || yClick > yKeyboardBot))) {
-
-			if (index == 2) {
-				keyboard->attachWidget(editBoxOpening);
-			}
-			else if (index == 4) {
-				keyboard->attachWidget(editBoxBuyNow);
-			}
-			else if (index == 6) {
-				keyboard->attachWidget(editBoxDays);
-			}
-
-			//then work out where the keyboard needs to be drawn.
-			bool useDefault = true;
-			//first get default values. 0 is always the value for x
-			int defaultY = (int)floor((double)scrHeight - keyboard->getHeight());
-			int attachedY = keyboard->getAttachedWidget()->getParent()->getBounds().y + (listBox->getYOffset()>>16);
-			int attachedHeight = keyboard->getAttachedWidget()->getHeight();
-
-			if (defaultY < (attachedY + attachedHeight)) {
-				useDefault = false;
-			}
-
-			//if the default position at the bottom covers the edit box, then check for when its at the top
-			if (!useDefault) {
-				if (keyboard->getHeight() > attachedY) {
-					//if the top covers it too, just default to bottom
-					useDefault = true;
-				}
-			}
-
-			//set the position accordingly
-			if (useDefault) {
-				keyboard->setPosition(0, defaultY);
-			} else {
-				keyboard->setPosition(0, 70);
-			}
-		}
-		keyboard->show();
-	}
-	else if (keyboard->isShown()) {
-		keyboard->deAttachEditBox();
-		keyboard->hide();
-
-		mainLayout->draw(true);
-	}
-}
-#endif*/
 
 void AuctionCreateScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {

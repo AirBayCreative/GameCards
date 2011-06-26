@@ -9,6 +9,7 @@
 void ShopCategoriesScreen::refresh() {
 	show();
 	categories.clear();
+	category.clear();
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -151,16 +152,13 @@ void ShopCategoriesScreen::drawList() {
 
 	if (screenType == ST_AUCTIONS)
 	{
-		label = createSubLabel(my_auctions);
-		label->addWidgetListener(this);
-		listBox->add(label);
 		label = createSubLabel(create_auction);
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
 
-	for(Map<String, String>::Iterator categoryIter = categories.begin(); categoryIter != categories.end(); categoryIter++) {
-		label = createSubLabel(categoryIter->first);
+	for(Vector<String>::iterator itr = category.begin(); itr != category.end(); itr++) {
+		label = createSubLabel(itr->c_str());
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
@@ -168,37 +166,9 @@ void ShopCategoriesScreen::drawList() {
 	if (categories.size() > 1) {
 		listBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
-		switch (screenType) {
-			case ST_FREEBIE:
-				if (!empt) {
-					orig = this;
-					String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-					String category = categories.find(selectedCaption)->second.c_str();
-					if (next != NULL) {
-						delete next;
-					}
-					next = new ShopProductsScreen(this, feed, category, true, true);
-					next->show();
-				}
-				break;
-			case ST_SHOP:
-				if (!empt) {
-					orig = this;
-					String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
-					String category = categories.find(selectedCaption)->second.c_str();
-					if (next != NULL) {
-						delete next;
-					}
-					next = new ShopProductsScreen(this, feed, category, false, true);
-					next->show();
-				}
-				break;
+		if (screenType != ST_AUCTIONS) {
+			keyPressEvent(MAK_FIRE);
 		}
-	} else {
-		empt = true;
-		label = createSubLabel(empty);
-		label->addWidgetListener(this);
-		listBox->add(label);
 	}
 
 	if (screenType == ST_FREEBIE)
@@ -255,32 +225,26 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				case ST_AUCTIONS:
 
 						int i = listBox->getSelectedIndex();
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
 						orig = this;
 
-						if (i == 0)
-						{
+						if (!strcmp(selectedCaption.c_str(), "My Auctions")) {
 							if (next != NULL) {
 								delete next;
 							}
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 							next->show();
-						}
-						else if (i == 1)
-						{
+						} else if (!strcmp(selectedCaption.c_str(), create_auction)) {
 							if (next != NULL) {
 								delete next;
 							}
 
-							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS, NULL, true);
+							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_AUCTION, NULL, true);
 							next->show();
-						}
-						else if (!empt)
-						{
-
+						} else if (!empt) {
 							if (next != NULL) {
 								delete next;
 							}
-
 							orig = this;
 							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();
 							String category = categories.find(selectedCaption)->second.c_str();
@@ -329,6 +293,7 @@ void ShopCategoriesScreen::mtxTagAttr(const char* attrName, const char* attrValu
 void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
 	if (!strcmp(parentTag.c_str(), xml_cardcategories)) {
 		categories.clear();
+		category.clear();
 	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
 		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
@@ -341,6 +306,7 @@ void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
 void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_albumname)) {
 		categories.insert(temp1, temp);
+		category.add(temp1);
 		temp1 = "";
 		temp = "";
 	} else if (!strcmp(name, xml_cardcategories)) {

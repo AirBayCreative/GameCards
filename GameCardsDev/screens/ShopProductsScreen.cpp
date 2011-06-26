@@ -6,6 +6,14 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
+void ShopProductsScreen::pop() {
+	show();
+
+	if (products.size() == 1) {
+		previous->show();
+	}
+}
+
 ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), previous(previous), feed(feed), first(first), free(free) {
 	next = NULL;
 
@@ -70,6 +78,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	thumb = "";
 	cardsInPack = "";
 }
+
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -163,12 +172,14 @@ void ShopProductsScreen::drawList() {
 	if (products.size() > 1) {
 		emp = false;
 	} else if (products.size() == 1) {
-		if (free) {
+		/*if (free) {
 			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, true);
 		} else {
 			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, true);
 		}
-		next->show();
+		next->show();*/
+		emp = false;
+		keyPressEvent(MAK_FIRE);
 	} else {
 		emp = true;
 		listBox->add(createSubLabel(empty));
@@ -341,6 +352,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 		} else if (!strcmp(name, xml_product_done)) {
 			if (strcmp(cred.c_str(), "")) {
 				String msg = "Current credits: " + cred;
+				feed->setCredits(cred.c_str());
 				if ((first)&&(free)) {
 					msg = freebielbl;
 				}

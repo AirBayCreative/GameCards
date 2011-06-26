@@ -2,7 +2,6 @@
 #include <mastdlib.h>
 
 #include "ShopDetailsScreen.h"
-//#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
@@ -16,7 +15,19 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 	if (screenType == ST_AUCTION)
 	{
-		mainLayout = createMainLayout(buy_now, back, bid, true);
+		if (!strcmp(auction->getBuyNowPrice().c_str(), "")) {
+			mainLayout = createMainLayout("", back, bid, true);
+		} else {
+			if((!strcmp(auction->getBuyNowPrice().c_str(), ""))||(!strcmp(auction->getBuyNowPrice().c_str(), "0"))) {
+				mainLayout = createMainLayout("", back, bid, true);
+			} else {
+				mainLayout = createMainLayout(buy_now, back, bid, true);
+			}
+
+		}
+	}
+	else if (screenType == ST_USER) {
+		mainLayout = createMainLayout("", back, "", true);
 	}
 	else if (free)
 		mainLayout = createMainLayout(confirm, back, "", true);
@@ -29,6 +40,12 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 	if ((first)&&(free)) {
 		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, freebielbl, 0, gFontBlack);
+		label->setMultiLine(true);
+		label->setAutoSizeY(true);
+		listBox->add(label);
+	} else if (screenType != ST_USER) {
+		String msg = "Current credits: " + feed->getCredits();
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, msg.c_str(), 0, gFontBlack);
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
@@ -54,7 +71,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 				fullDesc += "\n";
 				fullDesc += "Credits: Free";
 				fullDesc += "\n";
-				fullDesc += "Cards in pack: " + product->getCardsInPack();
+				fullDesc += "Cards: " + product->getCardsInPack();
 				fullDesc += "Pack Type: " + product->getProductType();
 				nameDesc = product->getName();
 			} else {
@@ -63,18 +80,35 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			}
 			break;
 		case ST_AUCTION:
+		case ST_USER:
 			retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
 			nameDesc = auction->getCard()->getText();
-			fullDesc = "Name: " + nameDesc;
-			fullDesc += "\nCurrent Bid: ";
-			fullDesc += auction->getPrice();
-			fullDesc += "\nBuy Out Price: ";
-			fullDesc += auction->getBuyNowPrice();
-			fullDesc += "\nTime Left: ";
+			fullDesc = nameDesc;
+			fullDesc += "\nBid: ";
+			if(!strcmp(auction->getPrice().c_str(), "")) {
+				fullDesc += auction->getOpeningBid();
+			} else {
+				fullDesc += auction->getPrice();
+			}
+
+			if((!strcmp(auction->getBuyNowPrice().c_str(), ""))||(!strcmp(auction->getBuyNowPrice().c_str(), "0"))) {
+
+			} else {
+				fullDesc += "\nBuy Out: ";
+				fullDesc += auction->getBuyNowPrice();
+			}
+
+			fullDesc += "\nTime: ";
 			fullDesc += getTime().c_str();
 			fullDesc += "\nBidder: ";
-			fullDesc += auction->getLastBidUser();
+			if(!strcmp(auction->getLastBidUser().c_str(), "")) {
+				fullDesc += auction->getUsername();
+			} else {
+				fullDesc += auction->getLastBidUser();
+			}
+
+			MAUtil::Environment::getEnvironment().addTimer(this, 1000, -1);
 			break;
 	}
 
@@ -89,8 +123,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
-
-		MAUtil::Environment::getEnvironment().addTimer(this, 1000, -1);
 
 		label = createEditLabel("");
 		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
@@ -128,15 +160,29 @@ void ShopDetailsScreen::runTimerEvent() {
 
 	if (auction != NULL)
 	{
-		fullDesc = "Name: " + nameDesc;
-		fullDesc += "\nCurrent Bid: ";
-		fullDesc += auction->getPrice();
-		fullDesc += "\nBuy Out Price: ";
-		fullDesc += auction->getBuyNowPrice();
-		fullDesc += "\nTime Left: ";
+		fullDesc = nameDesc;
+		fullDesc += "\nBid: ";
+		if(!strcmp(auction->getPrice().c_str(), "")) {
+			fullDesc += auction->getOpeningBid();
+		} else {
+			fullDesc += auction->getPrice();
+		}
+
+		if((!strcmp(auction->getBuyNowPrice().c_str(), ""))||(!strcmp(auction->getBuyNowPrice().c_str(), "0"))) {
+
+		} else {
+			fullDesc += "\nBuy Out: ";
+			fullDesc += auction->getBuyNowPrice();
+		}
+
+		fullDesc += "\nTime: ";
 		fullDesc += getTime().c_str();
 		fullDesc += "\nBidder: ";
-		fullDesc += auction->getLastBidUser();
+		if(!strcmp(auction->getLastBidUser().c_str(), "")) {
+			fullDesc += auction->getUsername();
+		} else {
+			fullDesc += auction->getLastBidUser();
+		}
 
 		cardLabel->setCaption(fullDesc);
 	}
@@ -270,8 +316,6 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 
 			switch (screenType) {
 				case ST_AUCTION: // Bid
-					//next = new BidOrBuyScreen(this, feed, auction, 1, editBidBox->getCaption());
-					//next->show();
 					postBid();
 					break;
 			}
@@ -282,7 +326,6 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			switch (screenType) {
 				case ST_AUCTION: // Buy
-					//next = new BidOrBuyScreen(this, feed, auction, 2);
 					buyNow();
 					break;
 				case ST_PRODUCT:
@@ -299,11 +342,12 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
 				case ST_AUCTION: // Buy
+				case ST_USER:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
 					((AuctionListScreen*)previous)->refresh();
 					break;
 				case ST_PRODUCT:
-					previous->show();
+					((ShopProductsScreen *)previous)->pop();
 					break;
 			}
 
@@ -342,14 +386,14 @@ void ShopDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 }
 
 void ShopDetailsScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), "result")) {
+	if(!strcmp(parentTag.c_str(), xml_result)) {
 		result += data;
 	}
 }
 
 void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
 	if (bidOrBuy) {
-		if(!strcmp(name, "result")) {
+		if(!strcmp(name, xml_result)) {
 			busy = false;
 
 			if (!strcmp(result.c_str(), xml_buyout_success)) {
@@ -365,17 +409,9 @@ void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
 	}
 	else
 	{
-		if(!strcmp(name, "result")) {
+		if(!strcmp(name, xml_result)) {
 			busy = false;
-
-			//bidEditBox->setSelected(false);
-			if (!strcmp(result.c_str(), xml_bid_success)) {
-				drawPostBid(true);
-			}
-			else {
-				drawPostBid(false);
-			}
-
+			drawPostBid(result);
 		}
 	}
 }
@@ -477,30 +513,23 @@ void ShopDetailsScreen::buyNow()
 	}
 }
 
-void ShopDetailsScreen::drawPostBid(bool success)
+void ShopDetailsScreen::drawPostBid(String message)
 {
 	if (success)
 	{
-		notice->setCaption("");
+		notice->setCaption(message.c_str());
 
-		//delete listBox->getChildren()[listBox->getChildren().size() - 1];
-		//listBox->getChildren()[listBox->getChildren().size() - 1] = NULL;
-
-		((Label*)listBox->getChildren()[listBox->getChildren().size() - 2])->setCaption("You are the current highest bidder");
+		//((Label*)listBox->getChildren()[listBox->getChildren().size() - 2])->setCaption("You are the current highest bidder");
 
 		listBox->getChildren()[listBox->getChildren().size() - 1]->setEnabled(false);
 		listBox->getChildren()[listBox->getChildren().size() - 1]->removeWidgetListener(this);
 
-		updateSoftKeyLayout(buy_now, back, "", mainLayout);
+		updateSoftKeyLayout("", back, "", mainLayout);
 
 		((AuctionListScreen*)previous)->updateAuctions();
 		auction = NULL;
 
 		hasBid = true;
-	}
-	else
-	{
-		notice->setCaption("Bid failed");
 	}
 }
 
@@ -556,7 +585,7 @@ String ShopDetailsScreen::validateBid(){
 	else if (auction->getPrice().length() == 0 && (atof(auction->getOpeningBid().c_str()) > atof(bid.c_str()))) {
 		errorString = "Your bid needs to equal or exceed the opening bid.";
 	}
-	else if (atof(auction->getBuyNowPrice().c_str()) <= atof(bid.c_str())) {
+	else if ((atof(auction->getBuyNowPrice().c_str()) > 0)&&(atof(auction->getBuyNowPrice().c_str()) <= atof(bid.c_str()))) {
 		errorString = "Your bid should be lower than the buy now price.";
 	}
 

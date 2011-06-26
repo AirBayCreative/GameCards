@@ -185,13 +185,11 @@ String Card::getAll() {
 	for (int i = 0; i < stats.size(); i++) {
 		all += stats[i]->getAll() + innerDelim;
 	}
-	lprintfln("zzz %s",all.c_str());
 	return all;
 }
 
 void Card::setAll(const char* allch) {
 		String all = allch;
-		lprintfln("wawa %s",all.c_str());
 		int indexof = all.find(delim);
 		if (indexof > -1) {
 			setQuantity(all.substr(0,indexof++).c_str());

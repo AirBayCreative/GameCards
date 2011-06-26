@@ -2,7 +2,6 @@
 
 #include "AuctionListScreen.h"
 #include "ShopDetailsScreen.h"
-#include "BidOrBuyScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
@@ -40,23 +39,8 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	tempImage = NULL;
 
 	mImageCache = new ImageCache();
+	mainLayout = createMainLayout("", back, "", true);
 
-	switch (screenType) {
-		case ST_CATEGORY:
-			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout(bidOrBuy, back, "", true);
-			#else
-				mainLayout = createMainLayout(details, back, bidOrBuy, true);
-			#endif
-			break;
-		case ST_USER:
-			#if defined(MA_PROF_SUPPORT_STYLUS)
-				mainLayout = createMainLayout("", back, "", true);
-			#else
-				mainLayout = createMainLayout(details, back, "", true);
-			#endif
-			break;
-	}
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption(checking_auctions);
@@ -369,7 +353,11 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 				}
-				next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()], false);
+				if (screenType == ST_USER) {
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_USER, false, NULL, auctions[listBox->getSelectedIndex()], false);
+				} else {
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()], false);
+				}
 				next->show();
 			}
 			break;

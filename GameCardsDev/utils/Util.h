@@ -377,7 +377,6 @@ static const char* xml_auctionsdone = "auctionsincategory";
 static const char* xml_end_date = "endDate";
 static const char* xml_last_bid_user = "lastBidUser";
 static const char* xml_buyout_success = "1";
-static const char* xml_bid_success = "1";
 //Play labels
 static const char* play = "Play";
 static const char* new_game = "New Game";

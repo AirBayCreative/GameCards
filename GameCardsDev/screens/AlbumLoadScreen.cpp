@@ -87,6 +87,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	switch(screenType) {
 		case ST_ALBUMS:
 		case ST_COMPARE:
+		case ST_AUCTION:
 			notice->setCaption(checking_albums);
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
 			drawList();
@@ -335,6 +336,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
 								next->show();
 							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_AUCTION:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_AUCTION, isAuction);
+							next->show();
 						}
 						else {
 							//if a category has no cards, it means it has sub categories.

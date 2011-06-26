@@ -34,7 +34,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	enum screenTypes {ST_PRODUCT, ST_AUCTION};
+	enum screenTypes {ST_PRODUCT, ST_AUCTION, ST_USER};
 
 	Auction *auction;
 private:
@@ -78,7 +78,7 @@ private:
 	void postBid();
 	void buyNow();
 
-	void drawPostBid(bool success);
+	void drawPostBid(String success);
 	void drawBuyNow(bool success);
 
 	void clearListBox();

@@ -46,7 +46,8 @@ private:
 	Label *notice, *label;
 
 	Feed *feed;
-	Map<String,String> categories;
+	HashMap<String,String> categories;
+	Vector<String> category;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

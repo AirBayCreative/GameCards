@@ -35,7 +35,7 @@ public:
 
 	void refresh();
 
-	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_COMPARE};
+	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_COMPARE, ST_AUCTION};
 private:
 
 	Screen *previous;
