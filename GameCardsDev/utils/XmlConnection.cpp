@@ -26,7 +26,7 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     char buffer[1024];
 	snprintf(buffer, 1024, "%s", mBuffer);
     lprintfln("----");
-    //lprintfln(mBuffer);
+    lprintfln(mBuffer);
 
     mPtr[result] = 0;
     mPtr = mBuffer;

@@ -477,7 +477,7 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		mHttp.close();
 		notice->setCaption(no_connect);
 
-		updateSoftKeyLayout(back, "", "", layout);
+		updateSoftKeyLayout("", back, "", layout);
 	}
 }
 

@@ -653,6 +653,8 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		statDescription += data;
 	} else if(!strcmp(parentTag.c_str(), xml_cardstat_id)) {
 		cardStatId += data;
+	} else if(!strcmp(parentTag.c_str(), xml_categroy_stat_id)) {
+		categoryStatId += data;
 	} else if(!strcmp(parentTag.c_str(), xml_card_name)) {
 		cardName += data;
 	} else if(!strcmp(parentTag.c_str(), xml_explanation)) {
@@ -748,12 +750,16 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		newStat->setColorRed(statRed);
 		newStat->setColorGreen(statGreen);
 		newStat->setColorBlue(statBlue);
+		newStat->setCardStatId(categoryStatId.c_str());
+		lprintfln("categoryStatId: %s", categoryStatId.c_str());
+		lprintfln("statIVal: %s", statIVal.c_str());
 		cardStats.add(newStat);
 		cardStatId = "";
 		statDescription = "";
 		statType = "";
 		statDesc = "";
 		statIVal = "";
+		categoryStatId = "";
 	} else if (!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, xml_game) || !strcmp(name, xml_cardstats) || !strcmp(name, xml_results)) {

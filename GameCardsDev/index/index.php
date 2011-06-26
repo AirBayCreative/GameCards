@@ -1782,8 +1782,8 @@ function getCardStats($gamePlayerCardId) {
 	//select card stat details
 	$cardStatDetails = myqu('SELECT c.description card_name, cst.description stat_type,
 		cs.description stat_description, cs.cardstat_id, cs.left, 
-		cs.top, cs.width, cs.height, cs.frontorback, 
-		cs.colour_r, cs.colour_g, cs.colour_b 
+		cs.top, cs.width, cs.height, cs.frontorback, cs.statvalue, 
+		cs.colour_r, cs.colour_g, cs.colour_b, cst.categorystat_id 
 		FROM mytcg_gameplayercard gpc
 		INNER JOIN mytcg_usercard uc
 		ON uc.usercard_id = gpc.usercard_id
@@ -1801,7 +1801,7 @@ function getCardStats($gamePlayerCardId) {
 	while ($oneStat=$cardStatDetails[$iCount]){
 		$sOP.=$sTab.'<cardstat left="'.$oneStat['left'].'" top="'.$oneStat['top'].'" 
 			width="'.$oneStat['width'].'" height="'.$oneStat['height'].'" frontorback="'.$oneStat['frontorback'].'"
-			red="'.$oneStat['colour_r'].'" green="'.$oneStat['colour_g'].'" blue="'.$oneStat['colour_b'].'">';
+			red="'.$oneStat['colour_r'].'" green="'.$oneStat['colour_g'].'" blue="'.$oneStat['colour_b'].'" ival="'.$oneStat['statvalue'].'">';
 		if ($iCount == 0) {
 			$sOP.=$sTab.'<card_name>'.$oneStat['card_name'].'</card_name>'.$sCRLF;
 		}
@@ -1809,6 +1809,7 @@ function getCardStats($gamePlayerCardId) {
 		$sOP.=$sTab.'<stat_type>'.$oneStat['stat_type'].'</stat_type>'.$sCRLF;
 		$sOP.=$sTab.'<stat_description>'.$oneStat['stat_description'].'</stat_description>'.$sCRLF;		
 		$sOP.=$sTab.'<cardstat_id>'.$oneStat['cardstat_id'].'</cardstat_id>'.$sCRLF;
+		$sOP.=$sTab.'<categorystat_id>'.$oneStat['categorystat_id'].'</categorystat_id>'.$sCRLF;
 		$sOP.=$sTab.'</cardstat>';
 		$iCount++;
 	}

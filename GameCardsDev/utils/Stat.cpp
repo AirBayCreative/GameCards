@@ -52,6 +52,14 @@ String Stat::getAll() {
 	return getDesc()+delim+getDisplay()+delim+getIVal();
 }
 
+void Stat::setCategoryStatId(const char *c) {
+	categoryStatId = c;
+}
+
+String Stat::getCategoryStatId() {
+	return categoryStatId;
+}
+
 void Stat::setAll(const char* allch) {
 	String all = allch;
 	int indexof = all.find(delim);

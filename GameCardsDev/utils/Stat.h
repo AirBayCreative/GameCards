@@ -22,6 +22,9 @@ public:
 	String getIVal();
 	void setIVal(const char *iVal);
 
+	String getCategoryStatId();
+	void setCategoryStatId(const char *categoryStatId);
+
 	String getAll();
 	void setAll(const char*);
 
@@ -49,7 +52,7 @@ public:
 	int getColorBlue();
 	void setColorBlue(int);
 private:
-	String desc, display, iVal, cardStatId;
+	String desc, display, iVal, cardStatId, categoryStatId;
 	int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue;
 };
 
