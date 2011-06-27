@@ -16,7 +16,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
 public:
 	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier);
 	~GamePlayScreen();
@@ -24,6 +24,9 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
+
+	void runTimerEvent();
+
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
@@ -52,7 +55,7 @@ private:
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	String explanation, outcome;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
-	bool list, left, right, hasConnection, newGame, busy, flip, active;
+	bool list, left, right, hasConnection, newGame, busy, flip, active, selected;
 	MAPoint2d pointPressed, pointReleased;
 	Card *card, *oppCard;
 
