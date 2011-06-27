@@ -2878,19 +2878,20 @@ function userdetails($iUserID) {
 
 /** give user profile details */
 if ($_GET['profiledetails']){
-	$aUserDetails=myqu('SELECT d.desc, d.detail_id, a.answer_id, a.answered, a.answer 
+	$aProfileDetails=myqu('SELECT d.desc, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
 		FROM mytcg_user_answer a, mytcg_user_detail d 
 		WHERE a.detail_id = d.detail_id 
-		AND a.user_id='.$iUserID);
+		AND a.user_id="'.$iUserID.'"');
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
-	while ($aUserDetail=$aUserDetails[$iCount]){
+	while ($aProfileDetail=$aProfileDetails[$iCount]){
 		$sOP.='<detail>'.$sCRLF;
-		$sOP.=$sTab.'<answer_id>'.trim($aUserDetail['answer_id']).'</answer_id>'.$sCRLF;
-		$sOP.=$sTab.'<detail_id>'.trim($aUserDetail['detail_id']).'</detail_id>'.$sCRLF;	
-		$sOP.=$sTab.'<desc>'.trim($aUserDetail['desc']).'</desc>'.$sCRLF;	
-		$sOP.=$sTab.'<answer>'.trim($aUserDetail['answer']).'</answer>'.$sCRLF;
-		$sOP.=$sTab.'<answered>'.trim($aUserDetail['answered']).'</answered>'.$sCRLF;
+		$sOP.=$sTab.'<answer_id>'.trim($aProfileDetail['answer_id']).'</answer_id>'.$sCRLF;
+		$sOP.=$sTab.'<detail_id>'.trim($aProfileDetail['detail_id']).'</detail_id>'.$sCRLF;	
+		$sOP.=$sTab.'<desc>'.trim($aProfileDetail['desc']).'</desc>'.$sCRLF;	
+		$sOP.=$sTab.'<answer>'.trim($aProfileDetail['answer']).'</answer>'.$sCRLF;
+		$sOP.=$sTab.'<answered>'.trim($aProfileDetail['answered']).'</answered>'.$sCRLF;
+		$sOP.=$sTab.'<creditvalue>'.trim($aProfileDetail['credit_value']).'</creditvalue>'.$sCRLF;
 		$sOP.='</detail>'.$sCRLF;
 		$iCount++;
 	}
@@ -2902,20 +2903,60 @@ if ($_GET['profiledetails']){
 }
 
 
-if ($_GET['saveprofiledetails']){
+if ($_GET['saveprofiledetail']){
 	$iAnswerID=$_GET['answer_id'];
 	$iAnswer=$_GET['answer'];
+	$iAnswered=$_GET['answered'];
+	$iCreditValue=$_GET['creditvalue'];
 	
 	myqui('UPDATE mytcg_user_answer 
-			SET answer = '.$iAnswer.'
-			WHERE card_id = '.$iAnswerID.' 
-	');
+			SET answer = "'.$iAnswer.'", 
+			answered = 1 
+			WHERE card_id = "'.$iAnswerID.'"');
+	
+	if($iAnswered = "0"){
+		myqui('UPDATE mytcg_user 
+				SET credits = (credits +'.$iCreditValue.')  
+				WHERE user_id = "'.$iUserID.'"');
+	}
 	
 	$sOP = "<result>Complete!</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
 }
+
+
+/** give user transaction log details */
+if ($_GET['creditlog']){
+	$aTransactionDetails=myqu('SELECT transaction_id, description, date, value 
+		FROM mytcg_transactionlog  
+		WHERE user_id="'.$iUserID'" 
+		ORDER BY date ');
+	$sOP='<transactions>'.$sCRLF;
+	$iCount=0;
+	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
+		$sOP.='<transaction>'.$sCRLF;
+		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
+		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['value']).'</value>'.$sCRLF;
+		$sOP.='</transaction>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</transactions>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** for logging credit changes */
+function logtransaction($iDescription, $iValue) {
+	myqui('INSERT INTO mytcg_transactionlog (user_id, description, value, date) 
+			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now())');
+}
+
 
 /** Searches on a string and returns a list of cards belonging to the user */
 if ($searchstring=$_GET['search']) {
