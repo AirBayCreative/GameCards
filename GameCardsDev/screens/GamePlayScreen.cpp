@@ -151,6 +151,9 @@ void GamePlayScreen::drawResultsScreen() {
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
+	currentSelectedStat = -1;
+
 	imageCache->clearImageCache();
 	listBox->setEnabled(false);
 	phase = P_CARD_DETAILS;
@@ -467,6 +470,29 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void GamePlayScreen::runTimerEvent() {
+	lprintfln("runTimerEvent selected=%s", selected?"true":"false");
+	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
+		if (!selected) {
+			oppImage->selectStat(oppCard->getStats()[currentSelectedStat]->getLeft(),oppCard->getStats()[currentSelectedStat]->getTop(),
+				oppCard->getStats()[currentSelectedStat]->getWidth(),oppCard->getStats()[currentSelectedStat]->getHeight(),
+				oppCard->getStats()[currentSelectedStat]->getColorRed(), oppCard->getStats()[currentSelectedStat]->getColorGreen(),
+				oppCard->getStats()[currentSelectedStat]->getColorBlue(), 1);
+
+			userImage->selectStat(card->getStats()[selected]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+				card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+				card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+				card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+
+			selected = true;
+		}
+		else {
+			listBox->requestRepaint();
+			selected = false;
+		}
+	}
+}
+
 void GamePlayScreen::resetHeights() {
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(storeHeight);
 	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()+storeHeight + 20));
@@ -476,11 +502,14 @@ void GamePlayScreen::selectStat(int selected) {
 	char *url = NULL;
 	int urlLength = 0;
 	int res = 0;
-	currentSelectedStat = -1;
+	//currentSelectedStat = -1;
 	listBox->setEnabled(true);
 	phase = P_RESULTS;
 
-	notice->setCaption("Checking outcome...");
+	int height = listBox->getHeight();
+	retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+
+	//notice->setCaption("Checking outcome...");
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
 	urlLength = SELECTSTAT.length() + 19 + strlen(game_id) + gameId.length() +
@@ -490,12 +519,19 @@ void GamePlayScreen::selectStat(int selected) {
 	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", SELECTSTAT.c_str(), game_id, gameId.c_str(),
 			stat_id, card->getStats()[selected]->getCardStatId().c_str(), getMaxImageHeight(), getMaxImageWidth());
 	lprintfln(url);
-	clearCardStats();
-	clearListBox();
+	//clearListBox();
 
-	if(mHttp.isOpen()){
+	/*if(mHttp.isOpen()){
 		mHttp.close();
-	}
+	}*/
+
+	//maWait(5000);
+
+	selected = false;
+	MAUtil::Environment::getEnvironment().addTimer(this, 400, -1);
+
+	//clearCardStats();
+
 	mHttp = HttpConnection(this);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -514,6 +550,8 @@ void GamePlayScreen::selectStat(int selected) {
 void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	error_msg = "";
 	if (result == 200) {
+		clearCardStats();
+
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
@@ -560,8 +598,6 @@ void GamePlayScreen::xcConnError(int code) {
 		delete [] url;
 	} else if (!active && phase == P_CARD_DETAILS) {
 		notice->setCaption("Opponent is making choices...");
-		lprintfln("cont 1");
-		maWait(5000);
 		lprintfln("cont 2");
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
 		int urlLength = CONTINUEGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
@@ -574,6 +610,7 @@ void GamePlayScreen::xcConnError(int code) {
 		}*/
 		lprintfln(url);
 		lprintfln("cont 3");
+		//maWait(10000);
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -751,8 +788,6 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		newStat->setColorGreen(statGreen);
 		newStat->setColorBlue(statBlue);
 		newStat->setCardStatId(categoryStatId.c_str());
-		lprintfln("categoryStatId: %s", categoryStatId.c_str());
-		lprintfln("statIVal: %s", statIVal.c_str());
 		cardStats.add(newStat);
 		cardStatId = "";
 		statDescription = "";

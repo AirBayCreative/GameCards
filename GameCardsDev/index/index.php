@@ -1545,6 +1545,9 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 			$aiPlayerId = $adminPlayerIdQuery[0]['gameplayer_id'];
 			
 			if ($aiIsActive == '1') {
+				//to give the front end time to do some kind of animation, we sleep the index for 5 seconds
+				sleep(5);
+			
 				// we need to get the best stat for the ai to pick, so we need their top card first
 				$adminTopCardQuery = myqu('SELECT min(pos), gameplayercard_id
 					FROM mytcg_gameplayercard
@@ -1850,6 +1853,8 @@ if ($_GET['selectstat']) {
 	
 	//build xml with scores and explanation and send it back
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
+	
+	sleep(5);
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
