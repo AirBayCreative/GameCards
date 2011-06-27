@@ -2931,7 +2931,7 @@ if ($_GET['saveprofiledetail']){
 if ($_GET['creditlog']){
 	$aTransactionDetails=myqu('SELECT transaction_id, description, date, value 
 		FROM mytcg_transactionlog  
-		WHERE user_id="'.$iUserID'" 
+		WHERE user_id="'.$iUserID.'" 
 		ORDER BY date ');
 	$sOP='<transactions>'.$sCRLF;
 	$iCount=0;
