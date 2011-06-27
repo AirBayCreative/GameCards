@@ -315,7 +315,6 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 							//	DetailScreen::CARD, card);
 						//menu = new CompareScreen(this, RES_LOADING_FLIP, feed, false, card);
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
-						//lprintfln("AlbumLoadScreen");
 						menu->show();
 					}
 					else if (index == 4) {

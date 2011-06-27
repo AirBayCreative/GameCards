@@ -14,6 +14,7 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
 #include "../utils/ImageCache.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -32,19 +33,19 @@ public:
 #endif
 private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
-	int phase;
+	int phase, moved;
 
 	Vector<Widget*> tempWidgets;
 
 	Feed *feed;
 	Layout *layout;
-	ListBox* listBox;
-	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *notice;
+	KineticListBox* listBox;
+	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *notice, *label, *label2;
 
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, sending;
+	bool list, left, right, sending, changed;
 	String method, methodLabel, friendDetail, parentTag, cardText;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *usernameEditBox, *emailEditBox, *phonenumberEditBox;

@@ -145,7 +145,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	while ((indexof = all.find(newline)) > -1) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
-		//lprintfln("wawa %s",tmp.c_str());
 		newCard->setAll(tmp.c_str());
 		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
@@ -349,6 +348,7 @@ void AlbumViewScreen::hide() {
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 	String all = "";
+	orig = this;
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -365,6 +365,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
+			lprintfln("refresh()");
 			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:

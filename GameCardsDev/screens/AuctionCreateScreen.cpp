@@ -1,4 +1,5 @@
 #include "AuctionCreateScreen.h"
+#include "AlbumViewScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
@@ -49,9 +50,10 @@ void AuctionCreateScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		} else if (list) {
+		}/* else if (list) {
+			lprintfln("got left keyPressEvent");
 			keyPressEvent(MAK_FIRE);
-		}
+		}*/
 	}
 	moved = 0;
 }
@@ -91,7 +93,6 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 		case ST_DATA:
 			switch(keyCode) {
 				case MAK_FIRE:
-					break;
 				case MAK_SOFTLEFT:
 					if (!busy) {
 						openingText = editBoxOpening->getCaption();
@@ -132,18 +133,22 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 						}
 						else {
 							notice->setCaption(errorString);
-							//screenMode = ST_INVALID;
-							//drawInvalidInputScreen();
 						}
 					}
 					break;
 				case MAK_BACK:
 				case MAK_SOFTRIGHT:
-					editBoxOpening->setSelected(false);
-					editBoxBuyNow->setSelected(false);
-					editBoxDays->setSelected(false);
+					if (editBoxOpening != NULL) {
+						editBoxOpening->setSelected(false);
+					}
+					if (editBoxBuyNow != NULL) {
+						editBoxBuyNow->setSelected(false);
+					}
+					if (editBoxDays != NULL) {
+						editBoxDays->setSelected(false);
+					}
 
-					previous->show();
+					((AlbumViewScreen *)orig)->refresh();
 					break;
 				case MAK_UP:
 					if (listBox->getSelectedIndex() > 1) {
@@ -162,7 +167,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 		case ST_CREATED:
 			switch(keyCode) {
 				case MAK_SOFTRIGHT:
-					((ShopCategoriesScreen *)orig)->refresh();
+					((AlbumViewScreen *)orig)->refresh();
 					break;
 			}
 			break;
@@ -197,7 +202,7 @@ void AuctionCreateScreen::validateInput() {
 }
 
 void AuctionCreateScreen::setSelectedEditBox() {
-	editBoxOpening->setSelected(false);
+	/*editBoxOpening->setSelected(false);
 	editBoxBuyNow->setSelected(false);
 	editBoxDays->setSelected(false);
 
@@ -211,7 +216,7 @@ void AuctionCreateScreen::setSelectedEditBox() {
 		case 6:
 			editBoxDays->setSelected(true);
 			break;
-	}
+	}*/
 }
 
 void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
@@ -236,7 +241,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
-	feedlayout->setSkin(gSkinBack);
+	feedlayout->setSkin(gSkinAlbum);
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
@@ -296,7 +301,27 @@ void AuctionCreateScreen::drawDataInputScreen() {
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
+	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText += " (";
+	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
+	cardText += ")";
+	cardText += "\n";
+	cardText += card->getRarity();
+
+	cardText += "\nOpening Bid: ";
+	cardText += openingText;
+	if((!strcmp(buyNowText.c_str(), ""))||(!strcmp(buyNowText.c_str(), "0"))) {
+
+	} else {
+		cardText += "\nBuyout Price: ";
+			cardText += buyNowText;
+	}
+
+	cardText += "\nDays Left : ";
+	cardText += daysText;
+
 	clearListBox();
+	screenMode = ST_CREATED;
 	updateSoftKeyLayout("", back, "", mainLayout);
 
 	String result = "";
@@ -307,15 +332,17 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = auction_failed;
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, result + "\n", 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontBlack);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setSkin(gSkinBack);
 	label->setMultiLine(true);
-	label->setAutoSizeY(true);
 	listBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 114, listBox, 2, 1);
-	feedlayout->setSkin(gSkinBack);
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout->setSkin(gSkinAlbum);
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
@@ -323,25 +350,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	retrieveThumb(tempImage, card, mImageCache);
 
-	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
-	cardText += " (";
-	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
-	cardText += ")";
-	cardText += "\n";
-	cardText += card->getRarity();
-	cardText += "\nBid: ";
-	cardText += editBoxOpening->getCaption();
-	if((!strcmp(editBoxBuyNow->getCaption().c_str(), ""))||(!strcmp(editBoxBuyNow->getCaption().c_str(), "0"))) {
-
-	} else {
-		cardText += "\nBuyout: ";
-			cardText += editBoxBuyNow->getCaption();
-	}
-
-	cardText += "\nDays: ";
-	cardText += editBoxDays->getCaption();
-
-	label = new Label(0,0, scrWidth-86, 114, feedlayout, cardText, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, gFontBlack);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);

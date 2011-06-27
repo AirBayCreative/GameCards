@@ -17,7 +17,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener{
+class ShopDetailsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
 	~ShopDetailsScreen();
@@ -46,9 +46,9 @@ private:
 	MobImage *tempImage;
 	EditBox *editBidBox;
 
-	bool list, left, right, free, first, busy, bidOrBuy, hasBid;
+	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success;
 
-	String parentTag, result;
+	String parentTag, result, credits;
 	String temp,temp1,error_msg;
 
 	int moved, screenType;
