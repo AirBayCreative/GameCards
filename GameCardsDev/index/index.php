@@ -2258,7 +2258,7 @@ if ($_GET['newgame']) {
 	
 	//add the player to the game, the person joining will go first
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?(($newGameType == $ng_ai)?'1':'0'):'1').', 1)');
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?(($newGameType == $ng_ai)?'1':'0'):'1').', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
 	
 	//we need to get the player's gameplayer_id
 	$userPlayerIdQuery = myqu('SELECT gameplayer_id 
@@ -2300,7 +2300,7 @@ if ($_GET['newgame']) {
 	if ($newGameType == $ng_ai) {
 		//add the ai to the game
 		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-			VALUES ('.$gameId.', '.$adminUserId.', 0, 1)');
+			VALUES ('.$gameId.', '.$adminUserId.', 0, 2)');
 		
 		//we need to get the ai's gameplayer_id
 		$adminPlayerIdQuery = myqu('SELECT gameplayer_id 

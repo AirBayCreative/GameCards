@@ -47,7 +47,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	yOffset = 0;
 	storeHeight = 0;
 	ticks = 0;
-	lfmTicks = 0;
+	lfmTicks = 1;
 
 	card = NULL;
 	oppCard = NULL;
@@ -129,6 +129,7 @@ void GamePlayScreen::clearListBox() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
+	lprintfln("drawResultsScreen");
 	clearListBox();
 
 	updateSoftKeyLayout(continuelbl, options, "", mainLayout);
@@ -155,6 +156,7 @@ void GamePlayScreen::drawResultsScreen() {
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
+	lprintfln("drawCardSelectStatScreen");
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
 
@@ -165,12 +167,16 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
 	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
-	notice->setCaption("");
 	listBox->setPosition(0, 0);
 
 	flip = true;
 
-	notice->setCaption("");
+	if (!active && phase == P_CARD_DETAILS) {
+		notice->setCaption("Opponent is making choices...");
+	}
+	else {
+		notice->setCaption("");
+	}
 	clearListBox();
 
 	updateSoftKeyLayout(active?play_stat:"", options, "", mainLayout);
@@ -199,6 +205,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 }
 
 void GamePlayScreen::drawLFMScreen() {
+	lprintfln("drawLFMScreen");
 	if (ticks == 0) {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
@@ -493,6 +500,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 }
 
 void GamePlayScreen::runTimerEvent() {
+	lprintfln("runTimerEvent currentSelectedStat: %d", currentSelectedStat);
 	if (phase == P_LFM) {
 		drawLFMScreen();
 		ticks = ticks>3?1:ticks+1;
@@ -579,12 +587,12 @@ void GamePlayScreen::resetHeights() {
 }
 
 void GamePlayScreen::selectStat(int selected) {
+	lprintfln("selectStat currentSelectedStat: %d", currentSelectedStat);
 	char *url = NULL;
 	int urlLength = 0;
 	int res = 0;
 	//currentSelectedStat = -1;
 	listBox->setEnabled(true);
-	phase = P_RESULTS;
 
 	int height = listBox->getHeight();
 	retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
@@ -608,6 +616,7 @@ void GamePlayScreen::selectStat(int selected) {
 	//maWait(5000);
 
 	selected = false;
+	lprintfln("addTimer 1");
 	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 
 	//clearCardStats();
@@ -648,8 +657,10 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 }
 
 void GamePlayScreen::xcConnError(int code) {
+	lprintfln("xcConnError");
 	char *url;
 	if (newGame) {
+		lprintfln("xcConnError 1");
 		if (newGame) {
 			notice->setCaption(loading_game);
 		}
@@ -679,10 +690,13 @@ void GamePlayScreen::xcConnError(int code) {
 		delete [] url;
 	}
 	else if (!active && phase == P_CARD_DETAILS) {
+		lprintfln("xcConnError 2");
 		notice->setCaption("Opponent is making choices...");
+		lprintfln("addTimer 2");
 		MAUtil::Environment::getEnvironment().addTimer(this, 3000, 1);
 	}
 	else if (phase == P_LFM) {
+		lprintfln("xcConnError 3");
 		checking = false;
 	}
 }
@@ -691,10 +705,13 @@ void GamePlayScreen::mtxEncoding(const char* ) {
 }
 
 void GamePlayScreen::mtxTagStart(const char* name, int len) {
+	lprintfln("mtxTagStart: %s", name);
 	parentTag = name;
 }
 
 void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+	lprintfln("attrName: %s", attrName);
+	lprintfln("attrValue: %s", attrValue);
 	if(!strcmp(parentTag.c_str(), xml_cardstat)) {
 		if(!strcmp(attrName, xml_cardstat_id)) {
 			cardStatId += attrValue;
@@ -723,6 +740,7 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void GamePlayScreen::mtxTagData(const char* data, int len) {
+	lprintfln("mtxTagData: %s", data);
 	if(!strcmp(parentTag.c_str(), xml_cardid)) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
@@ -785,6 +803,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 }
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
+	lprintfln("mtxTagEnd: %s", name);
 	if (!strcmp(name, xml_usercard)) {
 		if (card == NULL) {
 			//delete card;
@@ -883,10 +902,12 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 						}
 					}
 					selected = false;
+					lprintfln("addTimer 3");
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 				case P_LFM:
 					ticks = 0;
+					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
 					break;
 			}
