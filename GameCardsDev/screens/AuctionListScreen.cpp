@@ -405,6 +405,14 @@ void AuctionListScreen::mtxTagData(const char* data, int len) {
 		description += data;
 	} else if(!strcmp(parentTag.c_str(), xml_thumburl)) {
 		thumburl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
+		fronturl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_frontflipurl)) {
+		frontflipurl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
+		backurl += data;
+	} else if(!strcmp(parentTag.c_str(), xml_backflipurl)) {
+		backflipurl += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
 	} else if(!strcmp(parentTag.c_str(), xml_opening_bid)) {
@@ -427,7 +435,7 @@ void AuctionListScreen::mtxTagData(const char* data, int len) {
 }
 
 void AuctionListScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_thumburl)) {
+	if(!strcmp(name, xml_auction)) {
 		fullDesc = "";
 		if (strcmp(price.c_str(), "")) {
 			fullDesc += "Current bid: ";
@@ -454,6 +462,10 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		card->setText(description.c_str());
 		card->setThumb(thumburl.c_str());
 		card->setFullDesc(fullDesc.c_str());
+		card->setFront(fronturl.c_str());
+		card->setFrontFlip(frontflipurl.c_str());
+		card->setBack(backurl.c_str());
+		card->setBackFlip(backflipurl.c_str());
 
 		auction = new Auction();
 		auction->setAuctionCardId(auctionCardId.c_str());
@@ -471,6 +483,10 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		cardId = "";
 		description = "";
 		thumburl = "";
+		fronturl = "";
+		frontflipurl = "";
+		backurl = "";
+		backflipurl = "";
 		openingBid = "";
 		price = "";
 		userCardId = "";

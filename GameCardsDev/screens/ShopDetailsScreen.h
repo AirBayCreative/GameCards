@@ -46,7 +46,7 @@ private:
 	MobImage *tempImage;
 	EditBox *editBidBox;
 
-	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success;
+	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow;
 
 	String parentTag, result, credits;
 	String temp,temp1,error_msg;
@@ -79,6 +79,7 @@ private:
 	void buyNow();
 
 	void drawPostBid(String success);
+	void drawBuyNow();
 	void drawBuyNow(bool success);
 
 	void clearListBox();

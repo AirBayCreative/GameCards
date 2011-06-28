@@ -22,32 +22,15 @@ void AlbumLoadScreen::refresh() {
 	delete album;
 	album = new Albums();
 
-	switch(screenType) {
-		case ST_ALBUMS:
-		case ST_COMPARE:
-			notice->setCaption(checking_albums);
-			album->setAll(this->feed->getAlbum()->getAll().c_str());
-			drawList();
-			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
-			res = mHttp.create(url, HTTP_GET);
-			break;
-		case ST_PLAY:
-			notice->setCaption(checking_albums);
+	notice->setCaption(checking_albums);
+	album->setAll(this->feed->getAlbum()->getAll().c_str());
+	drawList();
+	urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+	res = mHttp.create(url, HTTP_GET);
 
-			drawList();
-			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
-			res = mHttp.create(url, HTTP_GET);
-			break;
-		case ST_GAMES:
-			break;
-	}
 	if(res < 0) {
 		hasConnection = false;
 		notice->setCaption("");

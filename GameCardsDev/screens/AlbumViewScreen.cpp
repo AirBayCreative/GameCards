@@ -365,7 +365,6 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
-			lprintfln("refresh()");
 			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:

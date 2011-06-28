@@ -51,7 +51,6 @@ private:
 
 	void acceptCard();
 	void rejectCard();
-	void deleteCard();
 	void checkForGames();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
