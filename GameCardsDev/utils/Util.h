@@ -428,6 +428,7 @@ static const char* xml_usercard = "usercard";
 static const char* xml_opponentcard = "oppcard";
 static const char* xml_usercards = "usercards";
 static const char* xml_opponentcards = "oppcards";
+static const char* xml_lastmove = "lastmove";
 //update vars
 static const char* update_imsi = "imsi";
 static const char* update_imei = "imei";
@@ -448,6 +449,7 @@ static const char* phase_stat = "stat";
 static const char* phase_result = "result";
 static const char* phase_finished = "finished";
 static const char* phase_waiting = "waiting";
+static const char* phase_oppmove = "oppmove";
 //contact labels
 static const char* calllbl = "Call";
 static const char* smslbl = "SMS";

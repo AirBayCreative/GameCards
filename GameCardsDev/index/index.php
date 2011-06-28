@@ -1494,6 +1494,7 @@ if ($_GET['loadgame']) {
 /** load the phase of the game, then send an unplayed cards list, a selected cards stats, or results accordingly */
 if ($_GET['continuegame']) {
 	$gameId = $_GET['gameid'];
+	$lastMove = base64_decode($_GET['lastmove']);
 	
 	$sOP = '';
 	
@@ -1505,11 +1506,24 @@ if ($_GET['continuegame']) {
 		$iWidth = '250';
 	}
 	
-	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
+	//continue the game, if needed selecting a stat for the ai
 	continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
-	//load the game for the user
-	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
+	//we need to check if a move has been made since the last move the user saw.
+	$lastMoveQuery = myqu('SELECT date, gamelog_id, categorystat_id 
+		FROM mytcg_gamelog 
+		WHERE game_id = '.$gameId.' 
+		ORDER BY gamelog_id DESC 
+		LIMIT 1');
+	$newLastMove = $lastMoveQuery[0]['date'];
+	if ($lastMove != $newLastMove) {
+		$sOP = '<game><phase>oppmove</phase><categorystat_id>'.$lastMoveQuery[0]['categorystat_id'].'</categorystat_id><lastmove>'.$lastMoveQuery[0]['date'].'</lastmove></game>';
+	}
+	
+	if ($sOP == '') {
+		//load the game for the user
+		$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth);
+	}
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -1545,9 +1559,6 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 			$aiPlayerId = $adminPlayerIdQuery[0]['gameplayer_id'];
 			
 			if ($aiIsActive == '1') {
-				//to give the front end time to do some kind of animation, we sleep the index for 5 seconds
-				sleep(5);
-			
 				// we need to get the best stat for the ai to pick, so we need their top card first
 				$adminTopCardQuery = myqu('SELECT min(pos), gameplayercard_id
 					FROM mytcg_gameplayercard
@@ -1608,12 +1619,22 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		
 		$sOP.='<active>'.$isActive.'</active>';
 		
+		//we need the date of the last move
+		$lastMoveQuery = myqu('SELECT date, gamelog_id 
+			FROM mytcg_gamelog 
+			WHERE game_id = '.$gameId.' 
+			ORDER BY gamelog_id DESC 
+			LIMIT 1');
+		$lastMove = $lastMoveQuery[0]['date'];
+		
+		$sOP.='<lastmove>'.$lastMove.'</lastmove>';
+		
 		//we need to get the amount of cards left in each deck
 		$cardsQuery = myqu('SELECT count(gpc.gameplayercard_id) cards, gp.user_id 
 			FROM mytcg_gameplayercard gpc
 			INNER JOIN mytcg_gameplayer gp
 			ON gp.gameplayer_id = gpc.gameplayer_id
-			WHERE gp.game_id = 1 
+			WHERE gp.game_id = '.$gameId.' 
 			GROUP BY gp.gameplayer_id');
 		
 		$count = 0;
@@ -1854,7 +1875,7 @@ if ($_GET['selectstat']) {
 	//build xml with scores and explanation and send it back
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
 	
-	sleep(5);
+	sleep(3);
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
