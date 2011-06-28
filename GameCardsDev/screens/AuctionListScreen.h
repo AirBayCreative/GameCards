@@ -50,7 +50,7 @@ private:
 
 	Vector<Widget*> tempWidgets;
 	String parentTag, cardText;
-	String cardId, description, thumburl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, fullDesc, endDate, lastBidUser;
+	String cardId, description, thumburl, fronturl, frontflipurl, backurl, backflipurl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, fullDesc, endDate, lastBidUser;
 	int moved, screenType;
 	bool list, left, right, emp, shouldUpdateAuction;
 

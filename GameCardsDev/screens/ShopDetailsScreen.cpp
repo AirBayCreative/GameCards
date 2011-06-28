@@ -15,6 +15,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 	buynow = false;
 	success = false;
+	confirmbuynow = false;
 	if (screenType == ST_AUCTION)
 	{
 		if (!strcmp(auction->getBuyNowPrice().c_str(), "")) {
@@ -340,8 +341,12 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			switch (screenType) {
 				case ST_AUCTION: // Buy
-					if (buynow) {
-						buyNow();
+					if (confirmbuynow) {
+						//buyNow();
+						confirmbuynow = false;
+					} else if (buynow) {
+						confirmbuynow = true;
+						drawBuyNow();
 					}
 					break;
 				case ST_PRODUCT:
@@ -632,19 +637,92 @@ void ShopDetailsScreen::drawPostBid(String message)
 
 	hasBid = true;
 }
+void ShopDetailsScreen::drawBuyNow()
+{
 
+	if (mainLayout == NULL) {
+		mainLayout = createMainLayout(confirm, back, true);
+		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	}
+	else {
+		clearListBox();
+		updateSoftKeyLayout(confirm, back, "", mainLayout);
+	}
+
+	notice->setCaption("");
+	String message = "Are you sure you want to buy " + auction->getCard()->getText() + " for " + auction->getBuyNowPrice() + "?";
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, gFontBlack);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setSkin(gSkinBack);
+	label->setMultiLine(true);
+	listBox->add(label);
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
+	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setDrawBackground(true);
+	feedlayout->addWidgetListener(this);
+
+	mImageCache = new ImageCache();
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+
+	nameDesc = "";
+	fullDesc = "";
+
+	retrieveThumb(tempImage, auction->getCard(), mImageCache);
+
+	nameDesc = auction->getCard()->getText();
+	fullDesc = nameDesc;
+	fullDesc += "\nBid: ";
+	if(!strcmp(auction->getPrice().c_str(), "")) {
+		fullDesc += auction->getOpeningBid();
+	} else {
+		fullDesc += auction->getPrice();
+	}
+
+	if((!strcmp(auction->getBuyNowPrice().c_str(), ""))||(!strcmp(auction->getBuyNowPrice().c_str(), "0"))) {
+
+	} else {
+		fullDesc += "\nBuy Out: ";
+		fullDesc += auction->getBuyNowPrice();
+	}
+
+	fullDesc += "\n";
+	fullDesc += getTime().c_str();
+	fullDesc += "\nBidder: ";
+	if(!strcmp(auction->getLastBidUser().c_str(), "")) {
+		fullDesc += auction->getUsername();
+	} else {
+		fullDesc += auction->getLastBidUser();
+	}
+
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, gFontBlack);
+	cardLabel->setVerticalAlignment(Label::VA_CENTER);
+	cardLabel->setAutoSizeY();
+	cardLabel->setMultiLine(true);
+
+	this->setMain(mainLayout);
+
+	//((AuctionListScreen*)previous)->updateAuctions();
+	//auction = NULL;
+
+	//hasBid = true;
+}
 void ShopDetailsScreen::drawBuyNow(bool success)
 {
 	if (success)
 	{
 		next = new ImageScreen(previous, RES_LOADING, feed, false, auction->getCard());
-		((ImageScreen*)next)->isAuction = true;
+		((ImageScreen *)next)->isAuction = true;
 		next->show();
 		auction = NULL;
 	}
 	else
 	{
-		notice->setCaption("Buy now failed");
+		notice->setCaption("Could not purchase the card.");
 	}
 }
 

@@ -81,9 +81,6 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl = createSubLabel(addDecklbl);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(deletecardlbl);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
 			break;
 		case ST_NEW_CARD:
 			lbl = createSubLabel(acceptlbl);
@@ -330,14 +327,9 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new DetailScreen(this, feed,
+						/*menu = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
-						menu->show();
-					}
-					else if (index == 6 && !busy) {
-						busy = true;
-						notice->setCaption("Deleting...");
-						deleteCard();
+						menu->show();*/
 					}
 					break;
 				case ST_NEW_CARD:
@@ -444,28 +436,6 @@ void OptionsScreen::rejectCard() {
 	}
 	delete [] url;
 }
-
-void OptionsScreen::deleteCard() {
-	//work out how long the url will be
-	int urlLength = DELETECARD.length() + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", DELETECARD.c_str(), card->getId().c_str());
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-		notice->setCaption("");
-	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-		mHttp.finish();
-	}
-	delete [] url;
-}
-
 void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		connError = false;

@@ -374,6 +374,7 @@ static const char* xml_user_card_id = "usercardid";
 static const char* xml_auction_card_id = "auctioncardid";
 static const char* xml_buy_now_price = "buynowprice";
 static const char* xml_auctionsdone = "auctionsincategory";
+static const char* xml_auction = "auction";
 static const char* xml_end_date = "endDate";
 static const char* xml_last_bid_user = "lastBidUser";
 static const char* xml_buyout_success = "1";

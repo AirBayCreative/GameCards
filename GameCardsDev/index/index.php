@@ -1239,6 +1239,36 @@ if ($_GET['categoryauction']){
 			}
 		}
 		$sOP.=$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
+		
+		//before setting the front and back urls, make sure the card is resized for the height
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image']);
+		
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$aOneCard['front_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+    
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+		
+
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$aOneCard['back_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+    
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 		$sOP.='</auction>';
 		$iCount++;
 	}
@@ -1251,7 +1281,7 @@ if ($_GET['categoryauction']){
 //recurring function to get all cards on auction within a category and its children
 function getAuctionCards($categoryId, $cards, $iUserID) {
 	$aAuctionCards = myqu('SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
-		ac.price buy_now_price, c.thumbnail_phone_imageserver_id, 
+		ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
 		max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
 		u.username, c.image
 		FROM mytcg_market ac
