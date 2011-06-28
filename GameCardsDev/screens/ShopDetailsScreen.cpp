@@ -12,7 +12,8 @@
 #include "AuctionListScreen.h"
 
 ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : mHttp(this), previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), first(first), free(free) {
-
+	lprintfln("ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	next = NULL;
 	buynow = false;
 	success = false;
 	confirmbuynow = false;
@@ -50,10 +51,12 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	} else if (screenType != ST_USER) {
 		String msg = "Current credits: " + feed->getCredits();
 		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, msg.c_str(), 0, gFontBlack);
+		msg = "";
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
 	}
+
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
@@ -237,6 +240,7 @@ String ShopDetailsScreen::getTime() {
 	} else {
 		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
 	}
+	delete cmp_p;
 	return buffer;
 }
 
@@ -245,11 +249,25 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	if(mImageCache != NULL){
 		delete mImageCache;
 	}
+	/*if (tempImage != NULL) {
+		delete tempImage;
+	}*/
+	/*if (product != NULL) {
+		delete product;
+	}*/
+	auction = NULL;
+	product = NULL;
+	tempImage = NULL;
 	mImageCache = NULL;
 	nameDesc = "";
 	fullDesc = "";
+	parentTag = "";
+	result = "";
+	credits = "";
+	temp = "";
+	temp1 = "";
+	error_msg = "";
 
-	//MAUtil::Environment::getEnvironment().removeTimer(this);
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
@@ -279,9 +297,6 @@ void ShopDetailsScreen::pointerReleaseEvent(MAPoint2d point)
 
 void ShopDetailsScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
-	}
 	list = false;
 	left = false;
 	right = false;
@@ -342,8 +357,8 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			switch (screenType) {
 				case ST_AUCTION: // Buy
 					if (confirmbuynow) {
-						//buyNow();
 						confirmbuynow = false;
+						buyNow();
 					} else if (buynow) {
 						confirmbuynow = true;
 						drawBuyNow();
@@ -364,17 +379,14 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			switch (screenType) {
 				case ST_AUCTION: // Buy
 				case ST_USER:
-					/*if (editBidBox != NULL) {
-						editBidBox->setSelected(false);
-					}*/
-					//((AuctionListScreen*)previous)->show();//refresh();
+					editBidBox->setSelected(false);
 					previous->show();
 					break;
 				case ST_PRODUCT:
+					editBidBox->setSelected(false);
 					((ShopProductsScreen *)previous)->pop();
 					break;
 			}
-
 			break;
 		case MAK_UP:
 			listBox->selectPreviousItem();

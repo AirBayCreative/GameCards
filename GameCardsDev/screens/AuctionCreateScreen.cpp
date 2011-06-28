@@ -6,6 +6,7 @@
 #include "../UI/Widgets/MobImage.h"
 
 AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
+	lprintfln("AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	listBox = NULL;
 	mainLayout= NULL;
 
@@ -23,12 +24,24 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 
 	busy = false;
 
+	//drawInvalidInputScreen();
 	drawDataInputScreen();
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
 	delete mainLayout;
-	delete mImageCache;
+	if (mImageCache != NULL) {
+		delete mImageCache;
+	}
+	mImageCache = NULL;
+	tempImage = NULL;
+	openingText = "";
+	buyNowText = "";
+	daysText = "";
+	errorString = "";
+	parentTag = "";
+	createResult = "";
+	cardText = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -50,10 +63,7 @@ void AuctionCreateScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		}/* else if (list) {
-			lprintfln("got left keyPressEvent");
-			keyPressEvent(MAK_FIRE);
-		}*/
+		}
 	}
 	moved = 0;
 }
@@ -245,7 +255,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 	retrieveThumb(tempImage, card, mImageCache);
 
@@ -366,7 +376,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	editBoxDays->setSelected(false);
 
 	clearListBox();
-	updateSoftKeyLayout(back, "", "", mainLayout);
+	updateSoftKeyLayout("", back, "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, gFontBlack);
 	label->setMultiLine(true);

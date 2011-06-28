@@ -7,6 +7,7 @@
 
 NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
 feed(feed), card(card), screenType(screenType), detail(detail) {
+	lprintfln("NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	list = false;
 	left = false;

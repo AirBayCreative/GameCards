@@ -226,6 +226,7 @@ void saveData(const char* storefile, const char *value) {
 			maWriteStore(store, hValue);
 		}
 		maCloseStore(store, 0);
+		maDestroyObject(hValue);
 		hValue = -1;
 	}
 	store = -1;
@@ -251,11 +252,14 @@ char* getData(const char* storefile) {
 			memset(ret,'\0',size+1);
 			maReadData(tmp, ret, 0, size);
 			maCloseStore(store, 0);
+			tmp = -1;
 			return ret;
 		} else {
 			return "";
 		}
 	}
+	store = -1;
+	tmp = -1;
 	return "";
 }
 

@@ -6,6 +6,7 @@
 #include "../utils/MAHeaders.h"
 
 AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenType, String catId) : mHttp(this), screenType(screenType), categoryId(catId), previous(previous), feed(feed) {
+	lprintfln("AuctionListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	emp = true;
 	left = false;
 	right = false;
