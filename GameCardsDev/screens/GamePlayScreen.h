@@ -34,7 +34,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE};
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
@@ -49,10 +49,10 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, gameId, categoryId;
+	String parentTag, cardText, gameId, categoryId, lastMove;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message, userCards, oppCards, categoryStatId;
-	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks;
 	String explanation, outcome;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
 	bool list, left, right, hasConnection, newGame, busy, flip, active, selected;

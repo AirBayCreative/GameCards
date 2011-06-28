@@ -24,6 +24,7 @@ WidgetSkin *gSkinEditBox;
 WidgetSkin *gSkinButton;
 WidgetSkin *gSkinBack;
 WidgetSkin *gSkinList;
+WidgetSkin *gSkinListNoArrows;
 WidgetSkin *gSkinAlbum;
 WidgetSkin *gSkinText;
 WidgetSkin *gSkinKeyboard;

@@ -62,6 +62,9 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl = createSubLabel(view_details);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
+			lbl = createSubLabel(view_log);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
 			break;
 		case ST_CARD_OPTIONS:
 			lbl = createSubLabel(noteslbl);
@@ -278,7 +281,14 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GameDetailsScreen(feed);
+						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_DETAILS);
+						menu->show();
+					}
+					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
 						menu->show();
 					}
 					break;

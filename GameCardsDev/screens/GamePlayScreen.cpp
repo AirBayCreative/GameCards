@@ -31,6 +31,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	backflipurl = "";
 	userCards = "";
 	oppCards = "";
+	lastMove = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -44,6 +45,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	cardIndex = 0;
 	yOffset = 0;
 	storeHeight = 0;
+	ticks = 0;
 
 	card = NULL;
 	oppCard = NULL;
@@ -472,6 +474,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 
 void GamePlayScreen::runTimerEvent() {
 	lprintfln("runTimerEvent selected=%s", selected?"true":"false");
+	ticks++;
 	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
 		if (!selected) {
 			oppImage->selectStat(oppCard->getStats()[currentSelectedStat]->getLeft(),oppCard->getStats()[currentSelectedStat]->getTop(),
@@ -490,6 +493,29 @@ void GamePlayScreen::runTimerEvent() {
 			listBox->requestRepaint();
 			selected = false;
 		}
+	}
+
+	if (phase == P_OPPMOVE && ticks > 6) {
+		MAUtil::Environment::getEnvironment().removeTimer(this);
+		ticks = 0;
+		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+		char *url = new char[urlLength];
+		memset(url,'\0',urlLength);
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
+			gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			hasConnection = false;
+			notice->setCaption("Connection error.");
+		} else {
+			hasConnection = true;
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+		delete [] url;
 	}
 }
 
@@ -528,7 +554,7 @@ void GamePlayScreen::selectStat(int selected) {
 	//maWait(5000);
 
 	selected = false;
-	MAUtil::Environment::getEnvironment().addTimer(this, 400, -1);
+	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 
 	//clearCardStats();
 
@@ -599,18 +625,18 @@ void GamePlayScreen::xcConnError(int code) {
 	} else if (!active && phase == P_CARD_DETAILS) {
 		notice->setCaption("Opponent is making choices...");
 		lprintfln("cont 2");
-		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = CONTINUEGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
+		int urlLength = CONTINUEGAME.length() + 19 + strlen(game_id) + gameId.length() + strlen(xml_lastmove) + lastMove.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
-				game_id, gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
+				game_id, gameId.c_str(), xml_lastmove, lastMove.c_str(), getMaxImageHeight(), getMaxImageWidth());
 		/*if(mHttp.isOpen()){
 			mHttp.close();
 		}*/
 		lprintfln(url);
 		lprintfln("cont 3");
-		//maWait(10000);
+		maWait(3000);
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -704,6 +730,10 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		userCards = data;
 	} else if(!strcmp(parentTag.c_str(), xml_opponentcards)) {
 		oppCards = data;
+	} else if(!strcmp(parentTag.c_str(), xml_lastmove)) {
+		lprintfln("xml_lastmove: %s", data);
+		lastMove = base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
+		lprintfln("lastMove: %s", lastMove.c_str());
 	} else if(!strcmp(parentTag.c_str(), xml_active)) {
 		lprintfln("xml_active: %s", data);
 		lprintfln("strcmp(data, \"1\"): %d", strcmp(data, "1"));
@@ -716,6 +746,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		}
 		else if (!strcmp(data, phase_result)) {
 			phase = P_RESULTS;
+		}
+		else if (!strcmp(data, phase_oppmove)) {
+			phase = P_OPPMOVE;
 		}
 	}
 }
@@ -787,7 +820,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		newStat->setColorRed(statRed);
 		newStat->setColorGreen(statGreen);
 		newStat->setColorBlue(statBlue);
-		newStat->setCardStatId(categoryStatId.c_str());
+		newStat->setCategoryStatId(categoryStatId.c_str());
 		cardStats.add(newStat);
 		cardStatId = "";
 		statDescription = "";
@@ -806,6 +839,26 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					break;
 				case P_RESULTS:
 					drawResultsScreen();
+					break;
+				case P_OPPMOVE:
+					notice->setCaption("");
+					lprintfln("P_OPPMOVE");
+					lprintfln("categoryStatId: %s", categoryStatId.c_str());
+					int height = listBox->getHeight();
+					retrieveBackFlip(userImage, card, height, imageCache);
+					retrieveBackFlip(oppImage, oppCard, height, imageCache);
+					for (int i = 0; i < oppCard->getStats().size(); i++) {
+						lprintfln("i: %d", i);
+						lprintfln("oppCard->getStatAt(i)->getCategoryStatId(): %s", oppCard->getStatAt(i)->getCategoryStatId().c_str());
+						lprintfln("categoryStatId: %s", categoryStatId.c_str());
+						if (strcmp(oppCard->getStatAt(i)->getCategoryStatId().c_str(), categoryStatId.c_str()) == 0) {
+							currentSelectedStat = i;
+							break;
+						}
+					}
+					lprintfln("currentSelectedStat: %d", currentSelectedStat);
+					selected = false;
+					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 			}
 		}
