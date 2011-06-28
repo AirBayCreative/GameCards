@@ -141,8 +141,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	if (url != NULL) {
 		delete url;
 	}
-
-	//orig = this;
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {

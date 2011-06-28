@@ -30,6 +30,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
+	Layout *feedlayout;
 	switch (screenType) {
 		case ST_CARD_NOTE:
 			mImageCache = new ImageCache();
@@ -44,8 +45,6 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			cardText += "\nRating: ";
 			cardText += card->getRanking();
 			//cardText += "\nRarity: ";
-
-			Layout *feedlayout;
 
 			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 			feedlayout->setSkin(gSkinAlbum);
@@ -77,7 +76,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 		break;
 	}
 
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-28-(PADDING)), NULL, "", 0, gFontBlack);
+	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, gFontBlack);
 	label->setSkin(gSkinEditBox);
 	setPadding(label);
 
@@ -129,6 +128,7 @@ void NoteScreen::pointerMoveEvent(MAPoint2d point)
 void NoteScreen::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
+
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {

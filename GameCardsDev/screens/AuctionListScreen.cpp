@@ -149,6 +149,10 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;
+	int ind = listBox->getSelectedIndex();
+	if (ind < 0) {
+		ind = 0;
+	}
 	clearListBox();
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
@@ -187,11 +191,11 @@ void AuctionListScreen::drawList() {
 
 	if (auctions.size() >= 1) {
 		emp = false;
-		listBox->setSelectedIndex(0);
+		listBox->setSelectedIndex(ind);
 	} else {
 		emp = true;
 		listBox->add(createSubLabel(empty));
-		listBox->setSelectedIndex(0);
+		listBox->setSelectedIndex(ind);
 	}
 }
 
