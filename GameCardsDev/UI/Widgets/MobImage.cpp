@@ -46,11 +46,9 @@ void MobImage::selectStat(int x, int y, int width, int height, int red, int gree
 	//Gfx_clearMatrix();
 	//drawRectangle((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
 	//code for portrait
-	lprintfln("orientation %d", orientation);
 	if (orientation == 0) {
 		drawRectangle((5 + (paddedBounds.width >> 1) - (imageWidth >> 1))+(x*imageWidth/250),((paddedBounds.height >> 1) - (imageHeight >> 1))+(y*imageHeight/350),width*imageWidth/250,height*imageHeight/350);
 	} else if (orientation == 1) {
-		lprintfln("horizontal drawing");
 		drawRectangle((((paddedBounds.width >> 1) + (imageWidth >> 1))-((y*imageWidth/350)+height*imageWidth/350))+3
 				,(((paddedBounds.height >> 1) - (imageHeight >> 1))+getPosition().y)+(x*imageHeight/250),
 				height*imageWidth/350,

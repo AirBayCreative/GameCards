@@ -3,6 +3,7 @@
 #include <mavsprintf.h>
 #include <mawvsprintf.h>
 #include <maassert.h>
+#include "../../utils/Util.h"
 
 namespace MAUI {
 
@@ -83,8 +84,10 @@ void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if(this->isActive()&&this->contains(point.x, point.y)){
-		activate();
+	if (point.y < scrHeight-softKeys->getHeight()) {
+		if(this->isActive()&&this->contains(point.x, point.y)) {
+			activate();
+		}
 	}
 }
 

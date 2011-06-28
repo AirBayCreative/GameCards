@@ -197,6 +197,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
+			orig = this;
 			switch (screenType) {
 				case ST_FREEBIE:
 					if (!empt) {

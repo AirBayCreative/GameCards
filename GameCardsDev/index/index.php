@@ -491,7 +491,12 @@ if ($_GET['auctionbid']){
 			.", ".$iUserID.", ".$bid.", now())";
 		myqu($query);
 		
-		echo $sTab.'<result>Bid successfull</result>'.$sCRLF;
+		$query = "select credits from mytcg_user where user_id = ".$iUserID;
+		$result = myqu($query);
+		$credits = $result[0]['credits'];
+		
+		
+		echo $sTab.'<credits>'.$credits.'</credits><result>You are now the highest bidder.</result>'.$sCRLF;
 	}
 	else {
 		echo $sTab.'<result>You do not have enough credits.</result>'.$sCRLF;

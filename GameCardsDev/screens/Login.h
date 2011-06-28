@@ -19,9 +19,6 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class MobKeyboard;
-class MobEditBox;
-
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	Login(Screen *previous, Feed *feed, int screen);

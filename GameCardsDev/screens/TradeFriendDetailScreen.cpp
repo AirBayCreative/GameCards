@@ -9,15 +9,19 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	methodLabel = "";
 	method = "";
 	result = "";
+	moved = 0;
 	menu = NULL;
-	layout = createMainLayout(continuelbl, back);
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
+	layout = createMainLayout(continuelbl, back, "", true);
 
 	layout->setDrawBackground(TRUE);
-	this->setMain(layout);
+
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
+	notice->setMultiLine(true);
 
 	drawMethodScreen();
+
+	this->setMain(layout);
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
@@ -41,6 +45,8 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 
 void TradeFriendDetailScreen::drawMethodScreen() {
 	phase = SP_DETAIL;
+	moved = 0;
+	changed = false;
 
 	notice->setCaption("");
 	clearListBox();
@@ -83,59 +89,53 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareuserlbl, 0, gFontBlack);
-	lbl->setSkin(gSkinBack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareuserlbl, 0, gFontBlack);
+	//label->setSkin(gSkinBack);
+	listBox->add(label);
 
-	lblMethodUserName = createEditLabel("");
-	usernameEditBox = new NativeEditBox(0, 0, lblMethodUserName->getWidth()-PADDING*2, lblMethodUserName->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, lblMethodUserName, "", L"");
-	usernameEditBox->setOptions(MA_TB_TYPE_ANY);
-
+	label = createEditLabel("");
+	usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"");
+	//usernameEditBox->setOptions(MA_TB_TYPE_ANY);
 	usernameEditBox->setDrawBackground(false);
-	lblMethodUserName->addWidgetListener(this);
+	label->addWidgetListener(this);
+	listBox->add(label);
 
-	listBox->add(lbl);
-	listBox->add(lblMethodUserName);
+	//usernameEditBox->setText("");
+	//usernameEditBox->setSelected(true);
 
-	usernameEditBox->setText("");
-	usernameEditBox->setSelected(true);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareemaillbl, 0, gFontBlack);
+	listBox->add(label);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, shareemaillbl, 0, gFontBlack);
-	lbl->setSkin(gSkinBack);
-
-	lblMethodEmail = createEditLabel("");
-	emailEditBox = new NativeEditBox(0, 0, lblMethodEmail->getWidth()-PADDING*2, lblMethodEmail->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, lblMethodEmail, "", L"");
-	emailEditBox->setOptions(MA_TB_TYPE_EMAILADDR);
-
+	label = createEditLabel("");
+	emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"");
+	//emailEditBox->setOptions(MA_TB_TYPE_EMAILADDR);
 	emailEditBox->setDrawBackground(false);
-	lblMethodEmail->addWidgetListener(this);
+	label->addWidgetListener(this);
+	listBox->add(label);
 
-	listBox->add(lbl);
-	listBox->add(lblMethodEmail);
+	//emailEditBox->setText("");
+	//emailEditBox->setSelected(true);
 
-	emailEditBox->setText("");
-	emailEditBox->setSelected(true);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, sharephoneNumlbl, 0, gFontBlack);
+	listBox->add(label);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, sharephoneNumlbl, 0, gFontBlack);
-	lbl->setSkin(gSkinBack);
-
-	lblMethodPhonenumber = createEditLabel("");
-	phonenumberEditBox = new NativeEditBox(0, 0, lblMethodPhonenumber->getWidth()-PADDING*2, lblMethodPhonenumber->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, lblMethodPhonenumber, "", L"");
-	phonenumberEditBox->setOptions(MA_TB_TYPE_NUMERIC);
-
+	label = createEditLabel("");
+	phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"");
+	//phonenumberEditBox->setOptions(MA_TB_TYPE_NUMERIC);
 	phonenumberEditBox->setDrawBackground(false);
-	lblMethodPhonenumber->addWidgetListener(this);
+	label->addWidgetListener(this);
+	listBox->add(label);
 
-	listBox->add(lbl);
-	listBox->add(lblMethodPhonenumber);
-
-	phonenumberEditBox->setText("");
-	phonenumberEditBox->setSelected(true);
+	//phonenumberEditBox->setText("");
+	//phonenumberEditBox->setSelected(true);
 
 	listBox->setSelectedIndex(2);
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
 	phase = SP_CONFIRM;
+	moved = 0;
+	changed = false;
 
 	notice->setCaption("");
 	clearListBox();
@@ -190,6 +190,8 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 void TradeFriendDetailScreen::drawCompleteScreen() {
 	phase = SP_COMPLETE;
+	moved = 0;
+	changed = false;
 
 	notice->setCaption("");
 	clearListBox();
@@ -262,15 +264,30 @@ void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point) {
 
 void TradeFriendDetailScreen::pointerMoveEvent(MAPoint2d point) {
 	locateItem(point);
+	moved++;
 }
 
 void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (moved <= 8) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		}/* else if (mid) {
+			keyPressEvent(MAK_FIRE);
+		}*/
+
+		if (!changed) {
+			int yClick = point.y;
+			int index = listBox->getSelectedIndex();
+		}
+		else {
+			changed = false;
+		}
+	}
+	else {
+		moved = 0;
+		changed = false;
 	}
 }
 
@@ -281,14 +298,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 
 	Point p;
 	p.set(point.x, point.y);
-	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
-	{
-		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
-		{
-			((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
-			list = true;
-		}
-	}
+
 	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[1]->getChildren()[i]->contains(p))
@@ -301,23 +311,38 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 			return;
 		}
 	}
+
+	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
+	{
+		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+		{
+			if (moved <= 1) listBox->setSelectedIndex(i);
+			list = true;
+			//return;
+		}
+	}
+
 }
 #endif
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
-	} else {
-		((Label *)widget)->setFont(gFontBlack);
-	}
 
-	//notice->setCaption("");
-	usernameEditBox->setText("");
-	emailEditBox->setText("");
-	phonenumberEditBox->setText("");
+	if ((!left)&&(!right)) {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
+
+		usernameEditBox->setText("");
+		emailEditBox->setText("");
+		phonenumberEditBox->setText("");
+	}
 }
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
+	left = false;
+	right = false;
 	switch(keyCode) {
 	case MAK_FIRE:
 	case MAK_SOFTLEFT:

@@ -269,7 +269,6 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), xml_answer)) {
 		answer += data;
 	} else if(!strcmp(parentTag.c_str(), xml_answered)) {
-		lprintfln("data %d", data);
 		answered = Convert::toInt(data);
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
