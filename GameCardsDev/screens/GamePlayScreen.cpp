@@ -8,7 +8,7 @@
 #include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier) : mHttp(this),
+GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame) {
 
 	parentTag = "";
@@ -39,6 +39,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	busy = false;
 	flip = false;
 	active = false;
+	checking = false;
 
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -46,6 +47,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	yOffset = 0;
 	storeHeight = 0;
 	ticks = 0;
+	lfmTicks = 0;
 
 	card = NULL;
 	oppCard = NULL;
@@ -55,7 +57,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	imageCache = new ImageCache();
 
-	mainLayout = createMainLayout(back, "", "", true);
+	mainLayout = createMainLayout("", back, "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(true);
@@ -70,11 +72,11 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 		notice->setCaption(initialising_game);
 
-		//work out how long the url will be, the 2 is for the & and = symbals
-		int urlLength = NEWGAME.length() + 2 + strlen(category_id) + categoryId.length();
+		//work out how long the url will be, the 4 is for the & and = symbals
+		int urlLength = NEWGAME.length() + 4 + strlen(category_id) + categoryId.length() + strlen(new_game_type) + newGameType.length();
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s", NEWGAME.c_str(), category_id, categoryId.c_str());
+		sprintf(url, "%s&%s=%s&%s=%s", NEWGAME.c_str(), category_id, categoryId.c_str(), new_game_type, newGameType.c_str());
 	}
 	else {
 		gameId = identifier;
@@ -194,6 +196,20 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	if (!active) {
 		retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 	}
+}
+
+void GamePlayScreen::drawLFMScreen() {
+	if (ticks == 0) {
+		clearListBox();
+		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
+		updateSoftKeyLayout("", back, "", mainLayout);
+	}
+
+	String caption = "Looking for opponent";
+	for (int i = 0; i < ticks; i++) {
+		caption+=".";
+	}
+	notice->setCaption(caption);
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -392,6 +408,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_LOADING:
 					previous->show();
 					break;
+				case P_LFM:
+					MAUtil::Environment::getEnvironment().removeTimer(this);
+					previous->show();
+					break;
 				/*case P_CARD_DETAILS:
 					resetHeights();
 					drawCardListScreen(cardIndex, yOffset);
@@ -473,7 +493,41 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 }
 
 void GamePlayScreen::runTimerEvent() {
-	lprintfln("runTimerEvent selected=%s", selected?"true":"false");
+	if (phase == P_LFM) {
+		drawLFMScreen();
+		ticks = ticks>3?1:ticks+1;
+		lfmTicks++;
+	}
+
+	if ((!active && phase == P_CARD_DETAILS) || (!checking && lfmTicks%12 == 0)) {
+		checking = true;
+		lprintfln("checking");
+		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
+		int urlLength = CONTINUEGAME.length() + 19 + strlen(game_id) + gameId.length() + strlen(xml_lastmove) + lastMove.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+		char *url = new char[urlLength];
+		memset(url,'\0',urlLength);
+		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
+			game_id, gameId.c_str(), xml_lastmove, lastMove.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		lprintfln(url);
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			hasConnection = false;
+			notice->setCaption("Connection error.");
+		} else {
+			hasConnection = true;
+			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+		delete [] url;
+		return;
+	}
+
+	if (phase == P_LFM) {
+		return;
+	}
+
 	ticks++;
 	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
 		if (!selected) {
@@ -596,9 +650,10 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 void GamePlayScreen::xcConnError(int code) {
 	char *url;
 	if (newGame) {
+		if (newGame) {
+			notice->setCaption(loading_game);
+		}
 		newGame = false;
-
-		notice->setCaption(loading_game);
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
 		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
@@ -622,35 +677,13 @@ void GamePlayScreen::xcConnError(int code) {
 			mHttp.finish();
 		}
 		delete [] url;
-	} else if (!active && phase == P_CARD_DETAILS) {
+	}
+	else if (!active && phase == P_CARD_DETAILS) {
 		notice->setCaption("Opponent is making choices...");
-		lprintfln("cont 2");
-		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
-		int urlLength = CONTINUEGAME.length() + 19 + strlen(game_id) + gameId.length() + strlen(xml_lastmove) + lastMove.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
-				game_id, gameId.c_str(), xml_lastmove, lastMove.c_str(), getMaxImageHeight(), getMaxImageWidth());
-		/*if(mHttp.isOpen()){
-			mHttp.close();
-		}*/
-		lprintfln(url);
-		lprintfln("cont 3");
-		maWait(3000);
-		mHttp = HttpConnection(this);
-		int res = mHttp.create(url, HTTP_GET);
-		if(res < 0) {
-			hasConnection = false;
-			notice->setCaption("Connection error.");
-		} else {
-			hasConnection = true;
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
-			mHttp.finish();
-		}
-		lprintfln("cont 4");
-		delete [] url;
-		lprintfln("cont 5");
+		MAUtil::Environment::getEnvironment().addTimer(this, 3000, 1);
+	}
+	else if (phase == P_LFM) {
+		checking = false;
 	}
 }
 
@@ -731,14 +764,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), xml_opponentcards)) {
 		oppCards = data;
 	} else if(!strcmp(parentTag.c_str(), xml_lastmove)) {
-		lprintfln("xml_lastmove: %s", data);
 		lastMove = base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
-		lprintfln("lastMove: %s", lastMove.c_str());
 	} else if(!strcmp(parentTag.c_str(), xml_active)) {
-		lprintfln("xml_active: %s", data);
-		lprintfln("strcmp(data, \"1\"): %d", strcmp(data, "1"));
 		active = (strcmp(data, "1")==0);
-		lprintfln("active: %s", active?"true":"false");
 	} else if (!strcmp(parentTag.c_str(), xml_phase)) {
 		listBox->setEnabled(true);
 		if (!strcmp(data, phase_stat)) {
@@ -749,6 +777,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		}
 		else if (!strcmp(data, phase_oppmove)) {
 			phase = P_OPPMOVE;
+		}
+		else if (!strcmp(data, phase_lfm)) {
+			phase = P_LFM;
 		}
 	}
 }
@@ -842,23 +873,21 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					break;
 				case P_OPPMOVE:
 					notice->setCaption("");
-					lprintfln("P_OPPMOVE");
-					lprintfln("categoryStatId: %s", categoryStatId.c_str());
 					int height = listBox->getHeight();
 					retrieveBackFlip(userImage, card, height, imageCache);
 					retrieveBackFlip(oppImage, oppCard, height, imageCache);
 					for (int i = 0; i < oppCard->getStats().size(); i++) {
-						lprintfln("i: %d", i);
-						lprintfln("oppCard->getStatAt(i)->getCategoryStatId(): %s", oppCard->getStatAt(i)->getCategoryStatId().c_str());
-						lprintfln("categoryStatId: %s", categoryStatId.c_str());
 						if (strcmp(oppCard->getStatAt(i)->getCategoryStatId().c_str(), categoryStatId.c_str()) == 0) {
 							currentSelectedStat = i;
 							break;
 						}
 					}
-					lprintfln("currentSelectedStat: %d", currentSelectedStat);
 					selected = false;
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
+					break;
+				case P_LFM:
+					ticks = 0;
+					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
 					break;
 			}
 		}

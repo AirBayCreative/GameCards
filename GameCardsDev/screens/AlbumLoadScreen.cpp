@@ -5,6 +5,7 @@
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "GamePlayScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Album.h"
 
 void AlbumLoadScreen::refresh() {
@@ -353,8 +354,10 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case ST_PLAY:
-						next = new GamePlayScreen(this, feed, true, val->getId());
+						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
 						next->show();
+						/*next = new GamePlayScreen(this, feed, true, val->getId());
+						next->show();*/
 						break;
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());
@@ -556,8 +559,10 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 						}
 						break;
 					case ST_PLAY:
-						next = new GamePlayScreen(this, feed, true, val->getId());
+						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
 						next->show();
+						/*next = new GamePlayScreen(this, feed, true, val->getId());
+						next->show();*/
 						break;
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());

@@ -10,6 +10,7 @@
 #include "DetailScreen.h"
 #include "Login.h"
 #include "CompareScreen.h"
+#include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
@@ -62,6 +63,14 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(view_log);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_NEW_GAME_OPTIONS:
+			lbl = createSubLabel(play_versus_pc);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(play_versus_player);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -288,6 +297,22 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 							delete menu;
 						}
 						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
+						menu->show();
+					}
+					break;
+				case ST_NEW_GAME_OPTIONS:
+					if (index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, ng_ai);
+						menu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, ng_pvp);
 						menu->show();
 					}
 					break;
