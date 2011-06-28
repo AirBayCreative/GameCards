@@ -10,6 +10,7 @@
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
+#include "../utils/Log.h"
 #include "../UI/KineticListBox.h"
 
 using namespace MAUI;
@@ -17,20 +18,24 @@ using namespace MAUtil;
 
 class GameDetailsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	GameDetailsScreen(Feed *feed);
+	GameDetailsScreen(Feed *feed, int screenType);
 	~GameDetailsScreen();
 	void keyPressEvent(int keyCode);
+	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
+	enum screenTypes {ST_GAME_DETAILS, ST_GAME_LOG};
 private:
 	Feed *feed;
 	Layout *layout;
 	KineticListBox* kinListBox;
 	Label *lbl, *notice;
+	Log *log;
+	Vector<Log*> logs;
 
 	bool list, left, right;
 
@@ -38,8 +43,10 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag, gameId;
-	String playerDeck, opponentDeck, error_msg, toPlay, display;
-	int moved;
+	String playerDeck, opponentDeck, error_msg, toPlay, display, date, description;
+	int moved, screenType;
+
+	void drawList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

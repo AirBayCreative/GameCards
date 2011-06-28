@@ -70,6 +70,7 @@ extern WidgetSkin *gSkinEditBox;
 extern WidgetSkin *gSkinButton;
 extern WidgetSkin *gSkinBack;
 extern WidgetSkin *gSkinList;
+extern WidgetSkin *gSkinListNoArrows;
 extern WidgetSkin *gSkinAlbum;
 extern WidgetSkin *gSkinText;
 extern WidgetSkin *gSkinKeyboard;
@@ -141,6 +142,8 @@ static String CONTINUEGAME = URL+"?continuegame=1";
 static String LISTGAMES = URL+"?getusergames=1";
 //get details on the users current games
 static String GAMEDETAILS = URL+"?viewgamedetails=1";
+//get logs for a game
+static String GAMELOGS = URL+"?viewgamelog=1";
 //select a stat to play, return matchup results
 static String SELECTSTAT = URL+"?selectstat=1";
 //register a new user
@@ -397,6 +400,7 @@ static const char* options = "Options";
 static const char* checking_games = "Checking games...";
 static const char* leave_game = "Leave Game";
 static const char* view_details = "View Game Details";
+static const char* view_log = "View Game Log";
 static const char* play_card = "Play Card";
 static const char* play_stat = "Play Stat";
 static const char* refresh = "Refresh";
@@ -407,10 +411,14 @@ static const char* xml_game_id = "gameid";
 static const char* xml_gameplayercard_id = "gameplayercard_id";
 static const char* xml_game_description = "gamedescription";
 static const char* xml_game_details = "gamedetails";
+static const char* xml_game_logs = "logs";
+static const char* xml_game_log = "log";
 static const char* xml_turn = "turn";
 static const char* xml_player_deck = "playerdeck";
 static const char* xml_opponent_deck = "opponentdeck";
 static const char* xml_progress = "progress";
+static const char* xml_date = "date";
+static const char* xml_description = "description";
 static const char* xml_cardstats = "cardstats";
 static const char* xml_stat_type = "stat_type";
 static const char* xml_stat_description = "stat_description";

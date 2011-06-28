@@ -2363,6 +2363,26 @@ if ($_GET['viewgamedetails']){
 	exit;
 }
 
+/** get the log for a game */
+if ($_GET['viewgamelog']){
+	$gameId = $_GET['gameid'];
+	$gameLogs=myqu('SELECT date, message 
+		FROM mytcg_gamelog 
+		WHERE game_id = '.$gameId.' 
+		ORDER BY date DESC');
+	$sOP='<logs>'.$sCRLF;
+	foreach ($gameLogs as $log) {
+		$sOP.='<log>'.$sCRLF;
+		$sOP.=$sTab.'<date>'.trim($log['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<description>'.trim($log['message']).'</description>'.$sCRLF;
+		$sOP.='</log>'.$sCRLF;
+	}
+	$sOP.='</logs>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 /** returns a list of the top level categories that the user has cards in */
 if ($_GET['usercategories']){
 	$lastCheckSeconds = "";
