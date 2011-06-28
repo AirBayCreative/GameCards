@@ -47,7 +47,6 @@ public:
 private:
 	Screen *next, *previous;
 	ImageCache *mImageCache;
-	MobImage *tempImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;

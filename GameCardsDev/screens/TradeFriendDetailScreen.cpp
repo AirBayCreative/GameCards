@@ -4,6 +4,7 @@
 #include "../utils/MAHeaders.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
+	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	sending = false;
 	friendDetail = "";
 	methodLabel = "";

@@ -17,7 +17,8 @@ public:
     // Callbacks from the parser are passed on to the XmlListener.
 	XmlConnection();
 	~XmlConnection();
-	void cleanup();
+
+	void stop();
 
     // The connection must be ready to recieve data, which means that either
     // MAUtil::Connection::connect() or MAUtil::HttpConnection::finish()
@@ -31,7 +32,7 @@ private:
     Mtx::Context mContext;
     MAUtil::Connection* mConn;
     XCListener* mXc;
-    char mBuffer[4096];
+    char mBuffer[1024];
     char* mPtr;
 
     void mtxDataRemains(const char* data, int len);

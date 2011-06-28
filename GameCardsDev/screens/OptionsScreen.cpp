@@ -16,6 +16,7 @@
 #include "../utils/Albums.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	temp = "";
 	temp1 = "";
 	error_msg = "";

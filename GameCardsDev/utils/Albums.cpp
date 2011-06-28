@@ -11,7 +11,9 @@ Albums::Albums() {
 }
 
 Albums::~Albums() {
+
 	clearAll();
+
 }
 
 void Albums::setLoaded(bool load) {

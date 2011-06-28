@@ -50,6 +50,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card) : mHttp(this),
 		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card) {
+	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -120,6 +121,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
+	drawList();
 	this->setMain(mainLayout);
 
 	if (url != NULL) {
@@ -191,7 +193,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -239,12 +240,12 @@ void AlbumLoadScreen::drawList() {
 		} else {
 			listBox->setSelectedIndex(0);
 		}
+
 	} else {
 		empt = true;
 		label = createSubLabel(empty);
 		label->addWidgetListener(this);
 		listBox->add(label);
-
 		size++;
 	}
 }
@@ -364,6 +365,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						next->show();
 						break;
 				}
+				//delete val;
 			}
 			break;
 	}

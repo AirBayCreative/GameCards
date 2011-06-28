@@ -35,7 +35,8 @@ private:
 	Label *label, *notice;
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
-	NativeEditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
+	MobImage *tempImage;
+	/*Native*/EditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
 
 	Vector<Widget*> tempWidgets;
 
@@ -50,9 +51,6 @@ private:
 	XmlConnection xmlConn;
 
 	void setSelectedEditBox();
-	/*#if defined(MA_PROF_SUPPORT_STYLUS)
-		void setKeyboardDetails(MAPoint2d point);
-	#endif*/
 	void validateInput();
 
 	void drawDataInputScreen();

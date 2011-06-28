@@ -3,8 +3,7 @@
 #include <conprint.h>
 #include <mastdlib.h>
 
-XmlConnection::XmlConnection(){
-}
+XmlConnection::XmlConnection() : mConn(NULL) {}
 
 void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlListener* xml) {
     mConn = conn;
@@ -15,7 +14,9 @@ void XmlConnection::parse(MAUtil::Connection* conn, XCListener* xc, Mtx::XmlList
     mPtr = mBuffer;
     mConn->recv(mBuffer, sizeof(mBuffer)-1);
 }
-XmlConnection::~XmlConnection() {}
+XmlConnection::~XmlConnection() {
+
+}
 
 void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     MAASSERT(conn == mConn);
@@ -23,15 +24,13 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
         mXc->xcConnError(result);
         return;
     }
-    //char buffer[1024];
-	//snprintf(buffer, 1024, "%s", mBuffer);
-    //lprintfln("----");
-    //lprintfln(mBuffer);
 
     mPtr[result] = 0;
     mPtr = mBuffer;
-   	mContext.feed(mBuffer);
-   	mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
+    bool stopped = mContext.feed(mBuffer);
+	if(!stopped) {  //parsing may have been interrupted by stop().
+		mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
+	}
 }
 
 void XmlConnection::connReadFinished() {
@@ -43,6 +42,12 @@ void XmlConnection::mtxDataRemains(const char* data, int len) {
         memcpy(mBuffer, data, len);
     }
     mPtr = mBuffer + len;
+}
+
+void XmlConnection::stop() {
+    if(mConn != NULL)
+        mConn->close();
+    mContext.stop();
 }
 
 int XmlConnection::process(char* data) {
