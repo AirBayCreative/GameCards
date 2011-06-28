@@ -790,12 +790,15 @@ usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
 //cardsincategory 
-function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID) {
+function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID) {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
 	if (!($iWidth)) {
 		$iWidth = '250';
+	}
+	if (!($iDeckID)) {
+		$iDeckID = -1;
 	}
 	
 	if (!($lastCheckSeconds)) {
@@ -913,6 +916,30 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND A.card_id = D.card_id 
 					WHERE A.user_id='.$iUserID.' 
 					AND (B.category_id='.$iCategory.' OR B.category_id IN (SELECT category_child_id FROM mytcg_category_x WHERE category_parent_id = '.$iCategory.')) 
+					AND C.usercardstatus_id=1 	
+					GROUP BY B.card_id ');
+	} else if($iDeckID > -1){
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
+					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+					FROM mytcg_card B 
+					INNER JOIN mytcg_usercard A 
+					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
+					INNER JOIN mytcg_usercardstatus C 
+					ON C.usercardstatus_id=A.usercardstatus_id 
+					LEFT OUTER JOIN 
+					(SELECT note, date_updated, user_id, card_id
+						FROM mytcg_usercardnote
+						WHERE user_id = '.$iUserID.'
+						AND usercardnotestatus_id = 1
+					) D 
+					ON A.user_id = D.user_id 
+					AND A.card_id = D.card_id 
+					WHERE A.user_id='.$iUserID.' 
+					AND A.deck_id='.$iDeckID.' 
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
@@ -2920,7 +2947,7 @@ if ($_GET['saveprofiledetail']){
 				WHERE user_id = "'.$iUserID.'"');
 	}
 	
-	$sOP = "<result>Complete!</result>";
+	$sOP = "<result>1</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -2955,6 +2982,108 @@ if ($_GET['creditlog']){
 function logtransaction($iDescription, $iValue) {
 	myqui('INSERT INTO mytcg_transactionlog (user_id, description, value, date) 
 			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now())');
+}
+
+
+/** give user deck list */
+if ($_GET['getdecks']){
+	$iCategoryID=$_GET['category_id'];
+	$aDeckDetails=myqu('SELECT deck_id, description 
+		FROM mytcg_deck 
+		WHERE user_id="'.$iUserID.'" 
+		AND category_id='.$iCategoryID);
+	$sOP='<decks>'.$sCRLF;
+	$iCount=0;
+	while ($aDeckDetail=$aDeckDetails[$iCount]){
+		$sOP.='<deck>'.$sCRLF;
+		$sOP.=$sTab.'<deck_id>'.trim($aDeckDetail['deck_id']).'</deck_id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aDeckDetail['description']).'</desc>'.$sCRLF;	
+		$sOP.='</deck>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</decks>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
+if ($_GET['addtodeck']){
+	$iDeckID=$_GET['deck_id'];
+	$iUserCardID=$_GET['usercard_id'];
+	
+	myqui('UPDATE mytcg_usercard 
+			SET deck_id = "'.$iDeckID.'",  
+			WHERE usercard_id = "'.$iUserCardID.'"');
+	
+	$sOP = "<result>Card added to Deck!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
+if ($_GET['removefromdeck']){
+	$iUserCardID=$_GET['usercard_id'];
+	
+	myqui('UPDATE mytcg_usercard 
+			SET deck_id = NULL,  
+			WHERE usercard_id = "'.$iUserCardID.'"');
+	
+	$sOP = "<result>Card removed from Deck!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
+/** give user deck list */
+if ($_GET['getcardsindeck']){
+	$iDeckID=$_GET['deck_id'];
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	$lastCheckSeconds = "";
+	if (!($lastCheckSeconds = $_GET['seconds'])) {
+		$lastCheckSeconds = "0";
+	}
+	
+	$sOP = cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID);
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
+if ($_GET['createdeck']){
+	$iDescription=$_GET['description'];
+	$iCategoryID=$_GET['category_id'];
+	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
+			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'"');
+	$sOP = "<result>Deck Created!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
+if ($_GET['deletedeck']){
+	$iDeckID=$_GET['deck_id'];
+	myqui('UPDATE mytcg_usercard 
+			SET deck_id = NULL,  
+			WHERE deck_id = "'.$iDeckID.'"');
+			
+	
+	myqui('DELETE FROM mytcg_deck 
+			WHERE deck_id = '.$iDeckID);
+	$sOP = "<result>Deck deleted!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
 }
 
 
