@@ -256,7 +256,6 @@ void DetailScreen::saveProfileData() {
 			char *url = new char[urlLength];
 			memset(url,'\0',urlLength);
 			sprintf(url, "%s&%s=%s&%s=%s&%s=%i&%s=%s", "http://dev.mytcg.net/_phone/?saveprofiledetail=1","answer_id", answers[i]->getAnswerId().c_str(),"answer",answers[i]->getEditBoxPointer()->getCaption().c_str(),"answered",answers[i]->getAnswered(),"creditvalue",answers[i]->getCreditValue().c_str());
-			lprintfln("%s&%s=%s&%s=%s&%s=%i&%s=%s", "http://dev.mytcg.net/_phone/?saveprofiledetail=1","answer_id", answers[i]->getAnswerId().c_str(),"answer",answers[i]->getEditBoxPointer()->getCaption().c_str(),"answered",answers[i]->getAnswered(),"creditvalue",answers[i]->getCreditValue().c_str());
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {

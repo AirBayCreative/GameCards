@@ -141,7 +141,9 @@ void AlbumViewScreen::refresh() {
 void AlbumViewScreen::loadFile() {
 	char *file = new char[filename.length()];
 	sprintf(file, "%s", filename.c_str());
-	loadImages(Util::getData(file));
+	String res = Util::getData(file);
+	loadImages(res.c_str());
+	res = "";
 	delete file;
 }
 

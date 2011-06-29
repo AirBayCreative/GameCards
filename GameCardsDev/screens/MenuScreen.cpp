@@ -173,8 +173,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				Util::saveData("lb.sav","");
 
 				maExit(0);
-				//menu = new Logout(this, feed);
-				//menu->show();
 			}
 			break;
 		case MAK_BACK:

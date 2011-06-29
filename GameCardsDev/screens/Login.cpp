@@ -380,7 +380,10 @@ void Login::mtxTagEnd(const char* name, int len) {
 		delete secString;
 		username,error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
-		feed->setAlbum(Util::getData("lb.sav"));
+
+		String file = Util::getData("lb.sav");
+		feed->setAlbum(file.c_str());
+		file = "";
 
 		// Check result
 		if (strcmp("0", freebie.c_str()) == 0)

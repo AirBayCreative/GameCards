@@ -18,6 +18,7 @@ MAUIMoblet::MAUIMoblet() {
 	feed = Feed();
 	feed.setAll(Util::getData("fd.sav"));
 	feed.setAlbum(Util::getData("lb.sav"));
+
 	if (feed.getLoaded()) {
 		next = new MenuScreen(&feed);
 		next->show();

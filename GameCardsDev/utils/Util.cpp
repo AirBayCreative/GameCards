@@ -21,7 +21,6 @@ Screen *origAlbum;
 Screen *origMenu;
 int scrWidth;
 int scrHeight;
-Image *image;
 Widget *softKeys;
 
 
@@ -112,7 +111,7 @@ Label* Util::createLabel(String str, int height) {
 	return label;
 }
 Label* Util::createEditLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 	return label;
@@ -178,13 +177,14 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getFontBlack());
 
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-softKeys->getHeight(), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	image = new Image(0, 0, scrWidth, imgHeight, NULL, false, false, RES_IMAGE);
+	Image *image;
+	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
 
 	label->setAutoSizeY();
@@ -197,7 +197,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+image->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+image->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		listBox->add(mBox);
 	}
 	listBox->setPaddingLeft(PADDING);
@@ -216,8 +216,10 @@ Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
+	Image *image;
 	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
+
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);

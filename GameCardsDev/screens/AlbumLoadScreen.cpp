@@ -24,7 +24,9 @@ void AlbumLoadScreen::refresh() {
 	album = new Albums();
 
 	notice->setCaption("Checking for new albums...");
-	album->setAll(this->feed->getAlbum()->getAll().c_str());
+	String alb = this->feed->getAlbum()->getAll();
+	album->setAll(alb.c_str());
+	alb = "";
 	drawList();
 	urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
 	url = new char[urlLength];
@@ -69,12 +71,15 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	album = new Albums();
+	String alb;
 	switch(screenType) {
 		case ST_ALBUMS:
 		case ST_COMPARE:
 		case ST_AUCTION:
 			notice->setCaption("Checking for new albums...");
-			album->setAll(this->feed->getAlbum()->getAll().c_str());
+			alb = this->feed->getAlbum()->getAll();
+			album->setAll(alb.c_str());
+			alb = "";
 			drawList();
 			urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
 			url = new char[urlLength];
@@ -382,13 +387,17 @@ void AlbumLoadScreen::loadCategory() {
 	//then if the category has been loaded before, we need to load from the file
 	notice->setCaption("Checking for new albums...");
 	if (path.size() == 0) {
-		album->setAll(this->feed->getAlbum()->getAll().c_str());
+		String alb = this->feed->getAlbum()->getAll();
+		album->setAll(alb.c_str());
+		alb="";
 	}
 	else {
 		char *file = new char[path.end()->length() + 5];
 		sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
-		album->setAll(Util::getData(file));
+		String res = Util::getData(file);
+		album->setAll(res.c_str());
 		delete file;
+		res = "";
 	}
 	drawList();
 	//then request up to date info, if there is a connection available

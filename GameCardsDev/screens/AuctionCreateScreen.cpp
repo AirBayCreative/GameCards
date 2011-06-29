@@ -24,7 +24,6 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 
 	busy = false;
 
-	//drawInvalidInputScreen();
 	drawDataInputScreen();
 }
 
@@ -235,7 +234,7 @@ void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
 
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
-		mainLayout = Util::createMainLayout("Auction", "Back", true);
+		mainLayout = Util::createMainLayout("Auction", "Back", "", true);
 		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
@@ -250,6 +249,10 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
+
+	//if (tempImage != NULL) {
+		//delete tempImage;
+	//}
 
 	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
@@ -352,8 +355,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
 	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getFontBlack());

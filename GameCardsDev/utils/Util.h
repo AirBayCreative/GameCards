@@ -83,7 +83,6 @@ class Util
 
 extern int scrWidth;
 extern int scrHeight;
-extern Image *image;
 extern Widget *softKeys;
 extern Screen *orig;
 extern Screen *origAlbum;

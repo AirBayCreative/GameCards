@@ -12,7 +12,6 @@ MobImage::MobImage(int x, int y, int width, int height,
 }
 
 MobImage::~MobImage() {
-
 }
 
 void MobImage::setHasNote(bool n) {
