@@ -45,7 +45,7 @@ private:
 	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue;
 	Answer *ans;
 	Vector<Answer*> answers;
-	int i,j, moved, screenType, answered;
+	int i,j, moved, screenType, answered, count, credits;
 
 	Card *card;
 	Feed *feed;

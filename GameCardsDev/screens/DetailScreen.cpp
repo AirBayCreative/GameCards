@@ -249,8 +249,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 
 void DetailScreen::saveProfileData() {
 	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-	int credits = 0;
-	int count = 0;
+	credits = 0;
+	count = 0;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
 			int urlLength = SAVEPROFILE.length() + strlen(xml_answer_id)+answers[i]->getAnswerId().length()+strlen(xml_answer)+answers[i]->getEditBoxPointer()->getCaption().length()+strlen(xml_answered)+1+strlen(xml_creditvalue)+answers[i]->getCreditValue().length()+8;
@@ -277,14 +277,9 @@ void DetailScreen::saveProfileData() {
 			}
 		}
 	}
-	if(count >0){
-		char * lbl = new char[50];
-		sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
-		String lab = lbl;
-		label->setCaption(lab);
-	} else{
-		label->setCaption("Saved.");
-	}
+
+	label->setCaption("Saving.");
+
 	isBusy = false;
 }
 
@@ -387,8 +382,17 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setCaption(error_msg.c_str());
 		}
 	} else {
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+
 		if (label != NULL) {
-			label->setCaption("");
+			if(count >0){
+				char * lbl = new char[50];
+				sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+				String lab = lbl;
+				label->setCaption(lab);
+			} else{
+				label->setCaption("Saved.");
+			}
 		}
 	}
 }
