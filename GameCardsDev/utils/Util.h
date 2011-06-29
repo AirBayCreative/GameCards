@@ -95,6 +95,8 @@ static String URL = "http://dev.mytcg.net/_phone/"; //dev index
 static String USER = URL+"?userdetails=1";
 //Get user questions
 static String PROFILEURL = URL+"?profiledetails=1";
+//Save user answers
+static String SAVEPROFILE = URL+"?saveprofiledetail=1";
 //get products in category
 static String PRODUCTS = URL+"?categoryproducts=2";
 static String PRODUCTSFREE = URL+"?categoryproducts=1";
@@ -301,6 +303,7 @@ static const char* xml_answer_id = "answer_id";
 static const char* xml_detail_id = "detail_id";
 static const char* xml_answer = "answer";
 static const char* xml_answered = "answered";
+static const char* xml_creditvalue = "creditvalue";
 static const char* xml_detail = "detail";
 static const char* xml_profiledetails = "profiledetails";
 //File info

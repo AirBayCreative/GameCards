@@ -6,6 +6,7 @@
 #include <maprofile.h>
 
 #include "../utils/Card.h"
+#include "../utils/Answer.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
@@ -32,7 +33,7 @@ public:
 	enum screenType {PROFILE, BALANCE, CARD};
 private:
 	Screen *previous, *next;
-	EditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
+	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
 	Layout *mainLayout;
 	Label *label, *balanceLabel;
 	KineticListBox *listBox;
@@ -41,12 +42,17 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String encrypt, error_msg, parentTag, desc, answer;
+	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue;
+	Answer *ans;
+	Vector<Answer*> answers;
 	int i,j, moved, screenType, answered;
 
 	Card *card;
 	Feed *feed;
 
+	bool isBusy;
+
+	void saveProfileData();
 	void refreshData();
 
 	void httpFinished(MAUtil::HttpConnection*, int);

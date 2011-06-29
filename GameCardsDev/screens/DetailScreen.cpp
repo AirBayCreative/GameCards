@@ -1,6 +1,7 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
 #include "ShopProductsScreen.h"
+#include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
@@ -10,10 +11,10 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	mainLayout = createMainLayout(screenType==CARD?select:screenType==BALANCE?purchase:screenType==PROFILE?savelbl:"", back, screenType==BALANCE?log_string:"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
+	answers=NULL;
+	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
-
-
 			//loop for each entry found in user_details. if Answered test->flip() to set checked.
 			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, userlbl, 0, gFontBlack);
 			listBox->add(label);
@@ -61,7 +62,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			break;
 	}
 
-	if (screenType != CARD) {
+	if (screenType == PROFILE) {
 		int res = mHttp.create(PROFILEURL.c_str(), HTTP_GET);
 
 		if(res < 0) {
@@ -92,6 +93,13 @@ DetailScreen::~DetailScreen() {
 	error_msg = "";
 	parentTag = "";
 	//email = "";
+	for (int i = 0; i < answers.size(); i++) {
+		if (answers[i] != NULL) {
+			delete answers[i];
+			answers[i] = NULL;
+		}
+	}
+	answers.clear();
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -183,6 +191,7 @@ void DetailScreen::hide() {
 void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
+			break;
 		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case CARD:
@@ -212,8 +221,10 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case PROFILE:
-					label->setCaption("# extra field(s) filled in. You received x Credits.");
-
+					if (!isBusy) {
+						isBusy = true;
+						saveProfileData();
+					}
 					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
@@ -233,6 +244,49 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			listBox->selectNextItem();
 			break;
 	}
+}
+
+void DetailScreen::saveProfileData() {
+	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+	int credits = 0;
+	int count = 0;
+	for (int i = 0; i < answers.size(); i++) {
+		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
+			int urlLength = SAVEPROFILE.length() + strlen(xml_answer_id)+answers[i]->getAnswerId().length()+strlen(xml_answer)+answers[i]->getEditBoxPointer()->getCaption().length()+strlen(xml_answered)+1+strlen(xml_creditvalue)+answers[i]->getCreditValue().length()+8;
+			char *url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s&%s=%s&%s=%i&%s=%s", SAVEPROFILE.c_str(),xml_answer_id, answers[i]->getAnswerId().c_str(),xml_answer,answers[i]->getEditBoxPointer()->getCaption().c_str(),xml_answered,answers[i]->getAnswered(),xml_creditvalue,answers[i]->getCreditValue().c_str());
+			lprintfln("%s&%s=%s&%s=%s&%s=%i&%s=%s", SAVEPROFILE.c_str(),xml_answer_id, answers[i]->getAnswerId().c_str(),xml_answer,answers[i]->getEditBoxPointer()->getCaption().c_str(),xml_answered,answers[i]->getAnswered(),xml_creditvalue,answers[i]->getCreditValue().c_str());
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+			int res = mHttp.create(url, HTTP_GET);
+			if(res < 0) {
+				label->setCaption(no_connect);
+			} else {
+				label->setCaption("Saving...");
+				mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
+				mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+				mHttp.finish();
+			}
+			delete [] url;
+			if(answers[i]->getAnswered()==0 && answers[i]->getEditBoxPointer()->getCaption().size()>0){
+				credits = credits + atoi(answers[i]->getCreditValue().c_str());
+				count++;
+				answers[i]->setAnswered(1);
+			}
+		}
+	}
+	if(count >0){
+		char * lbl = new char[50];
+		sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+		String lab = lbl;
+		label->setCaption(lab);
+	} else{
+		label->setCaption("Saved.");
+	}
+	isBusy = false;
 }
 
 void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -261,9 +315,11 @@ void DetailScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void DetailScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), xml_answer_id)) {
-		//username += data;
+		answerid += data;
 	} else if(!strcmp(parentTag.c_str(), xml_detail_id)) {
 		//credits += data;
+	} else if(!strcmp(parentTag.c_str(), xml_creditvalue)) {
+		creditvalue += data;
 	} else if(!strcmp(parentTag.c_str(), xml_desc)) {
 		desc += data;
 	} else if(!strcmp(parentTag.c_str(), xml_answer)) {
@@ -286,6 +342,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		//saveData(FEED, feed->getAll().c_str());
 
 		//refreshData();
+		isBusy = false;
 	} else if(!strcmp(name, xml_detail)) {
 
 
@@ -310,10 +367,20 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		}
 		test->setPaddingTop(10);
 
-
+		ans = new Answer();
+		ans->setAnswerId(answerid.c_str());
+		ans->setAnswer(answer.c_str());
+		ans->setAnswered(answered);
+		ans->setCreditValue(creditvalue.c_str());
+		ans->setDesc(desc.c_str());
+		ans->setEditBoxPointer(editBoxUsername);
+		answers.add(ans);
+		ans=NULL;
+		answerid = "";
 		desc = "";
 		answered = 0;
 		answer = "";
+		creditvalue = "";
 	} else if(!strcmp(name, xml_error)) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
