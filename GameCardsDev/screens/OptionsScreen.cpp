@@ -10,6 +10,7 @@
 #include "DetailScreen.h"
 #include "Login.h"
 #include "CompareScreen.h"
+#include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
@@ -63,6 +64,14 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = Util::createSubLabel("View Game Log");
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_NEW_GAME_OPTIONS:
+			lbl = Util::createSubLabel("Play versus PC");
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = Util::createSubLabel("Play versus player");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -286,6 +295,22 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 							delete menu;
 						}
 						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
+						menu->show();
+					}
+					break;
+				case ST_NEW_GAME_OPTIONS:
+					if (index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, "1");
+						menu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, "2");
 						menu->show();
 					}
 					break;

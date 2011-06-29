@@ -1,6 +1,7 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
 #include "ShopProductsScreen.h"
+#include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
@@ -11,10 +12,10 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	mainLayout = Util::createMainLayout(screenType==CARD?"Select":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"Log":"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
+	answers=NULL;
+	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
-
-
 			//loop for each entry found in user_details. if Answered test->flip() to set checked.
 			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "Username:", 0, Util::getFontBlack());
 			listBox->add(label);
@@ -62,7 +63,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			break;
 	}
 
-	if (screenType != CARD) {
+	if (screenType == PROFILE) {
 		int res = mHttp.create("http://dev.mytcg.net/_phone/?profiledetails=1", HTTP_GET);
 
 		if(res < 0) {
@@ -90,6 +91,14 @@ DetailScreen::~DetailScreen() {
 	encrypt = "";
 	error_msg = "";
 	parentTag = "";
+
+	for (int i = 0; i < answers.size(); i++) {
+		if (answers[i] != NULL) {
+			delete answers[i];
+			answers[i] = NULL;
+		}
+	}
+	answers.clear();
 
 }
 
@@ -182,6 +191,7 @@ void DetailScreen::hide() {
 void DetailScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
+			break;
 		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case CARD:
@@ -211,8 +221,10 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case PROFILE:
-					label->setCaption("# extra field(s) filled in. You received x Credits.");
-
+					if (!isBusy) {
+						isBusy = true;
+						saveProfileData();
+					}
 					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
@@ -234,13 +246,49 @@ void DetailScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void DetailScreen::saveProfileData() {
+	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+	credits = 0;
+	count = 0;
+	for (int i = 0; i < answers.size(); i++) {
+		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
+			int urlLength = strlen("http://dev.mytcg.net/_phone/?saveprofiledetail=1") + strlen("answer_id")+answers[i]->getAnswerId().length()+strlen("answer")+answers[i]->getEditBoxPointer()->getCaption().length()+strlen("answered")+1+strlen("creditvalue")+answers[i]->getCreditValue().length()+8;
+			char *url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s&%s=%s&%s=%i&%s=%s", "http://dev.mytcg.net/_phone/?saveprofiledetail=1","answer_id", answers[i]->getAnswerId().c_str(),"answer",answers[i]->getEditBoxPointer()->getCaption().c_str(),"answered",answers[i]->getAnswered(),"creditvalue",answers[i]->getCreditValue().c_str());
+			lprintfln("%s&%s=%s&%s=%s&%s=%i&%s=%s", "http://dev.mytcg.net/_phone/?saveprofiledetail=1","answer_id", answers[i]->getAnswerId().c_str(),"answer",answers[i]->getEditBoxPointer()->getCaption().c_str(),"answered",answers[i]->getAnswered(),"creditvalue",answers[i]->getCreditValue().c_str());
+			mHttp = HttpConnection(this);
+			int res = mHttp.create(url, HTTP_GET);
+			if(res < 0) {
+				label->setCaption("Unable to connect, try again later...");
+			} else {
+				label->setCaption("Saving...");
+				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				mHttp.finish();
+			}
+			delete [] url;
+			if(answers[i]->getAnswered()==0 && answers[i]->getEditBoxPointer()->getCaption().size()>0){
+				credits = credits + atoi(answers[i]->getCreditValue().c_str());
+				count++;
+				answers[i]->setAnswered(1);
+				answers[i]->getCheckBoxPointer()->flip();
+			}
+		}
+	}
+
+	label->setCaption("Saving.");
+
+	isBusy = false;
+}
+
 void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		label->setCaption("");
+		//label->setCaption("");
 	}
 }
 
@@ -260,9 +308,11 @@ void DetailScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void DetailScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "answer_id")) {
-		//username += data;
+		answerid += data;
 	} else if(!strcmp(parentTag.c_str(), "detail_id")) {
 		//credits += data;
+	} else if(!strcmp(parentTag.c_str(), "creditvalue")) {
+		creditvalue += data;
 	} else if(!strcmp(parentTag.c_str(), "desc")) {
 		desc += data;
 	} else if(!strcmp(parentTag.c_str(), "answer")) {
@@ -277,10 +327,17 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	//TODO not currently updating screen components. Only on screen recreate.
 	if(!strcmp(name, "profiledetails")) {
-
-
+		//label->setCaption("");
+		//feed->setCredits(credits.c_str());
+		//feed->setEmail(email.c_str());
+		//feed->setUnsuccessful(success);
+		//username,error_msg= "";
+		//saveData(FEED, feed->getAll().c_str());
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption("");
+		//refreshData();
+		isBusy = false;
 	} else if(!strcmp(name, "detail")) {
-
 
 		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getFontBlack());
 		listBox->add(label);
@@ -303,17 +360,37 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		}
 		test->setPaddingTop(10);
 
-
+		ans = new Answer();
+		ans->setAnswerId(answerid.c_str());
+		ans->setAnswer(answer.c_str());
+		ans->setAnswered(answered);
+		ans->setCreditValue(creditvalue.c_str());
+		ans->setDesc(desc.c_str());
+		ans->setEditBoxPointer(editBoxUsername);
+		ans->setCheckBoxPointer(test);
+		answers.add(ans);
+		ans=NULL;
+		answerid = "";
 		desc = "";
 		answered = 0;
 		answer = "";
+		creditvalue = "";
 	} else if(!strcmp(name, "error")) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
 		}
 	} else {
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+
 		if (label != NULL) {
-			label->setCaption("");
+			if(count >0){
+				char * lbl = new char[50];
+				sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+				String lab = lbl;
+				label->setCaption(lab);
+			} else{
+				label->setCaption("Saved.");
+			}
 		}
 	}
 }

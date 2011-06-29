@@ -28,6 +28,9 @@ $sTab=chr(9);
 $sCRLF="";
 $sTab="";
 
+//new game constants
+$ng_ai = "1";
+$ng_pvp = "2";
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
@@ -2184,61 +2187,105 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 
 /** creates a new game, against AI, and returns the gameId */
 if ($_GET['newgame']) {
-	//we will use the admin as the ai user
+	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
+	$newGameType = $_GET['newgametype'];
 	
-	//create the game, get the game_id
-	$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id
-		FROM mytcg_game');
-	$gameId = $gameIdQuery[0]['game_id'];
-	myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
-		SELECT '.$gameId.', (SELECT gamestatus_id FROM mytcg_gamestatus WHERE lower(description) = "incomplete"),
-		(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now()
-		FROM DUAL');
+	$gameId = "";
+	$opponentId = "";
+	$newGame = false;
 	
-	//get the admins userId
-	$adminUserIdQuery = myqu('SELECT user_id 
-		FROM mytcg_user 
-		WHERE username = "admin"');
-	$adminUserId = $adminUserIdQuery[0]['user_id'];
+	if ($newGameType == $ng_pvp) {
+		//we are gonna need the open status id
+		$openStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'open'");
+		$openId = $openStatusQuery[0]['gamestatus_id'];
+		
+		//we are also going to need the incomplete status id
+		$incompleteStatusQuery = myqu("SELECT gamestatus_id  
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'incomplete'");
+		$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
+		
+		//if the user wants to play against a person, we need to first check if there is currently an open game.
+		$openGameQuery = myqu('SELECT g.game_id 
+			FROM mytcg_game g 
+			INNER JOIN mytcg_gameplayer gp 
+			ON gp.game_id = g.game_id 
+			WHERE g.category_id = '.$categoryId.' 
+			AND g.gamestatus_id = '.$openId.' 
+			AND gp.user_id != '.$iUserID.' 
+			ORDER BY g.game_id ASC');
+		
+		//if there is an open game, close it and we will join it, otherwise create a new open game
+		if (sizeof($openGameQuery) > 0) {
+			$gameId = $openGameQuery[0]['game_id'];
+			myqu('UPDATE mytcg_game 
+				SET gamestatus_id = '.$incompleteId.', 
+				gamephase_id = 2 
+				WHERE game_id = '.$gameId);
+		}
+		else {
+			$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+				FROM mytcg_game');
+			$gameId = $gameIdQuery[0]['game_id'];
+			myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+				SELECT '.$gameId.', '.$openId.', 
+				(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
+				FROM DUAL');
+			$newGame = true;
+		}
+	}
 	
-	//add the players to the game, admin is the ai, the user will go first(active = 1)
+	//check if the user wants to play against ai
+	if ($newGameType == $ng_ai) {
+		//create the game, get the game_id
+		$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id
+			FROM mytcg_game');
+		$gameId = $gameIdQuery[0]['game_id'];
+		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+			SELECT '.$gameId.', (SELECT gamestatus_id FROM mytcg_gamestatus WHERE lower(description) = "incomplete"),
+			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now()
+			FROM DUAL');
+		
+		//get the admins userId
+		$adminUserIdQuery = myqu('SELECT user_id 
+			FROM mytcg_user 
+			WHERE username = "admin"');
+		$adminUserId = $adminUserIdQuery[0]['user_id'];
+	}
+	
+	//add the player to the game, the person joining will go first
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', 1, 1)'); //gameplayerstatus_id 1 is pending, so they need to make the move
-	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$adminUserId.', 0, 2)');//gameplayerstatus_id 2 is waiting, so waiting for the other player to move
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?(($newGameType == $ng_ai)?'1':'0'):'1').', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
 	
-	//we need to get both players gameplayer_id
+	//we need to get the player's gameplayer_id
 	$userPlayerIdQuery = myqu('SELECT gameplayer_id 
 		FROM mytcg_gameplayer 
 		WHERE user_id = '.$iUserID
 		.' AND game_id = '.$gameId);
 	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
-	$adminPlayerId = myqu('SELECT gameplayer_id 
-		FROM mytcg_gameplayer 
-		WHERE user_id = '.$adminUserId
-		.' AND game_id = '.$gameId);
-	$adminPlayerId = $adminPlayerId[0]['gameplayer_id'];
 	
-	//create random deck for both players from their available cards.
-	//first we will need a list of cards for each player in the category.
+	//create random deck for the player from their available cards.
+	//first we will need a list of cards for the player in the category.
 	$userCards = array();
-	$adminCards = array();
 	
 	//this will require some recursion, as the category given is the second highest level,
 	// and the cards are an unknown amount of subcategories deep.
 	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-	$adminCards = getAllUserCatCards($adminUserId, $categoryId, $adminCards);
 	
-	//for now we will set the biggest possible deck size to twenty, and make the size a multiple of 5.
-	$deckSize = sizeof($userCards) > sizeof($adminCards)? sizeof($adminCards):sizeof($userCards);
-	$deckSize = $deckSize - ($deckSize % 5);
-	$deckSize = $deckSize > 10?10:$deckSize;
+	//for now we will set the biggest possible deck size to ten, and make the size a multiple of 5.
+	//$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
+	//$deckSize = $deckSize - ($deckSize % 5);
+	//$deckSize = $deckSize > 10?10:$deckSize;
+	
+	//the standard deck size is 20, but for now I am going to set it to 10, for testing
+	$deckSize = 10;
 	
 	//for now we will use a random selection of the cards
 	//maybe later we will base it on rareity or use another method
 	$userKeys = array_rand($userCards, $deckSize);
-	$adminKeys = array_rand($adminCards, $deckSize);
 	
 	//insert created decks into player cards, all statuses normal
 	for ($i = 0; $i < $deckSize; $i++) {
@@ -2247,11 +2294,41 @@ if ($_GET['newgame']) {
 			SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
 			FROM mytcg_gameplayercardstatus 
 			WHERE lower(description) = "normal"');
-		myqu('INSERT INTO mytcg_gameplayercard 
-			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$adminPlayerId.', '.$adminCards[$adminKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
-			FROM mytcg_gameplayercardstatus 
-			WHERE lower(description) = "normal"');
+	}
+	
+	//if the game is against ai, we need to input all the data for the ai player
+	if ($newGameType == $ng_ai) {
+		//add the ai to the game
+		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
+			VALUES ('.$gameId.', '.$adminUserId.', 0, 2)');
+		
+		//we need to get the ai's gameplayer_id
+		$adminPlayerIdQuery = myqu('SELECT gameplayer_id 
+			FROM mytcg_gameplayer 
+			WHERE user_id = '.$adminUserId
+			.' AND game_id = '.$gameId);
+		$adminPlayerId = $adminPlayerIdQuery[0]['gameplayer_id'];
+		
+		//create random deck for the ai from their available cards.
+		//first we will need a list of cards for the ai in the category.
+		$aiCards = array();
+		
+		//this will require some recursion, as the category given is the second highest level,
+		// and the cards are an unknown amount of subcategories deep.
+		$aiCards = getAllUserCatCards($adminUserId, $categoryId, $aiCards);
+		
+		//for now we will use a random selection of the cards
+		//maybe later we will base it on rareity or use another method
+		$aiKeys = array_rand($aiCards, $deckSize);
+		
+		//insert created decks into ai's cards, all statuses normal
+		for ($i = 0; $i < $deckSize; $i++) {
+			myqu('INSERT INTO mytcg_gameplayercard 
+				(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
+				SELECT '.$adminPlayerId.', '.$aiCards[$aiKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+				FROM mytcg_gameplayercardstatus 
+				WHERE lower(description) = "normal"');
+		}
 	}
 	
 	//return xml with the gameId to the phone
@@ -2311,10 +2388,11 @@ if ($_GET['getusergames']){
 		INNER JOIN mytcg_gamephase gph
 		ON gph.gamephase_id = g.gamephase_id
 		WHERE gp.user_id = '.$iUserID.' 
-		AND lower(gs.description) = "incomplete"
+		AND ((lower(gs.description) = "incomplete"
 		AND (lower(gph.description) != "result"
 		OR (lower(gph.description) = "result"
-			AND gp.pending = 1))
+			AND gp.pending = 1)))
+		OR (lower(gs.description) = "open"))
 		ORDER BY g.game_id');
 	$sOP='<games>'.$sCRLF;
 	$iCount=0;
@@ -3015,7 +3093,7 @@ if ($_GET['saveprofiledetail']){
 	myqui('UPDATE mytcg_user_answer 
 			SET answer = "'.$iAnswer.'", 
 			answered = 1 
-			WHERE card_id = "'.$iAnswerID.'"');
+			WHERE answer_id = "'.$iAnswerID.'"');
 	
 	if($iAnswered = "0"){
 		myqui('UPDATE mytcg_user 
