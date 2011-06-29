@@ -258,9 +258,6 @@ void DetailScreen::saveProfileData() {
 			memset(url,'\0',urlLength);
 			sprintf(url, "%s&%s=%s&%s=%s&%s=%i&%s=%s", SAVEPROFILE.c_str(),xml_answer_id, answers[i]->getAnswerId().c_str(),xml_answer,answers[i]->getEditBoxPointer()->getCaption().c_str(),xml_answered,answers[i]->getAnswered(),xml_creditvalue,answers[i]->getCreditValue().c_str());
 			lprintfln("%s&%s=%s&%s=%s&%s=%i&%s=%s", SAVEPROFILE.c_str(),xml_answer_id, answers[i]->getAnswerId().c_str(),xml_answer,answers[i]->getEditBoxPointer()->getCaption().c_str(),xml_answered,answers[i]->getAnswered(),xml_creditvalue,answers[i]->getCreditValue().c_str());
-			if(mHttp.isOpen()){
-				mHttp.close();
-			}
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
@@ -276,6 +273,7 @@ void DetailScreen::saveProfileData() {
 				credits = credits + atoi(answers[i]->getCreditValue().c_str());
 				count++;
 				answers[i]->setAnswered(1);
+				answers[i]->getCheckBoxPointer()->flip();
 			}
 		}
 	}
@@ -296,7 +294,7 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		label->setCaption("");
+		//label->setCaption("");
 	}
 }
 
@@ -341,7 +339,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		//feed->setUnsuccessful(success);
 		//username,error_msg= "";
 		//saveData(FEED, feed->getAll().c_str());
-
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption("");
 		//refreshData();
 		isBusy = false;
 	} else if(!strcmp(name, xml_detail)) {
@@ -375,6 +374,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		ans->setCreditValue(creditvalue.c_str());
 		ans->setDesc(desc.c_str());
 		ans->setEditBoxPointer(editBoxUsername);
+		ans->setCheckBoxPointer(test);
 		answers.add(ans);
 		ans=NULL;
 		answerid = "";

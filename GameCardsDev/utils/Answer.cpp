@@ -64,3 +64,11 @@ NativeEditBox* Answer::getEditBoxPointer() {
 void Answer::setEditBoxPointer(NativeEditBox* editbo) {
 	editbox = editbo;
 }
+
+CheckBox* Answer::getCheckBoxPointer() {
+	return checkbox;
+}
+
+void Answer::setCheckBoxPointer(CheckBox* checkbo) {
+	checkbox = checkbo;
+}

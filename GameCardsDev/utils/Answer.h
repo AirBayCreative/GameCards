@@ -3,6 +3,7 @@
 
 #include <MAUtil/String.h>
 #include "../UI/Native/NativeEditBox.h"
+#include "../UI/CheckBox.h"
 
 using namespace MAUtil;
 using namespace MAUI;
@@ -33,9 +34,13 @@ public:
 	NativeEditBox* getEditBoxPointer();
 	void setEditBoxPointer(NativeEditBox * editbox);
 
+	CheckBox* getCheckBoxPointer();
+	void setCheckBoxPointer(CheckBox * checkbox);
+
 private:
 	String answerid, detailid, desc, answer, creditvalue;
 	NativeEditBox * editbox;
+	CheckBox * checkbox;
 	int answered;
 };
 
