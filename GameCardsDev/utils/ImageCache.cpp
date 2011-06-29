@@ -57,8 +57,8 @@ void ImageCache::finishedDownloading()
 	if (mData != NULL) {
 		//Save to storage
 		if (mNextRequest != NULL) {
-			saveFile((mNextRequest->getSaveName()).c_str(), mData);
-			returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
+			Util::saveFile((mNextRequest->getSaveName()).c_str(), mData);
+			Util::returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
 		}
 		maDestroyObject(mData);
 		mData = NULL;

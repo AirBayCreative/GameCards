@@ -17,23 +17,23 @@ void ShopCategoriesScreen::refresh() {
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
-			notice->setCaption(checking_categories);
-			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for shop categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=1", HTTP_GET);
 			break;
 		case ST_SHOP:
-			notice->setCaption(checking_categories);
-			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for shop categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=2", HTTP_GET);
 			break;
 		case ST_AUCTIONS:
-			notice->setCaption(checking_auction_categories);
-			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for auction categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?auctioncategories=1", HTTP_GET);
 			break;
 	}
 	if(res < 0) {
 
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 }
@@ -43,7 +43,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	lprintfln("ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	next = NULL;
 	label = NULL;
-	mainLayout = createMainLayout("", back, true);
+	mainLayout = Util::createMainLayout("", "Back", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -55,24 +55,24 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	int res = -1;
 	switch(screenType) {
 		case ST_FREEBIE:
-			notice->setCaption(checking_categories);
-			res = mHttp.create(PRODUCTFREEBIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for shop categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=1", HTTP_GET);
 			break;
 		case ST_SHOP:
-			notice->setCaption(checking_categories);
-			res = mHttp.create(PRODUCTCATEGORIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for shop categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=2", HTTP_GET);
 			break;
 		case ST_AUCTIONS:
-			notice->setCaption(checking_auction_categories);
-			res = mHttp.create(AUCTIONCATEGORIES.c_str(), HTTP_GET);
+			notice->setCaption("Checking for auction categories...");
+			res = mHttp.create("http://dev.mytcg.net/_phone/?auctioncategories=1", HTTP_GET);
 			break;
 	}
 	if(res < 0) {
 		drawList();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
@@ -154,13 +154,13 @@ void ShopCategoriesScreen::drawList() {
 
 	if (screenType == ST_AUCTIONS)
 	{
-		label = createSubLabel(create_auction);
+		label = Util::createSubLabel("Create New Auction");
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
 
 	for(Vector<String>::iterator itr = category.begin(); itr != category.end(); itr++) {
-		label = createSubLabel(itr->c_str());
+		label = Util::createSubLabel(itr->c_str());
 		label->addWidgetListener(this);
 		listBox->add(label);
 	}
@@ -174,14 +174,14 @@ void ShopCategoriesScreen::drawList() {
 	}
 
 	if (screenType == ST_FREEBIE)
-		notice->setCaption(freebielbl);
+		notice->setCaption("Received: 300 credits and a free starter pack.");
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(Util::getFontBlack());
 	}
 }
 
@@ -237,7 +237,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							}
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 							next->show();
-						} else if (!strcmp(selectedCaption.c_str(), create_auction)) {
+						} else if (!strcmp(selectedCaption.c_str(), "Create New Auction")) {
 							if (next != NULL) {
 								delete next;
 							}
@@ -269,7 +269,7 @@ void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result
 	} else {
 		mHttp.close();
 		drawList();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -294,28 +294,28 @@ void ShopCategoriesScreen::mtxTagAttr(const char* attrName, const char* attrValu
 }
 
 void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), xml_cardcategories)) {
+	if (!strcmp(parentTag.c_str(), "cardcategories")) {
 		categories.clear();
 		category.clear();
-	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
+	} else if(!strcmp(parentTag.c_str(), "albumname")) {
 		temp1 += data;
-	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
+	} else if(!strcmp(parentTag.c_str(), "albumid")) {
 		temp += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
 	}
 }
 
 void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_albumname)) {
+	if(!strcmp(name, "albumname")) {
 		categories.insert(temp1, temp);
 		category.add(temp1);
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_cardcategories)) {
-		notice->setCaption(choose_category);
+	} else if (!strcmp(name, "cardcategories")) {
+		notice->setCaption("Choose a category.");
 		drawList();
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
 	} else {
 		notice->setCaption("");

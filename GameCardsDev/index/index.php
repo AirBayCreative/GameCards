@@ -3093,7 +3093,7 @@ if ($_GET['saveprofiledetail']){
 	myqui('UPDATE mytcg_user_answer 
 			SET answer = "'.$iAnswer.'", 
 			answered = 1 
-			WHERE card_id = "'.$iAnswerID.'"');
+			WHERE answer_id = "'.$iAnswerID.'"');
 	
 	if($iAnswered = "0"){
 		myqui('UPDATE mytcg_user 

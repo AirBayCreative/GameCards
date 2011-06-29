@@ -9,6 +9,7 @@
 #include <MAUI/ListBox.h>
 #include <conprint.h>
 
+#include "MAHeaders.h"
 #include "Card.h"
 #include "Product.h"
 #include "ImageCache.h"
@@ -20,69 +21,76 @@ using namespace MAUI;
 #define VIRTUAL_KEYBOARD_HEIGHT 135
 #define VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER 0.33
 #define VIRTUAL_KEYBOARD_WIDTH 240
-//Version Var
-static const char* version_number = "1.02";
 
-void setPadding(Widget *w);
-Label* createLabel(String str, int height=48);
-Label* createEditLabel(String str, int height=48);
-Label* createSubLabel(String str, int height=48);
-Widget* createSoftKeyBar(int height, const char *left, const char *right);
-Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
-Layout* createNoHeaderLayout();
-Layout* createMainLayout(const char *left, const char *right, bool useKinetic = false);
-Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
-Layout* createImageLayout(const char *left, bool useKinetic = false);
-Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
-void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout);
-char* getData(const char* storefile);
-void saveData(const char* storefile, const char *value);
-void saveFile(const char* storefile, MAHandle data);
-void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
-void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
-void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache);
-void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache);
-void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache);
-void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache);
-void retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache);
-void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache);
-void returnImage(MobImage *img, MAHandle i, int height);
-void increase();
-void decrease();
-int getCount();
-bool isNumeric(String isValid);
-int intlen(float start);
-int absoluteValue(int num);
-bool validateEmailAddress(String email);
-int getSoftKeyBarHeight();
-int getMaxImageHeight();
-int getMaxImageWidth();
-String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
-String base64_decode(String encoded_string);
-static inline bool is_base64(unsigned char c);
+class Util
+{
+	public:
+		Util();
+		~Util();
 
-//UI Components
-extern Font *gFontGrey;
-extern Font *gFontBlue;
-extern Font *gFontBlack;
-extern Font *gFontWhite;
-extern WidgetSkin *gSkinEditBox;
-extern WidgetSkin *gSkinButton;
-extern WidgetSkin *gSkinBack;
-extern WidgetSkin *gSkinList;
-extern WidgetSkin *gSkinListNoArrows;
-extern WidgetSkin *gSkinAlbum;
-extern WidgetSkin *gSkinText;
-extern WidgetSkin *gSkinKeyboard;
+		static void setPadding(Widget *w);
+		static Label* createLabel(String str, int height=48);
+		static Label* createEditLabel(String str, int height=48);
+		static Label* createSubLabel(String str, int height=48);
+		static Widget* createSoftKeyBar(int height, const char *left, const char *right);
+		static Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
+		static Layout* createNoHeaderLayout();
+		static Layout* createMainLayout(const char *left, const char *right, bool useKinetic = false);
+		static Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
+		static Layout* createImageLayout(const char *left, bool useKinetic = false);
+		static Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
+		static void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout);
+		static char* getData(char* storefile);
+		static void saveData(const char* storefile, const char *value);
+		static void saveFile(const char* storefile, MAHandle data);
+		static void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
+		static void nearestNeighbour(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
+		static void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache);
+		static void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache);
+		static void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+		static void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+		static void retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+		static void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache);
+		static void returnImage(MobImage *img, MAHandle i, int height);
+		static int intlen(float start);
+		static int absoluteValue(int num);
+		static bool validateEmailAddress(String email);
+		static int getSoftKeyBarHeight();
+		static int getMaxImageHeight();
+		static int getMaxImageWidth();
+		static String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
+		static String base64_decode(String encoded_string);
+		static inline bool is_base64(unsigned char c);
+
+		static Font* getFontBlue();
+		static Font* getFontBlack();
+		static WidgetSkin* getSkinEditBox();
+		static WidgetSkin* getSkinButton();
+		static WidgetSkin* getSkinBack();
+		static WidgetSkin* getSkinList();
+		static WidgetSkin* getSkinListNoArrows();
+		static WidgetSkin* getSkinText();
+		static WidgetSkin* getSkinAlbum();
+
+
+
+		/*static Screen* orig();
+		static Screen* origAlbum();
+		static Screen* origMenu();*/
+
+	private:
+};
+
 extern int scrWidth;
 extern int scrHeight;
-extern int mCount;
 extern Image *image;
 extern Widget *softKeys;
 extern Screen *orig;
 extern Screen *origAlbum;
 extern Screen *origMenu;
 
+static String FILE_PREFIX = "dev_";
+/*=======
 static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 									"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
 									"0123456789"				  // 52 to 61
@@ -91,11 +99,13 @@ static const String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
 
 //URL info
 //static String URL = "http://www.mytcg.net/_phone/"; //live index
-static String URL = "http://dev.mytcg.net/_phone/"; //dev index
+static String URL = "http://dev.mytcg.net/_phone/?saveprofiledetail=1"; //dev index
 //Get user details
 static String USER = URL+"?userdetails=1";
 //Get user questions
 static String PROFILEURL = URL+"?profiledetails=1";
+//Save user answers
+static String SAVEPROFILE = URL+"?saveprofiledetail=1";
 //get products in category
 static String PRODUCTS = URL+"?categoryproducts=2";
 static String PRODUCTSFREE = URL+"?categoryproducts=1";
@@ -304,6 +314,7 @@ static const char* xml_answer_id = "answer_id";
 static const char* xml_detail_id = "detail_id";
 static const char* xml_answer = "answer";
 static const char* xml_answered = "answered";
+static const char* xml_creditvalue = "creditvalue";
 static const char* xml_detail = "detail";
 static const char* xml_profiledetails = "profiledetails";
 //File info
@@ -477,5 +488,6 @@ static const char* contact_number = "Mobile No";
 static const char* contact_website = "Web Address";
 //misc
 static const char* updated_symbol = "*";
+>>>>>>> 6c498a10dcda798b5d4665a9323874b9652d8e66*/
 
 #endif	//_UTIL_H_

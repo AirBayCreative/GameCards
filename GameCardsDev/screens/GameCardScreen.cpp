@@ -49,8 +49,8 @@ void GameCardScreen::pointerReleaseEvent(MAPoint2d point)
 
 void GameCardScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
-			saveData(FEED, feed->getAll().c_str());
+	if (feed->setTouch("true")) {
+		Util::saveData("fd.sav", feed->getAll().c_str());
 		}
 
 	list = false;

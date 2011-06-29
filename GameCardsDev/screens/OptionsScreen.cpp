@@ -27,28 +27,28 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = createMainLayout(select, exit);
+		layout = Util::createMainLayout("Select", "Exit");
 	}
 	else {
-		layout = createMainLayout(select, back);
+		layout = Util::createMainLayout("Select", "Back");
 	}
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
 		case ST_TRADE_OPTIONS:
-			lbl = createSubLabel(sendToAuctionlbl);
+			lbl = Util::createSubLabel("Send card to auction");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(sendToFriendlbl);
+			lbl = Util::createSubLabel("Send card to friend");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_AUCTION_OPTIONS:
-			lbl = createSubLabel(my_auctions);
+			lbl = Util::createSubLabel("My Auctions");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(create_auction);
+			lbl = Util::createSubLabel("Create New Auction");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -57,65 +57,62 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			this->setMain(layout);
 			return;
 		case ST_GAME_OPTIONS:
-			lbl = createSubLabel(leave_game);
+			lbl = Util::createSubLabel("Leave Game");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(view_details);
+			lbl = Util::createSubLabel("View Game Details");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(view_log);
+			lbl = Util::createSubLabel("View Game Log");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_NEW_GAME_OPTIONS:
-			lbl = createSubLabel(play_versus_pc);
+			lbl = Util::createSubLabel("Play versus PC");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(play_versus_player);
+			lbl = Util::createSubLabel("Play versus player");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_CARD_OPTIONS:
-			lbl = createSubLabel(noteslbl);
+			lbl = Util::createSubLabel("Notes");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(sharelbl);
+			lbl = Util::createSubLabel("Share");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(auction);
+			lbl = Util::createSubLabel("Auction");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(comparelbl);
+			lbl = Util::createSubLabel("Compare");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(details);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = createSubLabel(addDecklbl);
+			lbl = Util::createSubLabel("Details");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_NEW_CARD:
-			lbl = createSubLabel(acceptlbl);
+			lbl = Util::createSubLabel("Accept");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(rejectlbl);
+			lbl = Util::createSubLabel("Reject");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_NUMBER_OPTIONS:
-			lbl = createSubLabel(calllbl);
+			lbl = Util::createSubLabel("Call");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(smslbl);
+			lbl = Util::createSubLabel("SMS");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_LOGIN_OPTIONS:
-			lbl = createSubLabel(login);
+			lbl = Util::createSubLabel("Log In");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(reg);
+			lbl = Util::createSubLabel("Register");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -154,18 +151,18 @@ void OptionsScreen::checkForGames() {
 	connError = true;
 	album = new Albums();
 
-	notice->setCaption(checking_games);
+	notice->setCaption("Checking games...");
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	int res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+	int res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
 
 	if(res < 0) {
 		notice->setCaption("Connection Error");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 }
@@ -223,9 +220,9 @@ void OptionsScreen::locateItem(MAPoint2d point)
 #endif
 void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(Util::getFontBlack());
 	}
 }
 
@@ -306,14 +303,14 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GamePlayScreen(this, feed, true, number, ng_ai);
+						menu = new GamePlayScreen(this, feed, true, number, "1");
 						menu->show();
 					}
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GamePlayScreen(this, feed, true, number, ng_pvp);
+						menu = new GamePlayScreen(this, feed, true, number, "2");
 						menu->show();
 					}
 					break;
@@ -358,14 +355,6 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						menu = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
 						menu->show();
-					}
-					else if (index == 5) {
-						if (menu != NULL) {
-							delete menu;
-						}
-						/*menu = new DetailScreen(this, feed,
-								DetailScreen::CARD, card);
-						menu->show();*/
 					}
 					break;
 				case ST_NEW_CARD:
@@ -433,10 +422,10 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 
 void OptionsScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = ACCEPTCARD.length() + card->getId().length();
+	int urlLength = strlen("http://dev.mytcg.net/_phone/?savecard=") + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?savecard=", card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -445,8 +434,8 @@ void OptionsScreen::acceptCard() {
 	if(res < 0) {
 		notice->setCaption("");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -454,10 +443,10 @@ void OptionsScreen::acceptCard() {
 
 void OptionsScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = REJECTCARD.length() + card->getId().length();
+	int urlLength = strlen("http://dev.mytcg.net/_phone/?rejectcard=") + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?rejectcard=", card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -466,8 +455,8 @@ void OptionsScreen::rejectCard() {
 	if(res < 0) {
 		notice->setCaption("");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -480,9 +469,9 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		connError = true;
 		mHttp.close();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 
-		updateSoftKeyLayout("", back, "", layout);
+		Util::updateSoftKeyLayout("", "Back", "", layout);
 	}
 }
 
@@ -500,7 +489,7 @@ void OptionsScreen::mtxEncoding(const char* ) {
 }
 
 void OptionsScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_albumdone)) {
+	if (!strcmp(name, "usercategories")) {
 		album->clearAll();
 	}
 	parentTag = name;
@@ -510,27 +499,27 @@ void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_game_description)) {
+	if(!strcmp(parentTag.c_str(), "gamedescription")) {
 		temp1 += data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
+	} else if(!strcmp(parentTag.c_str(), "gameid")) {
 		temp += data;
-	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+	} else if (!strcmp(parentTag.c_str(), "result")) {
 		temp += data;
 	}
 }
 
 void OptionsScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_game_description)) {
+	if(!strcmp(name, "gamedescription")) {
 		album->addAlbum(temp.c_str(), temp1.c_str());
 		temp1 = "";
 		temp = "";
-	} else if (!strcmp(name, xml_games)) {
+	} else if (!strcmp(name, "games")) {
 		notice->setCaption("");
 		if (album->size() > 0) {
-			lbl = createSubLabel(new_game);
+			lbl = Util::createSubLabel("New Game");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(existing_game);
+			lbl = Util::createSubLabel("Continue Game");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 
@@ -543,9 +532,9 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 			menu = new AlbumLoadScreen(previous, feed, AlbumLoadScreen::ST_PLAY);
 			menu->show();
 		}
-	} else if(!strcmp(name, xml_result)) {
+	} else if(!strcmp(name, "result")) {
 		((AlbumViewScreen *)origAlbum)->refresh();
-	}  else if(!strcmp(name, xml_error)) {
+	}  else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
 	} else {
 		notice->setCaption("");

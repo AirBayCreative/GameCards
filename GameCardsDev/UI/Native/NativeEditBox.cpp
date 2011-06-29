@@ -84,7 +84,7 @@ void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if (point.y < scrHeight-softKeys->getHeight()) {
+	if (point.y < scrHeight-48) {
 		if(this->isActive()&&this->contains(point.x, point.y)) {
 			activate();
 		}

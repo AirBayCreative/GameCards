@@ -14,31 +14,31 @@
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	menu = NULL;
-	mainLayout = createMainLayout("", exit, true);
+	mainLayout = Util::createMainLayout("", "Exit", true);
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	label = createSubLabel(albumlbl);
+	label = Util::createSubLabel("Albums");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(play);
+	label = Util::createSubLabel("Play");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(shoplbl);
+	label = Util::createSubLabel("Shop");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(auctionlbl);
+	label = Util::createSubLabel("Auctions");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(redeemlbl);
+	label = Util::createSubLabel("Redeem");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(ballbl);
+	label = Util::createSubLabel("My Balance");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(proflbl);
+	label = Util::createSubLabel("My Profile");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = createSubLabel(logout);
+	label = Util::createSubLabel("Log Out");
 	label->addWidgetListener(this);
 	listBox->add(label);
 
@@ -57,15 +57,15 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	touch = 1;
 #endif
 	//work out how long the url will be, the 16 is for the & and = symbals
-	int urlLength = UPDATE.length() + strlen(update_imsi) + intlen(imsi) + strlen(update_imei) + intlen(imei)
-			+ strlen(update_os) + strlen(os) + strlen(update_make) + strlen(make)
-			+ strlen(update_model) + strlen(model) + strlen(update_touch) + intlen(touch) + 16
-			+ strlen(update_width) + intlen(scrWidth) + strlen(update_height) + intlen(scrHeight);
+	int urlLength = strlen("http://dev.mytcg.net/_phone/?update=1.02") + strlen("imsi") + Util::intlen(imsi) + strlen("os") + Util::intlen(imei)
+			+ strlen("os") + strlen(os) + strlen("make") + strlen(make)
+			+ strlen("model") + strlen(model) + strlen("touch") + Util::intlen(touch) + 16
+			+ strlen("width") + Util::intlen(scrWidth) + strlen("height") + Util::intlen(scrHeight);
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", UPDATE.c_str(), update_imsi,
-			imsi, update_imei, imei, update_os, os, update_make, make, update_model, model, update_touch, touch,
-			update_width, scrWidth, update_height, scrHeight);
+	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", "http://dev.mytcg.net/_phone/?update=1.02", "imsi",
+			imsi, "os", imei, "os", os, "make", make, "model", model, "touch", touch,
+			"width", scrWidth, "height", scrHeight);
 	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
 	//when the page has loaded, check for a new version in the background
 	//www.mytcg.net/_phone/update=version_number
@@ -73,8 +73,8 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	if(res < 0) {
 
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 
@@ -94,9 +94,9 @@ MenuScreen::~MenuScreen() {
 
 void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(Util::getFontBlack());
 	}
 }
 
@@ -166,11 +166,11 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
 					String s = itr->c_str();
 					s+="-lst.sav";
-					saveData(s.c_str(),"");
+					Util::saveData(s.c_str(),"");
 				}
 				feed->setAll("");
-				saveData(FEED,"");
-				saveData(ALBUM,"");
+				Util::saveData("fd.sav","");
+				Util::saveData("lb.sav","");
 
 				maExit(0);
 				//menu = new Logout(this, feed);
@@ -180,12 +180,12 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
 			int seconds = maLocalTime();
-			int secondsLength = intlen(seconds);
+			int secondsLength = Util::intlen(seconds);
 			char *secString = new char[secondsLength];
 			memset(secString,'\0',secondsLength);
 			sprintf(secString, "%d", seconds);
 			feed->setSeconds(secString);
-			saveData(FEED, feed->getAll().c_str());
+			Util::saveData("fd.sav", feed->getAll().c_str());
 			maExit(0);
 			break;
 		case MAK_DOWN:

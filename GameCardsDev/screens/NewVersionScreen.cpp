@@ -4,14 +4,14 @@
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
-	layout = createMainLayout(back, download);
+	layout = Util::createMainLayout("Back", "Download");
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, new_version_available, 0, gFontBlack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.", 0, Util::getFontBlack());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
+	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
 
@@ -45,8 +45,8 @@ void NewVersionScreen::pointerReleaseEvent(MAPoint2d point)
 
 void NewVersionScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
+	if (feed->setTouch("true")) {
+		Util::saveData("fd.sav", feed->getAll().c_str());
 	}
 	list = false;
 	left = false;

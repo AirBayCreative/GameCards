@@ -7,6 +7,12 @@ CardStat::CardStat() {
 	statType = "";
 }
 
+CardStat::~CardStat() {
+	cardStatId = "";
+	statDescription = "";
+	statType = "";
+}
+
 CardStat::CardStat(const char *cardStatId, const char *statDescription,
 			const char *statType) : cardStatId(cardStatId), statDescription(statDescription),
 			statType(statType) {

@@ -6,7 +6,7 @@
 .bin
 .include "nobileblue.mof" 
 
-.res RES_FONT_BLACK
+.res RES_FONT_BLACK 
 .bin
 .include "nobileblack.mof"
  
