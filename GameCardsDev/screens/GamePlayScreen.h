@@ -52,7 +52,7 @@ private:
 	String parentTag, cardText, gameId, categoryId, lastMove;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message, userCards, oppCards, categoryStatId;
-	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks;
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks, prevPhase;
 	String explanation, outcome;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
 	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking;

@@ -65,6 +65,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	listBox->setHeight(listBox->getHeight() - 20);
 
 	phase = P_LOADING;
+	prevPhase = -1;
 
 	char *url;
 	if (newGame) {
@@ -129,6 +130,7 @@ void GamePlayScreen::clearListBox() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
 	lprintfln("drawResultsScreen");
 	clearListBox();
 
@@ -248,7 +250,7 @@ void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 						for(int i = 0;i<card->getStats().size();i++) {
 							if(flip==card->getStats()[i]->getFrontOrBack()) {
 								if(userImage->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),
-										card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)) {
+										card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y, MobImage::LANDSCAPE)) {
 									currentSelectedStat = i;
 								}
 							}
@@ -382,7 +384,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 							}
 						}
 					}
@@ -402,7 +404,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 							}
 						}
 					}
@@ -463,7 +465,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 									userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 											card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 											card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-											card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+											card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 									selectStat(currentSelectedStat);
 								}
@@ -481,7 +483,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				switch (phase) {
 					case P_CARD_DETAILS:
 						if(currentSelectedStat>-1){
-							this->selectStat(currentSelectedStat);
+							selectStat(currentSelectedStat);
 						}
 						break;
 					case P_RESULTS:
@@ -501,13 +503,16 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 
 void GamePlayScreen::runTimerEvent() {
 	lprintfln("runTimerEvent currentSelectedStat: %d", currentSelectedStat);
+	lprintfln("runTimerEvent 1");
 	if (phase == P_LFM) {
+		lprintfln("runTimerEvent 1.1");
 		drawLFMScreen();
 		ticks = ticks>3?1:ticks+1;
 		lfmTicks++;
 	}
-
+	lprintfln("runTimerEvent 2");
 	if ((!active && phase == P_CARD_DETAILS) || (!checking && lfmTicks%12 == 0)) {
+		lprintfln("runTimerEvent 2.1");
 		checking = true;
 		lprintfln("checking");
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
@@ -517,6 +522,9 @@ void GamePlayScreen::runTimerEvent() {
 		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
 			game_id, gameId.c_str(), xml_lastmove, lastMove.c_str(), getMaxImageHeight(), getMaxImageWidth());
 		lprintfln(url);
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -531,23 +539,25 @@ void GamePlayScreen::runTimerEvent() {
 		delete [] url;
 		return;
 	}
-
+	lprintfln("runTimerEvent 3");
 	if (phase == P_LFM) {
+		lprintfln("runTimerEvent 3.1");
 		return;
 	}
-
+	lprintfln("runTimerEvent 4");
 	ticks++;
 	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
+		lprintfln("runTimerEvent 4.1");
 		if (!selected) {
 			oppImage->selectStat(oppCard->getStats()[currentSelectedStat]->getLeft(),oppCard->getStats()[currentSelectedStat]->getTop(),
 				oppCard->getStats()[currentSelectedStat]->getWidth(),oppCard->getStats()[currentSelectedStat]->getHeight(),
 				oppCard->getStats()[currentSelectedStat]->getColorRed(), oppCard->getStats()[currentSelectedStat]->getColorGreen(),
-				oppCard->getStats()[currentSelectedStat]->getColorBlue(), 1);
+				oppCard->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 			userImage->selectStat(card->getStats()[selected]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 				card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 				card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-				card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+				card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 			selected = true;
 		}
@@ -556,8 +566,9 @@ void GamePlayScreen::runTimerEvent() {
 			selected = false;
 		}
 	}
-
+	lprintfln("runTimerEvent 5");
 	if (phase == P_OPPMOVE && ticks > 6) {
+		lprintfln("runTimerEvent 5.1");
 		MAUtil::Environment::getEnvironment().removeTimer(this);
 		ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
@@ -613,11 +624,10 @@ void GamePlayScreen::selectStat(int selected) {
 		mHttp.close();
 	}*/
 
-	//maWait(5000);
-
+	prevPhase = -1;
 	selected = false;
 	lprintfln("addTimer 1");
-	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
+	MAUtil::Environment::getEnvironment().addTimer(this, 500, 6);
 
 	//clearCardStats();
 
@@ -786,6 +796,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), xml_active)) {
 		active = (strcmp(data, "1")==0);
 	} else if (!strcmp(parentTag.c_str(), xml_phase)) {
+		prevPhase = phase;
 		listBox->setEnabled(true);
 		if (!strcmp(data, phase_stat)) {
 			phase = P_CARD_DETAILS;
@@ -880,17 +891,22 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		categoryStatId = "";
 	} else if (!strcmp(name, xml_error)) {
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_game) || !strcmp(name, xml_cardstats) || !strcmp(name, xml_results)) {
+	} else if (!strcmp(name, xml_game)) {
 		if (!newGame) {
 			busy = false;
 			switch (phase) {
 				case P_CARD_DETAILS:
-					drawCardSelectStatScreen();
+					lprintfln("phase: P_CARD_DETAILS");
+					//if (prevPhase != phase) {
+						drawCardSelectStatScreen();
+					//}
 					break;
 				case P_RESULTS:
+					lprintfln("phase: P_RESULTS");
 					drawResultsScreen();
 					break;
 				case P_OPPMOVE:
+					lprintfln("phase: P_OPPMOVE");
 					notice->setCaption("");
 					int height = listBox->getHeight();
 					retrieveBackFlip(userImage, card, height, imageCache);
@@ -906,6 +922,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 				case P_LFM:
+					lprintfln("phase: P_LFM");
 					ticks = 0;
 					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);

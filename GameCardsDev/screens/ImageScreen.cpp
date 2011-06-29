@@ -186,7 +186,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 							currentSelectedStat = 2;
 							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
 							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						} else if (currentSelectedStat == -1) {
 							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
 							imge->refreshWidget();
@@ -194,7 +194,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						} else {
 							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
 							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
 					}
 				}
@@ -215,7 +215,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						} else {
 							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
 							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
 					}
 				}
@@ -278,7 +278,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						if(currentSelectedStat!=-1){
 							if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 								imge->refreshWidget();
-								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 
 								Stat *stat = card->getStats()[currentSelectedStat];
 								if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
