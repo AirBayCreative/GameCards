@@ -6,7 +6,7 @@
 #include "../utils/Util.h"
 
 CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), previous(previous), img(img), flip(flip), card(card), feed(feed), compare(compare) {
-
+	lprintfln("CompareScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	busy = false;
 	next = NULL;
 	currentSelectedStat = -1;

@@ -17,6 +17,8 @@ ImageCache::~ImageCache()
 {
 	memset(mBuffer, 0, 1024);
 	clearImageCache();
+	//maDestroyObject(mData);
+	mData = NULL;
 }
 
 void ImageCache::request(ImageCacheRequest* req)

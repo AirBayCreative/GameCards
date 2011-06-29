@@ -6,14 +6,12 @@
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 
-GameDetailsScreen::GameDetailsScreen(Feed *feed)
-		:mHttp(this), feed(feed), gameId(feed->getGameId()) {
+GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
+		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {
 
 	layout = createMainLayout(continuelbl, "", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
-
-	notice->setCaption("Loading game details...");
 
 	this->setMain(layout);
 
@@ -22,14 +20,35 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed)
 	error_msg = "";
 	toPlay = "";
 	display="";
+	date = "";
+	description = "";
 	moved = 0;
 
-	char *url;
-	//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-	int urlLength = GAMEDETAILS.length() + 2 + strlen(game_id) + gameId.length();
-	url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s", GAMEDETAILS.c_str(), game_id, gameId.c_str());
+	log = NULL;
+
+	char *url = NULL;
+	int urlLength;
+	switch (screenType) {
+		case ST_GAME_DETAILS:
+			notice->setCaption("Loading game details...");
+
+			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
+			urlLength = GAMEDETAILS.length() + 2 + strlen(game_id) + gameId.length();
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", GAMEDETAILS.c_str(), game_id, gameId.c_str());
+			break;
+		case ST_GAME_LOG:
+			notice->setCaption("Loading game logs...");
+
+			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
+			urlLength = GAMELOGS.length() + 2 + strlen(game_id) + gameId.length();
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s", GAMELOGS.c_str(), game_id, gameId.c_str());
+			break;
+	}
+
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -42,7 +61,11 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed)
 		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
-	delete [] url;
+
+	urlLength = 0;
+	if (url != NULL) {
+		delete [] url;
+	}
 }
 
 GameDetailsScreen::~GameDetailsScreen() {
@@ -55,6 +78,28 @@ GameDetailsScreen::~GameDetailsScreen() {
 	error_msg="";
 	display="";
 	gameId="";
+}
+
+void GameDetailsScreen::drawList() {
+	for(int i = 0; i < logs.size(); i++) {
+		lbl = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
+				"", 0, gFontBlack);
+		lbl->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
+		lbl->setVerticalAlignment(Label::VA_CENTER);
+		lbl->setSkin(gSkinListNoArrows);
+		lbl->setMultiLine(true);
+		lbl->setPaddingBottom(5);
+		lbl->setPaddingLeft(PADDING);
+		lbl->addWidgetListener(this);
+		kinListBox->add(lbl);
+	}
+	if (logs.size() >= 1) {
+		kinListBox->setSelectedIndex(0);
+	} else {
+		lbl = createSubLabel(empty);
+		lbl->addWidgetListener(this);
+		kinListBox->add(lbl);
+	}
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -132,6 +177,14 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void GameDetailsScreen::selectionChanged(Widget *widget, bool selected) {
+	if(selected) {
+		((Label *)widget)->setFont(gFontBlue);
+	} else {
+		((Label *)widget)->setFont(gFontBlack);
+	}
+}
+
 void GameDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
@@ -165,6 +218,10 @@ void GameDetailsScreen::mtxTagData(const char* data, int len) {
 		opponentDeck += data;
 	} else if(!strcmp(parentTag.c_str(), xml_error)) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), xml_date)) {
+		date += data;
+	} else if(!strcmp(parentTag.c_str(), xml_description)) {
+		description += data;
 	}
 }
 
@@ -182,6 +239,17 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 		lbl->setCaption(display);
 		notice->setCaption("");
 		kinListBox->add(lbl);
+	}
+	else if (!strcmp(name, xml_game_log)) {
+		log = new Log(date.c_str(), description.c_str());
+		logs.add(log);
+
+		date = "";
+		description = "";
+	}
+	else if (!strcmp(name, xml_game_logs)) {
+		drawList();
+		notice->setCaption("");
 	}
 }
 

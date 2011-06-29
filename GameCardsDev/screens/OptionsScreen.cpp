@@ -10,11 +10,13 @@
 #include "DetailScreen.h"
 #include "Login.h"
 #include "CompareScreen.h"
+#include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -59,6 +61,17 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = createSubLabel(view_details);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(view_log);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			break;
+		case ST_NEW_GAME_OPTIONS:
+			lbl = createSubLabel(play_versus_pc);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = createSubLabel(play_versus_player);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -277,7 +290,30 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GameDetailsScreen(feed);
+						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_DETAILS);
+						menu->show();
+					}
+					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
+						menu->show();
+					}
+					break;
+				case ST_NEW_GAME_OPTIONS:
+					if (index == 0) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, ng_ai);
+						menu->show();
+					}
+					else if (index == 1) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, ng_pvp);
 						menu->show();
 					}
 					break;
