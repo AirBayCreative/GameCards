@@ -40,32 +40,32 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	tempImage = NULL;
 
 	mImageCache = new ImageCache();
-	mainLayout = createMainLayout("", back, "", true);
+	mainLayout = Util::createMainLayout("", "Back", "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	notice->setCaption(checking_auctions);
+	notice->setCaption("Getting auctions...");
 
 	//work out how long the url will be, the number is for the & and = symbols as well as hard coded params
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
 			break;
 		case ST_USER:
-			urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
 			break;
 	}
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
-					categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+			sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
+					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
-					feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
+			sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
+					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
 	if(mHttp.isOpen()){
@@ -76,10 +76,10 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	if(res < 0) {
 		drawList();
 
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -169,7 +169,7 @@ void AuctionListScreen::drawList() {
 		cardText += auctions[i]->getEndDate();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
-		feedlayout->setSkin(gSkinAlbum);
+		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
@@ -177,12 +177,12 @@ void AuctionListScreen::drawList() {
 		Card *tmp;
 		tmp = auctions[i]->getCard();
 
-		retrieveThumb(tempImage, tmp, mImageCache);
+		Util::retrieveThumb(tempImage, tmp, mImageCache);
 
 		if (strcmp(auctions[i]->getUsername().c_str(), feed->getUsername().c_str()) == 0)
 			tempImage->setHasNote(true);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -195,7 +195,7 @@ void AuctionListScreen::drawList() {
 		listBox->setSelectedIndex(ind);
 	} else {
 		emp = true;
-		listBox->add(createSubLabel(empty));
+		listBox->add(Util::createSubLabel("Empty"));
 		listBox->setSelectedIndex(ind);
 	}
 }
@@ -222,22 +222,22 @@ void AuctionListScreen::refresh()
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
 			break;
 		case ST_USER:
-			urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
 			break;
 	}
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
-					categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+			sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
+					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
-					feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
+			sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
+					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
 	if(mHttp.isOpen()){
@@ -248,10 +248,10 @@ void AuctionListScreen::refresh()
 	if(res < 0) {
 		drawList();
 
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -268,22 +268,22 @@ void AuctionListScreen::updateAuctions()
 		int urlLength = 0;
 		switch (screenType) {
 			case ST_CATEGORY:
-				urlLength = CATEGORY_AUCTION.length() + categoryId.length() + intlen(scrHeight) + intlen(scrWidth) + 28;
+				urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
 				break;
 			case ST_USER:
-				urlLength = USER_AUCTION.length() + feed->getUsername().length() +  + intlen(scrHeight) + intlen(scrWidth) + 25;
+				urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
 				break;
 		}
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
 		switch (screenType) {
 			case ST_CATEGORY:
-				sprintf(url, "%s&category_id=%s&height=%d&width=%d", CATEGORY_AUCTION.c_str(),
-						categoryId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+				sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
+						categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 				break;
 			case ST_USER:
-				sprintf(url, "%s&username=%s&height=%d&width=%d", USER_AUCTION.c_str(),
-						feed->getUsername().c_str(), getMaxImageHeight(), getMaxImageWidth());
+				sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
+						feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 				break;
 		}
 		if(mHttp.isOpen()){
@@ -294,10 +294,10 @@ void AuctionListScreen::updateAuctions()
 		if(res < 0) {
 			drawList();
 
-			notice->setCaption(no_connect);
+			notice->setCaption("Unable to connect, try again later...");
 		} else {
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
 		delete [] url;
@@ -333,9 +333,9 @@ AuctionListScreen::~AuctionListScreen() {
 
 void AuctionListScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
+		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
+		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
 	}
 }
 
@@ -378,7 +378,7 @@ void AuctionListScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		mHttp.close();
 		drawList();
 
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -400,43 +400,43 @@ void AuctionListScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 }
 
 void AuctionListScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_cardid)) {
+	if(!strcmp(parentTag.c_str(), "cardid")) {
 		cardId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
+	} else if(!strcmp(parentTag.c_str(), "description")) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_thumburl)) {
+	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
 		thumburl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
+	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
 		fronturl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_frontflipurl)) {
+	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
 		frontflipurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
+	} else if(!strcmp(parentTag.c_str(), "backurl")) {
 		backurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_backflipurl)) {
+	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
 		backflipurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
-	} else if(!strcmp(parentTag.c_str(), xml_opening_bid)) {
+	} else if(!strcmp(parentTag.c_str(), "openingbid")) {
 		openingBid += data;
-	} else if(!strcmp(parentTag.c_str(), xml_price)) {
+	} else if(!strcmp(parentTag.c_str(), "price")) {
 		price += data;
-	} else if(!strcmp(parentTag.c_str(), xml_user_card_id)) {
+	} else if(!strcmp(parentTag.c_str(), "usercardid")) {
 		userCardId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_auction_card_id)) {
+	} else if(!strcmp(parentTag.c_str(), "auctioncardid")) {
 		auctionCardId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_username)) {
+	} else if(!strcmp(parentTag.c_str(), "username")) {
 		username += data;
-	} else if(!strcmp(parentTag.c_str(), xml_buy_now_price)) {
+	} else if(!strcmp(parentTag.c_str(), "buynowprice")) {
 		buyNowPrice += data;
-	} else if(!strcmp(parentTag.c_str(), xml_end_date)) {
+	} else if(!strcmp(parentTag.c_str(), "endDate")) {
 		endDate += data;
-	} else if(!strcmp(parentTag.c_str(), xml_last_bid_user)) {
+	} else if(!strcmp(parentTag.c_str(), "lastBidUser")) {
 		lastBidUser += data;
 	}
 }
 
 void AuctionListScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_auction)) {
+	if(!strcmp(name, "auction")) {
 		fullDesc = "";
 		if (strcmp(price.c_str(), "")) {
 			fullDesc += "Current bid: ";
@@ -498,9 +498,9 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		fullDesc = "";
 		endDate = "";
 		lastBidUser = "";
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_auctionsdone)) {
+	} else if (!strcmp(name, "auctionsincategory")) {
 		if (!shouldUpdateAuction)
 		{
 			notice->setCaption("Building list...");

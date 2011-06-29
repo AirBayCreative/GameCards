@@ -40,7 +40,6 @@ public:
 	void setCard(Card* card);
 private:
 	String openingBid, price, userCardId, auctionCardId, username, buyNowPrice, endDate, lastBidUser;
-
 	Card *card;
 };
 

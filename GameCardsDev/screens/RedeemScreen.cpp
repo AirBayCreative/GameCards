@@ -13,23 +13,23 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	error_msg = "";
 	parentTag = "";
 
-	mainLayout = createMainLayout(back, redeemlbl, "", true);
+	mainLayout = Util::createMainLayout("Back", "Redeem", "", true);
 
 	mainLayout->setDrawBackground(true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, redeemCodelbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Redeem code:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxRedeem = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Search term:");
 	editBoxRedeem->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	if (feed->getUnsuccessful() != success) {
+	if (feed->getUnsuccessful() != "Success") {
 		label->setCaption(feed->getUnsuccessful());
 	}
 	this->setMain(mainLayout);
@@ -116,21 +116,21 @@ void RedeemScreen::hide() {
 }
 
 void RedeemScreen::redeemCode() {
-	int urlLength = REDEEM.length() + editBoxRedeem->getCaption().length();
+	int urlLength = strlen("http://dev.mytcg.net/_phone/?redeemcode=") + editBoxRedeem->getCaption().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", REDEEM.c_str(), editBoxRedeem->getCaption().c_str());
+	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?redeemcode=", editBoxRedeem->getCaption().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	} else {
 		notice->setCaption("Redeeming...");
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -190,18 +190,18 @@ void RedeemScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void RedeemScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_result)) {
+	if(!strcmp(parentTag.c_str(), "result")) {
 		result += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
 	}
 }
 
 void RedeemScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_result)) {
+	if(!strcmp(name, "result")) {
 		notice->setCaption(result);
 		isBusy = false;
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
 	} else {
 		notice->setCaption("");

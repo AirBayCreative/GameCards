@@ -22,13 +22,13 @@ void AlbumLoadScreen::refresh() {
 	delete album;
 	album = new Albums();
 
-	notice->setCaption(checking_albums);
+	notice->setCaption("Checking for new albums...");
 	album->setAll(this->feed->getAlbum()->getAll().c_str());
 	drawList();
-	urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+	urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+	sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
 	res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -36,8 +36,8 @@ void AlbumLoadScreen::refresh() {
 		notice->setCaption("");
 	} else {
 		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
@@ -62,7 +62,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	updated = "0";
 
 	next = NULL;
-	mainLayout = createMainLayout("", back, true);
+	mainLayout = Util::createMainLayout("", "Back", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -72,24 +72,24 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		case ST_ALBUMS:
 		case ST_COMPARE:
 		case ST_AUCTION:
-			notice->setCaption(checking_albums);
+			notice->setCaption("Checking for new albums...");
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
 			drawList();
-			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:
-			notice->setCaption(checking_albums);
+			notice->setCaption("Checking for new albums...");
 
 			drawList();
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = PLAYABLE_CATEGORIES.length() + strlen(xml_username) + feed->getUsername().length() + 2;
+			int urlLength = strlen("http://dev.mytcg.net/_phone/?playablecategories=1") + strlen("username") + feed->getUsername().length() + 2;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", PLAYABLE_CATEGORIES.c_str(), xml_username, feed->getUsername().c_str());
+			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?playablecategories=1", "username", feed->getUsername().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
@@ -104,9 +104,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				return;
 			}
 			else {
-				notice->setCaption(checking_games);
+				notice->setCaption("Checking games...");
 				drawList();
-				res = mHttp.create(LISTGAMES.c_str(), HTTP_GET);
+				res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
 			}
 
 			break;
@@ -116,8 +116,8 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		notice->setCaption("");
 	} else {
 		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	drawList();
@@ -141,7 +141,9 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	updated="";
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
-		delete album;
+		if (album != NULL) {
+			delete album;
+		}
 		album = NULL;
 	}
 }
@@ -177,8 +179,8 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz) && screenType == ST_ALBUMS) {
-		saveData(FEED, feed->getAll().c_str());
+	if (feed->setTouch("true") && screenType == ST_ALBUMS) {
+		Util::saveData("fd.sav", feed->getAll().c_str());
 	}
 
 	list = false;
@@ -226,7 +228,7 @@ void AlbumLoadScreen::drawList() {
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		albumname = itr->c_str();
-		label = createSubLabel(itr->c_str());
+		label = Util::createSubLabel(itr->c_str());
 		label->setPaddingBottom(5);
 		label->addWidgetListener(this);
 		listBox->add(label);
@@ -242,7 +244,7 @@ void AlbumLoadScreen::drawList() {
 
 	} else {
 		empt = true;
-		label = createSubLabel(empty);
+		label = Util::createSubLabel("Empty");
 		label->addWidgetListener(this);
 		listBox->add(label);
 		size++;
@@ -265,9 +267,9 @@ void AlbumLoadScreen::clearListBox() {
 
 void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(Util::getFontBlack());
 	}
 }
 
@@ -310,7 +312,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				switch (screenType) {
 					case ST_ALBUMS:
 						if (val->getHasCards()) {
-							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							if (strcmp(val->getId().c_str(), "-3") == 0) {
 								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
 								next->show();
 							}
@@ -369,20 +371,20 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumLoadScreen::loadCategory() {
-	updateSoftKeyLayout("", back, "", mainLayout);
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	//the list needs to be cleared
 	album->clearAll();
 	clearListBox();
 	//then if the category has been loaded before, we need to load from the file
-	notice->setCaption(checking_albums);
+	notice->setCaption("Checking for new albums...");
 	if (path.size() == 0) {
 		album->setAll(this->feed->getAlbum()->getAll().c_str());
 	}
 	else {
 		char *file = new char[path.end()->length() + 5];
 		sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
-		album->setAll(getData(file));
+		album->setAll(Util::getData(file));
 		delete file;
 	}
 	drawList();
@@ -398,26 +400,26 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength = ALBUMS.length() + strlen(seconds) + feed->getSeconds().length() + 2;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", ALBUMS.c_str(), seconds, feed->getSeconds().c_str());
+			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = SUBCATEGORIES.length() + strlen(category) + path[path.size()-1].length() + strlen(seconds) + feed->getSeconds().length() + 4;
+			urlLength = strlen("http://dev.mytcg.net/_phone/?usersubcategories=1") + strlen("category") + path[path.size()-1].length() + strlen("seconds") + feed->getSeconds().length() + 4;
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s&%s=%s", SUBCATEGORIES.c_str(), category, path[path.size()-1].c_str(), seconds, feed->getSeconds().c_str());
+			sprintf(url, "%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?usersubcategories=1", "category", path[path.size()-1].c_str(), "seconds", feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 
 		if(res < 0) {
 			notice->setCaption("");
 		} else {
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
 
@@ -452,7 +454,7 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_albumdone) || !strcmp(name, categories)) {
+	if (!strcmp(name, "usercategories") || !strcmp(name, "categories")) {
 		album->clearAll();
 	}
 	parentTag = name;
@@ -462,37 +464,37 @@ void AlbumLoadScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void AlbumLoadScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), xml_albumdone)) {
+	if (!strcmp(parentTag.c_str(), "usercategories")) {
 		album->clearAll();
-	} else if(!strcmp(parentTag.c_str(), xml_albumname)) {
+	} else if(!strcmp(parentTag.c_str(), "albumname")) {
 		temp1 = data;
-	} else if(!strcmp(parentTag.c_str(), xml_albumid)) {
+	} else if(!strcmp(parentTag.c_str(), "albumid")) {
 		temp += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
-	} else if(!strcmp(parentTag.c_str(), category_name)) {
+	} else if(!strcmp(parentTag.c_str(), "categoryname")) {
 		temp1 = data;
-	} else if(!strcmp(parentTag.c_str(), category_id)) {
+	} else if(!strcmp(parentTag.c_str(), "categoryid")) {
 		temp += data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_description)) {
+	} else if(!strcmp(parentTag.c_str(), "gamedescription")) {
 		temp1 = data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
+	} else if(!strcmp(parentTag.c_str(), "gameid")) {
 		temp += data;
-	} else if (!strcmp(parentTag.c_str(), xml_hascards)) {
+	} else if (!strcmp(parentTag.c_str(), "hascards")) {
 		hasCards += data;
-	} else if (!strcmp(parentTag.c_str(), xml_updated)) {
+	} else if (!strcmp(parentTag.c_str(), "updated")) {
 		updated += data;
 	}
 }
 
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_album) || !strcmp(name, category_name) || !strcmp(name, xml_game_description)) {
+	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
 		temp = "";
 		hasCards = "";
 		updated = "";
-	} else if (!strcmp(name, xml_albumdone) || !strcmp(name, categories) || !strcmp(name, xml_games)) {
+	} else if (!strcmp(name, "usercategories") || !strcmp(name, "categories") || !strcmp(name, "games")) {
 		switch (screenType) {
 			case ST_PLAY:
 				notice->setCaption("Choose game cards.");
@@ -507,12 +509,12 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		if (screenType == ST_ALBUMS) {
 			if (path.size() == 0) {
 				this->feed->getAlbum()->setAll(album->getAll().c_str());
-				saveData(ALBUM, album->getAll().c_str());
+				Util::saveData("lb.sav", album->getAll().c_str());
 			}
 			else {
 				char *file = new char[path.end()->length() + 5];
 				sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
-				saveData(file, album->getAll().c_str());
+				Util::saveData(file, album->getAll().c_str());
 				delete file;
 			}
 		}
@@ -527,7 +529,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				switch (screenType) {
 					case ST_ALBUMS:
 						if (val->getHasCards()) {
-							if (strcmp(val->getId().c_str(), album_newcards) == 0) {
+							if (strcmp(val->getId().c_str(), "-3") == 0) {
 								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
 								next->show();
 							}
@@ -568,7 +570,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 					}
 				}
 			}
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
 	} else {
 		notice->setCaption("");

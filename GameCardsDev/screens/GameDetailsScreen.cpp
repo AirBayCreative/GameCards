@@ -9,7 +9,7 @@
 GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {
 
-	layout = createMainLayout(continuelbl, "", true);
+	layout = Util::createMainLayout("Continue", "", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
@@ -33,19 +33,19 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			notice->setCaption("Loading game details...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = GAMEDETAILS.length() + 2 + strlen(game_id) + gameId.length();
+			urlLength = strlen("http://dev.mytcg.net/_phone/?viewgamedetails=1") + 2 + strlen("gameid") + gameId.length();
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", GAMEDETAILS.c_str(), game_id, gameId.c_str());
+			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?viewgamedetails=1", "gameid", gameId.c_str());
 			break;
 		case ST_GAME_LOG:
 			notice->setCaption("Loading game logs...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = GAMELOGS.length() + 2 + strlen(game_id) + gameId.length();
+			urlLength = strlen("http://dev.mytcg.net/_phone/?viewgamelog=1") + 2 + strlen("gameid") + gameId.length();
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", GAMELOGS.c_str(), game_id, gameId.c_str());
+			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?viewgamelog=1", "gameid", gameId.c_str());
 			break;
 	}
 
@@ -57,8 +57,8 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	if(res < 0) {
 		notice->setCaption("Connection error.");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 
@@ -83,10 +83,10 @@ GameDetailsScreen::~GameDetailsScreen() {
 void GameDetailsScreen::drawList() {
 	for(int i = 0; i < logs.size(); i++) {
 		lbl = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
-				"", 0, gFontBlack);
+				"", 0, Util::getFontBlack());
 		lbl->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
 		lbl->setVerticalAlignment(Label::VA_CENTER);
-		lbl->setSkin(gSkinListNoArrows);
+		lbl->setSkin(Util::getSkinListNoArrows());
 		lbl->setMultiLine(true);
 		lbl->setPaddingBottom(5);
 		lbl->setPaddingLeft(PADDING);
@@ -96,7 +96,7 @@ void GameDetailsScreen::drawList() {
 	if (logs.size() >= 1) {
 		kinListBox->setSelectedIndex(0);
 	} else {
-		lbl = createSubLabel(empty);
+		lbl = Util::createSubLabel("Empty");
 		lbl->addWidgetListener(this);
 		kinListBox->add(lbl);
 	}
@@ -179,9 +179,9 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 
 void GameDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(gFontBlack);
+		((Label *)widget)->setFont(Util::getFontBlack());
 	}
 }
 
@@ -210,28 +210,28 @@ void GameDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 }
 
 void GameDetailsScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_turn)) {
+	if(!strcmp(parentTag.c_str(), "turn")) {
 		toPlay += data;
-	} else if(!strcmp(parentTag.c_str(), xml_player_deck)) {
+	} else if(!strcmp(parentTag.c_str(), "playerdeck")) {
 		playerDeck += data;
-	} else if(!strcmp(parentTag.c_str(), xml_opponent_deck)) {
+	} else if(!strcmp(parentTag.c_str(), "opponentdeck")) {
 		opponentDeck += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
-	} else if(!strcmp(parentTag.c_str(), xml_date)) {
+	} else if(!strcmp(parentTag.c_str(), "date")) {
 		date += data;
-	} else if(!strcmp(parentTag.c_str(), xml_description)) {
+	} else if(!strcmp(parentTag.c_str(), "description")) {
 		description += data;
 	}
 }
 
 void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_game_details)) {
+	if(!strcmp(name, "gamedetails")) {
 		lbl = new Label(0, 0, 0, 0, NULL);
 		lbl->setAutoSizeX(true);
 		lbl->setAutoSizeY(true);
 		lbl->setMultiLine(true);
-		lbl->setFont(gFontBlack);
+		lbl->setFont(Util::getFontBlack());
 
 		display = "To play: " + toPlay;
 		display += "\n\nRemaining Cards:\nYou: "+playerDeck+"\nOpponent: "+opponentDeck;
@@ -240,14 +240,14 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption("");
 		kinListBox->add(lbl);
 	}
-	else if (!strcmp(name, xml_game_log)) {
+	else if (!strcmp(name, "log")) {
 		log = new Log(date.c_str(), description.c_str());
 		logs.add(log);
 
 		date = "";
 		description = "";
 	}
-	else if (!strcmp(name, xml_game_logs)) {
+	else if (!strcmp(name, "logs")) {
 		drawList();
 		notice->setCaption("");
 	}

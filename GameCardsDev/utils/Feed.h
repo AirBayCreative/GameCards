@@ -7,6 +7,7 @@ using namespace MAUtil;
 
 class Feed  {
 public:
+	~Feed();
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);

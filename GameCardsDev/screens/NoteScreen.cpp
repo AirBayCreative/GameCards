@@ -21,10 +21,10 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = createMainLayout(savelbl, back, "", true);
+			mainLayout = Util::createMainLayout("Save", "Back", "", true);
 			break;
 		case ST_SMS:
-			mainLayout = createMainLayout(sendlbl, back, "", true);
+			mainLayout = Util::createMainLayout("Send", "Back", "", true);
 		break;
 	}
 
@@ -38,7 +38,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 
 			cardText = "";
-			cardText += (card->getUpdated()?updated_symbol:"")+card->getText();
+			cardText += (card->getUpdated()?"*":"")+card->getText();
 			cardText += " (";
 			cardText += card->getQuantity();
 			cardText += ")\n";
@@ -48,7 +48,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			//cardText += "\nRarity: ";
 
 			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
-			feedlayout->setSkin(gSkinAlbum);
+			feedlayout->setSkin(Util::getSkinAlbum());
 			feedlayout->setDrawBackground(true);
 			feedlayout->addWidgetListener(this);
 
@@ -56,30 +56,30 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 				//if the user has one or more of the card, the image must be downloaded
 				tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 				tempImage->setHasNote(card->getNote().length()>0);
-				retrieveThumb(tempImage, card, mImageCache);
+				Util::retrieveThumb(tempImage, card, mImageCache);
 			}
 			else {
 				//we use the blank image for cards they dont have yet
 				tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 			}
 
-			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setAutoSizeY();
 			label->setAutoSizeX(true);
 			label->setMultiLine(true);
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note:", 0, Util::getFontBlack());
 			listBox->add(label);
 			break;
 		case ST_SMS:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, smslbl, 0, gFontBlack);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "SMS", 0, Util::getFontBlack());
 			listBox->add(label);
 		break;
 	}
 
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, gFontBlack);
-	label->setSkin(gSkinEditBox);
-	setPadding(label);
+	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
 
 	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note:");
 	editBoxNote->setDrawBackground(false);
@@ -88,7 +88,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			editBoxNote->setCaption(base64_decode(card->getNote()));
+			editBoxNote->setCaption(Util::base64_decode(card->getNote()));
 			break;
 	}
 
@@ -194,13 +194,13 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				case ST_CARD_NOTE:
 					if (!isBusy) {
 						isBusy = true;
-						encodedNote = base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
+						encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
 						card->setNote(encodedNote.c_str());
 						//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-						int urlLength = SAVENOTE.length() + encodedNote.length() + strlen(xml_cardid) + card->getId().length() + 4;
+						int urlLength = strlen("http://dev.mytcg.net/_phone/?savenote=") + encodedNote.length() + strlen("cardid") + card->getId().length() + 4;
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s%s&%s=%s", SAVENOTE.c_str(), encodedNote.c_str(), xml_cardid, card->getId().c_str());
+						sprintf(url, "%s%s&%s=%s", "http://dev.mytcg.net/_phone/?savenote=", encodedNote.c_str(), "cardid", card->getId().c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -209,8 +209,8 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						if(res < 0) {
 							notice->setCaption("Error updating note");
 						} else {
-							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 							mHttp.finish();
 							notice->setCaption("Updating note...");
 						}
@@ -239,7 +239,7 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 		isBusy = false;
 	}
 }

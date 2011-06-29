@@ -49,7 +49,7 @@ String Stat::getIVal() {
 }
 
 String Stat::getAll() {
-	return getDesc()+delim+getDisplay()+delim+getIVal();
+	return getDesc()+","+getDisplay()+","+getIVal();
 }
 
 void Stat::setCategoryStatId(const char *c) {
@@ -62,14 +62,14 @@ String Stat::getCategoryStatId() {
 
 void Stat::setAll(const char* allch) {
 	String all = allch;
-	int indexof = all.find(delim);
+	int indexof = all.find(",");
 	if (indexof > -1) {
 		setDesc(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setDisplay(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setIVal(all.substr(0,indexof++).c_str());
 	} else {
 		setDesc("");

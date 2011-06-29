@@ -16,115 +16,167 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-Font *gFontGrey;
-Font *gFontBlue;
-Font *gFontBlack;
-Font *gFontWhite;
-WidgetSkin *gSkinEditBox;
-WidgetSkin *gSkinButton;
-WidgetSkin *gSkinBack;
-WidgetSkin *gSkinList;
-WidgetSkin *gSkinListNoArrows;
-WidgetSkin *gSkinAlbum;
-WidgetSkin *gSkinText;
-WidgetSkin *gSkinKeyboard;
 Screen *orig;
 Screen *origAlbum;
 Screen *origMenu;
 int scrWidth;
 int scrHeight;
-int mCount;
 Image *image;
 Widget *softKeys;
 
 
-void increase() {
-	mCount++;
-}
-void decrease() {
-	mCount--;
-}
-int getCount() {
-	return mCount;
+Util::Util() {}
+Util::~Util() {}
+
+Font* Util::getFontBlue() {
+	static Font* blue;
+	if (blue == NULL) {
+		blue = new MAUI::Font(RES_FONT_BLUE);
+	}
+	return blue;
 }
 
-void setPadding(Widget *w) {
+Font* Util::getFontBlack() {
+	static Font* black;
+	if (black == NULL) {
+		black = new MAUI::Font(RES_FONT_BLACK);
+	}
+	return black;
+}
+
+WidgetSkin* Util::getSkinEditBox() {
+	static WidgetSkin* gSkinEditBox;
+	if (gSkinEditBox == NULL) {
+		gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 22, 26, true, true);
+	}
+	return gSkinEditBox;
+}
+
+WidgetSkin* Util::getSkinButton() {
+	static WidgetSkin* gSkinButton;
+	if (gSkinButton == NULL) {
+		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
+	}
+	return gSkinButton;
+}
+
+WidgetSkin* Util::getSkinBack() {
+	static WidgetSkin* gSkinBack;
+	if (gSkinBack == NULL) {
+		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 39, 78, 39, 78, true, true);
+	}
+	return gSkinBack;
+}
+
+WidgetSkin* Util::getSkinList() {
+	static WidgetSkin* gSkinList;
+	if (gSkinList == NULL) {
+		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
+	}
+	return gSkinList;
+}
+
+WidgetSkin* Util::getSkinListNoArrows() {
+	static WidgetSkin* gSkinListNoArrows;
+	if (gSkinListNoArrows == NULL) {
+		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
+	}
+	return gSkinListNoArrows;
+}
+
+WidgetSkin* Util::getSkinAlbum() {
+	static WidgetSkin* gSkinAlbum;
+	if (gSkinAlbum == NULL) {
+		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 16, 32, 16, 32, true, true);
+	}
+	return gSkinAlbum;
+}
+
+WidgetSkin* Util::getSkinText() {
+	static WidgetSkin* gSkinText;
+	if (gSkinText == NULL) {
+		gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
+	}
+	return gSkinText;
+}
+
+void Util::setPadding(Widget *w) {
 	w->setPaddingTop(10);
 	w->setPaddingLeft(PADDING);
 }
 
-Label* createLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
-	label->setSkin(gSkinText);
-	setPadding(label);
+Label* Util::createLabel(String str, int height) {
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinText());
+	Util::setPadding(label);
 	return label;
 }
-Label* createEditLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
-	label->setSkin(gSkinEditBox);
-	setPadding(label);
+Label* Util::createEditLabel(String str, int height) {
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
 	return label;
 }
 
-Label* createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontBlack);
+Label* Util::createSubLabel(String str, int height) {
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setSkin(gSkinList);
+	label->setSkin(Util::getSkinList());
 	return label;
 }
-Widget* createSoftKeyBar(int height, const char *left, const char *right) {
-	return createSoftKeyBar(height, left, right, "");
+Widget* Util::createSoftKeyBar(int height, const char *left, const char *right) {
+	return Util::createSoftKeyBar(height, left, right, "");
 }
 
-Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
+Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	layout->setSkin(gSkinBack);
+	//layout->setSkin(Util::getSkinBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, gFontBlack);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getFontBlack());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getFontBlack());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, gFontBlack);
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getFontBlack());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
 	return layout;
 }
 // first child is listbox
-Layout* createMainLayout(const char *left, const char *right, bool useKinetic) {
+Layout* Util::createMainLayout(const char *left, const char *right, bool useKinetic) {
 	return createMainLayout(left, right, "", useKinetic);
 }
 
-Layout* createNoHeaderLayout() {
+Layout* Util::createNoHeaderLayout() {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	return mainLayout;
 }
 
-Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
+Layout* Util::createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontBlack);
+	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getFontBlack());
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
@@ -156,9 +208,9 @@ Layout* createMainLayout(const char *left, const char *right, const char *centre
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left, bool useKinetic) {
+Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
+	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -183,9 +235,9 @@ Layout* createImageLayout(const char *left, bool useKinetic) {
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
+Layout* Util::createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
@@ -202,7 +254,7 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 	return mainLayout;
 }
 
-void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
+void Util::updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
 	//this function assumes the standard mainlayout format, with softkeys at the end.
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 
@@ -211,12 +263,12 @@ void updateSoftKeyLayout(const char *left, const char *right, const char *centre
 		delete currentSoftKeys;
 	}
 
-	currentSoftKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	currentSoftKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	mainLayout->add(currentSoftKeys);
 }
 
-void saveData(const char* storefile, const char *value) {
+void Util::saveData(const char* storefile, const char *value) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (strlen(value) == 0) {
 		maCloseStore(store, 1);
@@ -233,7 +285,7 @@ void saveData(const char* storefile, const char *value) {
 	store = -1;
 }
 
-void saveFile(const char* storefile, MAHandle data) {
+void Util::saveFile(const char* storefile, MAHandle data) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (store > 0) {
 		maWriteStore(store, data);
@@ -242,19 +294,18 @@ void saveFile(const char* storefile, MAHandle data) {
 	store = -1;
 }
 
-char* getData(const char* storefile) {
+char* Util::getData(char* storefile) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
 		int size = maGetDataSize(tmp);
 		if (size > 0) {
-			char *ret = new char[size+1];
-			memset(ret,'\0',size+1);
-			maReadData(tmp, ret, 0, size);
+			storefile = new char[size+1];
+			memset(storefile,0,size+1);
+			maReadData(tmp, storefile, 0, size);
 			maCloseStore(store, 0);
-			tmp = -1;
-			return ret;
+			return storefile;
 		} else {
 			return "";
 		}
@@ -264,7 +315,7 @@ char* getData(const char* storefile) {
 	return "";
 }
 
-void returnImage(MobImage *img, MAHandle i, int height)
+void Util::returnImage(MobImage *img, MAHandle i, int height)
 {
 	MAHandle imageh = maCreatePlaceholder();
 	maCreateImageFromData(imageh, i, 0, maGetDataSize(i));
@@ -276,7 +327,7 @@ void returnImage(MobImage *img, MAHandle i, int height)
 	i = -1;
 }
 
-void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
+void Util::retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
@@ -299,12 +350,12 @@ void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
+		req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
 }
 
-void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)
+void Util::retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)
 {
 	if (product == NULL) {
 		return;
@@ -334,7 +385,7 @@ void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCac
 	store = -1;
 }
 
-void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
@@ -362,7 +413,7 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 	}
 }
 
-void retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
@@ -385,12 +436,12 @@ void retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImage
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 3);
+		req1 = new ImageCacheRequest(img, card, 64, 3);
 		mImageCache->request(req1);
 	}
 }
 
-void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
@@ -413,12 +464,12 @@ void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 2);
+		req1 = new ImageCacheRequest(img, card, 64, 2);
 		mImageCache->request(req1);
 	}
 }
 
-void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
@@ -441,22 +492,12 @@ void retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageC
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 4);
+		req1 = new ImageCacheRequest(img, card, 64, 4);
 		mImageCache->request(req1);
 	}
 }
 
-bool isNumeric(String isValid) {
-	const char* isValArr = isValid.c_str();
-	for (int i = 0; i < isValid.length(); i++) {
-		if (!isdigit(isValArr[i])) {
-			return false;
-		}
-	}
-	return true;
-}
-
-int intlen(float start) {
+int Util::intlen(float start) {
 	int end = 0;
 	while(start >= 1) {
 		start = start/10;
@@ -465,14 +506,14 @@ int intlen(float start) {
 	return end;
 }
 
-int absoluteValue(int num){
+int Util::absoluteValue(int num){
 	if(num <0){
 		num = num * -1;
 	}
 	return num;
 }
 
-bool validateEmailAddress(String email) {
+bool Util::validateEmailAddress(String email) {
 	int atIndex = email.findFirstOf('@');
 	int lastDotIndex = email.findLastOf('.');
 	if (atIndex == email.npos || atIndex == 0 || atIndex == email.length()-1
@@ -487,21 +528,28 @@ bool validateEmailAddress(String email) {
 	return true;
 }
 
-int getSoftKeyBarHeight() {
+int Util::getSoftKeyBarHeight() {
 	//42 is the default height. It needs to scale up a bit for bigger screens
 	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
 
 	return scaledHeight;
 }
 
-int getMaxImageWidth() {
+int Util::getMaxImageWidth() {
 	return scrWidth - (PADDING * 4);
 }
-int getMaxImageHeight() {
+int Util::getMaxImageHeight() {
 	return scrHeight - getSoftKeyBarHeight() - (PADDING * 4);
 }
 
-String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+	String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
+										"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
+										"0123456789"				  // 52 to 61
+										"+"							  // 62
+										"/";
+
+
 	/* Copyright (C) 2004-2008 René Nyffenegger
 
 	   This source code is provided 'as-is', without any express or implied
@@ -560,7 +608,13 @@ String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) 
 	return ret;
 }
 
-String base64_decode(String encoded_string) {
+String Util::base64_decode(String encoded_string) {
+	String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
+										"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
+										"0123456789"				  // 52 to 61
+										"+"							  // 62
+										"/";
+
 	int in_len = encoded_string.size();
 	int i = 0;
 	int j = 0;
@@ -608,7 +662,7 @@ String base64_decode(String encoded_string) {
 	return ret;
 }
 
-static inline bool is_base64(unsigned char c) {
+inline bool Util::is_base64(unsigned char c) {
 	return (isalnum(c) || (c == '+') || (c == '/'));
 }
 
