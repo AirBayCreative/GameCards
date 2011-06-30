@@ -44,6 +44,11 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	next = NULL;
 	label = NULL;
 	mainLayout = Util::createMainLayout("", "Back", true);
+	if (screenType == ST_FREEBIE) {
+		mainLayout = Util::createMainLayout("", "", true);
+	} else {
+		mainLayout = Util::createMainLayout("", "Back", true);
+	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -168,6 +173,7 @@ void ShopCategoriesScreen::drawList() {
 	if (categories.size() > 1) {
 		listBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
+		listBox->setSelectedIndex(0);
 		if (screenType != ST_AUCTIONS) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -195,7 +201,9 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			if (screenType != ST_FREEBIE) {
+				previous->show();
+			}
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:

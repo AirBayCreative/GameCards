@@ -14,6 +14,7 @@
 #include "Product.h"
 #include "ImageCache.h"
 #include "Convert.h"
+#include "URLEncode.h"
 
 using namespace MAUI;
 
@@ -55,6 +56,7 @@ class Util
 		static int intlen(float start);
 		static int absoluteValue(int num);
 		static bool validateEmailAddress(String email);
+		static bool validateNoWhiteSpaces(String val);
 		static int getSoftKeyBarHeight();
 		static int getMaxImageHeight();
 		static int getMaxImageWidth();

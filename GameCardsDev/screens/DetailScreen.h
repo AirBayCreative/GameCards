@@ -53,6 +53,7 @@ private:
 	bool isBusy;
 
 	void saveProfileData();
+	void saveLocalData();
 	void refreshData();
 
 	void httpFinished(MAUtil::HttpConnection*, int);

@@ -31,13 +31,13 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Auctions");
 	label->addWidgetListener(this);
 	listBox->add(label);
+	label = Util::createSubLabel("Credits");
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = Util::createSubLabel("Profile");
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = Util::createSubLabel("Redeem");
-	label->addWidgetListener(this);
-	listBox->add(label);
-	label = Util::createSubLabel("My Balance");
-	label->addWidgetListener(this);
-	listBox->add(label);
-	label = Util::createSubLabel("My Profile");
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = Util::createSubLabel("Log Out");
@@ -96,6 +96,14 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	this->setMain(mainLayout);
 
 	origMenu = this;
+
+
+	 if (strcmp("0", feed->getFreebie().c_str()) == 0) {
+		 if (menu!=NULL) {
+			 delete menu;
+		 }
+		menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
+	}
 }
 
 MenuScreen::~MenuScreen() {
@@ -156,19 +164,19 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new RedeemScreen(feed, this);
+				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
 			} else if(index == 5) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
 			} else if(index == 6) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
+				menu = new RedeemScreen(feed, this);
 				menu->show();
 			} else if (index == 7) {
 				if(menu!=NULL){
