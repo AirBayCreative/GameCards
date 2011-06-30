@@ -79,7 +79,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			notice->setCaption("Checking for new albums...");
 
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
-			urlLength = 54 + feed->getSeconds().length();
+			urlLength = 60 + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
@@ -89,7 +89,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			notice->setCaption("Checking for new albums...");
 
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = 59 + feed->getUsername().length();
+			int urlLength = 60 + feed->getUsername().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "http://dev.mytcg.net/_phone/?playablecategories=1&username=%s", feed->getUsername().c_str());
@@ -101,14 +101,12 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			if (a != NULL) {
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
-				drawList();
 				this->setMain(mainLayout);
 				orig = this;
 				return;
 			}
 			else {
 				notice->setCaption("Checking games...");
-				drawList();
 				res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
 			}
 
@@ -135,6 +133,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 AlbumLoadScreen::~AlbumLoadScreen() {
 	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -226,6 +225,7 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
+	clearListBox();
 	listBox->clear();
 	int ind = listBox->getSelectedIndex();
 	Vector<String> display = album->getNames();
@@ -240,6 +240,7 @@ void AlbumLoadScreen::drawList() {
 
 		size++;
 	}
+	display.clear();
 	if (album->size() >= 1) {
 		if (ind < album->size()) {
 			listBox->setSelectedIndex(ind);
@@ -380,8 +381,8 @@ void AlbumLoadScreen::loadCategory() {
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	//the list needs to be cleared
 	album->clearAll();
+	clearListBox();
 	listBox->clear();
-	//clearListBox();
 	//then if the category has been loaded before, we need to load from the file
 	notice->setCaption("Checking for new albums...");
 	if (path.size() == 0) {
@@ -407,7 +408,7 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength =54 + feed->getSeconds().length();
+			urlLength = 60 + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
@@ -415,7 +416,7 @@ void AlbumLoadScreen::loadCategory() {
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = 67 + path[path.size()-1].length() + feed->getSeconds().length();
+			urlLength = 70 + path[path.size()-1].length() + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "http://dev.mytcg.net/_phone/?usersubcategories=1&category=%s&seconds=%s", path[path.size()-1].c_str(), feed->getSeconds().c_str());
@@ -462,7 +463,7 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
 	if (!strcmp(name, "usercategories") || !strcmp(name, "categories")) {
-		album->clearAll();
+		//album->clearAll();
 	}
 	parentTag = name;
 }
@@ -472,7 +473,7 @@ void AlbumLoadScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	if (!strcmp(parentTag.c_str(), "usercategories")) {
-		album->clearAll();
+		//album->clearAll();
 	} else if(!strcmp(parentTag.c_str(), "albumname")) {
 		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "albumid")) {
@@ -526,7 +527,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				delete file;
 			}
 		}
-		//drawList();
+		drawList();
 		if (album->size() == 1) {
 			Album* val = album->getAlbum(temp1);
 			if (val != NULL) {

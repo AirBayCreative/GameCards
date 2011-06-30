@@ -71,6 +71,19 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
+	} else if (screenType == BALANCE) {
+		int res = mHttp.create("http://dev.mytcg.net/_phone/?creditlog=1", HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for updated info...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
 	}
 
 	this->setMain(mainLayout);
@@ -326,13 +339,19 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		answered = Convert::toInt(data);
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), "id")) {
+		id += data;
+	} else if(!strcmp(parentTag.c_str(), "date")) {
+		date += data;
+	} else if(!strcmp(parentTag.c_str(), "value")) {
+		value += data;
 	}
 }
 
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "profiledetails")) {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption("");
+		label->setCaption("Earn credits by filling in profile details.");
 		isBusy = false;
 	} else if(!strcmp(name, "detail")) {
 
@@ -379,6 +398,13 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
 		}
+	} else if(!strcmp(name, "transactions")) {
+
+	} else if(!strcmp(name, "transaction")) {
+		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
+		listBox->add(label);
+		desc = "";
+
 	} else {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 

@@ -28,7 +28,7 @@ public:
 	//given a name returns the valid id for lookup on filesystem.
 	String getId(String name);
 	Album* getAlbum(String name);
-	Vector<String> names;
+
 private:
 	Map<String,Album*> album;
 	Map<String,String> albumnames;

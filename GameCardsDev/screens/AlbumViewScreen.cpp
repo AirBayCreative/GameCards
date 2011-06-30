@@ -171,14 +171,14 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String tmp = "";
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
+
 		Card *newCard = new Card();
 		newCard->setAll(tmp.c_str());
 		StringCardMap::Iterator itr = cards.find(newCard->getId());
 		if (itr != cards.end()) {
-			Card *del = itr->second;
-			delete del;
+			delete itr->second;
+			cards.erase(newCard->getId());
 		}
-		cards.erase(newCard->getId());
 		cards.insert(newCard->getId(), newCard);
 		all = ""+all.substr(indexof);
 		//delete newCard;

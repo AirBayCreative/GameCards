@@ -77,6 +77,7 @@ class Util
 		static WidgetSkin* getSkinAlbum();
 
 
+		//static Album* getAlbum();
 
 		/*static Screen* orig();
 		static Screen* origAlbum();
