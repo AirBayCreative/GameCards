@@ -388,7 +388,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			all = getAll();
 			Util::saveData(filename.c_str(), all.c_str());
 			all = "";
-			if (albumType == AT_BUY) {
+			if ((albumType == AT_BUY)||(albumType == AT_FREE)) {
 				origMenu->show();
 				break;
 			}
@@ -539,22 +539,20 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "card")) {
 		//notice->setCaption("");
 		Card *newCard = new Card();
-		String all = (quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+ranking+","+rarity+","+frontflipurl+","+backflipurl+",");
-		newCard->setAll(all.c_str());
-		all = "";
-		if (albumType == AT_BUY) {
-
-		} else {
-			newCard->setStats(stats);
-			cardExists = cards.find(newCard->getId());
-			if (cardExists != cards.end()) {
-				newCard->setThumb(cardExists->second->getThumb().c_str());
-				newCard->setBack(cardExists->second->getBack().c_str());
-				newCard->setFront(cardExists->second->getFront().c_str());
-				newCard->setBackFlip(cardExists->second->getBackFlip().c_str());
-				newCard->setFrontFlip(cardExists->second->getFrontFlip().c_str());
-			}
-			newCard->setUpdated(updated == "1");
+		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+ranking+","+rarity+","+frontflipurl+","+backflipurl+",").c_str());
+		newCard->setStats(stats);
+		cardExists = cards.find(newCard->getId());
+		if (cardExists != cards.end()) {
+			newCard->setThumb(cardExists->second->getThumb().c_str());
+			newCard->setBack(cardExists->second->getBack().c_str());
+			newCard->setFront(cardExists->second->getFront().c_str());
+			newCard->setBackFlip(cardExists->second->getBackFlip().c_str());
+			newCard->setFrontFlip(cardExists->second->getFrontFlip().c_str());
+		}
+		newCard->setUpdated(updated == "1");
+		if (albumType == AT_FREE) {
+			feed->setFreebie("1");
+			Util::saveData("fd.sav", feed->getAll().c_str());
 		}
 		tmp.insert(newCard->getId(),newCard);
 		id = "";

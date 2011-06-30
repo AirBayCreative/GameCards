@@ -33,9 +33,12 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 
 	int urlLength;
 	char *url;
-	if (credits)
-		url = (char*)"http://dev.mytcg.net/_phone/?getpayments=1";
-	else
+	if (credits) {
+		urlLength = 42;
+		url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?getpayments=1");
+	} else
 	{
 		if (!free) {
 			urlLength = 60 + category.length();
@@ -353,7 +356,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			if (strcmp(cred.c_str(), "")) {
 				String msg = "Current credits: " + cred;
 				feed->setCredits(cred.c_str());
-				if ((first)&&(free)) {
+				if ((first)||(free)) {
 					msg = "Received: 300 credits and a free starter pack.";
 				}
 				notice->setCaption(msg.c_str());

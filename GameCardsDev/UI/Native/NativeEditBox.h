@@ -50,6 +50,10 @@ public:
 	void setOptions(int options);
 	void setMaxSize(int size);
 
+	void focusGained();
+
+	void setSelected(bool selected = false);
+
 	void setTitleString(const MAUtil::WString& mTitleString);
 	const MAUtil::WString& getTitleString() const;
 

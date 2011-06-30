@@ -301,7 +301,6 @@ char* Util::getData(const char* storefile) {
 			memset(res,0,size+1);
 			maReadData(tmp, res, 0, size);
 			maCloseStore(store, 0);
-			//lprintfln("getData(%s, %s)", storefile, res);
 			store = -1;
 			maDestroyObject(tmp);
 			return res;
@@ -514,6 +513,13 @@ int Util::absoluteValue(int num){
 		num = num * -1;
 	}
 	return num;
+}
+bool Util::validateNoWhiteSpaces(String val) {
+	int spaceIndex = val.find(" ");
+	if (spaceIndex < 0) {
+		return true;
+	}
+	return false;
 }
 
 bool Util::validateEmailAddress(String email) {
