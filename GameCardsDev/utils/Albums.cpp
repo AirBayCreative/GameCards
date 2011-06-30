@@ -70,7 +70,6 @@ void Albums::setAll(const char* allch) {
 
 			indentindexof = tmp.find(",");
 			hasCards = tmp=="true";
-
 			albumnames.insert(name,id);
 			Album *alb = new Album();
 			alb->setId(id.c_str());
@@ -81,7 +80,9 @@ void Albums::setAll(const char* allch) {
 		}
 		all = all.substr(indexof);
 	}
+	all = "";
 }
+
 void Albums::clearAll() {
 	for(Map<String,Album*>::Iterator i = album.begin(); i != album.end(); i++) {
 		delete i->second;

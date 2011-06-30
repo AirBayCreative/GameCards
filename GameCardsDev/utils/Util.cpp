@@ -308,6 +308,7 @@ char* Util::getData(const char* storefile) {
 			return "";
 		}
 	}
+	maDestroyObject(tmp);
 	store = -1;
 	tmp = -1;
 	return "";
@@ -345,12 +346,15 @@ void Util::retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 			req1 = new ImageCacheRequest(img, card, 64, 0);
 			mImageCache->request(req1);
 		}
+		maDestroyObject(cacheimage);
 		cacheimage = -1;
 	}
 	else {
 		req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
+	store = -1;
+	req1 = NULL;
 }
 
 void Util::retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)

@@ -180,11 +180,12 @@ void AlbumViewScreen::loadImages(const char *text) {
 		}
 		cards.erase(newCard->getId());
 		cards.insert(newCard->getId(), newCard);
-		all = all.substr(indexof);
+		all = ""+all.substr(indexof);
+		//delete newCard;
 		newCard = NULL;
 	}
 	drawList();
-	tmp, all = "";
+	tmp = "", all = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -248,7 +249,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 
 void AlbumViewScreen::clearListBox() {
 	tempWidgets = listBox->getChildren();
-	listBox->clear();
+	//listBox->clear();
 	listBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
@@ -264,8 +265,7 @@ void AlbumViewScreen::drawList() {
 	if (ind < 0) {
 		ind = 0;
 	}
-	listBox->clear();
-	//clearListBox();
+	clearListBox();
 	index.clear();
 	ImageCache *mImageCache = new ImageCache();
 	String cardText = "";
@@ -281,7 +281,6 @@ void AlbumViewScreen::drawList() {
 		cardText += itr->second->getRarity();
 		cardText += "\nRating: ";
 		cardText += itr->second->getRanking();
-
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
@@ -334,6 +333,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	clearCardMap();
 	tmp.clear();
 	index.clear();
+	stats.clear();
 	parentTag="";
 	id="";
 	description="";
@@ -570,7 +570,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		updated = "";
 		note = "";
 		stats.clear();
-		//delete newCard;
 		newCard = NULL;
 	} else if(!strcmp(name, "stat")) {
 		stat = new Stat();
@@ -590,7 +589,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
-		stat = NULL;
+		//stat = NULL;
+		//delete stat;
 	} else if(!strcmp(name, "result")) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, "cardsincategory")) {
@@ -602,12 +602,18 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		String all = getAll();
 		Util::saveData(filename.c_str(), all.c_str());
 		all = "";
+		while(tmp.size()>0){
+			StringCardMap::Iterator iter = tmp.begin();
+			tmp.erase(iter);
+		}
+		tmp.clear();
 	} else if (!strcmp(name, "cards")) {
 		notice->setCaption("");
 		clearCardMap();
 		cards = tmp;
 		drawList();
 		busy = false;
+		tmp.clear();
 	} else {
 		notice->setCaption("");
 	}
@@ -616,7 +622,9 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 String AlbumViewScreen::getAll() {
 	String all = "";
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
-		all += itr->second->getAll() + "#";
+		String tmp = itr->second->getAll();
+		all += tmp + "#";
+		tmp = "";
 	}
 	return all;
 }
