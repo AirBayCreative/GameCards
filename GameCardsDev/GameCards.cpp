@@ -10,7 +10,7 @@ MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
 	Engine& engine = Engine::getSingleton();
-	engine.setDefaultFont(Util::getFontBlack());
+	engine.setDefaultFont(Util::getDefaultFont());
 	engine.setDefaultSkin(Util::getSkinBack());
 	MAExtent screenSize = maGetScrSize();
 	scrWidth = EXTENT_X(screenSize);

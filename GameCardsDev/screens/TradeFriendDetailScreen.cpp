@@ -84,13 +84,13 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 	}
 
-	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -99,7 +99,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Email", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Email", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -108,7 +108,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Phone Number", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -132,7 +132,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	String confirmLabel = "Send " + card->getText() + " to " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());
@@ -169,7 +169,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 	}
 
-	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
@@ -188,7 +188,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	String confirmLabel = result;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());
@@ -225,7 +225,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 	}
 
-	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);

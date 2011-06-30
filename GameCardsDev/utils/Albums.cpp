@@ -93,9 +93,9 @@ void Albums::clearAll() {
 	loaded = false;
 }
 
-void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
-	albumnames.insert(((updated?"*":"")+name).c_str(), id);
-	album.insert(id, new Album(id, name.c_str(), hasCards, updated));
+void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
+	albumnames.insert(name, id);
+	album.insert(id, new Album(id, name, hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {

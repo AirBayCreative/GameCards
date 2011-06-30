@@ -134,6 +134,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
+	clearListBox();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -272,7 +273,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(Util::getFontBlack());
+		((Label *)widget)->setFont(Util::getDefaultFont());
 	}
 }
 
@@ -496,7 +497,7 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
-		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
+		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"));
 		temp = "";
 		hasCards = "";
 		updated = "";
@@ -525,7 +526,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				delete file;
 			}
 		}
-		drawList();
+		//drawList();
 		if (album->size() == 1) {
 			Album* val = album->getAlbum(temp1);
 			if (val != NULL) {

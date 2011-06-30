@@ -44,13 +44,13 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 
 	if ((first)||(free)) {
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultFont());
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
 	} else if (screenType != ST_USER) {
 		String msg = "Current credits: " + feed->getCredits();
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, msg.c_str(), 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, msg.c_str(), 0, Util::getDefaultFont());
 		msg = "";
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
@@ -118,14 +118,14 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			break;
 	}
 
-	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getFontBlack());
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine(true);
 
 	if (screenType == ST_AUCTION)
 	{
-		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getDefaultFont());
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
 		listBox->add(label);
@@ -569,7 +569,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	}
 
 	notice->setCaption("");
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
@@ -635,7 +635,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	}
 	success = false;
 
-	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getFontBlack());
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine(true);
@@ -662,7 +662,7 @@ void ShopDetailsScreen::drawBuyNow()
 
 	notice->setCaption("");
 	String message = "Are you sure you want to buy " + auction->getCard()->getText() + " for " + auction->getBuyNowPrice() + "?";
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
@@ -709,7 +709,7 @@ void ShopDetailsScreen::drawBuyNow()
 		fullDesc += auction->getLastBidUser();
 	}
 
-	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getFontBlack());
+	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine(true);

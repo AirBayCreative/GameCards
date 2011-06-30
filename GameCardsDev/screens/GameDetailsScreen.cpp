@@ -83,7 +83,7 @@ GameDetailsScreen::~GameDetailsScreen() {
 void GameDetailsScreen::drawList() {
 	for(int i = 0; i < logs.size(); i++) {
 		lbl = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
-				"", 0, Util::getFontBlack());
+				"", 0, Util::getDefaultFont());
 		lbl->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
 		lbl->setVerticalAlignment(Label::VA_CENTER);
 		lbl->setSkin(Util::getSkinListNoArrows());
@@ -181,7 +181,7 @@ void GameDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget)->setFont(Util::getFontBlack());
+		((Label *)widget)->setFont(Util::getDefaultFont());
 	}
 }
 
@@ -231,7 +231,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 		lbl->setAutoSizeX(true);
 		lbl->setAutoSizeY(true);
 		lbl->setMultiLine(true);
-		lbl->setFont(Util::getFontBlack());
+		lbl->setFont(Util::getDefaultFont());
 
 		display = "To play: " + toPlay;
 		display += "\n\nRemaining Cards:\nYou: "+playerDeck+"\nOpponent: "+opponentDeck;

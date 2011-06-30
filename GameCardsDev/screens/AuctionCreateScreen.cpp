@@ -266,12 +266,12 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	cardText += "\n";
 	cardText += card->getRarity();
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Opening bid", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Opening bid", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -281,7 +281,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Buy now price", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Buy now price", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -291,7 +291,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Auction duration(days)", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -340,7 +340,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = "Error creating auction.";
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
@@ -357,7 +357,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
-	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
@@ -375,7 +375,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	clearListBox();
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getDefaultFont());
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);

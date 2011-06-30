@@ -17,7 +17,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	switch (screenType) {
 		case PROFILE:
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -26,20 +26,20 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			break;
 		case BALANCE:
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
 			listBox->add(label);
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Available Credits:", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Available Credits:", 0, Util::getDefaultFont());
 			listBox->add(label);
 
 			balanceLabel = Util::createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Last Transactions:", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Last Transactions:", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
 		case CARD:
@@ -161,7 +161,7 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		if(selected) {
 			((Label *)widget)->setFont(Util::getFontBlue());
 		} else {
-			((Label *)widget)->setFont(Util::getFontBlack());
+			((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	}
 	else {
@@ -245,8 +245,10 @@ void DetailScreen::saveProfileData() {
 	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 	credits = 0;
 	count = 0;
+	bool saving = false;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
+			saving = true;
 			int urlLength = 100+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
@@ -270,8 +272,13 @@ void DetailScreen::saveProfileData() {
 			}
 		}
 	}
+	if (saving) {
+		label->setCaption("Saving.");
+	} else {
+		label->setCaption("No changes detected.");
+	}
 
-	label->setCaption("Saving.");
+
 
 	isBusy = false;
 }
@@ -329,14 +336,14 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		isBusy = false;
 	} else if(!strcmp(name, "detail")) {
 
-		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getDefaultFont());
 		label->setSkin(Util::getSkinEditBox());
 		Util::setPadding(label);
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Username:");
@@ -383,7 +390,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 				String lab = lbl;
 				label->setCaption(lab);
 			} else{
-				label->setCaption("Saved.");
+				label->setCaption("Profile details updated.");
 			}
 		}
 	}

@@ -299,7 +299,7 @@ void AlbumViewScreen::drawList() {
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
@@ -322,6 +322,7 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	clearListBox();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -358,7 +359,7 @@ void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
 }
 

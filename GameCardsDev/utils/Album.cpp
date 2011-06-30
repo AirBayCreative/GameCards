@@ -1,4 +1,5 @@
 #include "Album.h"
+#include "Util.h"
 
 Album::Album() {
 	id = "";
