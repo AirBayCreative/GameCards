@@ -57,10 +57,18 @@ void NativeEditBox::setMaxSize(int size) {
 	mMaxSize = size;
 }
 
+void NativeEditBox::focusGained() {
+
+}
+
 bool NativeEditBox::pointerPressed(MAPoint2d p, int id) {
 	mStartX = p.x;
 	mStartY = p.y;
 	return true;
+}
+
+void NativeEditBox::setSelected(bool selected) {
+	EditBox::setSelected(selected);
 }
 
 bool NativeEditBox::pointerMoved(MAPoint2d p, int id) {
@@ -76,16 +84,21 @@ bool NativeEditBox::pointerReleased(MAPoint2d p, int id) {
 }
 void NativeEditBox::pointerPressEvent(MAPoint2d point)
 {
+
 }
 
 void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 {
+
 }
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if (point.y < scrHeight-48) {
+	if (point.y < scrHeight-Util::getSoftKeyBarHeight()) {
 		if(this->isActive()&&this->contains(point.x, point.y)) {
+			activate();
+		} else
+		if (isSelected()) {
 			activate();
 		}
 	}

@@ -419,7 +419,8 @@ namespace MAUI {
         }
 
         void KineticListBox::pointerReleaseEvent( MAPoint2d point ) {
-			Point currPoint(0, point.y);
+
+        	Point currPoint(0, point.y);
 			float currTime = maGetMilliSecondCount();
 			Point firstPoint = previousPoints[0];
 			float firstTime = previousTimes[0];
@@ -473,6 +474,7 @@ namespace MAUI {
                 }
                 Widget *selectedWidget = children[this->selectedIndex];
                 selectedWidget->setSelected(true);
+
                 Vector_each(KineticListBoxListener*, i, mKineticListBoxListeners) {
                         (*i)->itemSelected(this, selectedWidget, unselectedWidget);
                 }

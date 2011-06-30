@@ -79,7 +79,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Username:");
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -88,7 +88,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -97,7 +97,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Email:");
+	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email:");
 	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -264,6 +264,18 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption("Please enter a valid email address");
 							maVibrate(1000);
 						}
+						else if (!Util::validateNoWhiteSpaces(editBoxLogin->getText())) {
+							notice->setCaption("Please enter a username without spaces.");
+							maVibrate(1000);
+						}
+						else if (!Util::validateNoWhiteSpaces(editBoxPass->getText())) {
+							notice->setCaption("Please enter a password without spaces.");
+							maVibrate(1000);
+						}
+						else if (!Util::validateNoWhiteSpaces(editBoxEmail->getText())) {
+							notice->setCaption("Please enter a email address without spaces.");
+							maVibrate(1000);
+						}
 						else {
 							result = "";
 							isBusy = true;
@@ -370,6 +382,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful("Success");
 		feed->setTouch(touch.c_str());
+		feed->setFreebie(freebie.c_str());
 		int seconds = maLocalTime();
 		int secondsLength = Util::intlen(seconds);
 		char *secString = new char[secondsLength+1];
@@ -382,10 +395,12 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setAlbum(Util::getData("lb.sav"));
 
 		// Check result
-		if (strcmp("0", freebie.c_str()) == 0)
+		if (strcmp("0", freebie.c_str()) == 0) {
+			origMenu = new MenuScreen(feed);
 			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
-		else
+		} else {
 			next = new MenuScreen(feed);
+		}
 		next->show();
 	} else if(!strcmp(name, "error")) {
 		error = true;

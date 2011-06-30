@@ -43,7 +43,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 
-	if ((first)&&(free)) {
+	if ((first)||(free)) {
 		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getFontBlack());
 		label->setMultiLine(true);
 		label->setAutoSizeY(true);
@@ -79,7 +79,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 				fullDesc += "Credits: Free";
 				fullDesc += "\n";
 				fullDesc += "Cards: " + product->getCardsInPack();
-				fullDesc += "Pack Type: " + product->getProductType();
+				fullDesc += "\nPack Type: " + product->getProductType();
 				nameDesc = product->getName();
 			} else {
 				nameDesc = product->getName();

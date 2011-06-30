@@ -89,6 +89,10 @@ void Feed::setSeconds(const char *sec) {
 	seconds = sec;
 }
 
+void Feed::setFreebie(const char *free) {
+	freebie = free;
+}
+
 MAUtil::String Feed::getGameId() {
 	return gameId;
 }
@@ -178,7 +182,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+",";
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+",";
 }
 
 void Feed::setAll(char* allch) {
@@ -217,6 +221,9 @@ void Feed::setAll(char* allch) {
 		indexof = all.find(",");
 		setSeconds(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
+		indexof = all.find(",");
+		setFreebie(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
 			setUsername("");
@@ -252,4 +259,8 @@ Vector<String> Feed::getAlbumNames() {
 }
 String Feed::getSeconds() {
 	return seconds;
+}
+
+String Feed::getFreebie() {
+	return freebie;
 }

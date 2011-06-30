@@ -16,27 +16,22 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
-			//loop for each entry found in user_details. if Answered test->flip() to set checked.
-			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "Username:", 0, Util::getFontBlack());
+			/*Screen Header*/
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getFontBlack());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
 			listBox->add(label);
-
-			Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
-			feedlayout->setDrawBackground(true);
-			feedlayout->addWidgetListener(this);
-
-			label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getFontBlack());
-			label->setSkin(Util::getSkinEditBox());
-			Util::setPadding(label);
-			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, feed->getUsername(), L"Username:");
-			editBoxUsername->setDrawBackground(false);
-			label->addWidgetListener(this);
-			feedlayout->add(label);
-
-			CheckBox *test = new CheckBox(scrWidth - 40, 0, 36, 46, feedlayout);
-			test->setPaddingTop(10);
-
 			break;
 		case BALANCE:
+			/*Screen Header*/
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getFontBlack());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Available Credits:", 0, Util::getFontBlack());
 			listBox->add(label);
 
@@ -252,10 +247,10 @@ void DetailScreen::saveProfileData() {
 	count = 0;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
-			int urlLength = 90+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
+			int urlLength = 100+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", answers[i]->getAnswerId().c_str(),answers[i]->getEditBoxPointer()->getCaption().c_str(),answers[i]->getAnswered(),answers[i]->getCreditValue().c_str());
+			sprintf(url, "http://dev.mytcg.net/_phone/?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", URLencode(answers[i]->getAnswerId()).c_str(),URLencode(answers[i]->getEditBoxPointer()->getCaption()).c_str(),answers[i]->getAnswered(),URLencode(answers[i]->getCreditValue()).c_str());
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
@@ -279,6 +274,10 @@ void DetailScreen::saveProfileData() {
 	label->setCaption("Saving.");
 
 	isBusy = false;
+}
+
+void DetailScreen::saveLocalData() {
+
 }
 
 void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -324,17 +323,9 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 }
 
 void DetailScreen::mtxTagEnd(const char* name, int len) {
-	//TODO not currently updating screen components. Only on screen recreate.
 	if(!strcmp(name, "profiledetails")) {
-		//label->setCaption("");
-		//feed->setCredits(credits.c_str());
-		//feed->setEmail(email.c_str());
-		//feed->setUnsuccessful(success);
-		//username,error_msg= "";
-		//saveData(FEED, feed->getAll().c_str());
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 		label->setCaption("");
-		//refreshData();
 		isBusy = false;
 	} else if(!strcmp(name, "detail")) {
 
@@ -368,6 +359,9 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		ans->setEditBoxPointer(editBoxUsername);
 		ans->setCheckBoxPointer(test);
 		answers.add(ans);
+
+
+
 		ans=NULL;
 		answerid = "";
 		desc = "";

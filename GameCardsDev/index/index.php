@@ -3194,19 +3194,20 @@ if ($_GET['profiledetails']){
 if ($_GET['saveprofiledetail']){
 	$iAnswerID=$_GET['answer_id'];
 	$iAnswer=$_GET['answer'];
-	$iAnswered=$_GET['answered'];
-	$iCreditValue=$_GET['creditvalue'];
 	
 	myqui('UPDATE mytcg_user_answer 
 			SET answer = "'.$iAnswer.'", 
 			answered = 1 
 			WHERE answer_id = "'.$iAnswerID.'"');
-	
-	if($iAnswered = "0"){
-		myqui('UPDATE mytcg_user 
-				SET credits = (credits +'.$iCreditValue.')  
-				WHERE user_id = "'.$iUserID.'"');
-	}
+		
+	myqui('update mytcg_user
+			set credits = credits + IFNULL((select credit_value 
+											from mytcg_user_detail 
+											where detail_id = (select detail_id
+																from mytcg_user_answer
+																where answer_id='.$iAnswerID.'
+																AND answered = 0)), 0)
+			where user_id = '.$iUserID);
 	
 	$sOP = "<result>1</result>";
 	header('xml_length: '.strlen($sOP));
