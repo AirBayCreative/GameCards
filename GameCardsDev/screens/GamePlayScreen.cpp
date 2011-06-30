@@ -67,7 +67,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	notice->setDrawBackground(true);
 
 	listBox->setHeight(listBox->getHeight() - 20);
-	//listBox->setPaddingLeft(12);
 
 	phase = P_LOADING;
 
