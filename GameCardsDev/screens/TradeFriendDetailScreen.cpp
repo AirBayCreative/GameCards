@@ -372,13 +372,12 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Sending card...");
 
 					//make the http connection to trade the card
-					int urlLength = strlen("http://dev.mytcg.net/_phone/?tradecard=") + card->getId().length() + strlen("trademethod") +
-							method.length() + strlen("detail") + friendDetail.length() + 4;
-					char *url = new char[urlLength];
-					memset(url, '\0', urlLength);
+					int urlLength = 60 + card->getId().length() + method.length() + friendDetail.length();
+					char *url = new char[urlLength+1];
+					memset(url, '\0', urlLength+1);
 
-					sprintf(url, "%s%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?tradecard=", card->getId().c_str(),
-							"trademethod", method.c_str(), "detail", friendDetail.c_str());
+					sprintf(url, "http://dev.mytcg.net/_phone/?tradecard=%s&trademethod=%s&detail=%s", card->getId().c_str(),
+							method.c_str(), friendDetail.c_str());
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
 						mHttp.close();

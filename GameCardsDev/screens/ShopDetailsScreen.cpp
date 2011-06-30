@@ -226,7 +226,8 @@ String ShopDetailsScreen::getTime() {
 	}
 	split_time(timeleft, cmp_p);
 
-	char buffer[36];
+	char buffer[128];
+	memset(buffer, 0, 128);
 	String days = "Day";
 	String hours = "Hour";
 	if (cmp_p->tm_mday > 1) {
@@ -479,12 +480,11 @@ void ShopDetailsScreen::postBid()
 			result = "";
 			notice->setCaption("Trying to place bid...");
 			//work out how long the url will be, the number is for the & and = symbols and hard coded params
-			int urlLength = strlen("http://dev.mytcg.net/_phone/?auctionbid=1") + feed->getUsername().length() + editBidBox->getCaption().length() +
-					auction->getAuctionCardId().length() + 30;
-			char *url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&username=%s&bid=%s&auctioncardid=%s", "http://dev.mytcg.net/_phone/?auctionbid=1",
-					feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
+			int urlLength = 71 + feed->getUsername().length() + editBidBox->getCaption().length() +
+					auction->getAuctionCardId().length();
+			char *url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?auctionbid=1&username=%s&bid=%s&auctioncardid=%s", feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -526,12 +526,10 @@ void ShopDetailsScreen::buyNow()
 			result = "";
 			busy = true;
 			//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
-			int urlLength = strlen("http://dev.mytcg.net/_phone/?buyauctionnow=1") +
-					auction->getAuctionCardId().length() + 15;
-			char *url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&auctioncardid=%s", "http://dev.mytcg.net/_phone/?buyauctionnow=1",
-					auction->getAuctionCardId().c_str());
+			int urlLength = 60+ auction->getAuctionCardId().length();
+			char *url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?buyauctionnow=1&auctioncardid=%s", auction->getAuctionCardId().c_str());
 
 			if(mHttp.isOpen()){
 				mHttp.close();

@@ -119,12 +119,11 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							notice->setCaption("Creating auction...");
 
 							//work out how long the url will be, the 8 is for the & and = symbols
-							int urlLength = strlen("http://dev.mytcg.net/_phone/?createauction=1") + strlen("cardid") + card->getId().length() + strlen("bid") +
-									openingText.length() + strlen("buynow") + buyNowText.length() + strlen("days") + daysText.length() + 8;
-							char *url = new char[urlLength];
-							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?createauction=1", "cardid", card->getId().c_str(),
-									"bid", openingText.c_str(), "buynow", buyNowText.c_str(), "days", daysText.c_str());
+							int urlLength = 71 + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
+							char *url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "http://dev.mytcg.net/_phone/?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", card->getId().c_str(),
+									openingText.c_str(), buyNowText.c_str(), daysText.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}

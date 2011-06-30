@@ -33,19 +33,19 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			notice->setCaption("Loading game details...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = strlen("http://dev.mytcg.net/_phone/?viewgamedetails=1") + 2 + strlen("gameid") + gameId.length();
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?viewgamedetails=1", "gameid", gameId.c_str());
+			urlLength = 54 + gameId.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?viewgamedetails=1&gameid=%s", gameId.c_str());
 			break;
 		case ST_GAME_LOG:
 			notice->setCaption("Loading game logs...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = strlen("http://dev.mytcg.net/_phone/?viewgamelog=1") + 2 + strlen("gameid") + gameId.length();
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?viewgamelog=1", "gameid", gameId.c_str());
+			urlLength = 50 + gameId.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?viewgamelog=1&gameid=%s", gameId.c_str());
 			break;
 	}
 

@@ -277,12 +277,11 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = strlen("http://dev.mytcg.net/_phone/?registeruser=1") + strlen("username") + editBoxLogin->getText().length()
-									+ strlen("password") + editBoxPass->getText().length() + strlen("email") + editBoxEmail->getText().length() + 6;
-							url = new char[urlLength];
-							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?registeruser=1", "username", editBoxLogin->getText().c_str(),
-									"password", editBoxPass->getText().c_str(), "email", editBoxEmail->getText().c_str());
+							int urlLength = 71 + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length();
+							url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "http://dev.mytcg.net/_phone/?registeruser=1&username=%s&password=%s&email=%s", editBoxLogin->getText().c_str(),
+									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str());
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
@@ -373,17 +372,14 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setTouch(touch.c_str());
 		int seconds = maLocalTime();
 		int secondsLength = Util::intlen(seconds);
-		char *secString = new char[secondsLength];
-		memset(secString,'\0',secondsLength);
+		char *secString = new char[secondsLength+1];
+		memset(secString,'\0',secondsLength+1);
 		sprintf(secString, "%d", seconds);
 		feed->setSeconds(secString);
 		delete secString;
 		username,error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
-
-		String file = Util::getData("lb.sav");
-		feed->setAlbum(file.c_str());
-		file = "";
+		feed->setAlbum(Util::getData("lb.sav"));
 
 		// Check result
 		if (strcmp("0", freebie.c_str()) == 0)

@@ -116,10 +116,10 @@ void RedeemScreen::hide() {
 }
 
 void RedeemScreen::redeemCode() {
-	int urlLength = strlen("http://dev.mytcg.net/_phone/?redeemcode=") + editBoxRedeem->getCaption().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?redeemcode=", editBoxRedeem->getCaption().c_str());
+	int urlLength = 40 + editBoxRedeem->getCaption().length();
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "http://dev.mytcg.net/_phone/?redeemcode=%s", editBoxRedeem->getCaption().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

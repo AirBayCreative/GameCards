@@ -18,7 +18,25 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 
 	lprintfln("AlbumViewScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 
-	id = "", description = "", quantity = "", thumburl = "", fronturl = "", frontflipurl = "", backurl = "", backflipurl = "", rate = "", ranking = "", rarity = "", value = "", error_msg = "", updated = "", statDisplay = "", note = "", statDesc = "", statIVal = "";
+	id = "";
+	description = "";
+	quantity = "";
+	thumburl = "";
+	fronturl = "";
+	frontflipurl = "";
+	backurl = "";
+	backflipurl = "";
+	rate = "";
+	ranking = "";
+	rarity = "";
+	value = "";
+	error_msg = "";
+	updated = "";
+	statDisplay = "";
+	note = "";
+	statDesc = "";
+	statIVal = "";
+
 	next = NULL;
 	if (albumType == AT_COMPARE) {
 		mainLayout = Util::createMainLayout("", "Back" , "", true);
@@ -30,15 +48,15 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Checking for new cards...");
 
-	mImageCache = new ImageCache();
+	//mImageCache = new ImageCache();
 	if (albumType == AT_BUY) {
 		loadImages("");
 		notice->setCaption("Purchasing...");
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?buyproduct=") + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + strlen("freebie") + 18;
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s%s&height=%d&width=%d&%s=%d", "http://dev.mytcg.net/_phone/?buyproduct=",
-				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), "freebie", 0);
+		int urlLength = 65 + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?buyproduct=%s&height=%d&width=%d&freebie=%d",
+				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -59,11 +77,11 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 		albumType = AT_BUY;
 		loadImages("");
 		notice->setCaption("Receiving...");
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?buyproduct=") + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + strlen("freebie") + 18;
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s%s&height=%d&width=%d&%s=%d", "http://dev.mytcg.net/_phone/?buyproduct=",
-				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), "freebie", 1);
+		int urlLength = 65 + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?buyproduct=%s&height=%d&width=%d&freebie=%d",
+				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 1);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -83,10 +101,10 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	} else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?cardsincategory=") + category.length() + 24 + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?cardsincategory=", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		int urlLength = 69 + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?cardsincategory=%s&seconds=%s&height=%d&width=%d", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -115,10 +133,10 @@ void AlbumViewScreen::refresh() {
 		tmp.clear();
 		notice->setCaption("Checking for new cards...");
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?cardsincategory=") + category.length() + 24 + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s%s&seconds=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?cardsincategory=", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		int urlLength = 69 + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?cardsincategory=%s&seconds=%s&height=%d&width=%d", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -139,11 +157,10 @@ void AlbumViewScreen::refresh() {
 }
 
 void AlbumViewScreen::loadFile() {
-	char *file = new char[filename.length()];
+	char *file = new char[filename.length()+1];
+	memset(file,'\0',filename.length()+1);
 	sprintf(file, "%s", filename.c_str());
-	String res = Util::getData(file);
-	loadImages(res.c_str());
-	res = "";
+	loadImages(Util::getData(file));
 	delete file;
 }
 
@@ -247,13 +264,16 @@ void AlbumViewScreen::drawList() {
 	if (ind < 0) {
 		ind = 0;
 	}
-	//listBox->clear();
-	clearListBox();
+	listBox->clear();
+	//clearListBox();
 	index.clear();
+	ImageCache *mImageCache = new ImageCache();
+	String cardText = "";
+	MobImage *tempImage = NULL;
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
-		cardText = "";
+		String cardText = "";
 		cardText += (itr->second->getUpdated()?"*":"")+itr->second->getText();
 		cardText += " (";
 		cardText += itr->second->getQuantity();
@@ -261,7 +281,6 @@ void AlbumViewScreen::drawList() {
 		cardText += itr->second->getRarity();
 		cardText += "\nRating: ";
 		cardText += itr->second->getRanking();
-		//cardText += "\nRarity: ";
 
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
@@ -269,7 +288,6 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		MobImage *tempImage;
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
@@ -282,6 +300,7 @@ void AlbumViewScreen::drawList() {
 		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setAutoSizeX(true);
@@ -307,7 +326,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	if(next!=NULL){
 		delete next;
 	}
-	delete mImageCache;
+	//delete mImageCache;
 	String all = getAll();
 	Util::saveData(filename.c_str(), all.c_str());
 	all="";
@@ -316,7 +335,6 @@ AlbumViewScreen::~AlbumViewScreen() {
 	tmp.clear();
 	index.clear();
 	parentTag="";
-	cardText="";
 	id="";
 	description="";
 	quantity="";

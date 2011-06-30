@@ -197,10 +197,10 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
 						card->setNote(encodedNote.c_str());
 						//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-						int urlLength = strlen("http://dev.mytcg.net/_phone/?savenote=") + encodedNote.length() + strlen("cardid") + card->getId().length() + 4;
-						char *url = new char[urlLength];
-						memset(url,'\0',urlLength);
-						sprintf(url, "%s%s&%s=%s", "http://dev.mytcg.net/_phone/?savenote=", encodedNote.c_str(), "cardid", card->getId().c_str());
+						int urlLength = 46 + encodedNote.length() + card->getId().length();
+						char *url = new char[urlLength+1];
+						memset(url,'\0',urlLength+1);
+						sprintf(url, "http://dev.mytcg.net/_phone/?savenote=%s&cardid=%s", encodedNote.c_str(), card->getId().c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}

@@ -38,15 +38,15 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	else
 	{
 		if (!free) {
-			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryproducts=2") + strlen("categoryId") + category.length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?categoryproducts=2", "categoryId", category.c_str());
+			urlLength = 60 + category.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=2&categoryId=%s", category.c_str());
 		} else if (free) {
-			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryproducts=1") + strlen("categoryId") + category.length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?categoryproducts=1", "categoryId", category.c_str());
+			urlLength = 60 + category.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=1&categoryId=%s", category.c_str());
 		}
 	}
 

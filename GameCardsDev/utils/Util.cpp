@@ -21,7 +21,6 @@ Screen *origAlbum;
 Screen *origMenu;
 int scrWidth;
 int scrHeight;
-Widget *softKeys;
 
 
 Util::Util() {}
@@ -174,7 +173,7 @@ Layout* Util::createNoHeaderLayout() {
 Layout* Util::createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getFontBlack());
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-softKeys->getHeight(), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
@@ -183,8 +182,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	Image *image;
-	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
 
 	label->setAutoSizeY();
@@ -210,14 +208,13 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 
 Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	Image *image;
-	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
 
 	if (useKinetic) {
@@ -239,7 +236,7 @@ Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 
 Layout* Util::createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
@@ -259,14 +256,11 @@ Layout* Util::createImageLayout(const char *left, const char *right, const char 
 void Util::updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
 	//this function assumes the standard mainlayout format, with softkeys at the end.
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
-
 	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
 	if (currentSoftKeys != NULL) {
 		delete currentSoftKeys;
 	}
-
 	currentSoftKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-
 	mainLayout->add(currentSoftKeys);
 }
 
@@ -296,18 +290,21 @@ void Util::saveFile(const char* storefile, MAHandle data) {
 	store = -1;
 }
 
-char* Util::getData(char* storefile) {
+char* Util::getData(const char* storefile) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
 		int size = maGetDataSize(tmp);
 		if (size > 0) {
-			storefile = new char[size+1];
-			memset(storefile,0,size+1);
-			maReadData(tmp, storefile, 0, size);
+			char *res = new char[size+1];
+			memset(res,0,size+1);
+			maReadData(tmp, res, 0, size);
 			maCloseStore(store, 0);
-			return storefile;
+			lprintfln("getData(%s, %s)", storefile, res);
+			store = -1;
+			maDestroyObject(tmp);
+			return res;
 		} else {
 			return "";
 		}

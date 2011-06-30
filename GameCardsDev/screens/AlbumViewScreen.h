@@ -46,7 +46,7 @@ public:
 	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION};
 private:
 	Screen *next, *previous;
-	ImageCache *mImageCache;
+	//ImageCache *mImageCache;
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
@@ -55,7 +55,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category;
+	String parentTag, statDesc, statIVal, statDisplay, note, category;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, albumType;

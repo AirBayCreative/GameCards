@@ -252,10 +252,10 @@ void DetailScreen::saveProfileData() {
 	count = 0;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
-			int urlLength = strlen("http://dev.mytcg.net/_phone/?saveprofiledetail=1") + strlen("answer_id")+answers[i]->getAnswerId().length()+strlen("answer")+answers[i]->getEditBoxPointer()->getCaption().length()+strlen("answered")+1+strlen("creditvalue")+answers[i]->getCreditValue().length()+8;
-			char *url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s&%s=%s&%s=%i&%s=%s", "http://dev.mytcg.net/_phone/?saveprofiledetail=1","answer_id", answers[i]->getAnswerId().c_str(),"answer",answers[i]->getEditBoxPointer()->getCaption().c_str(),"answered",answers[i]->getAnswered(),"creditvalue",answers[i]->getCreditValue().c_str());
+			int urlLength = 90+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
+			char *url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", answers[i]->getAnswerId().c_str(),answers[i]->getEditBoxPointer()->getCaption().c_str(),answers[i]->getAnswered(),answers[i]->getCreditValue().c_str());
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
@@ -383,7 +383,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 
 		if (label != NULL) {
 			if(count >0){
-				char * lbl = new char[50];
+				char * lbl = new char[44+3+5];
+				memset(lbl, 0, 44+3+5);
 				sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
 				String lab = lbl;
 				label->setCaption(lab);

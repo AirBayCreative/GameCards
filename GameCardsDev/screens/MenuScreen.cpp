@@ -14,7 +14,9 @@
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	menu = NULL;
+
 	mainLayout = Util::createMainLayout("", "Exit", true);
+
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = Util::createSubLabel("Albums");
@@ -46,29 +48,41 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 
 	moved=0;
 
-	char buf[64] = "";
+	char buf[128] = "";
+	memset(buf, 0, 128);
 	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+	memset(buf, 0, 128);
 	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
-	char *os = MA_PROF_STRING_PLATFORM;
-	char *make = MA_PROF_STRING_VENDOR;
-	char *model = "temp";//MA_PROF_STRING_DEVICE;
+	memset(buf, 0, 128);
+
+	char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
+	memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
+	sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
+
+	char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
+	memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
+	sprintf(make, "%s", MA_PROF_STRING_VENDOR);
+
+	//char *model = "temp";//MA_PROF_STRING_DEVICE;
+	char *model = new char[strlen("temp")+1];
+	memset(model, 0, strlen("temp")+1);
+	sprintf(model, "%s", "temp");
+
 	int touch = 0;
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	touch = 1;
 #endif
+
+
 	//work out how long the url will be, the 16 is for the & and = symbals
-	int urlLength = strlen("http://dev.mytcg.net/_phone/?update=1.02") + strlen("imsi") + Util::intlen(imsi) + strlen("os") + Util::intlen(imei)
-			+ strlen("os") + strlen(os) + strlen("make") + strlen(make)
-			+ strlen("model") + strlen(model) + strlen("touch") + Util::intlen(touch) + 16
-			+ strlen("width") + Util::intlen(scrWidth) + strlen("height") + Util::intlen(scrHeight);
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%d&%s=%d&%s=%s&%s=%s&%s=%s&%s=%d&%s=%d&%s=%d", "http://dev.mytcg.net/_phone/?update=1.02", "imsi",
-			imsi, "os", imei, "os", os, "make", make, "model", model, "touch", touch,
-			"width", scrWidth, "height", scrHeight);
-	//update=_versionnumber&imsi=_imsi&imei=_imei&os=_os&make=_make&model=_model&touch=1/2&width=_screenWidht&height=_screenHeight
-	//when the page has loaded, check for a new version in the background
-	//www.mytcg.net/_phone/update=version_number
+	int urlLength = 91 + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
+			+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
+
+	char *url = new char[urlLength+1];
+
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "http://dev.mytcg.net/_phone/?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d",
+			imsi, imei, os, make, model, touch, scrWidth, scrHeight);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 
@@ -79,7 +93,6 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	}
 
 	delete [] url;
-
 	this->setMain(mainLayout);
 
 	origMenu = this;
@@ -179,8 +192,8 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			int seconds = maLocalTime();
 			int secondsLength = Util::intlen(seconds);
-			char *secString = new char[secondsLength];
-			memset(secString,'\0',secondsLength);
+			char *secString = new char[secondsLength+1];
+			memset(secString,'\0',secondsLength+1);
 			sprintf(secString, "%d", seconds);
 			feed->setSeconds(secString);
 			Util::saveData("fd.sav", feed->getAll().c_str());

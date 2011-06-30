@@ -8,6 +8,22 @@ void Feed::setLoaded(bool load) {
 bool Feed::getLoaded() {
 	return loaded;
 }
+Feed::Feed() {
+	encrypt = "";
+	uname = "";
+	noSuccess = "";
+	whiteSpace = "";
+	specialCharacters = "";
+	credits = "";
+	email = "";
+	handle = "";
+	touch = "";
+	gameId = "";
+	seconds = "";
+	album = NULL;
+	touchEnabled = false;
+	loaded = false;
+}
 Feed::~Feed() {
 	encrypt = "";
 	uname = "";
@@ -165,7 +181,7 @@ MAUtil::String Feed::getAll() {
 	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+",";
 }
 
-void Feed::setAll(const char* allch) {
+void Feed::setAll(char* allch) {
 	if (strlen(allch) <= 0) {
 		allch = "";
 	}

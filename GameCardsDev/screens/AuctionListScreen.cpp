@@ -50,21 +50,21 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
+			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
+			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
+			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -222,21 +222,21 @@ void AuctionListScreen::refresh()
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
+			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
+			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
+			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -265,42 +265,42 @@ void AuctionListScreen::updateAuctions()
 	shouldUpdateAuction = true;
 
 	//work out how long the url will be, the number is for the & and = symbols as well as hard coded params
-		int urlLength = 0;
-		switch (screenType) {
-			case ST_CATEGORY:
-				urlLength = strlen("http://dev.mytcg.net/_phone/?categoryauction=1") + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 28;
-				break;
-			case ST_USER:
-				urlLength = strlen("http://dev.mytcg.net/_phone/?userauction=1") + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth) + 25;
-				break;
-		}
-		char *url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		switch (screenType) {
-			case ST_CATEGORY:
-				sprintf(url, "%s&category_id=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?categoryauction=1",
-						categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-				break;
-			case ST_USER:
-				sprintf(url, "%s&username=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?userauction=1",
-						feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-				break;
-		}
-		if(mHttp.isOpen()){
-			mHttp.close();
-		}
-		mHttp = HttpConnection(this);
-		int res = mHttp.create(url, HTTP_GET);
-		if(res < 0) {
-			drawList();
+	int urlLength = 0;
+	switch (screenType) {
+		case ST_CATEGORY:
+			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			break;
+		case ST_USER:
+			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			break;
+	}
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	switch (screenType) {
+		case ST_CATEGORY:
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
+					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			break;
+		case ST_USER:
+			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
+					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			break;
+	}
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		drawList();
 
-			notice->setCaption("Unable to connect, try again later...");
-		} else {
-			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-			mHttp.finish();
-		}
-		delete [] url;
+		notice->setCaption("Unable to connect, try again later...");
+	} else {
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		mHttp.finish();
+	}
+	delete [] url;
 }
 
 AuctionListScreen::~AuctionListScreen() {

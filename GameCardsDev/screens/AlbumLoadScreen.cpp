@@ -28,10 +28,10 @@ void AlbumLoadScreen::refresh() {
 	album->setAll(alb.c_str());
 	alb = "";
 	drawList();
-	urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
-	url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
+	urlLength = 52 + feed->getSeconds().length();
+	url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
 	res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -71,31 +71,28 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	album = new Albums();
-	String alb;
+
 	switch(screenType) {
 		case ST_ALBUMS:
 		case ST_COMPARE:
 		case ST_AUCTION:
 			notice->setCaption("Checking for new albums...");
-			alb = this->feed->getAlbum()->getAll();
-			album->setAll(alb.c_str());
-			alb = "";
-			drawList();
-			urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
+
+			album->setAll(this->feed->getAlbum()->getAll().c_str());
+			urlLength = 54 + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:
 			notice->setCaption("Checking for new albums...");
 
-			drawList();
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = strlen("http://dev.mytcg.net/_phone/?playablecategories=1") + strlen("username") + feed->getUsername().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?playablecategories=1", "username", feed->getUsername().c_str());
+			int urlLength = 59 + feed->getUsername().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?playablecategories=1&username=%s", feed->getUsername().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
@@ -127,6 +124,8 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		mHttp.finish();
 	}
 	drawList();
+
+
 	this->setMain(mainLayout);
 
 	if (url != NULL) {
@@ -226,8 +225,7 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 
 void AlbumLoadScreen::drawList() {
 	empt = false;
-	clearListBox();
-
+	listBox->clear();
 	int ind = listBox->getSelectedIndex();
 	Vector<String> display = album->getNames();
 	String albumname = "";
@@ -247,7 +245,6 @@ void AlbumLoadScreen::drawList() {
 		} else {
 			listBox->setSelectedIndex(0);
 		}
-
 	} else {
 		empt = true;
 		label = Util::createSubLabel("Empty");
@@ -380,24 +377,21 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 
 void AlbumLoadScreen::loadCategory() {
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
-
 	//the list needs to be cleared
 	album->clearAll();
-	clearListBox();
+	listBox->clear();
+	//clearListBox();
 	//then if the category has been loaded before, we need to load from the file
 	notice->setCaption("Checking for new albums...");
 	if (path.size() == 0) {
-		String alb = this->feed->getAlbum()->getAll();
-		album->setAll(alb.c_str());
-		alb="";
+		album->setAll(this->feed->getAlbum()->getAll().c_str());
 	}
 	else {
-		char *file = new char[path.end()->length() + 5];
-		sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
-		String res = Util::getData(file);
-		album->setAll(res.c_str());
+		char *file = new char[path[path.size()-1].length() + 6];
+		memset(file, 0, path[path.size()-1].length() + 6);
+		sprintf(file, "a%s.sav", path[path.size()-1].c_str());
+		album->setAll(Util::getData(file));
 		delete file;
-		res = "";
 	}
 	drawList();
 	//then request up to date info, if there is a connection available
@@ -412,18 +406,18 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength = strlen("http://dev.mytcg.net/_phone/?usercategories=1") + strlen("seconds") + feed->getSeconds().length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", "http://dev.mytcg.net/_phone/?usercategories=1", "seconds", feed->getSeconds().c_str());
+			urlLength =54 + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = strlen("http://dev.mytcg.net/_phone/?usersubcategories=1") + strlen("category") + path[path.size()-1].length() + strlen("seconds") + feed->getSeconds().length() + 4;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?usersubcategories=1", "category", path[path.size()-1].c_str(), "seconds", feed->getSeconds().c_str());
+			urlLength = 67 + path[path.size()-1].length() + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?usersubcategories=1&category=%s&seconds=%s", path[path.size()-1].c_str(), feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 
@@ -524,8 +518,9 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				Util::saveData("lb.sav", album->getAll().c_str());
 			}
 			else {
-				char *file = new char[path.end()->length() + 5];
-				sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
+				char *file = new char[path[path.size()-1].length() + 6];
+				memset(file, 0, path.end()->length() + 6);
+				sprintf(file, "a%s.sav", path[path.size()-1].c_str());
 				Util::saveData(file, album->getAll().c_str());
 				delete file;
 			}

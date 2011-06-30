@@ -1,17 +1,11 @@
 #include "Albums.h"
 #include "Util.h"
 
-int cmp(const String &a, const String &b) {
-	return 0;
-}
-
 Albums::Albums() {
-	album = MAUtil::Map<String,Album*>(&cmp);
 	loaded = false;
 }
 
 Albums::~Albums() {
-
 	clearAll();
 
 }
@@ -63,6 +57,7 @@ void Albums::setAll(const char* allch) {
 	String tmp;
 	String id, name;
 	bool hasCards;
+
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
 		if (indentindexof = tmp.find(",")) {
@@ -77,7 +72,12 @@ void Albums::setAll(const char* allch) {
 			hasCards = tmp=="true";
 
 			albumnames.insert(name,id);
-			album.insert(id, new Album(id, name, hasCards));
+			Album *alb = new Album();
+			alb->setId(id.c_str());
+			alb->setDescription(name.c_str());
+			alb->setHasCards(hasCards);
+			alb->setUpdated(false);
+			album.insert(id, alb);
 		}
 		all = all.substr(indexof);
 	}

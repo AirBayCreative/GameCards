@@ -40,7 +40,7 @@ class Util
 		static Layout* createImageLayout(const char *left, bool useKinetic = false);
 		static Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic = false);
 		static void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout);
-		static char* getData(char* storefile);
+		static char* getData(const char* storefile);
 		static void saveData(const char* storefile, const char *value);
 		static void saveFile(const char* storefile, MAHandle data);
 		static void bilinearScale(int *dst, int dwidth, int dheight, int dpitch, int *src, int swidth, int sheight, int spitch);
@@ -83,7 +83,6 @@ class Util
 
 extern int scrWidth;
 extern int scrHeight;
-extern Widget *softKeys;
 extern Screen *orig;
 extern Screen *origAlbum;
 extern Screen *origMenu;
