@@ -1,17 +1,11 @@
 #include "Albums.h"
 #include "Util.h"
 
-int cmp(const String &a, const String &b) {
-	return 0;
-}
-
 Albums::Albums() {
-	album = MAUtil::Map<String,Album*>(&cmp);
 	loaded = false;
 }
 
 Albums::~Albums() {
-
 	clearAll();
 
 }
@@ -29,11 +23,11 @@ String Albums::getAll() {
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		// The iterator needs to be dereferenced.
 		all+=itr->second->getDescription();
-		all+=delim;
+		all+=",";
 		all+=itr->second->getId();
-		all+=delim;
+		all+=",";
 		all+=itr->second->getHasCards()?"true":"false";
-		all+=newline;
+		all+="#";
 	}
 	return all;
 }
@@ -43,7 +37,7 @@ String Albums::getId(String val) {
 	if(i != album.end()) {
 		return i->second->getId();
 	} else {
-		return demoid;
+		return "-1";
 	}
 }
 
@@ -63,21 +57,27 @@ void Albums::setAll(const char* allch) {
 	String tmp;
 	String id, name;
 	bool hasCards;
-	while ((indexof = all.find(newline)) > -1) {
+
+	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
-		if (indentindexof = tmp.find(delim)) {
+		if (indentindexof = tmp.find(",")) {
 			name = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
 
-			indentindexof = tmp.find(delim);
+			indentindexof = tmp.find(",");
 			id = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
 
-			indentindexof = tmp.find(delim);
+			indentindexof = tmp.find(",");
 			hasCards = tmp=="true";
 
 			albumnames.insert(name,id);
-			album.insert(id, new Album(id, name, hasCards));
+			Album *alb = new Album();
+			alb->setId(id.c_str());
+			alb->setDescription(name.c_str());
+			alb->setHasCards(hasCards);
+			alb->setUpdated(false);
+			album.insert(id, alb);
 		}
 		all = all.substr(indexof);
 	}
@@ -90,10 +90,13 @@ void Albums::clearAll() {
 		i->second = NULL;
 	}
 	album.clear();
+	albumnames.clear();
+	names.clear();
+	loaded = false;
 }
 
 void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
-	albumnames.insert(((updated?updated_symbol:"")+name).c_str(), id);
+	albumnames.insert(((updated?"*":"")+name).c_str(), id);
 	album.insert(id, new Album(id, name.c_str(), hasCards, updated));
 }
 
@@ -105,7 +108,7 @@ Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		 //The iterator needs to be dereferenced.
-		names.add((itr->second->getUpdated()?updated_symbol:"")+itr->second->getDescription());
+		names.add((itr->second->getUpdated()?"*":"")+itr->second->getDescription());
 	}
 	return names;
 }

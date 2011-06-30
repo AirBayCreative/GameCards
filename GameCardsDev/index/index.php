@@ -1158,6 +1158,8 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	$dir .= "/";
 	
+	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	
 	//Check and create new resized front image
 	$filenameResized = $dir.$iImage.'_front.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
@@ -1172,7 +1174,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iHeight);
+		$image->rotateToHeight($iWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1191,7 +1193,93 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iHeight);
+		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->save($filenameResized);
+	}
+	
+	//we need to resize the gc.png image for this size, if it hasnt been done yet.
+	$filename = '../img/cards/gc.png';
+	$filenameResized = $dir.'gc.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->resizeToHeight($iHeight);
+		$image->save($filenameResized);
+	}
+	
+	$filename = '../img/cards/gc.png';
+	$filenameResized = $dir.'gcFlip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->save($filenameResized);
+	}
+	
+	return $iHeight;
+}
+
+function resizeGCCard($iHeight, $iWidth) {
+	//we need to check if the width after scaling would be too wide for the screen.
+	$filename = '../img/cards/gc.png';
+	if (file_exists($filename)) {
+		$image = new SimpleImage();
+		$image->load($filename);
+		$ratio = $iHeight / $image->getHeight();
+		if (($ratio * ($image->getWidth())) > $iWidth) {
+			$ratio = $iWidth / $image->getWidth();
+			$iHeight =  intval($ratio * $image->getHeight());
+		}
+	}
+	else {
+		die('gc card image missing -> '.$filename);
+	}
+	
+	//we want a maximum image size, so larger devices dont have to download huge images
+	if ($iHeight > 520) {
+		//for now, max = 520
+		$iHeight = 520;
+	}
+	
+	if ($iWidth > 520) {
+		//for now, max = 520
+		$iWidth = 520;
+	}
+	
+	//Check directory for resized version
+	chmod("../img",0777);
+	$dir = '../img/'.$iHeight;
+	if (!is_dir($dir)){
+		if (!mkdir($dir, 0777, true)) {
+			die('Failed to create folders -> '.$dir);
+		}
+	}
+	$dir .= "/cards";
+	if (!is_dir($dir)){
+		if (!mkdir($dir, 0777, true)) {
+			die('Failed to create folders -> '.$dir);
+		}
+	}
+	$dir .= "/";
+	
+	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	
+	//we need to resize the gc.png image for this size, if it hasnt been done yet.
+	$filename = '../img/cards/gc.png';
+	$filenameResized = $dir.'gc.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->resizeToHeight($iHeight);
+		$image->save($filenameResized);
+	}
+	
+	$filename = '../img/cards/gc.png';
+	$filenameResized = $dir.'gcFlip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1838,6 +1926,10 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
 		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 		$sOP.=$sTab.'</oppcard>'.$sCRLF;
+		
+		//we need to return the url for the gc.png card, which has hopefully been resized for the users's phone.
+		$sOP.=$sTab.'<gcurl>'.$sFound.$iHeight.'/cards/gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$sFound.$iHeight.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will load the last log from mytcg_gamelog, and set the user's pending off
@@ -2191,6 +2283,14 @@ if ($_GET['newgame']) {
 	$categoryId = $_GET['categoryid'];
 	$newGameType = $_GET['newgametype'];
 	
+	//sizes first
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '0';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '0';
+	}
+	
 	$gameId = "";
 	$opponentId = "";
 	$newGame = false;
@@ -2334,6 +2434,13 @@ if ($_GET['newgame']) {
 	//return xml with the gameId to the phone
 	$sOP='<game>'.$sCRLF;
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
+	if ($newGame) {
+		$height = resizeGCCard($iHeight, $iWidth);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+	}
 	$sOP.='</game>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;

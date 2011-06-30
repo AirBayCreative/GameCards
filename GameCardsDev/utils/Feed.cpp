@@ -8,10 +8,45 @@ void Feed::setLoaded(bool load) {
 bool Feed::getLoaded() {
 	return loaded;
 }
+Feed::Feed() {
+	encrypt = "";
+	uname = "";
+	noSuccess = "";
+	whiteSpace = "";
+	specialCharacters = "";
+	credits = "";
+	email = "";
+	handle = "";
+	touch = "";
+	gameId = "";
+	seconds = "";
+	album = NULL;
+	touchEnabled = false;
+	loaded = false;
+}
+Feed::~Feed() {
+	encrypt = "";
+	uname = "";
+	noSuccess = "";
+	whiteSpace = "";
+	specialCharacters = "";
+	credits = "";
+	email = "";
+	handle = "";
+	touch = "";
+	gameId = "";
+	seconds = "";
+	/*if (album != NULL) {
+		delete album;
+	}
+	album = NULL;*/
+	touchEnabled = false;
+	loaded = false;
+}
 
 bool Feed::setTouch(const char *tch) {
 	touch = tch;
-	return setTouchEnabled(touch == truesz);
+	return setTouchEnabled(touch == "true");
 }
 
 bool Feed::setTouchEnabled(bool tch) {
@@ -143,43 +178,43 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+delim+encrypt+delim+noSuccess+delim+whiteSpace+delim+specialCharacters+delim+credits+delim+email+delim+handle+delim+touch+delim+seconds+delim;
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+",";
 }
 
-void Feed::setAll(const char* allch) {
+void Feed::setAll(char* allch) {
 	if (strlen(allch) <= 0) {
 		allch = "";
 	}
 	String all = allch;
-	int indexof = all.find(delim);
+	int indexof = all.find(",");
 	if (indexof > -1) {
 		setUsername(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setEncrypt(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setUnsuccessful(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setReplaceWhiteSpaces(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setReplaceSpecialCharacters(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setCredits(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setEmail(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setHandle(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setTouch(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
-		indexof = all.find(delim);
+		indexof = all.find(",");
 		setSeconds(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		setLoaded(true);
@@ -198,7 +233,7 @@ void Feed::setAll(const char* allch) {
 		setCredits("");
 		setEmail("");
 		setHandle("");
-		setTouch(falsesz);
+		setTouch("false");
 	}
 }
 void Feed::setAlbum(const char* allch) {

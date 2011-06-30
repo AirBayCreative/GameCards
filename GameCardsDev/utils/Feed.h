@@ -7,6 +7,8 @@ using namespace MAUtil;
 
 class Feed  {
 public:
+	Feed();
+	~Feed();
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);
@@ -16,7 +18,7 @@ public:
 	void setUnsuccessful(const char*);
 	void setReplaceWhiteSpaces(const char*);
 	void setReplaceSpecialCharacters(const char*);
-	void setAll(const char*);
+	void setAll(char*);
 	void setLoaded(bool load);
 	void setAlbum(const char*);
 	void setGameId(const char*);

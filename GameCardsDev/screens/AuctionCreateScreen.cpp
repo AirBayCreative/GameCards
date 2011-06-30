@@ -24,7 +24,6 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 
 	busy = false;
 
-	//drawInvalidInputScreen();
 	drawDataInputScreen();
 }
 
@@ -120,12 +119,11 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							notice->setCaption("Creating auction...");
 
 							//work out how long the url will be, the 8 is for the & and = symbols
-							int urlLength = CREATE_AUCTION.length() + strlen(xml_cardid) + card->getId().length() + strlen(xml_opening) +
-									openingText.length() + strlen(xml_buyout) + buyNowText.length() + strlen(xml_days) + daysText.length() + 8;
-							char *url = new char[urlLength];
-							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&%s=%s", CREATE_AUCTION.c_str(), xml_cardid, card->getId().c_str(),
-									xml_opening, openingText.c_str(), xml_buyout, buyNowText.c_str(), xml_days, daysText.c_str());
+							int urlLength = 71 + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
+							char *url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "http://dev.mytcg.net/_phone/?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", card->getId().c_str(),
+									openingText.c_str(), buyNowText.c_str(), daysText.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
@@ -135,8 +133,8 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							if(res < 0) {
 								notice->setCaption("");
 							} else {
-								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
 							delete [] url;
@@ -199,16 +197,12 @@ void AuctionCreateScreen::validateInput() {
 	if (openingText.length() == 0) {
 		errorString += "Please enter an opening bid.\n";
 	}
-	else if (!isNumeric(openingText)) {
-		errorString += "Please enter a valid opening bid.\n";
-	}
+
 
 	if (daysText.length() == 0) {
 		errorString += "Please enter the length of the auction(in days).";
 	}
-	else if (!isNumeric(daysText)) {
-		errorString += "Please enter a valid length of the auction(in days).";
-	}
+
 }
 
 void AuctionCreateScreen::setSelectedEditBox() {
@@ -239,27 +233,31 @@ void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
 
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
-		mainLayout = createMainLayout(auction, back, true);
+		mainLayout = Util::createMainLayout("Auction", "Back", "", true);
 		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
 		clearListBox();
-		updateSoftKeyLayout(auction, back, "", mainLayout);
+		Util::updateSoftKeyLayout("Auction", "Back", "", mainLayout);
 	}
 
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
-	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
+	//if (tempImage != NULL) {
+		//delete tempImage;
+	//}
+
 	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-	retrieveThumb(tempImage, card, mImageCache);
+	Util::retrieveThumb(tempImage, card, mImageCache);
 
-	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText = (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
 	cardText += ")";
@@ -268,35 +266,35 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	cardText += "\n";
 	cardText += card->getRarity();
 
-	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, opening_bid, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Opening bid", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
 	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())+10));
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, buy_now_price, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Buy now price", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
 	editBoxBuyNow->setCaption(buyNowText);
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, auction_duration, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Auction duration(days)", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
 	editBoxDays->setCaption("3");
 	editBoxDays->setDrawBackground(false);
@@ -311,7 +309,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
-	cardText = (card->getUpdated()?updated_symbol:"")+card->getText();
+	cardText = (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
 	cardText += ")";
@@ -332,35 +330,34 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	clearListBox();
 	screenMode = ST_CREATED;
-	updateSoftKeyLayout("", back, "", mainLayout);
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	String result = "";
-	if (!strcmp(createResult.c_str(), auction_created_successfully_result)) {
-		result = auction_created;
+	if (!strcmp(createResult.c_str(), "1")) {
+		result = "Auction created!";
 	}
 	else {
-		result = auction_failed;
+		result = "Error creating auction.";
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getFontBlack());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setSkin(gSkinBack);
+	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
 	listBox->add(label);
 
 	Layout *feedlayout;
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
-	feedlayout->setSkin(gSkinAlbum);
+	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	MobImage *tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	Util::retrieveThumb(tempImage, card, mImageCache);
 
-	retrieveThumb(tempImage, card, mImageCache);
-
-	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getFontBlack());
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
@@ -376,9 +373,9 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	editBoxDays->setSelected(false);
 
 	clearListBox();
-	updateSoftKeyLayout("", back, "", mainLayout);
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getFontBlack());
 	label->setMultiLine(true);
 	label->setAutoSizeY(true);
 	listBox->add(label);

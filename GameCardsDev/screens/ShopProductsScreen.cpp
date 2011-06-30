@@ -22,31 +22,31 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	else
 		credits = false;
 
-	mainLayout = createMainLayout("", back, "", true);
+	mainLayout = Util::createMainLayout("", "Back", "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(true);
-	notice->setCaption(checking_products);
+	notice->setCaption("Checking for products...");
 
 	mImageCache = new ImageCache();
 
 	int urlLength;
 	char *url;
 	if (credits)
-		url = (char*)PAYMENTS.c_str();
+		url = (char*)"http://dev.mytcg.net/_phone/?getpayments=1";
 	else
 	{
 		if (!free) {
-			urlLength = PRODUCTS.length() + strlen(categoryid) + category.length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", PRODUCTS.c_str(), categoryid, category.c_str());
+			urlLength = 60 + category.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=2&categoryId=%s", category.c_str());
 		} else if (free) {
-			urlLength = PRODUCTSFREE.length() + strlen(categoryid) + category.length() + 2;
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s", PRODUCTSFREE.c_str(), categoryid, category.c_str());
+			urlLength = 60 + category.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=1&categoryId=%s", category.c_str());
 		}
 	}
 
@@ -58,11 +58,11 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 		drawList();
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -156,15 +156,15 @@ void ShopProductsScreen::drawList() {
 		cardText += "Cards: " + products[i]->getCardsInPack();
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
-		feedlayout->setSkin(gSkinAlbum);
+		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
-		retrieveProductThumb(tempImage, products[i], mImageCache);
+		Util::retrieveProductThumb(tempImage, products[i], mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, gFontBlack);
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -182,7 +182,7 @@ void ShopProductsScreen::drawList() {
 		keyPressEvent(MAK_FIRE);
 	} else {
 		emp = true;
-		listBox->add(createSubLabel(empty));
+		listBox->add(Util::createSubLabel("Empty"));
 	}
 	listBox->setSelectedIndex(0);
 }
@@ -211,9 +211,9 @@ ShopProductsScreen::~ShopProductsScreen() {
 
 void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlue);
+		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(gFontBlack);
+		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
 	}
 }
 
@@ -266,7 +266,7 @@ void ShopProductsScreen::mtxEncoding(const char* ) {
 }
 
 void ShopProductsScreen::mtxTagStart(const char* name, int len) {
-	if (!strcmp(name, xml_product_done)) {
+	if (!strcmp(name, "categoryproducts")) {
 		clearProductsList();
 	}
 
@@ -280,35 +280,35 @@ void ShopProductsScreen::mtxTagAttr(const char* attrName, const char* attrValue)
 void ShopProductsScreen::mtxTagData(const char* data, int len) {
 	if (credits)
 	{
-		if(!strcmp(parentTag.c_str(), xml_paymentid)) {
+		if(!strcmp(parentTag.c_str(), "paymentid")) {
 			id += data;
-		} else if(!strcmp(parentTag.c_str(), xml_paymentdesc)) {
+		} else if(!strcmp(parentTag.c_str(), "desc")) {
 			productName += data;
-		} else if(!strcmp(parentTag.c_str(), xml_paymentmethod)) {
+		} else if(!strcmp(parentTag.c_str(), "paymethodid")) {
 			productType += data;
-		} else if(!strcmp(parentTag.c_str(), xml_paymentcreditam)) {
+		} else if(!strcmp(parentTag.c_str(), "creditam")) {
 			price += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productnumcards)) {
+		} else if(!strcmp(parentTag.c_str(), "productnumcards")) {
 			cardsInPack += data;
-		} else if(!strcmp(parentTag.c_str(), xml_paymentthumb)) {
+		} else if(!strcmp(parentTag.c_str(), "thumbnailurl")) {
 			thumb += data;
 		}
 	}
 	else
 	{
-		if(!strcmp(parentTag.c_str(), xml_credits)) {
+		if(!strcmp(parentTag.c_str(), "credits")) {
 			cred += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productid)) {
+		} else if(!strcmp(parentTag.c_str(), "productid")) {
 			id += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productname)) {
+		} else if(!strcmp(parentTag.c_str(), "productname")) {
 			productName += data;
-		} else if(!strcmp(parentTag.c_str(), xml_producttype)) {
+		} else if(!strcmp(parentTag.c_str(), "producttype")) {
 			productType += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productprice)) {
+		} else if(!strcmp(parentTag.c_str(), "productprice")) {
 			price += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productnumcards)) {
+		} else if(!strcmp(parentTag.c_str(), "productnumcards")) {
 			cardsInPack += data;
-		} else if(!strcmp(parentTag.c_str(), xml_productthumb)) {
+		} else if(!strcmp(parentTag.c_str(), "productthumb")) {
 			thumb += data;
 		}
 	}
@@ -317,7 +317,7 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	if (credits)
 	{
-		if(!strcmp(name, xml_payment)) {
+		if(!strcmp(name, "payment")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
 					thumb.c_str(), price.c_str(), cardsInPack.c_str());
 			products.add(product);
@@ -329,7 +329,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			thumb = "";
 			cardsInPack = "";
 			credits = "";
-		} else if (!strcmp(name, xml_payments_done)) {
+		} else if (!strcmp(name, "payments")) {
 			notice->setCaption("");
 			drawList();
 		} else {
@@ -338,7 +338,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	}
 	else
 	{
-		if(!strcmp(name, xml_productthumb)) {
+		if(!strcmp(name, "productthumb")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
 					thumb.c_str(), price.c_str(), cardsInPack.c_str());
 			products.add(product);
@@ -349,12 +349,12 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			price = "";
 			thumb = "";
 			cardsInPack = "";
-		} else if (!strcmp(name, xml_product_done)) {
+		} else if (!strcmp(name, "categoryproducts")) {
 			if (strcmp(cred.c_str(), "")) {
 				String msg = "Current credits: " + cred;
 				feed->setCredits(cred.c_str());
 				if ((first)&&(free)) {
-					msg = freebielbl;
+					msg = "Received: 300 credits and a free starter pack.";
 				}
 				notice->setCaption(msg.c_str());
 			} else {

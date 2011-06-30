@@ -29,7 +29,6 @@ public:
 	String getId(String name);
 	Album* getAlbum(String name);
 	Vector<String> names;
-
 private:
 	Map<String,Album*> album;
 	Map<String,String> albumnames;

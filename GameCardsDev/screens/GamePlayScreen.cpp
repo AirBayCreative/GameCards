@@ -52,12 +52,16 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	card = NULL;
 	oppCard = NULL;
 
+	//this card is used for the gamecards logo card
+	gcCard = new Card();
+	gcCard->setId("gc");
+
 	userImage = NULL;
 	oppImage = NULL;
 
 	imageCache = new ImageCache();
 
-	mainLayout = createMainLayout("", back, "", true);
+	mainLayout = Util::createMainLayout("", "Back", "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(true);
@@ -70,24 +74,26 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	if (newGame) {
 		categoryId = identifier;
 
-		notice->setCaption(initialising_game);
+		notice->setCaption("Initialising new game...");
 
 		//work out how long the url will be, the 4 is for the & and = symbals
-		int urlLength = NEWGAME.length() + 4 + strlen(category_id) + categoryId.length() + strlen(new_game_type) + newGameType.length();
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 19 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
+				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s", NEWGAME.c_str(), category_id, categoryId.c_str(), new_game_type, newGameType.c_str());
+		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
+				categoryId.c_str(), "newgametype", newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
 	else {
 		gameId = identifier;
-		notice->setCaption(loading_game);
+		notice->setCaption("Loading game...");
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
-				gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1", "gameid",
+				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
 	lprintfln(url);
 	if(mHttp.isOpen()){
@@ -100,8 +106,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption("Connection error.");
 	} else {
 		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 	delete [] url;
@@ -129,14 +135,15 @@ void GamePlayScreen::clearListBox() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
 	lprintfln("drawResultsScreen");
 	clearListBox();
 
-	updateSoftKeyLayout(continuelbl, options, "", mainLayout);
+	Util::updateSoftKeyLayout("Continue", "Options", "", mainLayout);
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(gFontBlack);
+	lbl->setFont(Util::getFontBlack());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
@@ -146,7 +153,7 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(gFontBlack);
+	lbl->setFont(Util::getFontBlack());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 	lbl->setCaption(display);
@@ -179,17 +186,17 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	}
 	clearListBox();
 
-	updateSoftKeyLayout(active?play_stat:"", options, "", mainLayout);
+	Util::updateSoftKeyLayout(active?"Play Stat":"", "Options", "", mainLayout);
 
 	int height = listBox->getHeight();
 	String lblString = "User: ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
-	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,gFontBlack);
+	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getFontBlack());
 	userLabel->setAutoSizeY(true);
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
-	retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
@@ -197,10 +204,13 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
-	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,gFontBlack);
+	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getFontBlack());
 	userLabel->setAutoSizeY(true);
 	if (!active) {
-		retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+		Util::retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+	}
+	else {
+		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCache);
 	}
 }
 
@@ -209,7 +219,8 @@ void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
-		updateSoftKeyLayout("", back, "", mainLayout);
+		Util::retrieveBack(oppImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
+		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
 	String caption = "Looking for opponent";
@@ -239,7 +250,7 @@ void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 			keyPressEvent(MAK_SOFTLEFT);
 		} else if (list) {
 			if (phase == P_CARD_DETAILS){
-				if (absoluteValue(pointPressed.x-pointReleased.x) >userImage->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
+				if (Util::absoluteValue(pointPressed.x-pointReleased.x) >userImage->getWidth()/100*15||Util::absoluteValue(pointPressed.x-pointReleased.x) > 45){
 					flipOrSelect = 1;
 				} else if (active) {
 					flipOrSelect = 0;
@@ -248,7 +259,7 @@ void GamePlayScreen::pointerReleaseEvent(MAPoint2d point) {
 						for(int i = 0;i<card->getStats().size();i++) {
 							if(flip==card->getStats()[i]->getFrontOrBack()) {
 								if(userImage->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),
-										card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)) {
+										card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y, MobImage::LANDSCAPE)) {
 									currentSelectedStat = i;
 								}
 							}
@@ -312,6 +323,9 @@ GamePlayScreen::~GamePlayScreen() {
 
 	delete [] feedLayouts;
 
+	delete gcCard;
+	gcCard = NULL;
+
 	clearCardStats();
 	parentTag="";
 	cardText="";
@@ -359,10 +373,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					userImage->requestRepaint();
 					maUpdateScreen();
 					if (flip) {
-						retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 					}
 					else {
-						retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
 					}
 					currentSelectedStat=-1;
 					break;
@@ -382,7 +396,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 							}
 						}
 					}
@@ -402,7 +416,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-										card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 							}
 						}
 					}
@@ -448,10 +462,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						userImage->requestRepaint();
 						maUpdateScreen();
 						if (flip) {
-							retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 						}
 						else {
-							retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
 						}
 						flipOrSelect=0;
 						currentSelectedStat=-1;
@@ -463,7 +477,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 									userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 											card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 											card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-											card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+											card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 									selectStat(currentSelectedStat);
 								}
@@ -481,7 +495,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				switch (phase) {
 					case P_CARD_DETAILS:
 						if(currentSelectedStat>-1){
-							this->selectStat(currentSelectedStat);
+							selectStat(currentSelectedStat);
 						}
 						break;
 					case P_RESULTS:
@@ -501,22 +515,28 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 
 void GamePlayScreen::runTimerEvent() {
 	lprintfln("runTimerEvent currentSelectedStat: %d", currentSelectedStat);
+	lprintfln("runTimerEvent 1");
 	if (phase == P_LFM) {
+		lprintfln("runTimerEvent 1.1");
 		drawLFMScreen();
 		ticks = ticks>3?1:ticks+1;
 		lfmTicks++;
 	}
-
+	lprintfln("runTimerEvent 2");
 	if ((!active && phase == P_CARD_DETAILS) || (!checking && lfmTicks%12 == 0)) {
+		lprintfln("runTimerEvent 2.1");
 		checking = true;
 		lprintfln("checking");
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
-		int urlLength = CONTINUEGAME.length() + 19 + strlen(game_id) + gameId.length() + strlen(xml_lastmove) + lastMove.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?continuegame=1") + 19 + strlen("gameid") + gameId.length() + strlen("lastmove") + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", CONTINUEGAME.c_str(),
-			game_id, gameId.c_str(), xml_lastmove, lastMove.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?continuegame=1",
+				"gameid", gameId.c_str(), "lastmove", lastMove.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		lprintfln(url);
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -524,30 +544,32 @@ void GamePlayScreen::runTimerEvent() {
 			notice->setCaption("Connection error.");
 		} else {
 			hasConnection = true;
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
 		delete [] url;
 		return;
 	}
-
+	lprintfln("runTimerEvent 3");
 	if (phase == P_LFM) {
+		lprintfln("runTimerEvent 3.1");
 		return;
 	}
-
+	lprintfln("runTimerEvent 4");
 	ticks++;
 	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
+		lprintfln("runTimerEvent 4.1");
 		if (!selected) {
 			oppImage->selectStat(oppCard->getStats()[currentSelectedStat]->getLeft(),oppCard->getStats()[currentSelectedStat]->getTop(),
 				oppCard->getStats()[currentSelectedStat]->getWidth(),oppCard->getStats()[currentSelectedStat]->getHeight(),
 				oppCard->getStats()[currentSelectedStat]->getColorRed(), oppCard->getStats()[currentSelectedStat]->getColorGreen(),
-				oppCard->getStats()[currentSelectedStat]->getColorBlue(), 1);
+				oppCard->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 			userImage->selectStat(card->getStats()[selected]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 				card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 				card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-				card->getStats()[currentSelectedStat]->getColorBlue(), 1);
+				card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
 
 			selected = true;
 		}
@@ -556,16 +578,17 @@ void GamePlayScreen::runTimerEvent() {
 			selected = false;
 		}
 	}
-
+	lprintfln("runTimerEvent 5");
 	if (phase == P_OPPMOVE && ticks > 6) {
+		lprintfln("runTimerEvent 5.1");
 		MAUtil::Environment::getEnvironment().removeTimer(this);
 		ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(scrHeight) + intlen(scrWidth);
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(), game_id,
-			gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1", "gameid",
+			gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -573,8 +596,8 @@ void GamePlayScreen::runTimerEvent() {
 			notice->setCaption("Connection error.");
 		} else {
 			hasConnection = true;
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
 		delete [] url;
@@ -595,17 +618,17 @@ void GamePlayScreen::selectStat(int selected) {
 	listBox->setEnabled(true);
 
 	int height = listBox->getHeight();
-	retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 
 	//notice->setCaption("Checking outcome...");
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
-	urlLength = SELECTSTAT.length() + 19 + strlen(game_id) + gameId.length() +
-			strlen(stat_id) + card->getStats()[selected]->getCardStatId().length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+	urlLength = strlen("http://dev.mytcg.net/_phone/?selectstat=1") + 19 + strlen("gameid") + gameId.length() +
+			strlen("statid") + card->getStats()[selected]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", SELECTSTAT.c_str(), game_id, gameId.c_str(),
-			stat_id, card->getStats()[selected]->getCardStatId().c_str(), getMaxImageHeight(), getMaxImageWidth());
+	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?selectstat=1", "gameid", gameId.c_str(),
+			"statid", card->getStats()[selected]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	lprintfln(url);
 	//clearListBox();
 
@@ -613,11 +636,9 @@ void GamePlayScreen::selectStat(int selected) {
 		mHttp.close();
 	}*/
 
-	//maWait(5000);
-
 	selected = false;
 	lprintfln("addTimer 1");
-	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
+	MAUtil::Environment::getEnvironment().addTimer(this, 500, 6);
 
 	//clearCardStats();
 
@@ -628,8 +649,8 @@ void GamePlayScreen::selectStat(int selected) {
 		notice->setCaption("Connection error.");
 	} else {
 		hasConnection = true;
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		mHttp.finish();
 	}
 
@@ -646,7 +667,7 @@ void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -662,16 +683,16 @@ void GamePlayScreen::xcConnError(int code) {
 	if (newGame) {
 		lprintfln("xcConnError 1");
 		if (newGame) {
-			notice->setCaption(loading_game);
+			notice->setCaption("Loading game...");
 		}
 		newGame = false;
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = LOADGAME.length() + 17 + strlen(game_id) + gameId.length() + intlen(getMaxImageHeight()) + intlen(getMaxImageWidth());
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", LOADGAME.c_str(),
-				game_id, gameId.c_str(), getMaxImageHeight(), getMaxImageWidth());
+		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1",
+				"gameid", gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -683,8 +704,8 @@ void GamePlayScreen::xcConnError(int code) {
 			notice->setCaption("Connection error.");
 		} else {
 			hasConnection = true;
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			mHttp.finish();
 		}
 		delete [] url;
@@ -712,28 +733,28 @@ void GamePlayScreen::mtxTagStart(const char* name, int len) {
 void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	lprintfln("attrName: %s", attrName);
 	lprintfln("attrValue: %s", attrValue);
-	if(!strcmp(parentTag.c_str(), xml_cardstat)) {
-		if(!strcmp(attrName, xml_cardstat_id)) {
+	if(!strcmp(parentTag.c_str(), "cardstat")) {
+		if(!strcmp(attrName, "cardstat_id")) {
 			cardStatId += attrValue;
-		}else if(!strcmp(attrName, xml_desc)) {
+		}else if(!strcmp(attrName, "desc")) {
 			statDesc += attrValue;
-		}else if(!strcmp(attrName, xml_ival)) {
+		}else if(!strcmp(attrName, "ival")) {
 			statIVal += attrValue;
-		}else if(!strcmp(attrName, xml_top)) {
+		}else if(!strcmp(attrName, "top")) {
 			statTop = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_left)) {
+		}else if(!strcmp(attrName, "left")) {
 			statLeft = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_width)) {
+		}else if(!strcmp(attrName, "width")) {
 			statWidth = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_height)) {
+		}else if(!strcmp(attrName, "height")) {
 			statHeight = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_frontorback)) {
+		}else if(!strcmp(attrName, "frontorback")) {
 			statFrontOrBack = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_red)) {
+		}else if(!strcmp(attrName, "red")) {
 			statRed = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_green)) {
+		}else if(!strcmp(attrName, "green")) {
 			statGreen = atoi(attrValue);
-		}else if(!strcmp(attrName, xml_blue)) {
+		}else if(!strcmp(attrName, "blue")) {
 			statBlue = atoi(attrValue);
 		}
 	}
@@ -741,62 +762,68 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void GamePlayScreen::mtxTagData(const char* data, int len) {
 	lprintfln("mtxTagData: %s", data);
-	if(!strcmp(parentTag.c_str(), xml_cardid)) {
+	if(!strcmp(parentTag.c_str(), "cardid")) {
 		id += data;
-	} else if(!strcmp(parentTag.c_str(), xml_carddescription)) {
+	} else if(!strcmp(parentTag.c_str(), "description")) {
 		description += data;
-	} else if(!strcmp(parentTag.c_str(), xml_gameplayercard_id)) {
+	} else if(!strcmp(parentTag.c_str(), "gameplayercard_id")) {
 		gamePlayerCardId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_thumburl)) {
+	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
 		thumburl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_fronturl)) {
+	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
 		fronturl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_frontflipurl)) {
+	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
 		frontflipurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_backurl)) {
+	} else if(!strcmp(parentTag.c_str(), "backurl")) {
 		backurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_backflipurl)) {
+	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
 		backflipurl += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
-	} else if(!strcmp(parentTag.c_str(), xml_game_id)) {
+	} else if(!strcmp(parentTag.c_str(), "gameid")) {
 		gameId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_stat_type)) {
+	} else if(!strcmp(parentTag.c_str(), "stat_type")) {
 		statType += data;
-	} else if(!strcmp(parentTag.c_str(), xml_stat_description)) {
+	} else if(!strcmp(parentTag.c_str(), "stat_description")) {
 		statDescription += data;
-	} else if(!strcmp(parentTag.c_str(), xml_cardstat_id)) {
+	} else if(!strcmp(parentTag.c_str(), "cardstat_id")) {
 		cardStatId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_categroy_stat_id)) {
+	} else if(!strcmp(parentTag.c_str(), "categorystat_id")) {
 		categoryStatId += data;
-	} else if(!strcmp(parentTag.c_str(), xml_card_name)) {
+	} else if(!strcmp(parentTag.c_str(), "card_name")) {
 		cardName += data;
-	} else if(!strcmp(parentTag.c_str(), xml_explanation)) {
+	} else if(!strcmp(parentTag.c_str(), "explanation")) {
 		explanation += data;
-	} else if(!strcmp(parentTag.c_str(), xml_outcome)) {
+	} else if(!strcmp(parentTag.c_str(), "outcome")) {
 		outcome += data;
-	} else if(!strcmp(parentTag.c_str(), xml_message)) {
+	} else if(!strcmp(parentTag.c_str(), "message")) {
 		message += data;
-	} else if(!strcmp(parentTag.c_str(), xml_usercards)) {
+	} else if(!strcmp(parentTag.c_str(), "usercards")) {
 		userCards = data;
-	} else if(!strcmp(parentTag.c_str(), xml_opponentcards)) {
+	} else if(!strcmp(parentTag.c_str(), "oppcards")) {
 		oppCards = data;
-	} else if(!strcmp(parentTag.c_str(), xml_lastmove)) {
-		lastMove = base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
-	} else if(!strcmp(parentTag.c_str(), xml_active)) {
+	} else if(!strcmp(parentTag.c_str(), "lastmove")) {
+		lastMove = Util::base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
+	} else if(!strcmp(parentTag.c_str(), "active")) {
 		active = (strcmp(data, "1")==0);
-	} else if (!strcmp(parentTag.c_str(), xml_phase)) {
+	} else if(!strcmp(parentTag.c_str(), "gcurl")) {
+		gcCard->setBack(data);
+		lprintfln("gcurl: %s", data);
+	} else if(!strcmp(parentTag.c_str(), "gcurlflip")) {
+		gcCard->setBackFlip(data);
+		lprintfln("gcurlflip: %s", data);
+	} else if (!strcmp(parentTag.c_str(), "phase")) {
 		listBox->setEnabled(true);
-		if (!strcmp(data, phase_stat)) {
+		if (!strcmp(data, "stat")) {
 			phase = P_CARD_DETAILS;
 		}
-		else if (!strcmp(data, phase_result)) {
+		else if (!strcmp(data, "result")) {
 			phase = P_RESULTS;
 		}
-		else if (!strcmp(data, phase_oppmove)) {
+		else if (!strcmp(data, "oppmove")) {
 			phase = P_OPPMOVE;
 		}
-		else if (!strcmp(data, phase_lfm)) {
+		else if (!strcmp(data, "lfm")) {
 			phase = P_LFM;
 		}
 	}
@@ -804,7 +831,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 	lprintfln("mtxTagEnd: %s", name);
-	if (!strcmp(name, xml_usercard)) {
+	if (!strcmp(name, "usercard")) {
 		if (card == NULL) {
 			//delete card;
 			card = new Card();
@@ -830,7 +857,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		gamePlayerCardId = "";
 		frontflipurl = "";
 		backflipurl = "";
-	} else if (!strcmp(name, xml_opponentcard)) {
+	} else if (!strcmp(name, "oppcard")) {
 		if (oppCard == NULL) {
 			//delete card;
 			oppCard = new Card();
@@ -856,7 +883,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		gamePlayerCardId = "";
 		frontflipurl = "";
 		backflipurl = "";
-	} else if (!strcmp(name, xml_cardstat)) {
+	} else if (!strcmp(name, "cardstat")) {
 		newStat = new Stat();
 		newStat->setCardStatId(cardStatId.c_str());
 		newStat->setDesc(statDesc.c_str());
@@ -878,9 +905,9 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		statDesc = "";
 		statIVal = "";
 		categoryStatId = "";
-	} else if (!strcmp(name, xml_error)) {
+	} else if (!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_game) || !strcmp(name, xml_cardstats) || !strcmp(name, xml_results)) {
+	} else if (!strcmp(name, "game")) {
 		if (!newGame) {
 			busy = false;
 			switch (phase) {
@@ -893,8 +920,8 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 				case P_OPPMOVE:
 					notice->setCaption("");
 					int height = listBox->getHeight();
-					retrieveBackFlip(userImage, card, height, imageCache);
-					retrieveBackFlip(oppImage, oppCard, height, imageCache);
+					Util::retrieveBackFlip(userImage, card, height, imageCache);
+					Util::retrieveBackFlip(oppImage, oppCard, height, imageCache);
 					for (int i = 0; i < oppCard->getStats().size(); i++) {
 						if (strcmp(oppCard->getStatAt(i)->getCategoryStatId().c_str(), categoryStatId.c_str()) == 0) {
 							currentSelectedStat = i;

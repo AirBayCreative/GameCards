@@ -10,7 +10,7 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 	changed = false;
 	isBusy = false;
 	result = "";
-	mainLayout = createMainLayout("", "", "", true);
+	mainLayout = Util::createMainLayout("", "", "", true);
 
 	mainLayout->setDrawBackground(TRUE);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -26,10 +26,10 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 			break;
 	}
 
-	if (feed->getUnsuccessful() != success) {
+	if (feed->getUnsuccessful() != "Success") {
 		label->setCaption(feed->getUnsuccessful());
 	}
-	touch = falsesz;
+	touch = "false";
 	this->setMain(mainLayout);
 }
 
@@ -41,22 +41,22 @@ void Login::drawLoginScreen() {
 	screen = S_LOGIN;
 	clearListBox();
 
-	updateSoftKeyLayout(login, back, "", mainLayout);
+	Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "andre", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "aaaaaa", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
@@ -72,31 +72,31 @@ void Login::drawRegisterScreen() {
 	screen = S_REGISTER;
 	clearListBox();
 
-	updateSoftKeyLayout(reg, back, "", mainLayout);
+	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, passlbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontBlack);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getFontBlack());
 	listBox->add(label);
 
-	label = createEditLabel("");
+	label = Util::createEditLabel("");
 	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Email:");
 	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
@@ -166,9 +166,9 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 void Login::locateItem(MAPoint2d point)
 {
-	touch = truesz;
+	touch = "true";
 	if (feed->setTouch(touch.c_str())) {
-		saveData(FEED, feed->getAll().c_str());
+		Util::saveData("fd.sav", feed->getAll().c_str());
 	}
 	list = false;
 	left = false;
@@ -223,73 +223,72 @@ void Login::keyPressEvent(int keyCode) {
 					case S_LOGIN:
 						if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
 							isBusy = true;
-							notice->setCaption(loggingin);
+							notice->setCaption("Please wait, logging in...");
 							conCatenation = editBoxPass->getText().c_str();
-							value = base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
+							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
 							feed->setUsername(editBoxLogin->getText().c_str());
-							feed->setUnsuccessful(truesz);
+							feed->setUnsuccessful("true");
 							mHttp = HttpConnection(this);
-							int res = mHttp.create(USER.c_str(), HTTP_GET);
+							int res = mHttp.create("http://dev.mytcg.net/_phone/?userdetails=1", HTTP_GET);
 
 							if(res < 0) {
-								notice->setCaption(no_connect);
+								notice->setCaption("Unable to connect, try again later...");
 							} else {
-								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
 							conCatenation = "";
 							value = "";
 						} else {
 							maVibrate(1000);
-							notice->setCaption(no_user);
+							notice->setCaption("Ensure that you have entered your username and password.");
 						}
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
 						if (editBoxLogin->getText().length() < 6) {
-							notice->setCaption(username_too_short);
+							notice->setCaption("Your username needs to be at least 6 characters long");
 							maVibrate(1000);
 						}
 						else if (editBoxPass->getText().length() < 6) {
-							notice->setCaption(password_too_short);
+							notice->setCaption("Your password needs to be at least 6 characters long");
 							maVibrate(1000);
 						}
 						else if (editBoxEmail->getText().length() == 0) {
-							notice->setCaption(enter_email);
+							notice->setCaption("You need to enter an email address");
 							maVibrate(1000);
 						}
-						else if (!validateEmailAddress(editBoxEmail->getText())) {
-							notice->setCaption(valid_email);
+						else if (!Util::validateEmailAddress(editBoxEmail->getText())) {
+							notice->setCaption("Please enter a valid email address");
 							maVibrate(1000);
 						}
 						else {
 							result = "";
 							isBusy = true;
-							notice->setCaption(registering);
+							notice->setCaption("Attempting to register user...");
 
 
 							conCatenation = editBoxPass->getText().c_str();
-							value = base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
+							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
 							feed->setUsername(editBoxLogin->getText().c_str());
-							feed->setUnsuccessful(truesz);
+							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = REGISTER.length() + strlen(xml_username) + editBoxLogin->getText().length()
-									+ strlen(password) + editBoxPass->getText().length() + strlen(xml_email) + editBoxEmail->getText().length() + 6;
-							url = new char[urlLength];
-							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s", REGISTER.c_str(), xml_username, editBoxLogin->getText().c_str(),
-									password, editBoxPass->getText().c_str(), xml_email, editBoxEmail->getText().c_str());
+							int urlLength = 71 + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length();
+							url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "http://dev.mytcg.net/_phone/?registeruser=1&username=%s&password=%s&email=%s", editBoxLogin->getText().c_str(),
+									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str());
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
-								notice->setCaption(no_connect);
+								notice->setCaption("Unable to connect, try again later...");
 							} else {
-								mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-								mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 								mHttp.finish();
 							}
 							delete url;
@@ -323,7 +322,7 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 		isBusy = false;
 	}
 }
@@ -345,42 +344,42 @@ void Login::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void Login::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_username)) {
+	if(!strcmp(parentTag.c_str(), "username")) {
 		username = data;
-	} else if(!strcmp(parentTag.c_str(), xml_credits)) {
+	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits = data;
-	} else if(!strcmp(parentTag.c_str(), xml_email)) {
+	} else if(!strcmp(parentTag.c_str(), "email")) {
 		email = data;
-	} else if(!strcmp(parentTag.c_str(), xml_handle)) {
+	} else if(!strcmp(parentTag.c_str(), "name")) {
 		handle = data;
-	} else if(!strcmp(parentTag.c_str(), xml_freebie)) {
+	} else if(!strcmp(parentTag.c_str(), "freebie")) {
 		freebie = data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg = data;
-	} else if (!strcmp(parentTag.c_str(), xml_result)) {
+	} else if (!strcmp(parentTag.c_str(), "result")) {
 		result += data;
-	} else if(!strcmp(parentTag.c_str(), xml_freebie)) {
+	} else if(!strcmp(parentTag.c_str(), "freebie")) {
 		freebie = data;
 	}
 }
 
 void Login::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_status)) {
+	if(!strcmp(name, "status")) {
 		feed->setCredits(credits.c_str());
 		feed->setHandle(handle.c_str());
 		feed->setEmail(email.c_str());
-		feed->setUnsuccessful(success);
+		feed->setUnsuccessful("Success");
 		feed->setTouch(touch.c_str());
 		int seconds = maLocalTime();
-		int secondsLength = intlen(seconds);
-		char *secString = new char[secondsLength];
-		memset(secString,'\0',secondsLength);
+		int secondsLength = Util::intlen(seconds);
+		char *secString = new char[secondsLength+1];
+		memset(secString,'\0',secondsLength+1);
 		sprintf(secString, "%d", seconds);
 		feed->setSeconds(secString);
 		delete secString;
 		username,error_msg= "";
-		saveData(FEED, feed->getAll().c_str());
-		feed->setAlbum(getData(ALBUM));
+		Util::saveData("fd.sav", feed->getAll().c_str());
+		feed->setAlbum(Util::getData("lb.sav"));
 
 		// Check result
 		if (strcmp("0", freebie.c_str()) == 0)
@@ -388,11 +387,11 @@ void Login::mtxTagEnd(const char* name, int len) {
 		else
 			next = new MenuScreen(feed);
 		next->show();
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		error = true;
 		feed->setUnsuccessful(error_msg.c_str());
 		notice->setCaption(error_msg.c_str());
-	} else if (!strcmp(name, xml_result)) {
+	} else if (!strcmp(name, "result")) {
 		isBusy = false;
 		notice->setCaption(result);
 	} else {

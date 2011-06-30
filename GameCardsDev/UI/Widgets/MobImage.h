@@ -17,11 +17,12 @@ public:
 
 	void setHasNote(bool n);
 	void selectStat(int x, int y, int width, int height, int red, int green, int blue, int orientation=0);
-	bool statContains(int x, int y, int width, int height, int pointX, int pointY);
+	bool statContains(int x, int y, int width, int height, int pointX, int pointY, int orientation=0);
 	void drawRectangle(int x, int y, int width, int height);
 	void refreshWidget();
 	bool statAdded;
 
+	enum orientations {PORTRAIT = 0, LANDSCAPE };
 protected:
 	virtual void drawWidget();
 	int _x, _y, _width, _height, _red, _green, _blue, _orientation;

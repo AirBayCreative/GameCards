@@ -57,7 +57,7 @@ private:
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
 	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking;
 	MAPoint2d pointPressed, pointReleased;
-	Card *card, *oppCard;
+	Card *card, *oppCard, *gcCard;
 
 	Stat *newStat;
 	Feed *feed;
