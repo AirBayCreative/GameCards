@@ -39,7 +39,6 @@ Card::~Card() {
 
 	int size = stats.size();
 	for (int i = 0; i < size; i++) {
-
 		if (stats[i] != NULL) {
 			delete stats[i];
 			stats[i]=NULL;

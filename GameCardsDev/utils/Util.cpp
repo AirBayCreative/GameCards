@@ -301,7 +301,7 @@ char* Util::getData(const char* storefile) {
 			memset(res,0,size+1);
 			maReadData(tmp, res, 0, size);
 			maCloseStore(store, 0);
-			lprintfln("getData(%s, %s)", storefile, res);
+			//lprintfln("getData(%s, %s)", storefile, res);
 			store = -1;
 			maDestroyObject(tmp);
 			return res;

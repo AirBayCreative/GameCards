@@ -70,7 +70,6 @@ void Albums::setAll(const char* allch) {
 
 			indentindexof = tmp.find(",");
 			hasCards = tmp=="true";
-
 			albumnames.insert(name,id);
 			Album *alb = new Album();
 			alb->setId(id.c_str());
