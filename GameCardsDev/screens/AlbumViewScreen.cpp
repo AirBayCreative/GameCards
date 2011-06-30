@@ -152,18 +152,19 @@ void AlbumViewScreen::loadImages(const char *text) {
 		tmp = all.substr(0,indexof++);
 		Card *newCard = new Card();
 		newCard->setAll(tmp.c_str());
-		StringCardMap::Iterator itr = cards.find(newCard->getId());
-		if (itr != cards.end()) {
-			Card *del = itr->second;
-			delete del;
-		}
-		cards.erase(newCard->getId());
-		cards.insert(newCard->getId(), newCard);
+//		StringCardMap::Iterator itr = cards.find(newCard->getId());
+//		if (itr != cards.end()) {
+//			Card *del = itr->second;
+//			delete del;
+//		}
+//		cards.erase(newCard->getId());
+//		cards.insert(newCard->getId(), newCard);
 		all = all.substr(indexof);
-		newCard = NULL;
+		delete newCard;
+//		newCard = NULL;
 	}
 	drawList();
-	tmp, all = "";
+	tmp = "", all = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -318,6 +319,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	}*/
 	tmp.clear();
 	index.clear();
+	stats.clear();
 	parentTag="";
 	cardText="";
 	id="";
@@ -524,7 +526,9 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, xml_card)) {
 		//notice->setCaption("");
 		Card *newCard = new Card();
-		newCard->setAll((quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim+ranking+delim+rarity+delim+frontflipurl+delim+backflipurl+delim).c_str());
+		String all = (quantity+delim+description+delim+thumburl+delim+fronturl+delim+backurl+delim+id+delim+rate+delim+value+delim+note+delim+ranking+delim+rarity+delim+frontflipurl+delim+backflipurl+delim);
+		newCard->setAll(all.c_str());
+		all = "";
 		if (albumType == AT_BUY) {
 
 		} else {
@@ -587,12 +591,18 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		String all = getAll();
 		saveData(filename.c_str(), all.c_str());
 		all = "";
+		while(tmp.size()>0){
+			StringCardMap::Iterator iter = tmp.begin();
+			tmp.erase(iter);
+		}
+		tmp.clear();
 	} else if (!strcmp(name, xml_cards)) {
 		notice->setCaption("");
 		clearCardMap();
 		cards = tmp;
 		drawList();
 		busy = false;
+		tmp.clear();
 	} else {
 		notice->setCaption("");
 	}
@@ -607,13 +617,16 @@ String AlbumViewScreen::getAll() {
 }
 
 void AlbumViewScreen::clearCardMap() {
-	for (StringCardMap::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
+	while(cards.size()>0){
+		StringCardMap::Iterator iter = cards.begin();
 		if (iter->second != NULL) {
 			delete iter->second;
 			iter->second = NULL;
+			cards.erase(iter);
 		}
 	}
 	cards.clear();
+	cards = NULL;
 }
 
 void AlbumViewScreen::mtxParseError() {

@@ -81,7 +81,9 @@ void Albums::setAll(const char* allch) {
 		}
 		all = all.substr(indexof);
 	}
+	all = "";
 }
+
 void Albums::clearAll() {
 	for(Map<String,Album*>::Iterator i = album.begin(); i != album.end(); i++) {
 		delete i->second;

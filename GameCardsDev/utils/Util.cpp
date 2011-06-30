@@ -259,6 +259,7 @@ char* getData(const char* storefile) {
 			return "";
 		}
 	}
+	maDestroyObject(tmp);
 	store = -1;
 	tmp = -1;
 	return "";
@@ -296,12 +297,15 @@ void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 			req1 = new ImageCacheRequest(img, card, 64, 0);
 			mImageCache->request(req1);
 		}
+		maDestroyObject(cacheimage);
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
+		req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
+	store = -1;
+	req1 = NULL;
 }
 
 void retrieveProductThumb(MobImage *img, Product *product, ImageCache *mImageCache)

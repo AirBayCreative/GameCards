@@ -33,15 +33,17 @@ Card::~Card() {
 	backflip = "";
 	ranking = "";
 	rarity = "";
+	gamePlayerCardId="";
 	fullDesc = "";
 	note = "";
-	for (int i = 0; i < stats.size(); i++) {
+	int size = stats.size();
+	for (int i = 0; i < size; i++) {
 		if (stats[i] != NULL) {
 			delete stats[i];
-			stats[i] == NULL;
+			stats[i]=NULL;
 		}
-		stats.clear();
 	}
+	stats.clear();
 }
 
 void Card::setLoaded(bool load) {
@@ -289,6 +291,7 @@ void Card::setAll(const char* allch) {
 			setLoaded(false);
 		}
 		all = "";
+		allch = "";
 }
 
 void Card::addStat(Stat *stat) {
