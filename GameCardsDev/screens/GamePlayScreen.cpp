@@ -52,6 +52,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	card = NULL;
 	oppCard = NULL;
 
+	//this card is used for the gamecards logo card
+	gcCard = new Card();
+	gcCard->setId("gc");
+
 	userImage = NULL;
 	oppImage = NULL;
 
@@ -65,7 +69,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	listBox->setHeight(listBox->getHeight() - 20);
 
 	phase = P_LOADING;
-	prevPhase = -1;
 
 	char *url;
 	if (newGame) {
@@ -74,10 +77,12 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption("Initialising new game...");
 
 		//work out how long the url will be, the 4 is for the & and = symbals
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 4 + strlen("categoryid") + categoryId.length() + strlen("newgametype") + newGameType.length();
+		int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 19 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
+				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid", categoryId.c_str(), "newgametype", newGameType.c_str());
+		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
+				categoryId.c_str(), "newgametype", newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
 	else {
 		gameId = identifier;
@@ -204,6 +209,9 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	if (!active) {
 		Util::retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 	}
+	else {
+		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCache);
+	}
 }
 
 void GamePlayScreen::drawLFMScreen() {
@@ -211,6 +219,7 @@ void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
+		Util::retrieveBack(oppImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -313,6 +322,9 @@ GamePlayScreen::~GamePlayScreen() {
 	delete imageCache;
 
 	delete [] feedLayouts;
+
+	delete gcCard;
+	gcCard = NULL;
 
 	clearCardStats();
 	parentTag="";
@@ -624,7 +636,6 @@ void GamePlayScreen::selectStat(int selected) {
 		mHttp.close();
 	}*/
 
-	prevPhase = -1;
 	selected = false;
 	lprintfln("addTimer 1");
 	MAUtil::Environment::getEnvironment().addTimer(this, 500, 6);
@@ -795,8 +806,13 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		lastMove = Util::base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
 	} else if(!strcmp(parentTag.c_str(), "active")) {
 		active = (strcmp(data, "1")==0);
+	} else if(!strcmp(parentTag.c_str(), "gcurl")) {
+		gcCard->setBack(data);
+		lprintfln("gcurl: %s", data);
+	} else if(!strcmp(parentTag.c_str(), "gcurlflip")) {
+		gcCard->setBackFlip(data);
+		lprintfln("gcurlflip: %s", data);
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
-		prevPhase = phase;
 		listBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {
 			phase = P_CARD_DETAILS;
@@ -896,17 +912,12 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 			busy = false;
 			switch (phase) {
 				case P_CARD_DETAILS:
-					lprintfln("phase: P_CARD_DETAILS");
-					//if (prevPhase != phase) {
-						drawCardSelectStatScreen();
-					//}
+					drawCardSelectStatScreen();
 					break;
 				case P_RESULTS:
-					lprintfln("phase: P_RESULTS");
 					drawResultsScreen();
 					break;
 				case P_OPPMOVE:
-					lprintfln("phase: P_OPPMOVE");
 					notice->setCaption("");
 					int height = listBox->getHeight();
 					Util::retrieveBackFlip(userImage, card, height, imageCache);
@@ -922,7 +933,6 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 				case P_LFM:
-					lprintfln("phase: P_LFM");
 					ticks = 0;
 					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
