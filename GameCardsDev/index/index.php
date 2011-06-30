@@ -1159,6 +1159,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	$dir .= "/";
 	
 	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
 	
 	//Check and create new resized front image
 	$filenameResized = $dir.$iImage.'_front.png';
@@ -1174,7 +1175,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1193,7 +1194,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1203,7 +1204,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->resizeToHeight($iHeight);
+		$image->resizeToHeight($iHeight - 60);
 		$image->save($filenameResized);
 	}
 	
@@ -1212,7 +1213,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1263,6 +1264,7 @@ function resizeGCCard($iHeight, $iWidth) {
 	$dir .= "/";
 	
 	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
 	$filename = '../img/cards/gc.png';
@@ -1270,7 +1272,7 @@ function resizeGCCard($iHeight, $iWidth) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->resizeToHeight($iHeight);
+		$image->resizeToHeight($iHeight - 60);
 		$image->save($filenameResized);
 	}
 	
@@ -1279,7 +1281,7 @@ function resizeGCCard($iHeight, $iWidth) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iWidth, $iRotateHeight);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
 		$image->save($filenameResized);
 	}
 	
@@ -1952,6 +1954,13 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 			//set the gamephase to incomplete
 			myqu('UPDATE mytcg_game SET gamestatus_id = 2 WHERE game_id = '.$gameId);
 		}
+	}
+	else if ($gamePhase == 'lfm') {
+	//we need to return the irl for the gc.png card
+		$height = resizeGCCard($iHeight, $iWidth);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
+		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	
 	$sOP.='<phase>'.$sCRLF;
