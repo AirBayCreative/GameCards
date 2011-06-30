@@ -178,28 +178,23 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 
 	flip = true;
 
-	if (!active && phase == P_CARD_DETAILS) {
-		notice->setCaption("Opponent is making choices...");
-	}
-	else {
-		notice->setCaption("");
-	}
+	notice->setCaption("");
 	clearListBox();
 
 	Util::updateSoftKeyLayout(active?"Play Stat":"", "Options", "", mainLayout);
 
-	int height = listBox->getHeight();
+	int height = listBox->getHeight() - 50;
 	String lblString = "User: ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
 	userLabel->setAutoSizeY(true);
-	userImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
+	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
-	oppImage = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, RES_LOADING_FLIP);
+	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
 	lblString = "Opponent: ";
 	lblString += oppCards;
 	lblString += " cards, ";
@@ -207,7 +202,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
 	userLabel->setAutoSizeY(true);
 	if (!active) {
-		Util::retrieveFrontFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 	}
 	else {
 		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCache);
@@ -217,9 +212,11 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 void GamePlayScreen::drawLFMScreen() {
 	lprintfln("drawLFMScreen");
 	if (ticks == 0) {
+		lprintfln("gcCard->getBack(): %s", gcCard->getBack().c_str());
+		lprintfln("gcCard->getBackFlip(): %s", gcCard->getBackFlip().c_str());
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
-		Util::retrieveBack(oppImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
+		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -618,9 +615,9 @@ void GamePlayScreen::selectStat(int selected) {
 	listBox->setEnabled(true);
 
 	int height = listBox->getHeight();
+	oppImage->setResource(RES_LOADING_FLIP);
+	oppImage->requestRepaint();
 	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
-
-	//notice->setCaption("Checking outcome...");
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
 	urlLength = strlen("http://dev.mytcg.net/_phone/?selectstat=1") + 19 + strlen("gameid") + gameId.length() +
@@ -630,7 +627,6 @@ void GamePlayScreen::selectStat(int selected) {
 	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?selectstat=1", "gameid", gameId.c_str(),
 			"statid", card->getStats()[selected]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	lprintfln(url);
-	//clearListBox();
 
 	/*if(mHttp.isOpen()){
 		mHttp.close();
@@ -712,7 +708,7 @@ void GamePlayScreen::xcConnError(int code) {
 	}
 	else if (!active && phase == P_CARD_DETAILS) {
 		lprintfln("xcConnError 2");
-		notice->setCaption("Opponent is making choices...");
+		//notice->setCaption("Opponent is making choices...");
 		lprintfln("addTimer 2");
 		MAUtil::Environment::getEnvironment().addTimer(this, 3000, 1);
 	}
@@ -808,10 +804,8 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		active = (strcmp(data, "1")==0);
 	} else if(!strcmp(parentTag.c_str(), "gcurl")) {
 		gcCard->setBack(data);
-		lprintfln("gcurl: %s", data);
 	} else if(!strcmp(parentTag.c_str(), "gcurlflip")) {
 		gcCard->setBackFlip(data);
-		lprintfln("gcurlflip: %s", data);
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
 		listBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {

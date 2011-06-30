@@ -5,6 +5,8 @@ Stat::Stat() {
 	desc = "";
 	display = "";
 	iVal = "";
+	cardStatId="";
+	categoryStatId="";
 	colorRed = 0;
 	colorGreen = 0;
 	colorBlue = 0;
@@ -14,6 +16,8 @@ Stat::~Stat() {
 	desc = "";
 	display = "";
 	iVal = "";
+	cardStatId="";
+	categoryStatId="";
 }
 
 void Stat::setCardStatId(const char *d) {
@@ -76,6 +80,7 @@ void Stat::setAll(const char* allch) {
 		setDisplay("");
 		setIVal("");
 	}
+	all = "";
 }
 
 void Stat::setTop(int i) {
