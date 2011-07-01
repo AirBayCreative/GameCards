@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
 public:
-	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0); //the newGameType should correspond to one of the ng vars in the Util.h
+	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false); //the newGameType should correspond to one of the ng vars in the Util.h
 	~GamePlayScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -34,7 +34,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM};
 private:
 	Screen *next, *previous;
 	ImageCache *imageCache;
@@ -53,7 +53,7 @@ private:
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message, userCards, oppCards, categoryStatId;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks;
-	String explanation, outcome;
+	String explanation, outcome, creator;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
 	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking;
 	MAPoint2d pointPressed, pointReleased;
@@ -67,6 +67,7 @@ private:
 	void drawResultsScreen();
 	void drawCardSelectStatScreen();
 	void drawLFMScreen();
+	void drawConfirmScreen();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

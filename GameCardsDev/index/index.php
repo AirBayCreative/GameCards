@@ -1956,11 +1956,14 @@ function loadGame($gameId, $userId, $iHeight, $iWidth) {
 		}
 	}
 	else if ($gamePhase == 'lfm') {
-	//we need to return the irl for the gc.png card
+		//we need to return the url for the gc.png card
 		$height = resizeGCCard($iHeight, $iWidth);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		
+		//we need to update the date_start field to show that the user is still looking for a game
+		myqu('UPDATE mytcg_game SET date_start = now() WHERE game_id = '.$gameId);
 	}
 	
 	$sOP.='<phase>'.$sCRLF;
@@ -2286,13 +2289,241 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	}
 }
 
+//given the user's id and game id, populate the mytcg_gameplayercard
+function initialiseGame($userId, $gameId) {
+	//we need to get both players' gameplayer_id, and the categoryId
+	$userPlayerIdQuery = myqu('SELECT gp.gameplayer_id, g.category_id 
+		FROM mytcg_gameplayer gp 
+		INNER JOIN mytcg_game g 
+		ON g.game_id = gp.game_id 
+		WHERE gp.user_id = '.$iUserID.' 
+		AND gp.game_id = '.$gameId);
+	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
+	$categoryId = $userPlayerIdQuery[0]['category_id'];
+	$oppPlayerIdQuery = myqu('SELECT gameplayer_id, user_id  
+		FROM mytcg_gameplayer 
+		WHERE user_id != '.$iUserID
+		.' AND game_id = '.$gameId);
+	$opponentId = $oppPlayerIdQuery[0]['user_id'];
+	$oppPlayerId = $oppPlayerIdQuery[0]['gameplayer_id'];
+	
+	//create random deck for the players from their available cards.
+	//first we will need a list of cards for the players in the category.
+	$userCards = array();
+	$oppCards = array();
+	
+	//this will require some recursion, as the category given is the second highest level,
+	// and the cards are an unknown amount of subcategories deep.
+	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
+	$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
+	
+	//the standard deck size is 20, but for now I am going to set it to 10, for testing
+	//$deckSize = 10;
+	$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
+	$deckSize = $deckSize - ($deckSize % 5);
+	$deckSize = $deckSize > 10?10:$deckSize;
+	
+	//for now we will use a random selection of the cards
+	//maybe later we will base it on rareity or use another method
+	$userKeys = array_rand($userCards, $deckSize);
+	$oppKeys = array_rand($oppCards, $deckSize);
+	
+	//insert created decks into player cards, all statuses normal
+	for ($i = 0; $i < $deckSize; $i++) {
+		myqu('INSERT INTO mytcg_gameplayercard 
+			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
+			SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			FROM mytcg_gameplayercardstatus 
+			WHERE lower(description) = "normal"');
+		
+		myqu('INSERT INTO mytcg_gameplayercard 
+			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
+			SELECT '.$oppPlayerId.', '.$oppCards[$oppKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			FROM mytcg_gameplayercardstatus 
+			WHERE lower(description) = "normal"');
+	}
+}
+
+/** declines a specific game, and goes through the steps required to make a new one */
+if ($_GET['declinegame']) {
+	//thing is, if the user declined a game, he didnt specify an opponent, or ai. so after declining, we dont need to go through the whole create process, we can skip some
+	$gameId = $_GET['gameid'];
+	$categoryId = $_GET['categoryid'];
+	
+	//we are gonna need the open status id
+	$openStatusQuery = myqu("SELECT gamestatus_id 
+		FROM mytcg_gamestatus gs 
+		WHERE lower(gs.description) = 'open'");
+	$openId = $openStatusQuery[0]['gamestatus_id'];
+	
+	//we are going to need the closed status id
+	$closedStatusQuery = myqu("SELECT gamestatus_id 
+		FROM mytcg_gamestatus gs 
+		WHERE lower(gs.description) = 'closed'");
+	$closedId = $closedStatusQuery[0]['gamestatus_id'];
+	
+	//we are going to need the declined phase id
+	$declinedPhaseQuery = myqu("SELECT gamephase_id, description 
+		FROM mytcg_gamephase 
+		WHERE description = 'declined'");
+	$declinedId = $declinedPhaseQuery[0]['gamephase_id'];
+	
+	//set the status to closed, and the phase to declined
+	myqu('UPDATE mytcg_game SET gamephase_id = '.$declinedId.', gamestatus_id = '.$closedId);
+	
+	//get phones screen sizes
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '0';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '0';
+	}
+	
+	$newGame = false;
+	
+	//check if there are games looking for the user, or open games.
+	$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
+		FROM mytcg_game g 
+		INNER JOIN mytcg_gameplayer gp 
+		ON gp.game_id = g.game_id 
+		INNER JOIN mytcg_user u
+		ON u.user_id = gp.user_id 
+		WHERE g.category_id = '.$categoryId.' 
+		AND g.gamestatus_id = '.$openId.' 
+		AND gp.user_id != '.$iUserID.' 
+		AND g.friend = "'.$sUsername.'"');
+	
+	//if we find one, we send back data to the front end so the user can confirm whether they want to play against that person or not
+	if (sizeof($gameQuery) > 0) {
+		$creator = $openGameQuery[0]['username'];
+		$sOP='<game>'.$sCRLF;
+		$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+		$sOP.='<creator>'.$sCRLF;
+		$sOP.=$creator.$sCRLF;
+		$sOP.='</creator>'.$sCRLF;
+		$sOP.='<phase>confirm</phase>'.$sCRLF;
+		$sOP.='</game>'.$sCRLF;
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		
+		exit;
+	}
+	else {
+		//if there were no games aimed at the user, we check if there are any normal open games
+		$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
+			FROM mytcg_game g 
+			INNER JOIN mytcg_gameplayer gp 
+			ON gp.game_id = g.game_id 
+			INNER JOIN mytcg_user u
+			ON u.user_id = gp.user_id 
+			WHERE g.category_id = '.$categoryId.' 
+			AND g.gamestatus_id = '.$openId.' 
+			AND gp.user_id != '.$iUserID.' 
+			AND g.friend = ""');
+		
+		//if there was one, set it up and create the game
+		if (sizeof($gameQuery) > 0) {
+			$gameId = $gameQuery[0]['game_id'];
+			myqu('UPDATE mytcg_game 
+				SET gamestatus_id = '.$incompleteId.', 
+				gamephase_id = 2 
+				WHERE game_id = '.$gameId);
+		}
+		else {
+			//otherwise we create a new game, waiting for someone to join
+			$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+				FROM mytcg_game');
+			$gameId = $gameIdQuery[0]['game_id'];
+			myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
+				SELECT '.$gameId.', '.$openId.', 
+				(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "" 
+				FROM DUAL');
+			$newGame = true;
+		}
+	}
+	
+	//add the player to the game
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
+		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
+	
+	if (!$newGame) {
+		initialiseGame($iUserID, $gameId);
+	}
+	
+	//return xml with the gameId to the phone
+	$sOP='<game>'.$sCRLF;
+	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
+	if ($newGame) {
+		$height = resizeGCCard($iHeight, $iWidth);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+	}
+	$sOP.='</game>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	
+	exit;
+}
+
+/** confirms that the user is up for the game, and initialises it */
+if ($_GET['confirmgame']) {
+	$gameId = $_GET['gameid'];
+	
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '0';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '0';
+	}
+	
+	//we are going to need the incomplete status id
+	$incompleteStatusQuery = myqu("SELECT gamestatus_id 
+		FROM mytcg_gamestatus gs 
+		WHERE lower(gs.description) = 'incomplete'");
+	$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
+	
+	myqu('UPDATE mytcg_game 
+				SET gamestatus_id = '.$incompleteId.', 
+				gamephase_id = 2 
+				WHERE game_id = '.$gameId);
+	
+	//add the player to the game
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
+		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
+	
+	initialiseGame($iUserID, $gameId);
+	
+	//return xml with the gameId to the phone
+	$sOP='<game>'.$sCRLF;
+	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
+	if ($newGame) {
+		$height = resizeGCCard($iHeight, $iWidth);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+	}
+	$sOP.='</game>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	
+	exit;
+}
+
 /** creates a new game, against AI, and returns the gameId */
 if ($_GET['newgame']) {
 	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
 	$newGameType = $_GET['newgametype'];
 	
-	//sizes first
+	//we need to check if the user wants to play against a specific person
+	if (!($friend=$_GET['friend'])) {
+		$friend = '';
+	}
+	
+	//get phones screen sizes
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '0';
 	}
@@ -2317,68 +2548,113 @@ if ($_GET['newgame']) {
 			WHERE lower(gs.description) = 'incomplete'");
 		$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
 		
-		//must check if the user has an open game, and return that one if they do
-		$openUserGameQuery = myqu('SELECT g.game_id 
+		//we need to clear all the open games that are older than a minute, so we need all their ids
+		$oldOpenGame = myqu('SELECT g.game_id 
 			FROM mytcg_game g 
-			INNER JOIN mytcg_gameplayer gp 
-			ON gp.game_id = g.game_id 
-			WHERE g.category_id = '.$categoryId.' 
-			AND g.gamestatus_id = '.$openId.' 
-			AND gp.user_id = '.$iUserID.' 
-			ORDER BY g.game_id ASC 
-			LIMIT 1');
+			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
+			AND g.gamestatus_id = '.$openId);
 		
-		if (sizeof($openUserGameQuery) == 0) {
-			//if the user wants to play against a person, we need to first check if there is currently an open game.
-			$openGameQuery = myqu('SELECT g.game_id, (TIME_TO_SEC(now()) - TIME_TO_SEC(date_start)) seconds 
+		foreach ($oldOpenGame as $game) {
+			myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);
+			myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
+		}
+		
+		//if the user specified a friend
+		if ($friend != '') {
+			//first we check if there is an open game whose creator is the friend the user wants to play against
+			$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
 				FROM mytcg_game g 
 				INNER JOIN mytcg_gameplayer gp 
 				ON gp.game_id = g.game_id 
+				INNER JOIN mytcg_user u
+				ON u.user_id = gp.user_id 
 				WHERE g.category_id = '.$categoryId.' 
 				AND g.gamestatus_id = '.$openId.' 
 				AND gp.user_id != '.$iUserID.' 
-				ORDER BY g.game_id ASC');
-			
-			//if there is an open game, close it and we will join it, otherwise create a new open game
-			if (sizeof($openGameQuery) > 0) {
-				$gameId = $openGameQuery[0]['game_id'];
-				$seconds = $openGameQuery[0]['seconds'];
-				if ($seconds > 60) {
-					//if the open game has been idle for more than a minute, delete it and create a new one
-					myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$gameId);
-					myqu('DELETE FROM mytcg_game WHERE game_id = '.$gameId);
-					
-					$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
-						FROM mytcg_game');
-					$gameId = $gameIdQuery[0]['game_id'];
-					myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
-						SELECT '.$gameId.', '.$openId.', 
-						(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
-						FROM DUAL');
-					$newGame = true;
-				}
-				else {
-					myqu('UPDATE mytcg_game 
-						SET gamestatus_id = '.$incompleteId.', 
-						gamephase_id = 2 
-						WHERE game_id = '.$gameId);
-				}
+				AND g.friend = "'.$sUsername.'" 
+				AND u.username = "'.$friend.'"');
+				
+			//if there was one, set it up and create the game
+			if (sizeof($gameQuery) > 0) {
+				$gameId = $gameQuery[0]['game_id'];
+				myqu('UPDATE mytcg_game 
+					SET gamestatus_id = '.$incompleteId.', 
+					gamephase_id = 2 
+					WHERE game_id = '.$gameId);
 			}
 			else {
+				//otherwise we create a new game, waiting for the friend to join
 				$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
 					FROM mytcg_game');
 				$gameId = $gameIdQuery[0]['game_id'];
-				myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+				myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
 					SELECT '.$gameId.', '.$openId.', 
-					(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
+					(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'" 
 					FROM DUAL');
 				$newGame = true;
 			}
 		}
 		else {
-			$newGame = true;
-			$gameId = $openUserGameQuery[0]['game_id'];
-			myqu('UPDATE date_start = now() WHERE game_id = '.$gameId);
+			//if the user didnt specify a friend, we check if there an open game looking for him
+			$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
+				FROM mytcg_game g 
+				INNER JOIN mytcg_gameplayer gp 
+				ON gp.game_id = g.game_id 
+				INNER JOIN mytcg_user u
+				ON u.user_id = gp.user_id 
+				WHERE g.category_id = '.$categoryId.' 
+				AND g.gamestatus_id = '.$openId.' 
+				AND gp.user_id != '.$iUserID.' 
+				AND g.friend = "'.$sUsername.'"');
+			
+			//if we find one, we send back data to the front end so the user can confirm whether they want to play against that person or not
+			if (sizeof($gameQuery) > 0) {
+				$creator = $openGameQuery[0]['username'];
+				$sOP='<game>'.$sCRLF;
+				$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+				$sOP.='<creator>'.$sCRLF;
+				$sOP.=$creator.$sCRLF;
+				$sOP.='</creator>'.$sCRLF;
+				$sOP.='<phase>confirm</phase>'.$sCRLF;
+				$sOP.='</game>'.$sCRLF;
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				
+				exit;
+			}
+			else {
+				//if there were no games aimed at the user, we check if there are any normal open games
+				$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
+					FROM mytcg_game g 
+					INNER JOIN mytcg_gameplayer gp 
+					ON gp.game_id = g.game_id 
+					INNER JOIN mytcg_user u
+					ON u.user_id = gp.user_id 
+					WHERE g.category_id = '.$categoryId.' 
+					AND g.gamestatus_id = '.$openId.' 
+					AND gp.user_id != '.$iUserID.' 
+					AND g.friend = ""');
+				
+				//if there was one, set it up and create the game
+				if (sizeof($gameQuery) > 0) {
+					$gameId = $gameQuery[0]['game_id'];
+					myqu('UPDATE mytcg_game 
+						SET gamestatus_id = '.$incompleteId.', 
+						gamephase_id = 2 
+						WHERE game_id = '.$gameId);
+				}
+				else {
+					//otherwise we create a new game, waiting for someone to join
+					$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+						FROM mytcg_game');
+					$gameId = $gameIdQuery[0]['game_id'];
+					myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
+						SELECT '.$gameId.', '.$openId.', 
+						(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'" 
+						FROM DUAL');
+					$newGame = true;
+				}
+			}
 		}
 	}
 	
@@ -2409,54 +2685,7 @@ if ($_GET['newgame']) {
 		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
 			
 	if (!$newGame) {
-		//we need to get both players' gameplayer_id
-		$userPlayerIdQuery = myqu('SELECT gameplayer_id 
-			FROM mytcg_gameplayer 
-			WHERE user_id = '.$iUserID
-			.' AND game_id = '.$gameId);
-		$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
-		$oppPlayerIdQuery = myqu('SELECT gameplayer_id, user_id  
-			FROM mytcg_gameplayer 
-			WHERE user_id != '.$iUserID
-			.' AND game_id = '.$gameId);
-		$opponentId = $oppPlayerIdQuery[0]['user_id'];
-		$oppPlayerId = $oppPlayerIdQuery[0]['gameplayer_id'];
-		
-		//create random deck for the players from their available cards.
-		//first we will need a list of cards for the players in the category.
-		$userCards = array();
-		$oppCards = array();
-		
-		//this will require some recursion, as the category given is the second highest level,
-		// and the cards are an unknown amount of subcategories deep.
-		$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-		$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
-		
-		//the standard deck size is 20, but for now I am going to set it to 10, for testing
-		//$deckSize = 10;
-		$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
-		$deckSize = $deckSize - ($deckSize % 5);
-		$deckSize = $deckSize > 10?10:$deckSize;
-		
-		//for now we will use a random selection of the cards
-		//maybe later we will base it on rareity or use another method
-		$userKeys = array_rand($userCards, $deckSize);
-		$oppKeys = array_rand($oppCards, $deckSize);
-		
-		//insert created decks into player cards, all statuses normal
-		for ($i = 0; $i < $deckSize; $i++) {
-			myqu('INSERT INTO mytcg_gameplayercard 
-				(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-				SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
-				FROM mytcg_gameplayercardstatus 
-				WHERE lower(description) = "normal"');
-			
-			myqu('INSERT INTO mytcg_gameplayercard 
-				(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-				SELECT '.$oppPlayerId.', '.$oppCards[$oppKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
-				FROM mytcg_gameplayercardstatus 
-				WHERE lower(description) = "normal"');
-		}
+		initialiseGame($iUserID, $gameId);
 	}
 	
 	//return xml with the gameId to the phone
@@ -2512,6 +2741,23 @@ function getAllUserCatCards($userId,$categoryId,$results){
 
 /** list incomplete games for the user */
 if ($_GET['getusergames']){
+	//we are gonna need the open status id
+	$openStatusQuery = myqu("SELECT gamestatus_id 
+		FROM mytcg_gamestatus gs 
+		WHERE lower(gs.description) = 'open'");
+	$openId = $openStatusQuery[0]['gamestatus_id'];
+	
+	//we need to clear all the open games that are older than a minute, so we need all their ids
+	$oldOpenGame = myqu('SELECT g.game_id 
+		FROM mytcg_game g 
+		WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
+		AND g.gamestatus_id = '.$openId);
+	
+	foreach ($oldOpenGame as $game) {
+		myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);
+		myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
+	}
+
 	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, "\n%Y-%m-%d %H:%i")) description, g.game_id
 		FROM mytcg_game g 
 		INNER JOIN mytcg_category c
