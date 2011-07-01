@@ -57,7 +57,7 @@ void Albums::setAll(const char* allch) {
 	String tmp;
 	String id, name;
 	bool hasCards;
-
+	lprintfln("allch %s",allch);
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
 		if (indentindexof = tmp.find(",")) {
