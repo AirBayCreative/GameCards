@@ -147,6 +147,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
+			album->clearAll();
 			delete album;
 		}
 		album = NULL;
@@ -499,9 +500,9 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"));
-		temp = "";
-		hasCards = "";
-		updated = "";
+		temp.clear();
+		hasCards.clear();
+		updated.clear();
 	} else if (!strcmp(name, "usercategories") || !strcmp(name, "categories") || !strcmp(name, "games")) {
 		switch (screenType) {
 			case ST_PLAY:
