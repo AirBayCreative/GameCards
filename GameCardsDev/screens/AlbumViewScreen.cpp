@@ -171,14 +171,14 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String tmp = "";
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
+
 		Card *newCard = new Card();
 		newCard->setAll(tmp.c_str());
 		StringCardMap::Iterator itr = cards.find(newCard->getId());
 		if (itr != cards.end()) {
-			Card *del = itr->second;
-			delete del;
+			delete itr->second;
+			cards.erase(newCard->getId());
 		}
-		cards.erase(newCard->getId());
 		cards.insert(newCard->getId(), newCard);
 		all = ""+all.substr(indexof);
 		//delete newCard;
@@ -298,7 +298,7 @@ void AlbumViewScreen::drawList() {
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
@@ -321,6 +321,7 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	clearListBox();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -358,7 +359,7 @@ void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
 }
 

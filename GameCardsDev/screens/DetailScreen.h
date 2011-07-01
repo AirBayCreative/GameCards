@@ -42,7 +42,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue;
+	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue, id, date, value;
 	Answer *ans;
 	Vector<Answer*> answers;
 	int i,j, moved, screenType, answered, count, credits;

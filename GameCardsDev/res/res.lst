@@ -16,7 +16,7 @@
 
 .res RES_SELECTED_EDITBOX
 .ubin 
-.image "background_editbox_sel.png" 
+.image "background_editbox_sel.png"
 
 .res RES_UNSELECTED_EDITBOX
 .ubin 

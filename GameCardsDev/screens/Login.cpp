@@ -44,7 +44,7 @@ void Login::drawLoginScreen() {
 	Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -53,7 +53,7 @@ void Login::drawLoginScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -75,7 +75,7 @@ void Login::drawRegisterScreen() {
 	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -84,7 +84,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -93,7 +93,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");

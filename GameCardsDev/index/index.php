@@ -92,6 +92,19 @@ if ($iUserID == 0){
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;	
+} else {
+	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif
+					FROM mytcg_user where user_id = '.$iUserID);
+	
+	$iUpdate=$aUpdate[0];
+	if ($iUpdate['dif'] >= 1) {
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+				SELECT '.$iUserID.', descript, now(), val
+				FROM mytcg_transactiondescription
+				WHERE transactionid = 1');
+	}
+		
+	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
 }
 
 if ($iTestVersion=$_GET['update']){
@@ -2312,38 +2325,73 @@ if ($_GET['newgame']) {
 		$openId = $openStatusQuery[0]['gamestatus_id'];
 		
 		//we are also going to need the incomplete status id
-		$incompleteStatusQuery = myqu("SELECT gamestatus_id  
+		$incompleteStatusQuery = myqu("SELECT gamestatus_id 
 			FROM mytcg_gamestatus gs 
 			WHERE lower(gs.description) = 'incomplete'");
 		$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
 		
-		//if the user wants to play against a person, we need to first check if there is currently an open game.
-		$openGameQuery = myqu('SELECT g.game_id 
+		//must check if the user has an open game, and return that one if they do
+		$openUserGameQuery = myqu('SELECT g.game_id 
 			FROM mytcg_game g 
 			INNER JOIN mytcg_gameplayer gp 
 			ON gp.game_id = g.game_id 
 			WHERE g.category_id = '.$categoryId.' 
 			AND g.gamestatus_id = '.$openId.' 
-			AND gp.user_id != '.$iUserID.' 
-			ORDER BY g.game_id ASC');
+			AND gp.user_id = '.$iUserID.' 
+			ORDER BY g.game_id ASC 
+			LIMIT 1');
 		
-		//if there is an open game, close it and we will join it, otherwise create a new open game
-		if (sizeof($openGameQuery) > 0) {
-			$gameId = $openGameQuery[0]['game_id'];
-			myqu('UPDATE mytcg_game 
-				SET gamestatus_id = '.$incompleteId.', 
-				gamephase_id = 2 
-				WHERE game_id = '.$gameId);
+		if (sizeof($openUserGameQuery) == 0) {
+			//if the user wants to play against a person, we need to first check if there is currently an open game.
+			$openGameQuery = myqu('SELECT g.game_id, (TIME_TO_SEC(now()) - TIME_TO_SEC(date_start)) seconds 
+				FROM mytcg_game g 
+				INNER JOIN mytcg_gameplayer gp 
+				ON gp.game_id = g.game_id 
+				WHERE g.category_id = '.$categoryId.' 
+				AND g.gamestatus_id = '.$openId.' 
+				AND gp.user_id != '.$iUserID.' 
+				ORDER BY g.game_id ASC');
+			
+			//if there is an open game, close it and we will join it, otherwise create a new open game
+			if (sizeof($openGameQuery) > 0) {
+				$gameId = $openGameQuery[0]['game_id'];
+				$seconds = $openGameQuery[0]['seconds'];
+				if ($seconds > 60) {
+					//if the open game has been idle for more than a minute, delete it and create a new one
+					myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$gameId);
+					myqu('DELETE FROM mytcg_game WHERE game_id = '.$gameId);
+					
+					$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+						FROM mytcg_game');
+					$gameId = $gameIdQuery[0]['game_id'];
+					myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+						SELECT '.$gameId.', '.$openId.', 
+						(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
+						FROM DUAL');
+					$newGame = true;
+				}
+				else {
+					myqu('UPDATE mytcg_game 
+						SET gamestatus_id = '.$incompleteId.', 
+						gamephase_id = 2 
+						WHERE game_id = '.$gameId);
+				}
+			}
+			else {
+				$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+					FROM mytcg_game');
+				$gameId = $gameIdQuery[0]['game_id'];
+				myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+					SELECT '.$gameId.', '.$openId.', 
+					(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
+					FROM DUAL');
+				$newGame = true;
+			}
 		}
 		else {
-			$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
-				FROM mytcg_game');
-			$gameId = $gameIdQuery[0]['game_id'];
-			myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
-				SELECT '.$gameId.', '.$openId.', 
-				(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now() 
-				FROM DUAL');
 			$newGame = true;
+			$gameId = $openUserGameQuery[0]['game_id'];
+			myqu('UPDATE date_start = now() WHERE game_id = '.$gameId);
 		}
 	}
 	
@@ -2363,78 +2411,62 @@ if ($_GET['newgame']) {
 			FROM mytcg_user 
 			WHERE username = "admin"');
 		$adminUserId = $adminUserIdQuery[0]['user_id'];
-	}
-	
-	//add the player to the game, the person joining will go first
-	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?(($newGameType == $ng_ai)?'1':'0'):'1').', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
-	
-	//we need to get the player's gameplayer_id
-	$userPlayerIdQuery = myqu('SELECT gameplayer_id 
-		FROM mytcg_gameplayer 
-		WHERE user_id = '.$iUserID
-		.' AND game_id = '.$gameId);
-	$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
-	
-	//create random deck for the player from their available cards.
-	//first we will need a list of cards for the player in the category.
-	$userCards = array();
-	
-	//this will require some recursion, as the category given is the second highest level,
-	// and the cards are an unknown amount of subcategories deep.
-	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-	
-	//for now we will set the biggest possible deck size to ten, and make the size a multiple of 5.
-	//$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
-	//$deckSize = $deckSize - ($deckSize % 5);
-	//$deckSize = $deckSize > 10?10:$deckSize;
-	
-	//the standard deck size is 20, but for now I am going to set it to 10, for testing
-	$deckSize = 10;
-	
-	//for now we will use a random selection of the cards
-	//maybe later we will base it on rareity or use another method
-	$userKeys = array_rand($userCards, $deckSize);
-	
-	//insert created decks into player cards, all statuses normal
-	for ($i = 0; $i < $deckSize; $i++) {
-		myqu('INSERT INTO mytcg_gameplayercard 
-			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
-			FROM mytcg_gameplayercardstatus 
-			WHERE lower(description) = "normal"');
-	}
-	
-	//if the game is against ai, we need to input all the data for the ai player
-	if ($newGameType == $ng_ai) {
+		
 		//add the ai to the game
 		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
 			VALUES ('.$gameId.', '.$adminUserId.', 0, 2)');
-		
-		//we need to get the ai's gameplayer_id
-		$adminPlayerIdQuery = myqu('SELECT gameplayer_id 
+	}
+	
+	//add the player to the game, the host goes first
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
+			
+	if (!$newGame) {
+		//we need to get both players' gameplayer_id
+		$userPlayerIdQuery = myqu('SELECT gameplayer_id 
 			FROM mytcg_gameplayer 
-			WHERE user_id = '.$adminUserId
+			WHERE user_id = '.$iUserID
 			.' AND game_id = '.$gameId);
-		$adminPlayerId = $adminPlayerIdQuery[0]['gameplayer_id'];
+		$userPlayerId = $userPlayerIdQuery[0]['gameplayer_id'];
+		$oppPlayerIdQuery = myqu('SELECT gameplayer_id, user_id  
+			FROM mytcg_gameplayer 
+			WHERE user_id != '.$iUserID
+			.' AND game_id = '.$gameId);
+		$opponentId = $oppPlayerIdQuery[0]['user_id'];
+		$oppPlayerId = $oppPlayerIdQuery[0]['gameplayer_id'];
 		
-		//create random deck for the ai from their available cards.
-		//first we will need a list of cards for the ai in the category.
-		$aiCards = array();
+		//create random deck for the players from their available cards.
+		//first we will need a list of cards for the players in the category.
+		$userCards = array();
+		$oppCards = array();
 		
 		//this will require some recursion, as the category given is the second highest level,
 		// and the cards are an unknown amount of subcategories deep.
-		$aiCards = getAllUserCatCards($adminUserId, $categoryId, $aiCards);
+		$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
+		$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
+		
+		//the standard deck size is 20, but for now I am going to set it to 10, for testing
+		//$deckSize = 10;
+		$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
+		$deckSize = $deckSize - ($deckSize % 5);
+		$deckSize = $deckSize > 10?10:$deckSize;
 		
 		//for now we will use a random selection of the cards
 		//maybe later we will base it on rareity or use another method
-		$aiKeys = array_rand($aiCards, $deckSize);
+		$userKeys = array_rand($userCards, $deckSize);
+		$oppKeys = array_rand($oppCards, $deckSize);
 		
-		//insert created decks into ai's cards, all statuses normal
+		//insert created decks into player cards, all statuses normal
 		for ($i = 0; $i < $deckSize; $i++) {
 			myqu('INSERT INTO mytcg_gameplayercard 
 				(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-				SELECT '.$adminPlayerId.', '.$aiCards[$aiKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+				SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+				FROM mytcg_gameplayercardstatus 
+				WHERE lower(description) = "normal"');
+			
+			myqu('INSERT INTO mytcg_gameplayercard 
+				(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
+				SELECT '.$oppPlayerId.', '.$oppCards[$oppKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
 				FROM mytcg_gameplayercardstatus 
 				WHERE lower(description) = "normal"');
 		}
@@ -3175,7 +3207,7 @@ function userdetails($iUserID) {
 
 /** give user profile details */
 if ($_GET['profiledetails']){
-	$aProfileDetails=myqu('SELECT d.desc, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
+	$aProfileDetails=myqu('SELECT d.description, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
 		FROM mytcg_user_answer a, mytcg_user_detail d 
 		WHERE a.detail_id = d.detail_id 
 		AND a.user_id="'.$iUserID.'"');
@@ -3185,7 +3217,7 @@ if ($_GET['profiledetails']){
 		$sOP.='<detail>'.$sCRLF;
 		$sOP.=$sTab.'<answer_id>'.trim($aProfileDetail['answer_id']).'</answer_id>'.$sCRLF;
 		$sOP.=$sTab.'<detail_id>'.trim($aProfileDetail['detail_id']).'</detail_id>'.$sCRLF;	
-		$sOP.=$sTab.'<desc>'.trim($aProfileDetail['desc']).'</desc>'.$sCRLF;	
+		$sOP.=$sTab.'<desc>'.trim($aProfileDetail['description']).'</desc>'.$sCRLF;	
 		$sOP.=$sTab.'<answer>'.trim($aProfileDetail['answer']).'</answer>'.$sCRLF;
 		$sOP.=$sTab.'<answered>'.trim($aProfileDetail['answered']).'</answered>'.$sCRLF;
 		$sOP.=$sTab.'<creditvalue>'.trim($aProfileDetail['credit_value']).'</creditvalue>'.$sCRLF;
@@ -3200,9 +3232,42 @@ if ($_GET['profiledetails']){
 }
 
 
-if ($_GET['saveprofiledetail']){
+if ($_GET['saveprofiledetail']) {
 	$iAnswerID=$_GET['answer_id'];
 	$iAnswer=$_GET['answer'];
+	
+	$aAnswered=myqu('SELECT answered
+					FROM mytcg_user_answer 
+					WHERE answer_id='.$iAnswerID);
+										
+	$aCredits=myqu('SELECT credit_value, description
+					FROM mytcg_user_detail 
+					WHERE detail_id = (SELECT detail_id
+										FROM mytcg_user_answer
+										WHERE answer_id='.$iAnswerID.')');
+	$aCredit=$aCredits[0];
+	$aAnswer=$aAnswered[0];
+	if ($aAnswer['answered'] == 0) {
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].')');
+		
+		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
+				
+		$aCount=myqu('SELECT answer_id
+					FROM mytcg_user_answer 
+					WHERE answered=0
+					AND user_id='.$iUserID);
+		
+		$iSize = sizeof($aCount);
+		if ($iSize==1){
+			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					SELECT '.$iUserID.', descript, now(), val
+					FROM mytcg_transactiondescription
+					WHERE transactionid = 5');	
+					
+			myqui('UPDATE mytcg_user SET credits = credits + IFNULL((SELECT val FROM mytcg_transactiondescription WHERE transactionid = 5),0) WHERE user_id ='.$iUserID);
+		}
+	}
 	
 	myqui('UPDATE mytcg_user_answer 
 			SET answer = "'.$iAnswer.'", 
@@ -3227,9 +3292,9 @@ if ($_GET['saveprofiledetail']){
 
 /** give user transaction log details */
 if ($_GET['creditlog']){
-	$aTransactionDetails=myqu('SELECT transaction_id, description, date, value 
+	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
 		FROM mytcg_transactionlog  
-		WHERE user_id="'.$iUserID.'" 
+		WHERE user_id='.$iUserID.' 
 		ORDER BY date ');
 	$sOP='<transactions>'.$sCRLF;
 	$iCount=0;
@@ -3238,7 +3303,7 @@ if ($_GET['creditlog']){
 		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
 		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
 		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
-		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['value']).'</value>'.$sCRLF;
+		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['val']).'</value>'.$sCRLF;
 		$sOP.='</transaction>'.$sCRLF;
 		$iCount++;
 	}
@@ -3250,7 +3315,7 @@ if ($_GET['creditlog']){
 }
 
 /** for logging credit changes */
-function logtransaction($iDescription, $iValue) {
+function logtransaction($iDescription, $iValue, $iUserID) {
 	myqui('INSERT INTO mytcg_transactionlog (user_id, description, value, date) 
 			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now())');
 }
@@ -3532,6 +3597,7 @@ function registerUser ($username, $password, $email) {
 		
 		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
 		
+		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
 		$iMod=(intval($iUserID) % 10)+1;
@@ -3543,6 +3609,11 @@ function registerUser ($username, $password, $email) {
 			(detail_id, user_id)
 			SELECT detail_id, {$iUserID}
 			FROM mytcg_user_detail");
+			
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			SELECT '.$iUserID.', descript, now(), val
+			FROM mytcg_transactiondescription
+			WHERE transactionid = 2');
 		
 		//return userdetails
 		echo userdetails($iUserID);

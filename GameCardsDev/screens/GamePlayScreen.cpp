@@ -67,7 +67,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	notice->setDrawBackground(true);
 
 	listBox->setHeight(listBox->getHeight() - 20);
-	//listBox->setPaddingLeft(12);
 
 	phase = P_LOADING;
 
@@ -144,7 +143,7 @@ void GamePlayScreen::drawResultsScreen() {
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(Util::getFontBlack());
+	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
@@ -154,7 +153,7 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(Util::getFontBlack());
+	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 	lbl->setCaption(display);
@@ -189,7 +188,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
-	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getFontBlack());
+	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
 	userLabel->setAutoSizeY(true);
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
@@ -200,7 +199,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
-	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getFontBlack());
+	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
 	userLabel->setAutoSizeY(true);
 	if (!active) {
 		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);

@@ -182,7 +182,7 @@ void AuctionListScreen::drawList() {
 		if (strcmp(auctions[i]->getUsername().c_str(), feed->getUsername().c_str()) == 0)
 			tempImage->setHasNote(true);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -335,7 +335,7 @@ void AuctionListScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
 }
 

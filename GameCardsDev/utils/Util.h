@@ -66,6 +66,8 @@ class Util
 
 		static Font* getFontBlue();
 		static Font* getFontBlack();
+		static Font* getFontWhite();
+		static Font* getDefaultFont();
 		static WidgetSkin* getSkinEditBox();
 		static WidgetSkin* getSkinButton();
 		static WidgetSkin* getSkinBack();
@@ -75,6 +77,7 @@ class Util
 		static WidgetSkin* getSkinAlbum();
 
 
+		//static Album* getAlbum();
 
 		/*static Screen* orig();
 		static Screen* origAlbum();

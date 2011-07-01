@@ -42,6 +42,20 @@ Font* Util::getFontBlack() {
 	return black;
 }
 
+Font* Util::getFontWhite() {
+	static Font* white;
+	if (white == NULL) {
+		white = new MAUI::Font(RES_FONT_WHITE);
+	}
+	return white;
+}
+
+
+Font* Util::getDefaultFont() {
+	//topcar getFontWhite
+	return getFontBlack();
+}
+
 WidgetSkin* Util::getSkinEditBox() {
 	static WidgetSkin* gSkinEditBox;
 	if (gSkinEditBox == NULL) {
@@ -53,7 +67,8 @@ WidgetSkin* Util::getSkinEditBox() {
 WidgetSkin* Util::getSkinButton() {
 	static WidgetSkin* gSkinButton;
 	if (gSkinButton == NULL) {
-		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
+		//topcar values 16,32,20,26
+		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 20, 26, true, true);
 	}
 	return gSkinButton;
 }
@@ -69,7 +84,8 @@ WidgetSkin* Util::getSkinBack() {
 WidgetSkin* Util::getSkinList() {
 	static WidgetSkin* gSkinList;
 	if (gSkinList == NULL) {
-		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
+		//topcar values 19,29,16,32
+		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 19, 29, 16, 32, true, true);
 	}
 	return gSkinList;
 }
@@ -85,7 +101,8 @@ WidgetSkin* Util::getSkinListNoArrows() {
 WidgetSkin* Util::getSkinAlbum() {
 	static WidgetSkin* gSkinAlbum;
 	if (gSkinAlbum == NULL) {
-		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 16, 32, 16, 32, true, true);
+		//topcar values 4,8,12,16
+		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 4, 8, 12, 16, true, true);
 	}
 	return gSkinAlbum;
 }
@@ -104,20 +121,20 @@ void Util::setPadding(Widget *w) {
 }
 
 Label* Util::createLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinText());
 	Util::setPadding(label);
 	return label;
 }
 Label* Util::createEditLabel(String str, int height) {
-	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 	return label;
 }
 
 Label* Util::createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setSkin(Util::getSkinList());
@@ -132,7 +149,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	//layout->setSkin(Util::getSkinBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getFontBlack());
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -141,7 +158,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -149,7 +166,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -174,7 +191,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getFontBlack());
+	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getDefaultFont());
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-softKeys->getHeight(), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
