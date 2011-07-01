@@ -211,17 +211,17 @@ void GameDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 
 void GameDetailsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "turn")) {
-		toPlay += data;
+		toPlay = data;
 	} else if(!strcmp(parentTag.c_str(), "playerdeck")) {
-		playerDeck += data;
+		playerDeck = data;
 	} else if(!strcmp(parentTag.c_str(), "opponentdeck")) {
-		opponentDeck += data;
+		opponentDeck = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "date")) {
-		date += data;
+		date = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description += data;
+		description = data;
 	}
 }
 

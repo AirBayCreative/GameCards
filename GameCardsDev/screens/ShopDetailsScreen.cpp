@@ -68,7 +68,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 	nameDesc = "";
-	fullDesc = "";
+	String fullDesc = "";
 
 	switch (screenType) {
 		case ST_PRODUCT:
@@ -165,7 +165,7 @@ void ShopDetailsScreen::runTimerEvent() {
 
 	if (auction != NULL)
 	{
-		fullDesc = nameDesc;
+		String fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
 		if(!strcmp(auction->getPrice().c_str(), "")) {
 			fullDesc += auction->getOpeningBid();
@@ -424,9 +424,9 @@ void ShopDetailsScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 
 void ShopDetailsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "result")) {
-		result += data;
+		result = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
-		credits += data;
+		credits = data;
 	}
 }
 
@@ -587,7 +587,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 
 	nameDesc = "";
-	fullDesc = "";
+	String fullDesc = "";
 
 	Util::retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
@@ -685,7 +685,7 @@ void ShopDetailsScreen::drawBuyNow()
 	Util::retrieveThumb(tempImage, auction->getCard(), mImageCache);
 
 	nameDesc = auction->getCard()->getText();
-	fullDesc = nameDesc;
+	String fullDesc = nameDesc;
 	fullDesc += "\nBid: ";
 	if(!strcmp(auction->getPrice().c_str(), "")) {
 		fullDesc += auction->getOpeningBid();

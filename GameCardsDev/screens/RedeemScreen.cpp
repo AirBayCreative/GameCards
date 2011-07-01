@@ -5,6 +5,7 @@
 #include "AlbumLoadScreen.h"
 
 RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(feed), prev(previous) {
+	lprintfln("RedeemScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
 	next = NULL;
@@ -169,7 +170,7 @@ void RedeemScreen::httpFinished(MAUtil::HttpConnection* http, int res) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		notice->setCaption("Unable to connect. Please try again later.");
 		isBusy = false;
 	}
 }
@@ -192,9 +193,9 @@ void RedeemScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void RedeemScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "result")) {
-		result += data;
+		result = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	}
 }
 

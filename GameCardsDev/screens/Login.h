@@ -39,12 +39,8 @@ private:
 	KineticListBox *listBox;
 	Label *label, *notice;
 	Screen * previous;
-	//MobEditBox  *editBoxLogin, *editBoxPass, *editBoxEmail;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
 	Vector<Widget*> tempWidgets;
-//#if defined(MA_PROF_SUPPORT_STYLUS)
-//	MobKeyboard *keyboard;
-//#endif
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

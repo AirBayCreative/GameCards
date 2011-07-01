@@ -58,7 +58,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 	mImageCache = new ImageCache();
 
-	cardText = "";
+	String cardText = "";
 	cardText += (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
@@ -141,7 +141,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	mImageCache = new ImageCache();
 
-	cardText = "";
+	String cardText = "";
 	cardText += (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
@@ -197,7 +197,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	mImageCache = new ImageCache();
 
-	cardText = "";
+	String cardText = "";
 	cardText += (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);

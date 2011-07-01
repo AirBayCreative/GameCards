@@ -313,8 +313,24 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
-		mHttp.close();
-		//label->setCaption("");
+		if (screenType == BALANCE) {
+			mHttp.close();
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions.", 0, Util::getDefaultFont());
+			label->setPaddingLeft(20);
+			label->setPaddingRight(20);
+			label->addWidgetListener(this);
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Go to www.mytcg.net to find out how to get more credits");
+			listBox->setSelectedIndex(3);
+		} else if (screenType == PROFILE) {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Unable to connect, try again later...");
+		}
 	}
 }
 
@@ -334,27 +350,27 @@ void DetailScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void DetailScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "answer_id")) {
-		answerid += data;
+		answerid = data;
 	} else if(!strcmp(parentTag.c_str(), "detail_id")) {
-		//credits += data;
+		//credits = data;
 	} else if(!strcmp(parentTag.c_str(), "creditvalue")) {
-		creditvalue += data;
+		creditvalue = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
-		cred += data;
+		cred = data;
 	} else if(!strcmp(parentTag.c_str(), "desc")) {
-		desc += data;
+		desc = data;
 	} else if(!strcmp(parentTag.c_str(), "answer")) {
-		answer += data;
+		answer = data;
 	} else if(!strcmp(parentTag.c_str(), "answered")) {
 		answered = Convert::toInt(data);
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "id")) {
-		id += data;
+		id = data;
 	} else if(!strcmp(parentTag.c_str(), "date")) {
-		date += data;
+		date = data;
 	} else if(!strcmp(parentTag.c_str(), "value")) {
-		value += data;
+		value = data;
 	}
 }
 
@@ -423,18 +439,22 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
 			listBox->add(label);
-
-		} else {
-			listBox->setSelectedIndex(3);
 		}
+		listBox->setSelectedIndex(3);
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 		label->setCaption("Go to www.mytcg.net to find out how to get more credits");
 	} else if(!strcmp(name, "transaction")) {
 		count++;
-		label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, desc, 0, Util::getDefaultFont());
-		label->addWidgetListener(this);
+
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+				"", 0, Util::getDefaultFont());
+		label->setCaption(date + ": " + desc);
+		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setSkin(Util::getSkinListNoArrows());
 		label->setMultiLine(true);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(PADDING);
+		label->addWidgetListener(this);
 		listBox->add(label);
 		desc = "";
 		date = "";

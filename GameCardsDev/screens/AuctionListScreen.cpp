@@ -401,37 +401,37 @@ void AuctionListScreen::mtxTagAttr(const char* attrName, const char* attrValue) 
 
 void AuctionListScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "cardid")) {
-		cardId += data;
+		cardId = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description += data;
+		description = data;
 	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
-		thumburl += data;
+		thumburl = data;
 	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
-		fronturl += data;
+		fronturl = data;
 	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
-		frontflipurl += data;
+		frontflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backurl")) {
-		backurl += data;
+		backurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
-		backflipurl += data;
+		backflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "openingbid")) {
-		openingBid += data;
+		openingBid = data;
 	} else if(!strcmp(parentTag.c_str(), "price")) {
-		price += data;
+		price = data;
 	} else if(!strcmp(parentTag.c_str(), "usercardid")) {
-		userCardId += data;
+		userCardId = data;
 	} else if(!strcmp(parentTag.c_str(), "auctioncardid")) {
-		auctionCardId += data;
+		auctionCardId = data;
 	} else if(!strcmp(parentTag.c_str(), "username")) {
-		username += data;
+		username = data;
 	} else if(!strcmp(parentTag.c_str(), "buynowprice")) {
-		buyNowPrice += data;
+		buyNowPrice = data;
 	} else if(!strcmp(parentTag.c_str(), "endDate")) {
-		endDate += data;
+		endDate = data;
 	} else if(!strcmp(parentTag.c_str(), "lastBidUser")) {
-		lastBidUser += data;
+		lastBidUser = data;
 	}
 }
 

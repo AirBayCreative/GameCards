@@ -338,11 +338,14 @@ AlbumViewScreen::~AlbumViewScreen() {
 	index.clear();
 	stats.clear();
 	parentTag="";
+	statDesc="";
+	statIVal="";
+	statDisplay="";
+	note="";
+	category="";
 	id="";
 	description="";
 	quantity="";
-	ranking="";
-	rarity="";
 	thumburl="";
 	fronturl="";
 	frontflipurl="";
@@ -351,10 +354,10 @@ AlbumViewScreen::~AlbumViewScreen() {
 	filename="";
 	error_msg="";
 	rate="";
+	rarity="";
+	ranking="";
 	value="";
 	updated="";
-	note="";
-	category="";
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
@@ -389,6 +392,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
 			all = getAll();
+			lprintfln("filename %s", filename.c_str());
 			Util::saveData(filename.c_str(), all.c_str());
 			all = "";
 			if ((albumType == AT_BUY)||(albumType == AT_FREE)) {
@@ -479,9 +483,9 @@ void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	if(!strcmp(parentTag.c_str(), "stat")) {
 		if(!strcmp(attrName, "desc")) {
-			statDesc += attrValue;
+			statDesc = attrValue;
 		}else if(!strcmp(attrName, "ival")) {
-			statIVal += attrValue;
+			statIVal = attrValue;
 		}else if(!strcmp(attrName, "top")) {
 			statTop = atoi(attrValue);
 		}else if(!strcmp(attrName, "left")) {
@@ -504,37 +508,37 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "cardid")) {
-		id += data;
+		id = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description += data;
+		description = data;
 	} else if(!strcmp(parentTag.c_str(), "quantity")) {
-		quantity += data;
+		quantity = data;
 	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
-		thumburl += data;
+		thumburl = data;
 	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
-		fronturl += data;
+		fronturl = data;
 	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
-		frontflipurl += data;
+		frontflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backurl")) {
-		backurl += data;
+		backurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
-		backflipurl += data;
+		backflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "rate")) {
-		rate += data;
+		rate = data;
 	} else if(!strcmp(parentTag.c_str(), "ranking")) {
-		ranking += data;
+		ranking = data;
 	} else if(!strcmp(parentTag.c_str(), "quality")) {
-		rarity += data;
+		rarity = data;
 	} else if(!strcmp(parentTag.c_str(), "value")) {
-		value += data;
+		value = data;
 	} else if(!strcmp(parentTag.c_str(), "result")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "updated")) {
-		updated += data;
+		updated = data;
 	} else if(!strcmp(parentTag.c_str(), "stat")) {
-		statDisplay += data;
+		statDisplay = data;
 	} else if(!strcmp(parentTag.c_str(), "note")) {
-		note += data;
+		note = data;
 	}
 }
 
@@ -558,20 +562,25 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			Util::saveData("fd.sav", feed->getAll().c_str());
 		}
 		tmp.insert(newCard->getId(),newCard);
-		id = "";
-		description = "";
-		quantity = "";
-		thumburl = "";
-		fronturl = "";
-		backurl = "";
-		rate = "";
-		value = "";
-		rarity = "";
-		ranking = "";
-		frontflipurl = "";
-		backflipurl = "";
-		updated = "";
-		note = "";
+		statDesc="";
+		statIVal="";
+		statDisplay="";
+		note="";
+		category="";
+		id="";
+		description="";
+		quantity="";
+		thumburl="";
+		fronturl="";
+		frontflipurl="";
+		backurl="";
+		backflipurl="";
+		error_msg="";
+		rate="";
+		rarity="";
+		ranking="";
+		value="";
+		updated="";
 		stats.clear();
 		newCard = NULL;
 	} else if(!strcmp(name, "stat")) {
@@ -596,9 +605,28 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		//delete stat;
 	} else if(!strcmp(name, "result")) {
 		notice->setCaption(error_msg.c_str());
+		statDesc="";
+		statIVal="";
+		statDisplay="";
+		note="";
+		category="";
+		id="";
+		description="";
+		quantity="";
+		thumburl="";
+		fronturl="";
+		frontflipurl="";
+		backurl="";
+		backflipurl="";
+		error_msg="";
+		rate="";
+		rarity="";
+		ranking="";
+		value="";
+		updated="";
 	} else if (!strcmp(name, "cardsincategory")) {
 		clearCardMap();
-		//cards = tmp;
+		cards = tmp;
 		drawList();
 		busy = false;
 		String all = getAll();
@@ -610,13 +638,51 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		}
 		tmp.clear();
 		notice->setCaption("");
+		statDesc="";
+		statIVal="";
+		statDisplay="";
+		note="";
+		category="";
+		id="";
+		description="";
+		quantity="";
+		thumburl="";
+		fronturl="";
+		frontflipurl="";
+		backurl="";
+		backflipurl="";
+		error_msg="";
+		rate="";
+		rarity="";
+		ranking="";
+		value="";
+		updated="";
 	} else if (!strcmp(name, "cards")) {
 		clearCardMap();
-		//cards = tmp;
+		cards = tmp;
 		drawList();
 		notice->setCaption("");
 		busy = false;
 		tmp.clear();
+		statDesc="";
+		statIVal="";
+		statDisplay="";
+		note="";
+		category="";
+		id="";
+		description="";
+		quantity="";
+		thumburl="";
+		fronturl="";
+		frontflipurl="";
+		backurl="";
+		backflipurl="";
+		error_msg="";
+		rate="";
+		rarity="";
+		ranking="";
+		value="";
+		updated="";
 	} else {
 		//notice->setCaption("");
 	}

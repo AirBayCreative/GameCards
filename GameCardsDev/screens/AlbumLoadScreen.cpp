@@ -147,7 +147,6 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
-			album->clearAll();
 			delete album;
 		}
 		album = NULL;
@@ -464,7 +463,7 @@ void AlbumLoadScreen::mtxEncoding(const char* ) {
 
 void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
 	if (!strcmp(name, "usercategories") || !strcmp(name, "categories")) {
-		//album->clearAll();
+		album->clearAll();
 	}
 	parentTag = name;
 }
@@ -478,21 +477,21 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "albumname")) {
 		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "albumid")) {
-		temp += data;
+		temp = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "categoryname")) {
 		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "categoryid")) {
-		temp += data;
+		temp = data;
 	} else if(!strcmp(parentTag.c_str(), "gamedescription")) {
 		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		temp += data;
+		temp = data;
 	} else if (!strcmp(parentTag.c_str(), "hascards")) {
-		hasCards += data;
+		hasCards = data;
 	} else if (!strcmp(parentTag.c_str(), "updated")) {
-		updated += data;
+		updated = data;
 	}
 }
 
@@ -500,9 +499,10 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
 		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"));
-		temp.clear();
-		hasCards.clear();
-		updated.clear();
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
 	} else if (!strcmp(name, "usercategories") || !strcmp(name, "categories") || !strcmp(name, "games")) {
 		switch (screenType) {
 			case ST_PLAY:
@@ -582,10 +582,25 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 					}
 				}
 			}
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
 	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
 	} else {
 		notice->setCaption("");
+		//temp = "";
+		//hasCards = "";
+		//updated = "";
+		//temp1 = "";
+		//error_msg = "";
 	}
 }
 

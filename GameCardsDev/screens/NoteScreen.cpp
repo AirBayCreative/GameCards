@@ -32,12 +32,12 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	Layout *feedlayout;
+	String cardText = "";
 	switch (screenType) {
 		case ST_CARD_NOTE:
 			mImageCache = new ImageCache();
 
 
-			cardText = "";
 			cardText += (card->getUpdated()?"*":"")+card->getText();
 			cardText += " (";
 			cardText += card->getQuantity();

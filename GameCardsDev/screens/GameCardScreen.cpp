@@ -51,19 +51,17 @@ void GameCardScreen::locateItem(MAPoint2d point)
 {
 	if (feed->setTouch("true")) {
 		Util::saveData("fd.sav", feed->getAll().c_str());
-		}
+	}
 
 	list = false;
 	left = false;
 	right = false;
-
 	Point p;
 	p.set(point.x, point.y);
 	for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}

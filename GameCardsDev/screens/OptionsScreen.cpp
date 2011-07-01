@@ -27,7 +27,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = Util::createMainLayout("Select", "Exit");
+		layout = Util::createMainLayout("", "Exit");
 	}
 	else {
 		layout = Util::createMainLayout("", "Back");
@@ -500,11 +500,11 @@ void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "gamedescription")) {
-		temp1 += data;
+		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		temp += data;
+		temp = data;
 	} else if (!strcmp(parentTag.c_str(), "result")) {
-		temp += data;
+		temp = data;
 	}
 }
 

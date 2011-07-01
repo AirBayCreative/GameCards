@@ -6,6 +6,7 @@
 #include "ShopCategoriesScreen.h"
 
 Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
+	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	changed = false;
 	isBusy = false;
@@ -25,15 +26,30 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 			drawRegisterScreen();
 			break;
 	}
-
-	if (feed->getUnsuccessful() != "Success") {
-		label->setCaption(feed->getUnsuccessful());
-	}
 	touch = "false";
 	this->setMain(mainLayout);
 }
 
-Login::~Login() {}
+Login::~Login() {
+	delete mainLayout;
+	error_msg = "";
+	parentTag="";
+	conCatenation="";
+	value="";
+	value1="";
+	value2="";
+	convertAsterisk="";
+	underscore="";
+	username="";
+	credits="";
+	encrypt="";
+	error_msg="";
+	email="";
+	handle="";
+	touch="";
+	result="";
+	freebie="";
+}
 
 void Login::drawLoginScreen() {
 	moved = 0;
@@ -48,7 +64,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Username:");
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -57,7 +73,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -166,10 +182,6 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 void Login::locateItem(MAPoint2d point)
 {
-	touch = "true";
-	if (feed->setTouch(touch.c_str())) {
-		Util::saveData("fd.sav", feed->getAll().c_str());
-	}
 	list = false;
 	left = false;
 	right = false;
@@ -369,7 +381,7 @@ void Login::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg = data;
 	} else if (!strcmp(parentTag.c_str(), "result")) {
-		result += data;
+		result = data;
 	} else if(!strcmp(parentTag.c_str(), "freebie")) {
 		freebie = data;
 	}
@@ -390,7 +402,8 @@ void Login::mtxTagEnd(const char* name, int len) {
 		sprintf(secString, "%d", seconds);
 		feed->setSeconds(secString);
 		delete secString;
-		username,error_msg= "";
+		username = "";
+		error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
 		feed->setAlbum(Util::getData("lb.sav"));
 
@@ -406,9 +419,12 @@ void Login::mtxTagEnd(const char* name, int len) {
 		error = true;
 		feed->setUnsuccessful(error_msg.c_str());
 		notice->setCaption(error_msg.c_str());
+		error_msg="";
 	} else if (!strcmp(name, "result")) {
 		isBusy = false;
-		notice->setCaption(result);
+		error = true;
+		notice->setCaption(result.c_str());
+		result="";
 	} else {
 		if (!error) {
 			if (notice != NULL) {

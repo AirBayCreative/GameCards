@@ -759,41 +759,41 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 void GamePlayScreen::mtxTagData(const char* data, int len) {
 	lprintfln("mtxTagData: %s", data);
 	if(!strcmp(parentTag.c_str(), "cardid")) {
-		id += data;
+		id = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description += data;
+		description = data;
 	} else if(!strcmp(parentTag.c_str(), "gameplayercard_id")) {
-		gamePlayerCardId += data;
+		gamePlayerCardId = data;
 	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
-		thumburl += data;
+		thumburl = data;
 	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
-		fronturl += data;
+		fronturl = data;
 	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
-		frontflipurl += data;
+		frontflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backurl")) {
-		backurl += data;
+		backurl = data;
 	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
-		backflipurl += data;
+		backflipurl = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		gameId += data;
+		gameId = data;
 	} else if(!strcmp(parentTag.c_str(), "stat_type")) {
-		statType += data;
+		statType = data;
 	} else if(!strcmp(parentTag.c_str(), "stat_description")) {
-		statDescription += data;
+		statDescription = data;
 	} else if(!strcmp(parentTag.c_str(), "cardstat_id")) {
-		cardStatId += data;
+		cardStatId = data;
 	} else if(!strcmp(parentTag.c_str(), "categorystat_id")) {
-		categoryStatId += data;
+		categoryStatId = data;
 	} else if(!strcmp(parentTag.c_str(), "card_name")) {
-		cardName += data;
+		cardName = data;
 	} else if(!strcmp(parentTag.c_str(), "explanation")) {
-		explanation += data;
+		explanation = data;
 	} else if(!strcmp(parentTag.c_str(), "outcome")) {
-		outcome += data;
+		outcome = data;
 	} else if(!strcmp(parentTag.c_str(), "message")) {
-		message += data;
+		message = data;
 	} else if(!strcmp(parentTag.c_str(), "usercards")) {
 		userCards = data;
 	} else if(!strcmp(parentTag.c_str(), "oppcards")) {

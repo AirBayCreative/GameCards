@@ -195,12 +195,12 @@ void AuctionCreateScreen::validateInput() {
 	errorString = "";
 
 	if (openingText.length() == 0) {
-		errorString += "Please enter an opening bid.\n";
+		errorString = "Please enter an opening bid.\n";
 	}
 
 
 	if (daysText.length() == 0) {
-		errorString += "Please enter the length of the auction(in days).";
+		errorString = "Please enter the length of the auction(in days).";
 	}
 
 }
@@ -257,7 +257,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
-	cardText = (card->getUpdated()?"*":"")+card->getText();
+	String cardText = (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
 	cardText += ")";
@@ -309,7 +309,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
-	cardText = (card->getUpdated()?"*":"")+card->getText();
+	String cardText = (card->getUpdated()?"*":"")+card->getText();
 	cardText += " (";
 	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
 	cardText += ")";

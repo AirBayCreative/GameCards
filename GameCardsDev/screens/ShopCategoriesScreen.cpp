@@ -6,6 +6,7 @@
 #include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 
+
 void ShopCategoriesScreen::refresh() {
 	show();
 	categories.clear();
@@ -43,7 +44,6 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	lprintfln("ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	next = NULL;
 	label = NULL;
-	mainLayout = Util::createMainLayout("", "Back", true);
 	if (screenType == ST_FREEBIE) {
 		mainLayout = Util::createMainLayout("", "", true);
 	} else {
@@ -177,6 +177,8 @@ void ShopCategoriesScreen::drawList() {
 		if (screenType != ST_AUCTIONS) {
 			keyPressEvent(MAK_FIRE);
 		}
+	} else {
+		listBox->setSelectedIndex(0);
 	}
 
 	if (screenType == ST_FREEBIE)
@@ -306,11 +308,11 @@ void ShopCategoriesScreen::mtxTagData(const char* data, int len) {
 		categories.clear();
 		category.clear();
 	} else if(!strcmp(parentTag.c_str(), "albumname")) {
-		temp1 += data;
+		temp1 = data;
 	} else if(!strcmp(parentTag.c_str(), "albumid")) {
-		temp += data;
+		temp = data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg += data;
+		error_msg = data;
 	}
 }
 
