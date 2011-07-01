@@ -68,6 +68,7 @@ private:
 	Vector<String> index;
 	Vector<Stat*> stats;
 	Stat *stat;
+	MobImage *tempImage;
 
 	String getAll();
 	void loadDemo();

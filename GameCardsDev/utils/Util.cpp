@@ -29,7 +29,9 @@ Util::~Util() {}
 Font* Util::getFontBlue() {
 	static Font* blue;
 	if (blue == NULL) {
+#if defined(RES_FONT_BLUE)
 		blue = new MAUI::Font(RES_FONT_BLUE);
+#endif
 	}
 	return blue;
 }
@@ -37,7 +39,9 @@ Font* Util::getFontBlue() {
 Font* Util::getFontBlack() {
 	static Font* black;
 	if (black == NULL) {
+#if defined(RES_FONT_BLACK)
 		black = new MAUI::Font(RES_FONT_BLACK);
+#endif
 	}
 	return black;
 }
@@ -45,15 +49,35 @@ Font* Util::getFontBlack() {
 Font* Util::getFontWhite() {
 	static Font* white;
 	if (white == NULL) {
+#if defined(RES_FONT_WHITE)
 		white = new MAUI::Font(RES_FONT_WHITE);
+#endif
 	}
 	return white;
 }
 
+Font* Util::getFontRed() {
+	static Font* red;
+	if (red == NULL) {
+#if defined(RES_FONT_RED)
+			red = new MAUI::Font(RES_FONT_RED);
+#endif
+	}
+	return red;
+}
+
 
 Font* Util::getDefaultFont() {
-	//topcar getFontWhite
+#if defined(RES_FONT_WHITE)
+	return getFontWhite();
+#endif
 	return getFontBlack();
+}
+Font* Util::getDefaultSelected() {
+#if defined(RES_FONT_RED)
+	return getFontRed();
+#endif
+	return getFontBlue();
 }
 
 WidgetSkin* Util::getSkinEditBox() {
@@ -68,7 +92,7 @@ WidgetSkin* Util::getSkinButton() {
 	static WidgetSkin* gSkinButton;
 	if (gSkinButton == NULL) {
 		//topcar values 16,32,20,26
-		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 20, 26, true, true);
+		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 23, 24, 23, 24, true, true);
 	}
 	return gSkinButton;
 }

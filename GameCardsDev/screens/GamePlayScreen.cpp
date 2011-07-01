@@ -8,7 +8,7 @@
 #include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType) : mHttp(this),
+GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame) {
 
 	parentTag = "";
@@ -32,6 +32,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	userCards = "";
 	oppCards = "";
 	lastMove = "";
+	creator = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -160,6 +161,24 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	explanation = "";
+}
+
+void GamePlayScreen::drawConfirmScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
+	lprintfln("drawConfirmScreen");
+	clearListBox();
+
+	Util::updateSoftKeyLayout("Yes", "No", "", mainLayout);
+
+	notice->setCaption("");
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(Util::getFontBlack());
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+
+	lbl->setCaption(creator + " wants to play against you, do you want to take them on?");
+
+	listBox->add(lbl);
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
@@ -806,6 +825,8 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		gcCard->setBack(data);
 	} else if(!strcmp(parentTag.c_str(), "gcurlflip")) {
 		gcCard->setBackFlip(data);
+	} else if(!strcmp(parentTag.c_str(), "creator")) {
+		creator = data;
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
 		listBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {
@@ -819,6 +840,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		}
 		else if (!strcmp(data, "lfm")) {
 			phase = P_LFM;
+		}
+		else if (!strcmp(data, "confirm")) {
+			phase = P_CONFIRM;
 		}
 	}
 }
@@ -930,6 +954,9 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					ticks = 0;
 					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
+					break;
+				case P_CONFIRM:
+					drawConfirmScreen();
 					break;
 			}
 		}

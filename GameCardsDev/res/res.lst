@@ -6,13 +6,9 @@
 .bin
 .include "nobileblue.mof" 
 
-.res RES_FONT_BLACK 
+.res RES_FONT_BLACK
 .bin
-.include "nobileblack.mof"
- 
-.res RES_FONT_WHITE
-.bin
-.include "nobilewhite.mof"  
+.include "nobileblack.mof"  
 
 .res RES_SELECTED_EDITBOX
 .ubin 

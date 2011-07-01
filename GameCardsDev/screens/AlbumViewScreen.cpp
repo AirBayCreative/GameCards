@@ -41,7 +41,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	if (albumType == AT_COMPARE) {
 		mainLayout = Util::createMainLayout("", "Back" , "", true);
 	} else {
-		mainLayout = Util::createMainLayout(isAuction ? "Auction" : "Options", "Back" , "", true);
+		mainLayout = Util::createMainLayout(isAuction ? "" : "", "Back" , "", true);
 	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -273,7 +273,7 @@ void AlbumViewScreen::drawList() {
 	clearListBox();
 	index.clear();
 	String cardText = "";
-	MobImage *tempImage = NULL;
+	tempImage = NULL;
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
@@ -335,6 +335,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	Util::saveData(filename.c_str(), all.c_str());
 	all="";
 
+	//delete tempImage;
 	clearCardMap();
 	tmp.clear();
 	index.clear();
@@ -361,7 +362,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultSelected());
 	} else {
 		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
@@ -611,9 +612,10 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	} else if (!strcmp(name, "cards")) {
 		notice->setCaption("");
 		drawList();
+		notice->setCaption("");
 		busy = false;
 	} else {
-		notice->setCaption("");
+		//notice->setCaption("");
 	}
 }
 

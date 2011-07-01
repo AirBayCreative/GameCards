@@ -64,14 +64,9 @@ void Albums::setAll(const char* allch) {
 
 	bool hasCards;
 
-	lprintfln("%s", allch);
-
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
 		if ((indentindexof = tmp.find(",")) > -1) {
-			//memset(id, 0, 128);
-			//memset(name, 0, 128);
-
 			name = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
 
@@ -90,8 +85,6 @@ void Albums::setAll(const char* allch) {
 			if (it == album.end()) {
 				album.insert(id, new Album(id, name, hasCards, false));
 			}
-
-
 			tmp = "";
 		}
 		all = all.substr(indexof);

@@ -333,7 +333,7 @@ AuctionListScreen::~AuctionListScreen() {
 
 void AuctionListScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultSelected());
 	} else {
 		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
