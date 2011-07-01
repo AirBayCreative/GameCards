@@ -2511,6 +2511,7 @@ if ($_GET['confirmgame']) {
 	//return xml with the gameId to the phone
 	$sOP='<game>'.$sCRLF;
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	$sOP.=$sTab.'<phase>stat</phase>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
 		$height = resizeGCCard($iHeight, $iWidth);
@@ -2622,7 +2623,13 @@ if ($_GET['newgame']) {
 			
 			//if we find one, we send back data to the front end so the user can confirm whether they want to play against that person or not
 			if (sizeof($gameQuery) > 0) {
-				$creator = $openGameQuery[0]['username'];
+				$gameId = $gameQuery[0]['game_id'];
+				$creator = $gameQuery[0]['username'];
+			
+				myqu('UPDATE mytcg_game 
+					SET date_start = now() 
+					WHERE game_id = '.$gameId);
+			
 				$sOP='<game>'.$sCRLF;
 				$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
 				$sOP.='<creator>'.$sCRLF;

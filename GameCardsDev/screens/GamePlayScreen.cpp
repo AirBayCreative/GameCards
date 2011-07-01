@@ -506,8 +506,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTLEFT:
 			if (!busy) {
 				busy = true;
-				int urlLength, res;
-				char *url = NULL;
 				switch (phase) {
 					case P_CARD_DETAILS:
 						if(currentSelectedStat>-1){
@@ -517,11 +515,28 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					case P_RESULTS:
 						origMenu->show();
 						break;
-				}
-				urlLength = 0;
-				res = 0;
-				if (url != NULL) {
-					delete url;
+					case P_CONFIRM:
+						notice->setCaption("Confirming...");
+						phase = P_CARD_DETAILS;
+						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+						int urlLength = strlen("http://dev.mytcg.net/_phone/?confirmgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+						char *url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?confirmgame=1", "gameid",
+							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+						lprintfln(url);
+						mHttp = HttpConnection(this);
+						int res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							hasConnection = false;
+							notice->setCaption("Connection error.");
+						} else {
+							hasConnection = true;
+							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+							mHttp.finish();
+						}
+						break;
 				}
 			}
 			break;
@@ -695,7 +710,7 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 void GamePlayScreen::xcConnError(int code) {
 	lprintfln("xcConnError");
 	char *url;
-	if (newGame) {
+	if (newGame && phase != P_CONFIRM) {
 		lprintfln("xcConnError 1");
 		if (newGame) {
 			notice->setCaption("Loading game...");
@@ -708,7 +723,7 @@ void GamePlayScreen::xcConnError(int code) {
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1",
 				"gameid", gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-
+		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -796,7 +811,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		gameId += data;
+		gameId = data;
 	} else if(!strcmp(parentTag.c_str(), "stat_type")) {
 		statType += data;
 	} else if(!strcmp(parentTag.c_str(), "stat_description")) {
@@ -955,6 +970,13 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
 					break;
+				case P_CONFIRM:
+					drawConfirmScreen();
+					break;
+			}
+		}
+		else {
+			switch (phase) {
 				case P_CONFIRM:
 					drawConfirmScreen();
 					break;
