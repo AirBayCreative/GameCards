@@ -2303,7 +2303,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 }
 
 //given the user's id and game id, populate the mytcg_gameplayercard
-function initialiseGame($userId, $gameId) {
+function initialiseGame($iUserID, $gameId) {
 	//we need to get both players' gameplayer_id, and the categoryId
 	$userPlayerIdQuery = myqu('SELECT gp.gameplayer_id, g.category_id 
 		FROM mytcg_gameplayer gp 

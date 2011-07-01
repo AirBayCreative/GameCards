@@ -519,7 +519,7 @@ void OptionsScreen::mtxTagData(const char* data, int len) {
 }
 
 void OptionsScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, "gamedescription")) {
+	if(!strcmp(name, "game")) {
 		album->addAlbum(temp.c_str(), temp1.c_str());
 		temp1 = "";
 		temp = "";

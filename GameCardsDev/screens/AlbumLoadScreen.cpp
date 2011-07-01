@@ -101,12 +101,14 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			if (a != NULL) {
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
+				drawList();
 				this->setMain(mainLayout);
 				orig = this;
 				return;
 			}
 			else {
 				notice->setCaption("Checking games...");
+				drawList();
 				res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
 			}
 
