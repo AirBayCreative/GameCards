@@ -44,20 +44,20 @@ void Login::drawLoginScreen() {
 	Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "andre", L"Username:");
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Username:");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "aaaaaa", L"Password:");
+	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password:");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -75,7 +75,7 @@ void Login::drawRegisterScreen() {
 	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -84,7 +84,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password:", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Password", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -93,7 +93,7 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");

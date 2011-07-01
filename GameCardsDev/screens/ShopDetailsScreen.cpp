@@ -228,12 +228,12 @@ String ShopDetailsScreen::getTime() {
 
 	char buffer[128];
 	memset(buffer, 0, 128);
-	String days = "Day";
-	String hours = "Hour";
-	if (cmp_p->tm_mday > 1) {
+	String days = "Days";
+	String hours = "Hours";
+	if (cmp_p->tm_mday == 1) {
 		days = "Days";
 	}
-	if (cmp_p->tm_hour > 1) {
+	if (cmp_p->tm_hour == 1) {
 		hours = "Hours";
 	}
 	if (cmp_p->tm_mday == 1) {
