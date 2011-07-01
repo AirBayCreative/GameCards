@@ -41,7 +41,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	if (albumType == AT_COMPARE) {
 		mainLayout = Util::createMainLayout("", "Back" , "", true);
 	} else {
-		mainLayout = Util::createMainLayout(isAuction ? "Auction" : "Options", "Back" , "", true);
+		mainLayout = Util::createMainLayout(isAuction ? "" : "", "Back" , "", true);
 	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -171,14 +171,14 @@ void AlbumViewScreen::loadImages(const char *text) {
 	String tmp = "";
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
+
 		Card *newCard = new Card();
 		newCard->setAll(tmp.c_str());
 		StringCardMap::Iterator itr = cards.find(newCard->getId());
 		if (itr != cards.end()) {
-			Card *del = itr->second;
-			delete del;
+			delete itr->second;
+			cards.erase(newCard->getId());
 		}
-		cards.erase(newCard->getId());
 		cards.insert(newCard->getId(), newCard);
 		all = ""+all.substr(indexof);
 		//delete newCard;
@@ -267,9 +267,9 @@ void AlbumViewScreen::drawList() {
 	}
 	clearListBox();
 	index.clear();
-	ImageCache *mImageCache = new ImageCache();
+	mImageCache = new ImageCache();
 	String cardText = "";
-	MobImage *tempImage = NULL;
+	tempImage = NULL;
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
@@ -298,7 +298,7 @@ void AlbumViewScreen::drawList() {
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
@@ -321,6 +321,7 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	clearListBox();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -330,6 +331,8 @@ AlbumViewScreen::~AlbumViewScreen() {
 	Util::saveData(filename.c_str(), all.c_str());
 	all="";
 
+	delete mImageCache;
+	//delete tempImage;
 	clearCardMap();
 	tmp.clear();
 	index.clear();
@@ -356,9 +359,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultSelected());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
 }
 
@@ -594,9 +597,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "result")) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, "cardsincategory")) {
-		notice->setCaption("");
 		clearCardMap();
-		cards = tmp;
+		//cards = tmp;
 		drawList();
 		busy = false;
 		String all = getAll();
@@ -607,15 +609,16 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			tmp.erase(iter);
 		}
 		tmp.clear();
-	} else if (!strcmp(name, "cards")) {
 		notice->setCaption("");
+	} else if (!strcmp(name, "cards")) {
 		clearCardMap();
-		cards = tmp;
+		//cards = tmp;
 		drawList();
+		notice->setCaption("");
 		busy = false;
 		tmp.clear();
 	} else {
-		notice->setCaption("");
+		//notice->setCaption("");
 	}
 }
 

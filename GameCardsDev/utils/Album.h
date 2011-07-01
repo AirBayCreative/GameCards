@@ -23,7 +23,8 @@ public:
 	bool getUpdated();
 	void setUpdated(bool updated);
 private:
-	String id, description;
+	String id;
+	String description;
 	bool hasCards, updated;
 };
 

@@ -92,6 +92,19 @@ if ($iUserID == 0){
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;	
+} else {
+	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif
+					FROM mytcg_user where user_id = '.$iUserID);
+	
+	$iUpdate=$aUpdate[0];
+	if ($iUpdate['dif'] >= 1) {
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+				SELECT '.$iUserID.', descript, now(), val
+				FROM mytcg_transactiondescription
+				WHERE transactionid = 1');
+	}
+		
+	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
 }
 
 if ($iTestVersion=$_GET['update']){
@@ -3440,7 +3453,7 @@ function userdetails($iUserID) {
 
 /** give user profile details */
 if ($_GET['profiledetails']){
-	$aProfileDetails=myqu('SELECT d.desc, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
+	$aProfileDetails=myqu('SELECT d.description, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
 		FROM mytcg_user_answer a, mytcg_user_detail d 
 		WHERE a.detail_id = d.detail_id 
 		AND a.user_id="'.$iUserID.'"');
@@ -3450,7 +3463,7 @@ if ($_GET['profiledetails']){
 		$sOP.='<detail>'.$sCRLF;
 		$sOP.=$sTab.'<answer_id>'.trim($aProfileDetail['answer_id']).'</answer_id>'.$sCRLF;
 		$sOP.=$sTab.'<detail_id>'.trim($aProfileDetail['detail_id']).'</detail_id>'.$sCRLF;	
-		$sOP.=$sTab.'<desc>'.trim($aProfileDetail['desc']).'</desc>'.$sCRLF;	
+		$sOP.=$sTab.'<desc>'.trim($aProfileDetail['description']).'</desc>'.$sCRLF;	
 		$sOP.=$sTab.'<answer>'.trim($aProfileDetail['answer']).'</answer>'.$sCRLF;
 		$sOP.=$sTab.'<answered>'.trim($aProfileDetail['answered']).'</answered>'.$sCRLF;
 		$sOP.=$sTab.'<creditvalue>'.trim($aProfileDetail['credit_value']).'</creditvalue>'.$sCRLF;
@@ -3465,9 +3478,42 @@ if ($_GET['profiledetails']){
 }
 
 
-if ($_GET['saveprofiledetail']){
+if ($_GET['saveprofiledetail']) {
 	$iAnswerID=$_GET['answer_id'];
 	$iAnswer=$_GET['answer'];
+	
+	$aAnswered=myqu('SELECT answered
+					FROM mytcg_user_answer 
+					WHERE answer_id='.$iAnswerID);
+										
+	$aCredits=myqu('SELECT credit_value, description
+					FROM mytcg_user_detail 
+					WHERE detail_id = (SELECT detail_id
+										FROM mytcg_user_answer
+										WHERE answer_id='.$iAnswerID.')');
+	$aCredit=$aCredits[0];
+	$aAnswer=$aAnswered[0];
+	if ($aAnswer['answered'] == 0) {
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].')');
+		
+		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
+				
+		$aCount=myqu('SELECT answer_id
+					FROM mytcg_user_answer 
+					WHERE answered=0
+					AND user_id='.$iUserID);
+		
+		$iSize = sizeof($aCount);
+		if ($iSize==1){
+			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					SELECT '.$iUserID.', descript, now(), val
+					FROM mytcg_transactiondescription
+					WHERE transactionid = 5');	
+					
+			myqui('UPDATE mytcg_user SET credits = credits + IFNULL((SELECT val FROM mytcg_transactiondescription WHERE transactionid = 5),0) WHERE user_id ='.$iUserID);
+		}
+	}
 	
 	myqui('UPDATE mytcg_user_answer 
 			SET answer = "'.$iAnswer.'", 
@@ -3492,18 +3538,26 @@ if ($_GET['saveprofiledetail']){
 
 /** give user transaction log details */
 if ($_GET['creditlog']){
-	$aTransactionDetails=myqu('SELECT transaction_id, description, date, value 
-		FROM mytcg_transactionlog  
-		WHERE user_id="'.$iUserID.'" 
-		ORDER BY date ');
+	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
+								FROM mytcg_transactionlog  
+								WHERE user_id='.$iUserID.'
+								ORDER BY date DESC
+								LIMIT 0, 10');
+		
+	$aCredits=myqu('SELECT credits 
+		FROM mytcg_user  
+		WHERE user_id='.$iUserID);
+		
+	$iCredits = $aCredits[0];
 	$sOP='<transactions>'.$sCRLF;
+	$sOP.='<credits>'.trim($iCredits['credits']).'</credits>'.$sCRLF;
 	$iCount=0;
 	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
 		$sOP.='<transaction>'.$sCRLF;
 		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
 		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
 		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
-		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['value']).'</value>'.$sCRLF;
+		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['val']).'</value>'.$sCRLF;
 		$sOP.='</transaction>'.$sCRLF;
 		$iCount++;
 	}
@@ -3515,7 +3569,7 @@ if ($_GET['creditlog']){
 }
 
 /** for logging credit changes */
-function logtransaction($iDescription, $iValue) {
+function logtransaction($iDescription, $iValue, $iUserID) {
 	myqui('INSERT INTO mytcg_transactionlog (user_id, description, value, date) 
 			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now())');
 }
@@ -3797,6 +3851,7 @@ function registerUser ($username, $password, $email) {
 		
 		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
 		
+		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
 		$iMod=(intval($iUserID) % 10)+1;
@@ -3808,6 +3863,11 @@ function registerUser ($username, $password, $email) {
 			(detail_id, user_id)
 			SELECT detail_id, {$iUserID}
 			FROM mytcg_user_detail");
+			
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			SELECT '.$iUserID.', descript, now(), val
+			FROM mytcg_transactiondescription
+			WHERE transactionid = 2');
 		
 		//return userdetails
 		echo userdetails($iUserID);

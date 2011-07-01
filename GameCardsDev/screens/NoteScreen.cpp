@@ -63,21 +63,21 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 				tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 			}
 
-			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setAutoSizeY();
 			label->setAutoSizeX(true);
 			label->setMultiLine(true);
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note:", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note:", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
 		case ST_SMS:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "SMS", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "SMS", 0, Util::getDefaultFont());
 			listBox->add(label);
 		break;
 	}
 
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, Util::getFontBlack());
+	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 

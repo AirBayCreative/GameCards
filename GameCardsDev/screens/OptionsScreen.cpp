@@ -30,7 +30,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 		layout = Util::createMainLayout("Select", "Exit");
 	}
 	else {
-		layout = Util::createMainLayout("Select", "Back");
+		layout = Util::createMainLayout("", "Back");
 	}
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -223,9 +223,9 @@ void OptionsScreen::locateItem(MAPoint2d point)
 #endif
 void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(Util::getFontBlue());
+		((Label *)widget)->setFont(Util::getDefaultSelected());
 	} else {
-		((Label *)widget)->setFont(Util::getFontBlack());
+		((Label *)widget)->setFont(Util::getDefaultFont());
 	}
 }
 

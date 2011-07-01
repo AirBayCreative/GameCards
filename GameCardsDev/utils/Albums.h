@@ -18,7 +18,7 @@ public:
 	Vector<String> getIDs();
 	Vector<Album*> getAlbums();
 	void setAll(const char*);
-	void addAlbum(const char*, String name, bool hasCards=false, bool updated=false);
+	void addAlbum(const char*, const char *name, bool hasCards=false, bool updated=false);
 	void removeAlbum(const char*);
 	String getAll();
 	bool getLoaded();
@@ -28,7 +28,7 @@ public:
 	//given a name returns the valid id for lookup on filesystem.
 	String getId(String name);
 	Album* getAlbum(String name);
-	Vector<String> names;
+
 private:
 	Map<String,Album*> album;
 	Map<String,String> albumnames;

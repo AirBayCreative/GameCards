@@ -9,15 +9,16 @@
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout(screenType==CARD?"Select":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"Log":"", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"Select":screenType==BALANCE?"":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
+	count = 0;
 	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -26,20 +27,21 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			break;
 		case BALANCE:
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
 			listBox->add(label);
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Available Credits:", 0, Util::getFontBlack());
-			listBox->add(label);
 
-			balanceLabel = Util::createLabel(feed->getCredits());
+			balanceLabel = Util::createEditLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Last Transactions:", 0, Util::getFontBlack());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Last Transactions:", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
 			listBox->add(label);
 			break;
 		case CARD:
@@ -60,6 +62,19 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 	if (screenType == PROFILE) {
 		int res = mHttp.create("http://dev.mytcg.net/_phone/?profiledetails=1", HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for updated info...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+	} else if (screenType == BALANCE) {
+		int res = mHttp.create("http://dev.mytcg.net/_phone/?creditlog=1", HTTP_GET);
 
 		if(res < 0) {
 
@@ -159,16 +174,22 @@ void DetailScreen::locateItem(MAPoint2d point)
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if (screenType == CARD) {
 		if(selected) {
-			((Label *)widget)->setFont(Util::getFontBlue());
+			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
-			((Label *)widget)->setFont(Util::getFontBlack());
+			((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	}
-	else {
+	else if (screenType == PROFILE){
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
 		} else {
 			widget->getChildren()[0]->setSelected(false);
+		}
+	} else if (screenType == BALANCE) {
+		if(selected) {
+			((Label *)widget)->setFont(Util::getDefaultSelected());
+		} else {
+			((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	}
 }
@@ -223,8 +244,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
-					next = new ShopProductsScreen(this, feed, "credits", false, false);
-					next->show();
+					//next = new ShopProductsScreen(this, feed, "credits", false, false);
+					//next->show();
 					break;
 			}
 			break;
@@ -245,8 +266,10 @@ void DetailScreen::saveProfileData() {
 	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 	credits = 0;
 	count = 0;
+	bool saving = false;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
+			saving = true;
 			int urlLength = 100+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
@@ -270,8 +293,13 @@ void DetailScreen::saveProfileData() {
 			}
 		}
 	}
+	if (saving) {
+		label->setCaption("Saving.");
+	} else {
+		label->setCaption("No changes detected.");
+	}
 
-	label->setCaption("Saving.");
+
 
 	isBusy = false;
 }
@@ -311,6 +339,8 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		//credits += data;
 	} else if(!strcmp(parentTag.c_str(), "creditvalue")) {
 		creditvalue += data;
+	} else if(!strcmp(parentTag.c_str(), "credits")) {
+		cred += data;
 	} else if(!strcmp(parentTag.c_str(), "desc")) {
 		desc += data;
 	} else if(!strcmp(parentTag.c_str(), "answer")) {
@@ -319,24 +349,34 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		answered = Convert::toInt(data);
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), "id")) {
+		id += data;
+	} else if(!strcmp(parentTag.c_str(), "date")) {
+		date += data;
+	} else if(!strcmp(parentTag.c_str(), "value")) {
+		value += data;
 	}
 }
 
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "profiledetails")) {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption("");
+		label->setCaption("Earn credits by filling in profile details.");
 		isBusy = false;
+	} else if(!strcmp(name, "credits")) {
+		feed->setCredits(cred.c_str());
+		balanceLabel->setCaption(cred.c_str());
+		Util::saveData("fd.sav", feed->getAll().c_str());
 	} else if(!strcmp(name, "detail")) {
 
-		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getDefaultFont());
 		label->setSkin(Util::getSkinEditBox());
 		Util::setPadding(label);
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Username:");
@@ -372,19 +412,52 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
 		}
-	} else {
-		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+	} else if(!strcmp(name, "transactions")) {
+		if (count == 0) {
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions yet.", 0, Util::getDefaultFont());
+			label->setPaddingLeft(20);
+			label->setPaddingRight(20);
+			label->addWidgetListener(this);
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
 
-		if (label != NULL) {
-			if(count >0){
-				char * lbl = new char[44+3+5];
-				memset(lbl, 0, 44+3+5);
-				sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
-				String lab = lbl;
-				label->setCaption(lab);
-			} else{
-				label->setCaption("Saved.");
+		} else {
+			listBox->setSelectedIndex(3);
+		}
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption("Go to www.mytcg.net to find out how to get more credits");
+	} else if(!strcmp(name, "transaction")) {
+		count++;
+		label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, desc, 0, Util::getDefaultFont());
+		label->addWidgetListener(this);
+		label->setSkin(Util::getSkinListNoArrows());
+		label->setMultiLine(true);
+		listBox->add(label);
+		desc = "";
+		date = "";
+
+	} else {
+		if (screenType == PROFILE) {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+
+			if (label != NULL) {
+				if(count >0){
+					char * lbl = new char[44+3+5];
+					memset(lbl, 0, 44+3+5);
+					sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+					String lab = lbl;
+					label->setCaption(lab);
+					delete lbl;
+				} else{
+					label->setCaption("Profile details updated.");
+				}
 			}
+		} else if (screenType == BALANCE) {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Go to www.mytcg.net to find out how to get more credits");
 		}
 	}
 }

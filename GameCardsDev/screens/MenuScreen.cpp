@@ -115,9 +115,9 @@ MenuScreen::~MenuScreen() {
 
 void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(Util::getFontBlue());
+		((Label *)widget)->setFont(Util::getDefaultSelected());
 	} else {
-		((Label *)widget)->setFont(Util::getFontBlack());
+		((Label *)widget)->setFont(Util::getDefaultFont());
 	}
 }
 

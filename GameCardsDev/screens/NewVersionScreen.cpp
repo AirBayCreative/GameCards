@@ -8,7 +8,7 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.", 0, Util::getFontBlack());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.", 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());

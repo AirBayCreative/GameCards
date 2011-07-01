@@ -167,7 +167,7 @@ void ShopProductsScreen::drawList() {
 
 		Util::retrieveProductThumb(tempImage, products[i], mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getFontBlack());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine(true);
@@ -214,9 +214,9 @@ ShopProductsScreen::~ShopProductsScreen() {
 
 void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlue());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultSelected());
 	} else {
-		((Label *)widget->getChildren()[1])->setFont(Util::getFontBlack());
+		((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 	}
 }
 

@@ -313,10 +313,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 
 void ImageScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = strlen("http://dev.mytcg.net/_phone/?savecard=") + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?savecard=", card->getId().c_str());
+	int urlLength = 40 + card->getId().length();
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "http://dev.mytcg.net/_phone/?savecard=%s", card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -333,10 +333,10 @@ void ImageScreen::acceptCard() {
 
 void ImageScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = strlen("http://dev.mytcg.net/_phone/?rejectcard=") + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?rejectcard=", card->getId().c_str());
+	int urlLength = 42 + card->getId().length();
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "http://dev.mytcg.net/_phone/?rejectcard=%s", card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

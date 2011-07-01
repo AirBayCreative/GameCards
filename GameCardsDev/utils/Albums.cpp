@@ -3,6 +3,7 @@
 
 Albums::Albums() {
 	loaded = false;
+	clearAll();
 }
 
 Albums::~Albums() {
@@ -55,12 +56,17 @@ void Albums::setAll(const char* allch) {
 	int indexof = 0;
 	int indentindexof = 0;
 	String tmp;
-	String id, name;
+	String id;
+	String name;
+
+	//memset(id, 0, 128);
+	//memset(name, 0, 128);
+
 	bool hasCards;
 
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
-		if (indentindexof = tmp.find(",")) {
+		if ((indentindexof = tmp.find(",")) > -1) {
 			name = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
 
@@ -70,17 +76,20 @@ void Albums::setAll(const char* allch) {
 
 			indentindexof = tmp.find(",");
 			hasCards = tmp=="true";
-			albumnames.insert(name,id);
-			Album *alb = new Album();
-			alb->setId(id.c_str());
-			alb->setDescription(name.c_str());
-			alb->setHasCards(hasCards);
-			alb->setUpdated(false);
-			album.insert(id, alb);
+
+			Map<String,String>::Iterator i = albumnames.find(name);
+			if (i == albumnames.end()) {
+				albumnames.insert(name,id);
+			}
+			Map<String,Album *>::Iterator it = album.find(id);
+			if (it == album.end()) {
+				album.insert(id, new Album(id, name, hasCards, false));
+			}
+			tmp = "";
 		}
 		all = all.substr(indexof);
 	}
-	all = "";
+	all.clear();
 }
 
 void Albums::clearAll() {
@@ -88,15 +97,17 @@ void Albums::clearAll() {
 		delete i->second;
 		i->second = NULL;
 	}
+	for(Map<String,String>::Iterator i = albumnames.begin(); i != albumnames.end(); i++) {
+		i->second.clear();
+	}
 	album.clear();
 	albumnames.clear();
-	names.clear();
 	loaded = false;
 }
 
-void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) {
-	albumnames.insert(((updated?"*":"")+name).c_str(), id);
-	album.insert(id, new Album(id, name.c_str(), hasCards, updated));
+void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
+	albumnames.insert(name, id);
+	album.insert(id, new Album(id, name, hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {

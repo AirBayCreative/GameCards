@@ -13,14 +13,14 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	error_msg = "";
 	parentTag = "";
 
-	mainLayout = Util::createMainLayout("Back", "Redeem", "", true);
+	mainLayout = Util::createMainLayout("Redeem", "Back", "", true);
 
 	mainLayout->setDrawBackground(true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Redeem code:", 0, Util::getFontBlack());
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Redeem code:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -142,14 +142,15 @@ void RedeemScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTRIGHT:
+			prev->show();
+			break;
+		case MAK_BACK:
+		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				isBusy = true;
 				redeemCode();
 			}
-			break;
-		case MAK_BACK:
-		case MAK_SOFTLEFT:
-			prev->show();
+
 			break;
 		case MAK_UP:
 			break;
