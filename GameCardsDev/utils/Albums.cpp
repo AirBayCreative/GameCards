@@ -44,6 +44,11 @@ String Albums::getId(String val) {
 
 Album* Albums::getAlbum(String val) {
 
+	lprintfln("%s", val.c_str());
+
+	for(Map<String,String>::Iterator i = albumnames.begin(); i != albumnames.end(); i++) {
+		lprintfln("%s", i->second.c_str());
+	}
 	return album.find(albumnames.find(val)->second)->second;
 }
 
@@ -58,9 +63,6 @@ void Albums::setAll(const char* allch) {
 	String tmp;
 	String id;
 	String name;
-
-	//memset(id, 0, 128);
-	//memset(name, 0, 128);
 
 	bool hasCards;
 
@@ -118,7 +120,7 @@ Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		 //The iterator needs to be dereferenced.
-		names.add((itr->second->getUpdated()?"*":"")+itr->second->getDescription());
+		names.add(itr->second->getDescription());
 	}
 	return names;
 }

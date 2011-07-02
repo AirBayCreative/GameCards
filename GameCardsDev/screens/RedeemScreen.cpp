@@ -138,6 +138,7 @@ void RedeemScreen::redeemCode() {
 		delete [] url;
 	} else {
 		notice->setCaption("Please enter a valid code.");
+		isBusy=false;
 	}
 }
 

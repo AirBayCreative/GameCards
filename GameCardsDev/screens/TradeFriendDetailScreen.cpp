@@ -396,6 +396,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				}
 				break;
 			case SP_COMPLETE:
+				((AlbumViewScreen *)origAlbum)->albumType=AlbumViewScreen::AT_NORMAL;
 				((AlbumViewScreen *)origAlbum)->refresh();
 				break;
 		}

@@ -43,6 +43,8 @@ public:
 
 	void refresh();
 
+	int albumType;
+
 	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION};
 private:
 	Screen *next, *previous;
@@ -58,7 +60,7 @@ private:
 	String parentTag, statDesc, statIVal, statDisplay, note, category;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	int size, i, moved, listSizes, albumType;
+	int size, i, moved, listSizes;
 	bool list, left, right, emp, hasConnection, busy, isAuction;
 
 	Feed *feed;

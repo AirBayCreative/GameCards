@@ -151,6 +151,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
+		case MAK_FIRE:
 			Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
 			imge->refreshWidget();
 			imge->statAdded = false;
@@ -179,7 +180,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 			break;
 		case MAK_UP:
-			if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
+			/*if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
 						currentSelectedStat--;
@@ -199,10 +200,10 @@ void CompareScreen::keyPressEvent(int keyCode) {
 						}
 					}
 				}
-			}
+			}*/
 			break;
 		case MAK_DOWN:
-			if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
+			/*if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
 						if(currentSelectedStat <= card->getStats().size()-1){
@@ -220,7 +221,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 						}
 					}
 				}
-			}
+			}*/
 			break;
 		case MAK_SOFTLEFT:
 			break;
@@ -228,7 +229,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
-		case MAK_FIRE:
+		/*case MAK_FIRE:
 			if (card != NULL) {
 				if(flipOrSelect){
 					flip=!flip;
@@ -293,7 +294,7 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			} else {
 				previous->show();
 			}
-			break;
+			break;*/
 	}
 }
 
