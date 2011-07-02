@@ -8,7 +8,7 @@
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
-		previous(previous), feed(feed), newGame(newGame) {
+		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType) {
 
 	parentTag = "";
 	cardText = "";
@@ -72,17 +72,31 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	char *url;
 	if (newGame) {
-		categoryId = identifier;
+		if (againstFriend) {
+			phase = P_FRIEND;
+			categoryId = identifier;
 
-		notice->setCaption("Initialising new game...");
+			this->setMain(mainLayout);
+			moved=0;
+			orig = this;
 
-		//work out how long the url will be, the 4 is for the & and = symbals
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 19 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
+			drawFriendNameScreen();
+
+			return;
+		}
+		else {
+			categoryId = identifier;
+
+			notice->setCaption("Initialising new game...");
+
+			//work out how long the url will be, the 4 is for the & and = symbals
+			int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 19 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
 				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
-		url = new char[urlLength];
-		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
 				categoryId.c_str(), "newgametype", newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		}
 	}
 	else {
 		gameId = identifier;
@@ -178,6 +192,50 @@ void GamePlayScreen::drawConfirmScreen() {
 	lbl->setCaption(creator + " wants to play against you, do you want to take them on?");
 
 	listBox->add(lbl);
+}
+
+void GamePlayScreen::drawDeclinedScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
+	lprintfln("drawDeclinedScreen");
+	clearListBox();
+
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
+
+	notice->setCaption("");
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(Util::getFontBlack());
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+
+	lbl->setCaption("The person you wanted to play against declined the game.");
+
+	listBox->add(lbl);
+}
+
+void GamePlayScreen::drawFriendNameScreen() {
+	lprintfln("drawFriendNameScreen");
+	clearListBox();
+
+	Util::updateSoftKeyLayout("Play", "Back", "", mainLayout);
+
+	notice->setCaption("");
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(Util::getFontBlack());
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+
+	lbl->setCaption("Enter the username of the person you want to play against");
+
+	listBox->add(lbl);
+
+	lbl = Util::createEditLabel("");
+	editBoxFriend = new NativeEditBox(0, 0, lbl->getWidth()-PADDING*2, lbl->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, lbl, "", L"");
+	editBoxFriend->setDrawBackground(false);
+	lbl->addWidgetListener(this);
+	listBox->add(lbl);
+
+	listBox->setSelectedIndex(1);
+	editBoxFriend->setSelected(true);
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
@@ -444,14 +502,41 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_LOADING:
 					previous->show();
 					break;
+				case P_FRIEND:
+					editBoxFriend->setSelected(false);
+					previous->show();
+					break;
 				case P_LFM:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
 					previous->show();
 					break;
-				/*case P_CARD_DETAILS:
-					resetHeights();
-					drawCardListScreen(cardIndex, yOffset);
-					break;*/
+				case P_DECLINED:
+					MAUtil::Environment::getEnvironment().removeTimer(this);
+					previous->show();
+					break;
+				case P_CONFIRM:
+					notice->setCaption("Finding new game...");
+					phase = P_CARD_DETAILS;
+					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+					int urlLength = strlen("http://dev.mytcg.net/_phone/?declinegame=1") + 17 + strlen("gameid") + gameId.length() + strlen("categoryid") +
+							categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+					char *url = new char[urlLength];
+					memset(url,'\0',urlLength);
+					sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?declinegame=1", "gameid",
+						gameId.c_str(), "categoryid", categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+					lprintfln(url);
+					mHttp = HttpConnection(this);
+					int res = mHttp.create(url, HTTP_GET);
+					if(res < 0) {
+						hasConnection = false;
+						notice->setCaption("Connection error.");
+					} else {
+						hasConnection = true;
+						mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+						mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+						mHttp.finish();
+					}
+					break;
 				default:
 					if (next != NULL) {
 						delete next;
@@ -534,6 +619,52 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 							mHttp.finish();
+						}
+						break;
+					case P_FRIEND:
+						if (editBoxFriend->getCaption().length() == 0) {
+							notice->setCaption("Please enter a username");
+							busy = false;
+						}
+						else if (strcmp(editBoxFriend->getCaption().c_str(), feed->getUsername().c_str()) == 0) {
+							notice->setCaption("You cannot play against yourself");
+							busy = false;
+						}
+						else {
+							String base64Friend = Util::base64_encode(reinterpret_cast<const unsigned char*>(editBoxFriend->getCaption().c_str()),
+									strlen(editBoxFriend->getCaption().c_str()));
+
+							notice->setCaption("Initialising new game...");
+
+							clearListBox();
+
+							phase = P_LOADING;
+
+							//work out how long the url will be, the 4 is for the & and = symbals
+							int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 21 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
+								newGameType.length() + strlen("friend") + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+							url = new char[urlLength];
+							memset(url,'\0',urlLength);
+							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
+								categoryId.c_str(), "newgametype", newGameType.c_str(), "friend", base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+							lprintfln(url);
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
+							mHttp = HttpConnection(this);
+							int res = mHttp.create(url, HTTP_GET);
+							if(res < 0) {
+								hasConnection = false;
+								notice->setCaption("Connection error.");
+							} else {
+								hasConnection = true;
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								mHttp.finish();
+							}
+							res = 0;
+							delete [] url;
+							base64Friend = "";
 						}
 						break;
 				}
@@ -857,6 +988,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		}
 		else if (!strcmp(data, "confirm")) {
 			phase = P_CONFIRM;
+		}
+		else if (!strcmp(data, "declined")) {
+			phase = P_DECLINED;
 		}
 	}
 }
