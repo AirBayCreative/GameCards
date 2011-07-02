@@ -12,7 +12,6 @@
 #include "CompareScreen.h"
 #include "GamePlayScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 #include "../utils/Albums.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
@@ -72,6 +71,9 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = Util::createSubLabel("Play versus player");
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = Util::createSubLabel("Play versus friend");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -313,6 +315,13 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						menu = new GamePlayScreen(this, feed, true, number, "2");
 						menu->show();
 					}
+					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new GamePlayScreen(this, feed, true, number, "2", true);
+						menu->show();
+					}
 					break;
 				case ST_CARD_OPTIONS:
 					if (index == 0) {
@@ -509,7 +518,7 @@ void OptionsScreen::mtxTagData(const char* data, int len) {
 }
 
 void OptionsScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, "gamedescription")) {
+	if(!strcmp(name, "game")) {
 		album->addAlbum(temp.c_str(), temp1.c_str());
 		temp1 = "";
 		temp = "";

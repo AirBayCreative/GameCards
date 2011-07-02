@@ -117,24 +117,28 @@ void RedeemScreen::hide() {
 }
 
 void RedeemScreen::redeemCode() {
-	int urlLength = 40 + editBoxRedeem->getCaption().length();
-	char *url = new char[urlLength+1];
-	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?redeemcode=%s", editBoxRedeem->getCaption().c_str());
-	if(mHttp.isOpen()){
-		mHttp.close();
-	}
-	mHttp = HttpConnection(this);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-		notice->setCaption("Unable to connect, try again later...");
+	if (editBoxRedeem->getCaption().length() != 0) {
+		int urlLength = 40 + editBoxRedeem->getCaption().length();
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "http://dev.mytcg.net/_phone/?redeemcode=%s", editBoxRedeem->getCaption().c_str());
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			notice->setCaption("Unable to connect, try again later...");
+		} else {
+			notice->setCaption("Redeeming...");
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			mHttp.finish();
+		}
+		delete [] url;
 	} else {
-		notice->setCaption("Redeeming...");
-		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-		mHttp.finish();
+		notice->setCaption("Please enter a valid code.");
 	}
-	delete [] url;
 }
 
 void RedeemScreen::keyPressEvent(int keyCode) {

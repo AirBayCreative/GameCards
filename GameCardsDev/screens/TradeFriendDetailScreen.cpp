@@ -1,7 +1,6 @@
 #include "TradeFriendDetailScreen.h"
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
 	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -87,8 +86,8 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	lbl->setAutoSizeY();
-	lbl->setAutoSizeX(true);
-	lbl->setMultiLine(true);
+	lbl->setAutoSizeX();
+	lbl->setMultiLine();
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getDefaultFont());
 	listBox->add(label);
@@ -458,6 +457,7 @@ void TradeFriendDetailScreen::httpFinished(MAUtil::HttpConnection* http, int res
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 

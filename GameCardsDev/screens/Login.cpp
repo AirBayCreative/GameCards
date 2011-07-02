@@ -405,7 +405,10 @@ void Login::mtxTagEnd(const char* name, int len) {
 		username = "";
 		error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
-		feed->setAlbum(Util::getData("lb.sav"));
+		String albums = "";
+		Util::getData("lb.sav", albums);
+		feed->setAlbum(albums.c_str());
+		albums = "";
 
 		// Check result
 		if (strcmp("0", freebie.c_str()) == 0) {

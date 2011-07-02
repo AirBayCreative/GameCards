@@ -2,7 +2,6 @@
 
 #include "GameCards.h"
 #include "utils/Util.h"
-#include "utils/MAHeaders.h"
 #include "screens/OptionsScreen.h"
 #include "screens/MenuScreen.h"
 
@@ -17,8 +16,12 @@ MAUIMoblet::MAUIMoblet() {
 	scrHeight = EXTENT_Y(screenSize);
 
 	feed = Feed();
-	feed.setAll(Util::getData("fd.sav"));
-	feed.setAlbum(Util::getData("lb.sav"));
+	String data = "";
+	Util::getData("fd.sav", data);
+	feed.setAll(data.c_str());
+	Util::getData("lb.sav", data);
+	feed.setAlbum(data.c_str());
+	data = "";
 
 	if (feed.getLoaded()) {
 		next = new MenuScreen(&feed);

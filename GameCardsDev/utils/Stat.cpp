@@ -68,13 +68,17 @@ void Stat::setAll(const char* allch) {
 	String all = allch;
 	int indexof = all.find(",");
 	if (indexof > -1) {
-		setDesc(all.substr(0,indexof++).c_str());
+		String sub = all.substr(0,indexof++);
+		setDesc(sub.c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
-		setDisplay(all.substr(0,indexof++).c_str());
+		sub = all.substr(0,indexof++);
+		setDisplay(sub.c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
-		setIVal(all.substr(0,indexof++).c_str());
+		sub = all.substr(0,indexof++);
+		setIVal(sub.c_str());
+		sub = "";
 	} else {
 		setDesc("");
 		setDisplay("");

@@ -195,66 +195,79 @@ void Card::setAll(const char* allch) {
 		String all = allch;
 		int indexof = all.find(",");
 		if (indexof > -1) {
-			setQuantity(all.substr(0,indexof++).c_str());
+			String sub = all.substr(0,indexof++);
+			setQuantity(sub.c_str());
 			all=all.substr(indexof);
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setText(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setText(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setThumb(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setThumb(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setFront(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setFront(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setBack(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setBack(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setId(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setId(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setRate(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setRate(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setValue(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setValue(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setNote(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setNote(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setRanking(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setRanking(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setRarity(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setRarity(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setFrontFlip(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setFrontFlip(sub.c_str());
 				all=all.substr(indexof);
 			}
 			indexof = all.find(",");
 			if (indexof > -1) {
-				setBackFlip(all.substr(0,indexof++).c_str());
+				sub = all.substr(0,indexof++);
+				setBackFlip(sub.c_str());
 				all=all.substr(indexof);
 			}
 			Stat *newStat;
@@ -262,7 +275,8 @@ void Card::setAll(const char* allch) {
 				indexof = all.find("$");
 				if (indexof > -1) {
 					newStat = new Stat();
-					newStat->setAll(all.substr(0,indexof++).c_str());
+					sub = all.substr(0,indexof++);
+					newStat->setAll(sub.c_str());
 					stats.add(newStat);
 					all=all.substr(indexof);
 				}
@@ -274,7 +288,7 @@ void Card::setAll(const char* allch) {
 				setText("");
 				setLoaded(false);
 			}
-
+			sub = "";
 		} else {
 			setQuantity("");
 			setText("");

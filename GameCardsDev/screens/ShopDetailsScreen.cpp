@@ -3,7 +3,6 @@
 
 #include "ShopDetailsScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 #include "../utils/Convert.h"
 #include "AlbumViewScreen.h"
@@ -44,16 +43,14 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 
 	if ((first)||(free)) {
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultSelected());
 		label->setMultiLine(true);
-		label->setAutoSizeY(true);
 		listBox->add(label);
 	} else if (screenType != ST_USER) {
 		String msg = "Current credits: " + feed->getCredits();
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, msg.c_str(), 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		label->setMultiLine(true);
-		label->setAutoSizeY(true);
 		listBox->add(label);
 	}
 
@@ -126,8 +123,8 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	if (screenType == ST_AUCTION)
 	{
 		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getDefaultFont());
-		label->setMultiLine(true);
-		label->setAutoSizeY(true);
+		label->setMultiLine();
+		label->setAutoSizeY();
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -404,6 +401,7 @@ void ShopDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -638,7 +636,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
-	cardLabel->setMultiLine(true);
+	cardLabel->setMultiLine();
 
 	this->setMain(mainLayout);
 
@@ -712,7 +710,7 @@ void ShopDetailsScreen::drawBuyNow()
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
-	cardLabel->setMultiLine(true);
+	cardLabel->setMultiLine();
 
 	this->setMain(mainLayout);
 

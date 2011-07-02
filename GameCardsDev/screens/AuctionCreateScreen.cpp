@@ -2,7 +2,6 @@
 #include "AlbumViewScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 #include "../UI/Widgets/MobImage.h"
 
 AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
@@ -376,8 +375,8 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getDefaultFont());
-	label->setMultiLine(true);
-	label->setAutoSizeY(true);
+	label->setMultiLine();
+	label->setAutoSizeY();
 	listBox->add(label);
 
 	this->setMain(mainLayout);
@@ -404,6 +403,7 @@ void AuctionCreateScreen::httpFinished(MAUtil::HttpConnection* http, int result)
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
+		notice->setCaption("Unable to connect, try again later...");
 		busy = false;
 		mHttp.close();
 	}

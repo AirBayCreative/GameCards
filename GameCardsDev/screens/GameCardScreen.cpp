@@ -3,7 +3,6 @@
 #include <MAUI/Image.h>
 
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 
 #include "GameCardScreen.h"
 
@@ -49,10 +48,6 @@ void GameCardScreen::pointerReleaseEvent(MAPoint2d point)
 
 void GameCardScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch("true")) {
-		Util::saveData("fd.sav", feed->getAll().c_str());
-	}
-
 	list = false;
 	left = false;
 	right = false;

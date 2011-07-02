@@ -8,7 +8,7 @@
 
 #include "../utils/Card.h"
 #include "../utils/Feed.h"
-#include "../utils/MAHeaders.h"
+#include "../MAHeaders.h"
 #include "../utils/ImageCache.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"

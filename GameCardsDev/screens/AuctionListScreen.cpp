@@ -3,7 +3,6 @@
 #include "AuctionListScreen.h"
 #include "ShopDetailsScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 
 AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenType, String catId) : mHttp(this), screenType(screenType), categoryId(catId), previous(previous), feed(feed) {
 	lprintfln("AuctionListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -185,7 +184,7 @@ void AuctionListScreen::drawList() {
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
-		label->setMultiLine(true);
+		label->setMultiLine();
 	}
 
 	notice->setCaption("");

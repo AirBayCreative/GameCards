@@ -17,6 +17,10 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
+			label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
+			label->setAutoSizeY();
+			label->setMultiLine(true);
+			listBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -26,6 +30,10 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case BALANCE:
+			label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
+			label->setAutoSizeY();
+			label->setMultiLine(true);
+			listBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -140,9 +148,6 @@ void DetailScreen::pointerReleaseEvent(MAPoint2d point)
 
 void DetailScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch("true")) {
-		Util::saveData("fd.sav", feed->getAll().c_str());
-	}
 	list = false;
 	left = false;
 	right = false;
@@ -205,6 +210,7 @@ void DetailScreen::hide() {
 }
 
 void DetailScreen::keyPressEvent(int keyCode) {
+	int ind, max;
 	switch(keyCode) {
 		case MAK_FIRE:
 			break;
@@ -254,10 +260,37 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			ind = listBox->getSelectedIndex();
+			max = listBox->getChildren().size();
+			if (screenType == PROFILE) {
+				if (ind == 1) {
+					listBox->setSelectedIndex(max-1);
+				} else {
+					listBox->selectPreviousItem();
+					listBox->selectPreviousItem();
+				}
+			} else {
+				if (ind == 3) {
+					listBox->setSelectedIndex(max-1);
+				} else {
+					listBox->selectPreviousItem();
+				}
+			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			ind = listBox->getSelectedIndex();
+			max = listBox->getChildren().size();
+			if (ind == max-1) {
+				listBox->setSelectedIndex(3);
+				if (screenType == PROFILE) {
+					listBox->setSelectedIndex(1);
+				}
+			} else {
+				listBox->selectNextItem();
+				if (screenType == PROFILE) {
+					listBox->selectNextItem();
+				}
+			}
 			break;
 	}
 }
@@ -325,8 +358,8 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 			label->setMultiLine(true);
 			listBox->add(label);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption("Go to www.mytcg.net to find out how to get more credits");
-			listBox->setSelectedIndex(3);
+			label->setCaption("");
+			listBox->setSelectedIndex(4);
 		} else if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Unable to connect, try again later...");
@@ -377,18 +410,17 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "profiledetails")) {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption("Earn credits by filling in profile details.");
+		label->setCaption("");
 		isBusy = false;
 	} else if(!strcmp(name, "credits")) {
 		feed->setCredits(cred.c_str());
 		balanceLabel->setCaption(cred.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
 	} else if(!strcmp(name, "detail")) {
-
 		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
 
-		Layout *feedlayout = new Layout(0, 0, scrWidth, 74, listBox, 3, 1);
+		Layout *feedlayout = new Layout(0, 0, scrWidth, 48, listBox, 3, 1);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
@@ -424,6 +456,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		answered = 0;
 		answer = "";
 		creditvalue = "";
+
+		listBox->setSelectedIndex(1);
 	} else if(!strcmp(name, "error")) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
@@ -442,7 +476,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		}
 		listBox->setSelectedIndex(3);
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption("Go to www.mytcg.net to find out how to get more credits");
+		label->setCaption("");
 	} else if(!strcmp(name, "transaction")) {
 		count++;
 
@@ -477,7 +511,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			}
 		} else if (screenType == BALANCE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption("Go to www.mytcg.net to find out how to get more credits");
+			label->setCaption("");
 		}
 	}
 }

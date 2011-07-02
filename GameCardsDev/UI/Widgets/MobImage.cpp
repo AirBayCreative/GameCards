@@ -1,7 +1,7 @@
 #include <MAUtil/Graphics.h>
 #include <conprint.h>
 
-#include "../../utils/MAHeaders.h"
+#include "../../MAHeaders.h"
 #include "MobImage.h"
 
 MobImage::MobImage(int x, int y, int width, int height,

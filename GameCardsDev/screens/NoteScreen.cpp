@@ -2,7 +2,6 @@
 
 #include "NoteScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 #include "MenuScreen.h"
 
 NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
@@ -66,8 +65,8 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setAutoSizeY();
-			label->setAutoSizeX(true);
-			label->setMultiLine(true);
+			label->setAutoSizeX();
+			label->setMultiLine();
 			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note:", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
@@ -194,27 +193,31 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				case ST_CARD_NOTE:
 					if (!isBusy) {
 						isBusy = true;
-						encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
-						card->setNote(encodedNote.c_str());
-						//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-						int urlLength = 46 + encodedNote.length() + card->getId().length();
-						char *url = new char[urlLength+1];
-						memset(url,'\0',urlLength+1);
-						sprintf(url, "http://dev.mytcg.net/_phone/?savenote=%s&cardid=%s", encodedNote.c_str(), card->getId().c_str());
-						if(mHttp.isOpen()){
-							mHttp.close();
-						}
-						mHttp = HttpConnection(this);
-						int res = mHttp.create(url, HTTP_GET);
-						if(res < 0) {
-							notice->setCaption("Error updating note");
+						if (note.length() > 0) {
+							encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
+							card->setNote(encodedNote.c_str());
+							//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+							int urlLength = 46 + encodedNote.length() + card->getId().length();
+							char *url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "http://dev.mytcg.net/_phone/?savenote=%s&cardid=%s", encodedNote.c_str(), card->getId().c_str());
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
+							mHttp = HttpConnection(this);
+							int res = mHttp.create(url, HTTP_GET);
+							if(res < 0) {
+								notice->setCaption("Error updating note");
+							} else {
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								mHttp.finish();
+								notice->setCaption("Updating note...");
+							}
+							delete [] url;
 						} else {
-							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-							mHttp.finish();
-							notice->setCaption("Updating note...");
+							notice->setCaption("Nothing to save.");
 						}
-						delete [] url;
 					}
 					break;
 				case ST_SMS:

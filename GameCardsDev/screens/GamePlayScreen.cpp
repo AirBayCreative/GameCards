@@ -3,12 +3,11 @@
 
 #include "GamePlayScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType) : mHttp(this),
+GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame) {
 
 	parentTag = "";
@@ -32,6 +31,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	userCards = "";
 	oppCards = "";
 	lastMove = "";
+	creator = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -160,6 +160,24 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	explanation = "";
+}
+
+void GamePlayScreen::drawConfirmScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
+	lprintfln("drawConfirmScreen");
+	clearListBox();
+
+	Util::updateSoftKeyLayout("Yes", "No", "", mainLayout);
+
+	notice->setCaption("");
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(Util::getFontBlack());
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+
+	lbl->setCaption(creator + " wants to play against you, do you want to take them on?");
+
+	listBox->add(lbl);
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
@@ -487,8 +505,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTLEFT:
 			if (!busy) {
 				busy = true;
-				int urlLength, res;
-				char *url = NULL;
 				switch (phase) {
 					case P_CARD_DETAILS:
 						if(currentSelectedStat>-1){
@@ -498,11 +514,28 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					case P_RESULTS:
 						origMenu->show();
 						break;
-				}
-				urlLength = 0;
-				res = 0;
-				if (url != NULL) {
-					delete url;
+					case P_CONFIRM:
+						notice->setCaption("Confirming...");
+						phase = P_CARD_DETAILS;
+						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
+						int urlLength = strlen("http://dev.mytcg.net/_phone/?confirmgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+						char *url = new char[urlLength];
+						memset(url,'\0',urlLength);
+						sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?confirmgame=1", "gameid",
+							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+						lprintfln(url);
+						mHttp = HttpConnection(this);
+						int res = mHttp.create(url, HTTP_GET);
+						if(res < 0) {
+							hasConnection = false;
+							notice->setCaption("Connection error.");
+						} else {
+							hasConnection = true;
+							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+							mHttp.finish();
+						}
+						break;
 				}
 			}
 			break;
@@ -676,7 +709,7 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 void GamePlayScreen::xcConnError(int code) {
 	lprintfln("xcConnError");
 	char *url;
-	if (newGame) {
+	if (newGame && phase != P_CONFIRM) {
 		lprintfln("xcConnError 1");
 		if (newGame) {
 			notice->setCaption("Loading game...");
@@ -689,7 +722,7 @@ void GamePlayScreen::xcConnError(int code) {
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1",
 				"gameid", gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-
+		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -806,6 +839,8 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		gcCard->setBack(data);
 	} else if(!strcmp(parentTag.c_str(), "gcurlflip")) {
 		gcCard->setBackFlip(data);
+	} else if(!strcmp(parentTag.c_str(), "creator")) {
+		creator = data;
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
 		listBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {
@@ -819,6 +854,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		}
 		else if (!strcmp(data, "lfm")) {
 			phase = P_LFM;
+		}
+		else if (!strcmp(data, "confirm")) {
+			phase = P_CONFIRM;
 		}
 	}
 }
@@ -930,6 +968,16 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					ticks = 0;
 					lprintfln("addTimer 4");
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
+					break;
+				case P_CONFIRM:
+					drawConfirmScreen();
+					break;
+			}
+		}
+		else {
+			switch (phase) {
+				case P_CONFIRM:
+					drawConfirmScreen();
 					break;
 			}
 		}

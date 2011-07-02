@@ -45,9 +45,6 @@ void NewVersionScreen::pointerReleaseEvent(MAPoint2d point)
 
 void NewVersionScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch("true")) {
-		Util::saveData("fd.sav", feed->getAll().c_str());
-	}
 	list = false;
 	left = false;
 	right = false;

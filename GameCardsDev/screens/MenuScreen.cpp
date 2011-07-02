@@ -8,7 +8,6 @@
 #include "ShopCategoriesScreen.h"
 #include "OptionsScreen.h"
 #include "NewVersionScreen.h"
-#include "../utils/MAHeaders.h"
 #include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {

@@ -101,12 +101,14 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			if (a != NULL) {
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
+				drawList();
 				this->setMain(mainLayout);
 				orig = this;
 				return;
 			}
 			else {
 				notice->setCaption("Checking games...");
+				drawList();
 				res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
 			}
 
@@ -184,10 +186,6 @@ void AlbumLoadScreen::pointerReleaseEvent(MAPoint2d point)
 
 void AlbumLoadScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch("true") && screenType == ST_ALBUMS) {
-		Util::saveData("fd.sav", feed->getAll().c_str());
-	}
-
 	list = false;
 	left = false;
 	right = false;
@@ -392,7 +390,10 @@ void AlbumLoadScreen::loadCategory() {
 		char *file = new char[path[path.size()-1].length() + 6];
 		memset(file, 0, path[path.size()-1].length() + 6);
 		sprintf(file, "a%s.sav", path[path.size()-1].c_str());
-		album->setAll(Util::getData(file));
+		String filecards = "";
+		Util::getData(file, filecards);
+		album->setAll(filecards.c_str());
+		filecards = "";
 		delete file;
 	}
 	drawList();
@@ -444,7 +445,7 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -596,11 +597,6 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		error_msg = "";
 	} else {
 		notice->setCaption("");
-		//temp = "";
-		//hasCards = "";
-		//updated = "";
-		//temp1 = "";
-		//error_msg = "";
 	}
 }
 

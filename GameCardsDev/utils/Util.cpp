@@ -4,7 +4,7 @@
 #include "../UI/Widgets/MobImage.h"
 #include "../UI/KineticListBox.h"
 #include "ImageCacheRequest.h"
-#include "MAHeaders.h"
+#include "../MAHeaders.h"
 #include "Util.h"
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)
@@ -42,6 +42,9 @@ Font* Util::getFontBlack() {
 #if defined(RES_FONT_BLACK)
 		black = new MAUI::Font(RES_FONT_BLACK);
 #endif
+#if defined(RES_FONT_PUREWHITE)
+		black = new MAUI::Font(RES_FONT_PUREWHITE);
+#endif
 	}
 	return black;
 }
@@ -55,7 +58,6 @@ Font* Util::getFontWhite() {
 	}
 	return white;
 }
-
 Font* Util::getFontRed() {
 	static Font* red;
 	if (red == NULL) {
@@ -65,8 +67,6 @@ Font* Util::getFontRed() {
 	}
 	return red;
 }
-
-
 Font* Util::getDefaultFont() {
 #if defined(RES_FONT_WHITE)
 	return getFontWhite();
@@ -78,6 +78,9 @@ Font* Util::getDefaultSelected() {
 	return getFontRed();
 #endif
 	return getFontBlue();
+}
+Font* Util::getButtonFont() {
+	return getFontBlack();
 }
 
 WidgetSkin* Util::getSkinEditBox() {
@@ -95,6 +98,12 @@ WidgetSkin* Util::getSkinButton() {
 		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 23, 24, 23, 24, true, true);
 	}
 	return gSkinButton;
+}
+
+void Util::setCaption(Label *label) {
+	label->setHeight(36);
+	label->setAutoSizeY(false);
+	label->setFont(Util::getDefaultSelected());
 }
 
 WidgetSkin* Util::getSkinBack() {
@@ -173,7 +182,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	//layout->setSkin(Util::getSkinBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getDefaultFont());
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -182,7 +191,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -190,7 +199,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -215,9 +224,10 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,Util::getDefaultFont());
+	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
+	label->setMultiLine(true);
 
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-softKeys->getHeight(), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgWidth = EXTENT_X(imgSize);
@@ -331,8 +341,29 @@ void Util::saveFile(const char* storefile, MAHandle data) {
 	store = -1;
 }
 
-char* Util::getData(const char* storefile) {
+bool Util::getData(const char* storefile, String &data) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
+	if(store>0)
+	{
+		MAHandle dataHandle = maCreatePlaceholder();
+		int len = data.length();
+		if( maReadStore(store, dataHandle) != RES_OUT_OF_MEMORY  )
+		{
+			int size = maGetDataSize(dataHandle);
+			char temp[size + 1];
+			temp[size] = '\0';
+			maReadData(dataHandle, &temp, 0, size);
+
+			data.clear();
+			data = String(temp);
+
+			return true;
+		}
+	}
+	return false;
+
+
+/*
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
@@ -352,7 +383,7 @@ char* Util::getData(const char* storefile) {
 	maDestroyObject(tmp);
 	store = -1;
 	tmp = -1;
-	return "";
+	return "";*/
 }
 
 void Util::returnImage(MobImage *img, MAHandle i, int height)

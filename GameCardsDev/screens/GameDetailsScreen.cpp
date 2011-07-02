@@ -4,7 +4,6 @@
 
 #include "GameDetailsScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 
 GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {

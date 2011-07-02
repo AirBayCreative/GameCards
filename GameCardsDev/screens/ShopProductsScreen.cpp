@@ -4,7 +4,6 @@
 #include "ShopDetailsScreen.h"
 #include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
 
 void ShopProductsScreen::pop() {
 	show();
@@ -170,7 +169,7 @@ void ShopProductsScreen::drawList() {
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
-		label->setMultiLine(true);
+		label->setMultiLine();
 	}
 	if (products.size() > 1) {
 		emp = false;
@@ -256,7 +255,7 @@ void ShopProductsScreen::httpFinished(MAUtil::HttpConnection* http, int result) 
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("");
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
@@ -359,7 +358,10 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 				if ((first)||(free)) {
 					msg = "Received: 300 credits and a free starter pack.";
 				}
+				notice->setHeight(36);
+				notice->setAutoSizeY(false);
 				notice->setCaption(msg.c_str());
+
 			} else {
 				notice->setCaption("");
 			}
