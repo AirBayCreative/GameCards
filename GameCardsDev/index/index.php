@@ -2537,6 +2537,9 @@ if ($_GET['newgame']) {
 	if (!($friend=$_GET['friend'])) {
 		$friend = '';
 	}
+	else {
+		$friend = base64_decode($friend);
+	}
 	
 	//get phones screen sizes
 	if (!($iHeight=$_GET['height'])) {
@@ -2563,11 +2566,18 @@ if ($_GET['newgame']) {
 			WHERE lower(gs.description) = 'incomplete'");
 		$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
 		
+		//and the closed status
+		$closedStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'closed'");
+		$closedId = $closedStatusQuery[0]['gamestatus_id'];
+		
 		//we need to clear all the open games that are older than a minute, so we need all their ids
 		$oldOpenGame = myqu('SELECT g.game_id 
 			FROM mytcg_game g 
 			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
-			AND g.gamestatus_id = '.$openId);
+			AND (g.gamestatus_id = '.$openId.' 
+			OR g.gamestatus_id = '.$closedId.')');
 		
 		foreach ($oldOpenGame as $game) {
 			myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);
@@ -2768,11 +2778,18 @@ if ($_GET['getusergames']){
 		WHERE lower(gs.description) = 'open'");
 	$openId = $openStatusQuery[0]['gamestatus_id'];
 	
+	//and the closed status
+	$closedStatusQuery = myqu("SELECT gamestatus_id 
+		FROM mytcg_gamestatus gs 
+		WHERE lower(gs.description) = 'closed'");
+	$closedId = $closedStatusQuery[0]['gamestatus_id'];
+	
 	//we need to clear all the open games that are older than a minute, so we need all their ids
 	$oldOpenGame = myqu('SELECT g.game_id 
 		FROM mytcg_game g 
 		WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
-		AND g.gamestatus_id = '.$openId);
+		AND (g.gamestatus_id = '.$openId.' 
+		OR g.gamestatus_id = '.$closedId.')');
 	
 	foreach ($oldOpenGame as $game) {
 		myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);

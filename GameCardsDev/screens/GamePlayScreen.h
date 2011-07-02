@@ -12,6 +12,7 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "../UI/Native/NativeEditBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -34,9 +35,10 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND};
 private:
 	Screen *next, *previous;
+	NativeEditBox *editBoxFriend;
 	ImageCache *imageCache;
 	MobImage *userImage, *oppImage;
 	Label *notice, *label;
@@ -53,7 +55,7 @@ private:
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message, userCards, oppCards, categoryStatId;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks;
-	String explanation, outcome, creator;
+	String explanation, outcome, creator, newGameType;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
 	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking;
 	MAPoint2d pointPressed, pointReleased;
@@ -68,6 +70,8 @@ private:
 	void drawCardSelectStatScreen();
 	void drawLFMScreen();
 	void drawConfirmScreen();
+	void drawDeclinedScreen();
+	void drawFriendNameScreen();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
