@@ -141,6 +141,7 @@ void AlbumViewScreen::refresh() {
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
+			busy = false;
 			hasConnection = false;
 			notice->setCaption("");
 		} else {
@@ -398,10 +399,10 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
-			if (albumType == AT_NORMAL) {
+			/*if (albumType == AT_NORMAL) {
 				previous->show();
 				break;
-			}
+			}*/
 			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:
@@ -477,6 +478,9 @@ void AlbumViewScreen::mtxEncoding(const char* ) {
 
 void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 	parentTag = name;
+	if (!strcmp(name, "cardsincategory")) {
+		clearCardMap();
+	}
 }
 
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
@@ -606,7 +610,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal="";
 		statDisplay="";
 		note="";
-		category="";
 		id="";
 		description="";
 		quantity="";
@@ -633,7 +636,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal="";
 		statDisplay="";
 		note="";
-		category="";
 		id="";
 		description="";
 		quantity="";
@@ -657,7 +659,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal="";
 		statDisplay="";
 		note="";
-		category="";
 		id="";
 		description="";
 		quantity="";

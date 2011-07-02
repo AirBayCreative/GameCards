@@ -1106,7 +1106,7 @@ if ($iCategory=$_GET['cardsincategory']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
