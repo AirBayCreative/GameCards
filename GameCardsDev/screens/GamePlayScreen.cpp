@@ -525,6 +525,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?declinegame=1", "gameid",
 						gameId.c_str(), "categoryid", categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 					lprintfln(url);
+					if(mHttp.isOpen()){
+						mHttp.close();
+					}
 					mHttp = HttpConnection(this);
 					int res = mHttp.create(url, HTTP_GET);
 					if(res < 0) {
@@ -609,6 +612,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?confirmgame=1", "gameid",
 							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 						lprintfln(url);
+						if(mHttp.isOpen()){
+							mHttp.close();
+						}
 						mHttp = HttpConnection(this);
 						int res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {
@@ -750,6 +756,9 @@ void GamePlayScreen::runTimerEvent() {
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1", "gameid",
 			gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
 		mHttp = HttpConnection(this);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
@@ -802,6 +811,9 @@ void GamePlayScreen::selectStat(int selected) {
 
 	//clearCardStats();
 
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
 	mHttp = HttpConnection(this);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
