@@ -45,6 +45,9 @@ public:
 	bool getTouchEnabled();
 	String getTouch();
 	bool getLoaded();
+	int getHttps();
+	void addHttp();
+	void remHttp();
 private:
 	String encrypt;
 	String uname;
@@ -62,6 +65,7 @@ private:
 	Albums real_album;
 	bool touchEnabled;
 	bool loaded;
+	int https;
 };
 
 #endif	//_FEED_H_

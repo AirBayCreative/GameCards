@@ -15,6 +15,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 	buynow = false;
 	success = false;
+	expired = false;
 	confirmbuynow = false;
 	if (screenType == ST_AUCTION)
 	{
@@ -112,6 +113,10 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 				fullDesc += auction->getLastBidUser();
 			}
 
+			if (expired) {
+				Util::updateSoftKeyLayout("", "back", "", mainLayout);
+			}
+
 			break;
 	}
 
@@ -122,28 +127,30 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 	if (screenType == ST_AUCTION)
 	{
-		label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getDefaultFont());
-		label->setMultiLine();
-		label->setAutoSizeY();
-		listBox->add(label);
+		if (!expired) {
+			label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getDefaultFont());
+			label->setMultiLine();
+			label->setAutoSizeY();
+			listBox->add(label);
 
-		label = Util::createEditLabel("");
-		editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
-		int num;
-		if (!strcmp(auction->getPrice().c_str(), "")) {
-			num = Convert::toInt(auction->getOpeningBid().c_str());
-			num+=10;
-			editBidBox->setText(Convert::toString(num));
-		} else {
-			num = Convert::toInt(auction->getPrice().c_str());
-			num+=10;
-			editBidBox->setText(Convert::toString(num));
+			label = Util::createEditLabel("");
+			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
+			int num;
+			if (!strcmp(auction->getPrice().c_str(), "")) {
+				num = Convert::toInt(auction->getOpeningBid().c_str());
+				num+=10;
+				editBidBox->setText(Convert::toString(num));
+			} else {
+				num = Convert::toInt(auction->getPrice().c_str());
+				num+=10;
+				editBidBox->setText(Convert::toString(num));
+			}
+			editBidBox->setDrawBackground(false);
+			editBidBox->setSelected(true);
+			label->setSelected(true);
+			label->addWidgetListener(this);
+			listBox->add(label);
 		}
-		editBidBox->setDrawBackground(false);
-		editBidBox->setSelected(true);
-		label->setSelected(true);
-		label->addWidgetListener(this);
-		listBox->add(label);
 	}
 
 	this->setMain(mainLayout);
@@ -216,10 +223,15 @@ String ShopDetailsScreen::getTime() {
 	cmp_p->tm_mon = Convert::toInt(month)-1;
 	cmp_p->tm_mday = Convert::toInt(day);
 	time_t test = mktime(cmp_p);
+
+
 	time_t timeleft = test - maTime();
+
+
 	if (timeleft < 0) {
 		//should be set to zero, for now gonna use negative inferred value for testing
-		timeleft = timeleft*-1;
+		timeleft = 0;
+		expired = true;
 	}
 	split_time(timeleft, cmp_p);
 
@@ -239,6 +251,11 @@ String ShopDetailsScreen::getTime() {
 		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
 	}
 	delete cmp_p;
+
+	if (timeleft == 0) {
+		return "Expired";
+	}
+
 	return buffer;
 }
 
@@ -344,22 +361,29 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 
 			switch (screenType) {
 				case ST_AUCTION: // Bid
-					postBid();
+					if (!expired) {
+						postBid();
+					}
 					break;
 			}
 			break;
 		case MAK_SOFTLEFT:
 			if (next != NULL) {
 				delete next;
+				feed->remHttp();
 			}
 			switch (screenType) {
 				case ST_AUCTION: // Buy
 					if (confirmbuynow) {
-						confirmbuynow = false;
-						buyNow();
+						if (!expired) {
+							confirmbuynow = false;
+							buyNow();
+						}
 					} else if (buynow) {
-						confirmbuynow = true;
-						drawBuyNow();
+						if (!expired) {
+							confirmbuynow = true;
+							drawBuyNow();
+						}
 					}
 					break;
 				case ST_PRODUCT:
@@ -376,12 +400,13 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
 				case ST_AUCTION: // Buy
-					editBidBox->setSelected(false);
+					if (!expired) {
+						editBidBox->setSelected(false);
+					}
 				case ST_USER:
 					previous->show();
 					break;
 				case ST_PRODUCT:
-					//editBidBox->setSelected(false);
 					((ShopProductsScreen *)previous)->pop();
 					break;
 			}
@@ -401,6 +426,7 @@ void ShopDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 	}
 }
@@ -408,6 +434,7 @@ void ShopDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void ShopDetailsScreen::connReadFinished(Connection* conn, int result) {}
 
 void ShopDetailsScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void ShopDetailsScreen::mtxEncoding(const char* ) {
@@ -496,6 +523,7 @@ void ShopDetailsScreen::postBid()
 			} else {
 				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
 				mHttp.finish();
 			}
 			delete [] url;
@@ -541,6 +569,7 @@ void ShopDetailsScreen::buyNow()
 			} else {
 				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
 				mHttp.finish();
 			}
 			delete [] url;
@@ -567,7 +596,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	}
 
 	notice->setCaption("");
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
@@ -660,7 +689,7 @@ void ShopDetailsScreen::drawBuyNow()
 
 	notice->setCaption("");
 	String message = "Are you sure you want to buy " + auction->getCard()->getText() + " for " + auction->getBuyNowPrice() + "?";
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());

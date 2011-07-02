@@ -43,12 +43,6 @@ String Albums::getId(String val) {
 }
 
 Album* Albums::getAlbum(String val) {
-
-	lprintfln("%s", val.c_str());
-
-	for(Map<String,String>::Iterator i = albumnames.begin(); i != albumnames.end(); i++) {
-		lprintfln("%s", i->second.c_str());
-	}
 	return album.find(albumnames.find(val)->second)->second;
 }
 
@@ -63,6 +57,8 @@ void Albums::setAll(const char* allch) {
 	String tmp;
 	String id;
 	String name;
+
+	clearAll();
 
 	bool hasCards;
 

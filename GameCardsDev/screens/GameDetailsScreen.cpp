@@ -58,7 +58,9 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 
 	urlLength = 0;
@@ -190,12 +192,15 @@ void GameDetailsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
+		notice->setCaption("Unable to connect, try again later...");
 	}
 }
 
 void GameDetailsScreen::connReadFinished(Connection* conn, int result) {}
 
 void GameDetailsScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void GameDetailsScreen::mtxEncoding(const char* ) {

@@ -41,6 +41,7 @@ RedeemScreen::~RedeemScreen() {
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 	}
 	result = "";
 	error_msg = "";
@@ -133,6 +134,7 @@ void RedeemScreen::redeemCode() {
 			notice->setCaption("Redeeming...");
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
 		}
 		delete [] url;
@@ -175,6 +177,7 @@ void RedeemScreen::httpFinished(MAUtil::HttpConnection* http, int res) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect. Please try again later.");
 		isBusy = false;
 	}
@@ -184,6 +187,7 @@ void RedeemScreen::connReadFinished(Connection* conn, int result) {
 }
 
 void RedeemScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void RedeemScreen::mtxEncoding(const char* ) {

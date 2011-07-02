@@ -79,7 +79,9 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 	} else if (screenType == BALANCE) {
 		int res = mHttp.create("http://dev.mytcg.net/_phone/?creditlog=1", HTTP_GET);
@@ -92,7 +94,9 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 	}
 
@@ -105,6 +109,7 @@ DetailScreen::~DetailScreen() {
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
+		feed->remHttp();
 	}
 	encrypt = "";
 	error_msg = "";
@@ -223,6 +228,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 						if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
 								next == NULL;
 							}
 							next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
@@ -315,7 +321,9 @@ void DetailScreen::saveProfileData() {
 				label->setCaption("Saving...");
 				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
 				mHttp.finish();
+
 			}
 			delete [] url;
 			if(answers[i]->getAnswered()==0 && answers[i]->getEditBoxPointer()->getCaption().size()>0){
@@ -346,8 +354,9 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
+		mHttp.close();
+		feed->remHttp();
 		if (screenType == BALANCE) {
-			mHttp.close();
 			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
@@ -370,6 +379,7 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void DetailScreen::connReadFinished(Connection* conn, int result) {}
 
 void DetailScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void DetailScreen::mtxEncoding(const char* ) {}

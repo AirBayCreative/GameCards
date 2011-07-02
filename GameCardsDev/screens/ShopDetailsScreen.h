@@ -46,7 +46,7 @@ private:
 	MobImage *tempImage;
 	EditBox *editBidBox;
 
-	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow;
+	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow, expired;
 
 	String parentTag, result, credits;
 	String temp,temp1,error_msg;

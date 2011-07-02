@@ -81,7 +81,6 @@ class Util
 		static WidgetSkin* getSkinText();
 		static WidgetSkin* getSkinAlbum();
 
-
 		//static Album* getAlbum();
 
 		/*static Screen* orig();
@@ -89,6 +88,7 @@ class Util
 		static Screen* origMenu();*/
 
 	private:
+
 };
 
 extern int scrWidth;

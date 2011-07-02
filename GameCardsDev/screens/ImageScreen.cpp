@@ -146,6 +146,7 @@ ImageScreen::~ImageScreen() {
 	img = -1;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 	if (imageCache != NULL) {
@@ -230,6 +231,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if (card != NULL && hasConnection && canAuction) {
 					if (next != NULL) {
 						delete next;
+						feed->remHttp();
 					}
 					next = new OptionsScreen(feed,
 							OptionsScreen::ST_CARD_OPTIONS, this, card);
@@ -266,10 +268,15 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						imge->update();
 						imge->requestRepaint();
 						maUpdateScreen();
+
 						if (flip) {
-							Util::retrieveBack(imge, card, height-PADDING*2, imageCache);
+							if ((imageCache != NULL)&&(imge != NULL)) {
+								Util::retrieveBack(imge, card, height-PADDING*2, imageCache);
+							}
 						} else {
-							Util::retrieveFront(imge, card, height-PADDING*2, imageCache);
+							if ((imageCache != NULL)&&(imge != NULL)) {
+								Util::retrieveFront(imge, card, height-PADDING*2, imageCache);
+							}
 						}
 						flipOrSelect=0;
 						currentSelectedStat = -1;
@@ -328,7 +335,9 @@ void ImageScreen::acceptCard() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 }
@@ -348,7 +357,9 @@ void ImageScreen::rejectCard() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 }
@@ -359,12 +370,14 @@ void ImageScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
 void ImageScreen::connReadFinished(Connection* conn, int result) {}
 
 void ImageScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {

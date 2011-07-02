@@ -1404,6 +1404,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 		WHERE ac.marketstatus_id = 1
 		AND c.category_id = '.$categoryId.' 
 		AND ac.user_id <> '.$iUserID.' 
+		AND datediff(now(), ac.date_expired) <= 0
 		GROUP BY ac.market_id');
 		
 	$count = 0;

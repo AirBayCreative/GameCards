@@ -79,7 +79,9 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 
@@ -251,7 +253,9 @@ void AuctionListScreen::refresh()
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 
@@ -297,7 +301,9 @@ void AuctionListScreen::updateAuctions()
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 }
@@ -306,6 +312,7 @@ AuctionListScreen::~AuctionListScreen() {
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 	delete mImageCache;
@@ -356,6 +363,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 			if (!emp) {
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 				}
 				if (screenType == ST_USER) {
 					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_USER, false, NULL, auctions[listBox->getSelectedIndex()], false);
@@ -376,6 +384,7 @@ void AuctionListScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 		drawList();
+		feed->remHttp();
 
 		notice->setCaption("Unable to connect, try again later...");
 	}
@@ -384,6 +393,7 @@ void AuctionListScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void AuctionListScreen::connReadFinished(Connection* conn, int result) {}
 
 void AuctionListScreen::xcConnError(int code) {
+	feed->remHttp();
 
 }
 

@@ -140,6 +140,7 @@ CompareScreen::~CompareScreen() {
 	img = -1;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 	if (imageCache != NULL) {
@@ -304,12 +305,14 @@ void CompareScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
 void CompareScreen::connReadFinished(Connection* conn, int result) {}
 
 void CompareScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {

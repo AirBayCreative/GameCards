@@ -21,6 +21,7 @@ MAUIMoblet::MAUIMoblet() {
 	feed.setAll(data.c_str());
 	Util::getData("lb.sav", data);
 	feed.setAlbum(data.c_str());
+
 	data = "";
 
 	if (feed.getLoaded()) {

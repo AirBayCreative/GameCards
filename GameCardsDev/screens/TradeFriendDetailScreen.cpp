@@ -58,7 +58,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	mImageCache = new ImageCache();
 
 	String cardText = "";
-	cardText += (card->getUpdated()?"*":"")+card->getText();
+	cardText += card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
 	cardText += ")\n";
@@ -141,7 +141,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	mImageCache = new ImageCache();
 
 	String cardText = "";
-	cardText += (card->getUpdated()?"*":"")+card->getText();
+	cardText += card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
 	cardText += ")\n";
@@ -197,7 +197,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	mImageCache = new ImageCache();
 
 	String cardText = "";
-	cardText += (card->getUpdated()?"*":"")+card->getText();
+	cardText += card->getText();
 	cardText += " (";
 	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
 	cardText += ")\n";
@@ -389,7 +389,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					} else {
 						mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 						mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-
+						feed->addHttp();
 						mHttp.finish();
 					}
 					delete [] url;
@@ -458,6 +458,7 @@ void TradeFriendDetailScreen::httpFinished(MAUtil::HttpConnection* http, int res
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 	}
 }
@@ -466,7 +467,7 @@ void TradeFriendDetailScreen::connReadFinished(Connection* conn, int result) {
 }
 
 void TradeFriendDetailScreen::xcConnError(int code) {
-
+	feed->remHttp();
 }
 
 void TradeFriendDetailScreen::mtxEncoding(const char* ) {

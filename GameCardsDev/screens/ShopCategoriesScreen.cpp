@@ -35,6 +35,7 @@ void ShopCategoriesScreen::refresh() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 }
@@ -78,6 +79,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	this->setMain(mainLayout);
@@ -89,6 +91,7 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 	parentTag="";
@@ -218,6 +221,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						String category = categories.find(selectedCaption)->second.c_str();
 						if (next != NULL) {
 							delete next;
+							feed->remHttp();
 						}
 						next = new ShopProductsScreen(this, feed, category, true);
 						next->show();
@@ -230,6 +234,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						String category = categories.find(selectedCaption)->second.c_str();
 						if (next != NULL) {
 							delete next;
+							feed->remHttp();
 						}
 						next = new ShopProductsScreen(this, feed, category, false);
 						next->show();
@@ -244,12 +249,14 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						if (!strcmp(selectedCaption.c_str(), "My Auctions")) {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
 							}
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 							next->show();
 						} else if (!strcmp(selectedCaption.c_str(), "Create New Auction")) {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
 							}
 
 							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_AUCTION, NULL, true);
@@ -257,6 +264,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						} else if (!empt) {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
 							}
 							orig = this;
 							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();
@@ -278,6 +286,7 @@ void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		drawList();
 		notice->setCaption("Unable to connect, try again later...");
 	}
@@ -286,6 +295,7 @@ void ShopCategoriesScreen::httpFinished(MAUtil::HttpConnection* http, int result
 void ShopCategoriesScreen::connReadFinished(Connection* conn, int result) {}
 
 void ShopCategoriesScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {

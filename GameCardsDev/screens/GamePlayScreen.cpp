@@ -108,7 +108,9 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		hasConnection = true;
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	delete [] url;
 	this->setMain(mainLayout);
@@ -332,6 +334,7 @@ GamePlayScreen::~GamePlayScreen() {
 
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 	delete imageCache;
@@ -455,6 +458,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				default:
 					if (next != NULL) {
 						delete next;
+						feed->remHttp();
 						next = NULL;
 					}
 					feed->setGameId(gameId.c_str());
@@ -533,7 +537,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							hasConnection = true;
 							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+							feed->addHttp();
 							mHttp.finish();
+
 						}
 						break;
 				}
@@ -576,7 +582,9 @@ void GamePlayScreen::runTimerEvent() {
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 		return;
@@ -628,7 +636,9 @@ void GamePlayScreen::runTimerEvent() {
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	}
@@ -680,7 +690,9 @@ void GamePlayScreen::selectStat(int selected) {
 		hasConnection = true;
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 
 	delete url;
@@ -695,7 +707,7 @@ void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 	}
 }
@@ -707,6 +719,7 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 }
 
 void GamePlayScreen::xcConnError(int code) {
+	feed->remHttp();
 	lprintfln("xcConnError");
 	char *url;
 	if (newGame && phase != P_CONFIRM) {
@@ -735,7 +748,9 @@ void GamePlayScreen::xcConnError(int code) {
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	}

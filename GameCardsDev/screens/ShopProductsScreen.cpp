@@ -65,6 +65,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -193,6 +194,7 @@ ShopProductsScreen::~ShopProductsScreen() {
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next=NULL;
 	}
 	if(mImageCache!=NULL){
@@ -237,6 +239,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			if (!emp) {
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 				}
 				if (free) {
 					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, false);
@@ -255,6 +258,7 @@ void ShopProductsScreen::httpFinished(MAUtil::HttpConnection* http, int result) 
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 	}
 }
@@ -262,6 +266,7 @@ void ShopProductsScreen::httpFinished(MAUtil::HttpConnection* http, int result) 
 void ShopProductsScreen::connReadFinished(Connection* conn, int result) {}
 
 void ShopProductsScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void ShopProductsScreen::mtxEncoding(const char* ) {

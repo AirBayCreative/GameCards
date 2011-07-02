@@ -37,7 +37,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			mImageCache = new ImageCache();
 
 
-			cardText += (card->getUpdated()?"*":"")+card->getText();
+			cardText += card->getText();
 			cardText += " (";
 			cardText += card->getQuantity();
 			cardText += ")\n";
@@ -211,6 +211,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 							} else {
 								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
 								mHttp.finish();
 								notice->setCaption("Updating note...");
 							}
@@ -242,6 +243,7 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 		isBusy = false;
 	}
@@ -250,6 +252,7 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void NoteScreen::connReadFinished(Connection* conn, int result) {}
 
 void NoteScreen::xcConnError(int code) {
+	feed->remHttp();
 	isBusy = false;
 }
 

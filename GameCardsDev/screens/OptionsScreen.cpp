@@ -165,6 +165,7 @@ void OptionsScreen::checkForGames() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 }
@@ -445,6 +446,7 @@ void OptionsScreen::acceptCard() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -466,6 +468,7 @@ void OptionsScreen::rejectCard() {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -478,6 +481,7 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		connError = true;
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 
 		Util::updateSoftKeyLayout("", "Back", "", layout);
@@ -487,6 +491,7 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 void OptionsScreen::connReadFinished(Connection* conn, int result) {}
 
 void OptionsScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {

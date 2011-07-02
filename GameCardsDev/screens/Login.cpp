@@ -249,6 +249,7 @@ void Login::keyPressEvent(int keyCode) {
 							} else {
 								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
 								mHttp.finish();
 							}
 							conCatenation = "";
@@ -313,6 +314,7 @@ void Login::keyPressEvent(int keyCode) {
 							} else {
 								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
 								mHttp.finish();
 							}
 							delete url;
@@ -354,7 +356,6 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 void Login::connReadFinished(Connection* conn, int result) {}
 
 void Login::xcConnError(int code) {
-	isBusy = false;
 }
 
 void Login::mtxEncoding(const char* ) {
@@ -437,9 +438,6 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
-//#if defined(MA_PROF_SUPPORT_STYLUS)
-//	delete keyboard;
-//#endif
 	delete mainLayout;
 
 	parentTag = "";

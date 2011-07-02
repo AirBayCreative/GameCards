@@ -8,7 +8,17 @@ void Feed::setLoaded(bool load) {
 bool Feed::getLoaded() {
 	return loaded;
 }
+int Feed::getHttps() {
+	return https;
+}
+void Feed::addHttp() {
+	https++;
+}
+void Feed::remHttp() {
+	https--;
+}
 Feed::Feed() {
+	https = 0;
 	encrypt = "";
 	uname = "";
 	noSuccess = "";

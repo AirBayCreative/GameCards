@@ -86,12 +86,14 @@ void GameCardScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
 void GameCardScreen::connReadFinished(Connection* conn, int result) {}
 
 void GameCardScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void GameCardScreen::mtxEncoding(const char* ) {

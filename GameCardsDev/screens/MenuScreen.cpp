@@ -13,9 +13,16 @@
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	menu = NULL;
+	bool iphone = false;
+#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+	iphone = true;
+#endif
 
-	mainLayout = Util::createMainLayout("", "Exit", true);
-
+	if (iphone) {
+		mainLayout = Util::createMainLayout("", "", true);
+	} else {
+		mainLayout = Util::createMainLayout("", "Exit", true);
+	}
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = Util::createSubLabel("Albums");
@@ -88,6 +95,7 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 
@@ -138,6 +146,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if(index == 0) {
 				if(menu!=NULL){
 					delete menu;
+					feed->remHttp();
 				}
 				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
@@ -192,7 +201,12 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				Util::saveData("fd.sav","");
 				Util::saveData("lb.sav","");
 
-				maExit(0);
+				if (feed->getHttps() > 0) {
+					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+					label->setCaption("Please wait for all connections to finish before exiting.");
+				} else {
+					maExit(0);
+				}
 			}
 			break;
 		case MAK_BACK:
@@ -204,7 +218,13 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			sprintf(secString, "%d", seconds);
 			feed->setSeconds(secString);
 			Util::saveData("fd.sav", feed->getAll().c_str());
-			maExit(0);
+
+			if (feed->getHttps() > 0) {
+				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+				label->setCaption("Please wait for all connections to finish before exiting.");
+			} else {
+				maExit(0);
+			}
 			break;
 		case MAK_DOWN:
 			listBox->selectNextItem();

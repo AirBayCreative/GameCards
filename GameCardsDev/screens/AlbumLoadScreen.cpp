@@ -41,7 +41,9 @@ void AlbumLoadScreen::refresh() {
 		hasConnection = true;
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	this->setMain(mainLayout);
 
@@ -79,6 +81,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			notice->setCaption("Checking for new albums...");
 
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
+
 			urlLength = 60 + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
@@ -121,7 +124,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		hasConnection = true;
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
+
 	}
 	drawList();
 
@@ -139,6 +144,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
+		feed->remHttp();
 	}
 	parentTag="";
 	temp="";
@@ -231,12 +237,15 @@ void AlbumLoadScreen::drawList() {
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		albumname = itr->c_str();
-		label = Util::createSubLabel(itr->c_str());
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
 
-		size++;
+		if (!((screenType==ST_AUCTION)&&!strcmp(itr->c_str(), "New Cards"))) {
+			label = Util::createSubLabel(itr->c_str());
+			label->setPaddingBottom(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+
+			size++;
+		}
 	}
 	display.clear();
 	if (album->size() >= 1) {
@@ -310,6 +319,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 					next = NULL;
 				}
 				switch (screenType) {
@@ -429,7 +439,9 @@ void AlbumLoadScreen::loadCategory() {
 		} else {
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 
 		if (url != NULL) {
@@ -446,16 +458,18 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 		notice->setCaption("Unable to connect, try again later...");
+		feed->remHttp();
 	}
 }
 
 void AlbumLoadScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumLoadScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {
-		//TODO handle error
+
 	}
 }
 
@@ -531,10 +545,12 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		}
 		drawList();
 		if (album->size() == 1) {
-			Album* val = album->getAlbum(temp1);
+			Vector<String> display = album->getNames();
+			Album* val = album->getAlbum(display.begin()->c_str());
 			if (val != NULL) {
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 					next = NULL;
 				}
 				switch (screenType) {

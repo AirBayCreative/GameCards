@@ -69,7 +69,9 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	} else if (albumType == AT_FREE) {
@@ -94,7 +96,9 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	} else {
@@ -117,7 +121,9 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	}
@@ -148,7 +154,9 @@ void AlbumViewScreen::refresh() {
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
+
 		}
 		delete [] url;
 	}
@@ -273,7 +281,7 @@ void AlbumViewScreen::drawList() {
 
 		index.add(itr->second->getId());
 		String cardText = "";
-		cardText += (itr->second->getUpdated()?"*":"")+itr->second->getText();
+		cardText += itr->second->getText();
 		cardText += " (";
 		cardText += itr->second->getQuantity();
 		cardText += ")\n";
@@ -324,6 +332,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
+		feed->remHttp();
 	}
 	delete mImageCache;
 	if (!busy) {
@@ -409,6 +418,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 				}
 				if (albumType == AT_COMPARE) {
 					next = new CompareScreen(this, RES_LOADING_FLIP, feed, false, cards.find(index[selected])->second, card);
@@ -436,6 +446,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			else if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
+					feed->remHttp();
 				}
 				if (albumType == AT_AUCTION)
 				{
@@ -465,12 +476,14 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		mHttp.close();
 		notice->setCaption("Unable to connect, try again later...");
 		busy = false;
+		feed->remHttp();
 	}
 }
 
 void AlbumViewScreen::connReadFinished(Connection* conn, int result) {}
 
 void AlbumViewScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void AlbumViewScreen::mtxEncoding(const char* ) {

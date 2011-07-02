@@ -134,7 +134,9 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							} else {
 								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
 								mHttp.finish();
+
 							}
 							delete [] url;
 						}
@@ -256,7 +258,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
-	String cardText = (card->getUpdated()?"*":"")+card->getText();
+	String cardText = card->getText();
 	cardText += " (";
 	cardText += card->getQuantity();
 	cardText += ")";
@@ -308,7 +310,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {
-	String cardText = (card->getUpdated()?"*":"")+card->getText();
+	String cardText = card->getText();
 	cardText += " (";
 	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
 	cardText += ")";
@@ -339,7 +341,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = "Error creating auction.";
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
@@ -374,7 +376,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	clearListBox();
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getDefaultSelected());
 	label->setMultiLine();
 	label->setAutoSizeY();
 	listBox->add(label);
@@ -406,12 +408,14 @@ void AuctionCreateScreen::httpFinished(MAUtil::HttpConnection* http, int result)
 		notice->setCaption("Unable to connect, try again later...");
 		busy = false;
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
 void AuctionCreateScreen::connReadFinished(Connection* conn, int result) {}
 
 void AuctionCreateScreen::xcConnError(int code) {
+	feed->remHttp();
 	busy = false;
 }
 
