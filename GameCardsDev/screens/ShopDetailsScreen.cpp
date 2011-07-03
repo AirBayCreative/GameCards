@@ -134,7 +134,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			listBox->add(label);
 
 			label = Util::createEditLabel("");
-			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid:");
+			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
 			int num;
 			if (!strcmp(auction->getPrice().c_str(), "")) {
 				num = Convert::toInt(auction->getOpeningBid().c_str());

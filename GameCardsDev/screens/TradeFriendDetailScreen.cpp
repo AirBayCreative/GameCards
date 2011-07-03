@@ -93,7 +93,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"");
+	usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Share with Username");
 	usernameEditBox->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -102,7 +102,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"");
+	emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Share with Email");
 	emailEditBox->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -111,7 +111,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"");
+	phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Share with Phone Number");
 	phonenumberEditBox->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);

@@ -174,7 +174,7 @@ void AuctionListScreen::drawList() {
 			cardText += "\nOpening Bid: ";
 			cardText += auctions[i]->getOpeningBid();
 		}
-		cardText += "\nTime Left: ";
+		cardText += "\n";
 		cardText += getTime(auctions[i]->getEndDate());
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);

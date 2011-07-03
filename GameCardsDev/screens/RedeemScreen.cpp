@@ -25,7 +25,7 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxRedeem = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Search term:");
+	editBoxRedeem = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Redeem");
 	editBoxRedeem->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);

@@ -231,7 +231,7 @@ void GamePlayScreen::drawFriendNameScreen() {
 	listBox->add(lbl);
 
 	lbl = Util::createEditLabel("");
-	editBoxFriend = new NativeEditBox(0, 0, lbl->getWidth()-PADDING*2, lbl->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, lbl, "", L"");
+	editBoxFriend = new NativeEditBox(0, 0, lbl->getWidth()-PADDING*2, lbl->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, lbl, "", L"Friend");
 	editBoxFriend->setDrawBackground(false);
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);

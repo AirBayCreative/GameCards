@@ -67,7 +67,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			label->setAutoSizeY();
 			label->setAutoSizeX();
 			label->setMultiLine();
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note:", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
 		case ST_SMS:
@@ -80,7 +80,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 
-	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note:");
+	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note");
 	editBoxNote->setDrawBackground(false);
 	editBoxNote->setMaxLength(140);
 	editBoxNote->setMultiLine(true);

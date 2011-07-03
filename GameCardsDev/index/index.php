@@ -3301,6 +3301,7 @@ if ($_GET['auctioncategories']) {
 		LEFT OUTER JOIN mytcg_user UB 
 		ON AB.user_id=UB.user_id 
 		WHERE AC.marketstatus_id="1" 
+		AND datediff(now(), AC.date_expired) <= 0
 		AND U.user_id='.$iUserID);
 		
 		
@@ -3314,18 +3315,30 @@ if ($_GET['auctioncategories']) {
 		}
 	}
 		
-	$aCategories=myqu('SELECT c.category_id, c.description
+	/*$aCategories=myqu('SELECT c.category_id, c.description
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
-			FROM mytcg_category_x) ORDER BY c.description');
+			FROM mytcg_category_x) ORDER BY c.description');*/
+			$aCategories=myqu('SELECT c.category_id, d.description
+								FROM mytcg_card c
+								INNER JOIN mytcg_category d
+								on c.category_id = d.category_id
+								INNER JOIN mytcg_usercard uc
+								ON uc.card_id = c.card_id
+								INNER JOIN mytcg_category_x x
+								ON d.category_id = x.category_child_id
+								INNER JOIN mytcg_market ac
+								ON uc.usercard_id = ac.usercard_id
+								WHERE ac.marketstatus_id = 1 
+								AND datediff(now(), ac.date_expired) <= 0
+								AND uc.user_id <> '.$iUserID.'
+								group by category_id');
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]){
-		if (hasAuctions($aCategory['category_id'], $iUserID) == true) {
-			$sOP.="<album>";
-			$sOP.=$sTab.'<albumid>'.trim($aCategory['category_id']).'</albumid>'.$sCRLF;
-			$sOP.=$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
-			$sOP.="</album>";
-		}
+		$sOP.="<album>";
+		$sOP.=$sTab.'<albumid>'.trim($aCategory['category_id']).'</albumid>'.$sCRLF;
+		$sOP.=$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
+		$sOP.="</album>";
 		$iCount++;
 	}
 	$sOP.='</cardcategories>'.$sCRLF;
