@@ -136,6 +136,8 @@ CompareScreen::~CompareScreen() {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!*/
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	img = -1;
 	if (next != NULL) {
@@ -146,6 +148,21 @@ CompareScreen::~CompareScreen() {
 	if (imageCache != NULL) {
 		delete imageCache;
 	}
+}
+
+void CompareScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void CompareScreen::keyPressEvent(int keyCode) {

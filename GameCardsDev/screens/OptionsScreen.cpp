@@ -131,10 +131,26 @@ OptionsScreen::~OptionsScreen() {
 	error_msg = "";
 	number="";
 
+	clearListBox();
+	listBox->clear();
 	delete layout;
 	if(menu!=NULL){
 		delete menu;
 	}
+}
+void OptionsScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void OptionsScreen::show() {
@@ -158,7 +174,11 @@ void OptionsScreen::checkForGames() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	int res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
+	int urlLength = 38 + URLSIZE;
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "%s?getusergames=1", URL);
+	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
 		notice->setCaption("Connection Error");
@@ -168,6 +188,7 @@ void OptionsScreen::checkForGames() {
 		feed->addHttp();
 		mHttp.finish();
 	}
+	delete [] url;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
@@ -417,6 +438,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					maExit(0);
 					break;
 				default:
+					clearListBox();
 					previous->show();
 					break;
 			}
@@ -432,10 +454,10 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 
 void OptionsScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = 38 + card->getId().length();
+	int urlLength = 38 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?savecard=%s", card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -454,10 +476,10 @@ void OptionsScreen::acceptCard() {
 
 void OptionsScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = strlen("http://dev.mytcg.net/_phone/?rejectcard=") + card->getId().length();
+	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", "http://dev.mytcg.net/_phone/?rejectcard=", card->getId().c_str());
+	sprintf(url, "%s?rejectcard%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

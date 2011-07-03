@@ -21,6 +21,7 @@ public:
 	~OptionsScreen();
 	void keyPressEvent(int keyCode);
 	void show();
+	void clearListBox();
 	void hide();
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)

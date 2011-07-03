@@ -31,6 +31,8 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 }
 
 Login::~Login() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	error_msg = "";
 	parentTag="";
@@ -122,19 +124,19 @@ void Login::drawRegisterScreen() {
 }
 
 void Login::clearListBox() {
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
 	listBox->clear();
+	listBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
-		tempWidgets[j]->setSelected(false);
 		delete tempWidgets[j];
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
 }
-
 void Login::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		widget->getChildren()[0]->setSelected(true);
@@ -242,7 +244,11 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUsername(editBoxLogin->getText().c_str());
 							feed->setUnsuccessful("true");
 							mHttp = HttpConnection(this);
-							int res = mHttp.create("http://dev.mytcg.net/_phone/?userdetails=1", HTTP_GET);
+							int urlLength = 71 + URLSIZE;
+							char *url = new char[urlLength+1];
+							memset(url,'\0',urlLength+1);
+							sprintf(url, "%s?userdetails=1", URL);
+							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
 								notice->setCaption("Unable to connect, try again later...");
@@ -252,6 +258,7 @@ void Login::keyPressEvent(int keyCode) {
 								feed->addHttp();
 								mHttp.finish();
 							}
+							delete url;
 							conCatenation = "";
 							value = "";
 						} else {
@@ -302,10 +309,10 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 71 + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length();
+							int urlLength = 71 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "http://dev.mytcg.net/_phone/?registeruser=1&username=%s&password=%s&email=%s", editBoxLogin->getText().c_str(),
+							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str());
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
@@ -438,6 +445,8 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 
 	parentTag = "";

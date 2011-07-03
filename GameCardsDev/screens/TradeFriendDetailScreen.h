@@ -35,8 +35,6 @@ private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
 	int phase, moved;
 
-	Vector<Widget*> tempWidgets;
-
 	Feed *feed;
 	Layout *layout;
 	KineticListBox* listBox;

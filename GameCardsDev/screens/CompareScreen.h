@@ -29,6 +29,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
+	void clearListBox();
 private:
 	Screen *previous, *next;
 	MAHandle img;

@@ -28,10 +28,10 @@ void AlbumLoadScreen::refresh() {
 	album->setAll(alb.c_str());
 	alb = "";
 	drawList();
-	urlLength = 52 + feed->getSeconds().length();
+	urlLength = 52+URLSIZE + feed->getSeconds().length();
 	url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
+	sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
 	res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -79,23 +79,21 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		case ST_COMPARE:
 		case ST_AUCTION:
 			notice->setCaption("Checking for new albums...");
-
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
-
-			urlLength = 60 + feed->getSeconds().length();
+			urlLength = 60 + URLSIZE + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
+			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:
 			notice->setCaption("Checking for new albums...");
 
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = 60 + feed->getUsername().length();
+			int urlLength = 60 + URLSIZE + feed->getUsername().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?playablecategories=1&username=%s", feed->getUsername().c_str());
+			sprintf(url, "%s?playablecategories=1&username=%s", URL, feed->getUsername().c_str());
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
@@ -112,7 +110,11 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			else {
 				notice->setCaption("Checking games...");
 				drawList();
-				res = mHttp.create("http://dev.mytcg.net/_phone/?getusergames=1", HTTP_GET);
+				int urlLength = 60 + URLSIZE + feed->getUsername().length();
+				url = new char[urlLength+1];
+				memset(url,'\0',urlLength+1);
+				sprintf(url, "%s?getusergames=1", URL, feed->getUsername().c_str());
+				res = mHttp.create(url, HTTP_GET);
 			}
 
 			break;
@@ -139,8 +141,8 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
-	clearListBox();
-	listBox->clear();
+	//clearListBox();
+	//listBox->clear();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -264,6 +266,7 @@ void AlbumLoadScreen::drawList() {
 }
 
 void AlbumLoadScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -419,18 +422,18 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength = 60 + feed->getSeconds().length();
+			urlLength = 60 + URLSIZE + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?usercategories=1&seconds=%s", feed->getSeconds().c_str());
+			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = 70 + path[path.size()-1].length() + feed->getSeconds().length();
+			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?usersubcategories=1&category=%s&seconds=%s", path[path.size()-1].c_str(), feed->getSeconds().c_str());
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 

@@ -101,6 +101,8 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 }
 
 NoteScreen::~NoteScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 
 	parentTag = "";
@@ -111,6 +113,20 @@ NoteScreen::~NoteScreen() {
 
 	if(mImageCache!=NULL)
 		delete mImageCache;
+}
+void NoteScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -197,10 +213,10 @@ void NoteScreen::keyPressEvent(int keyCode) {
 							encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
 							card->setNote(encodedNote.c_str());
 							//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-							int urlLength = 46 + encodedNote.length() + card->getId().length();
+							int urlLength = 46 + URLSIZE + encodedNote.length() + card->getId().length();
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "http://dev.mytcg.net/_phone/?savenote=%s&cardid=%s", encodedNote.c_str(), card->getId().c_str());
+							sprintf(url, "%s?savenote=%s&cardid=%s", URL, encodedNote.c_str(), card->getId().c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
@@ -232,6 +248,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			editBoxNote->setSelected(false);
 			editBoxNote->disableListener();
+			clearListBox();
 			previous->show();
 			break;
 	}

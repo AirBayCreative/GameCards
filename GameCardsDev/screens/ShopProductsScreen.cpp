@@ -33,22 +33,22 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	int urlLength;
 	char *url;
 	if (credits) {
-		urlLength = 42;
+		urlLength = 42 + URLSIZE;
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?getpayments=1");
+		sprintf(url, "%s?getpayments=1", URL);
 	} else
 	{
 		if (!free) {
-			urlLength = 60 + category.length();
+			urlLength = 60 + URLSIZE + category.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=2&categoryId=%s", category.c_str());
+			sprintf(url, "%s?categoryproducts=2&categoryId=%s", URL, category.c_str());
 		} else if (free) {
-			urlLength = 60 + category.length();
+			urlLength = 60 + URLSIZE + category.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?categoryproducts=1&categoryId=%s", category.c_str());
+			sprintf(url, "%s?categoryproducts=1&categoryId=%s", URL, category.c_str());
 		}
 	}
 
@@ -190,7 +190,24 @@ void ShopProductsScreen::drawList() {
 	listBox->setSelectedIndex(0);
 }
 
+void ShopProductsScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
 ShopProductsScreen::~ShopProductsScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;

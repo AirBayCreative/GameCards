@@ -260,10 +260,13 @@ String ShopDetailsScreen::getTime() {
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if(mImageCache != NULL){
 		delete mImageCache;
 	}
+
 	/*if (tempImage != NULL) {
 		delete tempImage;
 	}*/
@@ -400,10 +403,8 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
 				case ST_AUCTION: // Buy
-					if (!expired) {
-						editBidBox->setSelected(false);
-					}
 				case ST_USER:
+					clearListBox();
 					previous->show();
 					break;
 				case ST_PRODUCT:
@@ -505,11 +506,11 @@ void ShopDetailsScreen::postBid()
 			result = "";
 			notice->setCaption("Trying to place bid...");
 			//work out how long the url will be, the number is for the & and = symbols and hard coded params
-			int urlLength = 71 + feed->getUsername().length() + editBidBox->getCaption().length() +
+			int urlLength = 71 + URLSIZE + feed->getUsername().length() + editBidBox->getCaption().length() +
 					auction->getAuctionCardId().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?auctionbid=1&username=%s&bid=%s&auctioncardid=%s", feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
+			sprintf(url, "%s?auctionbid=1&username=%s&bid=%s&auctioncardid=%s", URL, feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -552,10 +553,10 @@ void ShopDetailsScreen::buyNow()
 			result = "";
 			busy = true;
 			//work out how long the url will be, the 8 is for the & and = symbols and hard coded params
-			int urlLength = 60+ auction->getAuctionCardId().length();
+			int urlLength = 60 + URLSIZE + auction->getAuctionCardId().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?buyauctionnow=1&auctioncardid=%s", auction->getAuctionCardId().c_str());
+			sprintf(url, "%s?buyauctionnow=1&auctioncardid=%s", URL, auction->getAuctionCardId().c_str());
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -660,7 +661,6 @@ void ShopDetailsScreen::drawPostBid(String message)
 			fullDesc += auction->getLastBidUser();
 		}
 	}
-	success = false;
 
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
@@ -669,8 +669,10 @@ void ShopDetailsScreen::drawPostBid(String message)
 
 	this->setMain(mainLayout);
 
-	((AuctionListScreen*)previous)->updateAuctions();
-	auction = NULL;
+	if (success) {
+		((AuctionListScreen*)previous)->updateAuctions();
+	}
+	success = false;
 
 	hasBid = true;
 }
@@ -764,18 +766,19 @@ void ShopDetailsScreen::drawBuyNow(bool success)
 }
 
 void ShopDetailsScreen::clearListBox() {
-	for (int i = 0; i < listBox->getChildren().size() - 1; i++) {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
 	listBox->clear();
 	listBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
-		//listBox->add(tempWidgets[j]);
 		delete tempWidgets[j];
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
+	editBidBox = NULL;
 }
 
 /**

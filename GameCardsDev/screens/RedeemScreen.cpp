@@ -38,6 +38,8 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 }
 
 RedeemScreen::~RedeemScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
@@ -46,6 +48,20 @@ RedeemScreen::~RedeemScreen() {
 	result = "";
 	error_msg = "";
 	parentTag = "";
+}
+void RedeemScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void RedeemScreen::selectionChanged(Widget *widget, bool selected) {
@@ -119,10 +135,10 @@ void RedeemScreen::hide() {
 
 void RedeemScreen::redeemCode() {
 	if (editBoxRedeem->getCaption().length() != 0) {
-		int urlLength = 40 + editBoxRedeem->getCaption().length();
+		int urlLength = 40 + URLSIZE + editBoxRedeem->getCaption().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?redeemcode=%s", editBoxRedeem->getCaption().c_str());
+		sprintf(url, "%s?redeemcode=%s", URL, editBoxRedeem->getCaption().c_str());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}

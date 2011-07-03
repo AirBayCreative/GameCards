@@ -27,6 +27,7 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
+	listBox->clear();
 	delete mainLayout;
 	if (mImageCache != NULL) {
 		delete mImageCache;
@@ -118,10 +119,10 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 							notice->setCaption("Creating auction...");
 
 							//work out how long the url will be, the 8 is for the & and = symbols
-							int urlLength = 71 + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
+							int urlLength = 71 + URLSIZE + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "http://dev.mytcg.net/_phone/?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", card->getId().c_str(),
+							sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
 									openingText.c_str(), buyNowText.c_str(), daysText.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
@@ -156,8 +157,8 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					if (editBoxDays != NULL) {
 						editBoxDays->setSelected(false);
 					}
-
-					((AlbumViewScreen *)orig)->refresh();
+					previous->show();
+					//((AlbumViewScreen *)orig)->refresh();
 					break;
 				case MAK_UP:
 					if (listBox->getSelectedIndex() > 1) {
@@ -387,6 +388,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 }
 
 void AuctionCreateScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}

@@ -4,11 +4,12 @@
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
-	layout = Util::createMainLayout("Back", "Download");
+	layout = Util::createMainLayout("Download", "Back");
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.", 0, Util::getDefaultFont());
+	String msg = "There is a new version of the app, please download via " + url;
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());
@@ -19,6 +20,8 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 }
 
 NewVersionScreen::~NewVersionScreen() {
+	clearListBox();
+	listBox->clear();
 	delete layout;
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -73,6 +76,22 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 	}
 }
 #endif
+
+void NewVersionScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
 void NewVersionScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:

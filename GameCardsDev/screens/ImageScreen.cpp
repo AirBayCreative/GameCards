@@ -142,8 +142,9 @@ ImageScreen::~ImageScreen() {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!*/
+	//clearListBox();
+	//listBox->clear();
 	delete mainLayout;
-	img = -1;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
@@ -152,6 +153,20 @@ ImageScreen::~ImageScreen() {
 	if (imageCache != NULL) {
 		delete imageCache;
 	}
+}
+void ImageScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
@@ -249,7 +264,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if (isAuction)
 					((AuctionListScreen *)previous)->refresh();
 				else
-					((AlbumViewScreen *)previous)->refresh();
+					previous->show();
+					//((AlbumViewScreen *)previous)->refresh();
 			}
 			break;
 		case MAK_FIRE:
@@ -322,10 +338,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 
 void ImageScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = 40 + card->getId().length();
+	int urlLength = 40 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?savecard=%s", card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -344,10 +360,10 @@ void ImageScreen::acceptCard() {
 
 void ImageScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = 42 + card->getId().length();
+	int urlLength = 42 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?rejectcard=%s", card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

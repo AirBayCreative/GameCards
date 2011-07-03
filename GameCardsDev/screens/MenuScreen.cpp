@@ -81,13 +81,13 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 
 
 	//work out how long the url will be, the 16 is for the & and = symbals
-	int urlLength = 91 + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
+	int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
 			+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
 
 	char *url = new char[urlLength+1];
 
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "http://dev.mytcg.net/_phone/?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d",
+	sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
 			imsi, imei, os, make, model, touch, scrWidth, scrHeight);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
@@ -114,10 +114,26 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 }
 
 MenuScreen::~MenuScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if(menu!=NULL){
 		delete menu;
 	}
+}
+void MenuScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 
 void MenuScreen::selectionChanged(Widget *widget, bool selected) {
@@ -187,9 +203,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new RedeemScreen(feed, this);
 				menu->show();
 			} else if (index == 7) {
-				if(menu!=NULL){
-					delete menu;
-				}
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
@@ -205,6 +218,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 					label->setCaption("Please wait for all connections to finish before exiting.");
 				} else {
+					if(menu!=NULL){
+						delete menu;
+					}
 					maExit(0);
 				}
 			}
@@ -222,6 +238,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if (feed->getHttps() > 0) {
 				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 				label->setCaption("Please wait for all connections to finish before exiting.");
+				lprintfln(" connections %d", feed->getHttps());
 			} else {
 				maExit(0);
 			}
@@ -240,7 +257,10 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 		if(menu!=NULL){
 			delete menu;
 		}
-		menu = new NewVersionScreen(this, data, feed);
-		menu->show();
+		String find = String(data);
+		if (find.find("http://") == 0) {
+			menu = new NewVersionScreen(this, data, feed);
+			menu->show();
+		}
 	}
 }

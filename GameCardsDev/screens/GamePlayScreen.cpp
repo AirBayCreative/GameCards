@@ -90,12 +90,12 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 			notice->setCaption("Initialising new game...");
 
 			//work out how long the url will be, the 4 is for the & and = symbals
-			int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 19 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
+			int urlLength = 80 + URLSIZE + categoryId.length() +
 				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
-				categoryId.c_str(), "newgametype", newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d", URL,
+				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		}
 	}
 	else {
@@ -103,10 +103,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption("Loading game...");
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1", "gameid",
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
 				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
 	lprintfln(url);
@@ -136,7 +136,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 void GamePlayScreen::clearListBox() {
 	imageCache->clearImageCache();
-
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -388,6 +388,8 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 }
 #endif
 GamePlayScreen::~GamePlayScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 
 	if (next != NULL) {
@@ -521,12 +523,12 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Finding new game...");
 					phase = P_CARD_DETAILS;
 					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-					int urlLength = strlen("http://dev.mytcg.net/_phone/?declinegame=1") + 17 + strlen("gameid") + gameId.length() + strlen("categoryid") +
+					int urlLength = 65 + URLSIZE + gameId.length() +
 							categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 					char *url = new char[urlLength];
 					memset(url,'\0',urlLength);
-					sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?declinegame=1", "gameid",
-						gameId.c_str(), "categoryid", categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d", URL,
+						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 					lprintfln(url);
 					if(mHttp.isOpen()){
 						mHttp.close();
@@ -610,10 +612,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						notice->setCaption("Confirming...");
 						phase = P_CARD_DETAILS;
 						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-						int urlLength = strlen("http://dev.mytcg.net/_phone/?confirmgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+						int urlLength = 69 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?confirmgame=1", "gameid",
+						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d", URL,
 							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 						lprintfln(url);
 						if(mHttp.isOpen()){
@@ -653,12 +655,12 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							phase = P_LOADING;
 
 							//work out how long the url will be, the 4 is for the & and = symbals
-							int urlLength = strlen("http://dev.mytcg.net/_phone/?newgame=1") + 21 + strlen("categoryid") + categoryId.length() + strlen("newgametype") +
-								newGameType.length() + strlen("friend") + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+							int urlLength = 86 + URLSIZE + categoryId.length() +
+								newGameType.length() + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s&%s=%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?newgame=1", "categoryid",
-								categoryId.c_str(), "newgametype", newGameType.c_str(), "friend", base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d", URL,
+								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 							lprintfln(url);
 							if(mHttp.isOpen()){
 								mHttp.close();
@@ -701,11 +703,11 @@ void GamePlayScreen::runTimerEvent() {
 		checking = true;
 		lprintfln("checking");
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?continuegame=1") + 19 + strlen("gameid") + gameId.length() + strlen("lastmove") + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+		int urlLength = 76 + URLSIZE + gameId.length() + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?continuegame=1",
-				"gameid", gameId.c_str(), "lastmove", lastMove.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?continuegame=1&gameid=%s&lastmove=%s&height=%d&width=%d", URL,
+				gameId.c_str(), lastMove.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -759,10 +761,10 @@ void GamePlayScreen::runTimerEvent() {
 		MAUtil::Environment::getEnvironment().removeTimer(this);
 		ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1", "gameid",
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
 			gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -803,12 +805,11 @@ void GamePlayScreen::selectStat(int selected) {
 	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
-	urlLength = strlen("http://dev.mytcg.net/_phone/?selectstat=1") + 19 + strlen("gameid") + gameId.length() +
-			strlen("statid") + card->getStats()[selected]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+	urlLength = 72 + URLSIZE + gameId.length() + card->getStats()[selected]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s&%s=%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?selectstat=1", "gameid", gameId.c_str(),
-			"statid", card->getStats()[selected]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+	sprintf(url, "%s?selectstat=1&gameid=%s&statid=%s&height=%d&width=%d", URL, gameId.c_str(),
+			card->getStats()[selected]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	lprintfln(url);
 
 	/*if(mHttp.isOpen()){
@@ -873,11 +874,11 @@ void GamePlayScreen::xcConnError(int code) {
 		newGame = false;
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = strlen("http://dev.mytcg.net/_phone/?loadgame=1") + 17 + strlen("gameid") + gameId.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s&%s=%s&height=%d&width=%d", "http://dev.mytcg.net/_phone/?loadgame=1",
-				"gameid", gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
+				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();

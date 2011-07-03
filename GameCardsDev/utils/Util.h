@@ -9,19 +9,17 @@
 #include <MAUI/ListBox.h>
 #include <conprint.h>
 
-#include "MAHeaders.h"
+#include "../MAHeaders.h"
 #include "Card.h"
 #include "Product.h"
 #include "ImageCache.h"
 #include "Convert.h"
 #include "URLEncode.h"
 
+
 using namespace MAUI;
 
 #define PADDING 5
-#define VIRTUAL_KEYBOARD_HEIGHT 135
-#define VIRTUAL_KEYBOARD_HEIGHT_MULTIPLIER 0.33
-#define VIRTUAL_KEYBOARD_WIDTH 240
 
 class Util
 {

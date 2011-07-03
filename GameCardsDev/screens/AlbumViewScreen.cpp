@@ -51,10 +51,10 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	if (albumType == AT_BUY) {
 		loadImages("");
 		notice->setCaption("Purchasing...");
-		int urlLength = 65 + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?buyproduct=%s&height=%d&width=%d&freebie=%d",
+		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -78,10 +78,10 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 		albumType = AT_BUY;
 		loadImages("");
 		notice->setCaption("Receiving...");
-		int urlLength = 65 + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?buyproduct=%s&height=%d&width=%d&freebie=%d",
+		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 1);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -104,10 +104,10 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	} else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 69 + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?cardsincategory=%s&seconds=%s&height=%d&width=%d", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -130,17 +130,19 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 
 	this->setMain(mainLayout);
 	moved=0;
-	origAlbum = this;
+	if (albumType != AT_COMPARE) {
+		origAlbum = this;
+	}
 }
 
 void AlbumViewScreen::refresh() {
 	if ((albumType == AT_NORMAL)||(albumType == AT_AUCTION)||(albumType == AT_NEW_CARDS)) {
 		notice->setCaption("Checking for new cards...");
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 69 + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "http://dev.mytcg.net/_phone/?cardsincategory=%s&seconds=%s&height=%d&width=%d", category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -182,7 +184,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
 
-		Card *newCard = new Card();
+		newCard = new Card();
 		newCard->setAll(tmp.c_str());
 		StringCardMap::Iterator itr = cards.find(newCard->getId());
 		if (itr != cards.end()) {
@@ -192,7 +194,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		cards.insert(newCard->getId(), newCard);
 		all = ""+all.substr(indexof);
 		//delete newCard;
-		//newCard = NULL;
+		newCard = NULL;
 	}
 	drawList();
 	clearCardMap();
@@ -256,8 +258,11 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 #endif
 
 void AlbumViewScreen::clearListBox() {
-	tempWidgets = listBox->getChildren();
-	//listBox->clear();
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
 	listBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
@@ -276,7 +281,6 @@ void AlbumViewScreen::drawList() {
 	clearListBox();
 	index.clear();
 	String cardText = "";
-	tempImage = NULL;
 	for(StringCardMap::Iterator itr = cards.begin(); itr != cards.end(); itr++) {
 
 		index.add(itr->second->getId());
@@ -328,7 +332,6 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
-	clearListBox();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -389,7 +392,9 @@ void AlbumViewScreen::hide() {
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 	String all = "";
-	orig = this;
+	if (albumType != AT_COMPARE) {
+		orig = this;
+	}
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();
@@ -408,10 +413,6 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
-			/*if (albumType == AT_NORMAL) {
-				previous->show();
-				break;
-			}*/
 			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:

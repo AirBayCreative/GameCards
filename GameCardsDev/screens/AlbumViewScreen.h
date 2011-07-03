@@ -51,7 +51,6 @@ private:
 	Label *notice, *label;
 	KineticListBox *listBox;
 	Layout *mainLayout;
-	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -64,7 +63,7 @@ private:
 	bool list, left, right, emp, hasConnection, busy, isAuction;
 
 	Feed *feed;
-	Card *card;
+	Card *card, *newCard;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;

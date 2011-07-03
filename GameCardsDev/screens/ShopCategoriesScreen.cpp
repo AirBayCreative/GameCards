@@ -16,20 +16,27 @@ void ShopCategoriesScreen::refresh() {
 	}
 	mHttp = HttpConnection(this);
 	int res = -1;
+	int urlLength = 100 + URLSIZE;
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	switch(screenType) {
 		case ST_FREEBIE:
 			notice->setCaption("Checking for shop categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=1", HTTP_GET);
+			sprintf(url, "%s?productcategories=1", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=2", HTTP_GET);
+			sprintf(url, "%s?productcategories=2", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_AUCTIONS:
 			notice->setCaption("Checking for auction categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?auctioncategories=1", HTTP_GET);
+			sprintf(url, "%s?auctioncategories=1", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
+	delete [] url;
 	if(res < 0) {
 
 	} else {
@@ -59,20 +66,27 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	listBox->setHeight(listBox->getHeight() - 20);
 
 	int res = -1;
+	int urlLength = 100 + URLSIZE;
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	switch(screenType) {
 		case ST_FREEBIE:
 			notice->setCaption("Checking for shop categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=1", HTTP_GET);
+			sprintf(url, "%s?productcategories=1", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?productcategories=2", HTTP_GET);
+			sprintf(url, "%s?productcategories=2", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_AUCTIONS:
 			notice->setCaption("Checking for auction categories...");
-			res = mHttp.create("http://dev.mytcg.net/_phone/?auctioncategories=1", HTTP_GET);
+			sprintf(url, "%s?auctioncategories=1", URL);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
+	delete [] url;
 	if(res < 0) {
 		drawList();
 		notice->setCaption("Unable to connect, try again later...");
@@ -88,6 +102,8 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
@@ -98,6 +114,20 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 	temp="";
 	temp1="";
 	error_msg="";
+}
+void ShopCategoriesScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopCategoriesScreen::pointerPressEvent(MAPoint2d point)

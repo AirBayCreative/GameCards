@@ -14,6 +14,7 @@ private:
 
 	void show();
 	void hide();
+	void clearListBox();
 
 	Screen *menu;
 	int c;

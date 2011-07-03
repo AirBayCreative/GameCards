@@ -23,7 +23,7 @@ class GameCardScreen : public Screen, public HttpConnectionListener, public XCLi
 public:
 	GameCardScreen(Screen *previous, Feed *feed, int screenType = -1);
 	~GameCardScreen();
-
+	void clearListBox();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);

@@ -58,8 +58,6 @@ private:
 	Product *product;
 	Feed *feed;
 
-	Vector<Widget*> tempWidgets;
-
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 

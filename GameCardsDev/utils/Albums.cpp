@@ -75,14 +75,8 @@ void Albums::setAll(const char* allch) {
 			indentindexof = tmp.find(",");
 			hasCards = tmp=="true";
 
-			Map<String,String>::Iterator i = albumnames.find(name);
-			if (i == albumnames.end()) {
-				albumnames.insert(name,id);
-			}
-			Map<String,Album *>::Iterator it = album.find(id);
-			if (it == album.end()) {
-				album.insert(id, new Album(id, name, hasCards, false));
-			}
+			albumnames.insert(name,id);
+			album.insert(id, new Album(id, name, hasCards, false));
 			tmp = "";
 		}
 		all = all.substr(indexof);

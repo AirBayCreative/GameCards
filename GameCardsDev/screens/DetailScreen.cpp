@@ -9,7 +9,7 @@
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout(screenType==CARD?"Select":screenType==BALANCE?"":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
@@ -69,7 +69,12 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	}
 
 	if (screenType == PROFILE) {
-		int res = mHttp.create("http://dev.mytcg.net/_phone/?profiledetails=1", HTTP_GET);
+
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?profiledetails=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
 
@@ -83,8 +88,13 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.finish();
 
 		}
+		delete [] url;
 	} else if (screenType == BALANCE) {
-		int res = mHttp.create("http://dev.mytcg.net/_phone/?creditlog=1", HTTP_GET);
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?creditlog=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
 
@@ -98,6 +108,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.finish();
 
 		}
+		delete [] url;
 	}
 
 	this->setMain(mainLayout);
@@ -105,7 +116,24 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	moved = 0;
 }
 
+void DetailScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
+
 DetailScreen::~DetailScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -309,10 +337,10 @@ void DetailScreen::saveProfileData() {
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
 			saving = true;
-			int urlLength = 100+answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
+			int urlLength = 100+URLSIZE + answers[i]->getAnswerId().length()+answers[i]->getEditBoxPointer()->getCaption().length()+answers[i]->getCreditValue().length();
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", URLencode(answers[i]->getAnswerId()).c_str(),URLencode(answers[i]->getEditBoxPointer()->getCaption()).c_str(),answers[i]->getAnswered(),URLencode(answers[i]->getCreditValue()).c_str());
+			sprintf(url, "%s?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", URL, URLencode(answers[i]->getAnswerId()).c_str(),URLencode(answers[i]->getEditBoxPointer()->getCaption()).c_str(),answers[i]->getAnswered(),URLencode(answers[i]->getCreditValue()).c_str());
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {

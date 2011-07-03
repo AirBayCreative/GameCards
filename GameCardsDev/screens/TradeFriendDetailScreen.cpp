@@ -131,7 +131,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	String confirmLabel = "Send " + card->getText() + " to " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());
@@ -187,7 +187,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	String confirmLabel = result;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
 	//lbl->setSkin(Util::getSkinBack());
@@ -232,6 +232,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 }
 
 void TradeFriendDetailScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -371,11 +372,11 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Sending card...");
 
 					//make the http connection to trade the card
-					int urlLength = 60 + card->getId().length() + method.length() + friendDetail.length();
+					int urlLength = 60 + URLSIZE + card->getId().length() + method.length() + friendDetail.length();
 					char *url = new char[urlLength+1];
 					memset(url, '\0', urlLength+1);
 
-					sprintf(url, "http://dev.mytcg.net/_phone/?tradecard=%s&trademethod=%s&detail=%s", card->getId().c_str(),
+					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s", URL, card->getId().c_str(),
 							method.c_str(), friendDetail.c_str());
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
@@ -405,10 +406,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	case MAK_SOFTRIGHT:
 		switch(phase) {
 			case SP_METHOD:
-				previous->show();
-				break;
 			case SP_DETAIL:
-				//contactEditBox->setSelected(false);
+				clearListBox();
 				previous->show();
 				break;
 			case SP_CONFIRM:

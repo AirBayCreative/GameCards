@@ -45,7 +45,6 @@ private:
 	KineticListBox *listBox;
 	Layout *mainLayout;
 	Layout **feedLayouts;
-	Vector<Widget*> tempWidgets;
 	Widget *widImage, *widNotice;
 
 	HttpConnection mHttp;

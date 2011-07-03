@@ -23,6 +23,7 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
+	void clearListBox();
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);

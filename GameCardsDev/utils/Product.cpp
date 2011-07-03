@@ -80,11 +80,11 @@ String Product::getFormattedPrice() {
 }
 
 String Product::getDetailsString() {
-	String details = "Price: ";
+	String details = "Credits: ";
 
 	details += price;
-	details += "\nCards in pack: " + cardsInPack;
-	details += "\nPack Type: " + productType;
+	details += "\nCards: " + cardsInPack;
+	details += "\nType: " + productType;
 
 	return details;
 }

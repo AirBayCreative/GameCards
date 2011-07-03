@@ -5,12 +5,13 @@
 
 #include "Util.h"
 #include "ImageCache.h"
-#include "MAHeaders.h"
+#include "../MAHeaders.h"
 
 ImageCache::ImageCache() : mHttp(this)
 {
 	mIsBusy = false;
 	mData = NULL;
+	destroyed = false;
 }
 
 ImageCache::~ImageCache()
@@ -19,6 +20,7 @@ ImageCache::~ImageCache()
 	clearImageCache();
 	//maDestroyObject(mData);
 	mData = NULL;
+	destroyed = true;
 }
 
 void ImageCache::request(ImageCacheRequest* req)
@@ -56,7 +58,7 @@ void ImageCache::finishedDownloading()
 {
 	if (mData != NULL) {
 		//Save to storage
-		if (mNextRequest != NULL) {
+		if ((mNextRequest != NULL)&&(!destroyed)) {
 			Util::saveFile((mNextRequest->getSaveName()).c_str(), mData);
 			Util::returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
 		}
@@ -75,7 +77,7 @@ void ImageCache::finishedDownloading()
 	}
 	else {
 		mIsBusy = false;
-		if (mRequests.size() > 0)
+		if ((mRequests.size() > 0)&&(!destroyed))
 			process(true);
 		return;
 	}

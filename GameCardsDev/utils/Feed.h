@@ -62,7 +62,6 @@ private:
 	String seconds;
 	String freebie;
 	Albums *album;
-	Albums real_album;
 	bool touchEnabled;
 	bool loaded;
 	int https;

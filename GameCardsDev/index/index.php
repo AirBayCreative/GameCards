@@ -481,10 +481,11 @@ if ($_GET['auctionbid']){
 		$auctionCardId = $_GET['auctioncardid'];
 	
 		//the previous high bidder needs to get their credits back
-		$query = "SELECT max(price) as price, user_id "
+		$query = "SELECT max(price) as price, user_id, date_of_transaction "
 							."from mytcg_marketcard "
 							."where market_id = ".$auctionCardId." "
-							."group by user_id";
+							."group by price "
+							."ORDER BY date_of_transaction DESC";
 		$result = myqu($query);
 		
 		if ($aBid=$result[0]) {
@@ -1405,6 +1406,9 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 		AND c.category_id = '.$categoryId.' 
 		AND ac.user_id <> '.$iUserID.' 
 		AND datediff(now(), ac.date_expired) <= 0
+		AND
+		(ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id)
+		OR ISNULL(ab.price))
 		GROUP BY ac.market_id');
 		
 	$count = 0;
@@ -1485,7 +1489,11 @@ if ($_GET['userauction']){
 		LEFT OUTER JOIN mytcg_user UB 
 		ON AB.user_id=UB.user_id 
 		WHERE AC.marketstatus_id="1" 
-		AND U.user_id='.$iUserID.' 
+		AND U.user_id='.$iUserID.'
+		AND datediff(now(), AC.date_expired) <= 0
+		AND
+		(AB.price = (select max(price) from mytcg_marketcard a where a.market_id = AC.market_id group by market_id)
+		OR ISNULL(AB.price))
 		GROUP BY UC.usercard_id 
 		ORDER BY C.description, price, AC.minimum_bid');
 	

@@ -254,8 +254,8 @@ void Feed::setAll(const char* allch) {
 	}
 }
 void Feed::setAlbum(const char* allch) {
-	real_album = Albums();
-	album = &real_album;
+	album = new Albums();
+	album->clearAll();
 	album->setAll(allch);
 }
 Albums* Feed::getAlbum() {

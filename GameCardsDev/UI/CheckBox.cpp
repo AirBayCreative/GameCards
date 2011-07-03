@@ -1,5 +1,5 @@
 #include "Checkbox.h"
-#include "MAHeaders.h"
+#include "../MAHeaders.h"
 
 CheckBox::CheckBox(int x, int y, int width, int height, Widget* parent = NULL)
               : Widget(x, y, width, height, parent)

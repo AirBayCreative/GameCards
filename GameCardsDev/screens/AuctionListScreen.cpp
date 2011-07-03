@@ -12,6 +12,10 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	list = false;
 	shouldUpdateAuction = false;
 
+
+	clearAuctions();
+	deleteAuctions();
+
 	parentTag = "";
 	cardText = "";
 	cardId = "";
@@ -49,21 +53,21 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -161,13 +165,17 @@ void AuctionListScreen::drawList() {
 		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
 			cardText += "\nCurrent Bid: ";
 			cardText += auctions[i]->getPrice();
+
+			if (strcmp(auctions[i]->getLastBidUser().c_str(), feed->getUsername().c_str()) == 0) {
+				cardText += " (Yours)";
+			}
 		}
 		else {
 			cardText += "\nOpening Bid: ";
 			cardText += auctions[i]->getOpeningBid();
 		}
-		cardText += "\nEnd Date: ";
-		cardText += auctions[i]->getEndDate();
+		cardText += "\nTime Left: ";
+		cardText += getTime(auctions[i]->getEndDate());
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
@@ -179,9 +187,6 @@ void AuctionListScreen::drawList() {
 		tmp = auctions[i]->getCard();
 
 		Util::retrieveThumb(tempImage, tmp, mImageCache);
-
-		if (strcmp(auctions[i]->getUsername().c_str(), feed->getUsername().c_str()) == 0)
-			tempImage->setHasNote(true);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -202,6 +207,7 @@ void AuctionListScreen::drawList() {
 }
 
 void AuctionListScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
 	}
@@ -215,6 +221,68 @@ void AuctionListScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
+String AuctionListScreen::getTime(String enddate) {
+	String all = enddate;
+	String year = "";
+	String month = "";
+	String day = "";
+
+	struct tm * cmp_p = new tm;
+
+	int indexof = all.find("-");
+	if (indexof > -1) {
+		year = all.substr(0,indexof++).c_str();
+		all=all.substr(indexof);
+	}
+	indexof = all.find("-");
+	if (indexof > -1) {
+		month = all.substr(0,indexof++).c_str();
+		all=all.substr(indexof);
+		day = all;
+	}
+	cmp_p->tm_hour = 23;
+	cmp_p->tm_min = 59;
+	cmp_p->tm_sec = 59;
+	cmp_p->tm_year = Convert::toInt(year)-1900;
+	cmp_p->tm_mon = Convert::toInt(month)-1;
+	cmp_p->tm_mday = Convert::toInt(day);
+	time_t test = mktime(cmp_p);
+
+
+	time_t timeleft = test - maTime();
+
+
+	if (timeleft < 0) {
+		//should be set to zero, for now gonna use negative inferred value for testing
+		timeleft = 0;
+		//expired = true;
+	}
+	split_time(timeleft, cmp_p);
+
+	char buffer[128];
+	memset(buffer, 0, 128);
+	String days = "Days";
+	String hours = "Hours";
+	if (cmp_p->tm_mday == 1) {
+		days = "Days";
+	}
+	if (cmp_p->tm_hour == 1) {
+		hours = "Hours";
+	}
+	if (cmp_p->tm_mday == 1) {
+		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
+	} else {
+		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
+	}
+	delete cmp_p;
+
+	if (timeleft == 0) {
+		return "Expired";
+	}
+
+	return buffer;
+}
+
 void AuctionListScreen::refresh()
 {
 	clearAuctions();
@@ -223,21 +291,21 @@ void AuctionListScreen::refresh()
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -271,21 +339,21 @@ void AuctionListScreen::updateAuctions()
 	int urlLength = 0;
 	switch (screenType) {
 		case ST_CATEGORY:
-			urlLength = 74 + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "http://dev.mytcg.net/_phone/?categoryauction=1&category_id=%s&height=%d&width=%d",
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "http://dev.mytcg.net/_phone/?userauction=1&username=%s&height=%d&width=%d",
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -295,7 +363,7 @@ void AuctionListScreen::updateAuctions()
 	mHttp = HttpConnection(this);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
-		drawList();
+		//drawList();
 
 		notice->setCaption("Unable to connect, try again later...");
 	} else {
@@ -309,6 +377,8 @@ void AuctionListScreen::updateAuctions()
 }
 
 AuctionListScreen::~AuctionListScreen() {
+	clearListBox();
+	listBox->clear();
 	delete mainLayout;
 	if (next != NULL) {
 		delete next;
@@ -318,6 +388,7 @@ AuctionListScreen::~AuctionListScreen() {
 	delete mImageCache;
 
 	clearAuctions();
+	deleteAuctions();
 
 	parentTag="";
 	cardText="";
@@ -510,20 +581,23 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
 	} else if (!strcmp(name, "auctionsincategory")) {
-		if (!shouldUpdateAuction)
-		{
-			notice->setCaption("Building list...");
-			drawList();
-		}
-		else
-		{
-			((ShopDetailsScreen*)next)->auction = auctions[listBox->getSelectedIndex()];
-			shouldUpdateAuction = false;
-		}
+		notice->setCaption("Building list...");
+		drawList();
 	}
 }
 
 void AuctionListScreen::clearAuctions() {
+	for (int i = 0; i < auctions.size(); i++) {
+		if (auctions[i] != NULL) {
+			deleted.add(auctions[i]);
+			auctions.remove(i);
+			//delete auctions[i];
+			//auctions[i] = NULL;
+		}
+	}
+	auctions.clear();
+}
+void AuctionListScreen::deleteAuctions() {
 	for (int i = 0; i < auctions.size(); i++) {
 		if (auctions[i] != NULL) {
 			delete auctions[i];
@@ -531,6 +605,13 @@ void AuctionListScreen::clearAuctions() {
 		}
 	}
 	auctions.clear();
+	for (int i = 0; i < deleted.size(); i++) {
+		if (deleted[i] != NULL) {
+			delete deleted[i];
+			deleted[i] = NULL;
+		}
+	}
+	deleted.clear();
 }
 
 void AuctionListScreen::mtxParseError() {

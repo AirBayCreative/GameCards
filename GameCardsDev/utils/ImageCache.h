@@ -24,7 +24,7 @@ class ImageCache : public HttpConnectionListener
   private:
     Vector<ImageCacheRequest*>  mRequests;
     HttpConnection mHttp;
-    bool mIsBusy;
+    bool mIsBusy, destroyed;
     char mBuffer[1024];
 	MAHandle mData;
 	int mDataOffset;

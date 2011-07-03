@@ -11,6 +11,20 @@ GameCardScreen::GameCardScreen(Screen *previous, Feed *feed, int screenType)
 
 	moved=0;
 }
+void GameCardScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
+	}
+	listBox->clear();
+	listBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
 
 GameCardScreen::~GameCardScreen() {
 

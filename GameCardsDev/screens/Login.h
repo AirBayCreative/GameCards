@@ -40,7 +40,6 @@ private:
 	Label *label, *notice;
 	Screen * previous;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
-	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

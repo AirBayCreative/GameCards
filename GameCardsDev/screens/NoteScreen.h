@@ -20,6 +20,7 @@ public:
 	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
 	~NoteScreen();
 	void keyPressEvent(int keyCode);
+	void clearListBox();
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);

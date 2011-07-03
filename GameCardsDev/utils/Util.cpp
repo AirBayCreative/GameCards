@@ -464,6 +464,12 @@ void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mIma
 	if (card == NULL) {
 		return;
 	}
+	if (img == NULL) {
+		return;
+	}
+	if (mImageCache == NULL) {
+		return;
+	}
 
 	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), -1);
 	ImageCacheRequest* req1;
@@ -517,29 +523,39 @@ void Util::retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *
 
 void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
+
 	if (card == NULL) {
 		return;
 	}
+	if (img == NULL) {
+		return;
+	}
+	if (mImageCache == NULL) {
+		return;
+	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b.sav").c_str(), -1);
-	ImageCacheRequest* req1;
-	if(store != STERR_NONEXISTENT) {
-		MAHandle cacheimage = maCreatePlaceholder();
-		maReadStore(store, cacheimage);
-		maCloseStore(store, 0);
+	if (card != NULL) {
+		String filename = (FILE_PREFIX+card->getId()+"b.sav");
+		MAHandle store = maOpenStore(filename.c_str(), -1);
+		ImageCacheRequest* req1;
+		if(store != STERR_NONEXISTENT) {
+			MAHandle cacheimage = maCreatePlaceholder();
+			maReadStore(store, cacheimage);
+			maCloseStore(store, 0);
 
-		if (maGetDataSize(cacheimage) > 0) {
-			returnImage(img, cacheimage, 64);
+			if (maGetDataSize(cacheimage) > 0) {
+				returnImage(img, cacheimage, 64);
+			}
+			else {
+				req1 = new ImageCacheRequest(img, card, 64, 2);
+				mImageCache->request(req1);
+			}
+			cacheimage = -1;
 		}
 		else {
 			req1 = new ImageCacheRequest(img, card, 64, 2);
 			mImageCache->request(req1);
 		}
-		cacheimage = -1;
-	}
-	else {
-		req1 = new ImageCacheRequest(img, card, 64, 2);
-		mImageCache->request(req1);
 	}
 }
 

@@ -38,8 +38,6 @@ private:
 	MobImage *tempImage;
 	/*Native*/EditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
 
-	Vector<Widget*> tempWidgets;
-
 	bool list, left, right, busy;
 
 	int moved, screenMode;

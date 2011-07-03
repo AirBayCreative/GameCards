@@ -5,6 +5,20 @@
 #include "GameDetailsScreen.h"
 #include "../utils/Util.h"
 
+void GameDetailsScreen::clearListBox() {
+	Vector<Widget*> tempWidgets;
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
+	}
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
+
+	for (int j = 0; j < tempWidgets.size(); j++) {
+		delete tempWidgets[j];
+		tempWidgets[j] = NULL;
+	}
+	tempWidgets.clear();
+}
 GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {
 
@@ -32,19 +46,19 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			notice->setCaption("Loading game details...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = 54 + gameId.length();
+			urlLength = 54 + URLSIZE + gameId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?viewgamedetails=1&gameid=%s", gameId.c_str());
+			sprintf(url, "%s?viewgamedetails=1&gameid=%s", URL, gameId.c_str());
 			break;
 		case ST_GAME_LOG:
 			notice->setCaption("Loading game logs...");
 
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-			urlLength = 50 + gameId.length();
+			urlLength = 50 + URLSIZE + gameId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "http://dev.mytcg.net/_phone/?viewgamelog=1&gameid=%s", gameId.c_str());
+			sprintf(url, "%s?viewgamelog=1&gameid=%s", URL, gameId.c_str());
 			break;
 	}
 

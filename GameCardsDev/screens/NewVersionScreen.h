@@ -14,6 +14,7 @@ class NewVersionScreen : public Screen, WidgetListener {
 public:
 	NewVersionScreen(Screen *previous, String url, Feed *feed);
 	~NewVersionScreen();
+	void clearListBox();
 	void keyPressEvent(int keyCode);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);

@@ -48,7 +48,6 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	Vector<Widget*> tempWidgets;
 	String parentTag, cardText;
 	String cardId, description, thumburl, fronturl, frontflipurl, backurl, backflipurl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, fullDesc, endDate, lastBidUser;
 	int moved, screenType;
@@ -56,6 +55,7 @@ private:
 
 	Feed *feed;
 	AuctionVector auctions;
+	AuctionVector deleted;
 	AuctionVector::iterator auctionIter;
 	Card *card;
 	Auction *auction;
@@ -73,7 +73,9 @@ private:
 	void mtxTagStartEnd();
 
 	void clearListBox();
+	String getTime(String enddate);
 	void clearAuctions();
+	void deleteAuctions();
 };
 
 #endif	//_AUCTIONLISTSCREEN_H_*/

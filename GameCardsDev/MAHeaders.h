@@ -22,3 +22,7 @@
 #define RES_EMPTY_FLIP 22
 #define RES_BOX_SELECTED 23
 #define RES_BOX_UNSELECTED 24
+#define URL "http://dev.mytcg.net/_phone/"
+#define URLSIZE 28
+
+

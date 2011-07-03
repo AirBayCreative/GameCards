@@ -33,8 +33,9 @@ public:
 #endif
 	enum screenTypes {ST_NORMAL, ST_NEW_CARD};
 
-	bool isAuction; // TODO need to handle this cleaner
+	bool isAuction;
 private:
+	void clearListBox();
 	Screen *previous, *next;
 	MAHandle img;
 	MAPoint2d pointPressed, pointReleased;
