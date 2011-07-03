@@ -18,8 +18,14 @@ MAUIMoblet::MAUIMoblet() {
 	feed = Feed();
 	String data = "";
 	Util::getData("fd.sav", data);
+	if (data.length() <= 0) {
+		data = "";
+	}
 	feed.setAll(data.c_str());
 	Util::getData("lb.sav", data);
+	if (data.length() <= 0) {
+		data = "";
+	}
 	feed.setAlbum(data.c_str());
 
 	data = "";
