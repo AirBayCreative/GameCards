@@ -33,8 +33,8 @@ $ng_ai = "1";
 $ng_pvp = "2";
 
 //topcar category constant
-$topcar = "10";
-$cars = "9";
+$topcar = "2";
+$cars = "1";
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
@@ -83,7 +83,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-//$iUserID = 24;
+//$iUserID = 89;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -106,6 +106,8 @@ if ($iUserID == 0){
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
+				
+		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -2294,11 +2296,31 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			$winnerName = '';
 			if ($winnerId == $userPlayerId) {
 				$winnerName = $userPlayerUsername;
+				
+				$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+			
+				$iUpdate=$aUpdate[0];
+				if ($iUpdate['gameswon'] < 3) {
+					myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
+			
+					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+				}
 			}
 			else {
 				$winnerName = $oppPlayerUsername;
+				
 			}
-			$exp = $winnerName.' wins!';
+			$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+		
+			$iUpdate=$aUpdate[0];
+			if ($iUpdate['gameswon'] <= 3) {
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
+			} else {
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
+			}
 		}
 		
 		//add the log message, so players can see the outcome
@@ -4104,8 +4126,8 @@ class JUserHelper
 
 
 function myqu($sQuery){
-	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-	$aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
+	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
+	$aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
 //	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
 //	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
 	/** truncate long queries */
@@ -4130,8 +4152,8 @@ function myqu($sQuery){
 	return $aOutput;
 }
 function myqui($sQuery){
-  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-  $aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
+  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
+  $aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
   $sQueryCut=substr($sQuery,0,1024);
   fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
     .' '.$sQueryCut."\n");
