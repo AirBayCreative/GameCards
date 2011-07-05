@@ -11,6 +11,7 @@
 #include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
+	lprintfln("MenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	c=0;
 	menu = NULL;
 	bool iphone = false;

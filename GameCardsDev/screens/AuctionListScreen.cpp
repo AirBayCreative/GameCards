@@ -591,6 +591,7 @@ void AuctionListScreen::clearAuctions() {
 		if (auctions[i] != NULL) {
 			deleted.add(auctions[i]);
 			auctions.remove(i);
+			i--;
 			//delete auctions[i];
 			//auctions[i] = NULL;
 		}

@@ -21,7 +21,7 @@ void GameDetailsScreen::clearListBox() {
 }
 GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {
-
+	lprintfln("GameDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	layout = Util::createMainLayout("Continue", "", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];

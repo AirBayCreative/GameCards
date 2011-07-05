@@ -9,7 +9,7 @@
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType) {
-
+	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	parentTag = "";
 	cardText = "";
 	id = "";
