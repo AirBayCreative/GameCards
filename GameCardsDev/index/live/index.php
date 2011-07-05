@@ -1,5 +1,5 @@
 <?php
-include('../SimpleImage.php');
+include('SimpleImage.php');
 
 /*
 this page handles requests from the handset
@@ -31,10 +31,6 @@ $sTab="";
 //new game constants
 $ng_ai = "1";
 $ng_pvp = "2";
-
-//topcar category constant
-$topcar = "10";
-$cars = "9";
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
@@ -1121,7 +1117,7 @@ if ($iCategory=$_GET['cardsincategory']){
 function resizeThumbs() {
 	$iImage = 71;
 	while ($iImage <= 108) {
-		$filename = '../../img/cards/'.$iImage.'_thumb.png';
+		$filename = '../img/cards/'.$iImage.'_thumb.png';
 		
 		if(file_exists($filename)){
 			$image = new SimpleImage();
@@ -1135,7 +1131,7 @@ function resizeThumbs() {
 
 function resizeCard($iHeight, $iWidth, $iImage) {
 	//we need to check if the width after scaling would be too wide for the screen.
-	$filename = '../../img/cards/'.$iImage.'_front.png';
+	$filename = '../img/cards/'.$iImage.'_front.png';
 	if (file_exists($filename)) {
 		$image = new SimpleImage();
 		$image->load($filename);
@@ -1161,8 +1157,8 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//Check directory for resized version
-	chmod("../../img",0777);
-	$dir = '../../img/'.$iHeight;
+	chmod("../img",0777);
+	$dir = '../img/'.$iHeight;
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -1188,7 +1184,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../../img/cards/'.$iImage.'_front.png';
+	$filename = '../img/cards/'.$iImage.'_front.png';
 	$filenameResized = $dir.$iImage.'_front_flip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1198,7 +1194,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//Check and create new resized back image
-	$filename = '../../img/cards/'.$iImage.'_back.png';
+	$filename = '../img/cards/'.$iImage.'_back.png';
 	$filenameResized = $dir.$iImage.'_back.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1207,7 +1203,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../../img/cards/'.$iImage.'_back.png';
+	$filename = '../img/cards/'.$iImage.'_back.png';
 	$filenameResized = $dir.$iImage.'_back_flip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1217,7 +1213,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
-	$filename = '../../img/cards/gc.png';
+	$filename = '../img/cards/gc.png';
 	$filenameResized = $dir.'gc.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1226,7 +1222,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../../img/cards/gc.png';
+	$filename = '../img/cards/gc.png';
 	$filenameResized = $dir.'gcFlip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1240,7 +1236,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 
 function resizeGCCard($iHeight, $iWidth) {
 	//we need to check if the width after scaling would be too wide for the screen.
-	$filename = '../../img/cards/gc.png';
+	$filename = '../img/cards/gc.png';
 	if (file_exists($filename)) {
 		$image = new SimpleImage();
 		$image->load($filename);
@@ -1266,8 +1262,8 @@ function resizeGCCard($iHeight, $iWidth) {
 	}
 	
 	//Check directory for resized version
-	chmod("../../img",0777);
-	$dir = '../../img/'.$iHeight;
+	chmod("../img",0777);
+	$dir = '../img/'.$iHeight;
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -1285,7 +1281,7 @@ function resizeGCCard($iHeight, $iWidth) {
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
-	$filename = '../../img/cards/gc.png';
+	$filename = '../img/cards/gc.png';
 	$filenameResized = $dir.'gc.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1294,7 +1290,7 @@ function resizeGCCard($iHeight, $iWidth) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../../img/cards/gc.png';
+	$filename = '../img/cards/gc.png';
 	$filenameResized = $dir.'gcFlip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -2848,7 +2844,7 @@ if ($_GET['viewgamedetails']){
 		FROM mytcg_game g
 		INNER JOIN mytcg_gameplayer gp
 		ON g.game_id = gp.game_id
-	\	INNER JOIN (SELECT COUNT(gpc.gameplayercard_id) playerDeck, gpc.gameplayer_id
+		INNER JOIN (SELECT COUNT(gpc.gameplayercard_id) playerDeck, gpc.gameplayer_id
 		FROM mytcg_gameplayercard gpc
 		GROUP BY gpc.gameplayer_id) gpc
 		ON gp.gameplayer_id = gpc.gameplayer_id
@@ -2915,7 +2911,6 @@ if ($_GET['usercategories']){
 		ON cx.category_child_id = ca.category_id
 		WHERE LOWER(ucs.description) = LOWER("album")
 		AND uc.user_id = '.$iUserID.' 
-		AND cx.category_parent_id = '.$topcar.'
 		GROUP BY ca.category_id
 		ORDER BY ca.description');
 	$topCats = array();
@@ -3019,7 +3014,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1) {
-		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard, $topcar);
+		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -3028,7 +3023,7 @@ if ($_GET['usercategories']){
 }
 
 
-function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar) {
+function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
 	$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		cx.category_parent_id,
 		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3044,7 +3039,6 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		ON cx.category_child_id = ca.category_id
 		WHERE LOWER(ucs.description) = LOWER("album")
 		AND uc.user_id = '.$iUserID.'
-		AND cx.category_parent_id = '.$topcar.'
 		GROUP BY ca.category_id
 		ORDER BY ca.description');
 	$subCats = array();
@@ -3189,7 +3183,7 @@ if ($_GET['usersubcategories']){
 
 	$cat = $_GET['category'];
 	//this gets the categories that the user has cards in, and their parents
-	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '', $topcar);
+	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '');
 	exit;
 }
 
@@ -3224,7 +3218,7 @@ if ($iFreebie=$_GET['productcategories']) {
 	$aCategories=myqu('SELECT c.category_id, c.description
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
-			FROM mytcg_category_x) AND c.category_id = '.$cars.' ORDER BY c.description');
+			FROM mytcg_category_x) ORDER BY c.description');
 	$sOP='<cardcategories>'.$sCRLF;
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]) {
@@ -3285,6 +3279,13 @@ function hasProducts($categoryId, $iFreebie) {
 
 /** return a list of categories with auctions in them */
 if ($_GET['auctioncategories']) {
+	/*$aCategories=myqu('SELECT C.category_id, C.description '
+			.'FROM mytcg_category C, mytcg_category_x X '
+			.'WHERE C.CATEGORY_ID = X.CATEGORY_CHILD_ID '
+			.'AND X.CATEGORY_PARENT_ID is null '
+			.'AND C.is_deleted is null '
+			.'ORDER BY C.description'
+		);*/
 		
 		
 	$aAuctionCards=myqu('SELECT count(*) as cnt 
@@ -3330,7 +3331,6 @@ if ($_GET['auctioncategories']) {
 								ON uc.usercard_id = ac.usercard_id
 								WHERE ac.marketstatus_id = 1 
 								AND datediff(now(), ac.date_expired) <= 0
-								AND x.category_parent_id = '.$topcar.'
 								AND uc.user_id <> '.$iUserID.'
 								group by category_id');
 	$iCount=0;
@@ -4104,8 +4104,8 @@ class JUserHelper
 
 
 function myqu($sQuery){
-	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-	$aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
+	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
+	$aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
 //	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
 //	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
 	/** truncate long queries */
@@ -4130,8 +4130,8 @@ function myqu($sQuery){
 	return $aOutput;
 }
 function myqui($sQuery){
-  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-  $aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
+  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
+  $aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
   $sQueryCut=substr($sQuery,0,1024);
   fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
     .' '.$sQueryCut."\n");
