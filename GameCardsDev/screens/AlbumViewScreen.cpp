@@ -416,9 +416,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			((AlbumLoadScreen *)previous)->refresh();
 			break;
 		case MAK_FIRE:
-			lprintfln("got MAK_FIRE");
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
-				lprintfln("got to delete");
 				if (next != NULL) {
 					delete next;
 					feed->remHttp();

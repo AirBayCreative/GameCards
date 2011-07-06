@@ -20,6 +20,7 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 0;
 
 	mHttp = HttpConnection(this);
+	album->clearAll();
 	delete album;
 	album = new Albums();
 
@@ -158,8 +159,8 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
 			delete album;
+			album = NULL;
 		}
-		album = NULL;
 	}
 }
 
@@ -240,8 +241,8 @@ void AlbumLoadScreen::drawList() {
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		albumname = itr->c_str();
 
-		if (!((screenType==ST_AUCTION)&&!strcmp(itr->c_str(), "New Cards"))) {
-			label = Util::createSubLabel(itr->c_str());
+		if (!((screenType==ST_AUCTION)&&!strcmp(albumname.c_str(), "New Cards"))) {
+			label = Util::createSubLabel(albumname);
 			label->setPaddingBottom(5);
 			label->addWidgetListener(this);
 			listBox->add(label);
@@ -249,6 +250,7 @@ void AlbumLoadScreen::drawList() {
 			size++;
 		}
 	}
+	albumname="";
 	display.clear();
 	if (album->size() >= 1) {
 		if (ind < album->size()) {
@@ -317,7 +319,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-		case MAK_SOFTLEFT:
 			if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
@@ -534,17 +535,19 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				break;
 		}
 		if (screenType == ST_ALBUMS) {
+			String al = album->getAll();
 			if (path.size() == 0) {
-				this->feed->getAlbum()->setAll(album->getAll().c_str());
-				Util::saveData("lb.sav", album->getAll().c_str());
+				this->feed->getAlbum()->setAll(al.c_str());
+				Util::saveData("lb.sav", al.c_str());
 			}
 			else {
 				char *file = new char[path[path.size()-1].length() + 6];
 				memset(file, 0, path.end()->length() + 6);
 				sprintf(file, "a%s.sav", path[path.size()-1].c_str());
-				Util::saveData(file, album->getAll().c_str());
+				Util::saveData(file, al.c_str());
 				delete file;
 			}
+			al = "";
 		}
 		drawList();
 		if ((album->size() == 1)&&(screenType != ST_ALBUMS)) {
@@ -601,6 +604,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 						break;
 					}
 				}
+				display.clear();
 			}
 		temp = "";
 		hasCards = "";

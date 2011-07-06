@@ -11,6 +11,7 @@
 #include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
+	lprintfln("MenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	c=0;
 	menu = NULL;
 	bool iphone = false;
@@ -238,7 +239,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if (feed->getHttps() > 0) {
 				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 				label->setCaption("Please wait for all connections to finish before exiting.");
-				lprintfln(" connections %d", feed->getHttps());
 			} else {
 				maExit(0);
 			}

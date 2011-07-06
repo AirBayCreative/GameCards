@@ -9,7 +9,7 @@
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType) {
-
+	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	parentTag = "";
 	cardText = "";
 	id = "";
@@ -259,7 +259,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout(active?"Play Stat":"", "Options", "", mainLayout);
+	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
 	int height = listBox->getHeight() - 50;
 	String lblString = "User: ";

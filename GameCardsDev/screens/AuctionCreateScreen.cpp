@@ -27,7 +27,6 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
-	listBox->clear();
 	delete mainLayout;
 	if (mImageCache != NULL) {
 		delete mImageCache;
@@ -308,6 +307,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	moved = 0;
 	editBoxOpening->setSelected(true);
 	listBox->setSelectedIndex(2);
+	cardText = "";
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {

@@ -54,9 +54,9 @@ void Albums::setAll(const char* allch) {
 	String all = allch;
 	int indexof = 0;
 	int indentindexof = 0;
-	String tmp;
-	String id;
-	String name;
+	String tmp = "";
+	String id = "";
+	String name = "";
 
 	clearAll();
 
@@ -76,12 +76,17 @@ void Albums::setAll(const char* allch) {
 			hasCards = tmp=="true";
 
 			albumnames.insert(name,id);
-			album.insert(id, new Album(id, name, hasCards, false));
+			Album * newAl = new Album(id, name, hasCards, false);
+			album.insert(id, newAl);
+			newAl = NULL;
 			tmp = "";
 		}
 		all = all.substr(indexof);
 	}
-	all.clear();
+	tmp = "";
+	id = "";
+	name = "";
+	all = "";
 }
 
 void Albums::clearAll() {
@@ -90,7 +95,7 @@ void Albums::clearAll() {
 		i->second = NULL;
 	}
 	for(Map<String,String>::Iterator i = albumnames.begin(); i != albumnames.end(); i++) {
-		i->second.clear();
+		i->second = "";
 	}
 	album.clear();
 	albumnames.clear();
@@ -99,7 +104,9 @@ void Albums::clearAll() {
 
 void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
 	albumnames.insert(name, id);
-	album.insert(id, new Album(id, name, hasCards, updated));
+	Album * newAlb = new Album(id, name, hasCards, updated);
+	album.insert(id, newAlb);
+	newAlb = NULL;
 }
 
 void Albums::removeAlbum(const char* id) {
