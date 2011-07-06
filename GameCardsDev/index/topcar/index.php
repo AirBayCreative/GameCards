@@ -1,5 +1,6 @@
 <?php
 include('../SimpleImage.php');
+include('../dbconnection.php');
 
 /*
 this page handles requests from the handset
@@ -33,8 +34,8 @@ $ng_ai = "1";
 $ng_pvp = "2";
 
 //topcar category constant
-$topcar = "10";
-$cars = "9";
+$topcar = "2";
+$cars = "1";
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
@@ -83,7 +84,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-//$iUserID = 24;
+//$iUserID = 89;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -106,6 +107,8 @@ if ($iUserID == 0){
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
+				
+		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -2294,11 +2297,33 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			$winnerName = '';
 			if ($winnerId == $userPlayerId) {
 				$winnerName = $userPlayerUsername;
+				
+				$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+			
+				$iUpdate=$aUpdate[0];
+				if ($iUpdate['gameswon'] < 3) {
+					myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
+			
+					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+				} else if ($iUpdate['gameswon'] == 3) {
+					myqui('UPDATE mytcg_user SET gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+				}
 			}
 			else {
 				$winnerName = $oppPlayerUsername;
+				
 			}
-			$exp = $winnerName.' wins!';
+			$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+		
+			$iUpdate=$aUpdate[0];
+			if ($iUpdate['gameswon'] <= 3) {
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
+			} else {
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
+			}
 		}
 		
 		//add the log message, so players can see the outcome
@@ -2316,7 +2341,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 }
 
 //given the user's id and game id, populate the mytcg_gameplayercard
-function initialiseGame($iUserID, $gameId) {
+function initialiseGame($iUserID, $gameId, $topcar) {
 	//we need to get both players' gameplayer_id, and the categoryId
 	$userPlayerIdQuery = myqu('SELECT gp.gameplayer_id, g.category_id 
 		FROM mytcg_gameplayer gp 
@@ -2340,14 +2365,17 @@ function initialiseGame($iUserID, $gameId) {
 	
 	//this will require some recursion, as the category given is the second highest level,
 	// and the cards are an unknown amount of subcategories deep.
-	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-	$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
+	$userCards = getAllUserCatCards($iUserID, $userCards, $topcar, -1);
+	$oppCards = getAllUserCatCards($opponentId, $oppCards, $topcar, -1);
 	
 	//the standard deck size is 20, but for now I am going to set it to 10, for testing
 	//$deckSize = 10;
 	$deckSize = sizeof($userCards) > sizeof($oppCards)? sizeof($oppCards):sizeof($userCards);
 	$deckSize = $deckSize - ($deckSize % 5);
 	$deckSize = $deckSize > 10?10:$deckSize;
+	
+	$userCards = getAllUserCatCards($iUserID, $userCards, $topcar, $deckSize);
+	$oppCards = getAllUserCatCards($opponentId, $oppCards, $topcar, $deckSize);
 	
 	//for now we will use a random selection of the cards
 	//maybe later we will base it on rareity or use another method
@@ -2473,7 +2501,7 @@ if ($_GET['declinegame']) {
 		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
 	
 	if (!$newGame) {
-		initialiseGame($iUserID, $gameId);
+		initialiseGame($iUserID, $gameId, $topcar);
 	}
 	
 	//return xml with the gameId to the phone
@@ -2519,7 +2547,7 @@ if ($_GET['confirmgame']) {
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
 		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
 	
-	initialiseGame($iUserID, $gameId);
+	initialiseGame($iUserID, $gameId, $topcar);
 	
 	//return xml with the gameId to the phone
 	$sOP='<game>'.$sCRLF;
@@ -2728,7 +2756,7 @@ if ($_GET['newgame']) {
 		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
 			
 	if (!$newGame) {
-		initialiseGame($iUserID, $gameId);
+		initialiseGame($iUserID, $gameId, $topcar);
 	}
 	
 	//return xml with the gameId to the phone
@@ -2749,17 +2777,40 @@ if ($_GET['newgame']) {
 }
 
 //recurring method used to get the cards in a category and all its children
-function getAllUserCatCards($userId,$categoryId,$results){
+function getAllUserCatCards($userId,$results,$topcar,$deckSize){
 	//first get all the cards in the current category and add them to the list
-	$cards = myqu('SELECT c.card_id, uc.usercard_id
-		FROM mytcg_usercard uc
-		INNER JOIN mytcg_card c
-		ON uc.card_id = c.card_id
-		INNER JOIN mytcg_usercardstatus ucs
-		ON ucs.usercardstatus_id = uc.usercardstatus_id
-		WHERE c.category_id = '.$categoryId.'
-		AND uc.user_id = '.$userId.' 
-		AND lower(ucs.description) = "album"');
+	if ($deckSize == -1) {
+		$cards = myqu('SELECT c.card_id, uc.usercard_id, c.avgranking, c.ranking
+			FROM mytcg_usercard uc
+			INNER JOIN mytcg_card c
+			ON uc.card_id = c.card_id
+			INNER JOIN mytcg_usercardstatus ucs
+			ON ucs.usercardstatus_id = uc.usercardstatus_id
+			WHERE uc.user_id = '.$userId.'
+			AND c.category_id in (SELECT category_id
+														FROM mytcg_category a
+														INNER JOIN mytcg_category_x b
+														ON a.category_id = b.category_child_id
+														WHERE b.category_parent_id = '.$topcar.')
+			AND lower(ucs.description) = "album"
+			ORDER BY c.avgranking DESC');
+	} else {
+		$cards = myqu('SELECT c.card_id, uc.usercard_id, c.avgranking, c.ranking 
+				FROM mytcg_usercard uc 
+				INNER JOIN mytcg_card c 
+				ON uc.card_id = c.card_id 
+				INNER JOIN mytcg_usercardstatus ucs 
+				ON ucs.usercardstatus_id = uc.usercardstatus_id 
+				WHERE uc.user_id = '.$userId.' 
+				AND c.category_id in (SELECT category_id 
+															FROM mytcg_category a 
+															INNER JOIN mytcg_category_x b 
+															ON a.category_id = b.category_child_id 
+															WHERE b.category_parent_id = '.$topcar.') 
+				AND lower(ucs.description) = "album" 
+				ORDER BY c.avgranking DESC 
+				LIMIT '.$deckSize);
+	}
 	
 	$count = 0;
 	while ($card=$cards[$count]) {
@@ -2768,7 +2819,7 @@ function getAllUserCatCards($userId,$categoryId,$results){
 	}
 	
 	//then select the children categories
-	$categories = myqu('SELECT cx.category_child_id
+	/*$categories = myqu('SELECT cx.category_child_id
 		FROM mytcg_category_x cx
 		WHERE cx.category_parent_id = '.$categoryId);
 		
@@ -2777,7 +2828,7 @@ function getAllUserCatCards($userId,$categoryId,$results){
 		//and repeat for each one
 		$results = getAllUserCatCards($userId, $category['category_child_id'], $results);
 		$count++;
-	}
+	}*/
 	
 	return $results;
 }
@@ -3895,7 +3946,7 @@ function registerUser ($username, $password, $email) {
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
 		
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -4102,48 +4153,14 @@ class JUserHelper
 
 }/** end JUserHelper Class */
 
+function myqu($sQuery) {
+	$conn = new dbconnection();
+	return $conn->_myqu($sQuery);
+}
 
-function myqu($sQuery){
-	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-	$aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
-//	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
-//	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
-	/** truncate long queries */
-	$sQueryCut=substr($sQuery,0,1024);
-	fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-		.' '.$sQueryCut."\n");
-	$aString=explode(',',$sMysqlConnectString);
-	$aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
-	$aResult=@mysqli_query($aLink, $sQuery);
-	if (mysqli_error($aLink)){
-		fwrite($aFileHandle,mysqli_error($aLink)."\n");
-	}
-	fclose($aFileHandle);
-	$aOutput=array();
-	$f=0;
-	while ($aRow=@mysqli_fetch_array($aResult,MYSQL_BOTH)){
-		$aOutput[$f]=$aRow;
-		++$f;
-	}
-	@mysqli_free_result($aResult);
-	mysqli_close($aLink);
-	return $aOutput;
+function myqui($sQuery) {
+	$conn = new dbconnection();
+	$conn->_myqui($sQuery);
 }
-function myqui($sQuery){
-  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-  $aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
-  $sQueryCut=substr($sQuery,0,1024);
-  fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-    .' '.$sQueryCut."\n");
-  
-  $aString=explode(',',$sMysqlConnectString);
-  $aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
-  $aResult=@mysqli_query($aLink, $sQuery);
-  if (mysqli_error($aLink)){
-    fwrite($aFileHandle,mysqli_error($aLink)."\n");
-  }
-  fclose($aFileHandle);
-  @mysqli_free_result($aResult);
-  mysqli_close($aLink);
-}
+
 ?>

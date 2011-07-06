@@ -28,6 +28,9 @@ MAUIMoblet::MAUIMoblet() {
 	}
 	feed.setAlbum(data.c_str());
 
+
+	maScreenSetOrientation(SCREEN_ORIENTATION_PORTRAIT);
+
 	data = "";
 
 	if (feed.getLoaded()) {

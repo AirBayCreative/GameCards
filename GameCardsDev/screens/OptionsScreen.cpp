@@ -24,9 +24,17 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	busy = false;
 
 	menu = NULL;
-
+	bool iphone = false;
+	#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+		iphone = true;
+	#endif
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = Util::createMainLayout("", "Exit");
+		if (iphone) {
+			layout = Util::createMainLayout("", "");
+		} else {
+			layout = Util::createMainLayout("", "Exit");
+		}
+
 	}
 	else {
 		layout = Util::createMainLayout("", "Back");

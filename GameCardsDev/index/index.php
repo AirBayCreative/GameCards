@@ -1,5 +1,6 @@
 <?php
-include('SimpleImage.php');
+include('../SimpleImage.php');
+include('../dbconnection.php');
 
 /*
 this page handles requests from the handset
@@ -79,7 +80,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-//$iUserID = 24;
+//$iUserID = 89;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -102,6 +103,8 @@ if ($iUserID == 0){
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
+				
+		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -1117,7 +1120,7 @@ if ($iCategory=$_GET['cardsincategory']){
 function resizeThumbs() {
 	$iImage = 71;
 	while ($iImage <= 108) {
-		$filename = '../img/cards/'.$iImage.'_thumb.png';
+		$filename = '../../img/cards/'.$iImage.'_thumb.png';
 		
 		if(file_exists($filename)){
 			$image = new SimpleImage();
@@ -1131,7 +1134,7 @@ function resizeThumbs() {
 
 function resizeCard($iHeight, $iWidth, $iImage) {
 	//we need to check if the width after scaling would be too wide for the screen.
-	$filename = '../img/cards/'.$iImage.'_front.png';
+	$filename = '../../img/cards/'.$iImage.'_front.png';
 	if (file_exists($filename)) {
 		$image = new SimpleImage();
 		$image->load($filename);
@@ -1157,8 +1160,8 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//Check directory for resized version
-	chmod("../img",0777);
-	$dir = '../img/'.$iHeight;
+	chmod("../../img",0777);
+	$dir = '../../img/'.$iHeight;
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -1184,7 +1187,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../img/cards/'.$iImage.'_front.png';
+	$filename = '../../img/cards/'.$iImage.'_front.png';
 	$filenameResized = $dir.$iImage.'_front_flip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1194,7 +1197,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//Check and create new resized back image
-	$filename = '../img/cards/'.$iImage.'_back.png';
+	$filename = '../../img/cards/'.$iImage.'_back.png';
 	$filenameResized = $dir.$iImage.'_back.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1203,7 +1206,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../img/cards/'.$iImage.'_back.png';
+	$filename = '../../img/cards/'.$iImage.'_back.png';
 	$filenameResized = $dir.$iImage.'_back_flip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1213,7 +1216,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 	}
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
-	$filename = '../img/cards/gc.png';
+	$filename = '../../img/cards/gc.png';
 	$filenameResized = $dir.'gc.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1222,7 +1225,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../img/cards/gc.png';
+	$filename = '../../img/cards/gc.png';
 	$filenameResized = $dir.'gcFlip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1236,7 +1239,7 @@ function resizeCard($iHeight, $iWidth, $iImage) {
 
 function resizeGCCard($iHeight, $iWidth) {
 	//we need to check if the width after scaling would be too wide for the screen.
-	$filename = '../img/cards/gc.png';
+	$filename = '../../img/cards/gc.png';
 	if (file_exists($filename)) {
 		$image = new SimpleImage();
 		$image->load($filename);
@@ -1262,8 +1265,8 @@ function resizeGCCard($iHeight, $iWidth) {
 	}
 	
 	//Check directory for resized version
-	chmod("../img",0777);
-	$dir = '../img/'.$iHeight;
+	chmod("../../img",0777);
+	$dir = '../../img/'.$iHeight;
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -1281,7 +1284,7 @@ function resizeGCCard($iHeight, $iWidth) {
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
-	$filename = '../img/cards/gc.png';
+	$filename = '../../img/cards/gc.png';
 	$filenameResized = $dir.'gc.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -1290,7 +1293,7 @@ function resizeGCCard($iHeight, $iWidth) {
 		$image->save($filenameResized);
 	}
 	
-	$filename = '../img/cards/gc.png';
+	$filename = '../../img/cards/gc.png';
 	$filenameResized = $dir.'gcFlip.png';
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
@@ -2290,11 +2293,33 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			$winnerName = '';
 			if ($winnerId == $userPlayerId) {
 				$winnerName = $userPlayerUsername;
+				
+				$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+			
+				$iUpdate=$aUpdate[0];
+				if ($iUpdate['gameswon'] < 3) {
+					myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
+			
+					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+				} else if ($iUpdate['gameswon'] == 3) {
+					myqui('UPDATE mytcg_user SET gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+				}
 			}
 			else {
 				$winnerName = $oppPlayerUsername;
+				
 			}
-			$exp = $winnerName.' wins!';
+			$aUpdate=myqu('SELECT gameswon
+					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+		
+			$iUpdate=$aUpdate[0];
+			if ($iUpdate['gameswon'] <= 3) {
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
+			} else {
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
+			}
 		}
 		
 		//add the log message, so players can see the outcome
@@ -2336,8 +2361,8 @@ function initialiseGame($iUserID, $gameId) {
 	
 	//this will require some recursion, as the category given is the second highest level,
 	// and the cards are an unknown amount of subcategories deep.
-	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-	$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
+	$userCards = getAllUserCatCards($iUserID, $userCards);
+	$oppCards = getAllUserCatCards($opponentId, $oppCards);
 	
 	//the standard deck size is 20, but for now I am going to set it to 10, for testing
 	//$deckSize = 10;
@@ -2745,7 +2770,7 @@ if ($_GET['newgame']) {
 }
 
 //recurring method used to get the cards in a category and all its children
-function getAllUserCatCards($userId,$categoryId,$results){
+function getAllUserCatCards($userId,$results,$deckSize){
 	//first get all the cards in the current category and add them to the list
 	$cards = myqu('SELECT c.card_id, uc.usercard_id
 		FROM mytcg_usercard uc
@@ -2844,7 +2869,7 @@ if ($_GET['viewgamedetails']){
 		FROM mytcg_game g
 		INNER JOIN mytcg_gameplayer gp
 		ON g.game_id = gp.game_id
-		INNER JOIN (SELECT COUNT(gpc.gameplayercard_id) playerDeck, gpc.gameplayer_id
+	\	INNER JOIN (SELECT COUNT(gpc.gameplayercard_id) playerDeck, gpc.gameplayer_id
 		FROM mytcg_gameplayercard gpc
 		GROUP BY gpc.gameplayer_id) gpc
 		ON gp.gameplayer_id = gpc.gameplayer_id
@@ -3014,7 +3039,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1) {
-		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard);
+		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard;
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -3279,13 +3304,6 @@ function hasProducts($categoryId, $iFreebie) {
 
 /** return a list of categories with auctions in them */
 if ($_GET['auctioncategories']) {
-	/*$aCategories=myqu('SELECT C.category_id, C.description '
-			.'FROM mytcg_category C, mytcg_category_x X '
-			.'WHERE C.CATEGORY_ID = X.CATEGORY_CHILD_ID '
-			.'AND X.CATEGORY_PARENT_ID is null '
-			.'AND C.is_deleted is null '
-			.'ORDER BY C.description'
-		);*/
 		
 		
 	$aAuctionCards=myqu('SELECT count(*) as cnt 
@@ -3895,7 +3913,7 @@ function registerUser ($username, $password, $email) {
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits) VALUES ('{$username}', '{$email}', 1, now(), 300)");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
 		
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -4102,48 +4120,14 @@ class JUserHelper
 
 }/** end JUserHelper Class */
 
+function myqu($sQuery) {
+	$conn = new dbconnection();
+	return $conn->_myqu($sQuery);
+}
 
-function myqu($sQuery){
-	$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-	$aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
-//	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
-//	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
-	/** truncate long queries */
-	$sQueryCut=substr($sQuery,0,1024);
-	fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-		.' '.$sQueryCut."\n");
-	$aString=explode(',',$sMysqlConnectString);
-	$aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
-	$aResult=@mysqli_query($aLink, $sQuery);
-	if (mysqli_error($aLink)){
-		fwrite($aFileHandle,mysqli_error($aLink)."\n");
-	}
-	fclose($aFileHandle);
-	$aOutput=array();
-	$f=0;
-	while ($aRow=@mysqli_fetch_array($aResult,MYSQL_BOTH)){
-		$aOutput[$f]=$aRow;
-		++$f;
-	}
-	@mysqli_free_result($aResult);
-	mysqli_close($aLink);
-	return $aOutput;
+function myqui($sQuery) {
+	$conn = new dbconnection();
+	$conn->_myqui($sQuery);
 }
-function myqui($sQuery){
-  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
-  $aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
-  $sQueryCut=substr($sQuery,0,1024);
-  fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-    .' '.$sQueryCut."\n");
-  
-  $aString=explode(',',$sMysqlConnectString);
-  $aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
-  $aResult=@mysqli_query($aLink, $sQuery);
-  if (mysqli_error($aLink)){
-    fwrite($aFileHandle,mysqli_error($aLink)."\n");
-  }
-  fclose($aFileHandle);
-  @mysqli_free_result($aResult);
-  mysqli_close($aLink);
-}
+
 ?>
