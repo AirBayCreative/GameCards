@@ -164,11 +164,12 @@ void RedeemScreen::keyPressEvent(int keyCode) {
 	error = false;
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
-		case MAK_FIRE:
+		case MAK_BACK:
 		case MAK_SOFTRIGHT:
+			editBoxRedeem->disableListener();
 			prev->show();
 			break;
-		case MAK_BACK:
+		case MAK_FIRE:
 		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				isBusy = true;
