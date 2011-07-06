@@ -2345,7 +2345,7 @@ function initialiseGame($iUserID, $gameId) {
 	foreach ($categories as $category) {
 		$categoryString.=','.$category['category_child_id'];
 	}
-	$userCards = myqu('SELECT c.card_id, uc.usercard_id
+	$userCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
 		FROM mytcg_usercard uc
 		INNER JOIN mytcg_card c
 		ON uc.card_id = c.card_id
@@ -2354,8 +2354,8 @@ function initialiseGame($iUserID, $gameId) {
 		WHERE c.category_id in ('.$categoryString.')
 		AND uc.user_id = '.$iUserID.' 
 		AND lower(ucs.description) = "album" 
-		ORDER BY c.avgranking DESC');
-	$oppCards = myqu('SELECT c.card_id, uc.usercard_id
+		ORDER BY c.avgranking DESC, c.card_id');
+	$oppCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
 		FROM mytcg_usercard uc
 		INNER JOIN mytcg_card c
 		ON uc.card_id = c.card_id
@@ -2364,7 +2364,41 @@ function initialiseGame($iUserID, $gameId) {
 		WHERE c.category_id in ('.$categoryString.')
 		AND uc.user_id = '.$opponentId.' 
 		AND lower(ucs.description) = "album" 
-		ORDER BY c.avgranking DESC');
+		ORDER BY c.avgranking DESC, c.card_id');
+	
+	$userCards = array();
+	$oppCards = array();
+	//we just need to make sure the users dont end up with more than 4 of a card in their decks
+	$maxCardCopies = 2;
+	$currentCard = 0;
+	$cardCount = 0;
+	foreach ($userCardsQuery as $card) {
+		if ($card['card_id'] != $currentCard) {
+			$currentCard = $card['card_id'];
+			$cardCount = 0;
+		}
+		else {
+			$cardCount++;
+		}
+		if ($cardCount < $maxCardCopies) {
+			$userCards[sizeof($userCards)] = $card;
+		}
+	}
+	
+	$currentCard = 0;
+	$cardCount = 0;
+	foreach ($oppCardsQuery as $card) {
+		if ($card['card_id'] != $currentCard) {
+			$currentCard = $card['card_id'];
+			$cardCount = 0;
+		}
+		else {
+			$cardCount++;
+		}
+		if ($cardCount < $maxCardCopies) {
+			$oppCards[sizeof($oppCards)] = $card;
+		}
+	}
 	
 	//the standard deck size is 20, but for now I am going to set it to 10, for testing
 	//$deckSize = 10;
@@ -2384,18 +2418,24 @@ function initialiseGame($iUserID, $gameId) {
 	//$oppKeys = array_rand($oppCards, $deckSize);
 	
 	//insert created decks into player cards, all statuses normal
-	for ($i = 0; $i < $deckSize; $i++) {
+	$pos = 0;
+	foreach ($userCards as $card) {
 		myqu('INSERT INTO mytcg_gameplayercard 
 			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$userPlayerId.', '.$userCards[$i]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			SELECT '.$userPlayerId.', '.$card['usercard_id'].', gameplayercardstatus_id, '.$pos.' 
 			FROM mytcg_gameplayercardstatus 
 			WHERE lower(description) = "normal"');
-		
+		$pos++;
+	}
+	
+	$pos = 0;
+	foreach ($oppCards as $card) {
 		myqu('INSERT INTO mytcg_gameplayercard 
 			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$oppPlayerId.', '.$oppCards[$i]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			SELECT '.$oppPlayerId.', '.$card['usercard_id'].', gameplayercardstatus_id, '.$pos.' 
 			FROM mytcg_gameplayercardstatus 
 			WHERE lower(description) = "normal"');
+		$pos++;
 	}
 }
 
