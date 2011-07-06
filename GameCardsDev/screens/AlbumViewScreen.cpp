@@ -197,7 +197,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		newCard = NULL;
 	}
 	drawList();
-	clearCardMap();
+	//clearCardMap();
 	tmp = "", all = "";
 }
 
@@ -423,7 +423,6 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				}
 				if (albumType == AT_COMPARE) {
 					next = new CompareScreen(this, RES_LOADING_FLIP, feed, false, cards.find(index[selected])->second, card);
-					next->show();
 				} else if (albumType == AT_AUCTION) {
 					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
 					next->show();
@@ -475,7 +474,7 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("Unable to connect, try again later...");
+		notice->setCaption("");
 		busy = false;
 		feed->remHttp();
 	}
