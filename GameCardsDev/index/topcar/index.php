@@ -2338,10 +2338,32 @@ function initialiseGame($iUserID, $gameId) {
 	$userCards = array();
 	$oppCards = array();
 	
-	//this will require some recursion, as the category given is the second highest level,
-	// and the cards are an unknown amount of subcategories deep.
-	$userCards = getAllUserCatCards($iUserID, $categoryId, $userCards);
-	$oppCards = getAllUserCatCards($opponentId, $categoryId, $oppCards);
+	//we need to get a list of all the child categories of the one given
+	$categories = getAllCatChildren($categoryId, $userCards);
+	$categoryString = $categoryId;
+	foreach ($categories as $category) {
+		$categoryString.=','.$category['category_child_id'];
+	}
+	$userCards = myqu('SELECT c.card_id, uc.usercard_id
+		FROM mytcg_usercard uc
+		INNER JOIN mytcg_card c
+		ON uc.card_id = c.card_id
+		INNER JOIN mytcg_usercardstatus ucs
+		ON ucs.usercardstatus_id = uc.usercardstatus_id
+		WHERE c.category_id in ('.$categoryString.')
+		AND uc.user_id = '.$iUserID.' 
+		AND lower(ucs.description) = "album" 
+		ORDER BY c.avgranking DESC');
+	$oppCards = myqu('SELECT c.card_id, uc.usercard_id
+		FROM mytcg_usercard uc
+		INNER JOIN mytcg_card c
+		ON uc.card_id = c.card_id
+		INNER JOIN mytcg_usercardstatus ucs
+		ON ucs.usercardstatus_id = uc.usercardstatus_id
+		WHERE c.category_id in ('.$categoryString.')
+		AND uc.user_id = '.$opponentId.' 
+		AND lower(ucs.description) = "album" 
+		ORDER BY c.avgranking DESC');
 	
 	//the standard deck size is 20, but for now I am going to set it to 10, for testing
 	//$deckSize = 10;
@@ -2349,22 +2371,23 @@ function initialiseGame($iUserID, $gameId) {
 	$deckSize = $deckSize - ($deckSize % 5);
 	$deckSize = $deckSize > 10?10:$deckSize;
 	
-	//for now we will use a random selection of the cards
-	//maybe later we will base it on rareity or use another method
-	$userKeys = array_rand($userCards, $deckSize);
-	$oppKeys = array_rand($oppCards, $deckSize);
+	$userCards = array_slice($userCards, 0, $deckSize);
+	$oppCards = array_slice($oppCards, 0, $deckSize);
+	
+	shuffle($userCards);
+	shuffle($oppCards);
 	
 	//insert created decks into player cards, all statuses normal
 	for ($i = 0; $i < $deckSize; $i++) {
 		myqu('INSERT INTO mytcg_gameplayercard 
 			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$userPlayerId.', '.$userCards[$userKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			SELECT '.$userPlayerId.', '.$userCards[$i]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
 			FROM mytcg_gameplayercardstatus 
 			WHERE lower(description) = "normal"');
 		
 		myqu('INSERT INTO mytcg_gameplayercard 
 			(gameplayer_id, usercard_id, gameplayercardstatus_id, pos) 
-			SELECT '.$oppPlayerId.', '.$oppCards[$oppKeys[$i]]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
+			SELECT '.$oppPlayerId.', '.$oppCards[$i]['usercard_id'].', gameplayercardstatus_id, '.$i.' 
 			FROM mytcg_gameplayercardstatus 
 			WHERE lower(description) = "normal"');
 	}
@@ -2746,6 +2769,23 @@ if ($_GET['newgame']) {
 	echo $sOP;
 	
 	exit;
+}
+
+//recurring method used to get a list of all children of a category, as well as all their children etc
+function getAllCatChildren($categoryId,$results) {
+	$categories = myqu('SELECT cx.category_child_id
+		FROM mytcg_category_x cx
+		WHERE cx.category_parent_id = '.$categoryId);
+		
+	$count = 0;
+	while ($category=$categories[$count]) {
+		//and repeat for each one
+		$results[sizeof($results)] = $category;
+		$results = getAllCatChildren($category['category_child_id'], $results);
+		$count++;
+	}
+	
+	return $results;
 }
 
 //recurring method used to get the cards in a category and all its children
