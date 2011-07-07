@@ -46,7 +46,7 @@ private:
 
 	Vector<String> path;
 	String parentTag;
-	String temp,temp1,error_msg,hasCards,updated;
+	String temp,temp1,error_msg,hasCards,updated, totalcards, collected;
 	int size, i, moved, screenType;
 	bool list, left, right, mid, empt, hasConnection, isAuction;
 

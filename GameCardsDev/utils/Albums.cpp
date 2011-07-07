@@ -28,6 +28,10 @@ String Albums::getAll() {
 		all+=itr->second->getId();
 		all+=",";
 		all+=itr->second->getHasCards()?"true":"false";
+		all+=",";
+		all+=itr->second->getTotalCards();
+		all+=",";
+		all+=itr->second->getCollected();
 		all+="#";
 	}
 	return all;
@@ -57,6 +61,8 @@ void Albums::setAll(const char* allch) {
 	String tmp = "";
 	String id = "";
 	String name = "";
+	String totalcards = "";
+	String collected = "";
 
 	clearAll();
 
@@ -73,10 +79,25 @@ void Albums::setAll(const char* allch) {
 			tmp = tmp.substr(indentindexof);
 
 			indentindexof = tmp.find(",");
-			hasCards = tmp=="true";
+			if (indentindexof != -1) {
+				hasCards = tmp.substr(0,indentindexof++)=="true";
+			} else {
+				hasCards = tmp=="true";
+			}
+
+			if (indentindexof != -1) {
+				tmp = tmp.substr(indentindexof);
+				indentindexof = tmp.find(",");
+			}
+			if (indentindexof != -1) {
+				totalcards = tmp.substr(0,indentindexof++);
+				tmp = tmp.substr(indentindexof);
+				indentindexof = tmp.find(",");
+				collected = tmp;
+			}
 
 			albumnames.insert(name,id);
-			Album * newAl = new Album(id, name, hasCards, false);
+			Album * newAl = new Album(id, name, hasCards, false, totalcards, collected);
 			album.insert(id, newAl);
 			newAl = NULL;
 			tmp = "";
@@ -102,9 +123,9 @@ void Albums::clearAll() {
 	loaded = false;
 }
 
-void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
+void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated, const char* totalcards, const char* collected) {
 	albumnames.insert(name, id);
-	Album * newAlb = new Album(id, name, hasCards, updated);
+	Album * newAlb = new Album(id, name, hasCards, updated, totalcards, collected);
 	album.insert(id, newAlb);
 	newAlb = NULL;
 }
@@ -117,6 +138,7 @@ Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		 //The iterator needs to be dereferenced.
+		lprintfln("getNames: albumname %s", itr->second->getDescription().c_str());
 		names.add(itr->second->getDescription());
 	}
 	return names;

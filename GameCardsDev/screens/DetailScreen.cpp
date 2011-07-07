@@ -360,6 +360,7 @@ void DetailScreen::saveProfileData() {
 				answers[i]->setAnswered(1);
 				answers[i]->getCheckBoxPointer()->flip();
 			}
+			answers[i]->setAnswer(answers[i]->getEditBoxPointer()->getCaption().c_str());
 		}
 	}
 	if (saving) {

@@ -1012,42 +1012,85 @@ function getAllUserCatCards($userId,$results,$deckSize){
 
 function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar) {
 	if ($topcar == -1) {
-		$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
-			cx.category_parent_id,
-			(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-				THEN 1 ELSE 0 END) updated
-			FROM mytcg_card c
-			INNER JOIN mytcg_usercard uc
-			ON uc.card_id = c.card_id
-			INNER JOIN mytcg_category ca
-			ON ca.category_id = c.category_id
-			INNER JOIN mytcg_usercardstatus ucs
-			ON ucs.usercardstatus_id = uc.usercardstatus_id
-			LEFT OUTER JOIN mytcg_category_x cx
-			ON cx.category_child_id = ca.category_id
-			WHERE LOWER(ucs.description) = LOWER("album")
-			AND uc.user_id = '.$iUserID.'
-			GROUP BY ca.category_id
-			ORDER BY ca.description');
+		$aCategories=myqu('SELECT DISTINCT a.category_id, a.description, a.hasCards, a.category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
+							FROM 
+							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+										cx.category_parent_id,
+										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+											THEN 1 ELSE 0 END) updated, count(distinct c.card_id) as total
+										FROM mytcg_card c
+										LEFT OUTER JOIN mytcg_usercard uc
+										ON uc.card_id = c.card_id
+										INNER JOIN mytcg_category ca
+										ON ca.category_id = c.category_id
+										INNER JOIN mytcg_usercardstatus ucs
+										ON ucs.usercardstatus_id = uc.usercardstatus_id
+										LEFT OUTER JOIN mytcg_category_x cx
+										ON cx.category_child_id = ca.category_id
+										WHERE LOWER(ucs.description) = LOWER("album")
+										GROUP BY ca.category_id
+										ORDER BY ca.description
+							) a LEFT OUTER JOIN 
+							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+										cx.category_parent_id,
+										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+											THEN 1 ELSE 0 END) updated, count(distinct uc.card_id) as collected
+										FROM mytcg_card c
+										LEFT OUTER JOIN mytcg_usercard uc
+										ON uc.card_id = c.card_id
+										INNER JOIN mytcg_category ca
+										ON ca.category_id = c.category_id
+										INNER JOIN mytcg_usercardstatus ucs
+										ON ucs.usercardstatus_id = uc.usercardstatus_id
+										LEFT OUTER JOIN mytcg_category_x cx
+										ON cx.category_child_id = ca.category_id
+										WHERE LOWER(ucs.description) = LOWER("album")
+										AND uc.user_id = '.$iUserID.'
+										GROUP BY ca.category_id
+										ORDER BY ca.description
+							) b
+							ON a.category_id = b.category_id');
 	} else {
-		$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
-			cx.category_parent_id,
-			(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-				THEN 1 ELSE 0 END) updated
-			FROM mytcg_card c
-			INNER JOIN mytcg_usercard uc
-			ON uc.card_id = c.card_id
-			INNER JOIN mytcg_category ca
-			ON ca.category_id = c.category_id
-			INNER JOIN mytcg_usercardstatus ucs
-			ON ucs.usercardstatus_id = uc.usercardstatus_id
-			LEFT OUTER JOIN mytcg_category_x cx
-			ON cx.category_child_id = ca.category_id
-			WHERE LOWER(ucs.description) = LOWER("album")
-			AND uc.user_id = '.$iUserID.'
-			AND cx.category_parent_id = '.$topcar.'
-			GROUP BY ca.category_id
-			ORDER BY ca.description');
+		$aCategories=myqu('SELECT DISTINCT a.category_id, a.description, a.hasCards, a.category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
+							FROM 
+							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+										cx.category_parent_id,
+										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+											THEN 1 ELSE 0 END) updated, count(distinct c.card_id) as total
+										FROM mytcg_card c
+										LEFT OUTER JOIN mytcg_usercard uc
+										ON uc.card_id = c.card_id
+										INNER JOIN mytcg_category ca
+										ON ca.category_id = c.category_id
+										INNER JOIN mytcg_usercardstatus ucs
+										ON ucs.usercardstatus_id = uc.usercardstatus_id
+										LEFT OUTER JOIN mytcg_category_x cx
+										ON cx.category_child_id = ca.category_id
+										WHERE LOWER(ucs.description) = LOWER("album")
+										AND cx.category_parent_id = '.$topcar.'
+										GROUP BY ca.category_id
+										ORDER BY ca.description
+							) a LEFT OUTER JOIN 
+							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+										cx.category_parent_id,
+										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+											THEN 1 ELSE 0 END) updated, count(distinct uc.card_id) as collected
+										FROM mytcg_card c
+										LEFT OUTER JOIN mytcg_usercard uc
+										ON uc.card_id = c.card_id
+										INNER JOIN mytcg_category ca
+										ON ca.category_id = c.category_id
+										INNER JOIN mytcg_usercardstatus ucs
+										ON ucs.usercardstatus_id = uc.usercardstatus_id
+										LEFT OUTER JOIN mytcg_category_x cx
+										ON cx.category_child_id = ca.category_id
+										WHERE LOWER(ucs.description) = LOWER("album")
+										AND uc.user_id = '.$iUserID.'
+										AND cx.category_parent_id = '.$topcar.'
+										GROUP BY ca.category_id
+										ORDER BY ca.description
+							) b
+							ON a.category_id = b.category_id');
 	}
 	$subCats = array();
 	$updated = array();
@@ -1147,6 +1190,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>0</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<albumname>My Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<totalcards>'.$aMine['cnt'].'</totalcards>'.$sCRLF;
 		$sOP.=$sTab.'</album>'.$sCRLF;
 	}
 	if ($aCard['cnt'] > 0) {
@@ -1155,6 +1199,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<totalcards>'.$aCard['cnt'].'</totalcards>'.$sCRLF;
 		$sOP.=$sTab.'</album>'.$sCRLF;
 	}
 	
@@ -1172,6 +1217,8 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		}
 		
 		$sOP.=$sTab.$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<totalcards>'.trim($aCategory['total']).'</totalcards>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<collected>'.trim($aCategory['collected']).'</collected>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'</album>'.$sCRLF;
 		$iCount++;
 	}
