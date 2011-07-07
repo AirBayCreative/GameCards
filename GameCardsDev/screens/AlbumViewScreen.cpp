@@ -197,7 +197,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 		newCard = NULL;
 	}
 	drawList();
-	clearCardMap();
 	tmp = "", all = "";
 }
 
@@ -580,7 +579,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			Util::saveData("fd.sav", feedall.c_str());
 			feedall = "";
 		}
-		cards.insert(newCard->getId(),newCard);
+		tmp.insert(newCard->getId(),newCard);
 		id = "";
 		description = "";
 		quantity = "";
@@ -640,6 +639,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		updated="";
 	} else if (!strcmp(name, "cardsincategory")) {
 		notice->setCaption("");
+		clearCardMap();
+		cards = tmp;
 		drawList();
 		busy = false;
 		String all = getAll();
@@ -665,7 +666,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		value="";
 		updated="";
 	} else if (!strcmp(name, "cards")) {
-		//clearCardMap();
+		clearCardMap();
+		cards = tmp;
 		drawList();
 		notice->setCaption("");
 		busy = false;

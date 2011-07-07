@@ -358,9 +358,9 @@ void DetailScreen::saveProfileData() {
 				credits = credits + atoi(answers[i]->getCreditValue().c_str());
 				count++;
 				answers[i]->setAnswered(1);
-				answers[i]->setAnswer(answers[i]->getEditBoxPointer()->getCaption());
 				answers[i]->getCheckBoxPointer()->flip();
 			}
+			answers[i]->setAnswer(answers[i]->getEditBoxPointer()->getCaption().c_str());
 		}
 	}
 	if (saving) {
