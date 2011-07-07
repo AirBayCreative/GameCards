@@ -34,6 +34,49 @@ $ng_pvp = "2";
 
 $root = "../";
 
+//BUYOUT AN AUCTION
+if ($_GET['updateauctions']){
+
+	//Select details of the auction
+	$query = ('SELECT a.market_id, a.marketstatus_id, a.user_id owner, a.usercard_id,  
+						IFNULL(b.price,0) price, IFNULL(b.user_id,-1) bidder, date_expired, datediff(now(), date_expired) >= 1 
+						FROM mytcg_market a 
+						LEFT OUTER JOIN mytcg_marketcard b 
+						ON a.market_id = b.market_id 
+						WHERE datediff(now(), date_expired) >= 1 
+						AND marketstatus_id = 1
+						AND (b.price = (select max(price) 
+													from mytcg_marketcard c
+													where c.market_id = a.market_id 
+													group by market_id)
+						OR ISNULL(b.price))');
+	
+	$auctions = myqu($query);
+	
+	$count = 0;
+	foreach ($auctions as $auction) {
+		//set the auction to expired
+		$query = "update mytcg_market set marketstatus_id = '2' where market_id = ".$auction['market_id'];
+		myqu($query);
+		
+		//add the credits to the user who was auctioning the card
+		$query = "update mytcg_user set credits = credits + ".$auction['price']." where user_id = ".$auction['owner'];
+		myqu($query);
+		
+		//set the cards status back to Album
+		if ($auction['bidder'] == -1) {
+			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
+		} else {
+			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
+		}
+			
+		myqu($query);
+		
+		$count++;
+	}
+	exit;
+}
+
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
 	$username = $_REQUEST['username'];
