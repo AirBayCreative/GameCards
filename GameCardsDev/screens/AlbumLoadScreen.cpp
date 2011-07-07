@@ -461,7 +461,7 @@ void AlbumLoadScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption("Unable to connect, try again later...");
+		notice->setCaption("");
 		feed->remHttp();
 	}
 }
@@ -550,7 +550,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			al = "";
 		}
 		drawList();
-		if (album->size() == 1) {
+		if ((album->size() == 1)&&(screenType != ST_ALBUMS)) {
 			Vector<String> display = album->getNames();
 			Album* val = album->getAlbum(display.begin()->c_str());
 			if (val != NULL) {

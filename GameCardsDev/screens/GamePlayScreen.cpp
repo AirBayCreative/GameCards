@@ -259,7 +259,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout(active?"Play Stat":"", "Options", "", mainLayout);
+	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
 	int height = listBox->getHeight() - 50;
 	String lblString = "User: ";

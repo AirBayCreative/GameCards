@@ -355,6 +355,7 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 		isBusy = false;
 	}
@@ -363,6 +364,7 @@ void Login::httpFinished(MAUtil::HttpConnection* http, int result) {
 void Login::connReadFinished(Connection* conn, int result) {}
 
 void Login::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void Login::mtxEncoding(const char* ) {

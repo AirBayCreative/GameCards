@@ -239,7 +239,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			if (feed->getHttps() > 0) {
 				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 				label->setCaption("Please wait for all connections to finish before exiting.");
-				lprintfln(" connections %d", feed->getHttps());
 			} else {
 				maExit(0);
 			}
