@@ -43,8 +43,7 @@ void AlbumLoadScreen::refresh() {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		feed->addHttp();
-		//mHttp.finish();
-
+		mHttp.finish();
 	}
 	this->setMain(mainLayout);
 
@@ -105,7 +104,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			if (a != NULL) {
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
-				//drawList();
+				drawList();
 				this->setMain(mainLayout);
 				orig = this;
 				return;

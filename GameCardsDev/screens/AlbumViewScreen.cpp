@@ -138,6 +138,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 void AlbumViewScreen::refresh() {
 	if ((albumType == AT_NORMAL)||(albumType == AT_AUCTION)||(albumType == AT_NEW_CARDS)) {
 		notice->setCaption("Checking for new cards...");
+		//loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
 		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
@@ -169,8 +170,10 @@ void AlbumViewScreen::loadFile() {
 	char *file = new char[filename.length()+1];
 	memset(file,'\0',filename.length()+1);
 	sprintf(file, "%s", filename.c_str());
+
 	String filecards = "";
 	Util::getData(file, filecards);
+
 	loadImages(filecards.c_str());
 	filecards = "";
 	delete file;
@@ -186,6 +189,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 
 		newCard = new Card();
 		newCard->setAll(tmp.c_str());
+
 		StringCardMap::Iterator itr = cards.find(newCard->getId());
 		if (itr != cards.end()) {
 			delete itr->second;
@@ -345,6 +349,11 @@ AlbumViewScreen::~AlbumViewScreen() {
 
 	//delete tempImage;
 	clearCardMap();
+	deleteCards();
+
+	cards = NULL;
+	deleted = NULL;
+
 	index.clear();
 	stats.clear();
 	parentTag="";
@@ -491,6 +500,7 @@ void AlbumViewScreen::mtxEncoding(const char* ) {
 void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 	parentTag = name;
 	if (!strcmp(name, "cardsincategory")) {
+		tmp.clear();
 		clearCardMap();
 	}
 }
@@ -706,11 +716,32 @@ String AlbumViewScreen::getAll() {
 void AlbumViewScreen::clearCardMap() {
 	for (StringCardMap::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
 		if (iter->second != NULL) {
+			deleted.add(iter->second);
+			//delete iter->second;
+			iter->second = NULL;
+		}
+	}
+	cards.clear();
+	//tmp.clear();
+}
+
+void AlbumViewScreen::deleteCards() {
+	for (int i = 0; i < deleted.size(); i++) {
+		if (deleted[i] != NULL) {
+			delete deleted[i];
+			deleted[i] = NULL;
+		}
+	}
+	deleted.clear();
+
+	for (StringCardMap::Iterator iter = cards.begin(); iter != cards.end(); iter++) {
+		if (iter->second != NULL) {
 			delete iter->second;
 			iter->second = NULL;
 		}
 	}
 	cards.clear();
+	tmp.clear();
 }
 
 void AlbumViewScreen::mtxParseError() {

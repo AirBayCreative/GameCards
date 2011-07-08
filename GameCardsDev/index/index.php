@@ -36,44 +36,7 @@ $root = "../";
 
 //BUYOUT AN AUCTION
 if ($_GET['updateauctions']){
-
-	//Select details of the auction
-	$query = ('SELECT a.market_id, a.marketstatus_id, a.user_id owner, a.usercard_id,  
-						IFNULL(b.price,0) price, IFNULL(b.user_id,-1) bidder, date_expired, datediff(now(), date_expired) >= 1 
-						FROM mytcg_market a 
-						LEFT OUTER JOIN mytcg_marketcard b 
-						ON a.market_id = b.market_id 
-						WHERE datediff(now(), date_expired) >= 1 
-						AND marketstatus_id = 1
-						AND (b.price = (select max(price) 
-													from mytcg_marketcard c
-													where c.market_id = a.market_id 
-													group by market_id)
-						OR ISNULL(b.price))');
-	
-	$auctions = myqu($query);
-	
-	$count = 0;
-	foreach ($auctions as $auction) {
-		//set the auction to expired
-		$query = "update mytcg_market set marketstatus_id = '2' where market_id = ".$auction['market_id'];
-		myqu($query);
-		
-		//add the credits to the user who was auctioning the card
-		$query = "update mytcg_user set credits = credits + ".$auction['price']." where user_id = ".$auction['owner'];
-		myqu($query);
-		
-		//set the cards status back to Album
-		if ($auction['bidder'] == -1) {
-			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
-		} else {
-			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
-		}
-			
-		myqu($query);
-		
-		$count++;
-	}
+	updateAuctions();
 	exit;
 }
 
@@ -207,297 +170,47 @@ if ($iTestVersion=$_GET['update']){
 	exit;
 }
 
-if ($iUserCardID = $_GET['createauction']){
+if ($iUserCardID = $_GET['createauction']) {
 	$iCardId=$_GET['cardid'];
-  $iAuctionBid=$_GET['bid'];
-  $iBuyNowPrice=$_GET['buynow'];
-  $iDays=$_GET['days'];
-  
-	//Check if card still belongs to user and is available for trading
-  $aCheckCard=myqu('SELECT max(usercard_id) usercard_id '
-		.'FROM mytcg_usercard '
-		.'WHERE usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = "Album")  '
-		.'AND card_id = '.$iCardId.' '
-		.'AND user_id = "'.$iUserID.'"');
+	$iAuctionBid=$_GET['bid'];
+	$iBuyNowPrice=$_GET['buynow'];
+	$iDays=$_GET['days'];
 	
-  if (sizeof($aCheckCard) == 0){
-    $sOP='<user>'.$sCRLF;
-    $sOP.=$sTab.'<result>Card not available anymore.</result>'.$sCRLF;  
-    $sOP.='</user>'.$sCRLF;
-    header('xml_length: '.strlen($sOP));
-    echo $sOP;
-    exit;
-  }
-	else {
-		$iUserCardID = $aCheckCard[0]['usercard_id'];
-	}
-	
-  $aUpdate=myqui('UPDATE mytcg_usercard SET usercardstatus_id=(select usercardstatus_id from mytcg_usercardstatus where description = "auction") '
-    .'WHERE usercard_id="'.$iUserCardID.'"');
-  $aInsert=myqui('INSERT INTO mytcg_market '
-    .'(markettype_id, marketstatus_id, user_id, usercard_id, '
-    .'date_created, date_expired, price, minimum_bid) '
-    .'VALUES (1, 1, "'.$iUserID.'", "'.$iUserCardID.'", now(), "'.date('Y-m-d H:i:s',time()+$iDays*24*60*60).'", "'.$iBuyNowPrice.'", '
-    .'"'.$iAuctionBid.'")');
-  echo $sTab.'<result>'.$sCRLF;
-  echo $sTab.$sTab.'<success>1</success>'.$sCRLF;
-  echo $sTab.'</result>'.$sCRLF;
-  exit;
+	createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID);
+	exit;
 }
 
 //BUY ITEMS IN CART
 if ($_GET['buyproduct']){
   $timestamp = time();
-  
-  if (!($iHeight=$_GET['height'])) {
+
+	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '350';
-  }
-  if (!($iWidth=$_GET['width'])) {
+	}
+	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
-  }
+	}
 	if (!($iFreebie=$_GET['freebie'])) {
 		$iFreebie = -1;
-  }
-
-  //GET PRODUCT DETAILS
-  $aDetails=myqu('SELECT A.product_id, A.description, '
-		.'A.price, lower(P.description) pack_type '
-		.'FROM mytcg_product A '
-		.'INNER JOIN mytcg_producttype P '
-		.'ON A.producttype_id=P.producttype_id '
-		.'WHERE A.product_id="'.$_GET['buyproduct'].'"');
-  
-  $iProductID = $aDetails[0]['product_id'];
-  $iReleasedBuffer=1;
-  //VALIDATE USER CREDITS
-  //User credits
-  $iCreditsQuery=myqu("SELECT credits, freebie FROM mytcg_user WHERE user_id='{$iUserID}'");
-  $iCredits=$iCreditsQuery[0]['credits'];
-	$hasFreebie=$iCreditsQuery[0]['freebie'];
-  
-  //Total order cost
-  $itemCost = $aDetails[0]['price'];
-  $bValid = ($iCredits >= $itemCost);
-	
-	$iFreebie = (($iFreebie > 0)&&($hasFreebie==0))?1:0;
-  
-	//echo '$bValid: '.$bValid.'$iFreebie: '.$iFreebie.' $iCredits: '.$iCredits.' $itemCost:'.$itemCost.' $iUserID:'.$iUserID;
-	
-  if ($bValid || $iFreebie > 0)
-  {
-		if ($iFreebie <= 0) {
-			//PAY FOR PRODUCT
-			$iCreditsAfterPurchase = $iCredits - $itemCost;
-			$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-		} else {
-			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
-		}
-    
-		$packCards = array();
-    //RECEIVE ITEM
-    if ($aDetails[0]['pack_type'] == "starter"){
-      $packCards = openStarter($iUserID,$iProductID);
-    }
-    elseif($aDetails[0]['pack_type'] == "booster"){
-      $packCards = openBooster($iUserID,$iProductID);
-    }
-		
-		$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
-			.'FROM mytcg_imageserver b '
-			.'ORDER BY b.description DESC '
-		);
-		
-		$sOP = '<cards>';
-		foreach ($packCards as $card) {
-		
-			//get the card details
-			$aCardDetails=myqu('SELECT c.card_id,c.description,c.front_phone_imageserver_id, c.value, c.ranking, 
-				c.back_phone_imageserver_id, c.thumbnail_phone_imageserver_id,cq.description quality_name,c.image, n.note 
-				FROM mytcg_card c 
-				INNER JOIN mytcg_cardquality AS cq 
-				ON (c.cardquality_id = cq.cardquality_id) 
-				LEFT OUTER JOIN 
-				(SELECT note, date_updated, user_id, card_id 
-					FROM mytcg_usercardnote 
-					WHERE user_id = '.$iUserID.' 
-					AND usercardnotestatus_id = 1 
-				) n 
-				ON n.card_id = c.card_id 
-				WHERE c.card_id='.$card['cardId']);
-			
-			$sOP.= $sTab.'<card>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<cardid>'.$aCardDetails[0]['card_id'].'</cardid>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<image_id>'.$aCardDetails[0]['image'].'</image_id>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<description>'.$aCardDetails[0]['description'].'</description>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<quality>'.$aCardDetails[0]['quality_name'].'</quality>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<quantity>'.$card['quantity'].'</quantity>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<ranking>'.$aCardDetails[0]['ranking'].'</ranking>'.$sCRLF;
-			$sOP.= $sTab.$sTab.'<value>'.$aCardDetails[0]['value'].'</value>'.$sCRLF;
-			
-			//before setting the front and back urls, make sure the card is resized for the height
-			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image'],$root);
-			
-			$sFound='';
-			$iCountServer=0;
-			while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
-				if ($aOneServer['imageserver_id']==$aCardDetails[0]['thumbnail_phone_imageserver_id']){
-					$sFound=$aOneServer['URL'];
-				} else {
-					$iCountServer++;
-				}
-			}
-			
-			$sOP.=$sTab.'<thumburl>'.$sFound.'/cards/'.$aCardDetails[0]['image'].'_thumb.png</thumburl>'.$sCRLF; 
-			
-			$sFound='';
-			$iCountServer=0;
-			while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
-				if ($aOneServer['imageserver_id']==$aCardDetails[0]['front_phone_imageserver_id']){
-					$sFound=$aOneServer['URL'];
-				} else {
-					$iCountServer++;
-				}
-			}
-			
-			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front.png</fronturl>'.$sCRLF;
-			$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
-
-			$sFound='';
-			$iCountServer=0;
-			while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
-				if ($aOneServer['imageserver_id']==$aCardDetails[0]['back_phone_imageserver_id']){
-					$sFound=$aOneServer['URL'];
-				} else {
-					$iCountServer++;
-				}
-			}
-			
-			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back.png</backurl>'.$sCRLF; 
-			$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
-			
-			$sOP.= $sTab.$sTab.'<note>'.$aCardDetails[0]['note'].'</note>'.$sCRLF;
-			
-			$sOP.= $sTab.'</card>'.$sCRLF;
-		}
-		$sOP .= '</cards>';
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
-  }
-  $sOP = '<result>Insufficient funds.</result>';
-  header('xml_length: '.strlen($sOP));
-  echo $sOP;
-  exit;
+	}
+	$product = $_GET['buyproduct'];
+	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root);
+	exit();
 }
 
 //BID ON AN AUCTION
 if ($_GET['auctionbid']){
 	$bid = $_GET['bid'];
 	$username = $_GET['username'];
-	
-  //SELECT USERS CURRENT CREDITS
-	$query = "select credits from mytcg_user where user_id = ".$iUserID;
-  $result = myqu($query);
-  $credits = $result[0]['credits'];
-  
-	if ($credits >= $bid) {
-		$auctionCardId = $_GET['auctioncardid'];
-	
-		//the previous high bidder needs to get their credits back
-		$query = "SELECT max(price) as price, user_id, date_of_transaction "
-							."from mytcg_marketcard "
-							."where market_id = ".$auctionCardId." "
-							."group by price "
-							."ORDER BY date_of_transaction DESC";
-		$result = myqu($query);
-		
-		if ($aBid=$result[0]) {
-			if ($aBid['user_id'] == $iUserID) {
-				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
-				exit;
-			}
-			//if there was a previous bid
-			$prevBid = $aBid['price'];
-			$prevUserId = $aBid['user_id'];
-			
-			$query = "update mytcg_user set credits = credits + ".$prevBid." where user_id = ".$prevUserId;
-			myqu($query);
-		}
-		
-		$query = "update mytcg_user set credits = credits - ".$bid." where user_id = ".$iUserID;
-		myqu($query);
-		
-		$query = "INSERT INTO mytcg_marketcard (market_id, user_id, price, date_of_transaction) VALUES (".$auctionCardId
-			.", ".$iUserID.", ".$bid.", now())";
-		myqu($query);
-		
-		$query = "select credits from mytcg_user where user_id = ".$iUserID;
-		$result = myqu($query);
-		$credits = $result[0]['credits'];
-		
-		
-		echo $sTab.'<credits>'.$credits.'</credits><result>You are now the highest bidder.</result>'.$sCRLF;
-	}
-	else {
-		echo $sTab.'<result>You do not have enough credits.</result>'.$sCRLF;
-	}
-  exit;
+	auctionBid($bid, $username, $iUserID);
+	exit;
 }
 
 //BUYOUT AN AUCTION
 if ($_GET['buyauctionnow']){
 	$auctionCardId = $_GET['auctioncardid'];
-
-  //SELECT USERS CURRENT CREDITS
-	$query = "select credits from mytcg_user where user_id = ".$iUserID;
-  $result = myqu($query);
-  $credits = $result[0]['credits'];
-	
-	//Select details of the auction
-	$query = "SELECT price, usercard_id FROM mytcg_market WHERE market_id = ".$auctionCardId;
-  $result = myqu($query);
-  $buyNowPrice = $result[0]['price'];
-	$userCardId = $result[0]['usercard_id'];
-  
-	if ($credits >= $buyNowPrice) {
-		//the previous high bidder needs to get their credits back
-		$query = "SELECT max(price) as price, user_id "
-							."from mytcg_marketcard "
-							."where market_id = ".$auctionCardId." "
-							."group by user_id";
-		$result = myqu($query);
-		
-		if ($aBid=$result[0]) {
-			//if there was a previous bid
-			$prevBid = $aBid['price'];
-			$prevUserId = $aBid['user_id'];
-			
-			$query = "update mytcg_user set credits = credits + ".$prevBid." where user_id = ".$prevUserId;
-			myqu($query);
-		}
-		
-		//set the auction to expired
-		$query = "update mytcg_market set marketstatus_id = '2' where market_id = ".$auctionCardId;
-		myqu($query);
-		
-		//add the credits to the user who was auctioning the card
-		$query = "update mytcg_user set credits = credits + ".$buyNowPrice." where user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
-		myqu($query);
-		
-		//set the cards status back to Album
-		$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$iUserID." where usercard_id = ".$userCardId;
-		myqu($query);
-		
-		//take the credits from the user buying out the auction
-		$query = "update mytcg_user set credits = credits - ".$buyNowPrice." where user_id = ".$iUserID;
-		myqu($query);
-		
-		echo $sTab.'<result>1</result>'.$sCRLF;
-	}
-	else {
-		echo $sTab.'<result>0</result>'.$sCRLF;
-	}
-  exit;
+	buyAuctionNow($auctionCardId, $iUserID);
+	exit;
 }
 
 //DO TRADE
@@ -791,6 +504,7 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<username>'.$aOneCard['username'].'</username>'.$sCRLF;
 		$sOP.=$sTab.'<endDate>'.$aOneCard['end_date'].'</endDate>'.$sCRLF;
 		$sOP.=$sTab.'<lastBidUser>'.$aOneCard['last_bid_username'].'</lastBidUser>'.$sCRLF;
+		$sOP.=$sTab.'<cnt>'.$aOneCard['cnt'].'</cnt>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -1959,57 +1673,7 @@ if ($_GET['profiledetails']){
 if ($_GET['saveprofiledetail']) {
 	$iAnswerID=$_GET['answer_id'];
 	$iAnswer=$_GET['answer'];
-	
-	$aAnswered=myqu('SELECT answered
-					FROM mytcg_user_answer 
-					WHERE answer_id='.$iAnswerID);
-										
-	$aCredits=myqu('SELECT credit_value, description
-					FROM mytcg_user_detail 
-					WHERE detail_id = (SELECT detail_id
-										FROM mytcg_user_answer
-										WHERE answer_id='.$iAnswerID.')');
-	$aCredit=$aCredits[0];
-	$aAnswer=$aAnswered[0];
-	if ($aAnswer['answered'] == 0) {
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].')');
-		
-		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
-				
-		$aCount=myqu('SELECT answer_id
-					FROM mytcg_user_answer 
-					WHERE answered=0
-					AND user_id='.$iUserID);
-		
-		$iSize = sizeof($aCount);
-		if ($iSize==1){
-			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-					SELECT '.$iUserID.', descript, now(), val
-					FROM mytcg_transactiondescription
-					WHERE transactionid = 5');	
-					
-			myqui('UPDATE mytcg_user SET credits = credits + IFNULL((SELECT val FROM mytcg_transactiondescription WHERE transactionid = 5),0) WHERE user_id ='.$iUserID);
-		}
-	}
-	
-	myqui('UPDATE mytcg_user_answer 
-			SET answer = "'.$iAnswer.'", 
-			answered = 1 
-			WHERE answer_id = "'.$iAnswerID.'"');
-		
-	myqui('update mytcg_user
-			set credits = credits + IFNULL((select credit_value 
-											from mytcg_user_detail 
-											where detail_id = (select detail_id
-																from mytcg_user_answer
-																where answer_id='.$iAnswerID.'
-																AND answered = 0)), 0)
-			where user_id = '.$iUserID);
-	
-	$sOP = "<result>1</result>";
-	header('xml_length: '.strlen($sOP));
-	echo $sOP;
+	saveProfileDetail($iAnswerID, $iAnswer, $iUserID);
 	exit;
 }
 

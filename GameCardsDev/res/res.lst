@@ -4,11 +4,11 @@
 
 .res RES_FONT_BLUE
 .bin
-.include "nobileblue.mof" 
+.include "arialblue.mof" 
 
 .res RES_FONT_BLACK
 .bin
-.include "nobileblack.mof"  
+.include "arialblack.mof"  
 
 .res RES_SELECTED_EDITBOX
 .ubin 

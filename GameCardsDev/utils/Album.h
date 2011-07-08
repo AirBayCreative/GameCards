@@ -14,6 +14,7 @@ public:
 	String getId();
 	void setId(const char *id);
 
+	String getDesc();
 	String getDescription();
 	void setDescription(const char *description);
 

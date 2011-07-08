@@ -23,12 +23,12 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	thumburl = "";
 	openingBid = "";
 	price = "";
+	cnt = "";
 	userCardId = "";
 	auctionCardId = "";
 	username = "";
 	buyNowPrice = "";
 	error_msg = "";
-	fullDesc = "";
 	endDate = "";
 	lastBidUser = "";
 
@@ -162,6 +162,11 @@ void AuctionListScreen::drawList() {
 	clearListBox();
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
+
+		if (strcmp(auctions[i]->getCount().c_str(), "") != 0) {
+			cardText += " (" + auctions[i]->getCount() + ")";
+		}
+
 		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
 			cardText += "\nCurrent Bid: ";
 			cardText += auctions[i]->getPrice();
@@ -202,7 +207,7 @@ void AuctionListScreen::drawList() {
 	} else {
 		emp = true;
 		listBox->add(Util::createSubLabel("Empty"));
-		listBox->setSelectedIndex(ind);
+		listBox->setSelectedIndex(0);
 	}
 }
 
@@ -399,11 +404,11 @@ AuctionListScreen::~AuctionListScreen() {
 	error_msg="";
 	openingBid="";
 	price="";
+	cnt = "";
 	userCardId="";
 	auctionCardId="";
 	username="";
 	buyNowPrice="";
-	fullDesc="";
 	endDate="";
 	lastBidUser="";
 }
@@ -500,6 +505,8 @@ void AuctionListScreen::mtxTagData(const char* data, int len) {
 		openingBid = data;
 	} else if(!strcmp(parentTag.c_str(), "price")) {
 		price = data;
+	} else if(!strcmp(parentTag.c_str(), "cnt")) {
+		cnt = data;
 	} else if(!strcmp(parentTag.c_str(), "usercardid")) {
 		userCardId = data;
 	} else if(!strcmp(parentTag.c_str(), "auctioncardid")) {
@@ -517,32 +524,11 @@ void AuctionListScreen::mtxTagData(const char* data, int len) {
 
 void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "auction")) {
-		fullDesc = "";
-		if (strcmp(price.c_str(), "")) {
-			fullDesc += "Current bid: ";
-			fullDesc += price;
-		}
-		else {
-			fullDesc += "Opening bid: ";
-			fullDesc += openingBid;
-		}
-		fullDesc += "\nBy: ";
-		if (strcmp(lastBidUser.c_str(), "")) {
-			fullDesc += lastBidUser;
-		}
-		else {
-			fullDesc += username;
-		}
-		fullDesc += "\nBuy now price: ";
-		fullDesc += buyNowPrice;
-		fullDesc += "\nEnd date: ";
-		fullDesc += endDate;
-
 		card = new Card();
 		card->setId(cardId.c_str());
 		card->setText(description.c_str());
 		card->setThumb(thumburl.c_str());
-		card->setFullDesc(fullDesc.c_str());
+		//card->setFullDesc(fullDesc.c_str());
 		card->setFront(fronturl.c_str());
 		card->setFrontFlip(frontflipurl.c_str());
 		card->setBack(backurl.c_str());
@@ -558,6 +544,7 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		auction->setUsername(username.c_str());
 		auction->setEndDate(endDate.c_str());
 		auction->setLastBidUser(lastBidUser.c_str());
+		auction->setCount(cnt.c_str());
 
 		auctions.add(auction);
 
@@ -570,12 +557,12 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		backflipurl = "";
 		openingBid = "";
 		price = "";
+		cnt = "";
 		userCardId = "";
 		auctionCardId = "";
 		username = "";
 		buyNowPrice = "";
 		error_msg = "";
-		fullDesc = "";
 		endDate = "";
 		lastBidUser = "";
 	} else if(!strcmp(name, "error")) {

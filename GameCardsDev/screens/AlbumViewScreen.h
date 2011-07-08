@@ -67,6 +67,7 @@ private:
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
+	Vector<Card *> deleted;
 	Vector<Stat*> stats;
 	Stat *stat;
 	MobImage *tempImage;
@@ -87,6 +88,7 @@ private:
 
 	//void clearFeedLayouts();
 	void clearCardMap();
+	void deleteCards();
 	void clearListBox();
 };
 

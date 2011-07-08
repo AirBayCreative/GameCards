@@ -47,12 +47,16 @@ void Album::setId(const char *i) {
 	id = i;
 }
 
+String Album::getDesc() {
+	return description;
+}
+
 String Album::getDescription() {
 	if (getTotalCards().length() >= 1) {
 		if ((strcmp(getId().c_str(), "-2")==0)||(strcmp(getId().c_str(), "-3")==0)) {
 			return description + " (" + getTotalCards() + ")";
 		} else {
-			return description + " (" + getCollected() + "-" + getTotalCards() + ")";
+			return description + " (" + getCollected() + "/" + getTotalCards() + ")";
 		}
 	}
 	return description;
