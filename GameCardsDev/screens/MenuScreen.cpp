@@ -228,6 +228,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
+			if (menu!=NULL) {
+				delete menu;
+			}
 			int seconds = maLocalTime();
 			int secondsLength = Util::intlen(seconds);
 			char *secString = new char[secondsLength+1];

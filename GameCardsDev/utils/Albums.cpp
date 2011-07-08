@@ -23,7 +23,7 @@ String Albums::getAll() {
 	String all = "";
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		// The iterator needs to be dereferenced.
-		all+=itr->second->getDescription();
+		all+=itr->second->getDesc();
 		all+=",";
 		all+=itr->second->getId();
 		all+=",";
@@ -96,8 +96,9 @@ void Albums::setAll(const char* allch) {
 				collected = tmp;
 			}
 
-			albumnames.insert(name,id);
+
 			Album * newAl = new Album(id, name, hasCards, false, totalcards, collected);
+			albumnames.insert(newAl->getDescription(),id);
 			album.insert(id, newAl);
 			newAl = NULL;
 			tmp = "";
@@ -124,8 +125,9 @@ void Albums::clearAll() {
 }
 
 void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated, const char* totalcards, const char* collected) {
-	albumnames.insert(name, id);
+
 	Album * newAlb = new Album(id, name, hasCards, updated, totalcards, collected);
+	albumnames.insert(newAlb->getDescription(), id);
 	album.insert(id, newAlb);
 	newAlb = NULL;
 }
@@ -138,7 +140,6 @@ Vector<String> Albums::getNames() {
 	Vector<String> names;
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		 //The iterator needs to be dereferenced.
-		lprintfln("getNames: albumname %s", itr->second->getDescription().c_str());
 		names.add(itr->second->getDescription());
 	}
 	return names;

@@ -102,47 +102,15 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			switch(keyCode) {
 				case MAK_FIRE:
 				case MAK_SOFTLEFT:
-					if (!busy) {
-						openingText = editBoxOpening->getCaption();
-						buyNowText = editBoxBuyNow->getCaption();
-						daysText = editBoxDays->getCaption();
-
-						validateInput();
-
-						if (errorString.length() == 0) {
-							editBoxOpening->setSelected(false);
-							editBoxBuyNow->setSelected(false);
-							editBoxDays->setSelected(false);
-
-							busy = true;
-							notice->setCaption("Creating auction...");
-
-							//work out how long the url will be, the 8 is for the & and = symbols
-							int urlLength = 71 + URLSIZE + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
-							char *url = new char[urlLength+1];
-							memset(url,'\0',urlLength+1);
-							sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
-									openingText.c_str(), buyNowText.c_str(), daysText.c_str());
-							if(mHttp.isOpen()){
-								mHttp.close();
-							}
-							mHttp = HttpConnection(this);
-							int res = mHttp.create(url, HTTP_GET);
-
-							if(res < 0) {
-								notice->setCaption("");
-							} else {
-								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-								feed->addHttp();
-								mHttp.finish();
-
-							}
-							delete [] url;
-						}
-						else {
-							notice->setCaption(errorString);
-						}
+					openingText = editBoxOpening->getCaption();
+					buyNowText = editBoxBuyNow->getCaption();
+					daysText = editBoxDays->getCaption();
+					validateInput();
+					if (errorString.length() == 0) {
+						notice->setCaption("");
+						drawConfirmScreen();
+					}else {
+						notice->setCaption(errorString);
 					}
 					break;
 				case MAK_BACK:
@@ -189,6 +157,53 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+		case ST_CONFIRM:
+					switch(keyCode) {
+						case MAK_BACK:
+						case MAK_SOFTRIGHT:
+							screenMode = ST_DATA;
+							drawDataInputScreen();
+							break;
+						case MAK_SOFTLEFT:
+							if (!busy) {
+								if (errorString.length() == 0) {
+									//editBoxOpening->setSelected(false);
+									//editBoxBuyNow->setSelected(false);
+									//editBoxDays->setSelected(false);
+
+									busy = true;
+									notice->setCaption("Creating auction...");
+
+									//work out how long the url will be, the 8 is for the & and = symbols
+									int urlLength = 71 + URLSIZE + card->getId().length() + openingText.length() + buyNowText.length() + daysText.length();
+									char *url = new char[urlLength+1];
+									memset(url,'\0',urlLength+1);
+									sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
+											openingText.c_str(), buyNowText.c_str(), daysText.c_str());
+									if(mHttp.isOpen()){
+										mHttp.close();
+									}
+									mHttp = HttpConnection(this);
+									int res = mHttp.create(url, HTTP_GET);
+
+									if(res < 0) {
+										notice->setCaption("");
+									} else {
+										mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+										mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+										feed->addHttp();
+										mHttp.finish();
+
+									}
+									delete [] url;
+								}
+								else {
+									notice->setCaption(errorString);
+								}
+							}
+							break;
+					}
+					break;
 	}
 }
 
@@ -199,29 +214,20 @@ void AuctionCreateScreen::validateInput() {
 		errorString = "Please enter an opening bid.\n";
 	}
 
-
 	if (daysText.length() == 0) {
 		errorString = "Please enter the length of the auction(in days).";
 	}
 
-}
+	if (buyNowText.length() > 0) {
+		if (Convert::toInt(buyNowText) < ((Convert::toInt(openingText))*2)) {
+			errorString = "Buy Now price must be at least twice the opening bid.";
+		}
+	}
 
-void AuctionCreateScreen::setSelectedEditBox() {
-	/*editBoxOpening->setSelected(false);
-	editBoxBuyNow->setSelected(false);
-	editBoxDays->setSelected(false);
+	if (strcmp(daysText.c_str(), "0") == 0) {
+		errorString = "Auction must last at least one day.";
+	}
 
-	switch(listBox->getSelectedIndex()) {
-		case 2:
-			editBoxOpening->setSelected(true);
-			break;
-		case 4:
-			editBoxBuyNow->setSelected(true);
-			break;
-		case 6:
-			editBoxDays->setSelected(true);
-			break;
-	}*/
 }
 
 void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
@@ -308,6 +314,74 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	editBoxOpening->setSelected(true);
 	listBox->setSelectedIndex(2);
 	cardText = "";
+}
+
+void AuctionCreateScreen::drawConfirmScreen() {
+	String cardText = card->getText();
+	cardText += " (";
+	cardText += Convert::toString(Convert::toInt(card->getQuantity().c_str())-1);
+	cardText += ")";
+	cardText += "\n";
+	cardText += card->getRarity();
+
+	cardText += "\nOpening Bid: ";
+	cardText += openingText;
+	if((!strcmp(buyNowText.c_str(), ""))||(!strcmp(buyNowText.c_str(), "0"))) {
+
+	} else {
+		cardText += "\nBuyout Price: ";
+			cardText += buyNowText;
+	}
+
+	cardText += "\nDays Left : ";
+	cardText += daysText;
+
+	clearListBox();
+	screenMode = ST_CONFIRM;
+	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
+	int cost = Convert::toInt(openingText);
+	int buynow = 0;
+	if (buyNowText.length() > 1) {
+		buynow = Convert::toInt(buyNowText);
+	}
+	if (buynow > cost) {
+		cost = buynow;
+	}
+	String cred = " credits.";
+	cost = cost/10;
+	if (cost <= 5) {
+		cost = 5;
+	}
+	String result = "Are you sure you want to auction " + card->getText() + "? It will cost you " + Convert::toString(cost) + cred;
+
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	//label->setSkin(Util::getSkinBack());
+	label->setMultiLine(true);
+	listBox->add(label);
+
+	result = "";
+	cred = "";
+
+	Layout *feedlayout;
+
+	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout->setSkin(Util::getSkinAlbum());
+	feedlayout->setDrawBackground(true);
+	feedlayout->addWidgetListener(this);
+
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	Util::retrieveThumb(tempImage, card, mImageCache);
+
+	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setAutoSizeY();
+	label->setMultiLine(true);
+
+	this->setMain(mainLayout);
+
+	this->show();
 }
 
 void AuctionCreateScreen::drawCreatedScreen() {

@@ -36,10 +36,13 @@ public:
 	String getLastBidUser();
 	void setLastBidUser(const char *lastBidUser);
 
+	String getCount();
+	void setCount(const char *count);
+
 	Card* getCard();
 	void setCard(Card* card);
 private:
-	String openingBid, price, userCardId, auctionCardId, username, buyNowPrice, endDate, lastBidUser;
+	String openingBid, price, userCardId, auctionCardId, username, buyNowPrice, endDate, lastBidUser, cnt;
 	Card *card;
 };
 

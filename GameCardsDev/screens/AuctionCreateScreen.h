@@ -48,12 +48,12 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	void setSelectedEditBox();
 	void validateInput();
 
 	void drawDataInputScreen();
 	void drawCreatedScreen();
 	void drawInvalidInputScreen();
+	void drawConfirmScreen();
 
 	String openingText, buyNowText, daysText, errorString, parentTag, createResult, cardText;
 
@@ -71,7 +71,7 @@ private:
 
 	void clearListBox();
 
-	enum screenType {ST_DATA, ST_CREATED, ST_INVALID};
+	enum screenType {ST_DATA, ST_CREATED, ST_INVALID, ST_CONFIRM };
 };
 
 #endif	//_AUCTIONCREATESCREEN_H_

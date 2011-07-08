@@ -43,8 +43,7 @@ void AlbumLoadScreen::refresh() {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 		feed->addHttp();
-		//mHttp.finish();
-
+		mHttp.finish();
 	}
 	this->setMain(mainLayout);
 
