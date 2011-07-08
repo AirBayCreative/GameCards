@@ -958,7 +958,7 @@ function initialiseGame($iUserID, $gameId) {
 	$userCards = array();
 	$oppCards = array();
 	//we just need to make sure the users dont end up with more than 4 of a card in their decks
-	$maxCardCopies = 2;
+	$maxCardCopies = 1;
 	$currentCard = 0;
 	$cardCount = 0;
 	foreach ($userCardsQuery as $card) {
