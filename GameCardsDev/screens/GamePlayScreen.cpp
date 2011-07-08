@@ -32,6 +32,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	oppCards = "";
 	lastMove = "";
 	creator = "";
+	userName = "";
+	oppName = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -273,7 +275,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
 	int height = listBox->getHeight() - 50;
-	String lblString = "User: ";
+	String lblString = userName + ": ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
@@ -284,7 +286,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
-	lblString = "Opponent: ";
+	lblString = oppName + ": ";
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
@@ -1001,6 +1003,10 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		userCards = data;
 	} else if(!strcmp(parentTag.c_str(), "oppcards")) {
 		oppCards = data;
+	} else if(!strcmp(parentTag.c_str(), "username")) {
+		userName = data;
+	} else if(!strcmp(parentTag.c_str(), "oppname")) {
+		oppName = data;
 	} else if(!strcmp(parentTag.c_str(), "lastmove")) {
 		lastMove = Util::base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
 	} else if(!strcmp(parentTag.c_str(), "active")) {
