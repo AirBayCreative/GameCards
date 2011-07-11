@@ -138,7 +138,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			int num;
 			if (!strcmp(auction->getPrice().c_str(), "")) {
 				num = Convert::toInt(auction->getOpeningBid().c_str());
-				num+=10;
+				num+=1;
 				editBidBox->setText(Convert::toString(num));
 			} else {
 				num = Convert::toInt(auction->getPrice().c_str());

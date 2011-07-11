@@ -6,7 +6,7 @@
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
+DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card, String category, String categoryname) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
@@ -66,6 +66,15 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 				listBox->add(label);
 			}
 			break;
+		case RANKING:
+			/*Screen Header*/
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, categoryname.c_str(), 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			break;
 	}
 
 	if (screenType == PROFILE) {
@@ -109,7 +118,27 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		}
 		delete [] url;
-	}
+	} else if (screenType == RANKING) {
+			int urlLength = 100 + URLSIZE;
+			char *url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?leaderboard=%s", URL, category.c_str());
+			int res = mHttp.create(url, HTTP_GET);
+
+			if(res < 0) {
+
+			} else {
+				label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+				label->setCaption("Checking for latest rankings...");
+
+				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
+				mHttp.finish();
+
+			}
+			delete [] url;
+		}
 
 	this->setMain(mainLayout);
 
@@ -296,15 +325,15 @@ void DetailScreen::keyPressEvent(int keyCode) {
 		case MAK_UP:
 			ind = listBox->getSelectedIndex();
 			max = listBox->getChildren().size();
-			if (screenType == PROFILE) {
-				if (ind == 1) {
+			if ((screenType == PROFILE)||(screenType == RANKING)) {
+				if (ind == 0) {
 					listBox->setSelectedIndex(max-1);
 				} else {
 					listBox->selectPreviousItem();
 					listBox->selectPreviousItem();
 				}
 			} else {
-				if (ind == 3) {
+				if (ind == 0) {
 					listBox->setSelectedIndex(max-1);
 				} else {
 					listBox->selectPreviousItem();
@@ -315,13 +344,15 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			ind = listBox->getSelectedIndex();
 			max = listBox->getChildren().size();
 			if (ind == max-1) {
+				listBox->setSelectedIndex(0);
+			} else if (ind == 0) {
 				listBox->setSelectedIndex(3);
-				if (screenType == PROFILE) {
-					listBox->setSelectedIndex(1);
+				if (screenType == RANKING) {
+					listBox->setSelectedIndex(2);
 				}
 			} else {
 				listBox->selectNextItem();
-				if (screenType == PROFILE) {
+				if ((screenType == PROFILE)||(screenType == RANKING)) {
 					listBox->selectNextItem();
 				}
 			}
@@ -443,6 +474,10 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		date = data;
 	} else if(!strcmp(parentTag.c_str(), "value")) {
 		value = data;
+	} else if(!strcmp(parentTag.c_str(), "val")) {
+		val = data;
+	} else if(!strcmp(parentTag.c_str(), "usr")) {
+		usr = data;
 	}
 }
 
@@ -455,6 +490,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setCredits(cred.c_str());
 		balanceLabel->setCaption(cred.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
+		cred = "";
 	} else if(!strcmp(name, "detail")) {
 		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
@@ -497,6 +533,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		creditvalue = "";
 
 		listBox->setSelectedIndex(1);
+
 	} else if(!strcmp(name, "error")) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
@@ -531,6 +568,23 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		listBox->add(label);
 		desc = "";
 		date = "";
+	} else if(!strcmp(name, "leader")) {
+
+		label->setCaption("");
+		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, usr, 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, val, L"");
+		editBoxUsername->setDrawBackground(false);
+		//label->addWidgetListener(this);
+
+		listBox->add(label);
+
+		usr="";
+		val="";
+
+		listBox->setSelectedIndex(0);
 
 	} else {
 		if (screenType == PROFILE) {

@@ -5,6 +5,7 @@
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
+#include "DetailScreen.h"
 
 
 void ShopCategoriesScreen::refresh() {
@@ -83,6 +84,11 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 		case ST_AUCTIONS:
 			notice->setCaption("Checking for auction categories...");
 			sprintf(url, "%s?auctioncategories=1", URL);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_RANKING:
+			notice->setCaption("Checking the latest rankings...");
+			sprintf(url, "%s?leaders=1", URL);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
@@ -207,11 +213,16 @@ void ShopCategoriesScreen::drawList() {
 		listBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
 		listBox->setSelectedIndex(0);
-		if (screenType != ST_AUCTIONS) {
+		if ((screenType != ST_AUCTIONS)&&(screenType != ST_RANKING)) {
 			keyPressEvent(MAK_FIRE);
 		}
 	} else {
-		listBox->setSelectedIndex(0);
+		label = Util::createSubLabel("Empty");
+		//label->addWidgetListener(this);
+		empt = true;
+		listBox->add(label);
+
+		//listBox->setSelectedIndex(0);
 	}
 
 	if (screenType == ST_FREEBIE)
@@ -257,6 +268,19 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						next->show();
 					}
 					break;
+				case ST_RANKING:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+						}
+						next = new DetailScreen(this, feed, DetailScreen::RANKING, NULL, category, selectedCaption);
+						next->show();
+					}
+					break;
 				case ST_SHOP:
 					if (!empt) {
 						orig = this;
@@ -271,7 +295,6 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_AUCTIONS:
-
 						int i = listBox->getSelectedIndex();
 						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
 						orig = this;
