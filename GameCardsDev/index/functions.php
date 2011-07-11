@@ -236,7 +236,7 @@ function updateAuctions() {
 				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].')');
 				
 			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), '.$auction['price'].')');
+				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].')');
 		}
 		
 		myqu($query);
@@ -1124,7 +1124,7 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 		myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
 		
 		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-			VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), '.$cost.')');
+			VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.')');
 	}
 	
 
@@ -1255,7 +1255,7 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 				VALUES ('.$ownerid.', "'.$username. ' bought '.$description.' for '.$buyNowPrice.' credits.", now(), '.$buyNowPrice.')');
 				
 		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$iUserID.', "Bought '.$description.' for '.$buyNowPrice.' credits from '.$owner.'.", now(), '.$buyNowPrice.')');
+				VALUES ('.$iUserID.', "Bought '.$description.' for '.$buyNowPrice.' credits from '.$owner.'.", now(), -'.$buyNowPrice.')');
 
 		echo $sTab.'<result>1</result>'.$sCRLF;
 	}
@@ -1298,7 +1298,7 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 			$iCreditsAfterPurchase = $iCredits - $itemCost;
 			$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
 			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-					VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), '.$itemCost.')');
+					VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
 		} else {
 			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
 		}
@@ -1771,7 +1771,7 @@ function getProducts($categoryId, $products, $iFreebie) {
 }
 
 function leaders() {
-	$aLeaders=myqu('SELECT leaderboard_id, description
+	$aLeaders=myqu('SELECT leaderboard_id, description 
 					FROM mytcg_leaderboards
 					WHERE active = 1');
 		
@@ -1779,8 +1779,8 @@ function leaders() {
 	$count = 0;
 	foreach ($aLeaders as $leader) {
 	
-		$sOP.=$sTab.'<albumid>'.trim($leader[0]['leaderboard_id']).'</albumid>'.$sCRLF;	
-		$sOP.=$sTab.'<albumname>'.trim($leader[0]['description']).'</albumname>'.$sCRLF;
+		$sOP.=$sTab.'<albumid>'.trim($leader['leaderboard_id']).'</albumid>'.$sCRLF;	
+		$sOP.=$sTab.'<albumname>'.trim($leader['description']).'</albumname>'.$sCRLF;
 		$count++;
 	}
 	
@@ -1790,20 +1790,21 @@ function leaders() {
 }
 
 function leaderboard($id) {
-	$aLeaders=myqu('SELECT leaderboard_id, description, sql
-					FROM mytcg_leaderboards
-					WHERE active = 1
-					AND leaderboard_id='.$id);
+	$aLeaders=myqu('SELECT leaderboard_id, description, lquery 
+					FROM mytcg_leaderboards 
+					WHERE active = 1 
+					AND leaderboard_id= '.$id);
+					
 	$sOP='<leaderboard>'.$sCRLF;
 	
 	if (sizeof($aLeaders) > 0) {
-		$aQuery=myqu($aLeaders[0]['sql']);
+		$aQuery=myqu($aLeaders[0]['lquery']);
 	
 		$count = 0;
 		foreach ($aQuery as $leader) {
 			$sOP.=$sTab.'<leader>'.$sCRLF;	
-			$sOP.=$sTab.'<val>'.trim($leader[0]['val']).'</val>'.$sCRLF;	
-			$sOP.=$sTab.'<usr>'.trim($leader[0]['usr']).'</usr>'.$sCRLF;
+			$sOP.=$sTab.'<val>'.trim($leader['val']).'</val>'.$sCRLF;	
+			$sOP.=$sTab.'<usr>'.trim($leader['usr']).'</usr>'.$sCRLF;
 			$sOP.=$sTab.'</leader>'.$sCRLF;	
 			$count++;
 		}

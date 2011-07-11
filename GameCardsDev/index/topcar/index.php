@@ -178,6 +178,10 @@ if ($_GET['leaders']){
 	leaders();
 }
 
+if ($id=$_GET['leaderboard']){
+	leaderboard($id);
+}
+
 //BUY ITEMS IN CART
 if ($_GET['buyproduct']){
 	$timestamp = time();

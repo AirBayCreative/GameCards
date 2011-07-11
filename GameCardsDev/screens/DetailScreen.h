@@ -17,7 +17,7 @@ using namespace MAUtil;
 
 class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
+	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL, String category="", String categoryname="");
 	~DetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -43,7 +43,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue, id, date, value, cred;
+	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue, id, date, value, cred, usr, val;
 	Answer *ans;
 	Vector<Answer*> answers;
 	int i,j, moved, screenType, answered, count, credits;

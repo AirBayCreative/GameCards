@@ -5,6 +5,7 @@
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
+#include "DetailScreen.h"
 
 
 void ShopCategoriesScreen::refresh() {
@@ -212,7 +213,7 @@ void ShopCategoriesScreen::drawList() {
 		listBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
 		listBox->setSelectedIndex(0);
-		if ((screenType != ST_AUCTIONS)||(screenType != ST_RANKING)) {
+		if ((screenType != ST_AUCTIONS)&&(screenType != ST_RANKING)) {
 			keyPressEvent(MAK_FIRE);
 		}
 	} else {
@@ -264,6 +265,19 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							feed->remHttp();
 						}
 						next = new ShopProductsScreen(this, feed, category, true);
+						next->show();
+					}
+					break;
+				case ST_RANKING:
+					if (!empt) {
+						orig = this;
+						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String category = categories.find(selectedCaption)->second.c_str();
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+						}
+						next = new DetailScreen(this, feed, DetailScreen::RANKING, NULL, category, selectedCaption);
 						next->show();
 					}
 					break;
