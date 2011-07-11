@@ -35,7 +35,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND, P_SELECTED};
 private:
 	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
@@ -88,7 +88,8 @@ private:
 	void clearCardStats();
 	void clearListBox();
 
-	void selectStat(int selected);
+	void selectStat();
+	void animateSelectStat();
 
 	void resetHeights();
 };
