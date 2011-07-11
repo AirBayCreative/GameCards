@@ -66,6 +66,15 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 				listBox->add(label);
 			}
 			break;
+		case RANKING:
+			/*Screen Header*/
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "leaderboard name...", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			break;
 	}
 
 	if (screenType == PROFILE) {

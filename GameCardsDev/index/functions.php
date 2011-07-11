@@ -1766,6 +1766,50 @@ function getProducts($categoryId, $products, $iFreebie) {
 	return $products;
 }
 
+function leaders() {
+	$aLeaders=myqu('SELECT leaderboard_id, description
+					FROM mytcg_leaderboards
+					WHERE active = 1');
+		
+	$sOP='<cardcategories>'.$sCRLF;
+	$count = 0;
+	foreach ($aLeaders as $leader) {
+	
+		$sOP.=$sTab.'<albumid>'.trim($leader[0]['leaderboard_id']).'</albumid>'.$sCRLF;	
+		$sOP.=$sTab.'<albumname>'.trim($leader[0]['description']).'</albumname>'.$sCRLF;
+		$count++;
+	}
+	
+	$sOP.='</cardcategories>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+}
+
+function leaderboard($id) {
+	$aLeaders=myqu('SELECT leaderboard_id, description, sql
+					FROM mytcg_leaderboards
+					WHERE active = 1
+					AND leaderboard_id='.$id);
+	$sOP='<leaderboard>'.$sCRLF;
+	
+	if (sizeof($aLeaders) > 0) {
+		$aQuery=myqu($aLeaders[0]['sql']);
+	
+		$count = 0;
+		foreach ($aQuery as $leader) {
+			$sOP.=$sTab.'<leader>'.$sCRLF;	
+			$sOP.=$sTab.'<val>'.trim($leader[0]['val']).'</val>'.$sCRLF;	
+			$sOP.=$sTab.'<usr>'.trim($leader[0]['usr']).'</usr>'.$sCRLF;
+			$sOP.=$sTab.'</leader>'.$sCRLF;	
+			$count++;
+		}
+	}
+	$sOP.='</leaderboard>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+}
+
+
 function userdetails($iUserID) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '

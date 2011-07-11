@@ -180,6 +180,10 @@ if ($iUserCardID = $_GET['createauction']) {
 	exit;
 }
 
+if ($_GET['leaders']){
+	leaders();
+}
+
 //BUY ITEMS IN CART
 if ($_GET['buyproduct']){
   $timestamp = time();

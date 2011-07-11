@@ -85,6 +85,11 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 			sprintf(url, "%s?auctioncategories=1", URL);
 			res = mHttp.create(url, HTTP_GET);
 			break;
+		case ST_RANKING:
+			notice->setCaption("Checking the latest rankings...");
+			sprintf(url, "%s?leaders=1", URL);
+			res = mHttp.create(url, HTTP_GET);
+			break;
 	}
 	delete [] url;
 	if(res < 0) {
@@ -207,11 +212,16 @@ void ShopCategoriesScreen::drawList() {
 		listBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
 		listBox->setSelectedIndex(0);
-		if (screenType != ST_AUCTIONS) {
+		if ((screenType != ST_AUCTIONS)||(screenType != ST_RANKING)) {
 			keyPressEvent(MAK_FIRE);
 		}
 	} else {
-		listBox->setSelectedIndex(0);
+		label = Util::createSubLabel("Empty");
+		//label->addWidgetListener(this);
+		empt = true;
+		listBox->add(label);
+
+		//listBox->setSelectedIndex(0);
 	}
 
 	if (screenType == ST_FREEBIE)
@@ -271,7 +281,6 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_AUCTIONS:
-
 						int i = listBox->getSelectedIndex();
 						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
 						orig = this;

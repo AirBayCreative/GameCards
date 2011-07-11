@@ -421,7 +421,11 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				origMenu->show();
 				break;
 			}
-			((AlbumLoadScreen *)previous)->refresh();
+			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
+				((AlbumLoadScreen *)previous)->refresh();
+			} else {
+				previous->show();
+			}
 			break;
 		case MAK_FIRE:
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
