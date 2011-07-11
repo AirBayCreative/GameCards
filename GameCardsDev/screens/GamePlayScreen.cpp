@@ -32,6 +32,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	oppCards = "";
 	lastMove = "";
 	creator = "";
+	userName = "";
+	oppName = "";
 
 	feedLayouts = NULL;
 	next = NULL;
@@ -67,6 +69,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	notice->setDrawBackground(true);
 
 	listBox->setHeight(listBox->getHeight() - 20);
+	listBox->setEnabled(false);
+	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
 
 	phase = P_LOADING;
 
@@ -135,6 +139,13 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 }
 
 void GamePlayScreen::clearListBox() {
+	if (userImage != NULL) {
+		maDestroyObject(userImage->getResource());
+	}
+	if (oppImage != NULL) {
+		maDestroyObject(oppImage->getResource());
+	}
+
 	imageCache->clearImageCache();
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
@@ -151,6 +162,8 @@ void GamePlayScreen::clearListBox() {
 }
 
 void GamePlayScreen::drawResultsScreen() {
+	resetHeights();
+
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	lprintfln("drawResultsScreen");
 	clearListBox();
@@ -242,17 +255,17 @@ void GamePlayScreen::drawFriendNameScreen() {
 
 void GamePlayScreen::drawCardSelectStatScreen() {
 	lprintfln("drawCardSelectStatScreen");
+
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
 
 	imageCache->clearImageCache();
-	listBox->setEnabled(false);
 	phase = P_CARD_DETAILS;
 
-	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
 	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
 	listBox->setPosition(0, 0);
+	listBox->setEnabled(false);
 
 	flip = true;
 
@@ -262,7 +275,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
 	int height = listBox->getHeight() - 50;
-	String lblString = "User: ";
+	String lblString = userName + ": ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
@@ -273,7 +286,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
-	lblString = "Opponent: ";
+	lblString = oppName + ": ";
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
@@ -797,7 +810,7 @@ void GamePlayScreen::selectStat(int selected) {
 	int urlLength = 0;
 	int res = 0;
 	//currentSelectedStat = -1;
-	listBox->setEnabled(true);
+	//listBox->setEnabled(true);
 
 	int height = listBox->getHeight();
 	oppImage->setResource(RES_LOADING_FLIP);
@@ -990,6 +1003,10 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		userCards = data;
 	} else if(!strcmp(parentTag.c_str(), "oppcards")) {
 		oppCards = data;
+	} else if(!strcmp(parentTag.c_str(), "username")) {
+		userName = data;
+	} else if(!strcmp(parentTag.c_str(), "oppname")) {
+		oppName = data;
 	} else if(!strcmp(parentTag.c_str(), "lastmove")) {
 		lastMove = Util::base64_encode(reinterpret_cast<const unsigned char*>(data),strlen(data));
 	} else if(!strcmp(parentTag.c_str(), "active")) {
@@ -1001,7 +1018,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "creator")) {
 		creator = data;
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
-		listBox->setEnabled(true);
+		//listBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {
 			phase = P_CARD_DETAILS;
 		}

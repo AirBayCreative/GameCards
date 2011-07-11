@@ -421,10 +421,12 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		$sOP.='<lastmove>'.$lastMove.'</lastmove>';
 		
 		//we need to get the amount of cards left in each deck
-		$cardsQuery = myqu('SELECT count(gpc.gameplayercard_id) cards, gp.user_id 
+		$cardsQuery = myqu('SELECT count(gpc.gameplayercard_id) cards, gp.user_id, u.username 
 			FROM mytcg_gameplayercard gpc
 			INNER JOIN mytcg_gameplayer gp
-			ON gp.gameplayer_id = gpc.gameplayer_id
+			ON gp.gameplayer_id = gpc.gameplayer_id 
+			INNER JOIN mytcg_user u 
+			ON u.user_id = gp.user_id 
 			WHERE gp.game_id = '.$gameId.' 
 			GROUP BY gp.gameplayer_id');
 		
@@ -433,9 +435,11 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 			$count++;
 			if ($cards['user_id'] == $userId) {
 				$sOP.='<usercards>'.$cards['cards'].'</usercards>';
+				$sOP.='<username>'.$cards['username'].'</username>';
 			}
 			else {
 				$sOP.='<oppcards>'.$cards['cards'].'</oppcards>';
+				$sOP.='<oppname>'.$cards['username'].'</oppname>';
 			}
 		}
 		
