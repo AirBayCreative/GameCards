@@ -903,8 +903,13 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		$gamePhaseIdQuery = myqu('SELECT gamephase_id 
 			FROM mytcg_gamephase 
 			WHERE description = "result"');
-		$resultStatus = $gamePhaseIdQuery[0]['gamephase_id'];
-		myqu('UPDATE mytcg_game SET gamephase_id = '.$resultStatus.' WHERE game_id = '.$gameId);
+		$resultPhase = $gamePhaseIdQuery[0]['gamephase_id'];
+		//and set the game phase to results
+		$gameStatusIdQuery = myqu('SELECT gamestatus_id 
+			FROM mytcg_gamestatus 
+			WHERE description = "complete"');
+		$completeStatus = $gameStatusIdQuery[0]['gamestatus_id'];
+		myqu('UPDATE mytcg_game SET gamephase_id = '.$resultPhase.', gamestatus_id = '.$completeStatus.' WHERE game_id = '.$gameId);
 		myqu('UPDATE mytcg_gameplayer SET pending = 1 WHERE game_id = '.$gameId);
 	}
 	
