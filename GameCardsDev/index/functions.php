@@ -277,6 +277,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 							(SELECT card_id, count(*) cnt 
 									FROM mytcg_usercard 
 									WHERE user_id = '.$iUserID.' 
+									AND usercardstatus_id = 1 
 									GROUP BY card_id) b 
 							ON a.card_id = b.card_id');
 		
@@ -1639,7 +1640,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		$sOP.=$sTab.$sTab.'<albumid>-2</albumid>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>0</updated>'.$sCRLF;
-		$sOP.=$sTab.$sTab.'<albumname>My Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumname>My Cards ('.$aMine['cnt'].')</albumname>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<totalcards>'.$aMine['cnt'].'</totalcards>'.$sCRLF;
 		$sOP.=$sTab.'</album>'.$sCRLF;
 	}
@@ -1648,7 +1649,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 		$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
-		$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumname>New Cards ('.$aCard['cnt'].')</albumname>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<totalcards>'.$aCard['cnt'].'</totalcards>'.$sCRLF;
 		$sOP.=$sTab.'</album>'.$sCRLF;
 	}
@@ -1666,7 +1667,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 			$sOP.=$sTab.$sTab.'<updated>0</updated>'.$sCRLF;
 		}
 		
-		$sOP.=$sTab.$sTab.'<albumname>'.trim($aCategory['description']).'</albumname>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<albumname>'.trim($aCategory['description']).' ('.trim($aCategory['collected']).'/'.trim($aCategory['total']).')</albumname>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<totalcards>'.trim($aCategory['total']).'</totalcards>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<collected>'.trim($aCategory['collected']).'</collected>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'</album>'.$sCRLF;

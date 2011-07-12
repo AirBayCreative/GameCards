@@ -23,7 +23,6 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	thumburl = "";
 	openingBid = "";
 	price = "";
-	cnt = "";
 	userCardId = "";
 	auctionCardId = "";
 	username = "";
@@ -162,10 +161,6 @@ void AuctionListScreen::drawList() {
 	clearListBox();
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
-
-		if (strcmp(auctions[i]->getCount().c_str(), "") != 0) {
-			cardText += " (" + auctions[i]->getCount() + ")";
-		}
 
 		if (strcmp(auctions[i]->getPrice().c_str(), "")) {
 			cardText += "\nCurrent Bid: ";
@@ -404,7 +399,6 @@ AuctionListScreen::~AuctionListScreen() {
 	error_msg="";
 	openingBid="";
 	price="";
-	cnt = "";
 	userCardId="";
 	auctionCardId="";
 	username="";
@@ -505,8 +499,6 @@ void AuctionListScreen::mtxTagData(const char* data, int len) {
 		openingBid = data;
 	} else if(!strcmp(parentTag.c_str(), "price")) {
 		price = data;
-	} else if(!strcmp(parentTag.c_str(), "cnt")) {
-		cnt = data;
 	} else if(!strcmp(parentTag.c_str(), "usercardid")) {
 		userCardId = data;
 	} else if(!strcmp(parentTag.c_str(), "auctioncardid")) {
@@ -544,7 +536,6 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		auction->setUsername(username.c_str());
 		auction->setEndDate(endDate.c_str());
 		auction->setLastBidUser(lastBidUser.c_str());
-		auction->setCount(cnt.c_str());
 
 		auctions.add(auction);
 
@@ -557,7 +548,6 @@ void AuctionListScreen::mtxTagEnd(const char* name, int len) {
 		backflipurl = "";
 		openingBid = "";
 		price = "";
-		cnt = "";
 		userCardId = "";
 		auctionCardId = "";
 		username = "";

@@ -23,15 +23,11 @@ String Albums::getAll() {
 	String all = "";
 	for(Map<String,Album*>::Iterator itr = album.begin(); itr != album.end(); itr++) {
 		// The iterator needs to be dereferenced.
-		all+=itr->second->getDesc();
+		all+=itr->second->getDescription();
 		all+=",";
 		all+=itr->second->getId();
 		all+=",";
 		all+=itr->second->getHasCards()?"true":"false";
-		all+=",";
-		all+=itr->second->getTotalCards();
-		all+=",";
-		all+=itr->second->getCollected();
 		all+="#";
 	}
 	return all;
@@ -61,8 +57,6 @@ void Albums::setAll(const char* allch) {
 	String tmp = "";
 	String id = "";
 	String name = "";
-	String totalcards = "";
-	String collected = "";
 
 	clearAll();
 
@@ -79,28 +73,10 @@ void Albums::setAll(const char* allch) {
 			tmp = tmp.substr(indentindexof);
 
 			indentindexof = tmp.find(",");
-			if (indentindexof != -1) {
-				hasCards = tmp.substr(0,indentindexof++)=="true";
-			} else {
-				hasCards = tmp=="true";
-			}
+			hasCards = tmp=="true";
 
-			if (indentindexof != -1) {
-				tmp = tmp.substr(indentindexof);
-				indentindexof = tmp.find(",");
-			}
-			if (indentindexof != -1) {
-				totalcards = tmp.substr(0,indentindexof++);
-				tmp = tmp.substr(indentindexof);
-				indentindexof = tmp.find(",");
-				collected = tmp;
-			}
-
-
-			Album * newAl = new Album(id, name, hasCards, false, totalcards, collected);
-			albumnames.insert(newAl->getDescription(),id);
-			album.insert(id, newAl);
-			newAl = NULL;
+			albumnames.insert(name,id);
+			album.insert(id, new Album(id, name, hasCards, false));
 			tmp = "";
 		}
 		all = all.substr(indexof);
@@ -124,12 +100,9 @@ void Albums::clearAll() {
 	loaded = false;
 }
 
-void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated, const char* totalcards, const char* collected) {
-
-	Album * newAlb = new Album(id, name, hasCards, updated, totalcards, collected);
-	albumnames.insert(newAlb->getDescription(), id);
-	album.insert(id, newAlb);
-	newAlb = NULL;
+void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
+	albumnames.insert(name, id);
+	album.insert(id, new Album(id, name, hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {

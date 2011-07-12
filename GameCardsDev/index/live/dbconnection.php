@@ -1,7 +1,7 @@
 <?php
 
 class dbconnection {
-	function myqu($sQuery){
+	function _myqu($sQuery){
 		$sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
 		$aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
 	//	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
@@ -27,7 +27,7 @@ class dbconnection {
 		mysqli_close($aLink);
 		return $aOutput;
 	}
-	function myqui($sQuery){
+	function _myqui($sQuery){
 	  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_root,g4m3c4rd98,gamecard';
 	  $aFileHandle=fopen('/usr/home/mytcga/sqlq.log','a+');
 	  $sQueryCut=substr($sQuery,0,1024);

@@ -9,7 +9,6 @@ Auction::Auction() {
 	buyNowPrice = "";
 	endDate = "";
 	lastBidUser = "";
-	cnt = "";
 
 	card = NULL;
 }
@@ -23,7 +22,6 @@ Auction::~Auction() {
 	buyNowPrice = "";
 	endDate = "";
 	lastBidUser = "";
-	cnt = "";
 	if (card != NULL) {
 		delete card;
 		card = NULL;
@@ -92,13 +90,6 @@ String Auction::getLastBidUser() {
 
 void Auction::setLastBidUser(const char *l) {
 	lastBidUser = l;
-}
-
-String Auction::getCount() {
-	return cnt;
-}
-void Auction::setCount(const char *count) {
-	cnt = count;
 }
 
 Card* Auction::getCard() {

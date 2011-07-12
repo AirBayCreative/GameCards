@@ -8,21 +8,14 @@ using namespace MAUtil;
 class Album  {
 public:
 	Album();
-	Album(String id, String desc, bool hasCards=false, bool updated=false, String totalcards="", String collected="");
+	Album(String id, String desc, bool hasCards=false, bool updated=false);
 	~Album();
 
 	String getId();
 	void setId(const char *id);
 
-	String getDesc();
 	String getDescription();
 	void setDescription(const char *description);
-
-	String getTotalCards();
-	void setTotalCards(const char *total);
-
-	String getCollected();
-	void setCollected(const char *collect);
 
 	bool getHasCards();
 	void setHasCards(bool hasCards);
@@ -32,8 +25,6 @@ public:
 private:
 	String id;
 	String description;
-	String totalcards;
-	String collected;
 	bool hasCards, updated;
 };
 

@@ -62,8 +62,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	int urlLength = 0;
 
 	hasCards = "";
-	totalcards = "";
-	collected = "";
 	temp = "";
 	temp1 = "";
 	updated = "0";
@@ -154,8 +152,6 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	temp="";
 	temp1="";
 	error_msg="";
-	totalcards = "";
-	collected = "";
 	hasCards="";
 	updated="";
 
@@ -511,10 +507,6 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		temp = data;
 	} else if (!strcmp(parentTag.c_str(), "hascards")) {
 		hasCards = data;
-	} else if (!strcmp(parentTag.c_str(), "totalcards")) {
-		totalcards = data;
-	} else if (!strcmp(parentTag.c_str(), "collected")) {
-		collected = data;
 	} else if (!strcmp(parentTag.c_str(), "updated")) {
 		updated = data;
 	}
@@ -523,11 +515,9 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
-		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"), totalcards.c_str(), collected.c_str());
+		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"));
 		temp = "";
 		hasCards = "";
-		totalcards = "";
-		collected = "";
 		updated = "";
 		temp1 = "";
 	} else if (!strcmp(name, "usercategories") || !strcmp(name, "categories") || !strcmp(name, "games")) {
@@ -616,8 +606,6 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			}
 		temp = "";
 		hasCards = "";
-		totalcards = "";
-		collected = "";
 		updated = "";
 		temp1 = "";
 		error_msg = "";
@@ -625,8 +613,6 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption(error_msg.c_str());
 		temp = "";
 		hasCards = "";
-		totalcards = "";
-		collected = "";
 		updated = "";
 		temp1 = "";
 		error_msg = "";
