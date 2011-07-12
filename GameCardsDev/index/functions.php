@@ -912,9 +912,6 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		myqu('UPDATE mytcg_game SET gamephase_id = '.$resultPhase.', gamestatus_id = '.$completeStatus.' WHERE game_id = '.$gameId);
 		myqu('UPDATE mytcg_gameplayer SET pending = 1 WHERE game_id = '.$gameId);
 	}
-	
-	$sOP = '<game><phase>statselected</phase></game>';
-	return $sOP;
 }
 
 //given the user's id and game id, populate the mytcg_gameplayercard
