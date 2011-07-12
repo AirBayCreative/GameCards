@@ -505,7 +505,7 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<auctioncardid>'.$aOneCard['market_id'].'</auctioncardid>'.$sCRLF;
 		$sOP.=$sTab.'<usercardid>'.$aOneCard['usercard_id'].'</usercardid>'.$sCRLF;
 		$sOP.=$sTab.'<cardid>'.$aOneCard['card_id'].'</cardid>'.$sCRLF;
-		$sOP.=$sTab.'<description>'.$aOneCard['description'].'</description>'.$sCRLF;
+		$sOP.=$sTab.'<description>'.$aOneCard['description'].' ('.$aOneCard['cnt'].')</description>'.$sCRLF;
 		$sOP.=$sTab.'<openingbid>'.$aOneCard['minimum_bid'].'</openingbid>'.$sCRLF;
 		$sOP.=$sTab.'<buynowprice>'.$aOneCard['buy_now_price'].'</buynowprice>'.$sCRLF;
 		$sOP.=$sTab.'<price>'.$aOneCard['price'].'</price>'.$sCRLF;

@@ -283,7 +283,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = Util::createEditLabel("");
 	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
-	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())+10));
+	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())));
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -293,7 +293,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = Util::createEditLabel("");
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
-	editBoxBuyNow->setCaption(buyNowText);
+	editBoxBuyNow->setCaption(Convert::toString((Convert::toInt(card->getValue().c_str()))*2)+1);
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -303,7 +303,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = Util::createEditLabel("");
 	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
-	editBoxDays->setCaption("3");
+	editBoxDays->setCaption("5");
 	editBoxDays->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);

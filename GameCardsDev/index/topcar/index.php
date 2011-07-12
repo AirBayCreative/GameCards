@@ -498,7 +498,7 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<auctioncardid>'.$aOneCard['market_id'].'</auctioncardid>'.$sCRLF;
 		$sOP.=$sTab.'<usercardid>'.$aOneCard['usercard_id'].'</usercardid>'.$sCRLF;
 		$sOP.=$sTab.'<cardid>'.$aOneCard['card_id'].'</cardid>'.$sCRLF;
-		$sOP.=$sTab.'<description>'.$aOneCard['description'].'</description>'.$sCRLF;
+		$sOP.=$sTab.'<description>'.$aOneCard['description'].' ('.$aOneCard['cnt'].')</description>'.$sCRLF;
 		$sOP.=$sTab.'<openingbid>'.$aOneCard['minimum_bid'].'</openingbid>'.$sCRLF;
 		$sOP.=$sTab.'<buynowprice>'.$aOneCard['buy_now_price'].'</buynowprice>'.$sCRLF;
 		$sOP.=$sTab.'<price>'.$aOneCard['price'].'</price>'.$sCRLF;
@@ -1480,7 +1480,6 @@ if ($_GET['usersubcategories']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
-
 	$cat = $_GET['category'];
 	//this gets the categories that the user has cards in, and their parents
 	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '', $topcar);
