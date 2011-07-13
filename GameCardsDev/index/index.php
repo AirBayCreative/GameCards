@@ -849,15 +849,13 @@ if ($_GET['selectstat']) {
 	$categoryStatId = $categoryStatQuery[0]['categorystat_id'];
 	
 	//build xml with scores and explanation and send it back
-	$sOP = selectStat($iUserID, $oppId, $gameId, $categoryStatId);
-	
-	//sleep(3);
+	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
 	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
 	//load the game for the user
-	//$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth,$root);
+	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth,$root);
 	
 	//send xml with results back to the user
 	header('xml_length: '.strlen($sOP));

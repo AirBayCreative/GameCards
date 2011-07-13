@@ -67,9 +67,6 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl = Util::createSubLabel("Leave Game");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = Util::createSubLabel("View Game Details");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
 			lbl = Util::createSubLabel("View Game Log");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
@@ -316,13 +313,6 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						origMenu->show();
 					}
 					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
-						}
-						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_DETAILS);
-						menu->show();
-					}
-					else if (index == 2) {
 						if (menu != NULL) {
 							delete menu;
 						}

@@ -842,8 +842,6 @@ if ($_GET['selectstat']) {
 	//build xml with scores and explanation and send it back
 	selectStat($iUserID, $oppId, $gameId, $categoryStatId);
 	
-	sleep(3);
-	
 	//continue the game, updating result phase to select stat, and if needed selecting a stat for the ai
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	

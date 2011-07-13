@@ -598,7 +598,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 	}
 	else if ($gamePhase == 'lfm') {
 		//we need to return the url for the gc.png card
-		$height = resizeGCCard($iHeight, $iWidth);
+		$height = resizeGCCard($iHeight, $iWidth, $root);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -913,9 +913,6 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		myqu('UPDATE mytcg_game SET gamephase_id = '.$resultPhase.', gamestatus_id = '.$completeStatus.' WHERE game_id = '.$gameId);
 		myqu('UPDATE mytcg_gameplayer SET pending = 1 WHERE game_id = '.$gameId);
 	}
-	
-	$sOP = '<game><phase>statselected</phase></game>';
-	return $sOP;
 }
 
 //given the user's id and game id, populate the mytcg_gameplayercard
