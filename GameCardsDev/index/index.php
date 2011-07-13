@@ -45,8 +45,9 @@ if ($_GET['registeruser']) {
 	$username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
+	$referer = $_REQUEST['referer'];
 
-	$sOP = registerUser($username, $password, $email);
+	$sOP = registerUser($username, $password, $email, $referer);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -255,7 +256,7 @@ if ($cardID = $_GET['tradecard']){
 	
 	$aCheckUser = myqu($query);
 	if (sizeof($aCheckUser) == 0){
-		$sOP='<result>User not found'.$query.'</result>'.$sCRLF;
+		$sOP='<result>User does not exist.</result>'.$sCRLF;
 		header('xml_length: '.strlen($sOP));
 		echo $sOP;
 		exit;
@@ -1085,6 +1086,19 @@ if ($_GET['newgame']) {
 		
 		//if the user specified a friend
 		if ($friend != '') {
+		
+			$aFriend=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$friend}'");
+			$friendid = 0;
+			if (sizeof($aFriend) > 0) {
+				$friendid = $aFriend[0]['user_id'];
+					
+				myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+				VALUES ('.$friendid.', '.$iUserID.')');
+			
+				myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+					VALUES ('.$iUserID.', '.$friendid.')');
+			}
+			
 			//first we check if there is an open game whose creator is the friend the user wants to play against
 			$gameQuery = myqu('SELECT g.game_id, g.friend, u.username 
 				FROM mytcg_game g 
