@@ -232,10 +232,10 @@ function updateAuctions() {
 		} else {
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Received'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
 			
-			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].')');
 				
-			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].')');
 		}
 		
@@ -873,7 +873,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			
 				$iUpdate=$aUpdate[0];
 				if ($iUpdate['gameswon'] < 3) {
-					myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
 			
 					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
@@ -1132,7 +1132,7 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 		
 		myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
 		
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 			VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.')');
 	}
 	
@@ -1260,10 +1260,10 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 		$query = "update mytcg_user set credits = credits - ".$buyNowPrice." where user_id = ".$iUserID;
 		myqu($query);
 		
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$ownerid.', "'.$username. ' bought '.$description.' for '.$buyNowPrice.' credits.", now(), '.$buyNowPrice.')');
 				
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$iUserID.', "Bought '.$description.' for '.$buyNowPrice.' credits from '.$owner.'.", now(), -'.$buyNowPrice.')');
 
 		echo $sTab.'<result>1</result>'.$sCRLF;
@@ -1306,7 +1306,7 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 			//PAY FOR PRODUCT
 			$iCreditsAfterPurchase = $iCredits - $itemCost;
 			$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 					VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
 		} else {
 			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
@@ -1423,7 +1423,7 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 	$aCredit=$aCredits[0];
 	$aAnswer=$aAnswered[0];
 	if ($aAnswer['answered'] == 0) {
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].')');
 		
 		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
@@ -1435,7 +1435,7 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 		
 		$iSize = sizeof($aCount);
 		if ($iSize==1){
-			myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 					SELECT '.$iUserID.', descript, now(), val
 					FROM mytcg_transactiondescription
 					WHERE transactionid = 5');	
@@ -1842,7 +1842,7 @@ function userdetails($iUserID) {
 	return $sOP;
 }
 // register user 
-function registerUser ($username, $password, $email) {
+function registerUser ($username, $password, $email, $referer) {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -1888,8 +1888,18 @@ function registerUser ($username, $password, $email) {
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
+		$aReferer=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$referer}' or email_address = '{$referer}' or msisdn = '{$referer}'");
+		$refererid = 0;
+		if (sizeof($aReferer) > 0) {
+			$refererid = $aReferer[0]['user_id'];
+			
+			$query = "update mytcg_user set credits = credits + 150 where user_id = ".$refererid;
+				
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+				VALUES ('.$refererid.', "Received 15 credits for referring '.$username.'", now(), 15)');
+		}
 		
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -1897,13 +1907,21 @@ function registerUser ($username, $password, $email) {
 		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
 		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
 		
+		if (sizeof($aReferer) > 0) {
+			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+				VALUES ('.$refererid.', '.$iUserID.')');
+			
+			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+				VALUES ('.$iUserID.', '.$refererid.')');
+		}
+		
 		//create the empty data fields in mytcg_user_answer
 		myqu("INSERT INTO mytcg_user_answer
 			(detail_id, user_id)
 			SELECT detail_id, {$iUserID}
 			FROM mytcg_user_detail");
 			
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 			SELECT '.$iUserID.', descript, now(), val
 			FROM mytcg_transactiondescription
 			WHERE transactionid = 2');
@@ -1976,7 +1994,7 @@ function openStarter($userID,$packID){
     //$aReleasedLeft=myqui("UPDATE mytcg_card SET released_left={$iReleasedLeft} WHERE card_id={$iCardID}");
             
     //GIVE THE CARD TO THE USER
-    $aCards=myqui("INSERT mytcg_usercard (user_id, card_id, usercardstatus_id)
+    $aCards=myqui("INSERT INTO mytcg_usercard (user_id, card_id, usercardstatus_id)
 			SELECT {$userID}, {$iCardID}, usercardstatus_id
 			FROM mytcg_usercardstatus
 			WHERE description = 'Album'");
@@ -2050,7 +2068,7 @@ function openBooster($userID,$packID){
 		$iCardID=$aGetCards[$iRandom]['card_id'];
 					
 		//GIVE THE CARD TO THE USER
-		$aCards=myqui("INSERT mytcg_usercard (user_id, card_id, usercardstatus_id)
+		$aCards=myqui("INSERT INTO mytcg_usercard (user_id, card_id, usercardstatus_id)
 			SELECT {$userID}, {$iCardID}, usercardstatus_id
 			FROM mytcg_usercardstatus
 			WHERE description = 'Album'");
