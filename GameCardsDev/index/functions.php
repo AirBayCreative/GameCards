@@ -598,7 +598,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 	}
 	else if ($gamePhase == 'lfm') {
 		//we need to return the url for the gc.png card
-		$height = resizeGCCard($iHeight, $iWidth);
+		$height = resizeGCCard($iHeight, $iWidth, $root);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
