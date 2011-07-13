@@ -42,6 +42,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	flip = false;
 	active = false;
 	checking = false;
+	selectingStat = false;
 
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -159,6 +160,9 @@ void GamePlayScreen::clearListBox() {
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
+
+	userImage = NULL;
+	oppImage = NULL;
 }
 
 void GamePlayScreen::drawResultsScreen() {
@@ -516,6 +520,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
+			MAUtil::Environment::getEnvironment().removeTimer(this);
 			switch (phase) {
 				case P_LOADING:
 					previous->show();
@@ -713,7 +718,7 @@ void GamePlayScreen::runTimerEvent() {
 		lfmTicks++;
 	}
 	lprintfln("runTimerEvent 2");
-	if ((!active && phase == P_CARD_DETAILS) || (!checking && lfmTicks%12 == 0)) {
+	if ((!active && phase == P_CARD_DETAILS && !selectingStat) || (!checking && lfmTicks%12 == 0)) {
 		lprintfln("runTimerEvent 2.1");
 		checking = true;
 		lprintfln("checking");
@@ -771,10 +776,11 @@ void GamePlayScreen::runTimerEvent() {
 		}
 	}
 	lprintfln("runTimerEvent 5");
-	if ((phase == P_OPPMOVE && ticks > 6) || (phase == P_CARD_DETAILS && ticks >= 7)) {
-		lprintfln("runTimerEvent 5.1");
-		MAUtil::Environment::getEnvironment().removeTimer(this);
+	if (phase == P_OPPMOVE && ticks == 7) {
 		ticks = 0;
+		lprintfln("runTimerEvent 5.1");
+		//MAUtil::Environment::getEnvironment().removeTimer(this);
+		//ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
 		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength];
@@ -799,6 +805,14 @@ void GamePlayScreen::runTimerEvent() {
 		}
 		delete [] url;
 	}
+	else if (selectingStat && ticks == 8) {
+		MAUtil::Environment::getEnvironment().removeTimer(this);
+		selectingStat = false;
+		clearCardStats();
+
+		xmlConn = XmlConnection::XmlConnection();
+		xmlConn.parse(tempHttp, this, this);
+	}
 }
 
 void GamePlayScreen::resetHeights() {
@@ -814,12 +828,15 @@ void GamePlayScreen::animateSelectStat() {
 
 	selected = false;
 	lprintfln("addTimer 1");
-	MAUtil::Environment::getEnvironment().addTimer(this, 500, 8);
+	ticks = 0;
+	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 
 }
 
 void GamePlayScreen::selectStat() {
 	lprintfln("selectStat currentSelectedStat: %d", currentSelectedStat);
+	selectingStat = true;
+
 	char *url = NULL;
 	int urlLength = 0;
 	int res = 0;
@@ -858,12 +875,24 @@ void GamePlayScreen::selectStat() {
 
 void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	error_msg = "";
+	lprintfln("httpFinished 1");
 	if (result == 200) {
-		clearCardStats();
+		lprintfln("httpFinished 2");
+		if (selectingStat) {
+			lprintfln("httpFinished 2.1");
+			tempHttp = http;
 
-		xmlConn = XmlConnection::XmlConnection();
-		xmlConn.parse(http, this, this);
+			animateSelectStat();
+		}
+		else {
+			lprintfln("httpFinished 2.2");
+			clearCardStats();
+
+			xmlConn = XmlConnection::XmlConnection();
+			xmlConn.parse(http, this, this);
+		}
 	} else {
+		busy = false;
 		mHttp.close();
 		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
@@ -916,6 +945,7 @@ void GamePlayScreen::xcConnError(int code) {
 		lprintfln("xcConnError 2");
 		//notice->setCaption("Opponent is making choices...");
 		lprintfln("addTimer 2");
+		ticks = 0;
 		MAUtil::Environment::getEnvironment().addTimer(this, 3000, 1);
 	}
 	else if (phase == P_LFM) {
@@ -1038,9 +1068,6 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		else if (!strcmp(data, "declined")) {
 			phase = P_DECLINED;
 		}
-		else if (!strcmp(data, "statselected")) {
-			phase = P_SELECTED;
-		}
 	}
 }
 
@@ -1126,12 +1153,15 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		if (!newGame) {
 			switch (phase) {
 				case P_CARD_DETAILS:
+					lprintfln("phase: P_CARD_DETAILS");
 					drawCardSelectStatScreen();
 					break;
 				case P_RESULTS:
+					lprintfln("phase: P_RESULTS");
 					drawResultsScreen();
 					break;
 				case P_OPPMOVE:
+					lprintfln("phase: P_OPPMOVE");
 					notice->setCaption("");
 					int height = listBox->getHeight();
 					Util::retrieveBackFlip(userImage, card, height, imageCache);
@@ -1144,19 +1174,19 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					}
 					selected = false;
 					lprintfln("addTimer 3");
+					ticks = 0;
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 				case P_LFM:
+					lprintfln("phase: P_LFM");
 					ticks = 0;
 					lprintfln("addTimer 4");
+					ticks = 0;
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
 					break;
 				case P_CONFIRM:
+					lprintfln("phase: P_CONFIRM");
 					drawConfirmScreen();
-					break;
-				case P_SELECTED:
-					phase = P_CARD_DETAILS;
-					animateSelectStat();
 					break;
 			}
 			busy = false;

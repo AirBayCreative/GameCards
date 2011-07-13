@@ -35,7 +35,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND, P_SELECTED};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND};
 private:
 	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
@@ -47,6 +47,7 @@ private:
 	Layout **feedLayouts;
 	Widget *widImage, *widNotice;
 
+	MAUtil::HttpConnection* tempHttp;
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
@@ -56,7 +57,7 @@ private:
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks;
 	String explanation, outcome, creator, newGameType;
 	int i, moved, phase, cardIndex, yOffset, storeHeight, flipOrSelect, currentSelectedStat;
-	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking;
+	bool list, left, right, hasConnection, newGame, busy, flip, active, selected, checking, selectingStat;
 	MAPoint2d pointPressed, pointReleased;
 	Card *card, *oppCard, *gcCard;
 
