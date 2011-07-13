@@ -28,7 +28,7 @@ public:
 #endif
 	void refresh();
 
-	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_FREEBIE, ST_RANKING};
+	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_FREEBIE, ST_RANKING, ST_FRIEND};
 private:
 
 	Screen *previous;

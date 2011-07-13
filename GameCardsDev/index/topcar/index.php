@@ -165,7 +165,7 @@ if ($iTestVersion=$_GET['update']){
 	exit;
 }
 
-if ($iUserCardID = $_GET['createauction']){
+if ($iUserCardID = $_GET['createauction']) {
 	$iCardId=$_GET['cardid'];
 	$iAuctionBid=$_GET['bid'];
 	$iBuyNowPrice=$_GET['buynow'];
@@ -175,12 +175,16 @@ if ($iUserCardID = $_GET['createauction']){
 	exit;
 }
 
-if ($_GET['leaders']){
+if ($_GET['leaders']) {
 	leaders();
 }
 
-if ($id=$_GET['leaderboard']){
-	leaderboard($id);
+if ($id=$_GET['leaderboard']) {
+	$userid = '';
+	if ($_GET['friends']) {
+		$userid = $iUserID;
+	}
+	leaderboard($id, $userid);
 }
 
 //BUY ITEMS IN CART

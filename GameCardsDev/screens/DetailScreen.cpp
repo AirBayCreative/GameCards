@@ -67,6 +67,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			}
 			break;
 		case RANKING:
+		case FRIEND:
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, categoryname.c_str(), 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -138,7 +139,27 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 			}
 			delete [] url;
+	} else if (screenType == FRIEND) {
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?leaderboard=%s&friends=1", URL, category.c_str());
+		int res = mHttp.create(url, HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for latest rankings...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+
 		}
+		delete [] url;
+	}
 
 	this->setMain(mainLayout);
 
@@ -325,7 +346,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 		case MAK_UP:
 			ind = listBox->getSelectedIndex();
 			max = listBox->getChildren().size();
-			if ((screenType == PROFILE)||(screenType == RANKING)) {
+			if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 				if (ind == 0) {
 					listBox->setSelectedIndex(max-1);
 				} else {
@@ -347,12 +368,12 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				listBox->setSelectedIndex(0);
 			} else if (ind == 0) {
 				listBox->setSelectedIndex(3);
-				if (screenType == RANKING) {
+				if ((screenType == RANKING)||(screenType == FRIEND)) {
 					listBox->setSelectedIndex(2);
 				}
 			} else {
 				listBox->selectNextItem();
-				if ((screenType == PROFILE)||(screenType == RANKING)) {
+				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 					listBox->selectNextItem();
 				}
 			}
@@ -570,6 +591,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		date = "";
 	} else if(!strcmp(name, "leader")) {
 
+		count++;
 		label->setCaption("");
 		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, usr, 0, Util::getDefaultFont());
 		listBox->add(label);
@@ -585,7 +607,22 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		val="";
 
 		listBox->setSelectedIndex(0);
+	} else if(!strcmp(name, "leaderboard")) {
+		if (count == 0) {
+			label->setCaption("");
+			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No users found.", 0, Util::getDefaultFont());
+			listBox->add(label);
 
+			/*label = Util::createEditLabel("");
+			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, val, L"");
+			editBoxUsername->setDrawBackground(false);
+			//label->addWidgetListener(this);
+
+			listBox->add(label);*/
+
+			usr="";
+			val="";
+		}
 	} else {
 		if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];

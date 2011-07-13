@@ -39,7 +39,7 @@ private:
 	KineticListBox *listBox;
 	Label *label, *notice;
 	Screen * previous;
-	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail;
+	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail, *editBoxRefer;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

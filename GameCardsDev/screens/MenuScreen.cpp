@@ -47,11 +47,16 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Rankings");
 	label->addWidgetListener(this);
 	listBox->add(label);
+	label = Util::createSubLabel("Friend Ranks");
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = Util::createSubLabel("Redeem");
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = Util::createSubLabel("Log Out");
 	label->addWidgetListener(this);
+	listBox->add(label);
+	label = new Label(0, 0, scrWidth-(PADDING*2), 72, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	listBox->setSelectedIndex(0);
@@ -212,9 +217,17 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
+				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
+				menu->show();
+				/*menu = new DetailScreen(this, feed, DetailScreen::RANKING, NULL);
+				menu->show();*/
+			} else if(index == 8) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new RedeemScreen(feed, this);
 				menu->show();
-			} else if (index == 8) {
+			} else if (index == 9) {
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {

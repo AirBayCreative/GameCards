@@ -31,7 +31,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 
-	enum screenType {PROFILE, BALANCE, CARD, RANKING};
+	enum screenType {PROFILE, BALANCE, CARD, RANKING, FRIEND};
 private:
 	Screen *previous, *next;
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;

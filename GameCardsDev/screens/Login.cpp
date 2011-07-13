@@ -120,6 +120,15 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Referrer", 0, Util::getDefaultFont());
+	listBox->add(label);
+
+	label = Util::createEditLabel("");
+	editBoxRefer = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Referrer");
+	editBoxRefer->setDrawBackground(false);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
 	listBox->setSelectedIndex(1);
 }
 
@@ -296,6 +305,10 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption("Please enter a email address without spaces.");
 							maVibrate(1000);
 						}
+						else if (!Util::validateNoWhiteSpaces(editBoxRefer->getText())) {
+							notice->setCaption("Please enter a referer name.");
+							maVibrate(1000);
+						}
 						else {
 							result = "";
 							isBusy = true;
@@ -309,11 +322,12 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 71 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length();
+							int urlLength = 80 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s", URL, editBoxLogin->getText().c_str(),
-									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str());
+							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
+									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
+							lprintfln("url %s", url);
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {

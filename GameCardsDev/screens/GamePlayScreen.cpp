@@ -235,7 +235,6 @@ void GamePlayScreen::drawFriendNameScreen() {
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(Util::getFontBlack());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 

@@ -1798,8 +1798,8 @@ function leaders() {
 	echo $sOP;
 }
 
-function leaderboard($id) {
-	$aLeaders=myqu('SELECT leaderboard_id, description, lquery 
+function leaderboard($id, $iUserID) {
+	$aLeaders=myqu('SELECT leaderboard_id, description, lquery, fquery 
 					FROM mytcg_leaderboards 
 					WHERE active = 1 
 					AND leaderboard_id= '.$id);
@@ -1807,7 +1807,12 @@ function leaderboard($id) {
 	$sOP='<leaderboard>'.$sCRLF;
 	
 	if (sizeof($aLeaders) > 0) {
-		$aQuery=myqu($aLeaders[0]['lquery']);
+		$query = $aLeaders[0]['lquery'];
+		if ($iUserID != '') {
+			$q = $aLeaders[0]['fquery'];
+			$query = str_replace("__REPLACE__", $iUserID, $q);
+		}
+		$aQuery=myqu($query);
 	
 		$count = 0;
 		foreach ($aQuery as $leader) {
@@ -1864,6 +1869,9 @@ function registerUser ($username, $password, $email, $referer) {
 			exit;
 		}
 	}
+	$qu = "SELECT user_id, username FROM mytcg_user WHERE username = '{$referer}' or email_address = '{$referer}' or msisdn = '{$referer}'";
+	//echo $qu;
+	
 	if ($iUserID==0) {
 		
 		//check if the username is untaken
@@ -1888,15 +1896,19 @@ function registerUser ($username, $password, $email, $referer) {
 			return $sOP;
 		}
 		
-		$aReferer=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$referer}' or email_address = '{$referer}' or msisdn = '{$referer}'");
+		
+		$aReferer=myqu($qu);
+		
 		$refererid = 0;
+		
 		if (sizeof($aReferer) > 0) {
 			$refererid = $aReferer[0]['user_id'];
 			
 			$query = "update mytcg_user set credits = credits + 150 where user_id = ".$refererid;
+			myqu($query);
 				
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$refererid.', "Received 15 credits for referring '.$username.'", now(), 15)');
+				VALUES ('.$refererid.', "Received 150 credits for referring '.$username.'", now(), 150)');
 		}
 		
 		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
@@ -1925,6 +1937,9 @@ function registerUser ($username, $password, $email, $referer) {
 			SELECT '.$iUserID.', descript, now(), val
 			FROM mytcg_transactiondescription
 			WHERE transactionid = 2');
+			
+		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+			VALUES ('.$iUserID.', '.$iUserID.')');
 		
 		//return userdetails
 		echo userdetails($iUserID);
