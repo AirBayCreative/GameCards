@@ -796,6 +796,7 @@ if ($_GET['continuegame']) {
 	$lastMoveQuery = myqu('SELECT date, gamelog_id, categorystat_id 
 		FROM mytcg_gamelog 
 		WHERE game_id = '.$gameId.' 
+		AND categorystat_id != 0 
 		ORDER BY gamelog_id DESC 
 		LIMIT 1');
 	$newLastMove = $lastMoveQuery[0]['date'];
