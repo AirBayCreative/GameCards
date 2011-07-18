@@ -239,7 +239,7 @@ void GameDetailsScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "date")) {
 		date = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description = data;
+		description += data;
 	}
 }
 

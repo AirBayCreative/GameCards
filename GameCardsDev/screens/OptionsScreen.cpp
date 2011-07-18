@@ -534,11 +534,11 @@ void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "gamedescription")) {
-		temp1 = data;
+		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		temp = data;
+		temp += data;
 	} else if (!strcmp(parentTag.c_str(), "result")) {
-		temp = data;
+		temp += data;
 	}
 }
 

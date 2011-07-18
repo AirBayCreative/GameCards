@@ -752,10 +752,12 @@ if ($_GET['playablecategories']){
 	$sOP='<categories>'.$sCRLF;
 	foreach ($results as $category) {
     if ($category['card_count'] >= 5) {
+			$sOP.='<category>'.$sCRLF;
 			$catName=myqu('SELECT description FROM mytcg_category WHERE category_id = '.$category['category_id']);
 			$sOP.=$sTab.'<categoryid>'.trim($category['category_id']).'</categoryid>'.$sCRLF;
 			$sOP.=$sTab.'<categoryname>'.trim($catName[0]['description']).'</categoryname>'.$sCRLF;
 			$sOP.=$sTab.'<playablecards>'.trim($category['card_count']).'</playablecards>'.$sCRLF;
+			$sOP.='</category>'.$sCRLF;
 		}
 	}
 	$sOP.='</categories>'.$sCRLF;
@@ -809,7 +811,7 @@ if ($_GET['continuegame']) {
 		LIMIT 1');
 	$newLastMove = $lastMoveQuery[0]['date'];
 	if ($lastMove != $newLastMove) {
-		$sOP = '<game><phase>oppmove</phase><categorystat_id>'.$lastMoveQuery[0]['categorystat_id'].'</categorystat_id><lastmove>'.$lastMoveQuery[0]['date'].'</lastmove></game>';
+		$sOP = '<game><lastmove>'.$lastMoveQuery[0]['date'].'</lastmove><categorystat_id>'.$lastMoveQuery[0]['categorystat_id'].'</categorystat_id><phase>oppmove</phase></game>';
 	}
 	
 	if ($sOP == '') {
@@ -1734,7 +1736,7 @@ if ($_GET['creditlog']){
 	exit;
 }
 
-/** give user deck list */
+/** give user deck list for a category */
 if ($_GET['getdecks']){
 	$iCategoryID=$_GET['category_id'];
 	$aDeckDetails=myqu('SELECT deck_id, description 
@@ -1757,6 +1759,26 @@ if ($_GET['getdecks']){
 	exit;
 }
 
+/** give all the user decks */
+if ($_GET['getalldecks']){
+	$aDeckDetails=myqu('SELECT deck_id, description 
+		FROM mytcg_deck 
+		WHERE user_id='.$iUserID);
+	$sOP='<decks>'.$sCRLF;
+	$iCount=0;
+	while ($aDeckDetail=$aDeckDetails[$iCount]){
+		$sOP.='<deck>'.$sCRLF;
+		$sOP.=$sTab.'<deck_id>'.trim($aDeckDetail['deck_id']).'</deck_id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aDeckDetail['description']).'</desc>'.$sCRLF;	
+		$sOP.='</deck>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</decks>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 if ($_GET['addtodeck']){
 	$iDeckID=$_GET['deck_id'];
@@ -1812,7 +1834,7 @@ if ($_GET['createdeck']){
 	$iDescription=$_GET['description'];
 	$iCategoryID=$_GET['category_id'];
 	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
-			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'"');
+			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
 	$sOP = "<result>Deck Created!</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
