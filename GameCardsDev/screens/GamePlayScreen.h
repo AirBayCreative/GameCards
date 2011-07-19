@@ -91,6 +91,7 @@ private:
 
 	void selectStat();
 	void animateSelectStat();
+	void drawRectangle(int x, int y, int width, int height);
 
 	void resetHeights();
 };

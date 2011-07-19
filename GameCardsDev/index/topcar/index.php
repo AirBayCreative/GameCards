@@ -757,11 +757,12 @@ if ($_GET['continuegame']) {
 	$lastMoveQuery = myqu('SELECT date, gamelog_id, categorystat_id 
 		FROM mytcg_gamelog 
 		WHERE game_id = '.$gameId.' 
+		AND categorystat_id != 0 
 		ORDER BY gamelog_id DESC 
 		LIMIT 1');
 	$newLastMove = $lastMoveQuery[0]['date'];
 	if ($lastMove != $newLastMove) {
-		$sOP = '<game><phase>oppmove</phase><categorystat_id>'.$lastMoveQuery[0]['categorystat_id'].'</categorystat_id><lastmove>'.$lastMoveQuery[0]['date'].'</lastmove></game>';
+		$sOP = '<game><lastmove>'.$lastMoveQuery[0]['date'].'</lastmove><categorystat_id>'.$lastMoveQuery[0]['categorystat_id'].'</categorystat_id><phase>oppmove</phase></game>';
 	}
 	
 	if ($sOP == '') {
@@ -1708,6 +1709,26 @@ if ($_GET['getdecks']){
 	exit;
 }
 
+/** give all the user decks */
+if ($_GET['getalldecks']){
+	$aDeckDetails=myqu('SELECT deck_id, description 
+		FROM mytcg_deck 
+		WHERE user_id='.$iUserID);
+	$sOP='<decks>'.$sCRLF;
+	$iCount=0;
+	while ($aDeckDetail=$aDeckDetails[$iCount]){
+		$sOP.='<deck>'.$sCRLF;
+		$sOP.=$sTab.'<deck_id>'.trim($aDeckDetail['deck_id']).'</deck_id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aDeckDetail['description']).'</desc>'.$sCRLF;	
+		$sOP.='</deck>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</decks>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 if ($_GET['addtodeck']){
 	$iDeckID=$_GET['deck_id'];

@@ -1,5 +1,7 @@
 #include <conprint.h>
+#include <MAUtil/Graphics.h>
 #include <mastdlib.h>
+#include <madmath.h>
 
 #include "GamePlayScreen.h"
 #include "../utils/Util.h"
@@ -140,10 +142,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 }
 
 void GamePlayScreen::clearListBox() {
-	if (userImage != NULL) {
+	if (userImage != NULL && userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
 		maDestroyObject(userImage->getResource());
 	}
-	if (oppImage != NULL) {
+	if (oppImage != NULL && oppImage->getResource() != RES_LOADING_FLIP && oppImage->getResource() != RES_TEMP) {
 		maDestroyObject(oppImage->getResource());
 	}
 
@@ -448,6 +450,13 @@ void GamePlayScreen::show() {
 
 void GamePlayScreen::hide() {
 	Screen::hide();
+}
+
+void GamePlayScreen::drawRectangle(int x, int y, int width, int height){
+	Gfx_line(x, y, x+width, y);
+	Gfx_line(x, y, x, y+height);
+	Gfx_line(x+width, y, x+width, y+height);
+	Gfx_line(x, y+height, x+width, y+height);
 }
 
 void GamePlayScreen::keyPressEvent(int keyCode) {
@@ -773,6 +782,73 @@ void GamePlayScreen::runTimerEvent() {
 			listBox->requestRepaint();
 			selected = false;
 		}
+
+		double userIVal = ::atof(card->getStats()[currentSelectedStat]->getIVal().c_str());
+		double oppIVal = ::atof(oppCard->getStats()[currentSelectedStat]->getIVal().c_str());
+
+		lprintfln("userIVal: %f", userIVal);
+		lprintfln("oppIVal: %f", oppIVal);
+
+		lprintfln("userImage->getPaddedBounds().width: %d", userImage->getPaddedBounds().width);
+		lprintfln("userImage->getPaddedBounds().height: %d", userImage->getPaddedBounds().height);
+		lprintfln("userImage->getPaddedBounds().x: %d", userImage->getPaddedBounds().x);
+		lprintfln("userImage->getPaddedBounds().y: %d", userImage->getPaddedBounds().y);
+
+		lprintfln("userImage->getWidth(): %d", userImage->getWidth());
+		lprintfln("userImage->getHeight(): %d", userImage->getHeight());
+
+		MAExtent userImgSize = maGetImageSize(userImage->getResource());
+		int userImgWidth = EXTENT_X(userImgSize);
+		int userImgHeight = EXTENT_Y(userImgSize);
+		lprintfln("userImgWidth: %d", userImgWidth);
+		lprintfln("userImgHeight: %d", userImgHeight);
+
+		MAExtent oppImgSize = maGetImageSize(oppImage->getResource());
+		int oppImgWidth = EXTENT_X(oppImgSize);
+		int oppImgHeight = EXTENT_Y(oppImgSize);
+		lprintfln("oppImgWidth: %d", oppImgWidth);
+		lprintfln("oppImgHeight: %d", oppImgHeight);
+
+		//we need to draw a green rectangle around the winner, red around the looser
+		if (userIVal > oppIVal) {
+			Gfx_setColor(0, 255, 0);
+			drawRectangle(userImage->getPaddedBounds().x + (userImage->getPaddedBounds().width - userImgWidth)/2,
+				userImage->getPaddedBounds().y + (userImage->getPaddedBounds().height - userImgHeight)/2,
+				userImgWidth, userImgHeight);
+
+			Gfx_setColor(255, 0, 0);
+			drawRectangle(oppImage->getPaddedBounds().x + (oppImage->getPaddedBounds().width - oppImgWidth)/2,
+				oppImage->getPaddedBounds().y + (oppImage->getPaddedBounds().height - oppImgHeight)/2,
+				oppImgWidth, oppImgHeight);
+		}
+		else if (oppIVal > userIVal) {
+			Gfx_setColor(0, 255, 0);
+			drawRectangle(oppImage->getPaddedBounds().x + (oppImage->getPaddedBounds().width - oppImgWidth)/2,
+				oppImage->getPaddedBounds().y + (oppImage->getPaddedBounds().height - oppImgHeight)/2,
+				oppImgWidth, oppImgHeight);
+
+			Gfx_setColor(255, 0, 0);
+			drawRectangle(userImage->getPaddedBounds().x + (userImage->getPaddedBounds().width - userImgWidth)/2,
+				userImage->getPaddedBounds().y + (userImage->getPaddedBounds().height - userImgHeight)/2,
+				userImgWidth, userImgHeight);
+		}
+		else {
+			Gfx_setColor(255, 255, 0);
+			drawRectangle(userImage->getPaddedBounds().x + (userImage->getPaddedBounds().width - userImgWidth)/2,
+				userImage->getPaddedBounds().y + (userImage->getPaddedBounds().height - userImgHeight)/2,
+				userImgWidth, userImgHeight);
+
+			Gfx_setColor(255, 255, 0);
+			drawRectangle(oppImage->getPaddedBounds().x + (oppImage->getPaddedBounds().width - oppImgWidth)/2,
+				oppImage->getPaddedBounds().y + (oppImage->getPaddedBounds().height - oppImgHeight)/2,
+				oppImgWidth, oppImgHeight);
+		}
+
+		userImgWidth = 0;
+		userImgHeight = 0;
+		oppImgWidth = 0;
+		oppImgHeight = 0;
+		Gfx_updateScreen();
 	}
 	lprintfln("runTimerEvent 5");
 	if (phase == P_OPPMOVE && ticks == 7) {
