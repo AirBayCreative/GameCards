@@ -8,6 +8,7 @@
 #include "ShopCategoriesScreen.h"
 #include "OptionsScreen.h"
 #include "NewVersionScreen.h"
+#include "TradeFriendDetailScreen.h"
 #include "../utils/Util.h"
 
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
@@ -44,10 +45,16 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Profile");
 	label->addWidgetListener(this);
 	listBox->add(label);
+	label = Util::createSubLabel("Notifications");
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = Util::createSubLabel("Rankings");
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = Util::createSubLabel("Friend Ranks");
+	label->addWidgetListener(this);
+	listBox->add(label);
+	label = Util::createSubLabel("Invite Friends");
 	label->addWidgetListener(this);
 	listBox->add(label);
 	label = Util::createSubLabel("Redeem");
@@ -209,25 +216,35 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
+				/* Notifications */
+				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
+				menu->show();
+			} else if(index == 7) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
 				menu->show();
-				/*menu = new DetailScreen(this, feed, DetailScreen::RANKING, NULL);
-				menu->show();*/
-			} else if(index == 7) {
+			} else if(index == 8) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
 				menu->show();
-				/*menu = new DetailScreen(this, feed, DetailScreen::RANKING, NULL);
-				menu->show();*/
-			} else if(index == 8) {
+			} else if(index == 9) {
+				if(menu!=NULL){
+					delete menu;
+				}
+				/*Invite Friend */
+				menu = new TradeFriendDetailScreen(this, feed, NULL);
+				menu->show();
+			} else if(index == 10) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new RedeemScreen(feed, this);
 				menu->show();
-			} else if (index == 9) {
+			} else if (index == 11) {
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {

@@ -220,65 +220,26 @@ if ($_GET['buyauctionnow']){
 	exit;
 }
 
+//Friend Invite
+if ($_GET['friendinvite']){
+	//Friend detail type
+  $tradeMethod = $_REQUEST['trademethod'];
+  //Friend detail
+  $receiveNumber = $_REQUEST['detail'];
+  
+  invite($tradeMethod, $receiveNumber, $iUserID, 2);
+}
+
 //DO TRADE
 if ($cardID = $_GET['tradecard']){
 	//Friend detail type
   $tradeMethod = $_REQUEST['trademethod'];
   //Friend detail
   $receiveNumber = $_REQUEST['detail'];
+  //note to send user
+  $sentNote = $_REQUEST['note'];
   
-  //Check if card still belongs to user and is available for trading
-  $aCheckCard=myqu('SELECT usercard_id,usercardstatus_id '
-		.'FROM mytcg_usercard '
-		.'WHERE usercardstatus_id = 1 '
-		.'AND card_id = '.$cardID.' '
-		.'AND user_id = '.$iUserID);
-  if (sizeof($aCheckCard) == 0){
-    $sOP='<result>Card no longer in possession</result>'.$sCRLF;
-    header('xml_length: '.strlen($sOP));
-    echo $sOP;
-    exit;
-  }
-	
-	//check if the target user exists
-	$query = 'SELECT user_id FROM mytcg_user WHERE ';
-	if ($tradeMethod == 'username') {
-		$query .= 'username = "'.$receiveNumber.'"';
-	}
-	else if ($tradeMethod == 'email') {
-		$query .= 'email_address = "'.$receiveNumber.'"';
-	}
-	else if ($tradeMethod == 'phone_number') {
-		$query .= 'msisdn = "'.$receiveNumber.'"';
-	}
-	
-	$aCheckUser = myqu($query);
-	if (sizeof($aCheckUser) == 0){
-		$sOP='<result>User does not exist.</result>'.$sCRLF;
-    header('xml_length: '.strlen($sOP));
-    echo $sOP;
-    exit;
-	}
-  
-  //usercardstatus_id = 4 = Received.
-  myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
-		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
-  
-  //SMS Notification of Trade completed
-  
-  /*if ($_REQUEST['sms']=="Yes"){
-		$sms_string = "http://api.clickatell.com/http/sendmsg?user=mytcg&password=m9y7t5c3g!&api_id=3263957";
-		$sms_string .= "&to={$receiveNumber}";
-		$sms_string .= "&text={$sUsername} has sent you a {$sVoucher} Card".$smsMessage;
-		$ch = curl_init(str_replace(" ","%20",$sms_string));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$ret = curl_exec($ch);
-		curl_close($ch);
-  }*/
-  $sOP='<result>Card sent successfully</result>'.$sCRLF;
-	header('xml_length: '.strlen($sOP));
-	echo $sOP;
-	exit;
+  tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, 2);
 }
 
 //this saves a note for a user, per card

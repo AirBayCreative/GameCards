@@ -1843,6 +1843,150 @@ function userdetails($iUserID) {
 	header('xml_length: '.strlen($sOP));
 	return $sOP;
 }
+function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) {
+	//Check if card still belongs to user and is available for trading
+  $aCheckCard=myqu('SELECT usercard_id,usercardstatus_id '
+		.'FROM mytcg_usercard '
+		.'WHERE usercardstatus_id = 1 '
+		.'AND card_id = '.$cardID.' '
+		.'AND user_id = '.$iUserID);
+  if (sizeof($aCheckCard) == 0){
+    $sOP='<result>Card no longer in possession</result>'.$sCRLF;
+    header('xml_length: '.strlen($sOP));
+    echo $sOP;
+    exit;
+  }
+	
+	//check if the target user exists
+	$query = 'SELECT user_id FROM mytcg_user WHERE ';
+	if ($tradeMethod == 'username') {
+		$query .= 'username = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'email') {
+		$query .= 'email_address = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'phone_number') {
+		$query .= 'msisdn = "'.$receiveNumber.'"';
+	}
+	
+	myqui('INSERT INTO mytcg_tradecard
+		(user_id, trademethod, detail, date, card_id, status_id, note)
+		VALUES
+		('.$iUserID.', "'.$tradeMethod.'", "'.$receiveNumber.'", now(), '.$cardID.', 0, "'.$sentNote.'") ');
+	
+	$aCheckUser = myqu($query);
+	if (sizeof($aCheckUser) == 0){
+		if ($tradeMethod == 'phone_number') {
+			$aCheckCard=myqu('select concat(username, message) a
+							from mytcg_user, mytcg_message
+							WHERE user_id = '.$iUserID.' 
+							AND id = '.$messageID);
+			$sOP='<result>User not found. '.$aCheckCard[0]['a'].'</result>'.$sCRLF;
+		} else {
+			$sOP='<result>User not found.</result>'.$sCRLF;
+			}
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
+	}
+  
+  //usercardstatus_id = 4 = Received.
+  myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
+		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
+  
+  myqui('INSERT INTO mytcg_usercardnote
+	(user_id, card_id, usercardnotestatus_id, note, date_updated)
+	VALUES
+	('.$aCheckUser[0]['user_id'].', '.$cardID.', 1, "'.$sentNote.'", now())
+	ON DUPLICATE KEY UPDATE 
+	note = concat(note,"'.$sentNote.'"),
+	date_updated = now()');
+  
+  //SMS Notification of Trade completed
+  
+  /*if ($_REQUEST['sms']=="Yes"){
+		$sms_string = "http://api.clickatell.com/http/sendmsg?user=mytcg&password=m9y7t5c3g!&api_id=3263957";
+		$sms_string .= "&to={$receiveNumber}";
+		$sms_string .= "&text={$sUsername} has sent you a {$sVoucher} Card".$smsMessage;
+		$ch = curl_init(str_replace(" ","%20",$sms_string));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+  }*/
+  
+	$sOP='<result>Card sent successfully</result>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
+	//check if the target user exists
+	$query = 'SELECT user_id, username FROM mytcg_user WHERE ';
+	if ($tradeMethod == 'username') {
+		$query .= 'username = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'email') {
+		$query .= 'email_address = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'phone_number') {
+		$query .= 'msisdn = "'.$receiveNumber.'"';
+	}
+
+	$aCheckUser = myqu($query);
+	if (sizeof($aCheckUser) == 0){
+		if ($tradeMethod == 'phone_number') {
+			$aCheckCard=myqu('select concat(username, message) a
+							from mytcg_user, mytcg_message
+							WHERE user_id = '.$iUserID.' 
+							AND id = '.$messageID);
+			$sOP='<result>User not found. '.$aCheckCard[0]['a'].'</result>'.$sCRLF;
+		} else {
+			$sOP='<result>User not found. Invite Sent.</result>'.$sCRLF;
+			}
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
+	}
+
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
+		
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now())');
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
+	
+	$aCheckCard=myqu('select username
+						from mytcg_user
+						WHERE user_id = '.$iUserID);
+						
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now())');
+
+  //SMS Notification of Trade completed
+  
+  /*if ($_REQUEST['sms']=="Yes"){
+		$sms_string = "http://api.clickatell.com/http/sendmsg?user=mytcg&password=m9y7t5c3g!&api_id=3263957";
+		$sms_string .= "&to={$receiveNumber}";
+		$sms_string .= "&text={$sUsername} has sent you a {$sVoucher} Card".$smsMessage;
+		$ch = curl_init(str_replace(" ","%20",$sms_string));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+  }*/
+  
+	$sOP='<result>Friend added successfully</result>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 // register user 
 function registerUser ($username, $password, $email, $referer) {
 	$sOP='';

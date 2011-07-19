@@ -5,6 +5,7 @@
 #include <MAUI/EditBox.h>
 #include <maprofile.h>
 
+#include "../utils/Util.h"
 #include "../utils/Card.h"
 #include "../utils/Answer.h"
 #include "../utils/XmlConnection.h"
@@ -15,7 +16,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, ContactListener {
 public:
 	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL, String category="", String categoryname="");
 	~DetailScreen();
@@ -31,7 +32,8 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 
-	enum screenType {PROFILE, BALANCE, CARD, RANKING, FRIEND};
+	void contactReceived(Contact& contact);
+	enum screenType {PROFILE, BALANCE, CARD, RANKING, FRIEND, NOTIFICATIONS, CONTACTS, FRIENDS};
 private:
 	Screen *previous, *next;
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
@@ -39,6 +41,8 @@ private:
 	Label *label, *balanceLabel;
 	KineticListBox *listBox;
 	bool list, left, right;
+
+	Vector<Contact *> contacts;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;

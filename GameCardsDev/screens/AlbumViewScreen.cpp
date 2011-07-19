@@ -453,6 +453,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTLEFT:
 			if (!emp && !hasConnection) {
 				notice->setCaption("Unable to connect, try again later...");
+				feed->remHttp();
 			}
 			else if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {

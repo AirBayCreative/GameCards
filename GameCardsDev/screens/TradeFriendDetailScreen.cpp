@@ -1,6 +1,7 @@
 #include "TradeFriendDetailScreen.h"
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
+#include "DetailScreen.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
 	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -11,6 +12,11 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	result = "";
 	moved = 0;
 	menu = NULL;
+
+	bool contacts = false;
+	//check for android from code repository
+
+
 	layout = Util::createMainLayout("Continue", "Back", "", true);
 
 	layout->setDrawBackground(TRUE);
@@ -57,66 +63,103 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 	mImageCache = new ImageCache();
 
-	String cardText = "";
-	cardText += card->getText();
-	cardText += " (";
-	cardText += card->getQuantity();
-	cardText += ")\n";
-	cardText += card->getRarity();
-	cardText += "\nRating: ";
-	cardText += card->getRanking();
-	//cardText += "\nRarity: ";
+	if (card != NULL) {
+		String cardText = "";
+		cardText += card->getText();
+		cardText += " (";
+		cardText += card->getQuantity();
+		cardText += ")\n";
+		cardText += card->getRarity();
+		cardText += "\nRating: ";
+		cardText += card->getRanking();
+		//cardText += "\nRarity: ";
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
-	feedlayout->setSkin(Util::getSkinAlbum());
-	feedlayout->setDrawBackground(true);
-	//feedlayout->addWidgetListener(this);
+		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+		feedlayout->setSkin(Util::getSkinAlbum());
+		feedlayout->setDrawBackground(true);
+		//feedlayout->addWidgetListener(this);
 
-	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
-		//if the user has one or more of the card, the image must be downloaded
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
-		tempImage->setHasNote(card->getNote().length()>0);
-		Util::retrieveThumb(tempImage, card, mImageCache);
+		if (strcmp(card->getQuantity().c_str(), "0") != 0) {
+			//if the user has one or more of the card, the image must be downloaded
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+			tempImage->setHasNote(card->getNote().length()>0);
+			Util::retrieveThumb(tempImage, card, mImageCache);
+		}
+		else {
+			//we use the blank image for cards they dont have yet
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+		}
+
+		lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		lbl->setVerticalAlignment(Label::VA_CENTER);
+		lbl->setAutoSizeY();
+		lbl->setAutoSizeX();
+		lbl->setMultiLine();
+
+
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Share with Username");
+		usernameEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Email", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Share with Email");
+		emailEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER, label, "", L"Share with Phone Number");
+		phonenumberEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
+		phonenumberEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+	} else {
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Username", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Invite By Username");
+		usernameEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Email", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Invite By Email");
+		emailEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Phone Number", 0, Util::getDefaultFont());
+		listBox->add(label);
+
+		label = Util::createEditLabel("");
+		phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER, label, "", L"Invite By Phone Number");
+		phonenumberEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
+		phonenumberEditBox->setDrawBackground(false);
+		label->addWidgetListener(this);
+		listBox->add(label);
 	}
-	else {
-		//we use the blank image for cards they dont have yet
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+
+	if (card != NULL) {
+		listBox->setSelectedIndex(2);
+	} else {
+		listBox->setSelectedIndex(1);
 	}
-
-	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setAutoSizeY();
-	lbl->setAutoSizeX();
-	lbl->setMultiLine();
-
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getDefaultFont());
-	listBox->add(label);
-
-	label = Util::createEditLabel("");
-	usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Share with Username");
-	usernameEditBox->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
-
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Email", 0, Util::getDefaultFont());
-	listBox->add(label);
-
-	label = Util::createEditLabel("");
-	emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Share with Email");
-	emailEditBox->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
-
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
-	listBox->add(label);
-
-	label = Util::createEditLabel("");
-	phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Share with Phone Number");
-	phonenumberEditBox->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
-
-	listBox->setSelectedIndex(2);
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -261,9 +304,9 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		}/* else if (mid) {
+		} else if (mid) {
 			keyPressEvent(MAK_FIRE);
-		}*/
+		}
 
 		if (!changed) {
 			int yClick = point.y;
@@ -282,6 +325,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 	list = false;
 	left = false;
+	mid = false;
 	right = false;
 
 	Point p;
@@ -293,6 +337,8 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 		{
 			if (i == 0) {
 				left = true;
+			} else if (i == 1) {
+				mid = true;
 			} else if (i == 2) {
 				right = true;
 			}
@@ -315,7 +361,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 
-	if ((!left)&&(!right)) {
+	if ((!left)&&(!right)&&(!mid)) {
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
 		} else {
@@ -331,8 +377,12 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	left = false;
 	right = false;
+	mid = false;
 	switch(keyCode) {
 	case MAK_FIRE:
+		/*menu = new DetailScreen(this, feed, DetailScreen::CONTACTS);
+		menu->show();*/
+		break;
 	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:
@@ -362,7 +412,38 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 						methodLabel = "Phone Number";
 						method = "phone_number";
 					}
-					drawConfirmScreen();
+					if (card != NULL) {
+						drawConfirmScreen();
+					} else {
+						if (!sending) {
+							sending = true;
+
+							notice->setCaption("Inviting Friend...");
+
+							//make the http connection to trade the card
+							int urlLength = 72 + URLSIZE + method.length() + friendDetail.length();
+							char *url = new char[urlLength+1];
+							memset(url, '\0', urlLength+1);
+
+							sprintf(url, "%s?friendinvite=1&trademethod=%s&detail=%s", URL,	method.c_str(), friendDetail.c_str());
+
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
+							mHttp = HttpConnection(this);
+							int res = mHttp.create(url, HTTP_GET);
+
+							if(res < 0) {
+
+							} else {
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
+								mHttp.finish();
+							}
+							delete [] url;
+						}
+					}
 				}
 				break;
 			case SP_CONFIRM:
@@ -422,9 +503,14 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				break;
 			case SP_DETAIL:
 				int ind = listBox->getSelectedIndex();
+				int max = listBox->getChildren().size();
 				ind += 2;
-				if (ind == 8) {
-					ind = 2;
+				if (ind == max+1) {
+					if (card != NULL) {
+						ind = 2;
+					} else {
+						ind = 1;
+					}
 				}
 				listBox->setSelectedIndex(ind);
 				break;
@@ -482,11 +568,23 @@ void TradeFriendDetailScreen::mtxTagAttr(const char* attrName, const char* attrV
 void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 	if (strcmp(parentTag.c_str(), "result") == 0) {
 		result = data;
+		String check = data;
+
+		if ((strcmp(method.c_str(), "phone_number") == 0)&&(!(check.find("User not found.")))) {
+			maSendTextSMS(friendDetail.c_str(), check.substr(16).c_str());
+			result = "User not found. Invite Sent.";
+		} else {
+			result = data;
+		}
 	}
 	else {
-		result = "Error sending card.";
+		result = "Error inviting friend.";
 	}
-	drawCompleteScreen();
+	if (card != NULL) {
+		drawCompleteScreen();
+	} else {
+		notice->setCaption(result);
+	}
 }
 
 void TradeFriendDetailScreen::mtxTagEnd(const char* name, int len) {

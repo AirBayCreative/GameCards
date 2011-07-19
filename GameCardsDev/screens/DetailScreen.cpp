@@ -76,6 +76,36 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label->setMultiLine(true);
 			listBox->add(label);
 			break;
+		case NOTIFICATIONS:
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Notifications", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			break;
+		case FRIENDS:
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Friends", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			break;
+		case CONTACTS:
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Contacts", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+
+			PIM *pim = new PIM();
+			pim->addListener(this);
+			pim->getContacts();
+			delete pim;
+
+			break;
 	}
 
 	if (screenType == PROFILE) {
@@ -96,7 +126,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			feed->addHttp();
 			mHttp.finish();
-
 		}
 		delete [] url;
 	} else if (screenType == BALANCE) {
@@ -159,11 +188,74 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		}
 		delete [] url;
+	} else if (screenType == NOTIFICATIONS) {
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?notifications=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for latest rankings...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+
+		}
+		delete [] url;
+	} else if (screenType == FRIENDS) {
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?friends=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for latest rankings...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+
+		}
+		delete [] url;
 	}
 
 	this->setMain(mainLayout);
 
 	moved = 0;
+}
+
+void DetailScreen::contactReceived(Contact& contact) {
+	lprintfln("contactRecieved");
+	for (int i = 0; i < contact.numbers.size(); i++) {
+		lprintfln("name %S number %S", contact.name.c_str(), contact.numbers[i].c_str());
+	}
+	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+			"", 0, Util::getDefaultFont());
+
+	char *buffer = new char[128];
+	sprintf(buffer, "%S", contact.name.c_str());
+
+	label->setCaption(buffer);
+	label = Util::createSubLabel(buffer);
+	label->setPaddingBottom(5);
+	label->addWidgetListener(this);
+	listBox->add(label);
+
+	listBox->setSelectedIndex(0);
+	delete buffer;
+
+	//contacts.add(contact);
 }
 
 void DetailScreen::clearListBox() {
@@ -613,16 +705,29 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No users found.", 0, Util::getDefaultFont());
 			listBox->add(label);
 
-			/*label = Util::createEditLabel("");
-			editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, val, L"");
-			editBoxUsername->setDrawBackground(false);
-			//label->addWidgetListener(this);
-
-			listBox->add(label);*/
-
 			usr="";
 			val="";
 		}
+	} else if(!strcmp(name, "friend")) {
+
+			count++;
+			label->setCaption("");
+			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, usr, 0, Util::getDefaultFont());
+			listBox->add(label);
+
+			usr="";
+			val="";
+
+			listBox->setSelectedIndex(0);
+	} else if(!strcmp(name, "friends")) {
+			if (count == 0) {
+				label->setCaption("");
+				label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No friends found.", 0, Util::getDefaultFont());
+				listBox->add(label);
+
+				usr="";
+				val="";
+			}
 	} else {
 		if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
@@ -641,6 +746,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			}
 		} else if (screenType == BALANCE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		} else {
 			label->setCaption("");
 		}
 	}
