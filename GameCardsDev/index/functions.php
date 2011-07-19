@@ -1793,6 +1793,7 @@ function leaders() {
 	$sOP.='</cardcategories>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	exit;
 }
 
 function leaderboard($id, $iUserID) {
@@ -1823,8 +1824,34 @@ function leaderboard($id, $iUserID) {
 	$sOP.='</leaderboard>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	exit;
 }
+function friends($iUserID) {
+	$aFriends=myqu('select distinct username, credits, c.card_id, c.description, c.avgranking
+					from mytcg_user a, mytcg_frienddetail b, mytcg_card c, mytcg_usercard d
+					where a.user_id = b.friend_id
+					and d.user_id = a.user_id
+					and c.card_id = d.card_id
+					and c.avgranking = (select max(ec.avgranking) from mytcg_card ec, mytcg_usercard ed where ec.card_id = ed.card_id and ed.user_id = a.user_id)
+					and b.user_id = '.$iUserID.'
+					group by username');
+					
+	$sOP='<friends>'.$sCRLF;
 
+	$count = 0;
+	foreach ($aFriends as $friend) {
+		$sOP.=$sTab.'<friend>'.$sCRLF;	
+		$sOP.=$sTab.'<usr>Username : '.trim($friend['username']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'</friend>'.$sCRLF;	
+		$count++;
+	}
+	$sOP.='</friends>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 function userdetails($iUserID) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
@@ -2086,6 +2113,61 @@ function registerUser ($username, $password, $email, $referer) {
 		echo userdetails($iUserID);
 		exit;
 	}
+}
+
+function creditlog($iUserID) {
+	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
+								FROM mytcg_transactionlog  
+								WHERE user_id='.$iUserID.'
+								ORDER BY date DESC
+								LIMIT 0, 10');
+		
+	$aCredits=myqu('SELECT credits 
+		FROM mytcg_user  
+		WHERE user_id='.$iUserID);
+		
+	$iCredits = $aCredits[0];
+	$sOP='<transactions>'.$sCRLF;
+	$sOP.='<credits>'.trim($iCredits['credits']).'</credits>'.$sCRLF;
+	$iCount=0;
+	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
+		$sOP.='<transaction>'.$sCRLF;
+		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
+		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['val']).'</value>'.$sCRLF;
+		$sOP.='</transaction>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</transactions>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+function notifications($iUserID) {
+	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate
+								FROM mytcg_notifications  
+								WHERE user_id='.$iUserID.'
+								ORDER BY notedate DESC
+								LIMIT 0, 10');
+
+	$sOP='<notifications>'.$sCRLF;
+	$iCount=0;
+	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
+		$sOP.='<note>'.$sCRLF;
+		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['notification_id']).'</id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['notification']).'</desc>'.$sCRLF;		
+		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['notedate']).'</date>'.$sCRLF;
+		$sOP.='</note>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</notifications>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
 }
 
 /** for logging credit changes */

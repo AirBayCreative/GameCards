@@ -116,7 +116,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
 				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
-	lprintfln(url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -171,7 +170,6 @@ void GamePlayScreen::drawResultsScreen() {
 	resetHeights();
 
 	MAUtil::Environment::getEnvironment().removeTimer(this);
-	lprintfln("drawResultsScreen");
 	clearListBox();
 
 	Util::updateSoftKeyLayout("Continue", "Options", "", mainLayout);
@@ -199,7 +197,6 @@ void GamePlayScreen::drawResultsScreen() {
 
 void GamePlayScreen::drawConfirmScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
-	lprintfln("drawConfirmScreen");
 	clearListBox();
 
 	Util::updateSoftKeyLayout("Yes", "No", "", mainLayout);
@@ -217,7 +214,6 @@ void GamePlayScreen::drawConfirmScreen() {
 
 void GamePlayScreen::drawDeclinedScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
-	lprintfln("drawDeclinedScreen");
 	clearListBox();
 
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
@@ -234,7 +230,6 @@ void GamePlayScreen::drawDeclinedScreen() {
 }
 
 void GamePlayScreen::drawFriendNameScreen() {
-	lprintfln("drawFriendNameScreen");
 	clearListBox();
 
 	Util::updateSoftKeyLayout("Play", "Back", "", mainLayout);
@@ -259,7 +254,6 @@ void GamePlayScreen::drawFriendNameScreen() {
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
-	lprintfln("drawCardSelectStatScreen");
 
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
@@ -306,10 +300,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 }
 
 void GamePlayScreen::drawLFMScreen() {
-	lprintfln("drawLFMScreen");
 	if (ticks == 0) {
-		lprintfln("gcCard->getBack(): %s", gcCard->getBack().c_str());
-		lprintfln("gcCard->getBackFlip(): %s", gcCard->getBackFlip().c_str());
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
 		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
@@ -555,7 +546,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					memset(url,'\0',urlLength);
 					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d", URL,
 						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-					lprintfln(url);
 					if(mHttp.isOpen()){
 						mHttp.close();
 					}
@@ -646,7 +636,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						memset(url,'\0',urlLength);
 						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d", URL,
 							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-						lprintfln(url);
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -689,7 +678,6 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							memset(url,'\0',urlLength);
 							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d", URL,
 								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-							lprintfln(url);
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
@@ -717,26 +705,19 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 }
 
 void GamePlayScreen::runTimerEvent() {
-	lprintfln("runTimerEvent currentSelectedStat: %d", currentSelectedStat);
-	lprintfln("runTimerEvent 1");
 	if (phase == P_LFM) {
-		lprintfln("runTimerEvent 1.1");
 		drawLFMScreen();
 		ticks = ticks>3?1:ticks+1;
 		lfmTicks++;
 	}
-	lprintfln("runTimerEvent 2");
 	if ((!active && phase == P_CARD_DETAILS && !selectingStat) || (!checking && lfmTicks%12 == 0)) {
-		lprintfln("runTimerEvent 2.1");
 		checking = true;
-		lprintfln("checking");
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
 		int urlLength = 76 + URLSIZE + gameId.length() + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s?continuegame=1&gameid=%s&lastmove=%s&height=%d&width=%d", URL,
 				gameId.c_str(), lastMove.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -756,15 +737,11 @@ void GamePlayScreen::runTimerEvent() {
 		delete [] url;
 		return;
 	}
-	lprintfln("runTimerEvent 3");
 	if (phase == P_LFM) {
-		lprintfln("runTimerEvent 3.1");
 		return;
 	}
-	lprintfln("runTimerEvent 4");
 	ticks++;
 	if (oppImage != NULL && userImage != NULL && currentSelectedStat >= 0) {
-		lprintfln("runTimerEvent 4.1");
 		if (!selected) {
 			oppImage->selectStat(oppCard->getStats()[currentSelectedStat]->getLeft(),oppCard->getStats()[currentSelectedStat]->getTop(),
 				oppCard->getStats()[currentSelectedStat]->getWidth(),oppCard->getStats()[currentSelectedStat]->getHeight(),
@@ -786,28 +763,13 @@ void GamePlayScreen::runTimerEvent() {
 		double userIVal = ::atof(card->getStats()[currentSelectedStat]->getIVal().c_str());
 		double oppIVal = ::atof(oppCard->getStats()[currentSelectedStat]->getIVal().c_str());
 
-		lprintfln("userIVal: %f", userIVal);
-		lprintfln("oppIVal: %f", oppIVal);
-
-		lprintfln("userImage->getPaddedBounds().width: %d", userImage->getPaddedBounds().width);
-		lprintfln("userImage->getPaddedBounds().height: %d", userImage->getPaddedBounds().height);
-		lprintfln("userImage->getPaddedBounds().x: %d", userImage->getPaddedBounds().x);
-		lprintfln("userImage->getPaddedBounds().y: %d", userImage->getPaddedBounds().y);
-
-		lprintfln("userImage->getWidth(): %d", userImage->getWidth());
-		lprintfln("userImage->getHeight(): %d", userImage->getHeight());
-
 		MAExtent userImgSize = maGetImageSize(userImage->getResource());
 		int userImgWidth = EXTENT_X(userImgSize);
 		int userImgHeight = EXTENT_Y(userImgSize);
-		lprintfln("userImgWidth: %d", userImgWidth);
-		lprintfln("userImgHeight: %d", userImgHeight);
 
 		MAExtent oppImgSize = maGetImageSize(oppImage->getResource());
 		int oppImgWidth = EXTENT_X(oppImgSize);
 		int oppImgHeight = EXTENT_Y(oppImgSize);
-		lprintfln("oppImgWidth: %d", oppImgWidth);
-		lprintfln("oppImgHeight: %d", oppImgHeight);
 
 		//we need to draw a green rectangle around the winner, red around the looser
 		if (userIVal > oppIVal) {
@@ -850,10 +812,8 @@ void GamePlayScreen::runTimerEvent() {
 		oppImgHeight = 0;
 		Gfx_updateScreen();
 	}
-	lprintfln("runTimerEvent 5");
 	if (phase == P_OPPMOVE && ticks == 7) {
 		ticks = 0;
-		lprintfln("runTimerEvent 5.1");
 		//MAUtil::Environment::getEnvironment().removeTimer(this);
 		//ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
@@ -902,14 +862,12 @@ void GamePlayScreen::animateSelectStat() {
 	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 
 	selected = false;
-	lprintfln("addTimer 1");
 	ticks = 0;
 	MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 
 }
 
 void GamePlayScreen::selectStat() {
-	lprintfln("selectStat currentSelectedStat: %d", currentSelectedStat);
 	selectingStat = true;
 
 	char *url = NULL;
@@ -924,7 +882,6 @@ void GamePlayScreen::selectStat() {
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s?selectstat=1&gameid=%s&statid=%s&height=%d&width=%d", URL, gameId.c_str(),
 			card->getStats()[currentSelectedStat]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-	lprintfln(url);
 
 	//clearCardStats();
 
@@ -950,17 +907,13 @@ void GamePlayScreen::selectStat() {
 
 void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	error_msg = "";
-	lprintfln("httpFinished 1");
 	if (result == 200) {
-		lprintfln("httpFinished 2");
 		if (selectingStat) {
-			lprintfln("httpFinished 2.1");
 			tempHttp = http;
 
 			animateSelectStat();
 		}
 		else {
-			lprintfln("httpFinished 2.2");
 			clearCardStats();
 
 			xmlConn = XmlConnection::XmlConnection();
@@ -982,10 +935,8 @@ void GamePlayScreen::connRecvFinished(Connection* conn, int result) {
 
 void GamePlayScreen::xcConnError(int code) {
 	feed->remHttp();
-	lprintfln("xcConnError");
 	char *url;
 	if (newGame && phase != P_CONFIRM) {
-		lprintfln("xcConnError 1");
 		if (newGame) {
 			notice->setCaption("Loading game...");
 		}
@@ -997,7 +948,6 @@ void GamePlayScreen::xcConnError(int code) {
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
 				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
-		lprintfln(url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -1017,14 +967,12 @@ void GamePlayScreen::xcConnError(int code) {
 		delete [] url;
 	}
 	else if (!active && phase == P_CARD_DETAILS) {
-		lprintfln("xcConnError 2");
 		//notice->setCaption("Opponent is making choices...");
-		lprintfln("addTimer 2");
+
 		ticks = 0;
 		MAUtil::Environment::getEnvironment().addTimer(this, 3000, 1);
 	}
 	else if (phase == P_LFM) {
-		lprintfln("xcConnError 3");
 		checking = false;
 	}
 }
@@ -1033,13 +981,10 @@ void GamePlayScreen::mtxEncoding(const char* ) {
 }
 
 void GamePlayScreen::mtxTagStart(const char* name, int len) {
-	lprintfln("mtxTagStart: %s", name);
 	parentTag = name;
 }
 
 void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
-	lprintfln("attrName: %s", attrName);
-	lprintfln("attrValue: %s", attrValue);
 	if(!strcmp(parentTag.c_str(), "cardstat")) {
 		if(!strcmp(attrName, "cardstat_id")) {
 			cardStatId += attrValue;
@@ -1068,7 +1013,6 @@ void GamePlayScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void GamePlayScreen::mtxTagData(const char* data, int len) {
-	lprintfln("mtxTagData: %s", data);
 	if(!strcmp(parentTag.c_str(), "cardid")) {
 		id = data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
@@ -1147,7 +1091,6 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 }
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
-	lprintfln("mtxTagEnd: %s", name);
 	if (!strcmp(name, "usercard")) {
 		if (card == NULL) {
 			//delete card;
@@ -1228,15 +1171,12 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		if (!newGame) {
 			switch (phase) {
 				case P_CARD_DETAILS:
-					lprintfln("phase: P_CARD_DETAILS");
 					drawCardSelectStatScreen();
 					break;
 				case P_RESULTS:
-					lprintfln("phase: P_RESULTS");
 					drawResultsScreen();
 					break;
 				case P_OPPMOVE:
-					lprintfln("phase: P_OPPMOVE");
 					notice->setCaption("");
 					int height = listBox->getHeight();
 					Util::retrieveBackFlip(userImage, card, height, imageCache);
@@ -1248,19 +1188,15 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 						}
 					}
 					selected = false;
-					lprintfln("addTimer 3");
 					ticks = 0;
 					MAUtil::Environment::getEnvironment().addTimer(this, 500, -1);
 					break;
 				case P_LFM:
-					lprintfln("phase: P_LFM");
 					ticks = 0;
-					lprintfln("addTimer 4");
 					ticks = 0;
 					MAUtil::Environment::getEnvironment().addTimer(this, 250, -1);
 					break;
 				case P_CONFIRM:
-					lprintfln("phase: P_CONFIRM");
 					drawConfirmScreen();
 					break;
 			}

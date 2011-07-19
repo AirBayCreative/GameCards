@@ -237,6 +237,14 @@ if ($_GET['friendinvite']){
   invite($tradeMethod, $receiveNumber, $iUserID, 1);
 }
 
+if ($_GET['friends']) {
+	friends($iUserID);
+}
+
+if ($_GET['notifications']) {
+	notifications($iUserID);
+}
+
 
 //DO TRADE
 if ($cardID = $_GET['tradecard']){
@@ -1670,34 +1678,7 @@ if ($_GET['saveprofiledetail']) {
 
 /** give user transaction log details */
 if ($_GET['creditlog']){
-	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
-								FROM mytcg_transactionlog  
-								WHERE user_id='.$iUserID.'
-								ORDER BY date DESC
-								LIMIT 0, 10');
-		
-	$aCredits=myqu('SELECT credits 
-		FROM mytcg_user  
-		WHERE user_id='.$iUserID);
-		
-	$iCredits = $aCredits[0];
-	$sOP='<transactions>'.$sCRLF;
-	$sOP.='<credits>'.trim($iCredits['credits']).'</credits>'.$sCRLF;
-	$iCount=0;
-	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
-		$sOP.='<transaction>'.$sCRLF;
-		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
-		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
-		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
-		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['val']).'</value>'.$sCRLF;
-		$sOP.='</transaction>'.$sCRLF;
-		$iCount++;
-	}
-	
-	$sOP.='</transactions>';
-	header('xml_length: '.strlen($sOP));
-	echo $sOP;
-	exit;
+	creditlog($iUserID);
 }
 
 /** give user deck list for a category */

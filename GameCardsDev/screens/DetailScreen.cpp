@@ -199,7 +199,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		} else {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption("Checking for latest rankings...");
+			label->setCaption("Updating notifications...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
@@ -219,7 +219,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		} else {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption("Checking for latest rankings...");
+			label->setCaption("Getting friends list...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
@@ -236,10 +236,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 }
 
 void DetailScreen::contactReceived(Contact& contact) {
-	lprintfln("contactRecieved");
-	for (int i = 0; i < contact.numbers.size(); i++) {
-		lprintfln("name %S number %S", contact.name.c_str(), contact.numbers[i].c_str());
-	}
 	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
 			"", 0, Util::getDefaultFont());
 
@@ -365,7 +361,7 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		} else {
 			widget->getChildren()[0]->setSelected(false);
 		}
-	} else if (screenType == BALANCE) {
+	} else if ((screenType == BALANCE)||(screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 		if(selected) {
 			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
@@ -459,10 +455,14 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			if (ind == max-1) {
 				listBox->setSelectedIndex(0);
 			} else if (ind == 0) {
-				listBox->setSelectedIndex(3);
-				if ((screenType == RANKING)||(screenType == FRIEND)) {
+				if ((screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
+					listBox->setSelectedIndex(1);
+				} else if ((screenType == RANKING)||(screenType == FRIEND)) {
 					listBox->setSelectedIndex(2);
+				} else {
+					listBox->setSelectedIndex(3);
 				}
+
 			} else {
 				listBox->selectNextItem();
 				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
@@ -604,6 +604,36 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		balanceLabel->setCaption(cred.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
 		cred = "";
+	} else if(!strcmp(name, "transactions")) {
+		if (count == 0) {
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions yet.", 0, Util::getDefaultFont());
+			label->setPaddingLeft(20);
+			label->setPaddingRight(20);
+			label->addWidgetListener(this);
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+		}
+		listBox->setSelectedIndex(3);
+		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption("");
+	} else if(!strcmp(name, "transaction")) {
+		count++;
+
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+				"", 0, Util::getDefaultFont());
+		label->setCaption(date + ": " + desc);
+		label->setVerticalAlignment(Label::VA_CENTER);
+		label->setSkin(Util::getSkinListNoArrows());
+		label->setMultiLine(true);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(PADDING);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		desc = "";
+		date = "";
 	} else if(!strcmp(name, "detail")) {
 		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
@@ -651,9 +681,9 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
 		}
-	} else if(!strcmp(name, "transactions")) {
+	} else if(!strcmp(name, "notifications")) {
 		if (count == 0) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions yet.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -662,11 +692,16 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
 			listBox->add(label);
+
+			listBox->setSelectedIndex(0);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		} else {
+			listBox->setSelectedIndex(1);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
 		}
-		listBox->setSelectedIndex(3);
-		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-		label->setCaption("");
-	} else if(!strcmp(name, "transaction")) {
+	} else if(!strcmp(name, "note")) {
 		count++;
 
 		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
@@ -681,6 +716,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		listBox->add(label);
 		desc = "";
 		date = "";
+		id = "";
 	} else if(!strcmp(name, "leader")) {
 
 		count++;
@@ -710,24 +746,38 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		}
 	} else if(!strcmp(name, "friend")) {
 
-			count++;
+		count++;
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+				"", 0, Util::getDefaultFont());
+		label->setCaption(usr+"\n"+val+"\n"+desc);
+		label->setVerticalAlignment(Label::VA_CENTER);
+		label->setSkin(Util::getSkinListNoArrows());
+		label->setMultiLine(true);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(PADDING);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		usr="";
+		val="";
+		desc="";
+	} else if(!strcmp(name, "friends")) {
+		if (count == 0) {
 			label->setCaption("");
-			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, usr, 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No friends found.", 0, Util::getDefaultFont());
 			listBox->add(label);
 
 			usr="";
 			val="";
 
 			listBox->setSelectedIndex(0);
-	} else if(!strcmp(name, "friends")) {
-			if (count == 0) {
-				label->setCaption("");
-				label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No friends found.", 0, Util::getDefaultFont());
-				listBox->add(label);
-
-				usr="";
-				val="";
-			}
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		} else {
+			listBox->setSelectedIndex(1);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		}
 	} else {
 		if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
@@ -746,8 +796,6 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			}
 		} else if (screenType == BALANCE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption("");
-		} else {
 			label->setCaption("");
 		}
 	}

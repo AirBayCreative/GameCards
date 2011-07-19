@@ -54,6 +54,9 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Friend Ranks");
 	label->addWidgetListener(this);
 	listBox->add(label);
+	label = Util::createSubLabel("Friends");
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = Util::createSubLabel("Invite Friends");
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -235,16 +238,23 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				if(menu!=NULL){
 					delete menu;
 				}
-				/*Invite Friend */
-				menu = new TradeFriendDetailScreen(this, feed, NULL);
+				/* Notifications */
+				menu = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
 				menu->show();
 			} else if(index == 10) {
 				if(menu!=NULL){
 					delete menu;
 				}
+				/*Invite Friend */
+				menu = new TradeFriendDetailScreen(this, feed, NULL);
+				menu->show();
+			} else if(index == 11) {
+				if(menu!=NULL){
+					delete menu;
+				}
 				menu = new RedeemScreen(feed, this);
 				menu->show();
-			} else if (index == 11) {
+			} else if (index == 12) {
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
@@ -258,7 +268,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 
 				if (feed->getHttps() > 0) {
 					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-					label->setCaption("Please wait for all connections to finish before exiting.");
+					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 				} else {
 					if(menu!=NULL){
 						delete menu;
@@ -282,7 +292,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 
 			if (feed->getHttps() > 0) {
 				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-				label->setCaption("Please wait for all connections to finish before exiting.");
+				label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 			} else {
 				maExit(0);
 			}
