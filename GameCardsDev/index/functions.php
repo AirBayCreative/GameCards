@@ -229,14 +229,22 @@ function updateAuctions() {
 		//set the cards status back to Album
 		if ($auction['bidder'] == -1) {
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now())');
 		} else {
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Received'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
 			
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].')');
 				
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+				VALUES ('.$auction['owner'].', "Auctioned '.$auction['description'].' to '.$auction['username'].' for '.$auction['price'].' credits.", now())');
+				
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].')');
+				
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+				VALUES ('.$auction['bidder'].', "Won auction '.$auction['description'].' from '.$auction['ownername'].' for '.$auction['price'].' credits.", now())');
 		}
 		
 		myqu($query);
