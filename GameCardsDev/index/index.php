@@ -1824,7 +1824,14 @@ if ($_GET['getcardsindeck']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$aDeckCategory=myqu('SELECT category_id 
+		FROM mytcg_deck 
+		WHERE deck_id='.$iDeckID);
+	
+	$sOP = "<deck>";
+	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP .= "<category_id>".$aDeckCategory[0]["category_id"]."</category_id>";
+	$sOP .= "<deck>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
