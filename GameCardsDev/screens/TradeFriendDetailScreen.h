@@ -8,6 +8,7 @@
 #include <MAUI/Screen.h>
 #include <maprofile.h>
 
+#include "../utils/Util.h"
 #include "../utils/Feed.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"
@@ -43,7 +44,7 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, sending, changed;
+	bool list, left, right, sending, changed, mid;
 	String method, methodLabel, friendDetail, parentTag, cardText;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *usernameEditBox, *emailEditBox, *phonenumberEditBox;

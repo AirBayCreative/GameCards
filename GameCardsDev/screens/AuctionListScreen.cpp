@@ -79,6 +79,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 		drawList();
 
 		notice->setCaption("Unable to connect, try again later...");
+
 	} else {
 		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());

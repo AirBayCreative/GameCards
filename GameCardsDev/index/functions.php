@@ -1793,6 +1793,7 @@ function leaders() {
 	$sOP.='</cardcategories>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	exit;
 }
 
 function leaderboard($id, $iUserID) {
@@ -1823,8 +1824,34 @@ function leaderboard($id, $iUserID) {
 	$sOP.='</leaderboard>';
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	exit;
 }
+function friends($iUserID) {
+	$aFriends=myqu('select distinct username, credits, c.card_id, c.description, c.avgranking
+					from mytcg_user a, mytcg_frienddetail b, mytcg_card c, mytcg_usercard d
+					where a.user_id = b.friend_id
+					and d.user_id = a.user_id
+					and c.card_id = d.card_id
+					and c.avgranking = (select max(ec.avgranking) from mytcg_card ec, mytcg_usercard ed where ec.card_id = ed.card_id and ed.user_id = a.user_id)
+					and b.user_id = '.$iUserID.'
+					group by username');
+					
+	$sOP='<friends>'.$sCRLF;
 
+	$count = 0;
+	foreach ($aFriends as $friend) {
+		$sOP.=$sTab.'<friend>'.$sCRLF;	
+		$sOP.=$sTab.'<usr>Username : '.trim($friend['username']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'</friend>'.$sCRLF;	
+		$count++;
+	}
+	$sOP.='</friends>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 function userdetails($iUserID) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
@@ -1842,6 +1869,150 @@ function userdetails($iUserID) {
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
 	return $sOP;
+}
+function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) {
+	//Check if card still belongs to user and is available for trading
+  $aCheckCard=myqu('SELECT usercard_id,usercardstatus_id '
+		.'FROM mytcg_usercard '
+		.'WHERE usercardstatus_id = 1 '
+		.'AND card_id = '.$cardID.' '
+		.'AND user_id = '.$iUserID);
+  if (sizeof($aCheckCard) == 0){
+    $sOP='<result>Card no longer in possession</result>'.$sCRLF;
+    header('xml_length: '.strlen($sOP));
+    echo $sOP;
+    exit;
+  }
+	
+	//check if the target user exists
+	$query = 'SELECT user_id FROM mytcg_user WHERE ';
+	if ($tradeMethod == 'username') {
+		$query .= 'username = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'email') {
+		$query .= 'email_address = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'phone_number') {
+		$query .= 'msisdn = "'.$receiveNumber.'"';
+	}
+	
+	myqui('INSERT INTO mytcg_tradecard
+		(user_id, trademethod, detail, date, card_id, status_id, note)
+		VALUES
+		('.$iUserID.', "'.$tradeMethod.'", "'.$receiveNumber.'", now(), '.$cardID.', 0, "'.$sentNote.'") ');
+	
+	$aCheckUser = myqu($query);
+	if (sizeof($aCheckUser) == 0){
+		if ($tradeMethod == 'phone_number') {
+			$aCheckCard=myqu('select concat(username, message) a
+							from mytcg_user, mytcg_message
+							WHERE user_id = '.$iUserID.' 
+							AND id = '.$messageID);
+			$sOP='<result>User not found. '.$aCheckCard[0]['a'].'</result>'.$sCRLF;
+		} else {
+			$sOP='<result>User not found.</result>'.$sCRLF;
+			}
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
+	}
+  
+  //usercardstatus_id = 4 = Received.
+  myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
+		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
+  
+  myqui('INSERT INTO mytcg_usercardnote
+	(user_id, card_id, usercardnotestatus_id, note, date_updated)
+	VALUES
+	('.$aCheckUser[0]['user_id'].', '.$cardID.', 1, "'.$sentNote.'", now())
+	ON DUPLICATE KEY UPDATE 
+	note = concat(note,"'.$sentNote.'"),
+	date_updated = now()');
+  
+  //SMS Notification of Trade completed
+  
+  /*if ($_REQUEST['sms']=="Yes"){
+		$sms_string = "http://api.clickatell.com/http/sendmsg?user=mytcg&password=m9y7t5c3g!&api_id=3263957";
+		$sms_string .= "&to={$receiveNumber}";
+		$sms_string .= "&text={$sUsername} has sent you a {$sVoucher} Card".$smsMessage;
+		$ch = curl_init(str_replace(" ","%20",$sms_string));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+  }*/
+  
+	$sOP='<result>Card sent successfully</result>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
+	//check if the target user exists
+	$query = 'SELECT user_id, username FROM mytcg_user WHERE ';
+	if ($tradeMethod == 'username') {
+		$query .= 'username = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'email') {
+		$query .= 'email_address = "'.$receiveNumber.'"';
+	}
+	else if ($tradeMethod == 'phone_number') {
+		$query .= 'msisdn = "'.$receiveNumber.'"';
+	}
+
+	$aCheckUser = myqu($query);
+	if (sizeof($aCheckUser) == 0){
+		if ($tradeMethod == 'phone_number') {
+			$aCheckCard=myqu('select concat(username, message) a
+							from mytcg_user, mytcg_message
+							WHERE user_id = '.$iUserID.' 
+							AND id = '.$messageID);
+			$sOP='<result>User not found. '.$aCheckCard[0]['a'].'</result>'.$sCRLF;
+		} else {
+			$sOP='<result>User not found. Invite Sent.</result>'.$sCRLF;
+			}
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
+	}
+
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
+		
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now())');
+		
+	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
+	
+	$aCheckCard=myqu('select username
+						from mytcg_user
+						WHERE user_id = '.$iUserID);
+						
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now())');
+
+  //SMS Notification of Trade completed
+  
+  /*if ($_REQUEST['sms']=="Yes"){
+		$sms_string = "http://api.clickatell.com/http/sendmsg?user=mytcg&password=m9y7t5c3g!&api_id=3263957";
+		$sms_string .= "&to={$receiveNumber}";
+		$sms_string .= "&text={$sUsername} has sent you a {$sVoucher} Card".$smsMessage;
+		$ch = curl_init(str_replace(" ","%20",$sms_string));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+  }*/
+  
+	$sOP='<result>Friend added successfully</result>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
 }
 // register user 
 function registerUser ($username, $password, $email, $referer) {
@@ -1942,6 +2113,61 @@ function registerUser ($username, $password, $email, $referer) {
 		echo userdetails($iUserID);
 		exit;
 	}
+}
+
+function creditlog($iUserID) {
+	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
+								FROM mytcg_transactionlog  
+								WHERE user_id='.$iUserID.'
+								ORDER BY date DESC
+								LIMIT 0, 10');
+		
+	$aCredits=myqu('SELECT credits 
+		FROM mytcg_user  
+		WHERE user_id='.$iUserID);
+		
+	$iCredits = $aCredits[0];
+	$sOP='<transactions>'.$sCRLF;
+	$sOP.='<credits>'.trim($iCredits['credits']).'</credits>'.$sCRLF;
+	$iCount=0;
+	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
+		$sOP.='<transaction>'.$sCRLF;
+		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['transaction_id']).'</id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['description']).'</desc>'.$sCRLF;		
+		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<value>'.trim($aTransactionDetail['val']).'</value>'.$sCRLF;
+		$sOP.='</transaction>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</transactions>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+function notifications($iUserID) {
+	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate
+								FROM mytcg_notifications  
+								WHERE user_id='.$iUserID.'
+								ORDER BY notedate DESC
+								LIMIT 0, 10');
+
+	$sOP='<notifications>'.$sCRLF;
+	$iCount=0;
+	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
+		$sOP.='<note>'.$sCRLF;
+		$sOP.=$sTab.'<id>'.trim($aTransactionDetail['notification_id']).'</id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aTransactionDetail['notification']).'</desc>'.$sCRLF;		
+		$sOP.=$sTab.'<date>'.trim($aTransactionDetail['notedate']).'</date>'.$sCRLF;
+		$sOP.='</note>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</notifications>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
 }
 
 /** for logging credit changes */

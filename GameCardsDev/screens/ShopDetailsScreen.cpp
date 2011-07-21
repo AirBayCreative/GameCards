@@ -106,10 +106,12 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 			fullDesc += "\n";
 			fullDesc += getTime().c_str();
-			fullDesc += "\nBidder: ";
+			fullDesc += "\nSeller: ";
+			fullDesc += auction->getUsername();
 			if(!strcmp(auction->getLastBidUser().c_str(), "")) {
-				fullDesc += auction->getUsername();
+
 			} else {
+				fullDesc += "\nBidder: ";
 				fullDesc += auction->getLastBidUser();
 			}
 
@@ -404,7 +406,6 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			switch (screenType) {
 				case ST_AUCTION: // Buy
 				case ST_USER:
-					clearListBox();
 					previous->show();
 					break;
 				case ST_PRODUCT:
