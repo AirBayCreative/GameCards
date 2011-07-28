@@ -1667,7 +1667,7 @@ if ($_GET['creditlog']){
 	creditlog($iUserID);
 }
 
-/** give user deck list */
+/** give user deck list for a category */
 if ($_GET['getdecks']){
 	$iCategoryID=$_GET['category_id'];
 	$aDeckDetails=myqu('SELECT deck_id, description 
@@ -1713,11 +1713,21 @@ if ($_GET['getalldecks']){
 
 if ($_GET['addtodeck']){
 	$iDeckID=$_GET['deck_id'];
-	$iUserCardID=$_GET['usercard_id'];
+	$iCardID=$_GET['card_id'];
+	
+	$cardQuery = myqu('SELECT usercard_id 
+		FROM mytcg_usercard 
+		WHERE user_id = '.$iUserID.' 
+		AND card_id = '.$iCardID.' 
+		AND deck_id IS NULL 
+		AND usercardstatus_id = 1 
+		LIMIT 1');
+	
+	$iUserCardID = $cardQuery[0]['usercard_id'];
 	
 	myqui('UPDATE mytcg_usercard 
-			SET deck_id = "'.$iDeckID.'",  
-			WHERE usercard_id = "'.$iUserCardID.'"');
+			SET deck_id = '.$iDeckID.'  
+			WHERE usercard_id = '.$iUserCardID);
 	
 	$sOP = "<result>Card added to Deck!</result>";
 	header('xml_length: '.strlen($sOP));
@@ -1725,13 +1735,15 @@ if ($_GET['addtodeck']){
 	exit;
 }
 
-
 if ($_GET['removefromdeck']){
-	$iUserCardID=$_GET['usercard_id'];
+	$iCardID=$_GET['card_id'];
+	$iDeckID=$_GET['deck_id'];
 	
 	myqui('UPDATE mytcg_usercard 
-			SET deck_id = NULL,  
-			WHERE usercard_id = "'.$iUserCardID.'"');
+		SET deck_id = NULL 
+		WHERE user_id = '.$iUserID.' 
+		AND card_id = '.$iCardID.' 
+		AND deck_id = '.$iDeckID);
 	
 	$sOP = "<result>Card removed from Deck!</result>";
 	header('xml_length: '.strlen($sOP));
@@ -1739,6 +1751,27 @@ if ($_GET['removefromdeck']){
 	exit;
 }
 
+//this returns a list of cards in a category, 
+if ($iCategory=$_GET['cardsincategorynotdeck']){
+
+	$iDeckID=$_GET['deck_id'];
+
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	$lastCheckSeconds = "";
+	if (!($lastCheckSeconds = $_GET['seconds'])) {
+		$lastCheckSeconds = "0";
+	}
+	
+	$sOP = cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 /** give user deck list */
 if ($_GET['getcardsindeck']){
@@ -1754,31 +1787,35 @@ if ($_GET['getcardsindeck']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$aDeckCategory=myqu('SELECT category_id 
+		FROM mytcg_deck 
+		WHERE deck_id='.$iDeckID);
+	
+	$sOP = "<deck>";
+	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP .= "<category_id>".$aDeckCategory[0]["category_id"]."</category_id>";
+	$sOP .= "</deck>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
 }
 
-
 if ($_GET['createdeck']){
-	$iDescription=$_GET['description'];
+	$iDescription=base64_decode($_GET['description']);
 	$iCategoryID=$_GET['category_id'];
 	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
-			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'"');
+			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
 	$sOP = "<result>Deck Created!</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
 }
 
-
 if ($_GET['deletedeck']){
 	$iDeckID=$_GET['deck_id'];
 	myqui('UPDATE mytcg_usercard 
-			SET deck_id = NULL,  
-			WHERE deck_id = "'.$iDeckID.'"');
-			
+			SET deck_id = NULL  
+			WHERE deck_id = '.$iDeckID);
 	
 	myqui('DELETE FROM mytcg_deck 
 			WHERE deck_id = '.$iDeckID);
@@ -1787,7 +1824,6 @@ if ($_GET['deletedeck']){
 	echo $sOP;
 	exit;
 }
-
 
 /** Searches on a string and returns a list of cards belonging to the user */
 if ($searchstring=$_GET['search']) {

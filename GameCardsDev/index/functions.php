@@ -2374,11 +2374,6 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$lastCheckSeconds = "0";
 	}
 	
-	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
-		.'FROM mytcg_imageserver b '
-		.'ORDER BY b.description DESC '
-	);
-	
 	//echo $iCategory.' '.$iUserID.' ';
 	
 	// C.usercardstatus_id = 1 = Album
@@ -2548,10 +2543,68 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					ORDER BY description');
 	}
+	
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root);
+	
+	return $sOP;
+}
+
+function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root) {
+	if (!($iHeight)) {
+		$iHeight = '350';
+	}
+	if (!($iWidth)) {
+		$iWidth = '250';
+	}
+	if (!($iDeckID)) {
+		$iDeckID = -1;
+	}
+	
+	if (!($lastCheckSeconds)) {
+		$lastCheckSeconds = "0";
+	}
+	
+	$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
+				B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
+				(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+					THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+				FROM mytcg_card B 
+				INNER JOIN mytcg_usercard A 
+				ON A.card_id=B.card_id 
+				INNER JOIN mytcg_cardquality D
+				ON B.cardquality_id=D.cardquality_id
+				INNER JOIN mytcg_usercardstatus C 
+				ON C.usercardstatus_id=A.usercardstatus_id 
+				LEFT OUTER JOIN 
+				(SELECT note, date_updated, user_id, card_id
+					FROM mytcg_usercardnote
+					WHERE user_id = '.$iUserID.'
+					AND usercardnotestatus_id = 1
+				) D 
+				ON A.user_id = D.user_id 
+				AND A.card_id = D.card_id 
+				WHERE A.user_id='.$iUserID.' 
+				AND (B.category_id='.$iCategory.' OR B.category_id IN (SELECT category_child_id FROM mytcg_category_x WHERE category_parent_id = '.$iCategory.')) 
+				AND C.usercardstatus_id=1 
+				AND B.card_id NOT IN (SELECT card_id FROM mytcg_usercard WHERE deck_id = '.$iDeckID.') 
+				AND A.deck_id IS NULL 
+				GROUP BY B.card_id ');
+	
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root);
+	
+	return $sOP;
+}
+
+function buildCardListXML($cardList,$iHeight,$iWidth,$root) {
+	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
+		.'FROM mytcg_imageserver b '
+		.'ORDER BY b.description DESC '
+	);
+
 	$sOP='<cardsincategory>'.$sCRLF;
 	$iCount=0;
 	
-	while ($aOneCard=$aCards[$iCount]){
+	while ($aOneCard=$cardList[$iCount]){
 		$sOP.=$sTab.'<card>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<cardid>'.$aOneCard['card_id'].'</cardid>'.$sCRLF;		
 		$sOP.=$sTab.$sTab.'<description>'.$aOneCard['description'].'</description>'.$sCRLF;
@@ -2622,6 +2675,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$sOP.=$sTab.'</card>'.$sCRLF;
 	}
 	$sOP.='</cardsincategory>'.$sCRLF;
+	
 	return $sOP;
 }
 

@@ -1,5 +1,5 @@
-#ifndef _ALBUMVIEWSCREEN_H_
-#define _ALBUMVIEWSCREEN_H_
+#ifndef _EDITDECKSCREEN_H_
+#define _EDITDECKSCREEN_H_
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
@@ -16,18 +16,14 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class EditDeckScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=AT_NORMAL, bool bAction=false, Card *card = NULL, String deckId = "");
-	~AlbumViewScreen();
+	EditDeckScreen(Screen *previous, Feed *feed, String deckId);
+	~EditDeckScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
-	int getCount();
-	void Add(const char* id, const char* name);
-	String *Retrieve(int id);
-	void drawList();
 
 	#if defined(MA_PROF_SUPPORT_STYLUS)
 		void pointerPressEvent(MAPoint2d point);
@@ -36,18 +32,11 @@ public:
 		void locateItem(MAPoint2d point);
 	#endif
 
-	void loadFile();
-	void loadImages(const char *text);
-
 	typedef Map<String, Card*> StringCardMap;
 
+	enum albumTypes {ST_LIST, ST_CONFIRM_DELETE};
+
 	void refresh();
-
-	void setDeckId(String deckId);
-
-	int albumType;
-
-	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK};
 private:
 	Screen *next, *previous;
 	Label *notice, *label;
@@ -58,24 +47,19 @@ private:
 	XmlConnection xmlConn;
 	ImageCache *mImageCache;
 
-	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId;
+	String parentTag, statDesc, statIVal, statDisplay, note, deckId, deckCategory;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	int size, i, moved, listSizes;
-	bool list, left, right, emp, hasConnection, busy, isAuction, adding;
+	int size, i, moved, listSizes, screenType;
+	bool list, left, right, emp, hasConnection, busy, deleting;
 
 	Feed *feed;
-	Card *card, *newCard;
-	StringCardMap tmp, cards;
-	StringCardMap::Iterator cardExists;
-	Vector<String> index;
-	Vector<Card *> deleted;
+	Card *card;
+	Vector<Card *> cards;
 	Vector<Stat*> stats;
 	Stat *stat;
 	MobImage *tempImage;
 
-	String getAll();
-	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void xcConnError(int code);
@@ -88,12 +72,14 @@ private:
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
-	//void clearFeedLayouts();
-	void clearCardMap();
-	void deleteCards();
+	void clearCards();
 	void clearListBox();
 
-	void addCard(String cardId);
+	void removeCard();
+	void deleteDeck();
+
+	void drawList();
+	void drawConfirm();
 };
 
-#endif	//_ALBUMVIEWSCREEN_H_*/
+#endif	//_EDITDECKSCREEN_H_*/

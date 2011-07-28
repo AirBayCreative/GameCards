@@ -52,8 +52,8 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card) : mHttp(this),
-		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card) {
+AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card, String categoryId) : mHttp(this),
+		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card), categoryId(categoryId) {
 	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
@@ -64,6 +64,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	hasCards = "";
 	temp = "";
 	temp1 = "";
+	deckId = "";
 	updated = "0";
 
 	next = NULL;
@@ -90,7 +91,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			notice->setCaption("Checking for new albums...");
 
 			//work out how long the url will be, the 2 is for the & and = symbols
-			int urlLength = 60 + URLSIZE + feed->getUsername().length();
+			urlLength = 60 + URLSIZE + feed->getUsername().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?playablecategories=1&username=%s", URL, feed->getUsername().c_str());
@@ -116,7 +117,17 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				sprintf(url, "%s?getusergames=1", URL, feed->getUsername().c_str());
 				res = mHttp.create(url, HTTP_GET);
 			}
+			break;
+		case ST_DECK:
+			path.add(categoryId);
 
+			notice->setCaption("Checking for new albums...");
+			//work out how long the url will be, the 4 is for the & and = symbols
+			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, categoryId.c_str(), feed->getSeconds().c_str());
+			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
 	if(res < 0) {
@@ -308,12 +319,25 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			if (path.size() > 0) {
-				path.remove(path.size()-1);
-				loadCategory();
-			}
-			else {
-				previous->show();
+			switch(screenType) {
+				case ST_DECK:
+					if (path.size() > 1) {
+						path.remove(path.size()-1);
+						loadCategory();
+					}
+					else {
+						previous->show();
+					}
+					break;
+				default:
+					if (path.size() > 0) {
+						path.remove(path.size()-1);
+						loadCategory();
+					}
+					else {
+						previous->show();
+					}
+					break;
 			}
 			break;
 		case MAK_FIRE:
@@ -379,6 +403,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());
 						next->show();
+						break;
+					case ST_DECK:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_DECK, isAuction, card, deckId);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
 						break;
 				}
 				//delete val;
@@ -628,6 +665,11 @@ void AlbumLoadScreen::mtxEmptyTagEnd() {
 
 void AlbumLoadScreen::mtxTagStartEnd() {
 }
+
 int AlbumLoadScreen::getCount() {
 	return size;
+}
+
+void AlbumLoadScreen::setDeckId(String d) {
+	deckId = d;
 }
