@@ -452,8 +452,8 @@ void GamePlayScreen::drawRectangle(int x, int y, int width, int height){
 void GamePlayScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 	switch(keyCode) {
-		case MAK_LEFT:
-		case MAK_RIGHT:
+		case MAK_DOWN:
+		case MAK_UP:
 			switch(phase){
 				case P_CARD_DETAILS:
 					flip = !flip;
@@ -475,7 +475,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_UP:
+		case MAK_RIGHT:
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
@@ -496,7 +496,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_DOWN:
+		case MAK_LEFT:
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {

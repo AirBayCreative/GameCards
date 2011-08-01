@@ -223,11 +223,8 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 					if (next != NULL) {
 						delete next;
 					}
-					lprintfln("DeckList 1");
 					next = new EditDeckScreen(this, feed, albums[kinListBox->getSelectedIndex()-1]->getId());
-					lprintfln("DeckList 2");
 					next->show();
-					lprintfln("DeckList 3");
 				}
 			}
 			break;

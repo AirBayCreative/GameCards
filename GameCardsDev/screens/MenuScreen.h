@@ -18,7 +18,7 @@ private:
 
 	Screen *menu;
 	int c;
-
+	bool iphone;
 	void mtxTagData(const char*, int);
 };
 
