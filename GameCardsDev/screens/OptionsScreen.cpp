@@ -24,7 +24,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	busy = false;
 
 	menu = NULL;
-	bool iphone = false;
+	iphone = false;
 	#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 		iphone = true;
 	#endif
@@ -433,7 +433,9 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
-					maExit(0);
+					if (!iphone) {
+						maExit(0);
+					}
 					break;
 				default:
 					clearListBox();

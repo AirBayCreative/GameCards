@@ -109,7 +109,7 @@ void Util::setCaption(Label *label) {
 WidgetSkin* Util::getSkinBack() {
 	static WidgetSkin* gSkinBack;
 	if (gSkinBack == NULL) {
-		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 39, 78, 39, 78, true, true);
+		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 39, 429, 39, 429, true, true);
 	}
 	return gSkinBack;
 }
@@ -118,7 +118,7 @@ WidgetSkin* Util::getSkinList() {
 	static WidgetSkin* gSkinList;
 	if (gSkinList == NULL) {
 		//topcar values 19,29,16,32
-		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 19, 29, 16, 32, true, true);
+		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 19, 77, 16, 32, true, true);
 	}
 	return gSkinList;
 }
@@ -126,7 +126,7 @@ WidgetSkin* Util::getSkinList() {
 WidgetSkin* Util::getSkinListNoArrows() {
 	static WidgetSkin* gSkinListNoArrows;
 	if (gSkinListNoArrows == NULL) {
-		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST, 16, 32, 16, 32, true, true);
+		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST, 16, 77, 16, 32, true, true);
 	}
 	return gSkinListNoArrows;
 }
@@ -134,8 +134,8 @@ WidgetSkin* Util::getSkinListNoArrows() {
 WidgetSkin* Util::getSkinAlbum() {
 	static WidgetSkin* gSkinAlbum;
 	if (gSkinAlbum == NULL) {
-		//topcar values 4,8,12,16
-		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 4, 8, 12, 16, true, true);
+		//topcar values 4, 61, 12, 16
+		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 4, 77, 12, 16, true, true);
 	}
 	return gSkinAlbum;
 }

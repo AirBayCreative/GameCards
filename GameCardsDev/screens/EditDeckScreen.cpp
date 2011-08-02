@@ -341,7 +341,7 @@ void EditDeckScreen::drawConfirm() {
 
 EditDeckScreen::~EditDeckScreen() {
 	delete mainLayout;
-	if(next!=NULL){
+	if(next != NULL){
 		delete next;
 	}
 	delete mImageCache;
