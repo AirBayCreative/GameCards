@@ -31,7 +31,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	enum screenTypes {ST_NORMAL, ST_NEW_CARD};
+	enum screenTypes {ST_NORMAL, ST_NEW_CARD, ST_DECK};
 
 	bool isAuction;
 private:

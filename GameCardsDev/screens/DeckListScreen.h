@@ -1,5 +1,5 @@
-#ifndef _OPTIONSSCREEN_H_
-#define _OPTIONSSCREEN_H_
+#ifndef _DECKLISTSCREEN_H_
+#define _DECKLISTSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
@@ -8,21 +8,19 @@
 #include <MAUI/Screen.h>
 #include <maprofile.h>
 
-#include "../utils/Feed.h"
-#include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../utils/Feed.h"
+#include "../utils/Album.h"
+#include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DeckListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
-	~OptionsScreen();
+	DeckListScreen(Screen *previous, Feed *feed);
+	~DeckListScreen();
 	void keyPressEvent(int keyCode);
-	void show();
-	void clearListBox();
-	void hide();
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
@@ -30,29 +28,31 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
-		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_NEW_GAME_OPTIONS, ST_CARD_OPTIONS,
-		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
+
+	void refresh();
 private:
+	Screen *previous;
+	Screen *next;
+
 	Feed *feed;
 	Layout *layout;
-	ListBox* listBox;
+	KineticListBox* kinListBox;
 	Label *lbl, *notice;
-	Screen *menu;
-	Screen *previous;
-	Card *card;
-	bool list, left, right, connError, busy, iphone;
-	int index, screenType;
-	String parentTag, temp1, temp, error_msg, number;
+	Album *album;
+	Vector<Album*> albums;
 
-	Albums *album;
+	bool list, left, right, selecting;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	void acceptCard();
-	void rejectCard();
-	void checkForGames();
+	String parentTag;
+	String deckId, description;
+	int moved;
+
+	void clearListBox();
+	void clearAlbums();
+	void drawList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

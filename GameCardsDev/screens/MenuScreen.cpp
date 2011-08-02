@@ -1,5 +1,6 @@
 #include <conprint.h>
 
+#include "DeckListScreen.h"
 #include "RedeemScreen.h"
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
@@ -15,7 +16,7 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	lprintfln("MenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	c=0;
 	menu = NULL;
-	bool iphone = false;
+	iphone = false;
 #if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 	iphone = true;
 #endif
@@ -33,6 +34,9 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Play");
 	label->addWidgetListener(this);
 	listBox->add(label);
+	//label = Util::createSubLabel("Decks");
+	//label->addWidgetListener(this);
+	//listBox->add(label);
 	label = Util::createSubLabel("Shop");
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -191,7 +195,13 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				}
 				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
-			} else if(index == 2) {
+			} /*else if(index == 2) {//decks
+				if(menu!=NULL){
+					delete menu;
+				}
+				menu = new DeckListScreen(this, feed);
+				menu->show();
+			} */else if(index == 2) {
 				if(menu!=NULL){
 					delete menu;
 				}
@@ -279,22 +289,24 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			if (menu!=NULL) {
-				delete menu;
-			}
-			int seconds = maLocalTime();
-			int secondsLength = Util::intlen(seconds);
-			char *secString = new char[secondsLength+1];
-			memset(secString,'\0',secondsLength+1);
-			sprintf(secString, "%d", seconds);
-			feed->setSeconds(secString);
-			Util::saveData("fd.sav", feed->getAll().c_str());
+			if (!iphone) {
+				if (menu!=NULL) {
+					delete menu;
+				}
+				int seconds = maLocalTime();
+				int secondsLength = Util::intlen(seconds);
+				char *secString = new char[secondsLength+1];
+				memset(secString,'\0',secondsLength+1);
+				sprintf(secString, "%d", seconds);
+				feed->setSeconds(secString);
+				Util::saveData("fd.sav", feed->getAll().c_str());
 
-			if (feed->getHttps() > 0) {
-				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-				label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-			} else {
-				maExit(0);
+				if (feed->getHttps() > 0) {
+					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
+				} else {
+					maExit(0);
+				}
 			}
 			break;
 		case MAK_DOWN:

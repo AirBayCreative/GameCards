@@ -19,6 +19,9 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		if (screenType == ST_NEW_CARD) {
 			mainLayout =  Util::createImageLayout("Accept", "Reject", "");
 		}
+		else if (screenType == ST_DECK) {
+			mainLayout =  Util::createImageLayout("", "Back" , "Flip");
+		}
 		else {
 			mainLayout =  Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back" , "Flip");
 		}
@@ -173,7 +176,9 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
-			Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+			if (screenType != ST_DECK) {
+				Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+			}
 			imge->refreshWidget();
 			imge->statAdded = false;
 			currentSelectedStat = -1;
@@ -242,7 +247,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				busy = true;
 				acceptCard();
 			}
-			else {
+			else if (screenType != ST_DECK) {
 				if (card != NULL && hasConnection && canAuction) {
 					if (next != NULL) {
 						delete next;
@@ -273,7 +278,9 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				if (card != NULL) {
 					//if((flipOrSelect)||(currentSelectedStat == -1)){
 						flip=!flip;
-						Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						if (screenType != ST_DECK) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 						currentSelectedStat = -1;

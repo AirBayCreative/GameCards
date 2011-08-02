@@ -254,7 +254,6 @@ void GamePlayScreen::drawFriendNameScreen() {
 }
 
 void GamePlayScreen::drawCardSelectStatScreen() {
-
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
 
@@ -453,8 +452,8 @@ void GamePlayScreen::drawRectangle(int x, int y, int width, int height){
 void GamePlayScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
 	switch(keyCode) {
-		case MAK_LEFT:
-		case MAK_RIGHT:
+		case MAK_DOWN:
+		case MAK_UP:
 			switch(phase){
 				case P_CARD_DETAILS:
 					flip = !flip;
@@ -476,7 +475,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_UP:
+		case MAK_RIGHT:
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
@@ -497,7 +496,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_DOWN:
+		case MAK_LEFT:
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
@@ -735,6 +734,7 @@ void GamePlayScreen::runTimerEvent() {
 
 		}
 		delete [] url;
+		urlLength = 0;
 		return;
 	}
 	if (phase == P_LFM) {
@@ -1092,11 +1092,10 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 
 void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 	if (!strcmp(name, "usercard")) {
-		if (card == NULL) {
-			//delete card;
-			card = new Card();
+		if (card != NULL) {
+			delete card;
 		}
-
+		card = new Card();
 		card->setText(description.c_str());
 		card->setThumb(thumburl.c_str());
 		card->setFront(fronturl.c_str());
@@ -1118,11 +1117,10 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 		frontflipurl = "";
 		backflipurl = "";
 	} else if (!strcmp(name, "oppcard")) {
-		if (oppCard == NULL) {
-			//delete card;
-			oppCard = new Card();
+		if (oppCard != NULL) {
+			delete oppCard;
 		}
-
+		oppCard = new Card();
 		oppCard->setText(description.c_str());
 		oppCard->setThumb(thumburl.c_str());
 		oppCard->setFront(fronturl.c_str());
