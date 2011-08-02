@@ -134,7 +134,7 @@ WidgetSkin* Util::getSkinListNoArrows() {
 WidgetSkin* Util::getSkinAlbum() {
 	static WidgetSkin* gSkinAlbum;
 	if (gSkinAlbum == NULL) {
-		//topcar values 4,8,12,16
+		//topcar values 4, 61, 12, 16
 		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 4, 77, 12, 16, true, true);
 	}
 	return gSkinAlbum;
