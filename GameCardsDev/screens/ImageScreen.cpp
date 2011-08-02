@@ -176,7 +176,13 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
-			if (screenType != ST_DECK) {
+			if (screenType == ST_NEW_CARD) {
+				mainLayout =  Util::createImageLayout("Accept", "Reject", "");
+			}
+			else if (screenType == ST_DECK) {
+				mainLayout =  Util::createImageLayout("", "Back" , "Flip");
+			}
+			else {
 				Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
 			}
 			imge->refreshWidget();
