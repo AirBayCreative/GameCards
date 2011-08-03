@@ -335,20 +335,18 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 	if ($gamePhase == 'stat') {
 		
 		//if the player is playing against the ai, the ai needs to make a move, if the ai is the active user
-		//get the admins userId
-		$adminUserIdQuery = myqu('SELECT user_id 
-			FROM mytcg_user 
-			WHERE username = "admin"');
-		$adminUserId = $adminUserIdQuery[0]['user_id'];
-		
-		$adminPlayerIdQuery = myqu('SELECT gameplayer_id, is_active  
-			FROM mytcg_gameplayer 
-			WHERE user_id = '.$adminUserId
-			.' AND game_id = '.$gameId);
+		//so we check if there is an ai user in the game
+		$adminPlayerIdQuery = myqu('SELECT u.user_id, gp.gameplayer_id, gp.is_active 
+			FROM mytcg_user u 
+			INNER JOIN mytcg_gameplayer gp 
+			ON gp.user_id = u.user_id 
+			WHERE gp.game_id = '.$gameId.' 
+			AND u.ai = 1');
 		if (sizeof($adminPlayerIdQuery) > 0) {
 			//check that the ai is the active player
 			$aiIsActive = $adminPlayerIdQuery[0]['is_active'];
 			$aiPlayerId = $adminPlayerIdQuery[0]['gameplayer_id'];
+			$aiUserId = $adminPlayerIdQuery[0]['user_id'];
 			
 			if ($aiIsActive == '1') {
 				// we need to get the best stat for the ai to pick, so we need their top card first
@@ -379,7 +377,7 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 					ORDER BY picking_value DESC');
 				
 				//perform the stat selection
-				selectStat($iUserID, $adminUserId, $gameId, $adminBestStatQuery[0]['categorystat_id']);
+				selectStat($iUserID, $aiUserId, $gameId, $adminBestStatQuery[0]['categorystat_id']);
 			}
 		}
 	}
@@ -597,6 +595,38 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		}
 	}
 	else if ($gamePhase == 'lfm') {
+		//if the player has been waiting for a minute, and they didnt specify an opponent, we set them up against an ai player
+		$gameDetailsQuery = myqu('SELECT TIME_TO_SEC(TIMEDIFF(now(), date_created)) duration, friend 
+			FROM mytcg_game 
+			WHERE game_id = '.$gameId);
+		$friend = $gameDetailsQuery[0]['friend'];
+		$duration = $gameDetailsQuery[0]['duration'];
+		
+		if ($friend == "" && $duration >= 60) {
+			$incompleteStatusQuery = myqu("SELECT gamestatus_id 
+				FROM mytcg_gamestatus gs 
+				WHERE lower(gs.description) = 'incomplete'");
+			$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
+		
+			myqu('UPDATE mytcg_game 
+				SET gamestatus_id = '.$incompleteId.', 
+				gamephase_id = 2 
+				WHERE game_id = '.$gameId);
+			
+			//get the ai users
+			$aiUserIdQuery = myqu('SELECT u.user_id 
+				FROM mytcg_user u 
+				WHERE u.ai = 1 
+				AND u.user_id != 1'); // 1 is the default ai, we want these ad hoc ai matches to use the other ones.
+			$aiIndex = rand(0, sizeof($aiUserIdQuery) - 1);
+			$aiUserId = $aiUserIdQuery[$aiIndex]['user_id'];
+			
+			//add the ai to the game
+			myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
+				VALUES ('.$gameId.', '.$aiUserId.', 0, 2)');
+			
+			initialiseGame($userId, $gameId);
+		}
 		//we need to return the url for the gc.png card
 		$height = resizeGCCard($iHeight, $iWidth, $root);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
@@ -727,17 +757,15 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	//by default we set the gameplayerstatus_id to pending after a move, but if its an AI user, we must set it to waiting
 	$oppStatusId = '1';
 	//get the admins userId
-	$adminUserIdQuery = myqu('SELECT user_id 
-		FROM mytcg_user 
-		WHERE username = "admin"');
-	$adminUserId = $adminUserIdQuery[0]['user_id'];
-	
-	$adminPlayerId = myqu('SELECT gameplayer_id 
-		FROM mytcg_gameplayer 
-		WHERE user_id = '.$adminUserId
-		.' AND game_id = '.$gameId);
+	$aiUserIdQuery = myqu('SELECT u.user_id, gp.is_active, gp.gameplayer_id 
+		FROM mytcg_user u 
+		INNER JOIN mytcg_gameplayer gp 
+		ON gp.user_id = u.user_id 
+		WHERE gp.game_id = '.$gameId.' 
+		AND u.ai = 1');
+
 	//check if the game is against AI
-	if (sizeof($adminPlayerId) > 0) {
+	if (sizeof($aiUserIdQuery) > 0) {
 		$oppStatusId = '2';
 	}
 	
