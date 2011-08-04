@@ -713,9 +713,11 @@ if ($_GET['playablecategories']){
 	foreach ($results as $category) {
     if ($category['card_count'] >= 5) {
 			$catName=myqu('SELECT description FROM mytcg_category WHERE category_id = '.$category['category_id']);
+			$sOP.='<category>';
 			$sOP.=$sTab.'<categoryid>'.trim($category['category_id']).'</categoryid>'.$sCRLF;
 			$sOP.=$sTab.'<categoryname>'.trim($catName[0]['description']).'</categoryname>'.$sCRLF;
 			$sOP.=$sTab.'<playablecards>'.trim($category['card_count']).'</playablecards>'.$sCRLF;
+			$sOP.='</category>';
 		}
 	}
 	$sOP.='</categories>'.$sCRLF;
@@ -913,9 +915,9 @@ if ($_GET['declinegame']) {
 			$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
 				FROM mytcg_game');
 			$gameId = $gameIdQuery[0]['game_id'];
-			myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
+			myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend, date_created) 
 				SELECT '.$gameId.', '.$openId.', 
-				(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "" 
+				(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "", now() 
 				FROM DUAL');
 			$newGame = true;
 		}
@@ -1040,7 +1042,7 @@ if ($_GET['newgame']) {
 		//we need to clear all the open games that are older than a minute, so we need all their ids
 		$oldOpenGame = myqu('SELECT g.game_id 
 			FROM mytcg_game g 
-			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
+			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 120 
 			AND (g.gamestatus_id = '.$openId.' 
 			OR g.gamestatus_id = '.$closedId.')');
 		
@@ -1090,9 +1092,9 @@ if ($_GET['newgame']) {
 				$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
 					FROM mytcg_game');
 				$gameId = $gameIdQuery[0]['game_id'];
-				myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
+				myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend, date_created) 
 					SELECT '.$gameId.', '.$openId.', 
-					(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'" 
+					(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'", now() 
 					FROM DUAL');
 				$newGame = true;
 			}
@@ -1157,9 +1159,9 @@ if ($_GET['newgame']) {
 					$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
 						FROM mytcg_game');
 					$gameId = $gameIdQuery[0]['game_id'];
-					myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend) 
+					myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend, date_created) 
 						SELECT '.$gameId.', '.$openId.', 
-						(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'" 
+						(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "'.$friend.'", now() 
 						FROM DUAL');
 					$newGame = true;
 				}
@@ -1173,20 +1175,20 @@ if ($_GET['newgame']) {
 		$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id
 			FROM mytcg_game');
 		$gameId = $gameIdQuery[0]['game_id'];
-		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start) 
+		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, date_created) 
 			SELECT '.$gameId.', (SELECT gamestatus_id FROM mytcg_gamestatus WHERE lower(description) = "incomplete"),
-			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now()
+			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now(), now() 
 			FROM DUAL');
 		
-		//get the admins userId
-		$adminUserIdQuery = myqu('SELECT user_id 
-			FROM mytcg_user 
-			WHERE username = "admin"');
-		$adminUserId = $adminUserIdQuery[0]['user_id'];
+		//get the ai users
+		$aiUserIdQuery = myqu('SELECT u.user_id 
+			FROM mytcg_user u
+			WHERE u.user_id = 1');
+		$aiUserId = $aiUserIdQuery[0]['user_id'];
 		
 		//add the ai to the game
 		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-			VALUES ('.$gameId.', '.$adminUserId.', 0, 2)');
+			VALUES ('.$gameId.', '.$aiUserId.', 0, 2)');
 	}
 	
 	//add the player to the game, the host goes first

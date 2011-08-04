@@ -29,10 +29,10 @@ bool MobImage::statContains(int x, int y, int width, int height, int pointX, int
 	Rect *r = NULL;
 	switch(orientation) {
 		case LANDSCAPE:
-			r = new Rect((int)((this->getWidth()-((y + height)*((double)this->getWidth()/350)))),
-					(int)(x*((double)this->getHeight()/250)),
-					(int)(height*((double)this->getWidth()/350)),
-					(int)(width*((double)this->getHeight()/250)));
+			r = new Rect((((paddedBounds.width >> 1) + (imageWidth >> 1))-((y*imageWidth/350)+height*imageWidth/350))+3,
+					(((paddedBounds.height >> 1) - (imageHeight >> 1))+getPosition().y)+(x*imageHeight/250),
+					height*imageWidth/350,
+					width*imageHeight/250);
 			break;
 		case PORTRAIT:
 			r = new Rect((x*this->getWidth()/250),(y*this->getHeight()/350),width*this->getWidth()/250,height*this->getHeight()/350);
