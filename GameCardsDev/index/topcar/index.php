@@ -713,9 +713,11 @@ if ($_GET['playablecategories']){
 	foreach ($results as $category) {
     if ($category['card_count'] >= 5) {
 			$catName=myqu('SELECT description FROM mytcg_category WHERE category_id = '.$category['category_id']);
+			$sOP.='<category>';
 			$sOP.=$sTab.'<categoryid>'.trim($category['category_id']).'</categoryid>'.$sCRLF;
 			$sOP.=$sTab.'<categoryname>'.trim($catName[0]['description']).'</categoryname>'.$sCRLF;
 			$sOP.=$sTab.'<playablecards>'.trim($category['card_count']).'</playablecards>'.$sCRLF;
+			$sOP.='</category>';
 		}
 	}
 	$sOP.='</categories>'.$sCRLF;
