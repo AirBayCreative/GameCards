@@ -1850,8 +1850,8 @@ function friends($iUserID) {
 	foreach ($aFriends as $friend) {
 		$sOP.=$sTab.'<friend>'.$sCRLF;	
 		$sOP.=$sTab.'<usr>Username : '.trim($friend['username']).'</usr>'.$sCRLF;
-		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</usr>'.$sCRLF;
-		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</usr>'.$sCRLF;
+		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</val>'.$sCRLF;
+		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</desc>'.$sCRLF;
 		$sOP.=$sTab.'</friend>'.$sCRLF;	
 		$count++;
 	}
