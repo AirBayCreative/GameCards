@@ -2206,11 +2206,11 @@ function registerUser ($username, $password, $email, $referer) {
 		if (sizeof($aReferer) > 0) {
 			$refererid = $aReferer[0]['user_id'];
 			
-			$query = "update mytcg_user set credits = credits + 150 where user_id = ".$refererid;
+			$query = "update mytcg_user set credits = credits + 10 where user_id = ".$refererid;
 			myqu($query);
 				
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$refererid.', "Received 150 credits for referring '.$username.'", now(), 150)');
+				VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10)');
 				
 			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 				VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
