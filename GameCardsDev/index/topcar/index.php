@@ -107,6 +107,15 @@ if ($iUserID == 0){
 				WHERE transactionid = 1');
 				
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
+		
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
+		
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
+			
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now())');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -466,6 +475,12 @@ if ($_GET['categoryauction']){
 	$auctionCards = getAuctionCards($categoryId, $auctionCards, $iUserID);
 	
 	$sOP='<auctionsincategory>'.$sCRLF;
+	
+	$aUserDetails=myqu('SELECT credits 
+		FROM mytcg_user 
+		WHERE user_id='.$iUserID);
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	
 	$iCount=0;
 	while ($aOneCard=$auctionCards[$iCount]){
 		$sOP.='<auction>';

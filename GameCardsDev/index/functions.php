@@ -610,7 +610,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		$friend = $gameDetailsQuery[0]['friend'];
 		$duration = $gameDetailsQuery[0]['duration'];
 		
-		if ($friend == "" && $duration >= 60) {
+		if ($friend == "" && $duration >= 20) {
 			$incompleteStatusQuery = myqu("SELECT gamestatus_id 
 				FROM mytcg_gamestatus gs 
 				WHERE lower(gs.description) = 'incomplete'");
@@ -910,9 +910,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 				$iUpdate=$aUpdate[0];
 				if ($iUpdate['gameswon'] < 3) {
 					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 25)');
 			
-					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+					myqui('UPDATE mytcg_user SET credits = credits + 25, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				} else if ($iUpdate['gameswon'] == 3) {
 					myqui('UPDATE mytcg_user SET gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				}
@@ -1195,6 +1195,20 @@ function auctionBid($bid, $username, $iUserID) {
   
 	if ($credits >= $bid) {
 		$auctionCardId = $_GET['auctioncardid'];
+		
+		
+		$rest = "SELECT minimum_bid "
+							."from mytcg_market "
+							."where market_id = ".$auctionCardId;
+		$testresult = myqu($rest);
+		
+		if ($aTest=$testresult[0]) {
+			if ($aTest['minimum_bid'] > $bid) {
+				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
+				exit;
+			}
+		}
+		
 	
 		//the previous high bidder needs to get their credits back
 		$query = "SELECT max(price) as price, user_id, date_of_transaction "
@@ -1207,6 +1221,10 @@ function auctionBid($bid, $username, $iUserID) {
 		if ($aBid=$result[0]) {
 			if ($aBid['user_id'] == $iUserID) {
 				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
+				exit;
+			}
+			if ($aBid['price'] > $bid) {
+				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
 				exit;
 			}
 			//if there was a previous bid
@@ -1952,10 +1970,6 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) 
 		echo $sOP;
 		exit;
 	}
-  
-  //usercardstatus_id = 4 = Received.
-  myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
-		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
 		
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
@@ -1963,6 +1977,15 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) 
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
   
+  $sOP='<result>Card sending currently not supported.</result>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+	
+  //usercardstatus_id = 4 = Received.
+  myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
+		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
+		
   myqui('INSERT INTO mytcg_usercardnote
 	(user_id, card_id, usercardnotestatus_id, note, date_updated)
 	VALUES
@@ -2113,6 +2136,9 @@ function registerUser ($username, $password, $email, $referer) {
 				
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 				VALUES ('.$refererid.', "Received 150 credits for referring '.$username.'", now(), 150)');
+				
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+				VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
 		}
 		
 		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
@@ -2126,9 +2152,15 @@ function registerUser ($username, $password, $email, $referer) {
 		if (sizeof($aReferer) > 0) {
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$refererid.', '.$iUserID.')');
+				
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+				VALUES ('.$refererid.', "'.$username.' has been added to your friend list.", now())');
 			
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$iUserID.', '.$refererid.')');
+				
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+				VALUES ('.$iUserID.', "'.$aReferer[0]['username'].' has been added to your friend list.", now())');
 		}
 		
 		//create the empty data fields in mytcg_user_answer
@@ -2144,6 +2176,12 @@ function registerUser ($username, $password, $email, $referer) {
 			
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');
+		
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
+		
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
 		
 		//return userdetails
 		echo userdetails($iUserID);
