@@ -40,8 +40,13 @@ if ($_GET['registeruser']) {
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
 	$referer = $_REQUEST['referer'];
-
-	$sOP = registerUser($username, $password, $email, $referer);
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
