@@ -116,6 +116,9 @@ if ($iUserID == 0){
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now())');
+			
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);

@@ -2200,6 +2200,9 @@ function registerUser ($username, $password, $email, $referer) {
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
+			
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
