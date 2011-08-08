@@ -2149,7 +2149,7 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 	exit;
 }
 // register user 
-function registerUser ($username, $password, $email, $referer) {
+function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$root) {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -2167,7 +2167,7 @@ function registerUser ($username, $password, $email, $referer) {
 		if ($sPassword!=$aValidUser[0]['password']){
 			$iUserID=0;
 		} else {
-			echo userdetails($iUserID);
+			echo userdetails($iUserID,$iHeight,$iWidth,$root);
 			exit;
 		}
 	}
@@ -2262,7 +2262,7 @@ function registerUser ($username, $password, $email, $referer) {
 			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
 		
 		//return userdetails
-		echo userdetails($iUserID);
+		echo userdetails($iUserID,$iHeight,$iWidth,$root);
 		exit;
 	}
 }
