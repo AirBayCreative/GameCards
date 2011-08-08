@@ -120,25 +120,6 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 		$image->save($filenameResized);
 	}
 	
-	//we need to resize the gc.png image for this size, if it hasnt been done yet.
-	$filename = $root.'img/cards/loading.png';
-	$filenameResized = $dir.'loading.png';
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight - 60);
-		$image->save($filenameResized);
-	}
-	
-	$filename = $root.'img/cards/loading.png';
-	$filenameResized = $dir.'loadingFlip.png';
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
-		$image->save($filenameResized);
-	}
-	
 	return $iHeight;
 }
 
@@ -209,6 +190,75 @@ function resizeGCCard($iHeight, $iWidth, $root) {
 	
 	return $iHeight;
 }
+
+function resizeLoadingCard($iHeight, $iWidth, $root) {
+	//we need to check if the width after scaling would be too wide for the screen.
+	$filename = $root.'img/cards/loading.png';
+	if (file_exists($filename)) {
+		$image = new SimpleImage();
+		$image->load($filename);
+		$ratio = $iHeight / $image->getHeight();
+		if (($ratio * ($image->getWidth())) > $iWidth) {
+			$ratio = $iWidth / $image->getWidth();
+			$iHeight =  intval($ratio * $image->getHeight());
+		}
+	}
+	else {
+		die('loading card image missing -> '.$filename);
+	}
+	
+	//we want a maximum image size, so larger devices dont have to download huge images
+	if ($iHeight > 520) {
+		//for now, max = 520
+		$iHeight = 520;
+	}
+	
+	if ($iWidth > 520) {
+		//for now, max = 520
+		$iWidth = 520;
+	}
+	
+	//Check directory for resized version
+	chmod($root.'img',0777);
+	$dir = $root.'img/'.$iHeight;
+	if (!is_dir($dir)){
+		if (!mkdir($dir, 0777, true)) {
+			die('Failed to create folders -> '.$dir);
+		}
+	}
+	$dir .= "/cards";
+	if (!is_dir($dir)){
+		if (!mkdir($dir, 0777, true)) {
+			die('Failed to create folders -> '.$dir);
+		}
+	}
+	$dir .= "/";
+	
+	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
+	
+	//we need to resize the loading.png image for this size, if it hasnt been done yet.
+	$filename = $root.'img/cards/loading.png';
+	$filenameResized = $dir.'loading.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->resizeToHeight($iHeight - 60);
+		$image->save($filenameResized);
+	}
+	
+	$filename = $root.'img/cards/loading.png';
+	$filenameResized = $dir.'loadingFlip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		$image->save($filenameResized);
+	}
+	
+	return $iHeight;
+}
+
 //clears any actions that when limit is up
 function updateAuctions() {
 	//Select details of the auction
@@ -590,8 +640,6 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		//we need to return the url for the gc.png card, which has hopefully been resized for the users's phone.
 		$sOP.=$sTab.'<gcurl>'.$sFound.$iHeight.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$sFound.$iHeight.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
-		$sOP.=$sTab.'<loadingurl>'.$sFound.$iHeight.'/cards/loading.png</loadingurl>'.$sCRLF;
-		$sOP.=$sTab.'<loadingurlflip>'.$sFound.$iHeight.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will load the last log from mytcg_gamelog, and set the user's pending off
@@ -1902,7 +1950,7 @@ function friends($iUserID) {
 	exit;
 }
 
-function userdetails($iUserID) {
+function userdetails($iUserID,$iHeight,$iWidth,$root) {
 	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
@@ -1914,6 +1962,12 @@ function userdetails($iUserID) {
 	$sOP.=$sTab.'<status></status>'.$sCRLF;
 	
 	$aUserTransactions=myqu('SELECT description FROM mytcg_credits WHERE userid = '.$iUserID.' ORDER BY creditid DESC LIMIT 10');
+	
+	//we need to return the url for the loading.png card
+	$height = resizeLoadingCard($iHeight, $iWidth, $root);
+	$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.'/cards/loading.png</loadingurl>'.$sCRLF;
+	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));

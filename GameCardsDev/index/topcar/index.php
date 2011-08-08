@@ -1624,8 +1624,14 @@ if ($iFreebie = $_GET['categoryproducts']){
 
 /** give user details */
 if ($_GET['userdetails']){
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
 	global $iUserID;
-	echo userdetails($iUserID);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root);
 	exit;
 }
 
