@@ -120,6 +120,25 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 		$image->save($filenameResized);
 	}
 	
+	//we need to resize the gc.png image for this size, if it hasnt been done yet.
+	$filename = $root.'img/cards/loading.png';
+	$filenameResized = $dir.'loading.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->resizeToHeight($iHeight - 60);
+		$image->save($filenameResized);
+	}
+	
+	$filename = $root.'img/cards/loading.png';
+	$filenameResized = $dir.'loadingFlip.png';
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new SimpleImage();
+		$image->load($filename);
+		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		$image->save($filenameResized);
+	}
+	
 	return $iHeight;
 }
 
@@ -571,6 +590,8 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		//we need to return the url for the gc.png card, which has hopefully been resized for the users's phone.
 		$sOP.=$sTab.'<gcurl>'.$sFound.$iHeight.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$sFound.$iHeight.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$sOP.=$sTab.'<loadingurl>'.$sFound.$iHeight.'/cards/loading.png</loadingurl>'.$sCRLF;
+		$sOP.=$sTab.'<loadingurlflip>'.$sFound.$iHeight.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will load the last log from mytcg_gamelog, and set the user's pending off
