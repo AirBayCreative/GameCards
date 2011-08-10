@@ -40,8 +40,13 @@ if ($_GET['registeruser']) {
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
 	$referer = $_REQUEST['referer'];
-
-	$sOP = registerUser($username, $password, $email, $referer);
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -713,9 +718,11 @@ if ($_GET['playablecategories']){
 	foreach ($results as $category) {
     if ($category['card_count'] >= 5) {
 			$catName=myqu('SELECT description FROM mytcg_category WHERE category_id = '.$category['category_id']);
+			$sOP.='<category>';
 			$sOP.=$sTab.'<categoryid>'.trim($category['category_id']).'</categoryid>'.$sCRLF;
 			$sOP.=$sTab.'<categoryname>'.trim($catName[0]['description']).'</categoryname>'.$sCRLF;
 			$sOP.=$sTab.'<playablecards>'.trim($category['card_count']).'</playablecards>'.$sCRLF;
+			$sOP.='</category>';
 		}
 	}
 	$sOP.='</categories>'.$sCRLF;
@@ -1622,8 +1629,14 @@ if ($iFreebie = $_GET['categoryproducts']){
 
 /** give user details */
 if ($_GET['userdetails']){
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
 	global $iUserID;
-	echo userdetails($iUserID);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root);
 	exit;
 }
 

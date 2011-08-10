@@ -46,8 +46,13 @@ if ($_GET['registeruser']) {
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
 	$referer = $_REQUEST['referer'];
-
-	$sOP = registerUser($username, $password, $email, $referer);
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -1636,8 +1641,14 @@ if ($iFreebie = $_GET['categoryproducts']){
 
 /** give user details */
 if ($_GET['userdetails']){
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
 	global $iUserID;
-	echo userdetails($iUserID);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root);
 	exit;
 }
 
