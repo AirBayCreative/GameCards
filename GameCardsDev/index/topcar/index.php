@@ -1265,7 +1265,7 @@ if ($_GET['getusergames']){
 		myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
 	}
 
-	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, "\n%Y-%m-%d %H:%i")) description, g.game_id
+	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, " \n%Y-%m-%d %H:%i")) description, g.game_id
 		FROM mytcg_game g 
 		INNER JOIN mytcg_category c
 		ON c.category_id = g.category_id

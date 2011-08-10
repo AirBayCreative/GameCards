@@ -1258,11 +1258,15 @@ if ($_GET['getusergames']){
 		WHERE lower(gs.description) = 'open'");
 	$openId = $openStatusQuery[0]['gamestatus_id'];
 	
+	//99
+	
 	//and the closed status
 	$closedStatusQuery = myqu("SELECT gamestatus_id 
 		FROM mytcg_gamestatus gs 
 		WHERE lower(gs.description) = 'closed'");
 	$closedId = $closedStatusQuery[0]['gamestatus_id'];
+	
+	//3
 	
 	//we need to clear all the open games that are older than a minute, so we need all their ids
 	$oldOpenGame = myqu('SELECT g.game_id 
@@ -1276,7 +1280,7 @@ if ($_GET['getusergames']){
 		myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
 	}
 
-	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, "\n%Y-%m-%d %H:%i")) description, g.game_id
+	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, " \n%Y-%m-%d %H:%i")) description, g.game_id
 		FROM mytcg_game g 
 		INNER JOIN mytcg_category c
 		ON c.category_id = g.category_id

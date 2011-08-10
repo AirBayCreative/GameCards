@@ -979,7 +979,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 				$iUpdate=$aUpdate[0];
 				if ($iUpdate['gameswon'] < 3) {
 					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 25)');
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 25 credits for beating '.$oppPlayerUsername.'", now(), 25)');
 			
 					myqui('UPDATE mytcg_user SET credits = credits + 25, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				} else if ($iUpdate['gameswon'] == 3) {
@@ -995,7 +995,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		
 			$iUpdate=$aUpdate[0];
 			if ($iUpdate['gameswon'] <= 3) {
-				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
+				$exp = $winnerName.' wins! '.$winnerName.' received 25 credits for winning.';
 			} else {
 				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
 			}
