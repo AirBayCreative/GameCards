@@ -944,7 +944,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 }
 
 //given the user's id and game id, populate the mytcg_gameplayercard
-function initialiseGame($iUserID, $gameId) {
+function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//we need to get both players' gameplayer_id, and the categoryId
 	$userPlayerIdQuery = myqu('SELECT gp.gameplayer_id, g.category_id 
 		FROM mytcg_gameplayer gp 
@@ -982,6 +982,8 @@ function initialiseGame($iUserID, $gameId) {
 		AND uc.user_id = '.$iUserID.' 
 		AND lower(ucs.description) = "album" 
 		ORDER BY c.avgranking DESC, c.card_id');
+		
+	$oppLimitString = $oppLimit>-1?' AND c.ranking <= '.$oppLimit.' ':'';
 	$oppCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
 		FROM mytcg_usercard uc
 		INNER JOIN mytcg_card c
@@ -990,7 +992,7 @@ function initialiseGame($iUserID, $gameId) {
 		ON ucs.usercardstatus_id = uc.usercardstatus_id
 		WHERE c.category_id in ('.$categoryString.')
 		AND uc.user_id = '.$opponentId.' 
-		AND lower(ucs.description) = "album" 
+		AND lower(ucs.description) = "album" '.$oppLimitString.' 
 		ORDER BY c.avgranking DESC, c.card_id');
 	
 	$userCards = array();

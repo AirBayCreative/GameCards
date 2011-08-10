@@ -1194,7 +1194,7 @@ if ($_GET['newgame']) {
 		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
 			
 	if (!$newGame) {
-		initialiseGame($iUserID, $gameId);
+		initialiseGame($iUserID, $gameId, ($newGameType == $ng_ai)?45:-1);
 	}
 	
 	//return xml with the gameId to the phone
