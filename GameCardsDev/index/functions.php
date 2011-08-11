@@ -2129,7 +2129,17 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 			$sOP='<result>User not found. '.$aCheckCard[0]['a'].'</result>'.$sCRLF;
 		} else {
 			$sOP='<result>User not found. Invite Sent.</result>'.$sCRLF;
-			}
+		}
+		
+		if ($tradeMethod == 'email') {
+			myqui('INSERT INTO mytcg_invite(user_id, email, sent)
+				VALUES ('.$iUserID.', "'.$receiveNumber.'", 0)');
+		}
+		else if ($tradeMethod == 'phone_number') {
+			myqui('INSERT INTO mytcg_invite(user_id, msisdn, sent)
+				VALUES ('.$iUserID.', "'.$receiveNumber.'", 0)');
+		}
+		
 		header('xml_length: '.strlen($sOP));
 		echo $sOP;
 		exit;
