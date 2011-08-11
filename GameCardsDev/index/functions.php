@@ -1060,7 +1060,6 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//first we will need a list of cards for the players in the category.
 	$userCards = array();
 	$oppCards = array();
-	
 	//we must check if the user has any decks, and if so, use the most highly ranked one
 	$userDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
 		FROM mytcg_deck d 
@@ -1078,10 +1077,12 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	while ($count < sizeof($userDecks)) {
 		if ($userDecks[$count]['cards'] == 10) {
 			$userDeck = $userDecks[$count]['deck_id'];
-			
-			$userCards = myqu('SELECT uc.card_id, uc.usercard_id
-				FROM mytcg_usercard uc
-				WHERE uc.deck_id = '.$userDeck);
+			$userCards = myqu('SELECT uc.card_id, uc.usercard_id 
+				FROM mytcg_usercard uc 
+				INNER JOIN mytcg_card c 
+				ON c.card_id = uc.card_id 
+				WHERE uc.deck_id = '.$userDeck.' 
+				ORDER BY c.ranking DESC');
 			
 			break;
 		}
@@ -1104,10 +1105,12 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	while ($count < sizeof($oppDecks)) {
 		if ($oppDecks[$count]['cards'] == 10) {
 			$oppDeck = $oppDecks[$count]['deck_id'];
-			
-			$oppCards = myqu('SELECT uc.card_id, uc.usercard_id
-				FROM mytcg_usercard uc
-				WHERE uc.deck_id = '.$oppDeck);
+			$oppCards = myqu('SELECT uc.card_id, uc.usercard_id 
+				FROM mytcg_usercard uc 
+				INNER JOIN mytcg_card c 
+				ON c.card_id = uc.card_id 
+				WHERE uc.deck_id = '.$oppDeck.' 
+				ORDER BY c.ranking DESC');
 			
 			break;
 		}
@@ -1116,12 +1119,14 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	
 	if ($oppDeck == -1 || $userDeck == -1) {
 		//we need to get a list of all the child categories of the one given
-		$categories = array();
-		$categories = getAllCatChildren($categoryId, $categories);
+		$allCategories = array();
+		$categories = getAllCatChildren($categoryId, $allCategories);
 		$categoryString = $categoryId;
 		foreach ($categories as $category) {
 			$categoryString.=','.$category['category_child_id'];
 		}
+		
+		$maxCardCopies = 1;
 		if ($userDeck == -1) {
 			$userCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
 				FROM mytcg_usercard uc
@@ -1135,7 +1140,6 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 				ORDER BY c.avgranking DESC, c.card_id');
 				
 			//we just need to make sure the users dont end up with more than 1 of a card in their decks
-			$maxCardCopies = 1;
 			$currentCard = 0;
 			$cardCount = 0;
 			foreach ($userCardsQuery as $card) {
