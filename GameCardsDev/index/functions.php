@@ -17,8 +17,8 @@ function resizeThumbs($root) {
 		$iImage++;
 	}
 }
+function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight) {
 
-function resizeCard($iHeight, $iWidth, $iImage, $root) {
 	//we need to check if the width after scaling would be too wide for the screen.
 	$filename = $root.'img/cards/'.$iImage.'_front.png';
 	if (file_exists($filename)) {
@@ -63,6 +63,7 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 	
 	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
+	$iBBRotateHeight =  ($iBBHeight-40<=0)?$iBBHeight:$iBBHeight-40;
 	
 	//Check and create new resized front image
 	$filenameResized = $dir.$iImage.'_front.png';
@@ -78,7 +79,11 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		if ($iBBHeight) {
+			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
+		} else {
+			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		}
 		$image->save($filenameResized);
 	}
 	
@@ -97,7 +102,11 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		if ($iBBHeight) {
+			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
+		} else {
+			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		}
 		$image->save($filenameResized);
 	}
 	
@@ -116,14 +125,18 @@ function resizeCard($iHeight, $iWidth, $iImage, $root) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		if ($iBBHeight) {
+			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
+		} else {
+			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		}
 		$image->save($filenameResized);
 	}
 	
 	return $iHeight;
 }
 
-function resizeGCCard($iHeight, $iWidth, $root) {
+function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight) {
 	//we need to check if the width after scaling would be too wide for the screen.
 	$filename = $root.'img/cards/gc.png';
 	if (file_exists($filename)) {
@@ -184,7 +197,11 @@ function resizeGCCard($iHeight, $iWidth, $root) {
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new SimpleImage();
 		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		if ($iBBHeight) {
+			$image->rotateToHeight($iRotateWidth, $iBBHeight);
+		}  else {
+			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+		}
 		$image->save($filenameResized);
 	}
 	
@@ -461,7 +478,7 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 }
 
 //load a game and return relevant xml
-function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
+function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight) {
 	//get the game phase
 	$gamePhaseQuery = myqu('SELECT g.gamephase_id, lower(gp.description) as description
 		FROM mytcg_game g
@@ -553,7 +570,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		);
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image'], $root);
+		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -610,13 +627,14 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 		
 		//if we are loading a game, then the card image url is not on the phone yet, so we need to send it through here
 		//get the image server stuff
+		
 		$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 			.'FROM mytcg_imageserver b '
 			.'ORDER BY b.description DESC '
 		);
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image'], $root);
+		$iHeight = resizeCard($iHeight, $iWidth, $selectedGameCardIdQuery[0]['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -705,7 +723,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root) {
 			initialiseGame($userId, $gameId);
 		}
 		//we need to return the url for the gc.png card
-		$height = resizeGCCard($iHeight, $iWidth, $root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -979,9 +997,9 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 				$iUpdate=$aUpdate[0];
 				if ($iUpdate['gameswon'] < 3) {
 					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 25 credits for beating '.$oppPlayerUsername.'", now(), 25)');
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
 			
-					myqui('UPDATE mytcg_user SET credits = credits + 25, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				} else if ($iUpdate['gameswon'] == 3) {
 					myqui('UPDATE mytcg_user SET gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				}
@@ -995,7 +1013,7 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		
 			$iUpdate=$aUpdate[0];
 			if ($iUpdate['gameswon'] <= 3) {
-				$exp = $winnerName.' wins! '.$winnerName.' received 25 credits for winning.';
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
 			} else {
 				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
 			}
@@ -1454,7 +1472,7 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 	exit;
 }
 
-function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root) {
+function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight) {
 
   //GET PRODUCT DETAILS
   $aDetails=myqu('SELECT A.product_id, A.description, '
@@ -1534,7 +1552,7 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 			$sOP.= $sTab.$sTab.'<value>'.$aCardDetails[0]['value'].'</value>'.$sCRLF;
 			
 			//before setting the front and back urls, make sure the card is resized for the height
-			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image'], $root);
+			$iHeight = resizeCard($iHeight, $iWidth, $aCardDetails[0]['image'], $root, $iBBHeight);
 			
 			$sFound='';
 			$iCountServer=0;
@@ -2571,7 +2589,7 @@ usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
 //cardsincategory 
-function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root) {
+function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight) {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -2756,12 +2774,12 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					ORDER BY description');
 	}
 	
-	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root);
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	return $sOP;
 }
 
-function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root) {
+function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root, $iBBHeight) {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -2802,12 +2820,12 @@ function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$i
 				AND A.deck_id IS NULL 
 				GROUP BY B.card_id ');
 	
-	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root);
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	return $sOP;
 }
 
-function buildCardListXML($cardList,$iHeight,$iWidth,$root) {
+function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight) {
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 		.'FROM mytcg_imageserver b '
 		.'ORDER BY b.description DESC '
@@ -2838,7 +2856,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root) {
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
