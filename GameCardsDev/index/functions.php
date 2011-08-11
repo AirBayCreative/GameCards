@@ -1060,67 +1060,129 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//first we will need a list of cards for the players in the category.
 	$userCards = array();
 	$oppCards = array();
-	
-	//we need to get a list of all the child categories of the one given
-	$categories = getAllCatChildren($categoryId, $userCards);
-	$categoryString = $categoryId;
-	foreach ($categories as $category) {
-		$categoryString.=','.$category['category_child_id'];
-	}
-	$userCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
-		FROM mytcg_usercard uc
-		INNER JOIN mytcg_card c
-		ON uc.card_id = c.card_id
-		INNER JOIN mytcg_usercardstatus ucs
-		ON ucs.usercardstatus_id = uc.usercardstatus_id
-		WHERE c.category_id in ('.$categoryString.')
+	//we must check if the user has any decks, and if so, use the most highly ranked one
+	$userDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
+		FROM mytcg_deck d 
+		INNER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		INNER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
 		AND uc.user_id = '.$iUserID.' 
-		AND lower(ucs.description) = "album" 
-		ORDER BY c.avgranking DESC, c.card_id');
-		
-	$oppLimitString = $oppLimit>-1?' AND c.ranking <= '.$oppLimit.' ':'';
-	$oppCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
-		FROM mytcg_usercard uc
-		INNER JOIN mytcg_card c
-		ON uc.card_id = c.card_id
-		INNER JOIN mytcg_usercardstatus ucs
-		ON ucs.usercardstatus_id = uc.usercardstatus_id
-		WHERE c.category_id in ('.$categoryString.')
-		AND uc.user_id = '.$opponentId.' 
-		AND lower(ucs.description) = "album" '.$oppLimitString.' 
-		ORDER BY c.avgranking DESC, c.card_id');
+		AND d.category_id = '.$categoryId.'  
+		GROUP BY d.deck_id 
+		ORDER BY totalRank DESC');
 	
-	$userCards = array();
-	$oppCards = array();
-	//we just need to make sure the users dont end up with more than 4 of a card in their decks
-	$maxCardCopies = 1;
-	$currentCard = 0;
-	$cardCount = 0;
-	foreach ($userCardsQuery as $card) {
-		if ($card['card_id'] != $currentCard) {
-			$currentCard = $card['card_id'];
-			$cardCount = 0;
+	$userDeck = -1;
+	$count = 0;
+	while ($count < sizeof($userDecks)) {
+		if ($userDecks[$count]['cards'] == 10) {
+			$userDeck = $userDecks[$count]['deck_id'];
+			$userCards = myqu('SELECT uc.card_id, uc.usercard_id 
+				FROM mytcg_usercard uc 
+				INNER JOIN mytcg_card c 
+				ON c.card_id = uc.card_id 
+				WHERE uc.deck_id = '.$userDeck.' 
+				ORDER BY c.ranking DESC');
+			
+			break;
 		}
-		else {
-			$cardCount++;
-		}
-		if ($cardCount < $maxCardCopies) {
-			$userCards[sizeof($userCards)] = $card;
-		}
+		$count++;
 	}
 	
-	$currentCard = 0;
-	$cardCount = 0;
-	foreach ($oppCardsQuery as $card) {
-		if ($card['card_id'] != $currentCard) {
-			$currentCard = $card['card_id'];
+	$oppDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
+		FROM mytcg_deck d 
+		INNER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		INNER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
+		AND uc.user_id = '.$opponentId.' 
+		AND d.category_id = '.$categoryId.'  
+		GROUP BY d.deck_id 
+		ORDER BY totalRank DESC');
+	
+	$oppDeck = -1;
+	$count = 0;
+	while ($count < sizeof($oppDecks)) {
+		if ($oppDecks[$count]['cards'] == 10) {
+			$oppDeck = $oppDecks[$count]['deck_id'];
+			$oppCards = myqu('SELECT uc.card_id, uc.usercard_id 
+				FROM mytcg_usercard uc 
+				INNER JOIN mytcg_card c 
+				ON c.card_id = uc.card_id 
+				WHERE uc.deck_id = '.$oppDeck.' 
+				ORDER BY c.ranking DESC');
+			
+			break;
+		}
+		$count++;
+	}
+	
+	if ($oppDeck == -1 || $userDeck == -1) {
+		//we need to get a list of all the child categories of the one given
+		$allCategories = array();
+		$categories = getAllCatChildren($categoryId, $allCategories);
+		$categoryString = $categoryId;
+		foreach ($categories as $category) {
+			$categoryString.=','.$category['category_child_id'];
+		}
+		
+		$maxCardCopies = 1;
+		if ($userDeck == -1) {
+			$userCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
+				FROM mytcg_usercard uc
+				INNER JOIN mytcg_card c
+				ON uc.card_id = c.card_id
+				INNER JOIN mytcg_usercardstatus ucs
+				ON ucs.usercardstatus_id = uc.usercardstatus_id
+				WHERE c.category_id in ('.$categoryString.')
+				AND uc.user_id = '.$iUserID.' 
+				AND lower(ucs.description) = "album" 
+				ORDER BY c.avgranking DESC, c.card_id');
+				
+			//we just need to make sure the users dont end up with more than 1 of a card in their decks
+			$currentCard = 0;
 			$cardCount = 0;
+			foreach ($userCardsQuery as $card) {
+				if ($card['card_id'] != $currentCard) {
+					$currentCard = $card['card_id'];
+					$cardCount = 0;
+				}
+				else {
+					$cardCount++;
+				}
+				if ($cardCount < $maxCardCopies) {
+					$userCards[sizeof($userCards)] = $card;
+				}
+			}
 		}
-		else {
-			$cardCount++;
-		}
-		if ($cardCount < $maxCardCopies) {
-			$oppCards[sizeof($oppCards)] = $card;
+		
+		if ($oppDeck == -1) {
+			$oppLimitString = $oppLimit>-1?' AND c.ranking <= '.$oppLimit.' ':'';
+			$oppCardsQuery = myqu('SELECT c.card_id, uc.usercard_id
+				FROM mytcg_usercard uc
+				INNER JOIN mytcg_card c
+				ON uc.card_id = c.card_id
+				INNER JOIN mytcg_usercardstatus ucs
+				ON ucs.usercardstatus_id = uc.usercardstatus_id
+				WHERE c.category_id in ('.$categoryString.')
+				AND uc.user_id = '.$opponentId.' 
+				AND lower(ucs.description) = "album" '.$oppLimitString.' 
+				ORDER BY c.avgranking DESC, c.card_id');
+			
+			$currentCard = 0;
+			$cardCount = 0;
+			foreach ($oppCardsQuery as $card) {
+				if ($card['card_id'] != $currentCard) {
+					$currentCard = $card['card_id'];
+					$cardCount = 0;
+				}
+				else {
+					$cardCount++;
+				}
+				if ($cardCount < $maxCardCopies) {
+					$oppCards[sizeof($oppCards)] = $card;
+				}
+			}
 		}
 	}
 	
