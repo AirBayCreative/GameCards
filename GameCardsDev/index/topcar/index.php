@@ -214,11 +214,14 @@ if ($_GET['buyproduct']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	if (!($iFreebie=$_GET['freebie'])) {
 		$iFreebie = -1;
 	}
 	$product = $_GET['buyproduct'];
-	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root);
+	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight);
 	exit();
 }
 
@@ -451,12 +454,15 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($iShowAll=$_GET['showall'])) {
 		$iShowAll = '1';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -469,6 +475,10 @@ if ($_GET['categoryauction']){
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
+	}
+	
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	$categoryId = $_GET['category_id'];
@@ -514,7 +524,7 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -760,8 +770,11 @@ if ($_GET['loadgame']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	
-	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root);
+	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -782,6 +795,9 @@ if ($_GET['continuegame']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	
 	//continue the game, if needed selecting a stat for the ai
 	continueGame($gameId, $iUserID, $iHeight, $iWidth);
@@ -800,7 +816,7 @@ if ($_GET['continuegame']) {
 	
 	if ($sOP == '') {
 		//load the game for the user
-		$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root);
+		$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -816,6 +832,9 @@ if ($_GET['selectstat']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 
 	$cardStatId = $_GET['statid'];
@@ -841,7 +860,7 @@ if ($_GET['selectstat']) {
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
 	//load the game for the user
-	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root);
+	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	//send xml with results back to the user
 	header('xml_length: '.strlen($sOP));
@@ -881,6 +900,9 @@ if ($_GET['declinegame']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	$newGame = false;
@@ -959,7 +981,7 @@ if ($_GET['declinegame']) {
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth, $root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -980,6 +1002,9 @@ if ($_GET['confirmgame']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	//we are going to need the incomplete status id
@@ -1005,7 +1030,7 @@ if ($_GET['confirmgame']) {
 	$sOP.=$sTab.'<phase>stat</phase>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth, $root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -1037,6 +1062,9 @@ if ($_GET['newgame']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	$gameId = "";
@@ -1227,7 +1255,7 @@ if ($_GET['newgame']) {
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth, $root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -1793,12 +1821,15 @@ if ($iCategory=$_GET['cardsincategorynotdeck']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP = cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root,$iBBHeight);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -1813,6 +1844,9 @@ if ($_GET['getcardsindeck']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
@@ -1823,7 +1857,7 @@ if ($_GET['getcardsindeck']){
 		WHERE deck_id='.$iDeckID);
 	
 	$sOP = "<deck>";
-	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root,$iBBHeight);
 	$sOP .= "<category_id>".$aDeckCategory[0]["category_id"]."</category_id>";
 	$sOP .= "</deck>";
 	header('xml_length: '.strlen($sOP));
@@ -1863,6 +1897,9 @@ if ($searchstring=$_GET['search']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
@@ -1929,7 +1966,7 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
