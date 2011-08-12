@@ -24,6 +24,8 @@ class dbconnection {
 			++$f;
 		}
 		@mysqli_free_result($aResult);
+		$thread_id = mysqli_thread_id($aLink);
+		mysqli_kill($aLink, $thread_id);
 		mysqli_close($aLink);
 		return $aOutput;
 	}
@@ -41,8 +43,10 @@ class dbconnection {
 		fwrite($aFileHandle,mysqli_error($aLink)."\n");
 	  }
 	  fclose($aFileHandle);
-	  @mysqli_free_result($aResult);
-	  mysqli_close($aLink);
+		@mysqli_free_result($aResult);
+		$thread_id = mysqli_thread_id($aLink);
+		mysqli_kill($aLink, $thread_id);
+		mysqli_close($aLink);
 	}
 }
 

@@ -34,6 +34,26 @@ $ng_pvp = "2";
 
 $root = "../../";
 
+if ($_GET['addCreditsSMS']) {
+	$user_id = $_REQUEST['user_id'];
+	addCreditsSMS($user_id);
+	exit;
+}
+
+function addCreditsSMS($iUserID,$amount=350){
+  if(intval($iUserID) > 0){
+    $sql = "UPDATE mytcg_user SET credits = credits + ".$amount." WHERE user_id = ".$iUserID;
+    myqu($sql);
+    $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
+val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
+    myqu($sql);
+    $sql = "INSERT INTO mytcg_notifications (user_id, notification,
+notedate) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now())";
+    myqu($sql);
+  }
+}
+
+
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
 	$username = $_REQUEST['username'];

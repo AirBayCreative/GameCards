@@ -61,9 +61,9 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight) {
 	}
 	$dir .= "/";
 	
-	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
-	$iBBRotateHeight =  ($iBBHeight-40<=0)?$iBBHeight:$iBBHeight-40;
+	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	$iBBRotateHeight =  ($iBBHeight-20<=0)?$iBBHeight:$iBBHeight-20;
 	
 	//Check and create new resized front image
 	$filenameResized = $dir.$iImage.'_front.png';
@@ -181,6 +181,7 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight) {
 	
 	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
+	$iBBRotateHeight =  ($iBBHeight-20<=0)?$iBBHeight:$iBBHeight-20;
 	
 	//we need to resize the gc.png image for this size, if it hasnt been done yet.
 	$filename = $root.'img/cards/gc.png';
@@ -198,7 +199,7 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight) {
 		$image = new SimpleImage();
 		$image->load($filename);
 		if ($iBBHeight) {
-			$image->rotateToHeight($iRotateWidth, $iBBHeight);
+			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
 		}  else {
 			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
 		}
@@ -251,7 +252,7 @@ function resizeLoadingCard($iHeight, $iWidth, $root) {
 	}
 	$dir .= "/";
 	
-	$iRotateHeight = ($iHeight-40<=0)?$iHeight:$iHeight-40;
+	$iRotateHeight = ($iHeight-20<=0)?$iHeight:$iHeight-20;
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
 	
 	//we need to resize the loading.png image for this size, if it hasnt been done yet.
