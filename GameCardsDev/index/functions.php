@@ -479,7 +479,7 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 }
 
 //load a game and return relevant xml
-function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight) {
+function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 	//get the game phase
 	$gamePhaseQuery = myqu('SELECT g.gamephase_id, lower(gp.description) as description
 		FROM mytcg_game g
@@ -718,8 +718,8 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight) {
 			$aiUserId = $aiUserIdQuery[$aiIndex]['user_id'];
 			
 			//add the ai to the game
-			myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-				VALUES ('.$gameId.', '.$aiUserId.', 0, 2)');
+			myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+				VALUES ('.$gameId.', '.$aiUserId.', 0, 2, -1)');
 			
 			initialiseGame($userId, $gameId);
 		}
@@ -1039,6 +1039,34 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	}
 }
 
+//set a deck for the user, if they have one
+function setDeck($iUserID, $categoryId, $gameId) {
+	//we must check if the user has a deck selected, and if not, give them their top ten cards
+	$userDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
+		FROM mytcg_deck d 
+		INNER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		INNER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
+		AND uc.user_id = '.$iUserID.' 
+		AND d.category_id = '.$categoryId.'  
+		GROUP BY d.deck_id 
+		ORDER BY totalRank DESC');
+	
+	//when populating the gameplayercards, if the player's deck_id is -1, we give then their top 10 ranked cards
+	$userDeck = -1;
+	$count = 0;
+	while ($count < sizeof($userDecks)) {
+		if ($userDecks[$count]['cards'] == 10) {
+			$userDeck = $userDecks[$count]['deck_id'];
+			break;
+		}
+		$count++;
+	}
+	
+	myqui('UPDATE mytcg_gameplayer SET deck_id = '.$userDeck.' WHERE game_id = '.$gameId.' AND user_id = '.$iUserID);
+}
+
 //given the user's id and game id, populate the mytcg_gameplayercard
 function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//we need to get both players' gameplayer_id, and the categoryId
@@ -1061,61 +1089,34 @@ function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//first we will need a list of cards for the players in the category.
 	$userCards = array();
 	$oppCards = array();
-	//we must check if the user has any decks, and if so, use the most highly ranked one
-	$userDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
-		FROM mytcg_deck d 
-		INNER JOIN mytcg_usercard uc 
-		ON uc.deck_id = d.deck_id 
-		INNER JOIN mytcg_card c 
-		ON c.card_id = uc.card_id 
-		AND uc.user_id = '.$iUserID.' 
-		AND d.category_id = '.$categoryId.'  
-		GROUP BY d.deck_id 
-		ORDER BY totalRank DESC');
+	//we must check if the user has a deck selected, and if not, give them their top ten cards
+	$userDeckQuery = myqu('SELECT deck_id 
+		FROM mytcg_gameplayer 
+		WHERE gameplayer_id = '.$userPlayerId);
 	
-	$userDeck = -1;
-	$count = 0;
-	while ($count < sizeof($userDecks)) {
-		if ($userDecks[$count]['cards'] == 10) {
-			$userDeck = $userDecks[$count]['deck_id'];
-			$userCards = myqu('SELECT uc.card_id, uc.usercard_id 
-				FROM mytcg_usercard uc 
-				INNER JOIN mytcg_card c 
-				ON c.card_id = uc.card_id 
-				WHERE uc.deck_id = '.$userDeck.' 
-				ORDER BY c.ranking DESC');
-			
-			break;
-		}
-		$count++;
+	$userDeck = $userDeckQuery[0]['deck_id'];
+	if ($userDeck != -1) {
+		$userCards = myqu('SELECT uc.card_id, uc.usercard_id 
+			FROM mytcg_usercard uc 
+			INNER JOIN mytcg_card c 
+			ON c.card_id = uc.card_id 
+			WHERE uc.deck_id = '.$userDeck.' 
+			ORDER BY c.ranking DESC');
 	}
 	
-	$oppDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
-		FROM mytcg_deck d 
-		INNER JOIN mytcg_usercard uc 
-		ON uc.deck_id = d.deck_id 
-		INNER JOIN mytcg_card c 
-		ON c.card_id = uc.card_id 
-		AND uc.user_id = '.$opponentId.' 
-		AND d.category_id = '.$categoryId.'  
-		GROUP BY d.deck_id 
-		ORDER BY totalRank DESC');
+	$oppDeckQuery = myqu('SELECT deck_id 
+		FROM mytcg_gameplayer 
+		WHERE gameplayer_id = '.$oppPlayerId);
 	
-	$oppDeck = -1;
+	$oppDeck = $oppDeckQuery[0]['deck_id'];
 	$count = 0;
-	while ($count < sizeof($oppDecks)) {
-		if ($oppDecks[$count]['cards'] == 10) {
-			$oppDeck = $oppDecks[$count]['deck_id'];
-			$oppCards = myqu('SELECT uc.card_id, uc.usercard_id 
-				FROM mytcg_usercard uc 
-				INNER JOIN mytcg_card c 
-				ON c.card_id = uc.card_id 
-				WHERE uc.deck_id = '.$oppDeck.' 
-				ORDER BY c.ranking DESC');
-			
-			break;
-		}
-		$count++;
+	if ($oppDeck != -1) {
+		$oppCards = myqu('SELECT uc.card_id, uc.usercard_id 
+			FROM mytcg_usercard uc 
+			INNER JOIN mytcg_card c 
+			ON c.card_id = uc.card_id 
+			WHERE uc.deck_id = '.$oppDeck.' 
+			ORDER BY c.ranking DESC');
 	}
 	
 	if ($oppDeck == -1 || $userDeck == -1) {

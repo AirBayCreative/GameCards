@@ -961,6 +961,8 @@ if ($_GET['declinegame']) {
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
 		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
 	
+	setDeck($iUserID, $categoryId, $gameId);
+	
 	if (!$newGame) {
 		initialiseGame($iUserID, $gameId);
 	}
@@ -1007,6 +1009,13 @@ if ($_GET['confirmgame']) {
 	//add the player to the game
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
 		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
+	
+	$categoryQuery = myqu('SELECT category_id 
+		FROM mytcg_game 
+		WHERE game_id = '.$gameId);
+	$categoryId = $categoryQuery[0]['category_id'];
+	
+	setDeck($iUserID, $categoryId, $gameId);
 	
 	initialiseGame($iUserID, $gameId);
 	
@@ -1221,14 +1230,16 @@ if ($_GET['newgame']) {
 		$aiUserId = $aiUserIdQuery[0]['user_id'];
 		
 		//add the ai to the game
-		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-			VALUES ('.$gameId.', '.$aiUserId.', 0, 2)');
+		myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+			VALUES ('.$gameId.', '.$aiUserId.', 0, 2, -1)');
 	}
 	
 	//add the player to the game, the host goes first
 	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
 		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
-			
+	
+	setDeck($iUserID, $categoryId, $gameId);
+	
 	if (!$newGame) {
 		initialiseGame($iUserID, $gameId, ($newGameType == $ng_ai)?45:-1);
 	}
