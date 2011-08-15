@@ -121,11 +121,11 @@ if ($iUserID == 0){
 	echo $sOP;
 	exit;	
 } else {
-	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif
+	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif, datediff(now(), date_last_visit) webdif 
 					FROM mytcg_user where user_id = '.$iUserID);
 	
 	$iUpdate=$aUpdate[0];
-	if ($iUpdate['dif'] >= 1) {
+	if (($iUpdate['dif'] >= 1) || ($iUpdate['webdif'] >= 1)) {
 		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
