@@ -25,4 +25,38 @@
 #define URL "http://dev.mytcg.net/_phone/"
 #define URLSIZE 28
 
+//we also need to define the x and y coordinates at which to split the images up
+#define EDITBOX_X_LEFT 16
+#define EDITBOX_X_RIGHT 32
+#define EDITBOX_Y_TOP 22
+#define EDITBOX_Y_BOTTOM 26
 
+#define BUTTON_X_LEFT 23
+#define BUTTON_X_RIGHT 24
+#define BUTTON_Y_TOP 23
+#define BUTTON_Y_BOTTOM 24
+
+#define BACKGROUND_X_LEFT 39
+#define BACKGROUND_X_RIGHT 429
+#define BACKGROUND_Y_TOP 39
+#define BACKGROUND_Y_BOTTOM 429
+
+#define LIST_X_LEFT 19
+#define LIST_X_RIGHT 77
+#define LIST_Y_TOP 16
+#define LIST_Y_BOTTOM 32
+
+#define LISTNOARROWS_X_LEFT 16
+#define LISTNOARROWS_X_RIGHT 77
+#define LISTNOARROWS_Y_TOP 16
+#define LISTNOARROWS_Y_BOTTOM 32
+
+#define ALBUM_X_LEFT 4
+#define ALBUM_X_RIGHT 77
+#define ALBUM_Y_TOP 12
+#define ALBUM_Y_BOTTOM 16
+
+#define TEXT_X_LEFT 16
+#define TEXT_X_RIGHT 32
+#define TEXT_Y_TOP 16
+#define TEXT_Y_BOTTOM 32
