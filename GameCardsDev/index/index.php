@@ -1355,6 +1355,15 @@ if ($_GET['viewgamedetails']){
 	exit;
 }
 
+/** get the date of the latest notification */
+if ($_GET['notedate']){
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 /** get the log for a game */
 if ($_GET['viewgamelog']){
 	$gameId = $_GET['gameid'];

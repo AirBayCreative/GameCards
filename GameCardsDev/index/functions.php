@@ -2079,6 +2079,9 @@ function userdetails($iUserID,$iHeight,$iWidth,$root) {
 	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.'/cards/loading.png</loadingurl>'.$sCRLF;
 	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
 	
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
+	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
 	return $sOP;
