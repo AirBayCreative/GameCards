@@ -23,7 +23,7 @@
 #define RES_BOX_SELECTED 23
 #define RES_BOX_UNSELECTED 24
 #define RES_FONT_PUREWHITE 25
-#define URL "http://dev.mytcg.net/_phone/sport/"
+#define URL "http://sport.mytcg.net/_phone/rugby/"
 #define URLSIZE 34
 
 //we also need to define the x and y coordinates at which to split the images up
