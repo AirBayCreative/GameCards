@@ -272,13 +272,12 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 
 	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
-	int height = listBox->getHeight() - 50;
+	int height = listBox->getHeight() - (2 * DEFAULT_SMALL_LABEL_HEIGHT);
 	String lblString = userName + ": ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
-	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
-	userLabel->setAutoSizeY(true);
+	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 
@@ -288,8 +287,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
-	userLabel = new Label(0, 0, scrWidth - PADDING*2, 0, listBox, lblString,0,Util::getDefaultFont());
-	userLabel->setAutoSizeY(true);
+	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	if (!active) {
 		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 	}
@@ -483,7 +481,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								currentSelectedStat--;
 								if(currentSelectedStat < 0){
-									currentSelectedStat = 0;
+									currentSelectedStat = card->getStats().size()-1;
 								}
 								userImage->refreshWidget();
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
@@ -504,6 +502,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								if(currentSelectedStat < card->getStats().size()-1){
 									currentSelectedStat++;
+								}
+								else {
+									currentSelectedStat = 0;
 								}
 								userImage->refreshWidget();
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),

@@ -258,7 +258,7 @@ void NewDeckScreen::drawEnterNameScreen() {
 	clearListBox();
 	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Deck Name", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Deck Name", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");

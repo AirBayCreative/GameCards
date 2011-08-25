@@ -97,7 +97,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		lbl->setMultiLine();
 
 
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Username", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Username", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -107,7 +107,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		listBox->add(label);
 
 
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Email", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Email", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -116,7 +116,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -126,7 +126,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 	} else {
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Username", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Username", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -135,7 +135,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Email", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Email", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -144,7 +144,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Invite by Phone Number", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Phone Number", 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");

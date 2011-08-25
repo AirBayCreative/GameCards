@@ -18,12 +18,12 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	isBusy=true;
 	switch (screenType) {
 		case PROFILE:
-			label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
 			label->setMultiLine(true);
 			listBox->add(label);
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Profile", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -31,12 +31,12 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case BALANCE:
-			label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
 			label->setMultiLine(true);
 			listBox->add(label);
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Credits", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -47,7 +47,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Last Transactions:", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Last Transactions:", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -70,7 +70,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		case RANKING:
 		case FRIEND:
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, categoryname.c_str(), 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, categoryname.c_str(), 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -78,7 +78,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case NOTIFICATIONS:
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Notifications", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Notifications", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -86,7 +86,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case FRIENDS:
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Friends", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Friends", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -94,7 +94,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 			break;
 		case CONTACTS:
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "Contacts", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Contacts", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -639,14 +639,14 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		desc = "";
 		date = "";
 	} else if(!strcmp(name, "detail")) {
-		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, desc, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, desc, 0, Util::getDefaultFont());
 		listBox->add(label);
 
-		Layout *feedlayout = new Layout(0, 0, scrWidth, 48, listBox, 3, 1);
+		Layout *feedlayout = new Layout(0, 0, scrWidth, DEFAULT_LABEL_HEIGHT, listBox, 3, 1);
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-(PADDING+40), 48, NULL, "", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getDefaultFont());
 		label->setSkin(Util::getSkinEditBox());
 		Util::setPadding(label);
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Answer");
@@ -733,7 +733,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 
 		count++;
 		label->setCaption("");
-		label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, usr, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, usr, 0, Util::getDefaultFont());
 		listBox->add(label);
 
 		label = Util::createEditLabel("");
@@ -750,7 +750,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "leaderboard")) {
 		if (count == 0) {
 			label->setCaption("");
-			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No users found.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No users found.", 0, Util::getDefaultFont());
 			listBox->add(label);
 
 			usr="";
@@ -776,7 +776,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "friends")) {
 		if (count == 0) {
 			label->setCaption("");
-			label = new Label(0,0, scrWidth-((PADDING*2)), 24, NULL, "No friends found.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No friends found.", 0, Util::getDefaultFont());
 			listBox->add(label);
 
 			usr="";

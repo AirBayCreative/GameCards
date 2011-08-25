@@ -29,9 +29,9 @@ class Util
 		~Util();
 
 		static void setPadding(Widget *w);
-		static Label* createLabel(String str, int height=48);
-		static Label* createEditLabel(String str, int height=48);
-		static Label* createSubLabel(String str, int height=48);
+		static Label* createLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
+		static Label* createEditLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
+		static Label* createSubLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
 		static Layout* createNoHeaderLayout();
