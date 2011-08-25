@@ -1,0 +1,93 @@
+.res RES_IMAGE
+.ubin
+.image "crosslogo.png"
+
+.res RES_FONT_BLUE
+.bin
+.include "arialblue.mof" 
+
+.res RES_FONT_BLACK
+.bin
+.include "arialblack.mof"  
+
+.res RES_SELECTED_EDITBOX
+.ubin 
+.image "background_editbox_sel.png"
+
+.res RES_UNSELECTED_EDITBOX
+.ubin 
+.image "background_editbox_unsel.png"  
+
+.res RES_UNSELECTED_BUTTON
+.ubin
+.image "background_button_unsel.png"
+
+.res RES_TEXT_BOX
+.ubin 
+.image "background_text_sel.png"
+
+.res RES_BACKGROUND
+.ubin
+.image "background.png"
+
+.res RES_SELECTED_LIST
+.ubin
+.image "background_list_sel.png"  
+
+.res RES_UNSELECTED_LIST
+.ubin
+.image "background_list_unsel.png"
+
+.res RES_SELECTED_ALBUM
+.ubin
+.image "background_album_sel.png"
+
+.res RES_UNSELECTED_ALBUM
+.ubin
+.image "background_album_unsel.png"  
+
+.res RESP_DATA
+.placeholder
+
+.res RESP_IMAGE
+.placeholder
+
+.res RES_TEMPTHUMB
+.ubin
+.image "emptythumb.png"
+
+.res RES_TEMP
+.ubin
+.image "empty.png"
+
+.res RES_LOADINGTHUMB
+.ubin
+.image "loadingthumb.png"
+
+.res RES_LOADING
+.ubin
+.image "loading.png"
+
+.res RES_MISSINGTHUMB
+.ubin
+.image "missingcardthumb.png"
+
+.res RES_CHANGE_STAR
+.ubin
+.image "change_star.png"
+
+.res RES_LOADING_FLIP
+.ubin
+.image "loading_flip.png"
+
+.res RES_EMPTY_FLIP
+.ubin
+.image "empty_flip.png"
+
+.res RES_BOX_SELECTED
+.ubin
+.image "box_selected.png"
+
+.res RES_BOX_UNSELECTED
+.ubin
+.image "box_unselected.png"

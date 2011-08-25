@@ -130,7 +130,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	if (screenType == ST_AUCTION)
 	{
 		if (!expired) {
-			label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, "Place bid", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Place bid", 0, Util::getDefaultFont());
 			label->setMultiLine();
 			label->setAutoSizeY();
 			listBox->add(label);

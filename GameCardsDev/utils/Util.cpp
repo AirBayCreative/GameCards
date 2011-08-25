@@ -119,7 +119,6 @@ WidgetSkin* Util::getSkinBack() {
 WidgetSkin* Util::getSkinList() {
 	static WidgetSkin* gSkinList;
 	if (gSkinList == NULL) {
-		//topcar values 19,29,16,32
 		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST,
 				LIST_X_LEFT, LIST_X_RIGHT, LIST_Y_TOP, LIST_Y_BOTTOM, true, true);
 	}
@@ -138,7 +137,6 @@ WidgetSkin* Util::getSkinListNoArrows() {
 WidgetSkin* Util::getSkinAlbum() {
 	static WidgetSkin* gSkinAlbum;
 	if (gSkinAlbum == NULL) {
-		//topcar values 4, 61, 12, 16
 		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM,
 				ALBUM_X_LEFT, ALBUM_X_RIGHT, ALBUM_Y_TOP, ALBUM_Y_BOTTOM, true, true);
 	}
@@ -165,6 +163,7 @@ Label* Util::createLabel(String str, int height) {
 	Util::setPadding(label);
 	return label;
 }
+
 Label* Util::createEditLabel(String str, int height) {
 	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
@@ -633,7 +632,7 @@ bool Util::validateEmailAddress(String email) {
 
 int Util::getSoftKeyBarHeight() {
 	//42 is the default height. It needs to scale up a bit for bigger screens
-	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
+	int scaledHeight = ((scrHeight*0.1)>MIN_SOFTKEY_BAR_HEIGHT?(int)(scrHeight*0.1):MIN_SOFTKEY_BAR_HEIGHT);
 
 	return scaledHeight;
 }

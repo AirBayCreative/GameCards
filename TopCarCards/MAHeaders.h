@@ -61,3 +61,11 @@
 #define TEXT_X_RIGHT 32
 #define TEXT_Y_TOP 16
 #define TEXT_Y_BOTTOM 32
+
+//the default heights and widths for various widgets
+#define DEFAULT_LABEL_HEIGHT 48
+#define ALBUM_ITEM_HEIGHT 74
+#define THUMBNAIL_HEIGHT 64
+#define MIN_SOFTKEY_BAR_HEIGHT 42
+#define DEFAULT_SMALL_LABEL_HEIGHT 24
+#define DEFAULT_DETAIL_HEADER_HEIGHT 36
