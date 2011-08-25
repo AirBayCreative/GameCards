@@ -1,4 +1,5 @@
 #include <conprint.h>
+#include <mastdlib.h>
 
 #include "DeckListScreen.h"
 #include "RedeemScreen.h"
@@ -15,6 +16,7 @@
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	lprintfln("MenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	c=0;
+	versionChecked=0;
 	menu = NULL;
 	iphone = false;
 #if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
@@ -49,9 +51,13 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Profile");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = Util::createSubLabel("Notifications");
-	label->addWidgetListener(this);
-	listBox->add(label);
+	if(feed->getNoteLoaded()){
+		noteLabel = Util::createSubLabel("*Notifications");
+	}else{
+		noteLabel = Util::createSubLabel("Notifications");
+	}
+	noteLabel->addWidgetListener(this);
+	listBox->add(noteLabel);
 	label = Util::createSubLabel("Rankings");
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -77,52 +83,6 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 
 	moved=0;
 
-	char buf[128] = "";
-	memset(buf, 0, 128);
-	int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
-	memset(buf, 0, 128);
-	int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
-	memset(buf, 0, 128);
-
-	char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
-	memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
-	sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
-
-	char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
-	memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
-	sprintf(make, "%s", MA_PROF_STRING_VENDOR);
-
-	//char *model = "temp";//MA_PROF_STRING_DEVICE;
-	char *model = new char[strlen("temp")+1];
-	memset(model, 0, strlen("temp")+1);
-	sprintf(model, "%s", "temp");
-
-	int touch = 0;
-#if defined(MA_PROF_SUPPORT_STYLUS)
-	touch = 1;
-#endif
-
-
-	//work out how long the url will be, the 16 is for the & and = symbals
-	int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
-			+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
-
-	char *url = new char[urlLength+1];
-
-	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
-			imsi, imei, os, make, model, touch, scrWidth, scrHeight);
-	int res = mHttp.create(url, HTTP_GET);
-	if(res < 0) {
-
-	} else {
-		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-		feed->addHttp();
-		mHttp.finish();
-	}
-
-	delete [] url;
 	this->setMain(mainLayout);
 
 	origMenu = this;
@@ -143,6 +103,8 @@ MenuScreen::~MenuScreen() {
 	if(menu!=NULL){
 		delete menu;
 	}
+	parentTag="";
+	notedate="";
 }
 void MenuScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
@@ -167,7 +129,35 @@ void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
+void MenuScreen::refresh() {
+	if(feed->getNoteLoaded()){
+		noteLabel->setCaption("*Notifications");
+	}else{
+		noteLabel->setCaption("Notifications");
+	}
+}
+
 void MenuScreen::show() {
+	if(feed->getNoteLoaded()==false){
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int urlLength = 11 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?notedate=1", URL);
+		lprintfln("url %s",url);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+		} else {
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+		}
+		delete [] url;
+	}
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
@@ -318,8 +308,31 @@ void MenuScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void MenuScreen::mtxTagStart(const char* name, int len) {
+	parentTag = name;
+	lprintfln("parentTag %s",parentTag.c_str());
+}
+
 void MenuScreen::mtxTagData(const char* data, int len) {
-	if (len > 0) {
+	lprintfln("mtxTagData() %s", data);
+	if(!strcmp(parentTag.c_str(), "notedate")) {
+			notedate = data;
+			tm t;
+			t.tm_year = atoi(notedate.substr(0,4).c_str())-1900;
+			t.tm_mon = atoi(notedate.substr(5,2).c_str())-1;
+			t.tm_mday = atoi(notedate.substr(8,2).c_str());
+			t.tm_hour = atoi(notedate.substr(11,2).c_str());
+			t.tm_min = atoi(notedate.substr(14,2).c_str());
+			t.tm_sec = atoi(notedate.substr(17,2).c_str());
+			int ndate = mktime(&t);
+			lprintfln("notedate %d",ndate);
+			lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
+			if(ndate > atoi(feed->getNoteSeconds().c_str())){
+				feed->setNoteLoaded(true);
+				noteLabel->setCaption("*Notifications");
+			}
+	}
+	else if (len > 0) {
 		if(menu!=NULL){
 			delete menu;
 		}
@@ -328,5 +341,61 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			menu = new NewVersionScreen(this, data, feed);
 			menu->show();
 		}
+	}
+}
+
+void MenuScreen::mtxParseError() {
+	lprintfln("mtxParseError()");
+	if(versionChecked ==0){
+		char buf[128] = "";
+		memset(buf, 0, 128);
+		int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+		memset(buf, 0, 128);
+		int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+		memset(buf, 0, 128);
+
+		char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
+		memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
+		sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
+
+		char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
+		memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
+		sprintf(make, "%s", MA_PROF_STRING_VENDOR);
+
+		//char *model = "temp";//MA_PROF_STRING_DEVICE;
+		char *model = new char[strlen("temp")+1];
+		memset(model, 0, strlen("temp")+1);
+		sprintf(model, "%s", "temp");
+
+		int touch = 0;
+	#if defined(MA_PROF_SUPPORT_STYLUS)
+		touch = 1;
+	#endif
+
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		//work out how long the url will be, the 16 is for the & and = symbals
+		int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
+				+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
+
+		char *url = new char[urlLength+1];
+
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
+				imsi, imei, os, make, model, touch, scrWidth, scrHeight);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+
+		} else {
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+		}
+
+		delete [] url;
+		versionChecked = 1;
 	}
 }

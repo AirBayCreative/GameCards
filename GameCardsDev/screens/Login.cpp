@@ -51,6 +51,7 @@ Login::~Login() {
 	touch="";
 	result="";
 	freebie="";
+	notedate="";
 }
 
 void Login::drawLoginScreen() {
@@ -401,6 +402,21 @@ void Login::mtxTagData(const char* data, int len) {
 		handle = data;
 	} else if(!strcmp(parentTag.c_str(), "freebie")) {
 		freebie = data;
+	} else if(!strcmp(parentTag.c_str(), "notedate")) {
+		notedate = data;
+		tm t;
+		t.tm_year = atoi(notedate.substr(0,4).c_str())-1900;
+		t.tm_mon = atoi(notedate.substr(5,2).c_str())-1;
+		t.tm_mday = atoi(notedate.substr(8,2).c_str());
+		t.tm_hour = atoi(notedate.substr(11,2).c_str());
+		t.tm_min = atoi(notedate.substr(14,2).c_str());
+		t.tm_sec = atoi(notedate.substr(17,2).c_str());
+		int ndate = mktime(&t);
+		lprintfln("notedate %d",ndate);
+		lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
+		if(ndate > atoi(feed->getNoteSeconds().c_str())){
+			feed->setNoteLoaded(true);
+		}
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg = data;
 	} else if (!strcmp(parentTag.c_str(), "result")) {

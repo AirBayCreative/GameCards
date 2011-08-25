@@ -20,11 +20,13 @@ public:
 	void setReplaceSpecialCharacters(const char*);
 	void setAll(const char*);
 	void setLoaded(bool load);
+	void setNoteLoaded(bool load);
 	void setAlbum(const char*);
 	void setGameId(const char*);
 	bool setTouch(const char* touch);
 	bool setTouchEnabled(bool touch);
 	void setSeconds(const char* seconds);
+	void setNoteSeconds(const char* seconds);
 	void setFreebie(const char* freebie);
 	Albums* getAlbum();
 	String getAlbumString();
@@ -45,7 +47,9 @@ public:
 	bool getTouchEnabled();
 	String getTouch();
 	bool getLoaded();
+	bool getNoteLoaded();
 	int getHttps();
+	String getNoteSeconds();
 	void addHttp();
 	void remHttp();
 private:
@@ -64,6 +68,8 @@ private:
 	Albums *album;
 	bool touchEnabled;
 	bool loaded;
+	bool noteLoaded;
+	String noteSeconds;
 	int https;
 };
 
