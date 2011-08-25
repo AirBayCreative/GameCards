@@ -4,9 +4,14 @@
 void Feed::setLoaded(bool load) {
 	loaded = load;
 }
-
+void Feed::setNoteLoaded(bool load) {
+	noteLoaded = load;
+}
 bool Feed::getLoaded() {
 	return loaded;
+}
+bool Feed::getNoteLoaded() {
+	return noteLoaded;
 }
 int Feed::getHttps() {
 	return https;
@@ -33,6 +38,8 @@ Feed::Feed() {
 	album = NULL;
 	touchEnabled = false;
 	loaded = false;
+	noteLoaded = false;
+	noteSeconds = "0";
 }
 Feed::~Feed() {
 	encrypt = "";
@@ -52,6 +59,8 @@ Feed::~Feed() {
 	album = NULL;*/
 	touchEnabled = false;
 	loaded = false;
+	noteLoaded = false;
+	noteSeconds = "";
 }
 
 bool Feed::setTouch(const char *tch) {
@@ -97,6 +106,10 @@ void Feed::setUsername(const char *username) {
 
 void Feed::setSeconds(const char *sec) {
 	seconds = sec;
+}
+
+void Feed::setNoteSeconds(const char* sec) {
+	noteSeconds = sec;
 }
 
 void Feed::setFreebie(const char *free) {
@@ -192,7 +205,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+",";
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+",";
 }
 
 void Feed::setAll(const char* allch) {
@@ -234,6 +247,9 @@ void Feed::setAll(const char* allch) {
 		indexof = all.find(",");
 		setFreebie(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
+		indexof = all.find(",");
+		setNoteSeconds(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
 			setUsername("");
@@ -269,6 +285,10 @@ Vector<String> Feed::getAlbumNames() {
 }
 String Feed::getSeconds() {
 	return seconds;
+}
+
+String Feed::getNoteSeconds() {
+	return noteSeconds;
 }
 
 String Feed::getFreebie() {

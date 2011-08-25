@@ -1,6 +1,7 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
 #include "ShopProductsScreen.h"
+#include "MenuScreen.h"
 #include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
@@ -429,6 +430,9 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
+			if(screenType == NOTIFICATIONS){
+				((MenuScreen *)previous)->refresh();
+			}
 			previous->show();
 			break;
 		case MAK_UP:
@@ -682,6 +686,14 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setCaption(error_msg.c_str());
 		}
 	} else if(!strcmp(name, "notifications")) {
+		int seconds = maLocalTime();
+		int secondsLength = Util::intlen(seconds);
+		char *secString = new char[secondsLength+1];
+		memset(secString,'\0',secondsLength+1);
+		sprintf(secString, "%d", seconds);
+		feed->setNoteSeconds(secString);
+		feed->setNoteLoaded(false);
+		delete secString;
 		if (count == 0) {
 			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);

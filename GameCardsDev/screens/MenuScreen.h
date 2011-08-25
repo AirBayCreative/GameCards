@@ -9,6 +9,7 @@ public:
 	~MenuScreen();
 
 	void keyPressEvent(int keyCode);
+	void refresh();
 private:
 	void selectionChanged(Widget *widget, bool selected);
 
@@ -17,9 +18,13 @@ private:
 	void clearListBox();
 
 	Screen *menu;
-	int c;
+	Label *noteLabel;
+	String parentTag, notedate;
+	int c, versionChecked;
 	bool iphone;
 	void mtxTagData(const char*, int);
+	void mtxTagStart(const char*, int);
+	void mtxParseError();
 };
 
 #endif
