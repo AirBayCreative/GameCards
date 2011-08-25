@@ -34,9 +34,9 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Play");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	//label = Util::createSubLabel("Decks");
-	//label->addWidgetListener(this);
-	//listBox->add(label);
+	label = Util::createSubLabel("Decks");
+	label->addWidgetListener(this);
+	listBox->add(label);
 	label = Util::createSubLabel("Shop");
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -195,76 +195,76 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				}
 				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
-			} /*else if(index == 2) {//decks
+			} else if(index == 2) {//decks
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DeckListScreen(this, feed);
 				menu->show();
-			} */else if(index == 2) {
+			} else if(index == 3) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
-			} else if(index == 3) {
+			} else if(index == 4) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
 				menu->show();
-			} else if(index == 4) {
+			} else if(index == 5) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
-			} else if(index == 5) {
+			} else if(index == 6) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
-			} else if(index == 6) {
+			} else if(index == 7) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/* Notifications */
 				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 				menu->show();
-			} else if(index == 7) {
+			} else if(index == 8) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
 				menu->show();
-			} else if(index == 8) {
+			} else if(index == 9) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
 				menu->show();
-			} else if(index == 9) {
+			} else if(index == 10) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/* Notifications */
 				menu = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
 				menu->show();
-			} else if(index == 10) {
+			} else if(index == 11) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/*Invite Friend */
 				menu = new TradeFriendDetailScreen(this, feed, NULL);
 				menu->show();
-			} else if(index == 11) {
+			} else if(index == 12) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new RedeemScreen(feed, this);
 				menu->show();
-			} else if (index == 12) {
+			} else if (index == 13) {
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
