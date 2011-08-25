@@ -481,7 +481,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								currentSelectedStat--;
 								if(currentSelectedStat < 0){
-									currentSelectedStat = 0;
+									currentSelectedStat = card->getStats().size()-1;
 								}
 								userImage->refreshWidget();
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
@@ -502,6 +502,9 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								if(currentSelectedStat < card->getStats().size()-1){
 									currentSelectedStat++;
+								}
+								else {
+									currentSelectedStat = 0;
 								}
 								userImage->refreshWidget();
 								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
