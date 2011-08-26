@@ -125,7 +125,7 @@ if ($iUserID == 0){
 					FROM mytcg_user where user_id = '.$iUserID);
 	
 	$iUpdate=$aUpdate[0];
-	if (($iUpdate['dif'] >= 1) || ($iUpdate['webdif'] >= 1)) {
+	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
 		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
