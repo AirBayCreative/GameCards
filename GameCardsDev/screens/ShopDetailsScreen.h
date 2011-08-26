@@ -44,7 +44,7 @@ private:
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
-	EditBox *editBidBox;
+	NativeEditBox *editBidBox;
 
 	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow, expired;
 

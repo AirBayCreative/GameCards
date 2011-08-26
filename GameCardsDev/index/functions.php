@@ -445,37 +445,131 @@ function continueGame($gameId, $iUserID, $iHeight, $iWidth) {
 			
 			if ($aiIsActive == '1') {
 				// we need to get the best stat for the ai to pick, so we need their top card first
-				$adminTopCardQuery = myqu('SELECT min(pos), gameplayercard_id
-					FROM mytcg_gameplayercard
-					WHERE gameplayer_id = '.$aiPlayerId.'  
-					AND gameplayercardstatus_id = 1 
-					GROUP BY pos');
-				$adminTopCard = $adminTopCardQuery[0]['gameplayercard_id'];
-				
-				//then get the best stat for them to pick
-				$adminBestStatQuery = myqu('SELECT cs.cardstat_id, cs.categorystat_id, cs.description, cs.statvalue, ave.average, 
-					cs.statvalue/ave.average picking_value, c.description card_name, ave.stat_type
+				$adminTopCardQuery = myqu('SELECT min(gpc.pos), gpc.gameplayercard_id, uc.card_id
 					FROM mytcg_gameplayercard gpc
-					INNER JOIN mytcg_usercard uc
+					INNER JOIN mytcg_usercard uc 
 					ON uc.usercard_id = gpc.usercard_id
-					INNER JOIN mytcg_card c
-					ON c.card_id= uc.card_id
-					INNER JOIN mytcg_cardstat cs
-					ON cs.card_id = c.card_id
-					INNER JOIN (SELECT sum(cs.statvalue)/count(cs.statvalue) average, cs.categorystat_id, cats.description stat_type
-					FROM mytcg_cardstat cs
-					INNER JOIN mytcg_categorystat cats
-					ON cats.categorystat_id = cs.categorystat_id
-					GROUP BY cs.categorystat_id) ave
-					ON ave.categorystat_id = cs.categorystat_id
-					WHERE gpc.gameplayercard_id = '.$adminTopCard.'  
-					ORDER BY picking_value DESC');
+					WHERE gpc.gameplayer_id = '.$aiPlayerId.'  
+					AND gpc.gameplayercardstatus_id = 1 
+					GROUP BY gpc.pos');
+				$adminTopCard = $adminTopCardQuery[0]['card_id'];
+				
+				$adminStat = chooseStat($adminTopCard);
 				
 				//perform the stat selection
-				selectStat($iUserID, $aiUserId, $gameId, $adminBestStatQuery[0]['categorystat_id']);
+				selectStat($iUserID, $aiUserId, $gameId, $adminStat);
 			}
 		}
 	}
+}
+
+
+/*
+  * CPU player choosing a stat
+  */
+function chooseStat($cardId, $difficultyId=1, $showCheat=false) {
+     $pre = "mytcg";
+     $sCRLF = "\r\n";
+     $cheat = '';
+     $id = $cardId;
+
+     $cheat.= 'CARD '.$id.$sCRLF.'=========================='.$sCRLF;
+
+     $probabilities = array();
+
+     for($cat=1; $cat<=7; $cat++)
+     {
+         $cheat.= 'Stat '.$cat;
+
+         $wins = 0;
+         $losses = 0;
+         $draws = 0;
+         $total = 0;
+
+         $sql = "SELECT *
+                 FROM ".$pre."_cardstat CS
+                 WHERE CS.categorystat_id = $cat
+                 AND CS.card_id NOT IN ($id);";
+         $cards = myqu($sql);
+
+         if(count($cards) > 0)
+         {
+             $sql = "SELECT statvalue
+                     FROM ".$pre."_cardstat CS
+                     WHERE CS.categorystat_id = $cat
+                     AND CS.card_id = $id;";
+             $base = myqu($sql);
+             $baseval = $base[0]['statvalue'];
+
+             $cheat.= ' -> '.$baseval;
+
+             foreach($cards as $card)
+             {
+                 if($baseval > $card['statvalue']){
+                     $wins++;
+                 }
+                 elseif($baseval < $card['statvalue']){
+                     $losses++;
+                 }
+                 else{
+                     $draws++;
+                 }
+                 $total++;
+             }
+         }
+         $cheat.= $sCRLF.'-------------------'.$sCRLF;
+         $probabilities['win'][$cat] = round(($wins/$total)*100,2);
+         $probabilities['lose'][$cat] = round(($losses/$total)*100,2);
+         $probabilities['draw'][$cat] = round(($draws/$total)*100,2);
+         $combined[$cat] = $probabilities['lose'][$cat] + $probabilities['draw'][$cat];
+
+     }
+
+     $cheat.= 'Probabilities
+'.print_r($probabilities,true).'=========================='.$sCRLF;
+
+     //sort stats according to lowest losing probability
+     $statsinbestorder = $combined;
+     asort($statsinbestorder);
+     $i = 1;
+     $beststat = array();
+     foreach($statsinbestorder as $key=>$stat){
+         $beststat[] = $key;
+         if(++$i > 3) break;
+     }
+
+     $chosenstat = 0;
+     switch($difficultyId){
+         case '1':
+             $difficultyLevel = 'Easy';
+             $chosenstat = rand(0,2);
+         break;
+         case '2':
+             $difficultyLevel = 'Normal';
+             $chosenstat = rand(0,1);
+         break;
+         case '3':
+             $difficultyLevel = 'Hard';
+             $chosenstat = 0;
+         break;
+     }
+     $chosenstat = $beststat[$chosenstat];
+
+     $cheat.= 'BEST CHOICE = Stat '.$beststat[0].$sCRLF;
+     $cheat.= '2nd CHOICE = Stat '.$beststat[1].$sCRLF;
+     $cheat.= '3rd CHOICE = Stat '.$beststat[2].$sCRLF;
+     $cheat.= '=========================='.$sCRLF;
+     $cheat.= 'CPU Difficulty = '.$difficultyLevel.$sCRLF;
+     $cheat.= 'CHOICE = Stat '.$chosenstat.$sCRLF;
+
+     if($showCheat)
+     {
+         return $cheat;
+     }
+     else
+     {
+         return $chosenstat;
+     }
 }
 
 //load a game and return relevant xml
@@ -2078,6 +2172,9 @@ function userdetails($iUserID,$iHeight,$iWidth,$root) {
 	$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.'/cards/loading.png</loadingurl>'.$sCRLF;
 	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
+	
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));

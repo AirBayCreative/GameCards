@@ -1291,17 +1291,22 @@ if ($_GET['getusergames']){
 		myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
 	}
 
-	$aCategories=myqu('SELECT concat(c.description, DATE_FORMAT(g.date_start, " \n%Y-%m-%d %H:%i")) description, g.game_id
+	$aCategories=myqu('SELECT concat(concat(DATE_FORMAT(g.date_start, "%d %b %H:%i\n"), "VS "), uOpp.username) description, g.game_id
 		FROM mytcg_game g 
-		INNER JOIN mytcg_category c
-		ON c.category_id = g.category_id
-		INNER JOIN mytcg_gameplayer gp
-		ON g.game_id = gp.game_id
-		INNER JOIN mytcg_gamestatus gs
-		ON gs.gamestatus_id = g.gamestatus_id
-		INNER JOIN mytcg_gamephase gph
-		ON gph.gamephase_id = g.gamephase_id
+		INNER JOIN mytcg_category c 
+		ON c.category_id = g.category_id 
+		INNER JOIN mytcg_gameplayer gp 
+		ON g.game_id = gp.game_id 
+		INNER JOIN mytcg_gamestatus gs 
+		ON gs.gamestatus_id = g.gamestatus_id 
+		INNER JOIN mytcg_gamephase gph 
+		ON gph.gamephase_id = g.gamephase_id 
+		INNER JOIN mytcg_gameplayer gpOpp 
+		ON gpOpp.game_id = g.game_id 
+		INNER JOIN mytcg_user uOpp 
+		ON uOpp.user_id = gpOpp.user_id 
 		WHERE gp.user_id = '.$iUserID.' 
+		AND gpOpp.user_id != '.$iUserID.' 
 		AND ((lower(gs.description) = "incomplete"
 		AND (lower(gph.description) != "result"
 		OR (lower(gph.description) = "result"
@@ -1350,6 +1355,15 @@ if ($_GET['viewgamedetails']){
 	$sOP.=$sTab.'<opponentdeck>'.trim($gameDetailsResults['oppDeck']).'</opponentdeck>'.$sCRLF;
 	$sOP.=$sTab.'<playerdeck>'.trim($gameDetailsResults['playerDeck']).'</playerdeck>'.$sCRLF;
 	$sOP.='</gamedetails>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** get the date of the latest notification */
+if ($_GET['notedate']){
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;

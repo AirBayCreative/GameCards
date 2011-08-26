@@ -86,7 +86,8 @@ Font* Util::getButtonFont() {
 WidgetSkin* Util::getSkinEditBox() {
 	static WidgetSkin* gSkinEditBox;
 	if (gSkinEditBox == NULL) {
-		gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 22, 26, true, true);
+		gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX,
+				EDITBOX_X_LEFT, EDITBOX_X_RIGHT, EDITBOX_Y_TOP, EDITBOX_Y_BOTTOM, true, true);
 	}
 	return gSkinEditBox;
 }
@@ -94,8 +95,8 @@ WidgetSkin* Util::getSkinEditBox() {
 WidgetSkin* Util::getSkinButton() {
 	static WidgetSkin* gSkinButton;
 	if (gSkinButton == NULL) {
-		//topcar values 16,32,20,26
-		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON, 23, 24, 23, 24, true, true);
+		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON,
+				BUTTON_X_LEFT, BUTTON_X_RIGHT, BUTTON_Y_TOP, BUTTON_Y_BOTTOM, true, true);
 	}
 	return gSkinButton;
 }
@@ -109,7 +110,8 @@ void Util::setCaption(Label *label) {
 WidgetSkin* Util::getSkinBack() {
 	static WidgetSkin* gSkinBack;
 	if (gSkinBack == NULL) {
-		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 39, 429, 39, 429, true, true);
+		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND,
+				BACKGROUND_X_LEFT, BACKGROUND_X_RIGHT, BACKGROUND_Y_TOP, BACKGROUND_Y_BOTTOM, true, true);
 	}
 	return gSkinBack;
 }
@@ -117,8 +119,8 @@ WidgetSkin* Util::getSkinBack() {
 WidgetSkin* Util::getSkinList() {
 	static WidgetSkin* gSkinList;
 	if (gSkinList == NULL) {
-		//topcar values 19,29,16,32
-		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 19, 77, 16, 32, true, true);
+		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST,
+				LIST_X_LEFT, LIST_X_RIGHT, LIST_Y_TOP, LIST_Y_BOTTOM, true, true);
 	}
 	return gSkinList;
 }
@@ -126,7 +128,8 @@ WidgetSkin* Util::getSkinList() {
 WidgetSkin* Util::getSkinListNoArrows() {
 	static WidgetSkin* gSkinListNoArrows;
 	if (gSkinListNoArrows == NULL) {
-		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST, 16, 77, 16, 32, true, true);
+		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST,
+				LISTNOARROWS_X_LEFT, LISTNOARROWS_X_RIGHT, LISTNOARROWS_Y_TOP, LISTNOARROWS_Y_BOTTOM, true, true);
 	}
 	return gSkinListNoArrows;
 }
@@ -134,8 +137,8 @@ WidgetSkin* Util::getSkinListNoArrows() {
 WidgetSkin* Util::getSkinAlbum() {
 	static WidgetSkin* gSkinAlbum;
 	if (gSkinAlbum == NULL) {
-		//topcar values 4, 61, 12, 16
-		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 4, 77, 12, 16, true, true);
+		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM,
+				ALBUM_X_LEFT, ALBUM_X_RIGHT, ALBUM_Y_TOP, ALBUM_Y_BOTTOM, true, true);
 	}
 	return gSkinAlbum;
 }
@@ -143,7 +146,8 @@ WidgetSkin* Util::getSkinAlbum() {
 WidgetSkin* Util::getSkinText() {
 	static WidgetSkin* gSkinText;
 	if (gSkinText == NULL) {
-		gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
+		gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX,
+				TEXT_X_LEFT, TEXT_X_RIGHT, TEXT_Y_TOP, TEXT_Y_BOTTOM, true, true);
 	}
 	return gSkinText;
 }
@@ -159,6 +163,7 @@ Label* Util::createLabel(String str, int height) {
 	Util::setPadding(label);
 	return label;
 }
+
 Label* Util::createEditLabel(String str, int height) {
 	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
@@ -627,7 +632,7 @@ bool Util::validateEmailAddress(String email) {
 
 int Util::getSoftKeyBarHeight() {
 	//42 is the default height. It needs to scale up a bit for bigger screens
-	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
+	int scaledHeight = ((scrHeight*0.1)>MIN_SOFTKEY_BAR_HEIGHT?(int)(scrHeight*0.1):MIN_SOFTKEY_BAR_HEIGHT);
 
 	return scaledHeight;
 }

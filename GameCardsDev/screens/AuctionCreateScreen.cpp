@@ -278,7 +278,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Opening bid", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Opening bid", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -288,7 +288,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Buy now price", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Buy now price", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -298,7 +298,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -451,7 +451,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	clearListBox();
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
-	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - 24, NULL, errorString, 0, Util::getDefaultSelected());
+	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, errorString, 0, Util::getDefaultSelected());
 	label->setMultiLine();
 	label->setAutoSizeY();
 	listBox->add(label);

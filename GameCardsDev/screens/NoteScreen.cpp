@@ -67,11 +67,11 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			label->setAutoSizeY();
 			label->setAutoSizeX();
 			label->setMultiLine();
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Note", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Note", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
 		case ST_SMS:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "SMS", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "SMS", 0, Util::getDefaultFont());
 			listBox->add(label);
 		break;
 	}
