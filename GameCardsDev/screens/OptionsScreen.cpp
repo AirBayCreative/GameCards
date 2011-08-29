@@ -28,6 +28,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 		iphone = true;
 	#endif
+
 	if (screenType == ST_LOGIN_OPTIONS) {
 		if (iphone) {
 			layout = Util::createMainLayout("", "");
@@ -163,6 +164,11 @@ void OptionsScreen::show() {
 		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	}
 	Screen::show();
+
+	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)&&(screenType == ST_LOGIN_OPTIONS)) {
+		menu = new Login(this, feed, Login::S_LOGIN);
+		menu->show();
+	}
 }
 
 void OptionsScreen::hide() {

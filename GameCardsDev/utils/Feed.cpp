@@ -1,5 +1,6 @@
 #include "Feed.h"
 #include "Util.h"
+#include <mastdlib.h>
 
 void Feed::setLoaded(bool load) {
 	loaded = load;
@@ -40,6 +41,7 @@ Feed::Feed() {
 	loaded = false;
 	noteLoaded = false;
 	noteSeconds = "0";
+	registered = "0";
 }
 Feed::~Feed() {
 	encrypt = "";
@@ -61,6 +63,7 @@ Feed::~Feed() {
 	loaded = false;
 	noteLoaded = false;
 	noteSeconds = "";
+	registered = "0";
 }
 
 bool Feed::setTouch(const char *tch) {
@@ -114,6 +117,10 @@ void Feed::setNoteSeconds(const char* sec) {
 
 void Feed::setFreebie(const char *free) {
 	freebie = free;
+}
+
+void Feed::setRegistered(String regi) {
+	registered = regi;
 }
 
 MAUtil::String Feed::getGameId() {
@@ -205,7 +212,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+",";
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+","+registered+",";
 }
 
 void Feed::setAll(const char* allch) {
@@ -250,6 +257,9 @@ void Feed::setAll(const char* allch) {
 		indexof = all.find(",");
 		setNoteSeconds(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
+		indexof = all.find(",");
+		setRegistered(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
 			setUsername("");
@@ -266,7 +276,15 @@ void Feed::setAll(const char* allch) {
 		setCredits("");
 		setEmail("");
 		setHandle("");
+		setNoteLoaded(false);
+		setAlbum("");
+		setGameId("");
 		setTouch("false");
+		setTouchEnabled(false);
+		setSeconds("");
+		setNoteSeconds("");
+		setFreebie("");
+		setRegistered("0");
 	}
 }
 void Feed::setAlbum(const char* allch) {
@@ -289,6 +307,10 @@ String Feed::getSeconds() {
 
 String Feed::getNoteSeconds() {
 	return noteSeconds;
+}
+
+String Feed::getRegistered() {
+	return registered;
 }
 
 String Feed::getFreebie() {

@@ -14,7 +14,6 @@ public:
 	void setCredits(const char*);
 	void setEmail(const char*);
 	void setHandle(const char*);
-	void setID(const char*);
 	void setUnsuccessful(const char*);
 	void setReplaceWhiteSpaces(const char*);
 	void setReplaceSpecialCharacters(const char*);
@@ -28,6 +27,7 @@ public:
 	void setSeconds(const char* seconds);
 	void setNoteSeconds(const char* seconds);
 	void setFreebie(const char* freebie);
+	void setRegistered(String reg);
 	Albums* getAlbum();
 	String getAlbumString();
 	String getEncrypt();
@@ -35,7 +35,6 @@ public:
 	String getCredits();
 	String getEmail();
 	String getHandle();
-	String getID();
 	String getUnsuccessful();
 	String getReplaceWhiteSpaces();
 	String getReplaceSpecialCharacters();
@@ -50,6 +49,7 @@ public:
 	bool getNoteLoaded();
 	int getHttps();
 	String getNoteSeconds();
+	String getRegistered();
 	void addHttp();
 	void remHttp();
 private:
@@ -65,6 +65,7 @@ private:
 	String gameId;
 	String seconds;
 	String freebie;
+	String registered;
 	Albums *album;
 	bool touchEnabled;
 	bool loaded;

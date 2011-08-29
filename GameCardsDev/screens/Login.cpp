@@ -278,7 +278,10 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						if (editBoxLogin->getText().length() < 6) {
+						if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+							notice->setCaption("Already registered for an account with this device.");
+							maVibrate(1000);
+						} else if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
 							maVibrate(1000);
 						}
@@ -328,6 +331,7 @@ void Login::keyPressEvent(int keyCode) {
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
+							lprintfln("%s", url);
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
@@ -434,6 +438,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setUnsuccessful("Success");
 		feed->setTouch(touch.c_str());
 		feed->setFreebie(freebie.c_str());
+		feed->setRegistered("1");
 		int seconds = maLocalTime();
 		int secondsLength = Util::intlen(seconds);
 		char *secString = new char[secondsLength+1];

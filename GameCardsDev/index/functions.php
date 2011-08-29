@@ -2340,7 +2340,7 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 	exit;
 }
 // register user 
-function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$root) {
+function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$root,$ip='') {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -2406,8 +2406,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 				VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
 		}
-		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon) VALUES ('{$username}', '{$email}', 1, now(), 300, 0)");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip) VALUES ('{$username}', '{$email}', 1, now(), 300, 0, '{$ip}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -2446,8 +2445,8 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
 			
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');
+		/*myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');*/
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit www.mytcg.net for an even greater Game Cards experience.", now())');

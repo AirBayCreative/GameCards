@@ -22,6 +22,23 @@
 #define RES_EMPTY_FLIP 22
 #define RES_BOX_SELECTED 23
 #define RES_BOX_UNSELECTED 24
+#define RES_LOADING2 25
+#define RES_LOADING3 26
+#define RES_LOADING4 27
+#define RES_LOADING5 28
+#define RES_LOADING6 29
+#define RES_LOADING7 30
+#define RES_LOADING8 31
+#define RES_LOADING9 32
+#define RES_LOADING10 33
+#define RES_LOADING11 34
+#define RES_LOADING12 35
+#define RES_LOADING13 36
+#define RES_LOADING14 37
+#define RES_LOADING15 38
+#define RES_LOADING16 39
+#define RES_LOADING17 40
+#define RES_LOADING18 41
 #define URL "http://dev.mytcg.net/_phone/"
 #define URLSIZE 28
 
@@ -68,3 +85,14 @@
 #define MIN_SOFTKEY_BAR_HEIGHT 42
 #define DEFAULT_SMALL_LABEL_HEIGHT 24
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
+
+#include <MAUtil/String.h>
+
+using namespace MAUtil;
+
+#ifndef _MAHeaders_H_
+#define _MAHeaders_H_
+
+static String FILE_PREFIX = "dev_";
+
+#endif

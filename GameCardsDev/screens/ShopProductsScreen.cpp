@@ -305,17 +305,17 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 	if (credits)
 	{
 		if(!strcmp(parentTag.c_str(), "paymentid")) {
-			id = data;
+			id += data;
 		} else if(!strcmp(parentTag.c_str(), "desc")) {
-			productName = data;
+			productName += data;
 		} else if(!strcmp(parentTag.c_str(), "paymethodid")) {
-			productType = data;
+			productType += data;
 		} else if(!strcmp(parentTag.c_str(), "creditam")) {
-			price = data;
+			price += data;
 		} else if(!strcmp(parentTag.c_str(), "productnumcards")) {
-			cardsInPack = data;
+			cardsInPack += data;
 		} else if(!strcmp(parentTag.c_str(), "thumbnailurl")) {
-			thumb = data;
+			thumb += data;
 		}
 	}
 	else
@@ -323,17 +323,17 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 		if(!strcmp(parentTag.c_str(), "credits")) {
 			cred += data;
 		} else if(!strcmp(parentTag.c_str(), "productid")) {
-			id = data;
+			id += data;
 		} else if(!strcmp(parentTag.c_str(), "productname")) {
-			productName = data;
+			productName += data;
 		} else if(!strcmp(parentTag.c_str(), "producttype")) {
-			productType = data;
+			productType += data;
 		} else if(!strcmp(parentTag.c_str(), "productprice")) {
-			price = data;
+			price += data;
 		} else if(!strcmp(parentTag.c_str(), "productnumcards")) {
-			cardsInPack = data;
+			cardsInPack += data;
 		} else if(!strcmp(parentTag.c_str(), "productthumb")) {
-			thumb = data;
+			thumb += data;
 		}
 	}
 }

@@ -53,8 +53,10 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	listBox->add(label);
 	if(feed->getNoteLoaded()){
 		noteLabel = Util::createSubLabel("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
 	}else{
 		noteLabel = Util::createSubLabel("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
 	}
 	noteLabel->addWidgetListener(this);
 	listBox->add(noteLabel);
@@ -132,8 +134,10 @@ void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 void MenuScreen::refresh() {
 	if(feed->getNoteLoaded()){
 		noteLabel->setCaption("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
 	}else{
 		noteLabel->setCaption("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
 	}
 }
 
@@ -168,6 +172,8 @@ void MenuScreen::hide() {
 }
 
 void MenuScreen::keyPressEvent(int keyCode) {
+	int total = listBox->getChildren().size();
+	int select = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
@@ -263,7 +269,8 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					Util::saveData(s.c_str(),"");
 				}
 				feed->setAll("");
-				Util::saveData("fd.sav","");
+				feed->setRegistered("1");
+				Util::saveData("fd.sav",feed->getAll().c_str());
 				Util::saveData("lb.sav","");
 
 				if (feed->getHttps() > 0) {
@@ -271,7 +278,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 				} else {
 					if(menu!=NULL){
-						delete menu;
+						//delete menu;
 					}
 					maExit(0);
 				}
@@ -280,9 +287,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
 			if (!iphone) {
-				if (menu!=NULL) {
+				/*if (menu!=NULL) {
 					delete menu;
-				}
+				}*/
 				int seconds = maLocalTime();
 				int secondsLength = Util::intlen(seconds);
 				char *secString = new char[secondsLength+1];
@@ -300,10 +307,18 @@ void MenuScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (select == total-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if (select == 0) {
+				listBox->setSelectedIndex(total-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 	}
 }
@@ -330,6 +345,7 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			if(ndate > atoi(feed->getNoteSeconds().c_str())){
 				feed->setNoteLoaded(true);
 				noteLabel->setCaption("*Notifications");
+				noteLabel->setFont(Util::getDefaultSelected());
 			}
 	}
 	else if (len > 0) {

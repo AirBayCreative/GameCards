@@ -327,23 +327,23 @@ void AlbumViewScreen::drawList() {
 		cardText += "\nRating: ";
 		cardText += itr->second->getRanking();
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, THUMBNAIL_HEIGHT, feedlayout, false, false, RES_LOADINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
 			tempImage->setHasNote(itr->second->getNote().length()>0);
 			Util::retrieveThumb(tempImage, itr->second, mImageCache);
 		}
 		else {
 			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, THUMBNAIL_HEIGHT, feedlayout, false, false, RES_MISSINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
 		}
 
-		label = new Label(0,0, scrWidth-86, ALBUM_ITEM_HEIGHT, feedlayout, cardText, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
@@ -561,9 +561,9 @@ void AlbumViewScreen::mtxTagStart(const char* name, int len) {
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	if(!strcmp(parentTag.c_str(), "stat")) {
 		if(!strcmp(attrName, "desc")) {
-			statDesc = attrValue;
+			statDesc += attrValue;
 		}else if(!strcmp(attrName, "ival")) {
-			statIVal = attrValue;
+			statIVal += attrValue;
 		}else if(!strcmp(attrName, "top")) {
 			statTop = atoi(attrValue);
 		}else if(!strcmp(attrName, "left")) {
@@ -586,43 +586,42 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "cardid")) {
-		id = data;
+		id += data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
-		description = data;
+		description += data;
 	} else if(!strcmp(parentTag.c_str(), "quantity")) {
-		quantity = data;
+		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), "thumburl")) {
-		thumburl = data;
+		thumburl += data;
 	} else if(!strcmp(parentTag.c_str(), "fronturl")) {
-		fronturl = data;
+		fronturl += data;
 	} else if(!strcmp(parentTag.c_str(), "frontflipurl")) {
-		frontflipurl = data;
+		frontflipurl += data;
 	} else if(!strcmp(parentTag.c_str(), "backurl")) {
-		backurl = data;
+		backurl += data;
 	} else if(!strcmp(parentTag.c_str(), "backflipurl")) {
-		backflipurl = data;
+		backflipurl += data;
 	} else if(!strcmp(parentTag.c_str(), "rate")) {
-		rate = data;
+		rate += data;
 	} else if(!strcmp(parentTag.c_str(), "ranking")) {
-		ranking = data;
+		ranking += data;
 	} else if(!strcmp(parentTag.c_str(), "quality")) {
-		rarity = data;
+		rarity += data;
 	} else if(!strcmp(parentTag.c_str(), "value")) {
-		value = data;
+		value += data;
 	} else if(!strcmp(parentTag.c_str(), "result")) {
-		error_msg = data;
+		error_msg += data;
 	} else if(!strcmp(parentTag.c_str(), "updated")) {
-		updated = data;
+		updated += data;
 	} else if(!strcmp(parentTag.c_str(), "stat")) {
-		statDisplay = data;
+		statDisplay += data;
 	} else if(!strcmp(parentTag.c_str(), "note")) {
-		note = data;
+		note += data;
 	}
 }
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "card")) {
-		//notice->setCaption("");
 		Card *newCard = new Card();
 		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+ranking+","+rarity+","+frontflipurl+","+backflipurl+",").c_str());
 		newCard->setStats(stats);
@@ -642,20 +641,24 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			feedall = "";
 		}
 		tmp.insert(newCard->getId(),newCard);
-		id = "";
-		description = "";
-		quantity = "";
-		thumburl = "";
-		fronturl = "";
-		backurl = "";
-		rate = "";
-		value = "";
-		rarity = "";
-		ranking = "";
-		frontflipurl = "";
-		backflipurl = "";
-		updated = "";
-		note = "";
+
+		note="";
+		id="";
+		description="";
+		quantity="";
+		thumburl="";
+		fronturl="";
+		frontflipurl="";
+		backurl="";
+		backflipurl="";
+		error_msg="";
+		rate="";
+		rarity="";
+		ranking="";
+		value="";
+		updated="";
+		error_msg="";
+
 		stats.clear();
 		//delete newCard;
 		//newCard = NULL;
@@ -677,13 +680,15 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
+
 		stat = NULL;
 		//delete stat;
 	} else if(!strcmp(name, "result")) {
 		notice->setCaption(error_msg.c_str());
-		statDesc="";
-		statIVal="";
-		statDisplay="";
+		statDesc = "";
+		statDisplay = "";
+		statIVal = "";
+
 		note="";
 		id="";
 		description="";
@@ -699,6 +704,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		ranking="";
 		value="";
 		updated="";
+		error_msg="";
+
 		if (adding) {
 			((EditDeckScreen*)orig)->refresh();
 			((EditDeckScreen*)orig)->show();
@@ -713,9 +720,10 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		Util::saveData(filename.c_str(), all.c_str());
 		all = "";
 		notice->setCaption("");
-		statDesc="";
-		statIVal="";
-		statDisplay="";
+		statDesc = "";
+		statDisplay = "";
+		statIVal = "";
+
 		note="";
 		id="";
 		description="";
@@ -731,15 +739,17 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		ranking="";
 		value="";
 		updated="";
+		error_msg="";
 	} else if (!strcmp(name, "cards")) {
 		clearCardMap();
 		cards = tmp;
 		drawList();
 		notice->setCaption("");
 		busy = false;
-		statDesc="";
-		statIVal="";
-		statDisplay="";
+		statDesc = "";
+		statDisplay = "";
+		statIVal = "";
+
 		note="";
 		id="";
 		description="";
@@ -755,6 +765,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		ranking="";
 		value="";
 		updated="";
+		error_msg="";
 	} else {
 		//notice->setCaption("");
 	}

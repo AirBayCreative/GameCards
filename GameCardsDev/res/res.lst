@@ -66,7 +66,7 @@
 
 .res RES_LOADING
 .ubin
-.image "loading.png"
+.image "loading1.png"
 
 .res RES_MISSINGTHUMB
 .ubin
@@ -91,3 +91,71 @@
 .res RES_BOX_UNSELECTED
 .ubin
 .image "box_unselected.png"
+
+.res RES_LOADING2
+.ubin
+.image "loading2.png"
+
+.res RES_LOADING3
+.ubin
+.image "loading3.png"
+
+.res RES_LOADING4
+.ubin
+.image "loading4.png"
+
+.res RES_LOADING5
+.ubin
+.image "loading5.png"
+
+.res RES_LOADING6
+.ubin
+.image "loading6.png"
+
+.res RES_LOADING7
+.ubin
+.image "loading7.png"
+
+.res RES_LOADING8
+.ubin
+.image "loading8.png"
+
+.res RES_LOADING9
+.ubin
+.image "loading9.png"
+
+.res RES_LOADING10
+.ubin
+.image "loading10.png"
+
+.res RES_LOADING11
+.ubin
+.image "loading11.png"
+
+.res RES_LOADING12
+.ubin
+.image "loading12.png"
+
+.res RES_LOADING13
+.ubin
+.image "loading13.png"
+
+.res RES_LOADING14
+.ubin
+.image "loading14.png"
+
+.res RES_LOADING15
+.ubin
+.image "loading15.png"
+
+.res RES_LOADING16
+.ubin
+.image "loading16.png"
+
+.res RES_LOADING17
+.ubin
+.image "loading17.png"
+
+.res RES_LOADING18
+.ubin
+.image "loading18.png"

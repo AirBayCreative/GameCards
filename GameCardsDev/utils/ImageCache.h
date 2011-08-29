@@ -7,6 +7,8 @@
 
 using namespace MAUtil;
 
+#define READSIZE 16384
+
 class ImageCache : public HttpConnectionListener
 {
   public:
@@ -25,7 +27,7 @@ class ImageCache : public HttpConnectionListener
     Vector<ImageCacheRequest*>  mRequests;
     HttpConnection mHttp;
     bool mIsBusy, destroyed;
-    char mBuffer[1024];
+    char mBuffer[READSIZE];
 	MAHandle mData;
 	int mDataOffset;
 	int mContentLength;
