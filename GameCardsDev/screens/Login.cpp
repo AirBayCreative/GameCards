@@ -60,7 +60,12 @@ void Login::drawLoginScreen() {
 	screen = S_LOGIN;
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
+	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+		Util::updateSoftKeyLayout("Log In", "Exit", "", mainLayout);
+	} else {
+		Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
+	}
+
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
@@ -331,7 +336,6 @@ void Login::keyPressEvent(int keyCode) {
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
-							lprintfln("%s", url);
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
@@ -350,7 +354,12 @@ void Login::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+				maExit(1);
+			} else {
+				previous->show();
+			}
+
 			break;
 		case MAK_UP:
 			if (index-2 > 0) {
@@ -416,8 +425,6 @@ void Login::mtxTagData(const char* data, int len) {
 		t.tm_min = atoi(notedate.substr(14,2).c_str());
 		t.tm_sec = atoi(notedate.substr(17,2).c_str());
 		int ndate = mktime(&t);
-		lprintfln("notedate %d",ndate);
-		lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
 		}

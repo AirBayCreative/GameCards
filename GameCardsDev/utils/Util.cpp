@@ -585,8 +585,7 @@ void Util::retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *m
 			mImageCache->request(req1);
 		}
 		cacheimage = -1;
-	}
-	else {
+	} else {
 		req1 = new ImageCacheRequest(img, card, 64, 4);
 		mImageCache->request(req1);
 	}

@@ -28,9 +28,9 @@ void XmlConnection::connRecvFinished(MAUtil::Connection* conn, int result) {
     mPtr[result] = 0;
     mPtr = mBuffer;
 
-    //lprintfln("mBuffer %s", mBuffer);
+    /*lprintfln("mBuffer %s", mBuffer);*/
     bool stopped = mContext.feed(mBuffer);
-	if(!stopped) {  //parsing may have been interrupted by stop().
+	if(!stopped) {
 		mConn->recv(mPtr, sizeof(mBuffer) - 1 - (mPtr - mBuffer));
 	}
 }

@@ -25,7 +25,8 @@ ImageCache::~ImageCache()
 
 void ImageCache::request(ImageCacheRequest* req)
 {
-	lprintfln("ImageCache::request added for %s", req->getUrl().c_str());
+
+	//lprintfln("request for %s type %d height %d width %d url %s", req->getSaveName().c_str(), req->getType(), req->getImage()->getHeight(), req->getImage()->getWidth(), req->getUrl().c_str());
 	//Add the request to the queue
 	mRequests.add(req);
 	//Process the queue
@@ -34,7 +35,6 @@ void ImageCache::request(ImageCacheRequest* req)
 
 void ImageCache::process(bool afterFin)
 {
-	lprintfln("process mIsBusy %d", mIsBusy);
 	//Check to see if the cache can process this request at this time
 	if(mIsBusy) return;
 	//Check to see if there are any outstanding requests
@@ -49,41 +49,37 @@ void ImageCache::process(bool afterFin)
     	mHttp.close();
     }
 
-    lprintfln("mNextRequest url %s", mNextRequest->getUrl().c_str());
-
     mHttp = HttpConnection(this);
 	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
-	lprintfln("connection created %d", res);
 	if(res < 0) {
 		finishedDownloading();
 	} else {
 		mHttp.finish();
-		lprintfln("do connection NOW");
 	}
 }
 
 void ImageCache::finishedDownloading()
 {
 	if (mData != NULL) {
-		//Save to storage
+		lprintfln("mData != NULL");
 		if ((mNextRequest != NULL)&&(!destroyed)) {
 			Util::saveFile((mNextRequest->getSaveName()).c_str(), mData);
 			Util::returnImage(mNextRequest->getImage(), mData, mNextRequest->getHeight());
 		}
 		maDestroyObject(mData);
 		mData = NULL;
-	}
-	else if (mNextRequest != NULL){
-		if (mNextRequest->getImage()->getHeight() < 150) {
+	} else if (mNextRequest != NULL){
+		lprintfln("mNextRequest != NULL");
+		if (mNextRequest->getType() == 0) {
 			mNextRequest->getImage()->setResource(RES_TEMPTHUMB);
-		}
-		else {
+		} else if ((mNextRequest->getType() == 1) || (mNextRequest->getType() == 2)) {
 			mNextRequest->getImage()->setResource(RES_TEMP);
+		} else if ((mNextRequest->getType() == 3) || (mNextRequest->getType() == 4)) {
+			mNextRequest->getImage()->setResource(RES_EMPTY_FLIP);
 		}
-		//mNextRequest->getImage()->update();
 		mNextRequest->getImage()->requestRepaint();
-	}
-	else {
+	} else {
+		lprintfln("else");
 		mIsBusy = false;
 		if ((mRequests.size() > 0)&&(!destroyed))
 			process(true);
@@ -115,8 +111,6 @@ void ImageCache::clearImageCache() {
 }
 
 void ImageCache::httpFinished(MAUtil::HttpConnection* http, int result) {
-
-	lprintfln("httpFinished result %d", result);
 	if (result == 200) {
 		MAUtil::String *contentLengthStr = new MAUtil::String("-1");
 		int responseBytes = mHttp.getResponseHeader("content-length", contentLengthStr);
@@ -153,12 +147,51 @@ void ImageCache::connRecvFinished(MAUtil::Connection* conn, int result) {
 		mDataOffset += result;
 		double val = (double)((double)mDataOffset/(double)mContentLength)*100;
 
-		if (mNextRequest->getImage()->getHeight() < 150) {
+		lprintfln("image %d resource %d val %f", mNextRequest->getImage(), mNextRequest->getImage()->getResource(), val);
+		if (mNextRequest->getType() == 0) {
 			//normal loading
-		} else {
-
+		} else if ((mNextRequest->getType() == 3)||(mNextRequest->getType() == 4)) {
 			if (val <= 5.5) {
-				mNextRequest->getImage()->setResource(RES_LOADING);
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP1);
+			} else if (val <= 11) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP2);
+			} else if (val <= 16.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP3);
+			} else if (val <= 22) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP4);
+			} else if (val <= 27.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP5);
+			} else if (val <= 33) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP6);
+			} else if (val <= 38.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP7);
+			} else if (val <= 44) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP8);
+			} else if (val <= 49.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP9);
+			} else if (val <= 55) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP10);
+			} else if (val <= 60.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP11);
+			} else if (val <= 66) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP12);
+			} else if (val <= 71.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP13);
+			} else if (val <= 77) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP14);
+			} else if (val <= 82.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP15);
+			} else if (val <= 88) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP16);
+			} else if (val <= 93.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP17);
+			} else if (val <= 99) {
+				mNextRequest->getImage()->setResource(RES_LOADING_FLIP18);
+			}
+			mNextRequest->getImage()->requestRepaint();
+		} else if ((mNextRequest->getType() == 1)||(mNextRequest->getType() == 2)) {
+			if (val <= 5.5) {
+				mNextRequest->getImage()->setResource(RES_LOADING1);
 			} else if (val <= 11) {
 				mNextRequest->getImage()->setResource(RES_LOADING2);
 			} else if (val <= 16.5) {

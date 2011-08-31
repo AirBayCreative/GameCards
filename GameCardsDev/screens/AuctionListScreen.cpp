@@ -158,6 +158,8 @@ void AuctionListScreen::drawList() {
 	int ind = listBox->getSelectedIndex();
 	if (ind < 0) {
 		ind = 0;
+	} else if (ind >= auctions.size()) {
+		ind = auctions.size()-1;
 	}
 	clearListBox();
 	for(int i = 0; i < auctions.size(); i++) {

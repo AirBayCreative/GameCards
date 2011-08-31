@@ -322,14 +322,17 @@ if ($_GET['friendinvite']){
   $receiveNumber = $_REQUEST['detail'];
   
   invite($tradeMethod, $receiveNumber, $iUserID, 1);
+  exit;
 }
 
 if ($_GET['friends']) {
 	friends($iUserID);
+	exit;
 }
 
 if ($_GET['notifications']) {
 	notifications($iUserID);
+	exit;
 }
 
 
@@ -343,6 +346,7 @@ if ($cardID = $_GET['tradecard']){
   $sentNote = $_REQUEST['note'];
   
   tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, 1);
+  exit;
 }
 
 //this saves a note for a user, per card

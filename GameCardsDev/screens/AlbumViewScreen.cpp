@@ -470,20 +470,20 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					feed->remHttp();
 				}
 				if (albumType == AT_COMPARE) {
-					next = new CompareScreen(this, RES_LOADING_FLIP, feed, false, cards.find(index[selected])->second, card);
+					next = new CompareScreen(this, RES_LOADING_FLIP1, feed, false, cards.find(index[selected])->second, card);
 					next->show();
 				} else if (albumType == AT_AUCTION) {
 					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
 					next->show();
 				} else {
 					if (albumType == AT_NEW_CARDS) {
-						next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
+						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 					}
 					else if (albumType == AT_DECK) {
-						next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
+						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
 					}
 					else {
-						next = new ImageScreen(this, RES_LOADING, feed, false, cards.find(index[selected])->second);
+						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second);
 					}
 					next->show();
 				}
@@ -836,7 +836,6 @@ void AlbumViewScreen::addCard(String cardId) {
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?addtodeck=1&deck_id=%s&card_id=%s", URL,
 			deckId.c_str(), cardId.c_str());
-	lprintfln(url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

@@ -264,6 +264,7 @@ if ($iUserCardID = $_GET['createauction']) {
 
 if ($_GET['leaders']) {
 	leaders();
+	exit;
 }
 
 if ($id=$_GET['leaderboard']) {
@@ -272,6 +273,7 @@ if ($id=$_GET['leaderboard']) {
 		$userid = $iUserID;
 	}
 	leaderboard($id, $userid);
+	exit;
 }
 
 //BUY ITEMS IN CART
@@ -318,14 +320,17 @@ if ($_GET['friendinvite']){
   $receiveNumber = $_REQUEST['detail'];
   
   invite($tradeMethod, $receiveNumber, $iUserID, 2);
+  exit;
 }
 
 if ($_GET['friends']) {
 	friends($iUserID);
+	exit;
 }
 
 if ($_GET['notifications']) {
 	notifications($iUserID);
+	exit;
 }
 
 //DO TRADE
@@ -338,6 +343,7 @@ if ($cardID = $_GET['tradecard']){
   $sentNote = $_REQUEST['note'];
   
   tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, 2);
+  exit;
 }
 
 //this saves a note for a user, per card

@@ -151,7 +151,6 @@ void MenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
-		lprintfln("url %s",url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
@@ -325,11 +324,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 
 void MenuScreen::mtxTagStart(const char* name, int len) {
 	parentTag = name;
-	lprintfln("parentTag %s",parentTag.c_str());
 }
 
 void MenuScreen::mtxTagData(const char* data, int len) {
-	lprintfln("mtxTagData() %s", data);
 	if(!strcmp(parentTag.c_str(), "notedate")) {
 			notedate = data;
 			tm t;
@@ -340,8 +337,6 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			t.tm_min = atoi(notedate.substr(14,2).c_str());
 			t.tm_sec = atoi(notedate.substr(17,2).c_str());
 			int ndate = mktime(&t);
-			lprintfln("notedate %d",ndate);
-			lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
 			if(ndate > atoi(feed->getNoteSeconds().c_str())){
 				feed->setNoteLoaded(true);
 				noteLabel->setCaption("*Notifications");
@@ -361,7 +356,6 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 }
 
 void MenuScreen::mtxParseError() {
-	lprintfln("mtxParseError()");
 	if(versionChecked ==0){
 		char buf[128] = "";
 		memset(buf, 0, 128);

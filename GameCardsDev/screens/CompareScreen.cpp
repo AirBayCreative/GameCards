@@ -176,14 +176,33 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 
 			flip=!flip;
-			if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != RES_LOADING_FLIP1 &&
+				imge->getResource() != RES_LOADING_FLIP2 &&
+				imge->getResource() != RES_LOADING_FLIP3 &&
+				imge->getResource() != RES_LOADING_FLIP4 &&
+				imge->getResource() != RES_LOADING_FLIP5 &&
+				imge->getResource() != RES_LOADING_FLIP6 &&
+				imge->getResource() != RES_LOADING_FLIP7 &&
+				imge->getResource() != RES_LOADING_FLIP8 &&
+				imge->getResource() != RES_LOADING_FLIP9 &&
+				imge->getResource() != RES_LOADING_FLIP10 &&
+				imge->getResource() != RES_LOADING_FLIP11 &&
+				imge->getResource() != RES_LOADING_FLIP12 &&
+				imge->getResource() != RES_LOADING_FLIP13 &&
+				imge->getResource() != RES_LOADING_FLIP14 &&
+				imge->getResource() != RES_LOADING_FLIP15 &&
+				imge->getResource() != RES_LOADING_FLIP16 &&
+				imge->getResource() != RES_LOADING_FLIP17 &&
+				imge->getResource() != RES_LOADING_FLIP18 &&
+				imge->getResource() != RES_EMPTY_FLIP &&
+				imge->getResource() != RES_TEMP) {
 				maDestroyObject(imge->getResource());
 			}
-			imge->setResource(RES_LOADING_FLIP);
+			imge->setResource(RES_LOADING_FLIP1);
 			imge->update();
 			imge->requestRepaint();
 
-			cmpge->setResource(RES_LOADING_FLIP);
+			cmpge->setResource(RES_LOADING_FLIP1);
 			cmpge->update();
 			cmpge->requestRepaint();
 
@@ -198,48 +217,8 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 			break;
 		case MAK_RIGHT:
-			/*if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
-				if(card->getStats().size()>0){
-					if(flip==card->getStats()[0]->getFrontOrBack()){
-						currentSelectedStat--;
-						if(currentSelectedStat < -1){
-							currentSelectedStat = 2;
-							Util::updateSoftKeyLayout("", "Back", "Select", mainLayout);
-							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
-						} else if (currentSelectedStat == -1) {
-							Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
-							imge->refreshWidget();
-							imge->statAdded = false;
-						} else {
-							Util::updateSoftKeyLayout("", "Back", "Select", mainLayout);
-							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
-						}
-					}
-				}
-			}*/
 			break;
 		case MAK_LEFT:
-			/*if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
-				if(card->getStats().size()>0){
-					if(flip==card->getStats()[0]->getFrontOrBack()){
-						if(currentSelectedStat <= card->getStats().size()-1){
-							currentSelectedStat++;
-						}
-						if (currentSelectedStat > card->getStats().size()-1) {
-							Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
-							imge->refreshWidget();
-							imge->statAdded = false;
-							currentSelectedStat = -1;
-						} else {
-							Util::updateSoftKeyLayout("", "Back", "Select", mainLayout);
-							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
-						}
-					}
-				}
-			}*/
 			break;
 		case MAK_SOFTLEFT:
 			break;
@@ -247,72 +226,6 @@ void CompareScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			previous->show();
 			break;
-		/*case MAK_FIRE:
-			if (card != NULL) {
-				if(flipOrSelect){
-					flip=!flip;
-					Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
-					imge->refreshWidget();
-					imge->statAdded = false;
-					currentSelectedStat = -1;
-					if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-						maDestroyObject(imge->getResource());
-					}
-
-					imge->setResource(RES_LOADING_FLIP);
-					imge->update();
-					imge->requestRepaint();
-
-					cmpge->setResource(RES_LOADING_FLIP);
-					cmpge->update();
-					cmpge->requestRepaint();
-
-					maUpdateScreen();
-					if (flip) {
-						Util::retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
-						Util::retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
-					} else {
-						Util::retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
-						Util::retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
-					}
-					flipOrSelect=0;
-					currentSelectedStat = -1;
-				}
-				else{
-					if (imge->getResource() != RES_LOADING_FLIP && imge->getResource() != RES_TEMP) {
-						if(currentSelectedStat!=-1){
-							if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
-								imge->refreshWidget();
-								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
-
-								Stat *stat = card->getStats()[currentSelectedStat];
-								if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
-									if (next != NULL) {
-										delete next;
-										next == NULL;
-									}
-									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
-									next->show();
-								}
-								else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
-								}
-								else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
-									String url = stat->getDisplay();
-									//maPlatformRequest will only work if the url starts with http://
-									//so we need to check for it, and add it if it isnt there
-									if (url.find("http://") != 0) {
-										url = "http://"+url;
-									}
-									maPlatformRequest(url.c_str());
-								}
-							}
-						}
-					}
-				}
-			} else {
-				previous->show();
-			}
-			break;*/
 	}
 }
 
