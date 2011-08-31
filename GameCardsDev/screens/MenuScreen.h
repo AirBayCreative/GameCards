@@ -21,7 +21,6 @@ private:
 	Label *noteLabel;
 	String parentTag, notedate;
 	int c, versionChecked;
-	bool iphone;
 	void mtxTagData(const char*, int);
 	void mtxTagStart(const char*, int);
 	void mtxParseError();

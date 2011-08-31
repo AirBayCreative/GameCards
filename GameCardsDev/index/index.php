@@ -1875,9 +1875,7 @@ if ($_GET['getcardsindeck']){
 if ($_GET['createdeck']){
 	$iDescription=base64_decode($_GET['description']);
 	$iCategoryID=$_GET['category_id'];
-	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
-			VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
-	$sOP = "<result>Deck Created!</result>";
+	$sOP = createDeck($iUserID,$iCategoryID,$iDescription);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;

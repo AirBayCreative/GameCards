@@ -41,7 +41,7 @@ private:
 	Screen *menu;
 	Screen *previous;
 	Card *card;
-	bool list, left, right, connError, busy, iphone;
+	bool list, left, right, connError, busy;
 	int index, screenType;
 	String parentTag, temp1, temp, error_msg, number;
 

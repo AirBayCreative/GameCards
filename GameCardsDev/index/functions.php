@@ -3022,6 +3022,20 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight) {
 	return $sOP;
 }
 
+function createDeck($iUserID,$iCategoryID,$iDescription) {
+	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
+		VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
+		
+	$deckIdQuery = myqu('SELECT deck_id
+		FROM mytcg_deck
+		WHERE user_id = '.$iUserID.' 
+		AND category_id = .'$iCategoryID.' 
+		AND description = ".'$iDescription.'"');
+	$deckId = $deckIdQuery[0]['deck_id'];
+	$sOP = "<created><deck_id>".$deckId."</deck_id><result>Deck Created!</result></created>";
+	
+	return $sOP;
+}
 
 /** 
 	SOME JOOMLA

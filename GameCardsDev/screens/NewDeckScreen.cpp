@@ -1,5 +1,6 @@
 #include "NewDeckScreen.h"
 #include "DeckListScreen.h"
+#include "EditDeckScreen.h"
 #include "../utils/Util.h"
 
 NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
@@ -14,9 +15,11 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 	categoryName = "";
 	categoryId = "";
 	chosenCategory = "";
+	deckId = "";
 
 	editBoxName = NULL;
 	album = NULL;
+	next = NULL;
 
 	busy = false;
 	empty = false;
@@ -61,6 +64,10 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 }
 
 NewDeckScreen::~NewDeckScreen() {
+	if (next != NULL) {
+		delete next;
+	}
+
 	delete mainLayout;
 
 	for (int i = 0; i < albums.size(); i++) {
@@ -75,6 +82,7 @@ NewDeckScreen::~NewDeckScreen() {
 	createResult = "";
 	categoryName = "";
 	categoryId = "";
+	deckId = "";
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -270,13 +278,6 @@ void NewDeckScreen::drawEnterNameScreen() {
 	editBoxName->setSelected(true);
 }
 
-void NewDeckScreen::drawCreateResultsScreen() {
-	clearListBox();
-	Util::updateSoftKeyLayout("Continue", "", "", mainLayout);
-
-	notice->setCaption(createResult);
-}
-
 void NewDeckScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
@@ -309,6 +310,10 @@ void NewDeckScreen::connReadFinished(Connection* conn, int result) {}
 void NewDeckScreen::xcConnError(int code) {
 	feed->remHttp();
 	busy = false;
+
+	if (phase == P_RESULTS) {
+		next->show();
+	}
 }
 
 void NewDeckScreen::mtxEncoding(const char* ) {
@@ -328,6 +333,8 @@ void NewDeckScreen::mtxTagData(const char* data, int len) {
 		categoryName += data;
 	} else if(!strcmp(parentTag.c_str(), "result")) {
 		createResult += data;
+	} else if(!strcmp(parentTag.c_str(), "deck_id")) {
+		deckId += data;
 	}
 }
 
@@ -351,7 +358,7 @@ void NewDeckScreen::mtxTagEnd(const char* name, int len) {
 
 		phase = P_RESULTS;
 
-		drawCreateResultsScreen();
+		next = new EditDeckScreen(previous, feed, deckId);
 	}
 }
 
