@@ -310,12 +310,22 @@ void AlbumLoadScreen::hide() {
 }
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
+	int total = listBox->getChildren().size();
+	int select = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if (select == 0) {
+				listBox->setSelectedIndex(total-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (select == total-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
@@ -529,23 +539,23 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	if (!strcmp(parentTag.c_str(), "usercategories")) {
 		//album->clearAll();
 	} else if(!strcmp(parentTag.c_str(), "albumname")) {
-		temp1 = data;
+		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), "albumid")) {
-		temp = data;
+		temp += data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
-		error_msg = data;
+		error_msg += data;
 	} else if(!strcmp(parentTag.c_str(), "categoryname")) {
-		temp1 = data;
+		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), "categoryid")) {
-		temp = data;
+		temp += data;
 	} else if(!strcmp(parentTag.c_str(), "gamedescription")) {
-		temp1 = data;
+		temp1 += data;
 	} else if(!strcmp(parentTag.c_str(), "gameid")) {
-		temp = data;
+		temp += data;
 	} else if (!strcmp(parentTag.c_str(), "hascards")) {
-		hasCards = data;
+		hasCards += data;
 	} else if (!strcmp(parentTag.c_str(), "updated")) {
-		updated = data;
+		updated += data;
 	}
 }
 

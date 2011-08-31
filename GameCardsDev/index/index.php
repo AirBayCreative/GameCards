@@ -34,10 +34,75 @@ $ng_pvp = "2";
 
 $root = "../";
 
+if ($_GET['addCreditsSMS']) {
+	$user_id = $_REQUEST['user_id'];
+	addCreditsSMS($user_id);
+	exit;
+}
+
+function addCreditsSMS($iUserID,$amount=350){
+  if(intval($iUserID) > 0){
+    $sql = "UPDATE mytcg_user SET credits = credits + ".$amount." WHERE user_id = ".$iUserID;
+    myqu($sql);
+    $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
+val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
+    myqu($sql);
+    $sql = "INSERT INTO mytcg_notifications (user_id, notification,
+notedate) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now())";
+    myqu($sql);
+  }
+}
 //BUYOUT AN AUCTION
 if ($_GET['updateauctions']){
 	updateAuctions();
 	exit;
+}
+function validip($ip){
+  if (!empty($ip) && ip2long($ip)!=-1){
+    $reserved_ips = array(
+      array('0.0.0.0','2.255.255.255'), 
+      array('10.0.0.0','10.255.255.255'),
+      array('127.0.0.0','127.255.255.255'),
+      array('169.254.0.0','169.254.255.255'),
+      array('172.16.0.0','172.31.255.255'),
+      array('192.0.2.0','192.0.2.255'),
+      array('192.168.0.0','192.168.255.255'),
+      array('255.255.255.0','255.255.255.255')
+    );
+   
+    foreach ($reserved_ips as $r) {
+      $min = ip2long($r[0]);
+      $max = ip2long($r[1]);
+      if ((ip2long($ip) >= $min) && (ip2long($ip) <= $max)) return false;
+    }
+    return true;
+  } else {
+    return false;
+  }
+}
+ 
+function getip(){
+  if (validip($_SERVER["HTTP_CLIENT_IP"])) {
+    return $_SERVER["HTTP_CLIENT_IP"];
+  }
+
+  foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip) {
+    if (validip(trim($ip))) {
+      return $ip;
+    }
+  }
+ 
+  if (validip($_SERVER["HTTP_X_FORWARDED"])) {
+    return $_SERVER["HTTP_X_FORWARDED"];
+  } elseif (validip($_SERVER["HTTP_FORWARDED_FOR"])) {
+    return $_SERVER["HTTP_FORWARDED_FOR"];
+  } elseif (validip($_SERVER["HTTP_FORWARDED"])) {
+    return $_SERVER["HTTP_FORWARDED"];
+  } elseif (validip($_SERVER["HTTP_X_FORWARDED"])) {
+    return $_SERVER["HTTP_X_FORWARDED"];
+  } else {
+    return $_SERVER["REMOTE_ADDR"];
+  }
 }
 
 //before checking if the user is logged in,check if they are registering a new user
@@ -52,7 +117,8 @@ if ($_GET['registeruser']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
-	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root);
+	$ip = getip();
+	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root,$ip);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -107,11 +173,12 @@ if ($iUserID == 0){
 	echo $sOP;
 	exit;	
 } else {
-	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif
+	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif, datediff(now(), date_last_visit) webdif 
 					FROM mytcg_user where user_id = '.$iUserID);
 	
 	$iUpdate=$aUpdate[0];
-	if ($iUpdate['dif'] >= 1) {
+	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
+
 		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
 				SELECT '.$iUserID.', descript, now(), val
 				FROM mytcg_transactiondescription
@@ -128,8 +195,8 @@ if ($iUserID == 0){
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now())');
 			
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');
+		/*myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');*/
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -212,7 +279,7 @@ if ($id=$_GET['leaderboard']) {
 
 //BUY ITEMS IN CART
 if ($_GET['buyproduct']){
-  $timestamp = time();
+	$timestamp = time();
 
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '350';
@@ -220,11 +287,14 @@ if ($_GET['buyproduct']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	if (!($iFreebie=$_GET['freebie'])) {
 		$iFreebie = -1;
 	}
 	$product = $_GET['buyproduct'];
-	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root);
+	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight);
 	exit();
 }
 
@@ -252,14 +322,17 @@ if ($_GET['friendinvite']){
   $receiveNumber = $_REQUEST['detail'];
   
   invite($tradeMethod, $receiveNumber, $iUserID, 1);
+  exit;
 }
 
 if ($_GET['friends']) {
 	friends($iUserID);
+	exit;
 }
 
 if ($_GET['notifications']) {
 	notifications($iUserID);
+	exit;
 }
 
 
@@ -273,6 +346,7 @@ if ($cardID = $_GET['tradecard']){
   $sentNote = $_REQUEST['note'];
   
   tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, 1);
+  exit;
 }
 
 //this saves a note for a user, per card
@@ -459,12 +533,15 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($iShowAll=$_GET['showall'])) {
 		$iShowAll = '1';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -478,6 +555,10 @@ if ($_GET['categoryauction']){
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
+	}
+	
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	$categoryId = $_GET['category_id'];
@@ -511,7 +592,6 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<username>'.$aOneCard['username'].'</username>'.$sCRLF;
 		$sOP.=$sTab.'<endDate>'.$aOneCard['end_date'].'</endDate>'.$sCRLF;
 		$sOP.=$sTab.'<lastBidUser>'.$aOneCard['last_bid_username'].'</lastBidUser>'.$sCRLF;
-		$sOP.=$sTab.'<cnt>'.$aOneCard['cnt'].'</cnt>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -524,7 +604,7 @@ if ($_GET['categoryauction']){
 		$sOP.=$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'],$root);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -560,7 +640,6 @@ if ($_GET['categoryauction']){
 	echo $sOP;
 	exit;
 }
-
 
 //get all the different payments
 if ($_GET['getpayments']) {
@@ -746,8 +825,8 @@ if ($_GET['playablecategories']){
 	$sOP='<categories>'.$sCRLF;
 	foreach ($results as $category) {
     if ($category['card_count'] >= 5) {
-			$sOP.='<category>'.$sCRLF;
 			$catName=myqu('SELECT description FROM mytcg_category WHERE category_id = '.$category['category_id']);
+			$sOP.='<category>'.$sCRLF;
 			$sOP.=$sTab.'<categoryid>'.trim($category['category_id']).'</categoryid>'.$sCRLF;
 			$sOP.=$sTab.'<categoryname>'.trim($catName[0]['description']).'</categoryname>'.$sCRLF;
 			$sOP.=$sTab.'<playablecards>'.trim($category['card_count']).'</playablecards>'.$sCRLF;
@@ -771,8 +850,11 @@ if ($_GET['loadgame']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	
-	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth,$root);
+	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -793,6 +875,9 @@ if ($_GET['continuegame']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	
 	//continue the game, if needed selecting a stat for the ai
 	continueGame($gameId, $iUserID, $iHeight, $iWidth);
@@ -811,7 +896,7 @@ if ($_GET['continuegame']) {
 	
 	if ($sOP == '') {
 		//load the game for the user
-		$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth,$root);
+		$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -828,6 +913,10 @@ if ($_GET['selectstat']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
+
 
 	$cardStatId = $_GET['statid'];
 	$gameId = $_GET['gameid'];
@@ -852,7 +941,7 @@ if ($_GET['selectstat']) {
 	//continueGame($gameId, $iUserID, $iHeight, $iWidth);
 	
 	//load the game for the user
-	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth,$root);
+	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight);
 	
 	//send xml with results back to the user
 	header('xml_length: '.strlen($sOP));
@@ -892,6 +981,9 @@ if ($_GET['declinegame']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	$newGame = false;
@@ -972,7 +1064,7 @@ if ($_GET['declinegame']) {
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth,$root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -993,6 +1085,9 @@ if ($_GET['confirmgame']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	
 	//we are going to need the incomplete status id
@@ -1025,7 +1120,7 @@ if ($_GET['confirmgame']) {
 	$sOP.=$sTab.'<phase>stat</phase>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth,$root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -1058,6 +1153,9 @@ if ($_GET['newgame']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '0';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	
 	$gameId = "";
 	$opponentId = "";
@@ -1085,7 +1183,7 @@ if ($_GET['newgame']) {
 		//we need to clear all the open games that are older than a minute, so we need all their ids
 		$oldOpenGame = myqu('SELECT g.game_id 
 			FROM mytcg_game g 
-			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 60 
+			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 120 
 			AND (g.gamestatus_id = '.$openId.' 
 			OR g.gamestatus_id = '.$closedId.')');
 		
@@ -1249,7 +1347,7 @@ if ($_GET['newgame']) {
 	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
 	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
 	if ($newGame) {
-		$height = resizeGCCard($iHeight, $iWidth,$root);
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
 		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
 		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
@@ -1267,18 +1365,12 @@ if ($_GET['getusergames']){
 	$openStatusQuery = myqu("SELECT gamestatus_id 
 		FROM mytcg_gamestatus gs 
 		WHERE lower(gs.description) = 'open'");
-	$openId = $openStatusQuery[0]['gamestatus_id'];
-	
-	//99
-	
+	$openId = $openStatusQuery[0]['gamestatus_id'];	
 	//and the closed status
 	$closedStatusQuery = myqu("SELECT gamestatus_id 
 		FROM mytcg_gamestatus gs 
 		WHERE lower(gs.description) = 'closed'");
 	$closedId = $closedStatusQuery[0]['gamestatus_id'];
-	
-	//3
-	
 	//we need to clear all the open games that are older than a minute, so we need all their ids
 	$oldOpenGame = myqu('SELECT g.game_id 
 		FROM mytcg_game g 
@@ -1834,12 +1926,15 @@ if ($iCategory=$_GET['cardsincategorynotdeck']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP = cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root,$iBBHeight);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -1854,6 +1949,9 @@ if ($_GET['getcardsindeck']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
@@ -1864,7 +1962,7 @@ if ($_GET['getcardsindeck']){
 		WHERE deck_id='.$iDeckID);
 	
 	$sOP = "<deck>";
-	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root);
+	$sOP .= cardsincategory(0,$iHeight,$iWidth,1,$lastCheckSeconds,$iUserID,$iDeckID,$root,$iBBHeight);
 	$sOP .= "<category_id>".$aDeckCategory[0]["category_id"]."</category_id>";
 	$sOP .= "</deck>";
 	header('xml_length: '.strlen($sOP));
@@ -1903,6 +2001,9 @@ if ($searchstring=$_GET['search']) {
 	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
@@ -1969,7 +2070,7 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb.png</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'],$root);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
 		$sFound='';
 		$iCountServer=0;

@@ -141,10 +141,50 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 }
 
 void GamePlayScreen::clearListBox() {
-	if (userImage != NULL && userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+	if (userImage != NULL &&
+		userImage->getResource() != RES_LOADING_FLIP1 &&
+		userImage->getResource() != RES_LOADING_FLIP2 &&
+		userImage->getResource() != RES_LOADING_FLIP3 &&
+		userImage->getResource() != RES_LOADING_FLIP4 &&
+		userImage->getResource() != RES_LOADING_FLIP5 &&
+		userImage->getResource() != RES_LOADING_FLIP6 &&
+		userImage->getResource() != RES_LOADING_FLIP7 &&
+		userImage->getResource() != RES_LOADING_FLIP8 &&
+		userImage->getResource() != RES_LOADING_FLIP9 &&
+		userImage->getResource() != RES_LOADING_FLIP10 &&
+		userImage->getResource() != RES_LOADING_FLIP11 &&
+		userImage->getResource() != RES_LOADING_FLIP12 &&
+		userImage->getResource() != RES_LOADING_FLIP13 &&
+		userImage->getResource() != RES_LOADING_FLIP14 &&
+		userImage->getResource() != RES_LOADING_FLIP15 &&
+		userImage->getResource() != RES_LOADING_FLIP16 &&
+		userImage->getResource() != RES_LOADING_FLIP17 &&
+		userImage->getResource() != RES_LOADING_FLIP18 &&
+		userImage->getResource() != RES_EMPTY_FLIP &&
+		userImage->getResource() != RES_TEMP) {
 		maDestroyObject(userImage->getResource());
 	}
-	if (oppImage != NULL && oppImage->getResource() != RES_LOADING_FLIP && oppImage->getResource() != RES_TEMP) {
+	if (oppImage != NULL &&
+		oppImage->getResource() != RES_LOADING_FLIP1 &&
+		oppImage->getResource() != RES_LOADING_FLIP2 &&
+		oppImage->getResource() != RES_LOADING_FLIP3 &&
+		oppImage->getResource() != RES_LOADING_FLIP4 &&
+		oppImage->getResource() != RES_LOADING_FLIP5 &&
+		oppImage->getResource() != RES_LOADING_FLIP6 &&
+		oppImage->getResource() != RES_LOADING_FLIP7 &&
+		oppImage->getResource() != RES_LOADING_FLIP8 &&
+		oppImage->getResource() != RES_LOADING_FLIP9 &&
+		oppImage->getResource() != RES_LOADING_FLIP10 &&
+		oppImage->getResource() != RES_LOADING_FLIP11 &&
+		oppImage->getResource() != RES_LOADING_FLIP12 &&
+		oppImage->getResource() != RES_LOADING_FLIP13 &&
+		oppImage->getResource() != RES_LOADING_FLIP14 &&
+		oppImage->getResource() != RES_LOADING_FLIP15 &&
+		oppImage->getResource() != RES_LOADING_FLIP16 &&
+		oppImage->getResource() != RES_LOADING_FLIP17 &&
+		oppImage->getResource() != RES_LOADING_FLIP18 &&
+		oppImage->getResource() != RES_EMPTY_FLIP &&
+		oppImage->getResource() != RES_TEMP) {
 		maDestroyObject(oppImage->getResource());
 	}
 
@@ -162,6 +202,7 @@ void GamePlayScreen::clearListBox() {
 	}
 	tempWidgets.clear();
 
+	//reuse, dont delete
 	userImage = NULL;
 	oppImage = NULL;
 }
@@ -278,11 +319,13 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
-	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
+	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
+
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
-	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP);
+	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
+
 	lblString = oppName + ": ";
 	lblString += oppCards;
 	lblString += " cards, ";
@@ -299,7 +342,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
-		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING);
+		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING1);
 		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
@@ -456,10 +499,29 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_CARD_DETAILS:
 					flip = !flip;
 					int height = listBox->getHeight();
-					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+					if (userImage->getResource() != RES_LOADING_FLIP1 &&
+						userImage->getResource() != RES_LOADING_FLIP2 &&
+						userImage->getResource() != RES_LOADING_FLIP3 &&
+						userImage->getResource() != RES_LOADING_FLIP4 &&
+						userImage->getResource() != RES_LOADING_FLIP5 &&
+						userImage->getResource() != RES_LOADING_FLIP6 &&
+						userImage->getResource() != RES_LOADING_FLIP7 &&
+						userImage->getResource() != RES_LOADING_FLIP8 &&
+						userImage->getResource() != RES_LOADING_FLIP9 &&
+						userImage->getResource() != RES_LOADING_FLIP10 &&
+						userImage->getResource() != RES_LOADING_FLIP11 &&
+						userImage->getResource() != RES_LOADING_FLIP12 &&
+						userImage->getResource() != RES_LOADING_FLIP13 &&
+						userImage->getResource() != RES_LOADING_FLIP14 &&
+						userImage->getResource() != RES_LOADING_FLIP15 &&
+						userImage->getResource() != RES_LOADING_FLIP16 &&
+						userImage->getResource() != RES_LOADING_FLIP17 &&
+						userImage->getResource() != RES_LOADING_FLIP18 &&
+						userImage->getResource() != RES_EMPTY_FLIP &&
+						userImage->getResource() != RES_TEMP) {
 						maDestroyObject(userImage->getResource());
 					}
-					userImage->setResource(RES_LOADING_FLIP);
+					userImage->setResource(RES_LOADING_FLIP1);
 					userImage->update();
 					userImage->requestRepaint();
 					maUpdateScreen();
@@ -476,7 +538,26 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_RIGHT:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
+					if (userImage->getResource() != RES_LOADING_FLIP1 &&
+						userImage->getResource() != RES_LOADING_FLIP2 &&
+						userImage->getResource() != RES_LOADING_FLIP3 &&
+						userImage->getResource() != RES_LOADING_FLIP4 &&
+						userImage->getResource() != RES_LOADING_FLIP5 &&
+						userImage->getResource() != RES_LOADING_FLIP6 &&
+						userImage->getResource() != RES_LOADING_FLIP7 &&
+						userImage->getResource() != RES_LOADING_FLIP8 &&
+						userImage->getResource() != RES_LOADING_FLIP9 &&
+						userImage->getResource() != RES_LOADING_FLIP10 &&
+						userImage->getResource() != RES_LOADING_FLIP11 &&
+						userImage->getResource() != RES_LOADING_FLIP12 &&
+						userImage->getResource() != RES_LOADING_FLIP13 &&
+						userImage->getResource() != RES_LOADING_FLIP14 &&
+						userImage->getResource() != RES_LOADING_FLIP15 &&
+						userImage->getResource() != RES_LOADING_FLIP16 &&
+						userImage->getResource() != RES_LOADING_FLIP17 &&
+						userImage->getResource() != RES_LOADING_FLIP18 &&
+						userImage->getResource() != RES_EMPTY_FLIP &&
+						userImage->getResource() != RES_TEMP && active) {
 						if(card->getStats().size()>0){
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								currentSelectedStat--;
@@ -497,7 +578,26 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_LEFT:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP && active) {
+					if (userImage->getResource() != RES_LOADING_FLIP1 &&
+						userImage->getResource() != RES_LOADING_FLIP2 &&
+						userImage->getResource() != RES_LOADING_FLIP3 &&
+						userImage->getResource() != RES_LOADING_FLIP4 &&
+						userImage->getResource() != RES_LOADING_FLIP5 &&
+						userImage->getResource() != RES_LOADING_FLIP6 &&
+						userImage->getResource() != RES_LOADING_FLIP7 &&
+						userImage->getResource() != RES_LOADING_FLIP8 &&
+						userImage->getResource() != RES_LOADING_FLIP9 &&
+						userImage->getResource() != RES_LOADING_FLIP10 &&
+						userImage->getResource() != RES_LOADING_FLIP11 &&
+						userImage->getResource() != RES_LOADING_FLIP12 &&
+						userImage->getResource() != RES_LOADING_FLIP13 &&
+						userImage->getResource() != RES_LOADING_FLIP14 &&
+						userImage->getResource() != RES_LOADING_FLIP15 &&
+						userImage->getResource() != RES_LOADING_FLIP16 &&
+						userImage->getResource() != RES_LOADING_FLIP17 &&
+						userImage->getResource() != RES_LOADING_FLIP18 &&
+						userImage->getResource() != RES_EMPTY_FLIP &&
+						userImage->getResource() != RES_TEMP && active) {
 						if(card->getStats().size()>0){
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								if(currentSelectedStat < card->getStats().size()-1){
@@ -579,10 +679,29 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					if (flipOrSelect) {
 						flip = !flip;
 						int height = listBox->getHeight();
-						if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+						if (userImage->getResource() != RES_LOADING_FLIP1 &&
+							userImage->getResource() != RES_LOADING_FLIP2 &&
+							userImage->getResource() != RES_LOADING_FLIP3 &&
+							userImage->getResource() != RES_LOADING_FLIP4 &&
+							userImage->getResource() != RES_LOADING_FLIP5 &&
+							userImage->getResource() != RES_LOADING_FLIP6 &&
+							userImage->getResource() != RES_LOADING_FLIP7 &&
+							userImage->getResource() != RES_LOADING_FLIP8 &&
+							userImage->getResource() != RES_LOADING_FLIP9 &&
+							userImage->getResource() != RES_LOADING_FLIP10 &&
+							userImage->getResource() != RES_LOADING_FLIP11 &&
+							userImage->getResource() != RES_LOADING_FLIP12 &&
+							userImage->getResource() != RES_LOADING_FLIP13 &&
+							userImage->getResource() != RES_LOADING_FLIP14 &&
+							userImage->getResource() != RES_LOADING_FLIP15 &&
+							userImage->getResource() != RES_LOADING_FLIP16 &&
+							userImage->getResource() != RES_LOADING_FLIP17 &&
+							userImage->getResource() != RES_LOADING_FLIP18 &&
+							userImage->getResource() != RES_EMPTY_FLIP &&
+							userImage->getResource() != RES_TEMP) {
 							maDestroyObject(userImage->getResource());
 						}
-						userImage->setResource(RES_LOADING_FLIP);
+						userImage->setResource(RES_LOADING_FLIP1);
 						userImage->update();
 						userImage->requestRepaint();
 						maUpdateScreen();
@@ -596,7 +715,26 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						currentSelectedStat=-1;
 					} else if (active) {
 						if (!busy) {
-							if (userImage->getResource() != RES_LOADING_FLIP && userImage->getResource() != RES_TEMP) {
+							if (userImage->getResource() != RES_LOADING_FLIP1 &&
+								userImage->getResource() != RES_LOADING_FLIP2 &&
+								userImage->getResource() != RES_LOADING_FLIP3 &&
+								userImage->getResource() != RES_LOADING_FLIP4 &&
+								userImage->getResource() != RES_LOADING_FLIP5 &&
+								userImage->getResource() != RES_LOADING_FLIP6 &&
+								userImage->getResource() != RES_LOADING_FLIP7 &&
+								userImage->getResource() != RES_LOADING_FLIP8 &&
+								userImage->getResource() != RES_LOADING_FLIP9 &&
+								userImage->getResource() != RES_LOADING_FLIP10 &&
+								userImage->getResource() != RES_LOADING_FLIP11 &&
+								userImage->getResource() != RES_LOADING_FLIP12 &&
+								userImage->getResource() != RES_LOADING_FLIP13 &&
+								userImage->getResource() != RES_LOADING_FLIP14 &&
+								userImage->getResource() != RES_LOADING_FLIP15 &&
+								userImage->getResource() != RES_LOADING_FLIP16 &&
+								userImage->getResource() != RES_LOADING_FLIP17 &&
+								userImage->getResource() != RES_LOADING_FLIP18 &&
+								userImage->getResource() != RES_EMPTY_FLIP &&
+								userImage->getResource() != RES_TEMP) {
 								if(currentSelectedStat>-1){
 									if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 										busy = true;
@@ -858,8 +996,10 @@ void GamePlayScreen::resetHeights() {
 
 void GamePlayScreen::animateSelectStat() {
 	int height = listBox->getHeight();
-	oppImage->setResource(RES_LOADING_FLIP);
+	oppImage->setResource(RES_LOADING_FLIP1);
+	oppImage->update();
 	oppImage->requestRepaint();
+	maUpdateScreen();
 	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
 
 	selected = false;

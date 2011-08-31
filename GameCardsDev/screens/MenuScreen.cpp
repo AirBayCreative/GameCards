@@ -48,8 +48,10 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	listBox->add(label);
 	if(feed->getNoteLoaded()){
 		noteLabel = Util::createSubLabel("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
 	}else{
 		noteLabel = Util::createSubLabel("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
 	}
 	noteLabel->addWidgetListener(this);
 	listBox->add(noteLabel);
@@ -129,8 +131,10 @@ void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 void MenuScreen::refresh() {
 	if(feed->getNoteLoaded()){
 		noteLabel->setCaption("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
 	}else{
 		noteLabel->setCaption("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
 	}
 }
 
@@ -144,7 +148,6 @@ void MenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
-		lprintfln("url %s",url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
@@ -165,6 +168,8 @@ void MenuScreen::hide() {
 }
 
 void MenuScreen::keyPressEvent(int keyCode) {
+	int total = listBox->getChildren().size();
+	int select = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
@@ -261,7 +266,8 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					Util::saveData(s.c_str(),"");
 				}
 				feed->setAll("");
-				Util::saveData("fd.sav","");
+				feed->setRegistered("1");
+				Util::saveData("fd.sav",feed->getAll().c_str());
 				Util::saveData("lb.sav","");
 
 				if (feed->getHttps() > 0) {
@@ -269,7 +275,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 				} else {
 					if(menu!=NULL){
-						delete menu;
+						//delete menu;
 					}
 					maExit(0);
 				}
@@ -279,9 +285,9 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
 #if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
-			if (menu!=NULL) {
-				delete menu;
-			}
+			/*if (menu!=NULL) {
+					delete menu;
+			}*/
 			int seconds = maLocalTime();
 			int secondsLength = Util::intlen(seconds);
 			char *secString = new char[secondsLength+1];
@@ -299,21 +305,27 @@ void MenuScreen::keyPressEvent(int keyCode) {
 #endif
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (select == total-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if (select == 0) {
+				listBox->setSelectedIndex(total-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 	}
 }
 
 void MenuScreen::mtxTagStart(const char* name, int len) {
 	parentTag = name;
-	lprintfln("parentTag %s",parentTag.c_str());
 }
 
 void MenuScreen::mtxTagData(const char* data, int len) {
-	lprintfln("mtxTagData() %s", data);
 	if(!strcmp(parentTag.c_str(), "notedate")) {
 			notedate = data;
 			tm t;
@@ -324,11 +336,10 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			t.tm_min = atoi(notedate.substr(14,2).c_str());
 			t.tm_sec = atoi(notedate.substr(17,2).c_str());
 			int ndate = mktime(&t);
-			lprintfln("notedate %d",ndate);
-			lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
 			if(ndate > atoi(feed->getNoteSeconds().c_str())){
 				feed->setNoteLoaded(true);
 				noteLabel->setCaption("*Notifications");
+				noteLabel->setFont(Util::getDefaultSelected());
 			}
 	}
 	else if (len > 0) {
@@ -344,7 +355,6 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 }
 
 void MenuScreen::mtxParseError() {
-	lprintfln("mtxParseError()");
 	if(versionChecked ==0){
 		char buf[128] = "";
 		memset(buf, 0, 128);

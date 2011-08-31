@@ -226,7 +226,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			feed->addHttp();
 			mHttp.finish();
-
 		}
 		delete [] url;
 	}

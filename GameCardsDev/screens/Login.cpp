@@ -60,7 +60,12 @@ void Login::drawLoginScreen() {
 	screen = S_LOGIN;
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
+	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+		Util::updateSoftKeyLayout("Log In", "Exit", "", mainLayout);
+	} else {
+		Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
+	}
+
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
@@ -278,7 +283,10 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						if (editBoxLogin->getText().length() < 6) {
+						if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+							notice->setCaption("Already registered for an account with this device.");
+							maVibrate(1000);
+						} else if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
 							maVibrate(1000);
 						}
@@ -346,7 +354,12 @@ void Login::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+				maExit(1);
+			} else {
+				previous->show();
+			}
+
 			break;
 		case MAK_UP:
 			if (index-2 > 0) {
@@ -412,8 +425,6 @@ void Login::mtxTagData(const char* data, int len) {
 		t.tm_min = atoi(notedate.substr(14,2).c_str());
 		t.tm_sec = atoi(notedate.substr(17,2).c_str());
 		int ndate = mktime(&t);
-		lprintfln("notedate %d",ndate);
-		lprintfln("feed->getNoteSeconds() %s",feed->getNoteSeconds().c_str());
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
 		}
@@ -434,6 +445,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setUnsuccessful("Success");
 		feed->setTouch(touch.c_str());
 		feed->setFreebie(freebie.c_str());
+		feed->setRegistered("1");
 		int seconds = maLocalTime();
 		int secondsLength = Util::intlen(seconds);
 		char *secString = new char[secondsLength+1];

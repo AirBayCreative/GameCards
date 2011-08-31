@@ -409,7 +409,7 @@ void Util::retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -440,7 +440,7 @@ void Util::retrieveProductThumb(MobImage *img, Product *product, ImageCache *mIm
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+"prod_"+product->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+"prod_"+product->getId()+".sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT)
 	{
@@ -476,7 +476,7 @@ void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mIma
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -504,7 +504,7 @@ void Util::retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f_flip.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f_flip.sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -541,7 +541,7 @@ void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImag
 
 	if (card != NULL) {
 		String filename = (FILE_PREFIX+card->getId()+"b.sav");
-		MAHandle store = maOpenStore(filename.c_str(), -1);
+		MAHandle store = maOpenStore(filename.c_str(), 0);
 		ImageCacheRequest* req1;
 		if(store != STERR_NONEXISTENT) {
 			MAHandle cacheimage = maCreatePlaceholder();
@@ -570,7 +570,7 @@ void Util::retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *m
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b_flip.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b_flip.sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -585,8 +585,7 @@ void Util::retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *m
 			mImageCache->request(req1);
 		}
 		cacheimage = -1;
-	}
-	else {
+	} else {
 		req1 = new ImageCacheRequest(img, card, 64, 4);
 		mImageCache->request(req1);
 	}
