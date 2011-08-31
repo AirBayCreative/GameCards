@@ -312,6 +312,7 @@ void NewDeckScreen::xcConnError(int code) {
 	busy = false;
 
 	if (phase == P_RESULTS) {
+		editBoxName->disableListener();
 		next->show();
 	}
 }
