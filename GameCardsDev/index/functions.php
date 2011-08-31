@@ -1005,8 +1005,8 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	
 	//add the log message, so players can see what happened.
 	myqu('INSERT INTO mytcg_gamelog 
-		(game_id, date, message, categorystat_id) 
-		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.')');
+		(game_id, date, message, categorystat_id, winner) 
+		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.', '.(($winnerId == 0 && $loserId == 0)?'0':(($winnerId==$userPlayerId)?'1':'2')).')');
 	
 	//if there was a winner, assign cards
 	if ($winnerId != 0 && $loserId != 0) {
@@ -3029,7 +3029,7 @@ function createDeck($iUserID,$iCategoryID,$iDescription) {
 	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
 		VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
 		
-	$deckIdQuery = myqu('SELECT deck_id 
+	$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
 		FROM mytcg_deck 
 		WHERE user_id = '.$iUserID.' 
 		AND category_id = '.$iCategoryID.' 
