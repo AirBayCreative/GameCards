@@ -183,14 +183,14 @@ if ($iUserID == 0){
 				
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
+			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now(), 1)');
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
+			VALUES ('.$iUserID.', "Please visit www.mytcg.net for an even greater Game Cards experience.", now(), 1)');
 			
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
+			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now(), 1)');
 			
 		/*myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now())');*/
@@ -1451,7 +1451,7 @@ if ($_GET['viewgamedetails']){
 
 /** get the date of the latest notification */
 if ($_GET['notedate']){
-	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' AND sysnote = 0 ORDER BY notedate DESC');
 	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
