@@ -9,8 +9,9 @@
 #include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
-		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType) {
+GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier,
+		String newGameType, bool againstFriend, String deckId) : mHttp(this),
+		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType), deckId(deckId) {
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	parentTag = "";
 	cardText = "";
@@ -97,12 +98,12 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 			notice->setCaption("Initialising new game...");
 
 			//work out how long the url will be, the 4 is for the & and = symbals
-			int urlLength = 80 + URLSIZE + categoryId.length() +
+			int urlLength = 90 + URLSIZE + categoryId.length() +
 				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d", URL,
-				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s", URL,
+				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 		}
 	}
 	else {
@@ -470,6 +471,7 @@ GamePlayScreen::~GamePlayScreen() {
 	message = "";
 	frontflipurl = "";
 	backflipurl = "";
+	deckId = "";
 }
 
 void GamePlayScreen::selectionChanged(Widget *widget, bool selected) {
@@ -640,12 +642,12 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Finding new game...");
 					phase = P_CARD_DETAILS;
 					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-					int urlLength = 65 + URLSIZE + gameId.length() +
+					int urlLength = 75 + URLSIZE + gameId.length() +
 							categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 					char *url = new char[urlLength];
 					memset(url,'\0',urlLength);
-					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d", URL,
-						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d&deckid=%s", URL,
+						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 					if(mHttp.isOpen()){
 						mHttp.close();
 					}
@@ -772,8 +774,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						int urlLength = 69 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d", URL,
-							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d%deckid=%s", URL,
+							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -814,8 +816,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								newGameType.length() + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d", URL,
-								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d&deckid=%s", URL,
+								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}

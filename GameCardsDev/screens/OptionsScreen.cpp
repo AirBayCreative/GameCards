@@ -14,7 +14,8 @@
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 
-OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number, String deckId) :mHttp(this),
+previous(previous), feed(feed), card(card), screenType(screenType), number(number), deckId(deckId) {
 	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	temp = "";
 	temp1 = "";
@@ -24,6 +25,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	busy = false;
 
 	menu = NULL;
+	album = NULL;
 	if (screenType == ST_LOGIN_OPTIONS) {
 	#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 		layout = Util::createMainLayout("", "");
@@ -129,7 +131,8 @@ OptionsScreen::~OptionsScreen() {
 	temp = "";
 	temp1 = "";
 	error_msg = "";
-	number="";
+	number = "";
+	deckId = "";
 
 	clearListBox();
 	listBox->clear();
@@ -137,7 +140,13 @@ OptionsScreen::~OptionsScreen() {
 	if(menu!=NULL){
 		delete menu;
 	}
+
+	if (album != NULL) {
+		delete album;
+		album = NULL;
+	}
 }
+
 void OptionsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
@@ -325,21 +334,21 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GamePlayScreen(this, feed, true, number, "1");
+						menu = new GamePlayScreen(this, feed, true, number, "1", false, deckId);
 						menu->show();
 					}
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GamePlayScreen(this, feed, true, number, "2");
+						menu = new GamePlayScreen(this, feed, true, number, "2", false, deckId);
 						menu->show();
 					}
 					else if (index == 2) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new GamePlayScreen(this, feed, true, number, "2", true);
+						menu = new GamePlayScreen(this, feed, true, number, "2", true, deckId);
 						menu->show();
 					}
 					break;
@@ -500,6 +509,9 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		connError = false;
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
+		if (album == NULL) {
+			album = new Albums();
+		}
 	} else {
 		connError = true;
 		mHttp.close();
