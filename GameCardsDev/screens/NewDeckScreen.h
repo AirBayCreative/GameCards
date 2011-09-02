@@ -52,9 +52,8 @@ private:
 
 	void drawSelectCategoryScreen();
 	void drawEnterNameScreen();
-	void drawCreateResultsScreen();
 
-	String deckName, errorString, parentTag, createResult, categoryName, categoryId;
+	String deckId, deckName, errorString, parentTag, createResult, categoryName, categoryId;
 
 	String chosenCategory;
 

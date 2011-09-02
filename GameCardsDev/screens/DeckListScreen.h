@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class DeckListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DeckListScreen(Screen *previous, Feed *feed);
+	DeckListScreen(Screen *previous, Feed *feed, int screenType = 0, String categoryId = 0);
 	~DeckListScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -28,7 +28,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 #endif
-
+	enum screenTypes {ST_EDIT=0, ST_SELECT};
 	void refresh();
 private:
 	Screen *previous;
@@ -46,9 +46,9 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag;
+	String parentTag, categoryId;
 	String deckId, description;
-	int moved;
+	int moved, screenType;
 
 	void clearListBox();
 	void clearAlbums();

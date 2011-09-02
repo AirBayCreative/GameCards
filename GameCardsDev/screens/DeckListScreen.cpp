@@ -5,10 +5,11 @@
 #include "NewDeckScreen.h"
 #include "EditDeckScreen.h"
 #include "DeckListScreen.h"
+#include "OptionsScreen.h"
 #include "../utils/Util.h"
 
-DeckListScreen::DeckListScreen(Screen *previous, Feed *feed)
-		:mHttp(this), previous(previous), feed(feed) {
+DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, String categoryId)
+		:mHttp(this), previous(previous), feed(feed), screenType(screenType), categoryId(categoryId) {
 	lprintfln("DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	layout = Util::createMainLayout("Select", "Back", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -28,11 +29,25 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed)
 
 	notice->setCaption("Loading decks...");
 
-	//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
-	int urlLength = strlen("?getalldecks=1") + URLSIZE;
-	char *url = new char[urlLength+1];
-	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getalldecks=1", URL);
+	int urlLength = 0;
+	char *url = NULL;
+
+	switch (screenType) {
+		case ST_EDIT:
+			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
+			urlLength = strlen("?getalldecks=1") + URLSIZE;
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?getalldecks=1", URL);
+			break;
+		case ST_SELECT:
+			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
+			urlLength = strlen("?getcategorydecks=1&category_id=") + categoryId.length() + URLSIZE;
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?getcategorydecks=1&category_id=%s", URL, categoryId.c_str());
+			break;
+	}
 
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -61,6 +76,7 @@ DeckListScreen::~DeckListScreen() {
 	parentTag= "";
 	description = "";
 	deckId = "";
+	categoryId = "";
 
 	if (next != NULL) {
 		delete next;
@@ -134,9 +150,11 @@ void DeckListScreen::clearListBox() {
 }
 
 void DeckListScreen::drawList() {
-	lbl = Util::createSubLabel("New Deck");
-	lbl->addWidgetListener(this);
-	kinListBox->add(lbl);
+	if (screenType == ST_EDIT) {
+		lbl = Util::createSubLabel("New Deck");
+		lbl->addWidgetListener(this);
+		kinListBox->add(lbl);
+	}
 	for(int i = 0; i < albums.size(); i++) {
 		lbl = Util::createSubLabel(albums[i]->getDescription());
 		lbl->addWidgetListener(this);
@@ -212,19 +230,28 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
 			if (!selecting) {
-				if (kinListBox->getSelectedIndex() == 0) {
-					if (next != NULL) {
-						delete next;
-					}
-					next = new NewDeckScreen(this, feed);
-					next->show();
-				}
-				else {
-					if (next != NULL) {
-						delete next;
-					}
-					next = new EditDeckScreen(this, feed, albums[kinListBox->getSelectedIndex()-1]->getId());
-					next->show();
+				switch (screenType) {
+					case ST_EDIT:
+						if (kinListBox->getSelectedIndex() == 0) {
+							if (next != NULL) {
+								delete next;
+							}
+							next = new NewDeckScreen(this, feed);
+							next->show();
+						}
+						else {
+							if (next != NULL) {
+								delete next;
+							}
+							next = new EditDeckScreen(this, feed, albums[kinListBox->getSelectedIndex()-1]->getId());
+							next->show();
+						}
+						break;
+					case ST_SELECT:
+						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL,
+							categoryId, albums[kinListBox->getSelectedIndex()]->getId());
+						next->show();
+						break;
 				}
 			}
 			break;
@@ -289,7 +316,19 @@ void DeckListScreen::mtxTagEnd(const char* name, int len) {
 		description = "";
 	}
 	else if (!strcmp(name, "decks")) {
-		drawList();
+		if (albums.size() <= 1 && screenType == ST_SELECT) {
+			if (albums.size() == 0) {
+				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, categoryId, "-1");
+				next->show();
+			}
+			else {
+				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, categoryId, albums[0]->getId());
+				next->show();
+			}
+		}
+		else {
+			drawList();
+		}
 		notice->setCaption("");
 	}
 }

@@ -1005,8 +1005,8 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 	
 	//add the log message, so players can see what happened.
 	myqu('INSERT INTO mytcg_gamelog 
-		(game_id, date, message, categorystat_id) 
-		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.')');
+		(game_id, date, message, categorystat_id, winner) 
+		VALUES('.$gameId.', now(), \''.$exp.'\', '.$statTypeId.', '.(($winnerId == 0 && $loserId == 0)?'0':(($winnerId==$userPlayerId)?'1':'2')).')');
 	
 	//if there was a winner, assign cards
 	if ($winnerId != 0 && $loserId != 0) {
@@ -2179,7 +2179,7 @@ function userdetails($iUserID,$iHeight,$iWidth,$root) {
 	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.'/cards/loading.png</loadingurl>'.$sCRLF;
 	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/loadingFlip.png</loadingurlflip>'.$sCRLF;
 	
-	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' ORDER BY notedate DESC');
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' AND sysnote = 0 ORDER BY notedate DESC');
 	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	
 	$sOP.='</userdetails>';
@@ -3025,6 +3025,20 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight) {
 	return $sOP;
 }
 
+function createDeck($iUserID,$iCategoryID,$iDescription) {
+	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
+		VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');
+		
+	$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
+		FROM mytcg_deck 
+		WHERE user_id = '.$iUserID.' 
+		AND category_id = '.$iCategoryID.' 
+		AND description = "'.$iDescription.'"');
+	$deckId = $deckIdQuery[0]['deck_id'];
+	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Deck Created!</result></created>';
+	
+	return $sOP;
+}
 
 /** 
 	SOME JOOMLA

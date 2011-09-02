@@ -18,16 +18,11 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	versionChecked=0;
 	menu = NULL;
-	iphone = false;
 #if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
-	iphone = true;
+	mainLayout = Util::createMainLayout("", "", true);
+#else
+	mainLayout = Util::createMainLayout("", "Exit", true);
 #endif
-
-	if (iphone) {
-		mainLayout = Util::createMainLayout("", "", true);
-	} else {
-		mainLayout = Util::createMainLayout("", "Exit", true);
-	}
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	label = Util::createSubLabel("Albums");
@@ -75,9 +70,11 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label = Util::createSubLabel("Redeem");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 	label = Util::createSubLabel("Log Out");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
 	label = new Label(0, 0, scrWidth-(PADDING*2), 72, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
 
@@ -260,6 +257,7 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				menu = new RedeemScreen(feed, this);
 				menu->show();
 			} else if (index == 13) {
+#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
@@ -281,29 +279,30 @@ void MenuScreen::keyPressEvent(int keyCode) {
 					}
 					maExit(0);
 				}
+#endif
 			}
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			if (!iphone) {
-				/*if (menu!=NULL) {
+#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+			/*if (menu!=NULL) {
 					delete menu;
-				}*/
-				int seconds = maLocalTime();
-				int secondsLength = Util::intlen(seconds);
-				char *secString = new char[secondsLength+1];
-				memset(secString,'\0',secondsLength+1);
-				sprintf(secString, "%d", seconds);
-				feed->setSeconds(secString);
-				Util::saveData("fd.sav", feed->getAll().c_str());
+			}*/
+			int seconds = maLocalTime();
+			int secondsLength = Util::intlen(seconds);
+			char *secString = new char[secondsLength+1];
+			memset(secString,'\0',secondsLength+1);
+			sprintf(secString, "%d", seconds);
+			feed->setSeconds(secString);
+			Util::saveData("fd.sav", feed->getAll().c_str());
 
-				if (feed->getHttps() > 0) {
-					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-				} else {
-					maExit(0);
-				}
+			if (feed->getHttps() > 0) {
+				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+				label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
+			} else {
+				maExit(0);
 			}
+#endif
 			break;
 		case MAK_DOWN:
 			if (select == total-1) {
