@@ -39,7 +39,7 @@ public:
 private:
 	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
-	ImageCache *imageCache;
+	ImageCache *imageCacheUser, *imageCacheOpp;
 	MobImage *userImage, *oppImage;
 	Label *notice, *label;
 	KineticListBox *listBox;

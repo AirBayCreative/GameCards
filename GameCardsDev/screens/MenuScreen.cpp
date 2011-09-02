@@ -345,7 +345,7 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 	}
 	else if (len > 0) {
 		if(menu!=NULL){
-			delete menu;
+			//delete menu;
 		}
 		String find = String(data);
 		if (find.find("http://") == 0) {

@@ -42,7 +42,8 @@ private:
 	Card *card;
 	Feed *feed;
 	MobImage *imge;
-	ImageCache *imageCache;
+	ImageCache *imageCacheFront;
+	ImageCache *imageCacheBack;
 	Layout *mainLayout;
 	ListBox *listBox;
 	int height, screenType, flipOrSelect, currentSelectedStat;

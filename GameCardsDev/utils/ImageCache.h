@@ -24,6 +24,7 @@ class ImageCache : public HttpConnectionListener
     void clearImageCache();
 
   private:
+    Map<String, String> mRequestsUrl;
     Vector<ImageCacheRequest*>  mRequests;
     HttpConnection mHttp;
     bool mIsBusy, destroyed;

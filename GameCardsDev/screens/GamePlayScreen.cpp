@@ -64,7 +64,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	userImage = NULL;
 	oppImage = NULL;
 
-	imageCache = new ImageCache();
+	imageCacheUser = new ImageCache();
+	imageCacheOpp = new ImageCache();
 
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -188,7 +189,8 @@ void GamePlayScreen::clearListBox() {
 		maDestroyObject(oppImage->getResource());
 	}
 
-	imageCache->clearImageCache();
+	imageCacheUser->clearImageCache();
+	imageCacheOpp->clearImageCache();
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
@@ -298,7 +300,8 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
 
-	imageCache->clearImageCache();
+	imageCacheUser->clearImageCache();
+	imageCacheOpp->clearImageCache();
 	phase = P_CARD_DETAILS;
 
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
@@ -321,7 +324,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
 
-	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
@@ -332,10 +335,10 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += (!active)?"Selecting stat...":"Waiting";
 	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	if (!active) {
-		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
 	}
 	else {
-		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCache);
+		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCacheOpp);
 	}
 }
 
@@ -343,7 +346,7 @@ void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING1);
-		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
+		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCacheUser);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -446,7 +449,8 @@ GamePlayScreen::~GamePlayScreen() {
 		feed->remHttp();
 		next = NULL;
 	}
-	delete imageCache;
+	delete imageCacheUser;
+	delete imageCacheOpp;
 
 	delete [] feedLayouts;
 
@@ -526,10 +530,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					userImage->requestRepaint();
 					maUpdateScreen();
 					if (flip) {
-						Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 					}
 					else {
-						Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCacheUser);
 					}
 					currentSelectedStat=-1;
 					break;
@@ -706,10 +710,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						userImage->requestRepaint();
 						maUpdateScreen();
 						if (flip) {
-							Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 						}
 						else {
-							Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCacheUser);
 						}
 						flipOrSelect=0;
 						currentSelectedStat=-1;
@@ -1000,7 +1004,7 @@ void GamePlayScreen::animateSelectStat() {
 	oppImage->update();
 	oppImage->requestRepaint();
 	maUpdateScreen();
-	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
 
 	selected = false;
 	ticks = 0;
@@ -1318,8 +1322,8 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 				case P_OPPMOVE:
 					notice->setCaption("");
 					int height = listBox->getHeight();
-					Util::retrieveBackFlip(userImage, card, height, imageCache);
-					Util::retrieveBackFlip(oppImage, oppCard, height, imageCache);
+					Util::retrieveBackFlip(userImage, card, height, imageCacheUser);
+					Util::retrieveBackFlip(oppImage, oppCard, height, imageCacheOpp);
 					for (int i = 0; i < oppCard->getStats().size(); i++) {
 						if (strcmp(oppCard->getStatAt(i)->getCategoryStatId().c_str(), categoryStatId.c_str()) == 0) {
 							currentSelectedStat = i;

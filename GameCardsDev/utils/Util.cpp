@@ -395,9 +395,11 @@ void Util::returnImage(MobImage *img, MAHandle i, int height)
 {
 	MAHandle imageh = maCreatePlaceholder();
 	maCreateImageFromData(imageh, i, 0, maGetDataSize(i));
-	img->setResource(imageh);
-	img->update();
-	img->requestRepaint();
+	if (img != NULL) {
+		img->setResource(imageh);
+		//img->update();
+		img->requestRepaint();
+	}
 	maUpdateScreen();
 	imageh = -1;
 	i = -1;
@@ -469,9 +471,9 @@ void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mIma
 	if (card == NULL) {
 		return;
 	}
-	if (img == NULL) {
+	/*if (img == NULL) {
 		return;
-	}
+	}*/
 	if (mImageCache == NULL) {
 		return;
 	}
@@ -484,6 +486,9 @@ void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mIma
 		maCloseStore(store, 0);
 
 		if (maGetDataSize(cacheimage) > 0) {
+			if (img == NULL) {
+				return;
+			}
 			returnImage(img, cacheimage, 64);
 		}
 		else {
@@ -532,9 +537,9 @@ void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImag
 	if (card == NULL) {
 		return;
 	}
-	if (img == NULL) {
+	/*if (img == NULL) {
 		return;
-	}
+	}*/
 	if (mImageCache == NULL) {
 		return;
 	}
@@ -549,6 +554,9 @@ void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImag
 			maCloseStore(store, 0);
 
 			if (maGetDataSize(cacheimage) > 0) {
+				if (img == NULL) {
+					return;
+				}
 				returnImage(img, cacheimage, 64);
 			}
 			else {
