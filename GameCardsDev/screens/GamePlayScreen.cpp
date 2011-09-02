@@ -9,8 +9,9 @@
 #include "OptionsScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType, bool againstFriend) : mHttp(this),
-		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType) {
+GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier,
+		String newGameType, bool againstFriend, String deckId) : mHttp(this),
+		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType), deckId(deckId) {
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	parentTag = "";
 	cardText = "";
@@ -64,7 +65,8 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	userImage = NULL;
 	oppImage = NULL;
 
-	imageCache = new ImageCache();
+	imageCacheUser = new ImageCache();
+	imageCacheOpp = new ImageCache();
 
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -97,12 +99,12 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 			notice->setCaption("Initialising new game...");
 
 			//work out how long the url will be, the 4 is for the & and = symbals
-			int urlLength = 80 + URLSIZE + categoryId.length() +
+			int urlLength = 90 + URLSIZE + categoryId.length() +
 				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d", URL,
-				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s", URL,
+				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 		}
 	}
 	else {
@@ -188,7 +190,8 @@ void GamePlayScreen::clearListBox() {
 		maDestroyObject(oppImage->getResource());
 	}
 
-	imageCache->clearImageCache();
+	imageCacheUser->clearImageCache();
+	imageCacheOpp->clearImageCache();
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
@@ -298,7 +301,8 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	currentSelectedStat = -1;
 
-	imageCache->clearImageCache();
+	imageCacheUser->clearImageCache();
+	imageCacheOpp->clearImageCache();
 	phase = P_CARD_DETAILS;
 
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
@@ -321,7 +325,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
 
-	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
 	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
@@ -332,10 +336,10 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += (!active)?"Selecting stat...":"Waiting";
 	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
 	if (!active) {
-		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
 	}
 	else {
-		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCache);
+		Util::retrieveBackFlip(oppImage, gcCard, height-PADDING*2, imageCacheOpp);
 	}
 }
 
@@ -343,7 +347,7 @@ void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING1);
-		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCache);
+		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCacheUser);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -446,7 +450,8 @@ GamePlayScreen::~GamePlayScreen() {
 		feed->remHttp();
 		next = NULL;
 	}
-	delete imageCache;
+	delete imageCacheUser;
+	delete imageCacheOpp;
 
 	delete [] feedLayouts;
 
@@ -470,6 +475,7 @@ GamePlayScreen::~GamePlayScreen() {
 	message = "";
 	frontflipurl = "";
 	backflipurl = "";
+	deckId = "";
 }
 
 void GamePlayScreen::selectionChanged(Widget *widget, bool selected) {
@@ -526,10 +532,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					userImage->requestRepaint();
 					maUpdateScreen();
 					if (flip) {
-						Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 					}
 					else {
-						Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+						Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCacheUser);
 					}
 					currentSelectedStat=-1;
 					break;
@@ -640,12 +646,12 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Finding new game...");
 					phase = P_CARD_DETAILS;
 					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-					int urlLength = 65 + URLSIZE + gameId.length() +
+					int urlLength = 75 + URLSIZE + gameId.length() +
 							categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 					char *url = new char[urlLength];
 					memset(url,'\0',urlLength);
-					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d", URL,
-						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d&deckid=%s", URL,
+						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 					if(mHttp.isOpen()){
 						mHttp.close();
 					}
@@ -706,10 +712,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						userImage->requestRepaint();
 						maUpdateScreen();
 						if (flip) {
-							Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 						}
 						else {
-							Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCache);
+							Util::retrieveFrontFlip(userImage, card, height-PADDING*2, imageCacheUser);
 						}
 						flipOrSelect=0;
 						currentSelectedStat=-1;
@@ -772,8 +778,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						int urlLength = 69 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d", URL,
-							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d%deckid=%s", URL,
+							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -814,8 +820,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								newGameType.length() + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d", URL,
-								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d&deckid=%s", URL,
+								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
@@ -1000,7 +1006,7 @@ void GamePlayScreen::animateSelectStat() {
 	oppImage->update();
 	oppImage->requestRepaint();
 	maUpdateScreen();
-	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCache);
+	Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
 
 	selected = false;
 	ticks = 0;
@@ -1318,8 +1324,8 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 				case P_OPPMOVE:
 					notice->setCaption("");
 					int height = listBox->getHeight();
-					Util::retrieveBackFlip(userImage, card, height, imageCache);
-					Util::retrieveBackFlip(oppImage, oppCard, height, imageCache);
+					Util::retrieveBackFlip(userImage, card, height, imageCacheUser);
+					Util::retrieveBackFlip(oppImage, oppCard, height, imageCacheOpp);
 					for (int i = 0; i < oppCard->getStats().size(); i++) {
 						if (strcmp(oppCard->getStatAt(i)->getCategoryStatId().c_str(), categoryStatId.c_str()) == 0) {
 							currentSelectedStat = i;

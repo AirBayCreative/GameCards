@@ -7,6 +7,7 @@
 #include "GamePlayScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Album.h"
+#include "DeckListScreen.h"
 
 void AlbumLoadScreen::refresh() {
 	show();
@@ -405,8 +406,10 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case ST_PLAY:
-						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
+						next = new DeckListScreen(this, feed, DeckListScreen::ST_SELECT, val->getId());
 						next->show();
+						/*next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
+						next->show();*/
 						/*next = new GamePlayScreen(this, feed, true, val->getId());
 						next->show();*/
 						break;

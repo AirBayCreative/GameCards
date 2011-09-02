@@ -948,6 +948,7 @@ if ($_GET['declinegame']) {
 	//thing is, if the user declined a game, he didnt specify an opponent, or ai. so after declining, we dont need to go through the whole create process, we can skip some
 	$gameId = $_GET['gameid'];
 	$categoryId = $_GET['categoryid'];
+	$deckId = $_GET['deckid'];
 	
 	//we are gonna need the open status id
 	$openStatusQuery = myqu("SELECT gamestatus_id 
@@ -1045,10 +1046,10 @@ if ($_GET['declinegame']) {
 	}
 	
 	//add the player to the game
-	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+		VALUES ('.$gameId.', '.$iUserID.', 0, 1, '.$deckId.')');
 	
-	setDeck($iUserID, $categoryId, $gameId);
+	//setDeck($iUserID, $categoryId, $gameId);
 	
 	if (!$newGame) {
 		initialiseGame($iUserID, $gameId);
@@ -1073,6 +1074,7 @@ if ($_GET['declinegame']) {
 
 /** confirms that the user is up for the game, and initialises it */
 if ($_GET['confirmgame']) {
+	$deckId = $_GET['deckid'];
 	$gameId = $_GET['gameid'];
 	
 	if (!($iHeight=$_GET['height'])) {
@@ -1097,15 +1099,15 @@ if ($_GET['confirmgame']) {
 				WHERE game_id = '.$gameId);
 	
 	//add the player to the game
-	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', 0, 1)');
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+		VALUES ('.$gameId.', '.$iUserID.', 0, 1, '.$deckId.')');
 	
 	$categoryQuery = myqu('SELECT category_id 
 		FROM mytcg_game 
 		WHERE game_id = '.$gameId);
 	$categoryId = $categoryQuery[0]['category_id'];
 	
-	setDeck($iUserID, $categoryId, $gameId);
+	//setDeck($iUserID, $categoryId, $gameId);
 	
 	initialiseGame($iUserID, $gameId);
 	
@@ -1132,6 +1134,7 @@ if ($_GET['newgame']) {
 	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
 	$newGameType = $_GET['newgametype'];
+	$deckId = $_GET['deckid'];
 	
 	//we need to check if the user wants to play against a specific person
 	if (!($friend=$_GET['friend'])) {
@@ -1189,7 +1192,7 @@ if ($_GET['newgame']) {
 		
 		//if the user specified a friend
 		if ($friend != '') {
-			
+		
 			$aFriend=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$friend}'");
 			$friendid = 0;
 			if (sizeof($aFriend) > 0) {
@@ -1313,7 +1316,7 @@ if ($_GET['newgame']) {
 		$gameId = $gameIdQuery[0]['game_id'];
 		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, date_created) 
 			SELECT '.$gameId.', (SELECT gamestatus_id FROM mytcg_gamestatus WHERE lower(description) = "incomplete"),
-			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now(), now() 
+			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "stat"), '.$categoryId.', now(), now()
 			FROM DUAL');
 		
 		//get the ai users
@@ -1328,10 +1331,10 @@ if ($_GET['newgame']) {
 	}
 	
 	//add the player to the game, the host goes first
-	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id)
-		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').')');
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').', '.$deckId.')');
 	
-	setDeck($iUserID, $categoryId, $gameId);
+	//setDeck($iUserID, $categoryId, $gameId);
 	
 	if (!$newGame) {
 		initialiseGame($iUserID, $gameId, ($newGameType == $ng_ai)?45:-1);
@@ -1855,6 +1858,38 @@ if ($_GET['getalldecks']){
 	$aDeckDetails=myqu('SELECT deck_id, description 
 		FROM mytcg_deck 
 		WHERE user_id='.$iUserID);
+	$sOP='<decks>'.$sCRLF;
+	$iCount=0;
+	while ($aDeckDetail=$aDeckDetails[$iCount]){
+		$sOP.='<deck>'.$sCRLF;
+		$sOP.=$sTab.'<deck_id>'.trim($aDeckDetail['deck_id']).'</deck_id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aDeckDetail['description']).'</desc>'.$sCRLF;	
+		$sOP.='</deck>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</decks>';
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** give all the user decks in a category */
+if ($_GET['getcategorydecks']){
+	$iCategoryId=$_GET['category_id'];
+	
+	//only returns complete decks
+	$aDeckDetails=myqu('SELECT d.deck_id, d.description, c.cards 
+		FROM mytcg_deck d
+		INNER JOIN (SELECT uc.deck_id, count(uc.usercard_id) cards 
+		FROM mytcg_usercard uc
+		WHERE uc.user_id = '.$iUserID.'
+		AND uc.deck_id IS NOT NULL
+		GROUP BY uc.deck_id) c
+		ON c.deck_id = d.deck_id
+		WHERE d.user_id='.$iUserID.' 
+		AND d.category_id = '.$iCategoryId.' 
+		AND c.cards = 10');
 	$sOP='<decks>'.$sCRLF;
 	$iCount=0;
 	while ($aDeckDetail=$aDeckDetails[$iCount]){

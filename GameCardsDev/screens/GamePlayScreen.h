@@ -19,7 +19,7 @@ using namespace MAUtil;
 
 class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
 public:
-	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false); //the newGameType should correspond to one of the ng vars in the Util.h
+	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false, String deckId=""); //the newGameType should correspond to one of the ng vars in the Util.h
 	~GamePlayScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -39,7 +39,7 @@ public:
 private:
 	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
-	ImageCache *imageCache;
+	ImageCache *imageCacheUser, *imageCacheOpp;
 	MobImage *userImage, *oppImage;
 	Label *notice, *label;
 	KineticListBox *listBox;
@@ -51,7 +51,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, gameId, categoryId, lastMove;
+	String parentTag, cardText, gameId, categoryId, lastMove, deckId;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
 	String statType, statDescription, cardStatId, cardName, statDesc, statIVal, message, userCards, oppCards, userName, oppName, categoryStatId;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, ticks, lfmTicks;

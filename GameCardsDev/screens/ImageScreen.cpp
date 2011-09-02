@@ -13,7 +13,8 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
-	imageCache = new ImageCache();
+	imageCacheFront = new ImageCache();
+	imageCacheBack = new ImageCache();
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
@@ -37,13 +38,16 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	this->setMain(mainLayout);
 	if (card != NULL) {
 		if (flip) {
-			Util::retrieveBack(imge, card, height-PADDING*2, imageCache);
+			Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+			Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
 		} else {
-			Util::retrieveFront(imge, card, height-PADDING*2, imageCache);
+			Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+			Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
 		}
 	}
 	else {
-		imageCache = NULL;
+		imageCacheFront = NULL;
+		imageCacheBack = NULL;
 	}
 
 	isAuction = false;
@@ -153,9 +157,12 @@ ImageScreen::~ImageScreen() {
 		feed->remHttp();
 		next = NULL;
 	}
-	if (imageCache != NULL) {
-		delete imageCache;
+	if (imageCacheFront != NULL) {
+		delete imageCacheFront;
 	}
+	if (imageCacheBack != NULL) {
+			delete imageCacheBack;
+		}
 }
 void ImageScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
@@ -216,9 +223,11 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			imge->requestRepaint();
 			maUpdateScreen();
 			if (flip) {
-				Util::retrieveBack(imge, card, height-PADDING*2, imageCache);
+				Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+				Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
 			} else {
-				Util::retrieveFront(imge, card, height-PADDING*2, imageCache);
+				Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+				Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
 			}
 			currentSelectedStat = -1;
 			break;
@@ -295,12 +304,14 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						maUpdateScreen();
 
 						if (flip) {
-							if ((imageCache != NULL)&&(imge != NULL)) {
-								Util::retrieveBack(imge, card, height-PADDING*2, imageCache);
+							if ((imageCacheBack != NULL)&&(imge != NULL)) {
+								Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+								Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
 							}
 						} else {
-							if ((imageCache != NULL)&&(imge != NULL)) {
-								Util::retrieveFront(imge, card, height-PADDING*2, imageCache);
+							if ((imageCacheFront != NULL)&&(imge != NULL)) {
+								Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+								Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
 							}
 						}
 						flipOrSelect=0;
