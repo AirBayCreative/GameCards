@@ -32,6 +32,9 @@ void ImageCache::request(ImageCacheRequest* req)
 		mRequests.add(req);
 		//Process the queue
 		process();
+	} else if (req->getType() == 0) {
+		req->setType(5);
+		mRequests.add(req);
 	}
 }
 
@@ -51,13 +54,31 @@ void ImageCache::process(bool afterFin)
     	mHttp.close();
     }
 
-    mHttp = HttpConnection(this);
-	int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
-	if(res < 0) {
+    if (mNextRequest->getType() == 5) {
+		MAHandle store = maOpenStore((FILE_PREFIX+mNextRequest->getSaveName()).c_str(), 0);
+		lprintfln("filename %s", (FILE_PREFIX+mNextRequest->getSaveName()).c_str());
+		if(store != STERR_NONEXISTENT) {
+			MAHandle cacheimage = maCreatePlaceholder();
+			maReadStore(store, cacheimage);
+			maCloseStore(store, 0);
+
+			if (maGetDataSize(cacheimage) > 0) {
+				Util::returnImage(mNextRequest->getImage(), cacheimage, 64);
+			}
+			maDestroyObject(cacheimage);
+			cacheimage = -1;
+		}
+		store = -1;
 		finishedDownloading();
-	} else {
-		mHttp.finish();
-	}
+    } else {
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(mNextRequest->getUrl().c_str(), HTTP_GET);
+		if(res < 0) {
+			finishedDownloading();
+		} else {
+			mHttp.finish();
+		}
+    }
 }
 
 void ImageCache::finishedDownloading()

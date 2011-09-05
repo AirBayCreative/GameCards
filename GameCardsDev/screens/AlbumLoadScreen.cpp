@@ -259,9 +259,11 @@ void AlbumLoadScreen::drawList() {
 
 			size++;
 		}
+		albumname = "";
 	}
 	albumname="";
 	display.clear();
+
 	if (album->size() >= 1) {
 		if (ind < album->size()) {
 			listBox->setSelectedIndex(ind);

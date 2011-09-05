@@ -362,6 +362,8 @@ bool Util::getData(const char* storefile, String &data) {
 			data.clear();
 			data = String(temp);
 
+			memset(temp, 0, size+1);
+			maDestroyObject(dataHandle);
 			return true;
 		}
 	}
