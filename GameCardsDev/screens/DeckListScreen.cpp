@@ -318,11 +318,11 @@ void DeckListScreen::mtxTagEnd(const char* name, int len) {
 	else if (!strcmp(name, "decks")) {
 		if (albums.size() <= 1 && screenType == ST_SELECT) {
 			if (albums.size() == 0) {
-				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, categoryId, "-1");
+				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, previous, NULL, categoryId, "-1");
 				next->show();
 			}
 			else {
-				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, categoryId, albums[0]->getId());
+				next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, previous, NULL, categoryId, albums[0]->getId());
 				next->show();
 			}
 		}
