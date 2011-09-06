@@ -22,8 +22,10 @@ void AlbumLoadScreen::refresh() {
 
 	mHttp = HttpConnection(this);
 	album->clearAll();
-	delete album;
-	album = new Albums();
+	//delete album;
+	if (album == NULL) {
+		album = new Albums();
+	}
 
 	notice->setCaption("Checking for new albums...");
 	String alb = this->feed->getAlbum()->getAll();
@@ -55,7 +57,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card, String categoryId) : mHttp(this),
 		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card), categoryId(categoryId) {
-	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	lprintfln("AlbumLoadScreen::AlbumLoadScreen Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -112,10 +114,10 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			else {
 				notice->setCaption("Checking games...");
 				//drawList();
-				int urlLength = 60 + URLSIZE + feed->getUsername().length();
+				int urlLength = 60 + URLSIZE;
 				url = new char[urlLength+1];
 				memset(url,'\0',urlLength+1);
-				sprintf(url, "%s?getusergames=1", URL, feed->getUsername().c_str());
+				sprintf(url, "%s?getusergames=1", URL);
 				res = mHttp.create(url, HTTP_GET);
 			}
 			break;
@@ -143,7 +145,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 	}
 	drawList();
-
 
 	this->setMain(mainLayout);
 
@@ -538,6 +539,7 @@ void AlbumLoadScreen::mtxTagStart(const char* name, int len) {
 }
 
 void AlbumLoadScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+
 }
 
 void AlbumLoadScreen::mtxTagData(const char* data, int len) {

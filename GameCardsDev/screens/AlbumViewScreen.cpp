@@ -212,7 +212,6 @@ void AlbumViewScreen::loadFile() {
 void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
 	int indexof = 0;
-	int indentindexof = 0;
 	String tmp = "";
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
@@ -435,8 +434,6 @@ void AlbumViewScreen::hide() {
 
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = listBox->getSelectedIndex();
-	lprintfln("selected %d", selected);
-	lprintfln("listBox->selected %d", listBox->getSelectedIndex());
 	String all = "";
 	if (albumType != AT_COMPARE &&
 			albumType != AT_DECK) {
@@ -467,9 +464,6 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-			lprintfln("-- --");
-			lprintfln("Selected %d" + selected);
-			lprintfln("index[selected] %s", index[selected].c_str());
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;

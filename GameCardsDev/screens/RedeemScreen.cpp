@@ -162,7 +162,7 @@ void RedeemScreen::redeemCode() {
 
 void RedeemScreen::keyPressEvent(int keyCode) {
 	error = false;
-	int index = listBox->getSelectedIndex();
+	//int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:

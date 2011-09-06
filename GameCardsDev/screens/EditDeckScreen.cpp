@@ -402,7 +402,6 @@ void EditDeckScreen::hide() {
 }
 
 void EditDeckScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
 	String all = "";
 	switch (screenType) {
 		case ST_LIST:
