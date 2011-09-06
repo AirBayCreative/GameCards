@@ -1344,6 +1344,9 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 				case P_CONFIRM:
 					drawConfirmScreen();
 					break;
+				case P_DECLINED:
+					drawDeclinedScreen();
+					break;
 			}
 			busy = false;
 		}
