@@ -159,7 +159,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-//$iUserID = 89;
+//$iUserID = 24;
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;

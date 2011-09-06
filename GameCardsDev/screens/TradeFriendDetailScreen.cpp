@@ -13,7 +13,6 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	moved = 0;
 	menu = NULL;
 
-	bool contacts = false;
 	//check for android from code repository
 
 
@@ -309,8 +308,8 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		}
 
 		if (!changed) {
-			int yClick = point.y;
-			int index = listBox->getSelectedIndex();
+			/*int yClick = point.y;
+			int index = listBox->getSelectedIndex();*/
 		}
 		else {
 			changed = false;

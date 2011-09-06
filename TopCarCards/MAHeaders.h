@@ -1,29 +1,67 @@
 #define RES_IMAGE 1
-#define RES_FONT_RED 2
-#define RES_FONT_WHITE 3
-#define RES_SELECTED_EDITBOX 4
-#define RES_UNSELECTED_EDITBOX 5
-#define RES_UNSELECTED_BUTTON 6
-#define RES_TEXT_BOX 7
-#define RES_BACKGROUND 8
-#define RES_SELECTED_LIST 9
-#define RES_UNSELECTED_LIST 10
-#define RES_SELECTED_ALBUM 11
-#define RES_UNSELECTED_ALBUM 12
-#define RESP_DATA 13
-#define RESP_IMAGE 14
-#define RES_TEMPTHUMB 15
-#define RES_TEMP 16
-#define RES_LOADINGTHUMB 17
-#define RES_LOADING 18
-#define RES_MISSINGTHUMB 19
-#define RES_CHANGE_STAR 20
-#define RES_LOADING_FLIP 21
-#define RES_EMPTY_FLIP 22
-#define RES_BOX_SELECTED 23
-#define RES_BOX_UNSELECTED 24
-#define RES_FONT_PUREWHITE 25
-#define URL "http://dev.mytcg.net/_phone/topcar/"
+#define RES_SELECTED_EDITBOX 2
+#define RES_UNSELECTED_EDITBOX 3
+#define RES_UNSELECTED_BUTTON 4
+#define RES_TEXT_BOX 5
+#define RES_BACKGROUND 6
+#define RES_SELECTED_LIST 7
+#define RES_UNSELECTED_LIST 8
+#define RES_SELECTED_ALBUM 9
+#define RES_UNSELECTED_ALBUM 10
+#define RESP_DATA 11
+#define RESP_IMAGE 12
+#define RES_TEMPTHUMB 13
+#define RES_TEMP 14
+#define RES_LOADINGTHUMB 15
+#define RES_MISSINGTHUMB 16
+#define RES_CHANGE_STAR 17
+#define RES_EMPTY_FLIP 18
+#define RES_BOX_SELECTED 19
+#define RES_BOX_UNSELECTED 20
+#define RES_LOADING1 21
+#define RES_LOADING2 22
+#define RES_LOADING3 23
+#define RES_LOADING4 24
+#define RES_LOADING5 25
+#define RES_LOADING6 26
+#define RES_LOADING7 27
+#define RES_LOADING8 28
+#define RES_LOADING9 29
+#define RES_LOADING10 30
+#define RES_LOADING11 31
+#define RES_LOADING12 32
+#define RES_LOADING13 33
+#define RES_LOADING14 34
+#define RES_LOADING15 35
+#define RES_LOADING16 36
+#define RES_LOADING17 37
+#define RES_LOADING18 38
+#define RES_LOADING_FLIP1 39
+#define RES_LOADING_FLIP2 40
+#define RES_LOADING_FLIP3 41
+#define RES_LOADING_FLIP4 42
+#define RES_LOADING_FLIP5 43
+#define RES_LOADING_FLIP6 44
+#define RES_LOADING_FLIP7 45
+#define RES_LOADING_FLIP8 46
+#define RES_LOADING_FLIP9 47
+#define RES_LOADING_FLIP10 48
+#define RES_LOADING_FLIP11 49
+#define RES_LOADING_FLIP12 50
+#define RES_LOADING_FLIP13 51
+#define RES_LOADING_FLIP14 52
+#define RES_LOADING_FLIP15 53
+#define RES_LOADING_FLIP16 54
+#define RES_LOADING_FLIP17 55
+#define RES_LOADING_FLIP18 56
+
+/* CUSTOM VARIABLES */
+
+#define RES_FONT_RED 57
+#define RES_FONT_WHITE 58
+#define RES_FONT_PUREWHITE 59
+
+#define URL "http://www.mytcg.net/_phone/topcar/"
 #define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up
@@ -43,7 +81,7 @@
 #define BACKGROUND_Y_BOTTOM 429
 
 #define LIST_X_LEFT 19
-#define LIST_X_RIGHT 77
+#define LIST_X_RIGHT 29
 #define LIST_Y_TOP 16
 #define LIST_Y_BOTTOM 32
 
@@ -69,3 +107,14 @@
 #define MIN_SOFTKEY_BAR_HEIGHT 42
 #define DEFAULT_SMALL_LABEL_HEIGHT 24
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
+
+#include <MAUtil/String.h>
+
+using namespace MAUtil;
+
+#ifndef _MAHeaders_H_
+#define _MAHeaders_H_
+
+static String FILE_PREFIX = "topcar_";
+
+#endif

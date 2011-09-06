@@ -395,7 +395,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
-								next == NULL;
+								next = NULL;
 							}
 							next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
 							next->show();

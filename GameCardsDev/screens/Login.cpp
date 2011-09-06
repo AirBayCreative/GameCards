@@ -184,8 +184,8 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 		}
 
 		if (!changed) {
-			int yClick = point.y;
-			int index = listBox->getSelectedIndex();
+			/*int yClick = point.y;
+			int index = listBox->getSelectedIndex();*/
 		}
 		else {
 			changed = false;

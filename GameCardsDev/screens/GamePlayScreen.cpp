@@ -497,7 +497,6 @@ void GamePlayScreen::drawRectangle(int x, int y, int width, int height){
 }
 
 void GamePlayScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_DOWN:
 		case MAK_UP:
@@ -778,7 +777,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						int urlLength = 69 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d%deckid=%s", URL,
+						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d&deckid=%s", URL,
 							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();

@@ -56,7 +56,6 @@ void ImageCache::process(bool afterFin)
 
     if (mNextRequest->getType() == 5) {
 		MAHandle store = maOpenStore((FILE_PREFIX+mNextRequest->getSaveName()).c_str(), 0);
-		lprintfln("filename %s", (FILE_PREFIX+mNextRequest->getSaveName()).c_str());
 		if(store != STERR_NONEXISTENT) {
 			MAHandle cacheimage = maCreatePlaceholder();
 			maReadStore(store, cacheimage);

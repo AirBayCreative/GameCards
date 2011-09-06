@@ -391,7 +391,7 @@ namespace MAUI {
 					float currTime = maGetMilliSecondCount();
 
 					Point previousPoint(previousPoints[previousPoints.size()-1]);
-					float previousTime(previousTimes[previousTimes.size()-1]);
+					/*float previousTime(previousTimes[previousTimes.size()-1]);*/
 					Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
 
 					previousPoints.add(currPoint);
@@ -731,7 +731,7 @@ namespace MAUI {
 				return yOffset;
         }
 
-        int KineticListBox::setYOffset(int y) {
+        void KineticListBox::setYOffset(int y) {
         	yOffset = y;
         }
 }
