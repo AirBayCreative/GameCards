@@ -18,7 +18,7 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	versionChecked=0;
 	menu = NULL;
-	first = true;
+	first = 1;
 #if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 	mainLayout = Util::createMainLayout("", "", true);
 #else
@@ -341,8 +341,8 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			feed->setNoteLoaded(true);
 			noteLabel->setCaption("*Notifications");
 			noteLabel->setFont(Util::getDefaultSelected());
-			if(first){
-				first = false;
+			if(first==1){
+				first = 0;
 				if(menu!=NULL){
 					delete menu;
 				}
