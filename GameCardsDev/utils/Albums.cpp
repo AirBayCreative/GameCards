@@ -88,12 +88,20 @@ void Albums::setAll(const char* allch) {
 }
 
 void Albums::clearAll() {
-	for(Map<String,Album*>::Iterator i = album.begin(); i != album.end(); i++) {
-		delete i->second;
+	Map<String,Album*>::Iterator i = album.begin();
+	while (i != album.end()) {
+		Album *del = i->second;
+		delete del;
+		del = NULL;
 		i->second = NULL;
+		album.erase(i);
+		i = album.begin();
 	}
-	for(Map<String,String>::Iterator i = albumnames.begin(); i != albumnames.end(); i++) {
-		i->second = "";
+	Map<String,String>::Iterator x = albumnames.begin();
+	while (x != albumnames.end()) {
+		x->second = "";
+		albumnames.erase(x);
+		x = albumnames.begin();
 	}
 	album.clear();
 	albumnames.clear();

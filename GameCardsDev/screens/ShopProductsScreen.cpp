@@ -239,7 +239,6 @@ void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void ShopProductsScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_UP:
 			listBox->selectPreviousItem();

@@ -221,7 +221,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, bool useKine
 
 Layout* Util::createNoHeaderLayout() {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	return mainLayout;
 }
 
@@ -235,7 +235,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
-	int imgWidth = EXTENT_X(imgSize);
+	//int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
 	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
@@ -267,7 +267,7 @@ Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
-	int imgWidth = EXTENT_X(imgSize);
+	//int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
 	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
@@ -351,7 +351,7 @@ bool Util::getData(const char* storefile, String &data) {
 	if(store>0)
 	{
 		MAHandle dataHandle = maCreatePlaceholder();
-		int len = data.length();
+		//int len = data.length();
 		if( maReadStore(store, dataHandle) != RES_OUT_OF_MEMORY  )
 		{
 			int size = maGetDataSize(dataHandle);
@@ -362,6 +362,8 @@ bool Util::getData(const char* storefile, String &data) {
 			data.clear();
 			data = String(temp);
 
+			memset(temp, 0, size+1);
+			maDestroyObject(dataHandle);
 			return true;
 		}
 	}

@@ -2384,6 +2384,17 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			return $sOP;
 		}
 		
+		//check if the username is untaken
+		$aIPDetails=myqu('SELECT username '
+			.'FROM mytcg_user '
+			.'WHERE ip="'.$ip.'"');
+		if (sizeof($aIPDetails) > 0) {
+			$sOP.='<result>';
+			$sOP.=''.$aIPDetails[0]['username'].' has already registered from this device.';
+			$sOP.='</result>';
+			return $sOP;
+		}
+		
 		//check if the email address is already in the database
 		$aUserDetails=myqu('SELECT email_address '
 			.'FROM mytcg_user '
@@ -2403,15 +2414,23 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		if (sizeof($aReferer) > 0) {
 			$refererid = $aReferer[0]['user_id'];
 			
-			$query = "update mytcg_user set credits = credits + 10 where user_id = ".$refererid;
-			myqu($query);
-				
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10)');
-				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+			$aCountRefer=myqu("SELECT count(*) cnt FROM mytcg_transactionlog WHERE val = 10 and description like '%referring%' and user_id = '{$refererid}'");
+			$iCount = $aCountRefer[0]['cnt'];
+			if ($iCount <= 3) {
+				$query = "update mytcg_user set credits = credits + 10 where user_id = ".$refererid;
+				myqu($query);
+					
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+					VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10)');
+					
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+			} else {
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+			}
 		}
+		
 		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip) VALUES ('{$username}', '{$email}', 1, now(), 300, 0, '{$ip}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -2853,7 +2872,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
+		$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -2887,7 +2906,9 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND B.card_id NOT IN (SELECT uc.card_id from mytcg_usercard uc, mytcg_usercardstatus ucs 
 						where uc.user_id = '.$iUserID.' and uc.usercardstatus_id = ucs.usercardstatus_id and ucs.usercardstatus_id=1) 
 					GROUP BY B.card_id 
-					ORDER BY description');
+					ORDER BY description';
+		/*echo $qu;*/
+		$aCards=myqu($qu);
 	}
 	
 	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight);

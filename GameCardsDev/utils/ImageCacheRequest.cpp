@@ -42,6 +42,7 @@ String ImageCacheRequest::getSaveName()
 {
 	switch (type) {
 			case 0:
+			case 5:
 				if (card != NULL) {
 					card->setThumb((card->getId()+".sav").c_str());
 					return (card->getId()+".sav");
@@ -79,4 +80,9 @@ int ImageCacheRequest::getHeight()
 int ImageCacheRequest::getType()
 {
 	return type;
+}
+
+void ImageCacheRequest::setType(int tp)
+{
+	type = tp;
 }

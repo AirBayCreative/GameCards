@@ -154,11 +154,9 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			feed->addHttp();
 			mHttp.finish();
-
 		}
 		delete [] url;
 	}
-
 	this->setMain(mainLayout);
 	moved=0;
 	if (albumType != AT_COMPARE) {
@@ -169,6 +167,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 void AlbumViewScreen::refresh() {
 	if ((albumType == AT_NORMAL)||(albumType == AT_AUCTION)||(albumType == AT_NEW_CARDS)) {
 		notice->setCaption("Checking for new cards...");
+		busy = true;
 		//loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
 		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
@@ -213,7 +212,6 @@ void AlbumViewScreen::loadFile() {
 void AlbumViewScreen::loadImages(const char *text) {
 	String all = text;
 	int indexof = 0;
-	int indentindexof = 0;
 	String tmp = "";
 	while ((indexof = all.find("#")) > -1) {
 		tmp = all.substr(0,indexof++);
@@ -371,7 +369,9 @@ AlbumViewScreen::~AlbumViewScreen() {
 		delete next;
 		feed->remHttp();
 	}
-	delete mImageCache;
+	if (mImageCache != NULL) {
+		delete mImageCache;
+	}
 	if (!busy) {
 		String all = getAll();
 		Util::saveData(filename.c_str(), all.c_str());
