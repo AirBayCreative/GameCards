@@ -20,7 +20,8 @@ private:
 	Screen *menu;
 	Label *noteLabel;
 	String parentTag, notedate;
-	int c, versionChecked;
+	int c, versionChecked, first;
+
 	void mtxTagData(const char*, int);
 	void mtxTagStart(const char*, int);
 	void mtxParseError();

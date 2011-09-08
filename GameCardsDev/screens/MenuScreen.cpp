@@ -18,6 +18,7 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	c=0;
 	versionChecked=0;
 	menu = NULL;
+	first = 1;
 #if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 	mainLayout = Util::createMainLayout("", "", true);
 #else
@@ -327,20 +328,29 @@ void MenuScreen::mtxTagStart(const char* name, int len) {
 
 void MenuScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "notedate")) {
-			notedate = data;
-			tm t;
-			t.tm_year = atoi(notedate.substr(0,4).c_str())-1900;
-			t.tm_mon = atoi(notedate.substr(5,2).c_str())-1;
-			t.tm_mday = atoi(notedate.substr(8,2).c_str());
-			t.tm_hour = atoi(notedate.substr(11,2).c_str());
-			t.tm_min = atoi(notedate.substr(14,2).c_str());
-			t.tm_sec = atoi(notedate.substr(17,2).c_str());
-			int ndate = mktime(&t);
-			if(ndate > atoi(feed->getNoteSeconds().c_str())){
-				feed->setNoteLoaded(true);
-				noteLabel->setCaption("*Notifications");
-				noteLabel->setFont(Util::getDefaultSelected());
+		notedate = data;
+		tm t;
+		t.tm_year = atoi(notedate.substr(0,4).c_str())-1900;
+		t.tm_mon = atoi(notedate.substr(5,2).c_str())-1;
+		t.tm_mday = atoi(notedate.substr(8,2).c_str());
+		t.tm_hour = atoi(notedate.substr(11,2).c_str());
+		t.tm_min = atoi(notedate.substr(14,2).c_str());
+		t.tm_sec = atoi(notedate.substr(17,2).c_str());
+		int ndate = mktime(&t);
+		if(ndate > atoi(feed->getNoteSeconds().c_str())){
+			feed->setNoteLoaded(true);
+			noteLabel->setCaption("*Notifications");
+			noteLabel->setFont(Util::getDefaultSelected());
+			if(first==1){
+				first = 0;
+				if(menu!=NULL){
+					delete menu;
+				}
+				/* Notifications */
+				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
+				menu->show();
 			}
+		}
 	}
 	else if (len > 0) {
 		if(menu!=NULL){
