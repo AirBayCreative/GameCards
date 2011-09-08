@@ -948,7 +948,9 @@ if ($_GET['declinegame']) {
 	//thing is, if the user declined a game, he didnt specify an opponent, or ai. so after declining, we dont need to go through the whole create process, we can skip some
 	$gameId = $_GET['gameid'];
 	$categoryId = $_GET['categoryid'];
-	$deckId = $_GET['deckid'];
+	if (!($deckId=$_GET['deckid'])) {
+		$deckId = getDeck($iUserID, $categoryId);
+	}
 	
 	//we are gonna need the open status id
 	$openStatusQuery = myqu("SELECT gamestatus_id 
@@ -1074,8 +1076,16 @@ if ($_GET['declinegame']) {
 
 /** confirms that the user is up for the game, and initialises it */
 if ($_GET['confirmgame']) {
-	$deckId = $_GET['deckid'];
 	$gameId = $_GET['gameid'];
+	
+	if (!($deckId=$_GET['deckid'])) {
+		//if no deckId is sent through, we need to get one for the user, but we need to get the game categoryId first
+		$gameCategoryQuery = myqu('SELECT category_id 
+			FROM mytcg_game g 
+			WHERE game_id = '.$gameId);
+		$categoryId = $gameCategoryQuery[0]['category_id'];
+		$deckId = getDeck($iUserID, $categoryId);
+	}
 	
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '0';
@@ -1134,7 +1144,9 @@ if ($_GET['newgame']) {
 	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
 	$newGameType = $_GET['newgametype'];
-	$deckId = $_GET['deckid'];
+	if (!($deckId=$_GET['deckid'])) {
+		$deckId = getDeck($iUserID, $categoryId);
+	}
 	
 	//we need to check if the user wants to play against a specific person
 	if (!($friend=$_GET['friend'])) {

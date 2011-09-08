@@ -1161,6 +1161,34 @@ function setDeck($iUserID, $categoryId, $gameId) {
 	myqui('UPDATE mytcg_gameplayer SET deck_id = '.$userDeck.' WHERE game_id = '.$gameId.' AND user_id = '.$iUserID);
 }
 
+//get the most highly ranked deck for a user, if the have one. Return -1 if they dont
+function getDeck($iUserID, $categoryId) {
+	//we must check if the user has a deck selected, and if not, give them their top ten cards
+	$userDecks = myqu('SELECT d.deck_id, COUNT(uc.card_id) cards, SUM(c.ranking) totalRank 
+		FROM mytcg_deck d 
+		INNER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		INNER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
+		AND uc.user_id = '.$iUserID.' 
+		AND d.category_id = '.$categoryId.'  
+		GROUP BY d.deck_id 
+		ORDER BY totalRank DESC');
+	
+	//when populating the gameplayercards, if the player's deck_id is -1, we give then their top 10 ranked cards
+	$userDeck = -1;
+	$count = 0;
+	while ($count < sizeof($userDecks)) {
+		if ($userDecks[$count]['cards'] == 10) {
+			$userDeck = $userDecks[$count]['deck_id'];
+			break;
+		}
+		$count++;
+	}
+	
+	return $userDeck;
+}
+
 //given the user's id and game id, populate the mytcg_gameplayercard
 function initialiseGame($iUserID, $gameId, $oppLimit=-1) {
 	//we need to get both players' gameplayer_id, and the categoryId
