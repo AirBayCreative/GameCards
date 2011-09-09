@@ -971,7 +971,7 @@ if ($_GET['declinegame']) {
 	$declinedId = $declinedPhaseQuery[0]['gamephase_id'];
 	
 	//set the status to closed, and the phase to declined
-	myqu('UPDATE mytcg_game SET gamephase_id = '.$declinedId.', gamestatus_id = '.$closedId);
+	myqu('UPDATE mytcg_game SET gamephase_id = '.$declinedId.', gamestatus_id = '.$closedId.' WHERE game_id = '.$gameId);
 	
 	//get phones screen sizes
 	if (!($iHeight=$_GET['height'])) {
