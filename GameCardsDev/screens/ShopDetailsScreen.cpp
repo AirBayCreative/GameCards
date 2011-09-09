@@ -405,8 +405,6 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
 				case ST_AUCTION: // Buy
-					editBidBox->setSelected(false);
-					editBidBox->disableListener();
 				case ST_USER:
 					previous->show();
 					break;
@@ -769,6 +767,12 @@ void ShopDetailsScreen::drawBuyNow(bool success)
 }
 
 void ShopDetailsScreen::clearListBox() {
+
+	if (editBidBox != NULL) {
+		editBidBox->setSelected(false);
+		editBidBox->disableListener();
+	}
+
 	Vector<Widget*> tempWidgets;
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);

@@ -247,7 +247,7 @@ void GamePlayScreen::drawConfirmScreen() {
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(Util::getFontBlack());
+	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 
@@ -264,7 +264,7 @@ void GamePlayScreen::drawDeclinedScreen() {
 
 	notice->setCaption("");
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
-	lbl->setFont(Util::getFontBlack());
+	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 

@@ -612,8 +612,13 @@ if ($_GET['categoryauction']){
 			}
 		}
     
-		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
-		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+	
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 		
 
 		$sFound='';
@@ -626,8 +631,8 @@ if ($_GET['categoryauction']){
 			}
 		}
     
-		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
-		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 		$sOP.='</auction>';
 		$iCount++;
 	}
@@ -1064,8 +1069,12 @@ if ($_GET['declinegame']) {
 	if ($newGame) {
 		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
-		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
-		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	$sOP.='</game>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
@@ -1129,8 +1138,12 @@ if ($_GET['confirmgame']) {
 	if ($newGame) {
 		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
-		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
-		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	$sOP.='</game>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
@@ -1359,8 +1372,12 @@ if ($_GET['newgame']) {
 	if ($newGame) {
 		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
-		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
-		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	$sOP.='</game>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
@@ -2114,6 +2131,11 @@ if ($searchstring=$_GET['search']) {
 		//before setting the front and back urls, make sure the card is resized for the height
 		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight);
 		
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -2124,7 +2146,7 @@ if ($searchstring=$_GET['search']) {
 			}
 		}
     
-		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
 
 		$sFound='';
 		$iCountServer=0;
@@ -2136,7 +2158,7 @@ if ($searchstring=$_GET['search']) {
 			}
 		}
     
-		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
 
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
 		A.left, top, width, height, frontorback, 

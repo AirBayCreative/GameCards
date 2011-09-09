@@ -54,6 +54,9 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight) {
 		}
 	}
 	$dir .= "/cards";
+	if ($iBBHeight) {
+		$dir .= "bb";
+	}
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -172,6 +175,9 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight) {
 		}
 	}
 	$dir .= "/cards";
+	if ($iBBHeight) {
+		$dir .= "bb";
+	}
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -677,8 +683,13 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 			}
 		}
 		
-		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
-		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 		$sFound='';
 		$iCountServer=0;
@@ -690,8 +701,8 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 			}
 		}
 		
-		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
-		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 		$sOP.=$sTab.'</usercard>'.$sCRLF;
 		
 		//we return the opponent's card too
@@ -741,8 +752,8 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 			}
 		}
 		
-		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
-		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+		$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 		$sFound='';
 		$iCountServer=0;
@@ -754,13 +765,13 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 			}
 		}
 		
-		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
-		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
+		$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$selectedGameCardIdQuery[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF;
 		$sOP.=$sTab.'</oppcard>'.$sCRLF;
 		
 		//we need to return the url for the gc.png card, which has hopefully been resized for the users's phone.
-		$sOP.=$sTab.'<gcurl>'.$sFound.$iHeight.'/cards/gc.png</gcurl>'.$sCRLF;
-		$sOP.=$sTab.'<gcurlflip>'.$sFound.$iHeight.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$sOP.=$sTab.'<gcurl>'.$sFound.$iHeight.$dir.'gc.png</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$sFound.$iHeight.$dir.'gcFlip.png</gcurlflip>'.$sCRLF;
 	}
 	else if ($gamePhase == 'result') {
 		//results will load the last log from mytcg_gamelog, and set the user's pending off
@@ -817,11 +828,17 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0) {
 			
 			initialiseGame($userId, $gameId);
 		}
+		
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		
 		//we need to return the url for the gc.png card
 		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight);
 		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
-		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.'/cards/gc.png</gcurl>'.$sCRLF;
-		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/gcFlip.png</gcurlflip>'.$sCRLF;
+		$sOP.='<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc.png</gcurl>'.$sCRLF;
+		$sOP.='<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip.png</gcurlflip>'.$sCRLF;
 		
 		//we need to update the date_start field to show that the user is still looking for a game
 		myqu('UPDATE mytcg_game SET date_start = now() WHERE game_id = '.$gameId);
@@ -1704,8 +1721,13 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 				}
 			}
 			
-			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front.png</fronturl>'.$sCRLF;
-			$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+			$dir = '/cards/';
+			if ($iBBHeight) {
+				$dir = '/cardsbb/';
+			}
+			
+			$sOP.=$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$aCardDetails[0]['image'].'_front.png</fronturl>'.$sCRLF;
+			$sOP.=$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$aCardDetails[0]['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 			$sFound='';
 			$iCountServer=0;
@@ -1717,8 +1739,8 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 				}
 			}
 			
-			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back.png</backurl>'.$sCRLF; 
-			$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aCardDetails[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
+			$sOP.=$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aCardDetails[0]['image'].'_back.png</backurl>'.$sCRLF; 
+			$sOP.=$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aCardDetails[0]['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 			
 			$sOP.= $sTab.$sTab.'<note>'.$aCardDetails[0]['note'].'</note>'.$sCRLF;
 			
@@ -3029,9 +3051,14 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight) {
 				$iCountServer++;
 			}
 		}
+		
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
     
-		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
-		$sOP.=$sTab.$sTab.'<frontflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front.png</fronturl>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front_flip.png</frontflipurl>'.$sCRLF;
 
 		$sFound='';
 		$iCountServer=0;
@@ -3043,8 +3070,8 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight) {
 			}
 		}
     
-		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
-		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.'/cards/'.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
+		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back.png</backurl>'.$sCRLF; 
+		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back_flip.png</backflipurl>'.$sCRLF; 
 
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
 		A.left, top, width, height, frontorback, 
