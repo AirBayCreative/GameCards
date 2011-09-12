@@ -236,7 +236,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 }
 
 void DetailScreen::contactReceived(Contact& contact) {
-	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 			"", 0, Util::getDefaultFont());
 
 	char *buffer = new char[128];
@@ -625,7 +625,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "transaction")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -715,7 +715,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "note")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -758,7 +758,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "friend")) {
 
 		count++;
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(usr+"\n"+val+"\n"+desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
