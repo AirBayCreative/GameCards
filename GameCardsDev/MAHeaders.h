@@ -61,7 +61,7 @@
 #define RES_FONT_BLACK 58
 
 #define URL "http://dev.mytcg.net/_phone/"
-#define URLSIZE 28
+#define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up
 #define EDITBOX_X_LEFT 16

@@ -140,6 +140,7 @@ void MenuScreen::refresh() {
 }
 
 void MenuScreen::show() {
+	shown = true;
 	if(feed->getNoteLoaded()==false){
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -159,12 +160,13 @@ void MenuScreen::show() {
 		}
 		delete [] url;
 	}
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	//listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
 
 void MenuScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+	shown = false;
+    //listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 
@@ -341,14 +343,20 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			feed->setNoteLoaded(true);
 			noteLabel->setCaption("*Notifications");
 			noteLabel->setFont(Util::getDefaultSelected());
+
 			if(first==1){
 				first = 0;
-				if(menu!=NULL){
-					delete menu;
+				feed->remHttp();
+				if (shown) {
+					if(menu!=NULL){
+						delete menu;
+					}
+					/* Notifications */
+
+					lprintfln("shown is %d", shown);
+					menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
+					menu->show();
 				}
-				/* Notifications */
-				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
-				menu->show();
 			}
 		}
 	}
@@ -358,8 +366,11 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 		}
 		String find = String(data);
 		if (find.find("http://") == 0) {
-			menu = new NewVersionScreen(this, data, feed);
-			menu->show();
+			feed->remHttp();
+			if (shown) {
+				menu = new NewVersionScreen(this, data, feed);
+				menu->show();
+			}
 		}
 	}
 }

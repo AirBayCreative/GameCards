@@ -21,6 +21,7 @@ private:
 	Label *noteLabel;
 	String parentTag, notedate;
 	int c, versionChecked, first;
+	bool shown;
 
 	void mtxTagData(const char*, int);
 	void mtxTagStart(const char*, int);
