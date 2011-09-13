@@ -64,38 +64,38 @@
 #define URLSIZE 28
 
 //we also need to define the x and y coordinates at which to split the images up
-#define EDITBOX_X_LEFT 16
-#define EDITBOX_X_RIGHT 80
+#define EDITBOX_X_LEFT 32
+#define EDITBOX_X_RIGHT 160
 #define EDITBOX_Y_TOP 22
 #define EDITBOX_Y_BOTTOM 84
 
-#define BUTTON_X_LEFT 47
-#define BUTTON_X_RIGHT 48
+#define BUTTON_X_LEFT 10
+#define BUTTON_X_RIGHT 180
 #define BUTTON_Y_TOP 47
 #define BUTTON_Y_BOTTOM 48
 
 #define BACKGROUND_X_LEFT 98
-#define BACKGROUND_X_RIGHT 392
+#define BACKGROUND_X_RIGHT 880
 #define BACKGROUND_Y_TOP 98
-#define BACKGROUND_Y_BOTTOM 392
+#define BACKGROUND_Y_BOTTOM 882
 
-#define LIST_X_LEFT 28
-#define LIST_X_RIGHT 68
+#define LIST_X_LEFT 33
+#define LIST_X_RIGHT 255
 #define LIST_Y_TOP 32
 #define LIST_Y_BOTTOM 64
 
-#define LISTNOARROWS_X_LEFT 28
-#define LISTNOARROWS_X_RIGHT 68
-#define LISTNOARROWS_Y_TOP 32
-#define LISTNOARROWS_Y_BOTTOM 64
+#define LISTNOARROWS_X_LEFT 8
+#define LISTNOARROWS_X_RIGHT 280
+#define LISTNOARROWS_Y_TOP 10
+#define LISTNOARROWS_Y_BOTTOM 86
 
 #define ALBUM_X_LEFT 4
-#define ALBUM_X_RIGHT 67
+#define ALBUM_X_RIGHT 259
 #define ALBUM_Y_TOP 4
 #define ALBUM_Y_BOTTOM 50
 
-#define TEXT_X_LEFT 16
-#define TEXT_X_RIGHT 80
+#define TEXT_X_LEFT 32
+#define TEXT_X_RIGHT 160
 #define TEXT_Y_TOP 16
 #define TEXT_Y_BOTTOM 80
 
