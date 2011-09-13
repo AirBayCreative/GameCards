@@ -533,7 +533,7 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		mHttp.close();
 		feed->remHttp();
 		if (screenType == BALANCE) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No transactions.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -609,7 +609,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		cred = "";
 	} else if(!strcmp(name, "transactions")) {
 		if (count == 0) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions yet.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No transactions yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -694,7 +694,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setNoteLoaded(false);
 		delete secString;
 		if (count == 0) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No notifications yet.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
