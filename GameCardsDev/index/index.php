@@ -1855,8 +1855,11 @@ if ($_GET['userdetails']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($jpg=$_GET['jpg'])) {
+		$jpg = '0';
+	}
 	global $iUserID;
-	echo userdetails($iUserID,$iHeight,$iWidth,$root);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root,$jpg);
 	exit;
 }
 
