@@ -80,13 +80,13 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 		if (strcmp(card->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 			tempImage->setHasNote(card->getNote().length()>0);
 			Util::retrieveThumb(tempImage, card, mImageCache);
 		}
 		else {
 			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
 
 		lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
@@ -201,13 +201,13 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
 		//if the user has one or more of the card, the image must be downloaded
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 		tempImage->setHasNote(card->getNote().length()>0);
 		Util::retrieveThumb(tempImage, card, mImageCache);
 	}
 	else {
 		//we use the blank image for cards they dont have yet
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 	}
 
 	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
@@ -257,13 +257,13 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
 		//if the user has one or more of the card, the image must be downloaded
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 		tempImage->setHasNote(card->getNote().length()>0);
 		Util::retrieveThumb(tempImage, card, mImageCache);
 	}
 	else {
 		//we use the blank image for cards they dont have yet
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 	}
 
 	lbl = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());

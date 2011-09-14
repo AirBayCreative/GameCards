@@ -288,7 +288,11 @@ void Feed::setAll(const char* allch) {
 	}
 }
 void Feed::setAlbum(const char* allch) {
-	album = new Albums();
+	if (album != NULL) {
+		album->clearAll();
+	} else if (album == NULL) {
+		album = new Albums();
+	}
 	album->clearAll();
 	album->setAll(allch);
 }

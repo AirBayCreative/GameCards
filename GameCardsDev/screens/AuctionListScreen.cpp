@@ -55,18 +55,18 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 73 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -184,7 +184,7 @@ void AuctionListScreen::drawList() {
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 
 		Card *tmp;
 		tmp = auctions[i]->getCard();
@@ -297,18 +297,18 @@ void AuctionListScreen::refresh()
 			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 73 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}
@@ -345,18 +345,18 @@ void AuctionListScreen::updateAuctions()
 			urlLength = 74 + URLSIZE + categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 		case ST_USER:
-			urlLength = 67 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			urlLength = 73 + URLSIZE + feed->getUsername().length() +  + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			break;
 	}
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch (screenType) {
 		case ST_CATEGORY:
-			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 		case ST_USER:
-			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			break;
 	}

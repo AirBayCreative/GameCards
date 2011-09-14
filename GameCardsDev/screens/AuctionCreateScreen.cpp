@@ -260,7 +260,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 		//delete tempImage;
 	//}
 
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
@@ -371,7 +371,7 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
 	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());
@@ -430,7 +430,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
 	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());

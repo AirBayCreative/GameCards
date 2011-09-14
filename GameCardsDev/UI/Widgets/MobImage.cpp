@@ -12,6 +12,9 @@ MobImage::MobImage(int x, int y, int width, int height,
 }
 
 MobImage::~MobImage() {
+	if (getResource() != NULL) {
+		maDestroyObject(getResource());
+	}
 }
 
 void MobImage::setHasNote(bool n) {

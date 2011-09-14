@@ -99,11 +99,11 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 			notice->setCaption("Initialising new game...");
 
 			//work out how long the url will be, the 4 is for the & and = symbals
-			int urlLength = 90 + URLSIZE + categoryId.length() +
+			int urlLength = 96 + URLSIZE + categoryId.length() +
 				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s", URL,
+			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
 				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 		}
 	}
@@ -112,10 +112,10 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		notice->setCaption("Loading game...");
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 68 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d&jpg=1", URL,
 				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	}
 	if(mHttp.isOpen()){
@@ -144,49 +144,11 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 void GamePlayScreen::clearListBox() {
 	if (userImage != NULL &&
-		userImage->getResource() != RES_LOADING_FLIP1 &&
-		userImage->getResource() != RES_LOADING_FLIP2 &&
-		userImage->getResource() != RES_LOADING_FLIP3 &&
-		userImage->getResource() != RES_LOADING_FLIP4 &&
-		userImage->getResource() != RES_LOADING_FLIP5 &&
-		userImage->getResource() != RES_LOADING_FLIP6 &&
-		userImage->getResource() != RES_LOADING_FLIP7 &&
-		userImage->getResource() != RES_LOADING_FLIP8 &&
-		userImage->getResource() != RES_LOADING_FLIP9 &&
-		userImage->getResource() != RES_LOADING_FLIP10 &&
-		userImage->getResource() != RES_LOADING_FLIP11 &&
-		userImage->getResource() != RES_LOADING_FLIP12 &&
-		userImage->getResource() != RES_LOADING_FLIP13 &&
-		userImage->getResource() != RES_LOADING_FLIP14 &&
-		userImage->getResource() != RES_LOADING_FLIP15 &&
-		userImage->getResource() != RES_LOADING_FLIP16 &&
-		userImage->getResource() != RES_LOADING_FLIP17 &&
-		userImage->getResource() != RES_LOADING_FLIP18 &&
-		userImage->getResource() != RES_EMPTY_FLIP &&
-		userImage->getResource() != RES_TEMP) {
+		userImage->getResource() != NULL) {
 		maDestroyObject(userImage->getResource());
 	}
 	if (oppImage != NULL &&
-		oppImage->getResource() != RES_LOADING_FLIP1 &&
-		oppImage->getResource() != RES_LOADING_FLIP2 &&
-		oppImage->getResource() != RES_LOADING_FLIP3 &&
-		oppImage->getResource() != RES_LOADING_FLIP4 &&
-		oppImage->getResource() != RES_LOADING_FLIP5 &&
-		oppImage->getResource() != RES_LOADING_FLIP6 &&
-		oppImage->getResource() != RES_LOADING_FLIP7 &&
-		oppImage->getResource() != RES_LOADING_FLIP8 &&
-		oppImage->getResource() != RES_LOADING_FLIP9 &&
-		oppImage->getResource() != RES_LOADING_FLIP10 &&
-		oppImage->getResource() != RES_LOADING_FLIP11 &&
-		oppImage->getResource() != RES_LOADING_FLIP12 &&
-		oppImage->getResource() != RES_LOADING_FLIP13 &&
-		oppImage->getResource() != RES_LOADING_FLIP14 &&
-		oppImage->getResource() != RES_LOADING_FLIP15 &&
-		oppImage->getResource() != RES_LOADING_FLIP16 &&
-		oppImage->getResource() != RES_LOADING_FLIP17 &&
-		oppImage->getResource() != RES_LOADING_FLIP18 &&
-		oppImage->getResource() != RES_EMPTY_FLIP &&
-		oppImage->getResource() != RES_TEMP) {
+		oppImage->getResource() != NULL) {
 		maDestroyObject(oppImage->getResource());
 	}
 
@@ -323,12 +285,12 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
-	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
+	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
 
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
-	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, RES_LOADING_FLIP1);
+	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
 
 	lblString = oppName + ": ";
 	lblString += oppCards;
@@ -346,7 +308,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
-		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, RES_LOADING1);
+		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, Util::loadImageFromResource(RES_LOADING1));
 		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCacheUser);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
@@ -504,26 +466,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_CARD_DETAILS:
 					flip = !flip;
 					int height = listBox->getHeight();
-					if (userImage->getResource() != RES_LOADING_FLIP1 &&
-						userImage->getResource() != RES_LOADING_FLIP2 &&
-						userImage->getResource() != RES_LOADING_FLIP3 &&
-						userImage->getResource() != RES_LOADING_FLIP4 &&
-						userImage->getResource() != RES_LOADING_FLIP5 &&
-						userImage->getResource() != RES_LOADING_FLIP6 &&
-						userImage->getResource() != RES_LOADING_FLIP7 &&
-						userImage->getResource() != RES_LOADING_FLIP8 &&
-						userImage->getResource() != RES_LOADING_FLIP9 &&
-						userImage->getResource() != RES_LOADING_FLIP10 &&
-						userImage->getResource() != RES_LOADING_FLIP11 &&
-						userImage->getResource() != RES_LOADING_FLIP12 &&
-						userImage->getResource() != RES_LOADING_FLIP13 &&
-						userImage->getResource() != RES_LOADING_FLIP14 &&
-						userImage->getResource() != RES_LOADING_FLIP15 &&
-						userImage->getResource() != RES_LOADING_FLIP16 &&
-						userImage->getResource() != RES_LOADING_FLIP17 &&
-						userImage->getResource() != RES_LOADING_FLIP18 &&
-						userImage->getResource() != RES_EMPTY_FLIP &&
-						userImage->getResource() != RES_TEMP) {
+					if (userImage->getResource() != NULL) {
 						maDestroyObject(userImage->getResource());
 					}
 					userImage->setResource(RES_LOADING_FLIP1);
@@ -543,26 +486,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_RIGHT:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP1 &&
-						userImage->getResource() != RES_LOADING_FLIP2 &&
-						userImage->getResource() != RES_LOADING_FLIP3 &&
-						userImage->getResource() != RES_LOADING_FLIP4 &&
-						userImage->getResource() != RES_LOADING_FLIP5 &&
-						userImage->getResource() != RES_LOADING_FLIP6 &&
-						userImage->getResource() != RES_LOADING_FLIP7 &&
-						userImage->getResource() != RES_LOADING_FLIP8 &&
-						userImage->getResource() != RES_LOADING_FLIP9 &&
-						userImage->getResource() != RES_LOADING_FLIP10 &&
-						userImage->getResource() != RES_LOADING_FLIP11 &&
-						userImage->getResource() != RES_LOADING_FLIP12 &&
-						userImage->getResource() != RES_LOADING_FLIP13 &&
-						userImage->getResource() != RES_LOADING_FLIP14 &&
-						userImage->getResource() != RES_LOADING_FLIP15 &&
-						userImage->getResource() != RES_LOADING_FLIP16 &&
-						userImage->getResource() != RES_LOADING_FLIP17 &&
-						userImage->getResource() != RES_LOADING_FLIP18 &&
-						userImage->getResource() != RES_EMPTY_FLIP &&
-						userImage->getResource() != RES_TEMP && active) {
+					if (userImage->getResource() != NULL && active) {
 						if(card->getStats().size()>0){
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								currentSelectedStat--;
@@ -583,26 +507,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 		case MAK_LEFT:
 			switch (phase) {
 				case P_CARD_DETAILS:
-					if (userImage->getResource() != RES_LOADING_FLIP1 &&
-						userImage->getResource() != RES_LOADING_FLIP2 &&
-						userImage->getResource() != RES_LOADING_FLIP3 &&
-						userImage->getResource() != RES_LOADING_FLIP4 &&
-						userImage->getResource() != RES_LOADING_FLIP5 &&
-						userImage->getResource() != RES_LOADING_FLIP6 &&
-						userImage->getResource() != RES_LOADING_FLIP7 &&
-						userImage->getResource() != RES_LOADING_FLIP8 &&
-						userImage->getResource() != RES_LOADING_FLIP9 &&
-						userImage->getResource() != RES_LOADING_FLIP10 &&
-						userImage->getResource() != RES_LOADING_FLIP11 &&
-						userImage->getResource() != RES_LOADING_FLIP12 &&
-						userImage->getResource() != RES_LOADING_FLIP13 &&
-						userImage->getResource() != RES_LOADING_FLIP14 &&
-						userImage->getResource() != RES_LOADING_FLIP15 &&
-						userImage->getResource() != RES_LOADING_FLIP16 &&
-						userImage->getResource() != RES_LOADING_FLIP17 &&
-						userImage->getResource() != RES_LOADING_FLIP18 &&
-						userImage->getResource() != RES_EMPTY_FLIP &&
-						userImage->getResource() != RES_TEMP && active) {
+					if (userImage->getResource() != NULL && active) {
 						if(card->getStats().size()>0){
 							if(flip==card->getStats()[0]->getFrontOrBack()){
 								if(currentSelectedStat < card->getStats().size()-1){
@@ -645,11 +550,11 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Finding new game...");
 					phase = P_CARD_DETAILS;
 					//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-					int urlLength = 75 + URLSIZE + gameId.length() +
+					int urlLength = 81 + URLSIZE + gameId.length() +
 							categoryId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 					char *url = new char[urlLength];
 					memset(url,'\0',urlLength);
-					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d&deckid=%s", URL,
+					sprintf(url, "%s?declinegame=1&gameid=%s&categoryid=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
 						gameId.c_str(), categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 					if(mHttp.isOpen()){
 						mHttp.close();
@@ -684,29 +589,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					if (flipOrSelect) {
 						flip = !flip;
 						int height = listBox->getHeight();
-						if (userImage->getResource() != RES_LOADING_FLIP1 &&
-							userImage->getResource() != RES_LOADING_FLIP2 &&
-							userImage->getResource() != RES_LOADING_FLIP3 &&
-							userImage->getResource() != RES_LOADING_FLIP4 &&
-							userImage->getResource() != RES_LOADING_FLIP5 &&
-							userImage->getResource() != RES_LOADING_FLIP6 &&
-							userImage->getResource() != RES_LOADING_FLIP7 &&
-							userImage->getResource() != RES_LOADING_FLIP8 &&
-							userImage->getResource() != RES_LOADING_FLIP9 &&
-							userImage->getResource() != RES_LOADING_FLIP10 &&
-							userImage->getResource() != RES_LOADING_FLIP11 &&
-							userImage->getResource() != RES_LOADING_FLIP12 &&
-							userImage->getResource() != RES_LOADING_FLIP13 &&
-							userImage->getResource() != RES_LOADING_FLIP14 &&
-							userImage->getResource() != RES_LOADING_FLIP15 &&
-							userImage->getResource() != RES_LOADING_FLIP16 &&
-							userImage->getResource() != RES_LOADING_FLIP17 &&
-							userImage->getResource() != RES_LOADING_FLIP18 &&
-							userImage->getResource() != RES_EMPTY_FLIP &&
-							userImage->getResource() != RES_TEMP) {
+						if (userImage->getResource() != NULL) {
 							maDestroyObject(userImage->getResource());
 						}
-						userImage->setResource(RES_LOADING_FLIP1);
+						userImage->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 						userImage->update();
 						userImage->requestRepaint();
 						maUpdateScreen();
@@ -720,26 +606,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						currentSelectedStat=-1;
 					} else if (active) {
 						if (!busy) {
-							if (userImage->getResource() != RES_LOADING_FLIP1 &&
-								userImage->getResource() != RES_LOADING_FLIP2 &&
-								userImage->getResource() != RES_LOADING_FLIP3 &&
-								userImage->getResource() != RES_LOADING_FLIP4 &&
-								userImage->getResource() != RES_LOADING_FLIP5 &&
-								userImage->getResource() != RES_LOADING_FLIP6 &&
-								userImage->getResource() != RES_LOADING_FLIP7 &&
-								userImage->getResource() != RES_LOADING_FLIP8 &&
-								userImage->getResource() != RES_LOADING_FLIP9 &&
-								userImage->getResource() != RES_LOADING_FLIP10 &&
-								userImage->getResource() != RES_LOADING_FLIP11 &&
-								userImage->getResource() != RES_LOADING_FLIP12 &&
-								userImage->getResource() != RES_LOADING_FLIP13 &&
-								userImage->getResource() != RES_LOADING_FLIP14 &&
-								userImage->getResource() != RES_LOADING_FLIP15 &&
-								userImage->getResource() != RES_LOADING_FLIP16 &&
-								userImage->getResource() != RES_LOADING_FLIP17 &&
-								userImage->getResource() != RES_LOADING_FLIP18 &&
-								userImage->getResource() != RES_EMPTY_FLIP &&
-								userImage->getResource() != RES_TEMP) {
+							if (userImage->getResource() != NULL) {
 								if(currentSelectedStat>-1){
 									if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 										busy = true;
@@ -774,10 +641,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						notice->setCaption("Confirming...");
 						phase = P_CARD_DETAILS;
 						//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-						int urlLength = 69 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+						int urlLength = 75 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d&deckid=%s", URL,
+						sprintf(url, "%s?confirmgame=1&gameid=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
 							gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
@@ -815,11 +682,11 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							phase = P_LOADING;
 
 							//work out how long the url will be, the 4 is for the & and = symbals
-							int urlLength = 86 + URLSIZE + categoryId.length() +
+							int urlLength = 92 + URLSIZE + categoryId.length() +
 								newGameType.length() + base64Friend.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d&deckid=%s", URL,
+							sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&friend=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
 								categoryId.c_str(), newGameType.c_str(), base64Friend.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 							if(mHttp.isOpen()){
 								mHttp.close();
@@ -856,10 +723,10 @@ void GamePlayScreen::runTimerEvent() {
 	if ((!active && phase == P_CARD_DETAILS && !selectingStat) || (!checking && lfmTicks%12 == 0)) {
 		checking = true;
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
-		int urlLength = 76 + URLSIZE + gameId.length() + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+		int urlLength = 82 + URLSIZE + gameId.length() + lastMove.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s?continuegame=1&gameid=%s&lastmove=%s&height=%d&width=%d", URL,
+		sprintf(url, "%s?continuegame=1&gameid=%s&lastmove=%s&height=%d&width=%d&jpg=1", URL,
 				gameId.c_str(), lastMove.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -961,10 +828,10 @@ void GamePlayScreen::runTimerEvent() {
 		//MAUtil::Environment::getEnvironment().removeTimer(this);
 		//ticks = 0;
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 68 + URLSIZE + gameId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d&jpg=1", URL,
 			gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -1001,7 +868,11 @@ void GamePlayScreen::resetHeights() {
 
 void GamePlayScreen::animateSelectStat() {
 	int height = listBox->getHeight();
-	oppImage->setResource(RES_LOADING_FLIP1);
+	/** could potentially destroy gcflip **/
+	if (oppImage->getResource() != NULL) {
+		maDestroyObject(oppImage->getResource());
+	}
+	oppImage->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 	oppImage->update();
 	oppImage->requestRepaint();
 	maUpdateScreen();
@@ -1023,10 +894,10 @@ void GamePlayScreen::selectStat() {
 	//listBox->setEnabled(true);
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
-	urlLength = 72 + URLSIZE + gameId.length() + card->getStats()[currentSelectedStat]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+	urlLength = 78 + URLSIZE + gameId.length() + card->getStats()[currentSelectedStat]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?selectstat=1&gameid=%s&statid=%s&height=%d&width=%d", URL, gameId.c_str(),
+	sprintf(url, "%s?selectstat=1&gameid=%s&statid=%s&height=%d&width=%d&jpg=1", URL, gameId.c_str(),
 			card->getStats()[currentSelectedStat]->getCardStatId().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 
 	//clearCardStats();
@@ -1089,10 +960,10 @@ void GamePlayScreen::xcConnError(int code) {
 		newGame = false;
 
 		//work out how long the url will be, the 17 is for the & and = symbals, as well as hard coded vars
-		int urlLength = 62 + URLSIZE + gameId.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+		int urlLength = 68 + URLSIZE + gameId.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		url = new char[urlLength];
 		memset(url,'\0',urlLength);
-		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d", URL,
+		sprintf(url, "%s?loadgame=1&gameid=%s&height=%d&width=%d&jpg=1", URL,
 				gameId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();

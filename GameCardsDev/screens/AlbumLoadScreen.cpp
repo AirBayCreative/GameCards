@@ -21,10 +21,11 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 0;
 
 	mHttp = HttpConnection(this);
-	album->clearAll();
 	//delete album;
 	if (album == NULL) {
 		album = new Albums();
+	} else {
+		album->clearAll();
 	}
 
 	notice->setCaption("Checking for new albums...");
@@ -411,10 +412,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					case ST_PLAY:
 						next = new DeckListScreen(this, feed, DeckListScreen::ST_SELECT, val->getId());
 						next->show();
-						/*next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
-						next->show();*/
-						/*next = new GamePlayScreen(this, feed, true, val->getId());
-						next->show();*/
 						break;
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());
@@ -647,8 +644,6 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 					case ST_PLAY:
 						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
 						next->show();
-						/*next = new GamePlayScreen(this, feed, true, val->getId());
-						next->show();*/
 						break;
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());

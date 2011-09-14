@@ -379,9 +379,6 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						//menu = new DetailScreen(this, feed,
-							//	DetailScreen::CARD, card);
-						//menu = new CompareScreen(this, RES_LOADING_FLIP, feed, false, card);
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
 						menu->show();
 					}
@@ -389,7 +386,6 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						//menu = new CompareScreen(this, RES_LOADING_FLIP, feed, false, card);
 						menu = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
 						menu->show();

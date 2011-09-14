@@ -63,7 +63,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	feedlayout->addWidgetListener(this);
 
 	mImageCache = new ImageCache();
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 
 	nameDesc = "";
 	String fullDesc = "";
@@ -613,7 +613,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	feedlayout->addWidgetListener(this);
 
 	mImageCache = new ImageCache();
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 
 	nameDesc = "";
 	String fullDesc = "";
@@ -707,7 +707,7 @@ void ShopDetailsScreen::drawBuyNow()
 	feedlayout->addWidgetListener(this);
 
 	mImageCache = new ImageCache();
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 
 	nameDesc = "";
 	fullDesc = "";
@@ -755,7 +755,7 @@ void ShopDetailsScreen::drawBuyNow(bool success)
 {
 	if (success)
 	{
-		next = new ImageScreen(previous, RES_LOADING1, feed, false, auction->getCard());
+		next = new ImageScreen(previous, Util::loadImageFromResource(RES_LOADING1), feed, false, auction->getCard());
 		((ImageScreen *)next)->isAuction = true;
 		next->show();
 		auction = NULL;

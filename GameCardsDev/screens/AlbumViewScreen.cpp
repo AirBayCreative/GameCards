@@ -108,11 +108,11 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		delete [] url;
 	} else if (albumType == AT_DECK) {
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) +
+		int urlLength = 81 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) +
 				Util::intlen(scrWidth) + feed->getSeconds().length() + deckId.length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?cardsincategorynotdeck=%s&seconds=%s&height=%d&width=%d&deck_id=%s", URL, category.c_str(),
+		sprintf(url, "%s?cardsincategorynotdeck=%s&seconds=%s&height=%d&width=%d&deck_id=%s&jpg=1", URL, category.c_str(),
 				feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -135,10 +135,10 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	} else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -170,10 +170,10 @@ void AlbumViewScreen::refresh() {
 		busy = true;
 		//loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 69 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -332,13 +332,13 @@ void AlbumViewScreen::drawList() {
 
 		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 			tempImage->setHasNote(itr->second->getNote().length()>0);
 			Util::retrieveThumb(tempImage, itr->second, mImageCache);
 		}
 		else {
 			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
@@ -378,7 +378,10 @@ AlbumViewScreen::~AlbumViewScreen() {
 		all="";
 	}
 
-	//delete tempImage;
+	if (tempImage != NULL) {
+		maDestroyObject(tempImage->getResource());
+	}
+	delete tempImage;
 	clearCardMap();
 	deleteCards();
 
@@ -477,13 +480,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next->show();
 				} else {
 					if (albumType == AT_NEW_CARDS) {
-						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
+						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 					}
 					else if (albumType == AT_DECK) {
-						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
+						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
 					}
 					else {
-						next = new ImageScreen(this, RES_LOADING1, feed, false, cards.find(index[selected])->second);
+						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
 					}
 					next->show();
 				}

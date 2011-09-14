@@ -10,7 +10,7 @@
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card, String category, String categoryname) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;

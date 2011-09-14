@@ -47,10 +47,10 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	notice->setCaption("Getting card list...");
 
 	mImageCache = new ImageCache();
-	int urlLength = 65 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -81,10 +81,10 @@ void EditDeckScreen::refresh() {
 	clearListBox();
 	clearCards();
 
-	int urlLength = 65 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -296,13 +296,13 @@ void EditDeckScreen::drawList() {
 
 		if (strcmp(cards[i]->getQuantity().c_str(), "0") != 0) {
 			//if the user has one or more of the card, the image must be downloaded
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_LOADINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 			tempImage->setHasNote(cards[i]->getNote().length()>0);
 			Util::retrieveThumb(tempImage, cards[i], mImageCache);
 		}
 		else {
 			//we use the blank image for cards they dont have yet
-			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, RES_MISSINGTHUMB);
+			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());

@@ -28,6 +28,7 @@ class Util
 		Util();
 		~Util();
 
+		static MAHandle loadImageFromResource(MAHandle resourceId);
 		static void setPadding(Widget *w);
 		static Label* createLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createEditLabel(String str, int height=DEFAULT_LABEL_HEIGHT);

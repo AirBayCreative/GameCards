@@ -22,8 +22,8 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
-	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, img);
-	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, img);
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
+	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
 	this->setMain(mainLayout);
 	if (card != NULL && compare != NULL) {
 		if (flip) {
@@ -131,11 +131,9 @@ void CompareScreen::locateItem(MAPoint2d point)
 }
 #endif
 CompareScreen::~CompareScreen() {
-	/*if (card != NULL) {
-		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
-			maDestroyObject(imge->getResource());
-		}
-	} // <-- dont delete!*/
+	if (imge->getResource() != NULL) {
+		maDestroyObject(imge->getResource());
+	}
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
@@ -176,33 +174,17 @@ void CompareScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 
 			flip=!flip;
-			if (imge->getResource() != RES_LOADING_FLIP1 &&
-				imge->getResource() != RES_LOADING_FLIP2 &&
-				imge->getResource() != RES_LOADING_FLIP3 &&
-				imge->getResource() != RES_LOADING_FLIP4 &&
-				imge->getResource() != RES_LOADING_FLIP5 &&
-				imge->getResource() != RES_LOADING_FLIP6 &&
-				imge->getResource() != RES_LOADING_FLIP7 &&
-				imge->getResource() != RES_LOADING_FLIP8 &&
-				imge->getResource() != RES_LOADING_FLIP9 &&
-				imge->getResource() != RES_LOADING_FLIP10 &&
-				imge->getResource() != RES_LOADING_FLIP11 &&
-				imge->getResource() != RES_LOADING_FLIP12 &&
-				imge->getResource() != RES_LOADING_FLIP13 &&
-				imge->getResource() != RES_LOADING_FLIP14 &&
-				imge->getResource() != RES_LOADING_FLIP15 &&
-				imge->getResource() != RES_LOADING_FLIP16 &&
-				imge->getResource() != RES_LOADING_FLIP17 &&
-				imge->getResource() != RES_LOADING_FLIP18 &&
-				imge->getResource() != RES_EMPTY_FLIP &&
-				imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != NULL) {
 				maDestroyObject(imge->getResource());
 			}
-			imge->setResource(RES_LOADING_FLIP1);
+			if (cmpge->getResource() != NULL) {
+				maDestroyObject(cmpge->getResource());
+			}
+			imge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 			imge->update();
 			imge->requestRepaint();
 
-			cmpge->setResource(RES_LOADING_FLIP1);
+			cmpge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 			cmpge->update();
 			cmpge->requestRepaint();
 

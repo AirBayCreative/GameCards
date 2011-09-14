@@ -92,11 +92,20 @@ void ImageCache::finishedDownloading()
 	} else if (mNextRequest != NULL){
 		if (mNextRequest->getImage() != NULL) {
 			if (mNextRequest->getType() == 0) {
-				mNextRequest->getImage()->setResource(RES_TEMPTHUMB);
+				if (mNextRequest->getImage()->getResource() != NULL) {
+					maDestroyObject(mNextRequest->getImage()->getResource());
+				}
+				mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_TEMPTHUMB));
 			} else if ((mNextRequest->getType() == 1) || (mNextRequest->getType() == 2)) {
-				mNextRequest->getImage()->setResource(RES_TEMP);
+				if (mNextRequest->getImage()->getResource() != NULL) {
+					maDestroyObject(mNextRequest->getImage()->getResource());
+				}
+				mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_TEMP));
 			} else if ((mNextRequest->getType() == 3) || (mNextRequest->getType() == 4)) {
-				mNextRequest->getImage()->setResource(RES_EMPTY_FLIP);
+				if (mNextRequest->getImage()->getResource() != NULL) {
+					maDestroyObject(mNextRequest->getImage()->getResource());
+				}
+				mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_EMPTY_FLIP));
 			}
 			mNextRequest->getImage()->requestRepaint();
 		}
@@ -179,80 +188,116 @@ void ImageCache::connRecvFinished(MAUtil::Connection* conn, int result) {
 				//normal loading
 			} else if ((mNextRequest->getType() == 3)||(mNextRequest->getType() == 4)) {
 				if (val <= 5.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP1);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 				} else if (val <= 11) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP2);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP2));
 				} else if (val <= 16.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP3);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP3));
 				} else if (val <= 22) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP4);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP4));
 				} else if (val <= 27.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP5);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP5));
 				} else if (val <= 33) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP6);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP6));
 				} else if (val <= 38.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP7);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP7));
 				} else if (val <= 44) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP8);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP8));
 				} else if (val <= 49.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP9);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP9));
 				} else if (val <= 55) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP10);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP10));
 				} else if (val <= 60.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP11);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP11));
 				} else if (val <= 66) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP12);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP12));
 				} else if (val <= 71.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP13);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP13));
 				} else if (val <= 77) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP14);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP14));
 				} else if (val <= 82.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP15);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP15));
 				} else if (val <= 88) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP16);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP16));
 				} else if (val <= 93.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP17);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP17));
 				} else if (val <= 99) {
-					mNextRequest->getImage()->setResource(RES_LOADING_FLIP18);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING_FLIP18));
 				}
 				mNextRequest->getImage()->requestRepaint();
 			} else if ((mNextRequest->getType() == 1)||(mNextRequest->getType() == 2)) {
 				if (val <= 5.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING1);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING1));
 				} else if (val <= 11) {
-					mNextRequest->getImage()->setResource(RES_LOADING2);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING2));
 				} else if (val <= 16.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING3);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING3));
 				} else if (val <= 22) {
-					mNextRequest->getImage()->setResource(RES_LOADING4);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING4));
 				} else if (val <= 27.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING5);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING5));
 				} else if (val <= 33) {
-					mNextRequest->getImage()->setResource(RES_LOADING6);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING6));
 				} else if (val <= 38.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING7);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING7));
 				} else if (val <= 44) {
-					mNextRequest->getImage()->setResource(RES_LOADING8);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING8));
 				} else if (val <= 49.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING9);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING9));
 				} else if (val <= 55) {
-					mNextRequest->getImage()->setResource(RES_LOADING10);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING10));
 				} else if (val <= 60.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING11);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING11));
 				} else if (val <= 66) {
-					mNextRequest->getImage()->setResource(RES_LOADING12);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING12));
 				} else if (val <= 71.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING13);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING13));
 				} else if (val <= 77) {
-					mNextRequest->getImage()->setResource(RES_LOADING14);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING14));
 				} else if (val <= 82.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING15);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING15));
 				} else if (val <= 88) {
-					mNextRequest->getImage()->setResource(RES_LOADING16);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING16));
 				} else if (val <= 93.5) {
-					mNextRequest->getImage()->setResource(RES_LOADING17);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING17));
 				} else if (val <= 99) {
-					mNextRequest->getImage()->setResource(RES_LOADING18);
+					maDestroyObject(mNextRequest->getImage()->getResource());
+					mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_LOADING18));
 				}
 				mNextRequest->getImage()->requestRepaint();
 			}

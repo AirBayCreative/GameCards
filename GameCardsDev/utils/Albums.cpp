@@ -78,6 +78,8 @@ void Albums::setAll(const char* allch) {
 			albumnames.insert(name,id);
 			album.insert(id, new Album(id, name, hasCards, false));
 			tmp = "";
+			id = "";
+			name = "";
 		}
 		all = all.substr(indexof);
 	}

@@ -144,12 +144,12 @@ void ImageScreen::locateItem(MAPoint2d point)
 }
 #endif
 ImageScreen::~ImageScreen() {
-	/*if (card != NULL) {
-		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+	if (card != NULL) {
+		if (imge->getResource() != NULL) {
 			maDestroyObject(imge->getResource());
 		}
-	} // <-- dont delete!*/
-	//clearListBox();
+	}
+	clearListBox();
 	//listBox->clear();
 	delete mainLayout;
 	if (next != NULL) {
@@ -197,28 +197,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 
 			flip=!flip;
-			if (imge->getResource() != RES_LOADING1 &&
-				imge->getResource() != RES_LOADING2 &&
-				imge->getResource() != RES_LOADING3 &&
-				imge->getResource() != RES_LOADING4 &&
-				imge->getResource() != RES_LOADING5 &&
-				imge->getResource() != RES_LOADING6 &&
-				imge->getResource() != RES_LOADING7 &&
-				imge->getResource() != RES_LOADING8 &&
-				imge->getResource() != RES_LOADING9 &&
-				imge->getResource() != RES_LOADING10 &&
-				imge->getResource() != RES_LOADING11 &&
-				imge->getResource() != RES_LOADING12 &&
-				imge->getResource() != RES_LOADING13 &&
-				imge->getResource() != RES_LOADING14 &&
-				imge->getResource() != RES_LOADING15 &&
-				imge->getResource() != RES_LOADING16 &&
-				imge->getResource() != RES_LOADING17 &&
-				imge->getResource() != RES_LOADING18 &&
-					imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != NULL) {
 				maDestroyObject(imge->getResource());
 			}
-			imge->setResource(RES_LOADING1);
+			imge->setResource(Util::loadImageFromResource(RES_LOADING1));
 			imge->update();
 			imge->requestRepaint();
 			maUpdateScreen();
@@ -277,28 +259,10 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						imge->refreshWidget();
 						imge->statAdded = false;
 						currentSelectedStat = -1;
-						if (imge->getResource() != RES_LOADING1 &&
-							imge->getResource() != RES_LOADING2 &&
-							imge->getResource() != RES_LOADING3 &&
-							imge->getResource() != RES_LOADING4 &&
-							imge->getResource() != RES_LOADING5 &&
-							imge->getResource() != RES_LOADING6 &&
-							imge->getResource() != RES_LOADING7 &&
-							imge->getResource() != RES_LOADING8 &&
-							imge->getResource() != RES_LOADING9 &&
-							imge->getResource() != RES_LOADING10 &&
-							imge->getResource() != RES_LOADING11 &&
-							imge->getResource() != RES_LOADING12 &&
-							imge->getResource() != RES_LOADING13 &&
-							imge->getResource() != RES_LOADING14 &&
-							imge->getResource() != RES_LOADING15 &&
-							imge->getResource() != RES_LOADING16 &&
-							imge->getResource() != RES_LOADING17 &&
-							imge->getResource() != RES_LOADING18 &&
-							imge->getResource() != RES_TEMP) {
+						if (imge->getResource() != NULL) {
 							maDestroyObject(imge->getResource());
 						}
-						imge->setResource(RES_LOADING1);
+						imge->setResource(Util::loadImageFromResource(RES_LOADING1));
 						imge->update();
 						imge->requestRepaint();
 						maUpdateScreen();

@@ -22,9 +22,27 @@ Screen *origMenu;
 int scrWidth;
 int scrHeight;
 
-
 Util::Util() {}
 Util::~Util() {}
+
+MAHandle Util::loadImageFromResource(MAHandle resourceId)
+{
+	MAHandle image = maCreatePlaceholder();
+	int result = maCreateImageFromData(
+		image,
+		resourceId,
+		0,
+		maGetDataSize(resourceId));
+
+	if (RES_OK == result)
+	{
+		return image;
+	}
+	else
+	{
+		return NULL;
+	}
+}
 
 Font* Util::getFontBlue() {
 	static Font* blue;
@@ -239,6 +257,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	int imgHeight = EXTENT_Y(imgSize);
 
 	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	//Label *lblz = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
 	listBox->add(image);
 
 	label->setAutoSizeY();
@@ -246,12 +265,12 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	listBox->add(label);
 
 	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+image->getHeight()),
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+image->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		listBox->add(mBox);
 	}
 	listBox->setPaddingLeft(PADDING);
@@ -398,8 +417,10 @@ void Util::returnImage(MobImage *img, MAHandle i, int height)
 	MAHandle imageh = maCreatePlaceholder();
 	maCreateImageFromData(imageh, i, 0, maGetDataSize(i));
 	if (img != NULL) {
+		if (img->getResource() != NULL) {
+			maDestroyObject(img->getResource());
+		}
 		img->setResource(imageh);
-		//img->update();
 		img->requestRepaint();
 	}
 	maUpdateScreen();
