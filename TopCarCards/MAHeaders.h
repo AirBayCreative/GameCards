@@ -55,11 +55,10 @@
 #define RES_LOADING_FLIP17 55
 #define RES_LOADING_FLIP18 56
 
-/* CUSTOM VARIABLES */
+/* Custom Variables per App */
 
 #define RES_FONT_RED 57
 #define RES_FONT_WHITE 58
-#define RES_FONT_PUREWHITE 59
 
 #define URL "http://www.mytcg.net/_phone/topcar/"
 #define URLSIZE 35

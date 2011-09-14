@@ -11,7 +11,7 @@
 DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, String categoryId)
 		:mHttp(this), previous(previous), feed(feed), screenType(screenType), categoryId(categoryId) {
 	lprintfln("DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	layout = Util::createMainLayout("Select", "Back", true);
+	layout = Util::createMainLayout("", "Back", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 

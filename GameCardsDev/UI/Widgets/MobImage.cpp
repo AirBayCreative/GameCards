@@ -15,6 +15,7 @@ MobImage::~MobImage() {
 	if (getResource() != NULL) {
 		maDestroyObject(getResource());
 	}
+	resource = NULL;
 }
 
 void MobImage::setHasNote(bool n) {

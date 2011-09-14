@@ -378,10 +378,12 @@ AlbumViewScreen::~AlbumViewScreen() {
 		all="";
 	}
 
-	if (tempImage != NULL) {
-		maDestroyObject(tempImage->getResource());
-	}
-	delete tempImage;
+	/*if (tempImage != NULL) {
+		if (tempImage->getResource() != NULL) {
+			//maDestroyObject(tempImage->getResource());
+		}
+		delete tempImage;
+	}*/
 	clearCardMap();
 	deleteCards();
 
