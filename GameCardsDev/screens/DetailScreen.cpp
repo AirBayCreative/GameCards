@@ -236,7 +236,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 }
 
 void DetailScreen::contactReceived(Contact& contact) {
-	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 			"", 0, Util::getDefaultFont());
 
 	char *buffer = new char[128];
@@ -533,7 +533,7 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		mHttp.close();
 		feed->remHttp();
 		if (screenType == BALANCE) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No transactions.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -609,7 +609,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		cred = "";
 	} else if(!strcmp(name, "transactions")) {
 		if (count == 0) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No transactions yet.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No transactions yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -625,7 +625,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "transaction")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -694,7 +694,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setNoteLoaded(false);
 		delete secString;
 		if (count == 0) {
-			label = new Label(0,0, scrWidth-PADDING*2, 48, NULL, "No notifications yet.", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
 			label->setPaddingRight(20);
 			label->addWidgetListener(this);
@@ -715,7 +715,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "note")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -758,7 +758,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "friend")) {
 
 		count++;
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(usr+"\n"+val+"\n"+desc);
 		label->setVerticalAlignment(Label::VA_CENTER);

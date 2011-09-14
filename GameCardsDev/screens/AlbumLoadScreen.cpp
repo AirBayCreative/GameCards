@@ -642,7 +642,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 						}
 						break;
 					case ST_PLAY:
-						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL, val->getId());
+						next = new DeckListScreen(this, feed, DeckListScreen::ST_SELECT, val->getId());
 						next->show();
 						break;
 					case ST_GAMES:
