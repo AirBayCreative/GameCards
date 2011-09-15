@@ -1,6 +1,7 @@
 #include "AuctionCreateScreen.h"
 #include "AlbumViewScreen.h"
 #include "ShopCategoriesScreen.h"
+#include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../UI/Widgets/MobImage.h"
 
@@ -228,6 +229,9 @@ void AuctionCreateScreen::validateInput() {
 		errorString = "Auction must last at least one day.";
 	}
 
+	if (atoi(daysText.c_str()) > 9) {
+		errorString = "Auction are not allowed last longer then 9 days.";
+	}
 }
 
 void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
