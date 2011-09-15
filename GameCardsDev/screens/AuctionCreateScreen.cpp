@@ -230,7 +230,7 @@ void AuctionCreateScreen::validateInput() {
 	}
 
 	if (atoi(daysText.c_str()) > 9) {
-		errorString = "Auction are not allowed last longer then 9 days.";
+		errorString = "Auctions are not allowed to last longer then 9 days.";
 	}
 }
 
