@@ -25,7 +25,7 @@ private:
 
 	void mtxTagData(const char*, int);
 	void mtxTagStart(const char*, int);
-	void mtxParseError();
+	void mtxParseError(int);
 };
 
 #endif

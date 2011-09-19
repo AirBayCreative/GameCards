@@ -375,7 +375,7 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
-void MenuScreen::mtxParseError() {
+void MenuScreen::mtxParseError(int) {
 	if(versionChecked ==0){
 		char buf[128] = "";
 		memset(buf, 0, 128);

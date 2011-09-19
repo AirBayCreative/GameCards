@@ -671,7 +671,7 @@ void EditDeckScreen::clearCards() {
 	stats.clear();
 }
 
-void EditDeckScreen::mtxParseError() {
+void EditDeckScreen::mtxParseError(int) {
 }
 
 void EditDeckScreen::mtxEmptyTagEnd() {

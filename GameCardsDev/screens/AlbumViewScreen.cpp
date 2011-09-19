@@ -817,7 +817,7 @@ void AlbumViewScreen::deleteCards() {
 	tmp.clear();
 }
 
-void AlbumViewScreen::mtxParseError() {
+void AlbumViewScreen::mtxParseError(int) {
 }
 
 void AlbumViewScreen::mtxEmptyTagEnd() {

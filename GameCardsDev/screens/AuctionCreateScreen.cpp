@@ -517,7 +517,7 @@ void AuctionCreateScreen::mtxTagEnd(const char* name, int len) {
 	drawCreatedScreen();
 }
 
-void AuctionCreateScreen::mtxParseError() {
+void AuctionCreateScreen::mtxParseError(int) {
 }
 
 void AuctionCreateScreen::mtxEmptyTagEnd() {

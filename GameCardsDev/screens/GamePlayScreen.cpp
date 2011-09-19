@@ -1239,7 +1239,7 @@ void GamePlayScreen::clearCardStats() {
 	cardStats.clear();
 }
 
-void GamePlayScreen::mtxParseError() {
+void GamePlayScreen::mtxParseError(int) {
 }
 
 void GamePlayScreen::mtxEmptyTagEnd() {
