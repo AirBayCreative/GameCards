@@ -422,6 +422,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
+					maPlatformRequest("http://buy.mytcg.net/");
 					//next = new ShopProductsScreen(this, feed, "credits", false, false);
 					//next->show();
 					break;

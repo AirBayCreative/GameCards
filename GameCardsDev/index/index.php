@@ -233,17 +233,23 @@ if ($iTestVersion=$_GET['update']){
 	if ($iUpdated==0){
 		$aUpdate=myqui('INSERT INTO mytcg_userphone (user_id, msisdn, imsi, imei, os, make, model, osver, touch, width, height, version) VALUES ('.$iUserID.',"'.$iMSISDN.'", "'.$iIMSI.'", "'.$iIMEI.'","'.$iOs.'","'.$iMake.'","'.$iModel.'","'.$iOsVer.'",'.$iTouch.','.$iScreenWidth.','.$iScreenHeight.',"'.$iTestVersion.'")');
 	}
+	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif, datediff(now(), date_last_visit) webdif 
+					FROM mytcg_user where user_id = '.$iUserID);
 	
-	$aVersion=myqu(
-		'SELECT url FROM mytcg_version '
-		.'WHERE os="'.$iOs.'" '
-		.'AND version <> "'.$iTestVersion.'" '
-	);
-	#
-	$iUpdate = sizeof($aVersion);
-	$iVersion=$aVersion[0];
-	if ($iUpdate > 0){
-		echo ''.$iVersion['url'].'';
+	$iUpdate=$aUpdate[0];
+	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
+		
+		$aVersion=myqu(
+			'SELECT url FROM mytcg_version '
+			.'WHERE os="'.$iOs.'" '
+			.'AND version <> "'.$iTestVersion.'" '
+		);
+		#
+		$iUpdate = sizeof($aVersion);
+		$iVersion=$aVersion[0];
+		if ($iUpdate > 0){
+			echo ''.$iVersion['url'].'';
+		}
 	}
 	exit;
 }
