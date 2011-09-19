@@ -670,7 +670,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void AlbumLoadScreen::mtxParseError() {}
+void AlbumLoadScreen::mtxParseError(int) {}
 
 void AlbumLoadScreen::mtxEmptyTagEnd() {
 }

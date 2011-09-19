@@ -409,7 +409,7 @@ void ShopCategoriesScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void ShopCategoriesScreen::mtxParseError() {
+void ShopCategoriesScreen::mtxParseError(int) {
 }
 
 void ShopCategoriesScreen::mtxEmptyTagEnd() {

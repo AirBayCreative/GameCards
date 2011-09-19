@@ -330,7 +330,6 @@ void MenuScreen::mtxTagStart(const char* name, int len) {
 }
 
 void MenuScreen::mtxTagData(const char* data, int len) {
-	lprintfln("data [%s] len [%d]", data, len);
 	if(!strcmp(parentTag.c_str(), "notedate")) {
 		parentTag = "";
 		notedate = data;
@@ -379,7 +378,7 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 void MenuScreen::xcConnError(int code) {
 	feed->remHttp();
 	if (code == -6) {
-		if(versionChecked ==0){
+		if(versionChecked ==0) {
 			char buf[128] = "";
 			memset(buf, 0, 128);
 			int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
@@ -412,13 +411,13 @@ void MenuScreen::xcConnError(int code) {
 			//work out how long the url will be, the 16 is for the & and = symbals
 			int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
 					+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
-
 			char *url = new char[urlLength+1];
 
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?update=1.03&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
+			sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
 					imsi, imei, os, make, model, touch, scrWidth, scrHeight);
 			int res = mHttp.create(url, HTTP_GET);
+			lprintfln("url %s", url);
 			if(res < 0) {
 
 			} else {
@@ -435,4 +434,5 @@ void MenuScreen::xcConnError(int code) {
 
 	}
 }
-void MenuScreen::mtxParseError() {}
+
+void MenuScreen::mtxParseError(int code) {}

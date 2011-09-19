@@ -167,7 +167,7 @@ if ($iUserID == 0){
 	echo $sOP;
 	exit;	
 } else {
-	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif, datediff(now(), date_last_visit) webdif 
+	$aUpdate=myqu('SELECT datediff(now(), IFNULL(mobile_date_last_visit,SUBTIME(now(),"1 0:0:0.0"))) dif, datediff(now(), IFNULL(date_last_visit,SUBTIME(now(),"1 0:0:0.0"))) webdif 
 					FROM mytcg_user where user_id = '.$iUserID);
 	
 	$iUpdate=$aUpdate[0];
@@ -228,16 +228,13 @@ if ($iTestVersion=$_GET['update']){
 		$iScreenHeight = '';
 	}
 	
-	$aChanged=myqu('SELECT * FROM mytcg_userphone WHERE msisdn="'.$iMSISDN.'" AND imsi="'.$iIMSI.'" AND imei="'.$iIMEI.'" AND os="'.$iOs.'" AND make="'.$iMake.'" AND model="'.$iModel.'" AND osver="'.$iOsVer.'" AND touch='.$iTouch.' AND width='.$iScreenWidth.' AND height='.$iScreenHeight.' AND version="'.$iTestVersion.'" AND user_id ='.$iUserID);
-	$iUpdated = sizeof($aChanged);
-	if ($iUpdated==0){
-		$aUpdate=myqui('INSERT INTO mytcg_userphone (user_id, msisdn, imsi, imei, os, make, model, osver, touch, width, height, version) VALUES ('.$iUserID.',"'.$iMSISDN.'", "'.$iIMSI.'", "'.$iIMEI.'","'.$iOs.'","'.$iMake.'","'.$iModel.'","'.$iOsVer.'",'.$iTouch.','.$iScreenWidth.','.$iScreenHeight.',"'.$iTestVersion.'")');
-	}
-	$aUpdate=myqu('SELECT datediff(now(), mobile_date_last_visit) dif, datediff(now(), date_last_visit) webdif 
+	$aUpdate=myqu('SELECT datediff(now(), IFNULL(version_check_date,SUBTIME(now(),"1 0:0:0.0"))) dif 
 					FROM mytcg_user where user_id = '.$iUserID);
 	
 	$iUpdate=$aUpdate[0];
-	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
+	if ($iUpdate['dif'] >= 1) {
+		
+		myqui('UPDATE mytcg_user SET version_check_date=now() WHERE user_id = '.$iUserID);
 		
 		$aVersion=myqu(
 			'SELECT url FROM mytcg_version '

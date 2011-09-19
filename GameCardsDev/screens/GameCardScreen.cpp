@@ -128,7 +128,7 @@ void GameCardScreen::mtxTagEnd(const char* name, int len) {
 
 }
 
-void GameCardScreen::mtxParseError() {
+void GameCardScreen::mtxParseError(int) {
 }
 
 void GameCardScreen::mtxEmptyTagEnd() {

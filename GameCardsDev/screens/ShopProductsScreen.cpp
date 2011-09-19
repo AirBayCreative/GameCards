@@ -403,7 +403,7 @@ void ShopProductsScreen::clearProductsList() {
 	products.clear();
 }
 
-void ShopProductsScreen::mtxParseError() {
+void ShopProductsScreen::mtxParseError(int) {
 }
 
 void ShopProductsScreen::mtxEmptyTagEnd() {

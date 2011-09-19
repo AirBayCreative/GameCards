@@ -627,7 +627,7 @@ void AuctionListScreen::deleteAuctions() {
 	deleted.clear();
 }
 
-void AuctionListScreen::mtxParseError() {
+void AuctionListScreen::mtxParseError(int) {
 }
 
 void AuctionListScreen::mtxEmptyTagEnd() {

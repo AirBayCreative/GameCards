@@ -363,7 +363,7 @@ void NewDeckScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void NewDeckScreen::mtxParseError() {
+void NewDeckScreen::mtxParseError(int) {
 }
 
 void NewDeckScreen::mtxEmptyTagEnd() {

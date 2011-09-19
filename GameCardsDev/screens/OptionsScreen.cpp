@@ -585,7 +585,7 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void OptionsScreen::mtxParseError() {
+void OptionsScreen::mtxParseError(int) {
 }
 
 void OptionsScreen::mtxEmptyTagEnd() {

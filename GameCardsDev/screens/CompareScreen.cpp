@@ -251,7 +251,7 @@ void CompareScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void CompareScreen::mtxParseError() {
+void CompareScreen::mtxParseError(int) {
 }
 
 void CompareScreen::mtxEmptyTagEnd() {

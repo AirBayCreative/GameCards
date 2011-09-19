@@ -486,7 +486,7 @@ void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void ShopDetailsScreen::mtxParseError() {
+void ShopDetailsScreen::mtxParseError(int) {
 }
 
 void ShopDetailsScreen::mtxEmptyTagEnd() {

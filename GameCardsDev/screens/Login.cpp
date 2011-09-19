@@ -495,7 +495,7 @@ void Login::cleanup() {
 	touch = "";
 }
 
-void Login::mtxParseError() {
+void Login::mtxParseError(int) {
 }
 
 void Login::mtxEmptyTagEnd() {

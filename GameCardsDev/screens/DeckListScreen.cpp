@@ -333,7 +333,7 @@ void DeckListScreen::mtxTagEnd(const char* name, int len) {
 	}
 }
 
-void DeckListScreen::mtxParseError() {
+void DeckListScreen::mtxParseError(int) {
 }
 
 void DeckListScreen::mtxEmptyTagEnd() {
