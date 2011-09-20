@@ -160,6 +160,7 @@ void MenuScreen::show() {
 		}
 		delete [] url;
 	}
+	versionChecked = 0;
 	//listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
@@ -330,6 +331,7 @@ void MenuScreen::mtxTagStart(const char* name, int len) {
 
 void MenuScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "notedate")) {
+		parentTag = "";
 		notedate = data;
 		tm t;
 		t.tm_year = atoi(notedate.substr(0,4).c_str())-1900;
@@ -352,8 +354,6 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 						delete menu;
 					}
 					/* Notifications */
-
-					lprintfln("shown is %d", shown);
 					menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 					menu->show();
 				}
@@ -375,57 +375,64 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
-void MenuScreen::mtxParseError(int) {
-	if(versionChecked ==0){
-		char buf[128] = "";
-		memset(buf, 0, 128);
-		int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
-		memset(buf, 0, 128);
-		int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
-		memset(buf, 0, 128);
+void MenuScreen::xcConnError(int code) {
+	feed->remHttp();
+	if (code == -6) {
+		if(versionChecked ==0) {
+			char buf[128] = "";
+			memset(buf, 0, 128);
+			int imsi = maGetSystemProperty("mosync.imsi", buf, sizeof(buf));
+			memset(buf, 0, 128);
+			int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
+			memset(buf, 0, 128);
 
-		char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
-		memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
-		sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
+			char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
+			memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
+			sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
 
-		char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
-		memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
-		sprintf(make, "%s", MA_PROF_STRING_VENDOR);
+			char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
+			memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
+			sprintf(make, "%s", MA_PROF_STRING_VENDOR);
 
-		//char *model = "temp";//MA_PROF_STRING_DEVICE;
-		char *model = new char[strlen("temp")+1];
-		memset(model, 0, strlen("temp")+1);
-		sprintf(model, "%s", "temp");
+			//char *model = "temp";//MA_PROF_STRING_DEVICE;
+			char *model = new char[strlen("temp")+1];
+			memset(model, 0, strlen("temp")+1);
+			sprintf(model, "%s", "temp");
 
-		int touch = 0;
-	#if defined(MA_PROF_SUPPORT_STYLUS)
-		touch = 1;
-	#endif
+			int touch = 0;
+		#if defined(MA_PROF_SUPPORT_STYLUS)
+			touch = 1;
+		#endif
 
-		if(mHttp.isOpen()){
-			mHttp.close();
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+			//work out how long the url will be, the 16 is for the & and = symbals
+			int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
+					+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
+			char *url = new char[urlLength+1];
+
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
+					imsi, imei, os, make, model, touch, scrWidth, scrHeight);
+			int res = mHttp.create(url, HTTP_GET);
+			lprintfln("url %s", url);
+			if(res < 0) {
+
+			} else {
+				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
+				mHttp.finish();
+			}
+
+			delete [] url;
+			versionChecked = 1;
 		}
-		mHttp = HttpConnection(this);
-		//work out how long the url will be, the 16 is for the & and = symbals
-		int urlLength = 91 + URLSIZE + Util::intlen(imsi) + Util::intlen(imei) + strlen(os) + strlen(make)
-				+ strlen(model) + Util::intlen(touch) + Util::intlen(scrWidth) + Util::intlen(scrHeight);
+	} else {
 
-		char *url = new char[urlLength+1];
-
-		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
-				imsi, imei, os, make, model, touch, scrWidth, scrHeight);
-		int res = mHttp.create(url, HTTP_GET);
-		if(res < 0) {
-
-		} else {
-			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-			feed->addHttp();
-			mHttp.finish();
-		}
-
-		delete [] url;
-		versionChecked = 1;
 	}
 }
+
+void MenuScreen::mtxParseError(int code) {}

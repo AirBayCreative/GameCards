@@ -469,7 +469,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					if (userImage->getResource() != NULL) {
 						maDestroyObject(userImage->getResource());
 					}
-					userImage->setResource(RES_LOADING_FLIP1);
+					userImage->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
 					userImage->update();
 					userImage->requestRepaint();
 					maUpdateScreen();

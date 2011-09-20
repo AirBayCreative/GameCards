@@ -2476,7 +2476,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		}
 		
 		//check if the username is untaken
-		$aIPDetails=myqu('SELECT username '
+		/*$aIPDetails=myqu('SELECT username '
 			.'FROM mytcg_user '
 			.'WHERE ip="'.$ip.'"');
 		if (sizeof($aIPDetails) > 0) {
@@ -2484,7 +2484,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			$sOP.=''.$aIPDetails[0]['username'].' has already registered from this device.';
 			$sOP.='</result>';
 			return $sOP;
-		}
+		}*/
 		
 		//check if the email address is already in the database
 		$aUserDetails=myqu('SELECT email_address '

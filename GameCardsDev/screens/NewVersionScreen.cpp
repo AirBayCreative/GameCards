@@ -4,7 +4,7 @@
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
-	layout = Util::createMainLayout("Download", "Back");
+	layout = Util::createMainLayout("Later", "Download");
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
