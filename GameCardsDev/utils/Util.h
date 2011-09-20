@@ -20,8 +20,6 @@
 
 using namespace MAUI;
 
-#define PADDING 5
-
 class Util
 {
 	public:

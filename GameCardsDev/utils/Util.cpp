@@ -171,7 +171,7 @@ WidgetSkin* Util::getSkinText() {
 }
 
 void Util::setPadding(Widget *w) {
-	w->setPaddingTop(10);
+	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);
 }
 
