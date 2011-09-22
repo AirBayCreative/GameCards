@@ -112,7 +112,7 @@ if ($_GET['registeruser']) {
 		$iWidth = '250';
 	}
 	$ip = getip();
-	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root,$ip);
+	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root,$ip,$url);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
