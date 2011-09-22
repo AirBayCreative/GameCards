@@ -107,6 +107,7 @@
 #define DEFAULT_SMALL_LABEL_HEIGHT 24
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
 #define DEFAULT_DETAILS_ITEM_HEIGHT 80
+#define PADDING 5
 
 //renumber the menu options if one is removed
 //numbers must always run sequential for index

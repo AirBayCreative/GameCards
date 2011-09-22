@@ -100,7 +100,7 @@ namespace MAUI {
                 if(orientation == LBO_VERTICAL) {
                         int size = children.size();
                         for(int i = 0; i < size; i++) {
-                                int y;
+                        		int y;
                                 if(i>0)
                                         y = children[i-1]->getPosition().y +
                                                 children[i-1]->getBounds().height;
@@ -116,7 +116,7 @@ namespace MAUI {
                 } else {
                         int size = children.size();
                         for(int i = 0; i < size; i++) {
-                                int x;
+                        		int x;
                                 if(i>0)
                                         x = children[i-1]->getPosition().x +
                                                 children[i-1]->getBounds().width;
@@ -283,7 +283,7 @@ namespace MAUI {
 
                             if(res)
                             {
-                                    srand(1);
+                                    //srand(1);
                                     for(i = 0; i < children.size(); i++)
                                     {
                                             /**
@@ -497,7 +497,7 @@ namespace MAUI {
                 return animationType;
         }
 
-        bool    KineticListBox::isWrapping() const {
+        bool KineticListBox::isWrapping() const {
                 return wrapping;
         }
 

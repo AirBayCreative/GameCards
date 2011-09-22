@@ -404,6 +404,9 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch (screenType) {
 				case ST_AUCTION: // Buy
+					if (!expired) {
+						editBidBox->disableListener();
+					}
 				case ST_USER:
 					previous->show();
 					break;
