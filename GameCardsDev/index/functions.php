@@ -2558,12 +2558,12 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
+			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit '.$url.'.", now(), 1)');
 			
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit www.mytcg.net for an even greater Game Cards experience.", now())');
+			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now())');
 		
 		//return userdetails
 		echo userdetails($iUserID,$iHeight,$iWidth,$root);

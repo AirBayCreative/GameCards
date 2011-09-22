@@ -180,10 +180,10 @@ if ($iUserID == 0){
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit www.mytcg.net.", now(), 1)');
+			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit '.$url.'.", now(), 1)');
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "Please visit www.mytcg.net for an even greater Game Cards experience.", now(), 1)');
+			VALUES ('.$iUserID.', "Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
 			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now(), 1)');

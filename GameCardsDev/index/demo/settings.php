@@ -6,4 +6,5 @@ $root = "../";
 $invite = 1;
 $usercategories = "";
 $productcategories = "";
+$url = "demo.mytcg.net";
 ?>
