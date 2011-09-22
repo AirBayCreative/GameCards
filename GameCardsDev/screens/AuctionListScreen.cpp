@@ -92,7 +92,6 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 	this->setMain(mainLayout);
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionListScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -151,7 +150,6 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;

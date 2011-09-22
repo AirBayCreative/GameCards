@@ -13,9 +13,6 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	moved = 0;
 	menu = NULL;
 
-	//check for android from code repository
-
-
 	layout = Util::createMainLayout("Continue", "Back", "", true);
 
 	layout->setDrawBackground(TRUE);
@@ -287,7 +284,12 @@ void TradeFriendDetailScreen::clearListBox() {
 	}
 	tempWidgets.clear();
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
+void TradeFriendDetailScreen::show() {
+	Screen::show();
+}
+void TradeFriendDetailScreen::hide() {
+	Screen::hide();
+}
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point) {
 	locateItem(point);
 }
@@ -319,6 +321,21 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		moved = 0;
 		changed = false;
 	}
+}
+
+void TradeFriendDetailScreen::setNum(String number) {
+
+	if (usernameEditBox != NULL) {
+		usernameEditBox->setEnabled(true);
+	}
+	if (emailEditBox != NULL) {
+		emailEditBox->setEnabled(true);
+	}
+	if (phonenumberEditBox != NULL) {
+		phonenumberEditBox->setEnabled(true);
+	}
+	phonenumberEditBox->setText(number);
+	show();
 }
 
 void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
@@ -354,9 +371,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 			//return;
 		}
 	}
-
 }
-#endif
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 
@@ -379,7 +394,16 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	mid = false;
 	switch(keyCode) {
 	case MAK_FIRE:
-		/*menu = new DetailScreen(this, feed, DetailScreen::CONTACTS);
+		/*if (usernameEditBox != NULL) {
+			usernameEditBox->setEnabled(false);
+		}
+		if (emailEditBox != NULL) {
+			emailEditBox->setEnabled(false);
+		}
+		if (phonenumberEditBox != NULL) {
+			phonenumberEditBox->setEnabled(false);
+		}
+		menu = new ContactScreen(this);
 		menu->show();*/
 		break;
 	case MAK_SOFTLEFT:

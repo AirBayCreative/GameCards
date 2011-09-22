@@ -169,8 +169,6 @@ void EditDeckScreen::removeCard() {
 	drawList();
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
 void EditDeckScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
@@ -222,8 +220,6 @@ void EditDeckScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-
-#endif
 
 void EditDeckScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;

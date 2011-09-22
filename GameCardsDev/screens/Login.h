@@ -9,12 +9,8 @@
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-//#include "../UI/Widgets/MobEditBox.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
-//#if defined(MA_PROF_SUPPORT_STYLUS)
-//#include "../UI/MobKeyboard.h"
-//#endif
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -27,12 +23,11 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void show();
 	void hide();
-#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-#endif
+
 	enum screens {S_LOGIN, S_REGISTER};
 private:
 	Layout *mainLayout;

@@ -177,8 +177,6 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	}
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
 void AlbumLoadScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -240,8 +238,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-
-#endif
 
 void AlbumLoadScreen::drawList() {
 	empt = false;

@@ -82,7 +82,6 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	cardsInPack = "";
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopProductsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -141,7 +140,6 @@ void ShopProductsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void ShopProductsScreen::drawList() {
 	Layout *feedlayout;
 	for(int i = 0; i < products.size(); i++) {

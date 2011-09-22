@@ -320,7 +320,6 @@ void GamePlayScreen::drawLFMScreen() {
 	notice->setCaption(caption);
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void GamePlayScreen::pointerPressEvent(MAPoint2d point) {
 	pointPressed = point;
     locateItem(point);
@@ -401,7 +400,7 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-#endif
+
 GamePlayScreen::~GamePlayScreen() {
 	clearListBox();
 	listBox->clear();

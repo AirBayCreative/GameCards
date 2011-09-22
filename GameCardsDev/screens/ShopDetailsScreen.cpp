@@ -289,7 +289,7 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	error_msg = "";
 
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
+
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -348,7 +348,6 @@ void ShopDetailsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void ShopDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {

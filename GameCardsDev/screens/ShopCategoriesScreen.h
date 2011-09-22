@@ -20,12 +20,12 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void drawList();
 	void clearListBox();
-#if defined(MA_PROF_SUPPORT_STYLUS)
+
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-#endif
+
 	void refresh();
 
 	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_FREEBIE, ST_RANKING, ST_FRIEND};

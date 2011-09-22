@@ -29,7 +29,7 @@ void PIM::getContacts()
 	char output[255];
 	MA_PIM_ARGS args;
 
-	/*MAHandle temp = maCreatePlaceholder();*/
+	MAHandle temp = maCreatePlaceholder();
 
 	WString familyName;
 	WString givenName;
@@ -75,8 +75,8 @@ void PIM::getContacts()
 					pimData.clear();
 					//lprintf("Iteration %d of %d values", k, nValues);
 					output[0] = 0;
-					/*int attr = maPimItemGetAttributes(nextItem, field, k);
-					int len = maPimItemGetValue(&args, k);*/
+					int attr = maPimItemGetAttributes(nextItem, field, k);
+					int len = maPimItemGetValue(&args, k);
 
 					switch(type)
 					{

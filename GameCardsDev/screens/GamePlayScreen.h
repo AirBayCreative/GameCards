@@ -28,12 +28,11 @@ public:
 
 	void runTimerEvent();
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-#endif
+
 	typedef Vector<CardStat*> CardStatVector;
 	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND};
 private:

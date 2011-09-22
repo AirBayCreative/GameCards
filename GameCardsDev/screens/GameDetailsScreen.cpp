@@ -117,7 +117,6 @@ void GameDetailsScreen::drawList() {
 	}
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void GameDetailsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -171,7 +170,6 @@ void GameDetailsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void GameDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {

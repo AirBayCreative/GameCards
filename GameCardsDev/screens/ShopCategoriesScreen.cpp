@@ -136,7 +136,6 @@ void ShopCategoriesScreen::clearListBox() {
 	}
 	tempWidgets.clear();
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void ShopCategoriesScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -192,7 +191,6 @@ void ShopCategoriesScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void ShopCategoriesScreen::drawList() {
 	empt = false;
 	listBox->getChildren().clear();

@@ -204,7 +204,7 @@ void OptionsScreen::checkForGames() {
 	}
 	delete [] url;
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
+
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -255,7 +255,6 @@ void OptionsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(Util::getDefaultSelected());

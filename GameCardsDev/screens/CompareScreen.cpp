@@ -38,7 +38,6 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 		imageCache = NULL;
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void CompareScreen::pointerPressEvent(MAPoint2d point)
 {
 	pointPressed = point;
@@ -129,7 +128,6 @@ void CompareScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 CompareScreen::~CompareScreen() {
 	if (imge->getResource() != NULL) {
 		maDestroyObject(imge->getResource());

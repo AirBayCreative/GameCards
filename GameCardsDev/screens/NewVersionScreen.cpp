@@ -24,7 +24,6 @@ NewVersionScreen::~NewVersionScreen() {
 	listBox->clear();
 	delete layout;
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -75,7 +74,6 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void NewVersionScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;

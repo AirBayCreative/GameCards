@@ -27,12 +27,10 @@ public:
 
 	void updateAuctions();
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-#endif
 
 	typedef Vector<Auction*> AuctionVector;
 

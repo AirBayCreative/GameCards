@@ -165,7 +165,6 @@ void DeckListScreen::drawList() {
 	selecting = false;
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void DeckListScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -219,7 +218,6 @@ void DeckListScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void DeckListScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {

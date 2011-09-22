@@ -71,7 +71,6 @@ void RedeemScreen::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void RedeemScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -122,7 +121,6 @@ void RedeemScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void RedeemScreen::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();

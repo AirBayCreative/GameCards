@@ -85,7 +85,6 @@ NewDeckScreen::~NewDeckScreen() {
 	deckId = "";
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void NewDeckScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -141,7 +140,6 @@ void NewDeckScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void NewDeckScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {

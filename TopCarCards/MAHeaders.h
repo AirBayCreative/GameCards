@@ -108,6 +108,23 @@
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
 #define DEFAULT_DETAILS_ITEM_HEIGHT 80
 
+//renumber the menu options if one is removed
+//numbers must always run sequential for index
+#define OP_ALBUMS 0
+#define OP_PLAY 1
+#define OP_DECKS 2
+#define OP_SHOP 3
+#define OP_AUCTIONS 4
+#define OP_NOTIFICATIONS 5
+#define OP_CREDITS 6
+#define OP_PROFILE 7
+#define OP_RANKINGS 8
+#define OP_FRIENDRANKS 9
+#define OP_FRIENDS 10
+#define OP_INVITEFRIENDS 11
+#define OP_REDEEM 12
+#define OP_LOGOUT 13
+
 #include <MAUtil/String.h>
 
 using namespace MAUtil;

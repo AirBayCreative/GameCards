@@ -52,7 +52,6 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 
 	isAuction = false;
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
 	pointPressed = point;
@@ -142,7 +141,7 @@ void ImageScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
+
 ImageScreen::~ImageScreen() {
 	if (card != NULL) {
 		if (imge->getResource() != NULL) {

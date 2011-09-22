@@ -129,7 +129,6 @@ void NoteScreen::clearListBox() {
 	tempWidgets.clear();
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void NoteScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -191,7 +190,6 @@ void NoteScreen::locateItem(MAPoint2d point){
 		}
 	}
 }
-#endif
 
 void NoteScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {

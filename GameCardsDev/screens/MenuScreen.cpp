@@ -15,6 +15,7 @@
 
 MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	lprintfln("MenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+
 	c=0;
 	versionChecked=0;
 	menu = NULL;
@@ -26,27 +27,33 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 #endif
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	label = Util::createSubLabel("Albums");
-	label->addWidgetListener(this);
-	listBox->add(label);
+
+#if (OP_ALBUMS > -1)
+		label = Util::createSubLabel("Albums");
+		label->addWidgetListener(this);
+		listBox->add(label);
+#endif
+#if (OP_PLAY > -1)
 	label = Util::createSubLabel("Play");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_DECKS > -1)
 	label = Util::createSubLabel("Decks");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_SHOP > -1)
 	label = Util::createSubLabel("Shop");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_AUCTIONS > -1)
 	label = Util::createSubLabel("Auctions");
 	label->addWidgetListener(this);
 	listBox->add(label);
-	label = Util::createSubLabel("Credits");
-	label->addWidgetListener(this);
-	listBox->add(label);
-	label = Util::createSubLabel("Profile");
-	label->addWidgetListener(this);
-	listBox->add(label);
+#endif
+#if (OP_NOTIFICATIONS > -1)
 	if(feed->getNoteLoaded()){
 		noteLabel = Util::createSubLabel("*Notifications");
 		noteLabel->setFont(Util::getDefaultSelected());
@@ -56,25 +63,48 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	}
 	noteLabel->addWidgetListener(this);
 	listBox->add(noteLabel);
+#endif
+#if (OP_CREDITS > -1)
+	label = Util::createSubLabel("Credits");
+	label->addWidgetListener(this);
+	listBox->add(label);
+#endif
+#if (OP_PROFILE > -1)
+	label = Util::createSubLabel("Profile");
+	label->addWidgetListener(this);
+	listBox->add(label);
+#endif
+#if (OP_RANKINGS > -1)
 	label = Util::createSubLabel("Rankings");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_FRIENDRANKS > -1)
 	label = Util::createSubLabel("Friend Ranks");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_FRIENDS > -1)
 	label = Util::createSubLabel("Friends");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_INVITEFRIENDS > -1)
 	label = Util::createSubLabel("Invite Friends");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_REDEEM > -1)
 	label = Util::createSubLabel("Redeem");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
+#if (OP_LOGOUT > -1)
 #if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 	label = Util::createSubLabel("Log Out");
 	label->addWidgetListener(this);
 	listBox->add(label);
+#endif
 #endif
 	label = new Label(0, 0, scrWidth-(PADDING*2), 72, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
@@ -86,7 +116,6 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	this->setMain(mainLayout);
 
 	origMenu = this;
-
 
 	 if (strcmp("0", feed->getFreebie().c_str()) == 0) {
 		 if (menu!=NULL) {
@@ -178,89 +207,89 @@ void MenuScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
 			int index = listBox->getSelectedIndex();
-			if(index == 0) {
+			if(index == OP_ALBUMS) {
 				if(menu!=NULL){
 					delete menu;
 					feed->remHttp();
 				}
 				menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				menu->show();
-			} else if(index == 1) {
+			} else if(index == OP_PLAY) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				menu->show();
-			} else if(index == 2) {//decks
+			} else if(index == OP_DECKS) {//decks
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DeckListScreen(this, feed);
 				menu->show();
-			} else if(index == 3) {
+			} else if(index == OP_SHOP) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				menu->show();
-			} else if(index == 4) {
+			} else if(index == OP_AUCTIONS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
 				menu->show();
-			} else if(index == 5) {
+			} else if(index == OP_CREDITS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				menu->show();
-			} else if(index == 6) {
+			} else if(index == OP_PROFILE) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				menu->show();
-			} else if(index == 7) {
+			} else if(index == OP_NOTIFICATIONS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/* Notifications */
 				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 				menu->show();
-			} else if(index == 8) {
+			} else if(index == OP_RANKINGS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
 				menu->show();
-			} else if(index == 9) {
+			} else if(index == OP_FRIENDRANKS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
 				menu->show();
-			} else if(index == 10) {
+			} else if(index == OP_FRIENDS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/* Notifications */
 				menu = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
 				menu->show();
-			} else if(index == 11) {
+			} else if(index == OP_INVITEFRIENDS) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				/*Invite Friend */
 				menu = new TradeFriendDetailScreen(this, feed, NULL);
 				menu->show();
-			} else if(index == 12) {
+			} else if(index == OP_REDEEM) {
 				if(menu!=NULL){
 					delete menu;
 				}
 				menu = new RedeemScreen(feed, this);
 				menu->show();
-			} else if (index == 13) {
+			} else if (index == OP_LOGOUT) {
 #if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 				Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
@@ -349,6 +378,7 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 			if(first==1){
 				first = 0;
 				feed->remHttp();
+
 				if (shown) {
 					if(menu!=NULL){
 						delete menu;
@@ -377,6 +407,10 @@ void MenuScreen::mtxTagData(const char* data, int len) {
 
 void MenuScreen::xcConnError(int code) {
 	feed->remHttp();
+	if (feed->getHttps() <= 0) {
+		label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+		label->setCaption("");
+	}
 	if (code == -6) {
 		if(versionChecked ==0) {
 			char buf[128] = "";
@@ -400,9 +434,9 @@ void MenuScreen::xcConnError(int code) {
 			sprintf(model, "%s", "temp");
 
 			int touch = 0;
-		#if defined(MA_PROF_SUPPORT_STYLUS)
-			touch = 1;
-		#endif
+			#if defined(MA_PROF_SUPPORT_STYLUS)
+				touch = 1;
+			#endif
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -414,10 +448,9 @@ void MenuScreen::xcConnError(int code) {
 			char *url = new char[urlLength+1];
 
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?update=1.02&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
+			sprintf(url, "%s?update=1.04&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
 					imsi, imei, os, make, model, touch, scrWidth, scrHeight);
 			int res = mHttp.create(url, HTTP_GET);
-			lprintfln("url %s", url);
 			if(res < 0) {
 
 			} else {

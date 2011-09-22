@@ -159,10 +159,9 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
+
 void Login::pointerPressEvent(MAPoint2d point)
 {
-	//kbShown = keyboard->isShown();
     locateItem(point);
 }
 
@@ -230,7 +229,6 @@ void Login::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void Login::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();

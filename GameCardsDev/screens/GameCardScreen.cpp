@@ -34,7 +34,6 @@ void GameCardScreen::keyPressEvent(int keyCode) {
 
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void GameCardScreen::pointerPressEvent(MAPoint2d point)
 {
 	locateItem(point);
@@ -92,7 +91,6 @@ void GameCardScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void GameCardScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {

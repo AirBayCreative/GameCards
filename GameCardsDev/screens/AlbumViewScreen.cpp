@@ -233,8 +233,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	tmp = "", all = "";
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
@@ -286,8 +284,6 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-
-#endif
 
 void AlbumViewScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;

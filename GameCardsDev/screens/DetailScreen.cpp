@@ -291,7 +291,6 @@ DetailScreen::~DetailScreen() {
 
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -345,7 +344,6 @@ void DetailScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if (screenType == CARD) {

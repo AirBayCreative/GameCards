@@ -43,7 +43,6 @@ AuctionCreateScreen::~AuctionCreateScreen() {
 	cardText = "";
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void AuctionCreateScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -95,7 +94,6 @@ void AuctionCreateScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void AuctionCreateScreen::keyPressEvent(int keyCode) {
 	switch(screenMode) {
@@ -297,7 +295,8 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = Util::createEditLabel("");
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
-	editBoxBuyNow->setCaption(Convert::toString((Convert::toInt(card->getValue().c_str()))*2)+1);
+	int buynow = ((Convert::toInt(card->getValue().c_str()))*2)+1;
+	editBoxBuyNow->setCaption(Convert::toString(buynow));
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
