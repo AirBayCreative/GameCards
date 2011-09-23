@@ -1524,6 +1524,36 @@ if ($_GET['viewgamedetails']){
 	exit;
 }
 
+/** get all open games for game lobby */
+if ($_GET['getopengames']){
+	$categoryId = $_GET['categoryid'];
+	$aGames=myqu('SELECT DATE_FORMAT(g.date_start, "%d %b %H:%i") date, g.game_id, u.username
+		FROM mytcg_game g, mytcg_gamestatus gs, mytcg_gamephase gp, mytcg_gameplayer gpl, mytcg_user u 
+		WHERE g.gamephase_id = gp.gamephase_id 
+		AND g.gamestatus_id = gs.gamestatus_id 
+		AND lower(gs.description) = "open" 
+		AND lower(gp.description) = "lfm" 
+		AND gpl.game_id = g.game_id 
+		AND gpl.user_id = u.user_id 
+		AND g.category_id = '.$iCategoryId.'
+		ORDER BY g.date_start');
+	$sOP='<games>'.$sCRLF;
+	$iCount=0;
+	while ($aGame=$aGames[$iCount]){
+		$sOP.='<game>';
+		$sOP.=$sTab.'<gameid>'.trim($aGame['game_id']).'</gameid>'.$sCRLF;
+		$sOP.=$sTab.'<date>'.trim($aGame['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<username>'.trim($aGame['username']).'</username>'.$sCRLF;
+		$sOP.='</game>';
+		$iCount++;
+	}
+	$sOP.='</games>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+
 /** get the date of the latest notification */
 if ($_GET['notedate']){
 	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' AND sysnote = 0 ORDER BY notedate DESC');
