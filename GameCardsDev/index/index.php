@@ -1431,7 +1431,7 @@ if ($_GET['newgame']) {
 	exit;
 }
 
-/** creates a new game, against AI, and returns the gameId */
+/** hosts a new game*/
 if ($_GET['hostgame']) {
 	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
@@ -1523,7 +1523,7 @@ if ($_GET['hostgame']) {
 	exit;
 }
 
-/** creates a new game, against AI, and returns the gameId */
+/** joins a hosted game */
 if ($_GET['joingame']) {
 	//we will use the admin as the ai user, if the user wants to play against ai
 	$categoryId = $_GET['categoryid'];
@@ -1748,7 +1748,7 @@ if ($_GET['getopengames']){
 		AND lower(gp.description) = "lfm" 
 		AND gpl.game_id = g.game_id 
 		AND gpl.user_id = u.user_id 
-		AND g.category_id = '.$iCategoryId.'
+		AND g.category_id = '.$categoryId.'
 		ORDER BY g.date_start');
 	$sOP='<games>'.$sCRLF;
 	$iCount=0;
