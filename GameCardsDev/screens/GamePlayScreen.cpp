@@ -7,10 +7,11 @@
 #include "../utils/Util.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
+#include "AlbumLoadScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier,
-		String newGameType, bool againstFriend, String deckId) : mHttp(this),
+		String newGameType, bool againstFriend, String deckId, int lobby, String gameid) : mHttp(this),
 		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType), deckId(deckId) {
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	parentTag = "";
@@ -95,16 +96,31 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		}
 		else {
 			categoryId = identifier;
-
 			notice->setCaption("Initialising new game...");
-
-			//work out how long the url will be, the 4 is for the & and = symbals
-			int urlLength = 96 + URLSIZE + categoryId.length() +
-				newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
-			url = new char[urlLength];
-			memset(url,'\0',urlLength);
-			sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
-				categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
+			if(lobby == 1){
+				int urlLength = 97 + URLSIZE + categoryId.length() +
+					newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+				url = new char[urlLength];
+				memset(url,'\0',urlLength);
+				sprintf(url, "%s?hostgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
+					categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
+			}else if (lobby == 2){
+				int urlLength = 105 + URLSIZE + categoryId.length() + gameId.length() +
+					newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+				url = new char[urlLength];
+				memset(url,'\0',urlLength);
+				sprintf(url, "%s?joingame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&gameid=%s&jpg=1", URL,
+					categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str(), gameid.c_str());
+				lprintfln("the fuck %s",url);
+			}else {
+				//work out how long the url will be, the 4 is for the & and = symbals
+				int urlLength = 96 + URLSIZE + categoryId.length() +
+					newGameType.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
+				url = new char[urlLength];
+				memset(url,'\0',urlLength);
+				sprintf(url, "%s?newgame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&jpg=1", URL,
+					categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
+			}
 		}
 	}
 	else {
@@ -214,6 +230,23 @@ void GamePlayScreen::drawConfirmScreen() {
 	lbl->setMultiLine(true);
 
 	lbl->setCaption(creator + " wants to play against you, do you want to take them on?");
+
+	listBox->add(lbl);
+}
+
+void GamePlayScreen::drawClosedScreen() {
+	MAUtil::Environment::getEnvironment().removeTimer(this);
+	clearListBox();
+
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
+
+	notice->setCaption("");
+	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setFont(Util::getDefaultFont());
+	lbl->setAutoSizeY(true);
+	lbl->setMultiLine(true);
+
+	lbl->setCaption("The game you are trying to join has already started!");
 
 	listBox->add(lbl);
 }
@@ -540,6 +573,10 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_LFM:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
 					previous->show();
+					break;
+				case P_CLOSED:
+					MAUtil::Environment::getEnvironment().removeTimer(this);
+					((AlbumLoadScreen *)previous)->refresh();
 					break;
 				case P_DECLINED:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
@@ -1103,6 +1140,9 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 		else if (!strcmp(data, "declined")) {
 			phase = P_DECLINED;
 		}
+		else if (!strcmp(data, "closed")) {
+			phase = P_CLOSED;
+		}
 	}
 }
 
@@ -1223,6 +1263,9 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 			switch (phase) {
 				case P_CONFIRM:
 					drawConfirmScreen();
+					break;
+				case P_CLOSED:
+					drawClosedScreen();
 					break;
 			}
 		}

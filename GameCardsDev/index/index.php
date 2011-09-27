@@ -1740,7 +1740,7 @@ if ($_GET['viewgamedetails']){
 /** get all open games for game lobby */
 if ($_GET['getopengames']){
 	$categoryId = $_GET['categoryid'];
-	$aGames=myqu('SELECT DATE_FORMAT(g.date_start, "%d %b %H:%i") date, g.game_id, u.username
+	$aGames=myqu('SELECT concat(concat(DATE_FORMAT(g.date_start, "%d %b %H:%i\n"), "VS "), u.username) description, DATE_FORMAT(g.date_start, "%d %b %H:%i") date, g.game_id, u.username
 		FROM mytcg_game g, mytcg_gamestatus gs, mytcg_gamephase gp, mytcg_gameplayer gpl, mytcg_user u 
 		WHERE g.gamephase_id = gp.gamephase_id 
 		AND g.gamestatus_id = gs.gamestatus_id 
@@ -1748,6 +1748,7 @@ if ($_GET['getopengames']){
 		AND lower(gp.description) = "lfm" 
 		AND gpl.game_id = g.game_id 
 		AND gpl.user_id = u.user_id 
+		AND u.user_id != '.$iUserID.' 
 		AND g.category_id = '.$categoryId.'
 		ORDER BY g.date_start');
 	$sOP='<games>'.$sCRLF;
@@ -1757,6 +1758,7 @@ if ($_GET['getopengames']){
 		$sOP.=$sTab.'<gameid>'.trim($aGame['game_id']).'</gameid>'.$sCRLF;
 		$sOP.=$sTab.'<date>'.trim($aGame['date']).'</date>'.$sCRLF;
 		$sOP.=$sTab.'<username>'.trim($aGame['username']).'</username>'.$sCRLF;
+		$sOP.=$sTab.'<gamedescription>'.trim($aGame['description']).'</gamedescription>'.$sCRLF;
 		$sOP.='</game>';
 		$iCount++;
 	}

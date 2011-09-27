@@ -27,18 +27,26 @@ void AlbumLoadScreen::refresh() {
 	} else {
 		album->clearAll();
 	}
-
-	notice->setCaption("Checking for new albums...");
 	String alb = this->feed->getAlbum()->getAll();
 	album->setAll(alb.c_str());
 	alb = "";
 	drawList();
-	urlLength = 52+URLSIZE + feed->getSeconds().length();
-	url = new char[urlLength+1];
-	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
-	res = mHttp.create(url, HTTP_GET);
-
+	if(screenType == ST_LOBBY){
+		notice->setCaption("Checking games...");
+		urlLength = 72 + URLSIZE + categoryId.length();
+		url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+		lprintfln("L:OLOLOL %s", url);
+		res = mHttp.create(url, HTTP_GET);
+	}else{
+		notice->setCaption("Checking for new albums...");
+		urlLength = 52+URLSIZE + feed->getSeconds().length();
+		url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+		res = mHttp.create(url, HTTP_GET);
+	}
 	if(res < 0) {
 		hasConnection = false;
 		notice->setCaption("");
@@ -121,6 +129,17 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				sprintf(url, "%s?getusergames=1", URL);
 				res = mHttp.create(url, HTTP_GET);
 			}
+			break;
+		case ST_LOBBY:
+			listBox->setHeight(listBox->getHeight() - 20);
+			notice->setCaption("Checking games...");
+			Util::updateSoftKeyLayout("Host Game", "Back", "", mainLayout);
+			urlLength = 72 + URLSIZE + categoryId.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+			lprintfln("L:OLOLOL %s", url);
+			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_DECK:
 			path.add(categoryId);
@@ -351,6 +370,13 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
+			case MAK_SOFTLEFT:
+				switch(screenType){
+					case ST_LOBBY:
+						next = new GamePlayScreen(this, feed, true, categoryId, "2", false, deckId, 1, "-1");
+						next->show();
+						break;
+				}
 		case MAK_FIRE:
 			if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
@@ -411,6 +437,10 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						break;
 					case ST_GAMES:
 						next = new GamePlayScreen(this, feed, false, val->getId());
+						next->show();
+						break;
+					case ST_LOBBY:
+						next = new GamePlayScreen(this, feed, true, categoryId, "2", false, deckId, 2, val->getId());
 						next->show();
 						break;
 					case ST_DECK:
@@ -574,6 +604,9 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				break;
 			case ST_GAMES:
 				notice->setCaption("Please choose a game to continue.");
+				break;
+			case ST_LOBBY:
+				notice->setCaption("Please choose a game to play.");
 				break;
 			default:
 				notice->setCaption("");

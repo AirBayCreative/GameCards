@@ -72,10 +72,13 @@ previous(previous), feed(feed), card(card), screenType(screenType), number(numbe
 			lbl = Util::createSubLabel("Play versus PC");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = Util::createSubLabel("Play versus player");
+			lbl = Util::createSubLabel("Play Quick Match");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			lbl = Util::createSubLabel("Play versus friend");
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
+			lbl = Util::createSubLabel("Game Lobby");
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
@@ -348,6 +351,14 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 							delete menu;
 						}
 						menu = new GamePlayScreen(this, feed, true, number, "2", true, deckId);
+						menu->show();
+					}
+					else if (index == 3) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_LOBBY, album,false,NULL,number);
+						((AlbumLoadScreen*)menu)->setDeckId(deckId);
 						menu->show();
 					}
 					break;
