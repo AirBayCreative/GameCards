@@ -1486,9 +1486,9 @@ if ($_GET['hostgame']) {
 		$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
 			FROM mytcg_game');
 		$gameId = $gameIdQuery[0]['game_id'];
-		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, date_start, friend, date_created) 
+		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, lobby, date_start, friend, date_created) 
 			SELECT '.$gameId.', '.$openId.', 
-			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', now(), "", now() 
+			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', 1, now(), "", now() 
 			FROM DUAL');
 		$newGame = true;
 		
@@ -1587,7 +1587,7 @@ if ($_GET['joingame']) {
 			FROM mytcg_game g, mytcg_gamephase gp  
 			WHERE g.category_id = '.$categoryId.' 
 			AND g.gamestatus_id = '.$openId.' 
-			AND g.game_id != '.$gameId.' 
+			AND g.game_id = '.$gameId.' 
 			AND gp.gamephase_id = g.gamephase_id 
 			AND lower(gp.description) = "lfm"');
 		
