@@ -606,13 +606,14 @@ function chooseStat($cardId, $difficultyId=1, $showCheat=false) {
 //load a game and return relevant xml
 function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
 	//get the game phase
-	$gamePhaseQuery = myqu('SELECT g.gamephase_id, lower(gp.description) as description
+	$gamePhaseQuery = myqu('SELECT g.gamephase_id, g.lobby, lower(gp.description) as description
 		FROM mytcg_game g
 		INNER JOIN mytcg_gamephase gp
 		ON g.gamephase_id = gp.gamephase_id
 		WHERE g.game_id = '.$gameId);
 	
 	$gamePhase = $gamePhaseQuery[0]['description'];
+	$lobby = $gamePhaseQuery[0]['lobby'];
 	
 	//we will always return the phase
 	$sOP='<game>'.$sCRLF;
@@ -824,7 +825,7 @@ function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0, $jpg
 			myqu('UPDATE mytcg_game SET gamestatus_id = 2 WHERE game_id = '.$gameId);
 		}
 	}
-	else if ($gamePhase == 'lfm') {
+	else if ($gamePhase == 'lfm' && $lobby == '0') {
 		//if the player has been waiting for a minute, and they didnt specify an opponent, we set them up against an ai player
 		$gameDetailsQuery = myqu('SELECT TIME_TO_SEC(TIMEDIFF(now(), date_created)) duration, friend 
 			FROM mytcg_game 

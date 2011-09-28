@@ -1455,6 +1455,219 @@ if ($_GET['newgame']) {
 	exit;
 }
 
+/** hosts a new game*/
+if ($_GET['hostgame']) {
+	//we will use the admin as the ai user, if the user wants to play against ai
+	$categoryId = $_GET['categoryid'];
+	$newGameType = $_GET['newgametype'];
+	if (!($deckId=$_GET['deckid'])) {
+		$deckId = getDeck($iUserID, $categoryId);
+	}
+	
+	//get phones screen sizes
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '0';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
+	if (!($jpg=$_GET['jpg'])) {
+		$jpg = '0';
+	}
+	
+	$gameId = "";
+	$newGame = false;
+	
+	if ($newGameType == $ng_pvp) {
+		//we are gonna need the open status id
+		$openStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'open'");
+		$openId = $openStatusQuery[0]['gamestatus_id'];
+		
+		//and the closed status
+		$closedStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'closed'");
+		$closedId = $closedStatusQuery[0]['gamestatus_id'];
+		
+		//we need to clear all the open games that are older than a minute, so we need all their ids
+		$oldOpenGame = myqu('SELECT g.game_id 
+			FROM mytcg_game g 
+			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 120 
+			AND (g.gamestatus_id = '.$openId.' 
+			OR g.gamestatus_id = '.$closedId.')');
+		
+		foreach ($oldOpenGame as $game) {
+			myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);
+			myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
+		}
+
+		//we create a new game, waiting for someone to join
+		$gameIdQuery = myqu('SELECT (CASE WHEN MAX(game_id) IS NULL THEN 0 ELSE MAX(game_id) END) + 1 AS game_id 
+			FROM mytcg_game');
+		$gameId = $gameIdQuery[0]['game_id'];
+		myqu('INSERT INTO mytcg_game (game_id, gamestatus_id, gamephase_id, category_id, lobby, date_start, friend, date_created) 
+			SELECT '.$gameId.', '.$openId.', 
+			(SELECT gamephase_id FROM mytcg_gamephase WHERE lower(description) = "lfm"), '.$categoryId.', 1, now(), "", now() 
+			FROM DUAL');
+		$newGame = true;
+		
+	}
+	
+	//add the player to the game, the host goes first
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').', '.$deckId.')');
+	
+	//return xml with the gameId to the phone
+	$sOP='<game>'.$sCRLF;
+	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
+	if ($newGame) {
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight, $jpg);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$dir = '/cards/';
+		$ext = '.png';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		if ($jpg) {
+			$ext = '.jpg';
+		}
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc'.$ext.'</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip'.$ext.'</gcurlflip>'.$sCRLF;
+	}
+	$sOP.='</game>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	
+	exit;
+}
+
+/** joins a hosted game */
+if ($_GET['joingame']) {
+	//we will use the admin as the ai user, if the user wants to play against ai
+	$categoryId = $_GET['categoryid'];
+	$newGameType = $_GET['newgametype'];
+	$gameId = $_GET['gameid'];
+	
+	if (!($deckId=$_GET['deckid'])) {
+		$deckId = getDeck($iUserID, $categoryId);
+	}
+	
+	//get phones screen sizes
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '0';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '0';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
+	if (!($jpg=$_GET['jpg'])) {
+		$jpg = '0';
+	}
+	
+	$opponentId = "";
+	$newGame = false;
+	
+	if ($newGameType == $ng_pvp) {
+		//we are gonna need the open status id
+		$openStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'open'");
+		$openId = $openStatusQuery[0]['gamestatus_id'];
+		
+		//we are also going to need the incomplete status id
+		$incompleteStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'incomplete'");
+		$incompleteId = $incompleteStatusQuery[0]['gamestatus_id'];
+		
+		//and the closed status
+		$closedStatusQuery = myqu("SELECT gamestatus_id 
+			FROM mytcg_gamestatus gs 
+			WHERE lower(gs.description) = 'closed'");
+		$closedId = $closedStatusQuery[0]['gamestatus_id'];
+		
+		//we need to clear all the open games that are older than a minute, so we need all their ids
+		$oldOpenGame = myqu('SELECT g.game_id 
+			FROM mytcg_game g 
+			WHERE TIME_TO_SEC(TIMEDIFF(now(), date_start)) > 120 
+			AND (g.gamestatus_id = '.$openId.' 
+			OR g.gamestatus_id = '.$closedId.')');
+		
+		foreach ($oldOpenGame as $game) {
+			myqu('DELETE FROM mytcg_gameplayer WHERE game_id = '.$game['game_id']);
+			myqu('DELETE FROM mytcg_game WHERE game_id = '.$game['game_id']);
+		}
+		
+		//check if the game is still available
+		$gameQuery = myqu('SELECT g.game_id  
+			FROM mytcg_game g, mytcg_gamephase gp  
+			WHERE g.category_id = '.$categoryId.' 
+			AND g.gamestatus_id = '.$openId.' 
+			AND g.game_id = '.$gameId.' 
+			AND gp.gamephase_id = g.gamephase_id 
+			AND lower(gp.description) = "lfm"');
+		
+		//if it is, set it up and create the game
+		if (sizeof($gameQuery) > 0) {
+			myqu('UPDATE mytcg_game 
+				SET gamestatus_id = '.$incompleteId.', 
+				gamephase_id = 2 
+				WHERE game_id = '.$gameId);
+		}
+		else {
+			$sOP='<game>'.$sCRLF;
+			$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+			$sOP.='<phase>closed</phase>'.$sCRLF;
+			$sOP.='</game>'.$sCRLF;
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			
+			exit;
+		}
+	}	
+	//add the player to the game, the host goes first
+	myqu('INSERT INTO mytcg_gameplayer (game_id, user_id, is_active, gameplayerstatus_id, deck_id)
+		VALUES ('.$gameId.', '.$iUserID.', '.($newGame?'1':(($newGameType == $ng_ai)?'1':'0')).', '.($newGame?(($newGameType == $ng_ai)?'1':'2'):'1').', '.$deckId.')');
+	
+	//setDeck($iUserID, $categoryId, $gameId);
+	
+	if (!$newGame) {
+		initialiseGame($iUserID, $gameId, ($newGameType == $ng_ai)?45:-1);
+	}
+	
+	//return xml with the gameId to the phone
+	$sOP='<game>'.$sCRLF;
+	$sOP.=$sTab.'<gameid>'.$gameId.'</gameid>'.$sCRLF;
+	//if a new game was created, for pvp, we need to return the url of the gc card, for display purposes
+	if ($newGame) {
+		$height = resizeGCCard($iHeight, $iWidth, $root, $iBBHeight, $jpg);
+		$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
+		$dir = '/cards/';
+		$ext = '.png';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+		if ($jpg) {
+			$ext = '.jpg';
+		}
+		$sOP.=$sTab.'<gcurl>'.$imageUrlQuery[0]['description'].$height.$dir.'gc'.$ext.'</gcurl>'.$sCRLF;
+		$sOP.=$sTab.'<gcurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'gcFlip'.$ext.'</gcurlflip>'.$sCRLF;
+	}
+	$sOP.='</game>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	
+	exit;
+}
+
 /** list incomplete games for the user */
 if ($_GET['getusergames']){
 	//we are gonna need the open status id
@@ -1547,6 +1760,38 @@ if ($_GET['viewgamedetails']){
 	echo $sOP;
 	exit;
 }
+
+/** get all open games for game lobby */
+if ($_GET['getopengames']){
+	$categoryId = $_GET['categoryid'];
+	$aGames=myqu('SELECT concat(concat(DATE_FORMAT(g.date_start, "%d %b %H:%i\n"), "VS "), u.username) description, DATE_FORMAT(g.date_start, "%d %b %H:%i") date, g.game_id, u.username
+		FROM mytcg_game g, mytcg_gamestatus gs, mytcg_gamephase gp, mytcg_gameplayer gpl, mytcg_user u 
+		WHERE g.gamephase_id = gp.gamephase_id 
+		AND g.gamestatus_id = gs.gamestatus_id 
+		AND lower(gs.description) = "open" 
+		AND lower(gp.description) = "lfm" 
+		AND gpl.game_id = g.game_id 
+		AND gpl.user_id = u.user_id 
+		AND u.user_id != '.$iUserID.' 
+		AND g.category_id = '.$categoryId.'
+		ORDER BY g.date_start');
+	$sOP='<games>'.$sCRLF;
+	$iCount=0;
+	while ($aGame=$aGames[$iCount]){
+		$sOP.='<game>';
+		$sOP.=$sTab.'<gameid>'.trim($aGame['game_id']).'</gameid>'.$sCRLF;
+		$sOP.=$sTab.'<date>'.trim($aGame['date']).'</date>'.$sCRLF;
+		$sOP.=$sTab.'<username>'.trim($aGame['username']).'</username>'.$sCRLF;
+		$sOP.=$sTab.'<gamedescription>'.trim($aGame['description']).'</gamedescription>'.$sCRLF;
+		$sOP.='</game>';
+		$iCount++;
+	}
+	$sOP.='</games>'.$sCRLF;
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 
 /** get the date of the latest notification */
 if ($_GET['notedate']){

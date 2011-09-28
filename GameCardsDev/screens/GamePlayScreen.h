@@ -19,7 +19,7 @@ using namespace MAUtil;
 
 class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
 public:
-	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false, String deckId=""); //the newGameType should correspond to one of the ng vars in the Util.h
+	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false, String deckId="", int lobby=0, String gameid="-1"); //the newGameType should correspond to one of the ng vars in the Util.h
 	~GamePlayScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -34,7 +34,7 @@ public:
 	void locateItem(MAPoint2d point);
 
 	typedef Vector<CardStat*> CardStatVector;
-	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_FRIEND};
+	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_CLOSED, P_FRIEND};
 private:
 	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
@@ -69,6 +69,7 @@ private:
 	void drawCardSelectStatScreen();
 	void drawLFMScreen();
 	void drawConfirmScreen();
+	void drawClosedScreen();
 	void drawDeclinedScreen();
 	void drawFriendNameScreen();
 
