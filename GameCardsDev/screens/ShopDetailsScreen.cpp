@@ -35,9 +35,9 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		mainLayout = Util::createMainLayout("", "Back", "", true);
 	}
 	else if (free)
-		mainLayout = Util::createMainLayout("Confirm", "Back", "", true);
+		mainLayout = Util::createMainLayout("Confirm", "Back", "Cards", true);
 	else
-		mainLayout = Util::createMainLayout("Purchase", "Back", "", true);
+		mainLayout = Util::createMainLayout("Purchase", "Back", "Cards", true);
 
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -368,6 +368,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					if (!expired) {
 						postBid();
 					}
+					break;
+				case ST_PRODUCT:
+					next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_PRODUCT);
+					next->show();
 					break;
 			}
 			break;
@@ -771,7 +775,7 @@ void ShopDetailsScreen::drawBuyNow(bool success)
 void ShopDetailsScreen::clearListBox() {
 
 	if (editBidBox != NULL) {
-		editBidBox->setSelected(false);
+		//editBidBox->setSelected(false);
 		editBidBox->disableListener();
 	}
 

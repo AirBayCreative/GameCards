@@ -521,6 +521,30 @@ usercardstatus = 2: In Auction
 usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
+
+if ($boosterid=$_GET['cardsinbooster']) {
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	if (!($iShowAll=$_GET['showall'])) {
+		$iShowAll = '1';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
+	if (!($jpg=$_GET['jpg'])) {
+		$jpg = '0';
+	}
+	
+	$sOP = getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeight, $jpg);
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 if ($iCategory=$_GET['cardsincategory']){
 
 	if (!($iHeight=$_GET['height'])) {
@@ -1755,7 +1779,7 @@ if ($iFreebie=$_GET['productcategories']) {
 if ($_GET['auctioncategories']) {
 		
 		
-	$aAuctionCards=myqu('SELECT count(*) as cnt 
+	$qu = 'SELECT count(*) as cnt 
 		FROM mytcg_usercard UC 
 		INNER JOIN mytcg_market AC 
 		ON UC.usercard_id=AC.usercard_id 
@@ -1769,7 +1793,8 @@ if ($_GET['auctioncategories']) {
 		ON AB.user_id=UB.user_id 
 		WHERE AC.marketstatus_id="1" 
 		AND datediff(now(), AC.date_expired) <= 0
-		AND U.user_id='.$iUserID);
+		AND U.user_id='.$iUserID;
+	$aAuctionCards=myqu($qu);
 		
 		
 	$sOP='<cardcategories>'.$sCRLF;
@@ -1786,21 +1811,27 @@ if ($_GET['auctioncategories']) {
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
 			FROM mytcg_category_x) ORDER BY c.description');*/
-			$aCategories=myqu('SELECT c.category_id, d.description
+			
+			/*removed INNER JOIN mytcg_category_x cx
+								ON d.category_id = cx.category_child_id*/
+	
+	$qu = 'SELECT c.category_id, d.description
 								FROM mytcg_card c
 								INNER JOIN mytcg_category d
 								on c.category_id = d.category_id
 								INNER JOIN mytcg_usercard uc
 								ON uc.card_id = c.card_id
-								INNER JOIN mytcg_category_x cx
-								ON d.category_id = cx.category_child_id
 								INNER JOIN mytcg_market ac
 								ON uc.usercard_id = ac.usercard_id
 								WHERE ac.marketstatus_id = 1 
 								AND datediff(now(), ac.date_expired) <= 0
 								 '.$usercategories.' 
 								AND uc.user_id <> '.$iUserID.'
-								group by category_id');
+								group by category_id';
+	/*echo $qu;*/
+			$aCategories=myqu($qu);
+	
+	
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]){
 		$sOP.="<album>";

@@ -32,6 +32,10 @@ mOptions(options), x(x), y(y), width(width), height(height)
 	setMaxSize(maxSize);
 	setCaption(initialText);
 	Environment::getEnvironment().addPointerListener(this);
+#if defined(MA_PROF_QWERTY)
+	setInputMode(EditBox::IM_QWERTY);
+#endif
+
 }
 
 NativeEditBox::~NativeEditBox() {

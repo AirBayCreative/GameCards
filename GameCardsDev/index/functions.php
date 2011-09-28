@@ -3143,6 +3143,154 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 	return $sOP;
 }
 
+function getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeight=0, $jpg=0) {
+	
+	$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
+					0 updated, D.note, D.date_updated  
+					FROM mytcg_card B 
+					INNER JOIN mytcg_usercard A 
+					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
+					INNER JOIN mytcg_usercardstatus C 
+					ON C.usercardstatus_id=A.usercardstatus_id 
+					LEFT OUTER JOIN 
+					(SELECT note, date_updated, user_id, card_id
+						FROM mytcg_usercardnote
+						WHERE user_id = '.$iUserID.'
+						AND usercardnotestatus_id = 1
+					) D 
+					ON A.user_id = D.user_id 
+					AND A.card_id = D.card_id 
+					INNER JOIN 
+					(SELECT c.card_id 
+						FROM mytcg_product a, mytcg_productcard b, mytcg_card c, mytcg_cardquality d 
+						WHERE a.product_id = b.product_id 
+						AND c.card_id = b.card_id 
+						AND d.cardquality_id = c.cardquality_id 
+						AND a.product_id = '.$boosterid.'
+					) E
+					ON E.card_id = B.card_id
+					WHERE A.user_id='.$iUserID.'
+					AND C.usercardstatus_id=1 	
+					GROUP BY B.card_id 
+					UNION 
+					SELECT B.card_id, 0, B.image, 0,  B.value, 
+								B.description, B.thumbnail_phone_imageserver_id, "", "", B.ranking, D.description quality, 
+								0, "", 0 
+					FROM mytcg_card B 
+					INNER JOIN mytcg_cardquality D
+					ON B.cardquality_id=D.cardquality_id
+					INNER JOIN 
+					(SELECT c.card_id 
+						FROM mytcg_product a, mytcg_productcard b, mytcg_card c, mytcg_cardquality d 
+						WHERE a.product_id = b.product_id 
+						AND c.card_id = b.card_id 
+						AND d.cardquality_id = c.cardquality_id 
+						AND a.product_id = '.$boosterid.'
+					) E
+					ON E.card_id = B.card_id
+					WHERE B.card_id NOT IN (SELECT uc.card_id from mytcg_usercard uc, mytcg_usercardstatus ucs 
+						where uc.user_id = '.$iUserID.' and uc.usercardstatus_id = ucs.usercardstatus_id and ucs.usercardstatus_id=1) 
+					GROUP BY B.card_id 
+					ORDER BY description';
+					
+	$cardList=myqu($qu);
+	
+	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
+		.'FROM mytcg_imageserver b '
+		.'ORDER BY b.description DESC '
+	);
+
+	$sOP='<cardsincategory>'.$sCRLF;
+	$iCount=0;
+	
+	$ext = '.png';
+	if ($jpg) {
+		$ext = '.jpg';
+	}
+	
+	while ($aOneCard=$cardList[$iCount]){
+		$sOP.=$sTab.'<card>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<cardid>'.$aOneCard['card_id'].'</cardid>'.$sCRLF;		
+		$sOP.=$sTab.$sTab.'<description>'.$aOneCard['description'].'</description>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<quantity>'.$aOneCard['quantity'].'</quantity>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<updated>'.$aOneCard['updated'].'</updated>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<ranking>'.$aOneCard['ranking'].'</ranking>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<quality>'.$aOneCard['quality'].'</quality>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<value>'.$aOneCard['value'].'</value>'.$sCRLF;
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$aOneCard['thumbnail_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
+		
+		//before setting the front and back urls, make sure the card is resized for the height
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight, $jpg);
+		
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$aOneCard['front_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+		
+		$dir = '/cards/';
+		if ($iBBHeight) {
+			$dir = '/cardsbb/';
+		}
+    
+		$sOP.=$sTab.$sTab.'<fronturl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front'.$ext.'</fronturl>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<frontflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_front_flip'.$ext.'</frontflipurl>'.$sCRLF;
+
+		$sFound='';
+		$iCountServer=0;
+		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
+			if ($aOneServer['imageserver_id']==$aOneCard['back_phone_imageserver_id']){
+				$sFound=$aOneServer['URL'];
+			} else {
+				$iCountServer++;
+			}
+		}
+    
+		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back'.$ext.'</backurl>'.$sCRLF; 
+		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back_flip'.$ext.'</backflipurl>'.$sCRLF; 
+
+		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
+		A.left, top, width, height, frontorback, 
+		colour_r, colour_g, colour_b 
+		FROM mytcg_cardstat A, mytcg_categorystat B 
+		WHERE A.categorystat_id = B.categorystat_id 
+		AND A.card_id = '.$aOneCard['card_id']);
+		
+		$iCountStat=0;
+		$sOP.=$sTab.$sTab.'<stats>'.$sCRLF;
+		While ($aOneStat=$aStats[$iCountStat]) {
+			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
+				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
+				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
+			$iCountStat++;
+		}
+		$sOP.=$sTab.$sTab.'</stats>'.$sCRLF;
+		
+		$iCount++;
+		$sOP.=$sTab.'</card>'.$sCRLF;
+	}
+	$sOP.='</cardsincategory>'.$sCRLF;
+	
+	return $sOP;
+}
+
 function createDeck($iUserID,$iCategoryID,$iDescription) {
 	myqui('INSERT INTO mytcg_deck (user_id, category_id, description) 
 		VALUES('.$iUserID.','.$iCategoryID.',"'.$iDescription.'")');

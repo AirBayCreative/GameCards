@@ -45,7 +45,7 @@ public:
 
 	int albumType;
 
-	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK};
+	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK, AT_PRODUCT};
 private:
 	Screen *next, *previous;
 	Label *notice, *label;

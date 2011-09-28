@@ -79,6 +79,32 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 
 		}
 		delete [] url;
+	} else if (albumType == AT_PRODUCT) {
+			loadImages("");
+			notice->setCaption("Fetching list...");
+			int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			char *url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?cardsinbooster=%s&height=%d&width=%d", URL,
+					category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+			int res = mHttp.create(url, HTTP_GET);
+			if(res < 0) {
+				busy = false;
+				hasConnection = false;
+				notice->setCaption("");
+			} else {
+				hasConnection = true;
+				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
+				mHttp.finish();
+
+			}
+			delete [] url;
 	} else if (albumType == AT_FREE) {
 		albumType = AT_BUY;
 		loadImages("");
@@ -326,13 +352,12 @@ void AlbumViewScreen::drawList() {
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
-		if (strcmp(itr->second->getQuantity().c_str(), "0") != 0) {
+		if ((strcmp(itr->second->getQuantity().c_str(), "0") != 0)||(albumType == AT_PRODUCT)) {
 			//if the user has one or more of the card, the image must be downloaded
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 			tempImage->setHasNote(itr->second->getNote().length()>0);
 			Util::retrieveThumb(tempImage, itr->second, mImageCache);
-		}
-		else {
+		} else {
 			//we use the blank image for cards they dont have yet
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
@@ -465,6 +490,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
+			if (albumType == AT_PRODUCT) {
+				break;
+			}
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
 				if (next != NULL) {
 					delete next;
