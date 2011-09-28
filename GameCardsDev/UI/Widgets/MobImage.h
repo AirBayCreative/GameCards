@@ -16,6 +16,7 @@ public:
 	~MobImage();
 
 	void setHasNote(bool n);
+	void setResource(MAHandle res);
 	void selectStat(int x, int y, int width, int height, int red, int green, int blue, int orientation=0);
 	bool statContains(int x, int y, int width, int height, int pointX, int pointY, int orientation=0);
 	void drawRectangle(int x, int y, int width, int height);

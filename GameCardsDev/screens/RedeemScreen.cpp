@@ -38,6 +38,7 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 }
 
 RedeemScreen::~RedeemScreen() {
+	lprintfln("~RedeemScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

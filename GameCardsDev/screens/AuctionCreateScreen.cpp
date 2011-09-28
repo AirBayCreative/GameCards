@@ -28,6 +28,7 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
+	lprintfln("~AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
 	if (mImageCache != NULL) {
 		delete mImageCache;

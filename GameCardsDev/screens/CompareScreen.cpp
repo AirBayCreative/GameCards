@@ -129,6 +129,7 @@ void CompareScreen::locateItem(MAPoint2d point)
 	}
 }
 CompareScreen::~CompareScreen() {
+	lprintfln("~CompareScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	if (imge->getResource() != NULL) {
 		maDestroyObject(imge->getResource());
 	}

@@ -101,6 +101,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 }
 
 NoteScreen::~NoteScreen() {
+	lprintfln("~NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

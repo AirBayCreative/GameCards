@@ -111,7 +111,6 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 				memset(url,'\0',urlLength);
 				sprintf(url, "%s?joingame=1&categoryid=%s&newgametype=%s&height=%d&width=%d&deckid=%s&gameid=%s&jpg=1", URL,
 					categoryId.c_str(), newGameType.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str(), gameid.c_str());
-				lprintfln("the fuck %s",url);
 			}else {
 				//work out how long the url will be, the 4 is for the & and = symbals
 				int urlLength = 96 + URLSIZE + categoryId.length() +
@@ -435,6 +434,7 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 }
 
 GamePlayScreen::~GamePlayScreen() {
+	lprintfln("~GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

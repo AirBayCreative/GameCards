@@ -31,6 +31,7 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 }
 
 Login::~Login() {
+	lprintfln("~Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

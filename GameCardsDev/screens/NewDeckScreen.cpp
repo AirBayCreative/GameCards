@@ -64,6 +64,7 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 }
 
 NewDeckScreen::~NewDeckScreen() {
+	lprintfln("~NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	if (next != NULL) {
 		delete next;
 	}

@@ -262,11 +262,16 @@ String ShopDetailsScreen::getTime() {
 }
 
 ShopDetailsScreen::~ShopDetailsScreen() {
+	lprintfln("~ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
 	if(mImageCache != NULL){
 		delete mImageCache;
+	}
+	if(next!=NULL){
+		delete next;
+		feed->remHttp();
 	}
 
 	/*if (tempImage != NULL) {
@@ -370,6 +375,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_PRODUCT:
+					if (next != NULL) {
+						delete next;
+						feed->remHttp();
+					}
 					next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_PRODUCT);
 					next->show();
 					break;

@@ -84,6 +84,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 }
 
 GameDetailsScreen::~GameDetailsScreen() {
+	lprintfln("~GameDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete layout;
 
 	parentTag="";

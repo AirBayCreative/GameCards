@@ -37,7 +37,6 @@ void AlbumLoadScreen::refresh() {
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
-		lprintfln("L:OLOLOL %s", url);
 		res = mHttp.create(url, HTTP_GET);
 	}else{
 		notice->setCaption("Checking for new albums...");
@@ -66,7 +65,7 @@ void AlbumLoadScreen::refresh() {
 
 AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card, String categoryId) : mHttp(this),
 		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card), categoryId(categoryId) {
-	lprintfln("AlbumLoadScreen::AlbumLoadScreen Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
 	int res = -1;
@@ -138,7 +137,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
-			lprintfln("L:OLOLOL %s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_DECK:
@@ -174,8 +172,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
-	//clearListBox();
-	//listBox->clear();
+	lprintfln("~AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
@@ -373,6 +370,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			case MAK_SOFTLEFT:
 				switch(screenType){
 					case ST_LOBBY:
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
 						next = new GamePlayScreen(this, feed, true, categoryId, "2", false, deckId, 1, "-1");
 						next->show();
 						break;

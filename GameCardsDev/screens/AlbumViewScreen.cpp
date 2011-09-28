@@ -252,7 +252,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 		}
 		cards.insert(newCard->getId(), newCard);
 		all = ""+all.substr(indexof);
-		//delete newCard;
+		/*delete newCard; Can't delete, also deleted the reference in cards*/
 		newCard = NULL;
 	}
 	drawList();
@@ -385,6 +385,7 @@ void AlbumViewScreen::drawList() {
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
+	lprintfln("~AlbumViewScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;

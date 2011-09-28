@@ -336,6 +336,7 @@ void EditDeckScreen::drawConfirm() {
 }
 
 EditDeckScreen::~EditDeckScreen() {
+	lprintfln("~EditDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
 	if(next != NULL){
 		delete next;

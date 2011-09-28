@@ -131,6 +131,7 @@ previous(previous), feed(feed), card(card), screenType(screenType), number(numbe
 }
 
 OptionsScreen::~OptionsScreen() {
+	lprintfln("~OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	temp = "";
 	temp1 = "";
 	error_msg = "";

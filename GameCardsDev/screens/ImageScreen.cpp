@@ -143,6 +143,7 @@ void ImageScreen::locateItem(MAPoint2d point)
 }
 
 ImageScreen::~ImageScreen() {
+	lprintfln("~ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	if (card != NULL) {
 		if (imge->getResource() != NULL) {
 			maDestroyObject(imge->getResource());

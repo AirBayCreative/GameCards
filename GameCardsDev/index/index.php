@@ -2068,6 +2068,8 @@ if ($_GET['auctioncategories']) {
 								ON uc.card_id = c.card_id
 								INNER JOIN mytcg_market ac
 								ON uc.usercard_id = ac.usercard_id
+								INNER JOIN mytcg_category_x cx
+								ON d.category_id = cx.category_child_id
 								WHERE ac.marketstatus_id = 1 
 								AND datediff(now(), ac.date_expired) <= 0
 								 '.$usercategories.' 

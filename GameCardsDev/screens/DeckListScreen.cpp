@@ -71,6 +71,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 }
 
 DeckListScreen::~DeckListScreen() {
+	lprintfln("~DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete layout;
 
 	parentTag= "";

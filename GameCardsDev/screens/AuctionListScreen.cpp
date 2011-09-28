@@ -378,6 +378,7 @@ void AuctionListScreen::updateAuctions()
 }
 
 AuctionListScreen::~AuctionListScreen() {
+	lprintfln("~AuctionListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

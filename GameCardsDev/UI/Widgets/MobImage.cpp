@@ -18,6 +18,13 @@ MobImage::~MobImage() {
 	resource = NULL;
 }
 
+void MobImage::setResource(MAHandle res) {
+	if (getResource() != NULL) {
+		maDestroyObject(getResource());
+	}
+	Image::setResource(res);
+}
+
 void MobImage::setHasNote(bool n) {
 	hasNote = n;
 }

@@ -204,6 +204,7 @@ void ShopProductsScreen::clearListBox() {
 }
 
 ShopProductsScreen::~ShopProductsScreen() {
+	lprintfln("~ShopProductsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

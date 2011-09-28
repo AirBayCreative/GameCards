@@ -27,6 +27,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
+	lprintfln("~TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	method="";
 	methodLabel="";
 	friendDetail="";

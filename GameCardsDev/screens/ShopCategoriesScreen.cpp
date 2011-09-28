@@ -109,6 +109,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 }
 
 ShopCategoriesScreen::~ShopCategoriesScreen() {
+	lprintfln("~ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;

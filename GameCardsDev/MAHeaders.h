@@ -60,7 +60,7 @@
 #define RES_FONT_BLUE 57
 #define RES_FONT_BLACK 58
 
-#define URL "http://dev.mytcg.net/_phone/"
+#define URL "http://www.mytcg.net/_phone/"
 #define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up
@@ -112,19 +112,19 @@
 //renumber the menu options if one is removed
 //numbers must always run sequential for index
 #define OP_ALBUMS 0
-#define OP_PLAY -1
-#define OP_DECKS -1
-#define OP_SHOP 1
-#define OP_AUCTIONS 2
-#define OP_NOTIFICATIONS 3
-#define OP_CREDITS 4
-#define OP_PROFILE 5
-#define OP_RANKINGS 6
-#define OP_FRIENDRANKS 7
-#define OP_FRIENDS 8
-#define OP_INVITEFRIENDS 9
-#define OP_REDEEM 10
-#define OP_LOGOUT 11
+#define OP_PLAY 1
+#define OP_DECKS 2
+#define OP_SHOP 3
+#define OP_AUCTIONS 4
+#define OP_NOTIFICATIONS 5
+#define OP_CREDITS 6
+#define OP_PROFILE 7
+#define OP_RANKINGS 8
+#define OP_FRIENDRANKS 9
+#define OP_FRIENDS 10
+#define OP_INVITEFRIENDS 11
+#define OP_REDEEM 12
+#define OP_LOGOUT 13
 
 #include <MAUtil/String.h>
 
