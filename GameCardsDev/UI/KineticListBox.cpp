@@ -27,11 +27,11 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 
 #include <MAUtil/Graphics.h>
 
-#define FRAMES 1000
-#define FPS 50
-#define MS_PER_FRAME (1000/FPS)
-#define DURATION 250
-#define HISTORY_LENGTH 10 // The amount of mouse move events to keep track of
+#define FRAMES 250
+#define FPS 12
+#define MS_PER_FRAME (FRAMES/FPS)
+#define DURATION 62
+#define HISTORY_LENGTH 3 // The amount of mouse move events to keep track of
 
 namespace MAUI {
         KineticListBox::KineticListBox(int x, int y, int width, int height, Widget *parent) :
