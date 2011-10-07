@@ -16,6 +16,9 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	answers=NULL;
 	count = 0;
 	isBusy=true;
+	desc = "";
+	date = "";
+	id = "";
 	switch (screenType) {
 		case PROFILE:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
@@ -577,7 +580,7 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		cred = data;
 	} else if(!strcmp(parentTag.c_str(), "desc")) {
-		desc = data;
+		desc += data;
 	} else if(!strcmp(parentTag.c_str(), "answer")) {
 		answer = data;
 	} else if(!strcmp(parentTag.c_str(), "answered")) {
@@ -585,9 +588,9 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg = data;
 	} else if(!strcmp(parentTag.c_str(), "id")) {
-		id = data;
+		id += data;
 	} else if(!strcmp(parentTag.c_str(), "date")) {
-		date = data;
+		date += data;
 	} else if(!strcmp(parentTag.c_str(), "value")) {
 		value = data;
 	} else if(!strcmp(parentTag.c_str(), "val")) {

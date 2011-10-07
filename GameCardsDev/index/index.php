@@ -105,6 +105,7 @@ if ($_GET['registeruser']) {
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
 	$referer = $_REQUEST['referer'];
+	
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '350';
 	}
@@ -186,7 +187,7 @@ if ($iUserID == 0){
 			VALUES ('.$iUserID.', "Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "You have recieved 50 credits for loging in today.", now(), 1)');
+			VALUES ('.$iUserID.', "You have recieved 50 credits for logging in today.", now(), 1)');
 			
 		/*myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
 			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now(), 1)');*/

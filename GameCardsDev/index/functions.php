@@ -2503,7 +2503,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		
 		$refererid = 0;
 		
-		if (sizeof($aReferer) > 0) {
+		if (sizeof($aReferer) > 0 && strlen($referer) > 0) {
 			$refererid = $aReferer[0]['user_id'];
 			
 			$aCountRefer=myqu("SELECT count(*) cnt FROM mytcg_transactionlog WHERE val = 10 and description like '%referring%' and user_id = '{$refererid}'");
@@ -2531,7 +2531,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
 		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
 		
-		if (sizeof($aReferer) > 0) {
+		if (sizeof($aReferer) > 0 && strlen($referer) > 0) {
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$refererid.', '.$iUserID.')');
 				
