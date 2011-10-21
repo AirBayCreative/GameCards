@@ -58,23 +58,19 @@
 
 .res RES_TEMPTHUMB
 .ubin
-.image "emptythumb.png"
+.include "emptythumb.png"
 
 .res RES_TEMP
 .ubin
-.image "empty.png"
+.include "empty.png"
 
 .res RES_LOADINGTHUMB
 .ubin
-.image "loadingthumb.png"
-
-.res RES_LOADING
-.ubin
-.image "loading.png"
+.include "loadingthumb.png"
 
 .res RES_MISSINGTHUMB
 .ubin
-.image "missingcardthumb.png"
+.include "missingcardthumb.png"
 
 .res RES_NOTE
 .ubin
@@ -83,3 +79,75 @@
 .res RES_SELECTED_BUTTON
 .ubin
 .image "background_button_sel.png"
+
+.res RES_LOADING1
+.ubin
+.include "loading1.png"
+
+.res RES_LOADING2
+.ubin
+.include "loading2.png"
+
+.res RES_LOADING3
+.ubin
+.include "loading3.png"
+
+.res RES_LOADING4
+.ubin
+.include "loading4.png"
+
+.res RES_LOADING5
+.ubin
+.include "loading5.png"
+
+.res RES_LOADING6
+.ubin
+.include "loading6.png"
+
+.res RES_LOADING7
+.ubin
+.include "loading7.png"
+
+.res RES_LOADING8
+.ubin
+.include "loading8.png"
+
+.res RES_LOADING9
+.ubin
+.include "loading9.png"
+
+.res RES_LOADING10
+.ubin
+.include "loading10.png"
+
+.res RES_LOADING11
+.ubin
+.include "loading11.png"
+
+.res RES_LOADING12
+.ubin
+.include "loading12.png"
+
+.res RES_LOADING13
+.ubin
+.include "loading13.png"
+
+.res RES_LOADING14
+.ubin
+.include "loading14.png"
+
+.res RES_LOADING15
+.ubin
+.include "loading15.png"
+
+.res RES_LOADING16
+.ubin
+.include "loading16.png"
+
+.res RES_LOADING17
+.ubin
+.include "loading17.png"
+
+.res RES_LOADING18
+.ubin
+.include "loading18.png"

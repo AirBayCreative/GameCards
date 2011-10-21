@@ -12,15 +12,15 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = createMainLayout(sharelbl, back, "", true);
+	layout = Util::createMainLayout("Share", "Back", "", true);
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
 	layout->setDrawBackground(TRUE);
 	this->setMain(layout);
 
-	method = by_phone_number;
-	methodLabel = phoneNumlbl;
+	method = "phone_number";
+	methodLabel = "Cell Number";
 	drawDetailScreen();
 }
 
@@ -47,21 +47,21 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(select, back, "", layout);
+	Util::updateSoftKeyLayout("Select", "Back", "", layout);
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, selectFriendBy, 0, gFontWhite);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Select friend by:", 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
+	lbl->setSkin(Util::getSkinBack());
 	listBox->add(lbl);
-	lbl = createSubLabel(userlblNoColon);
+	lbl = Util::createSubLabel("Username");
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
-	lbl = createSubLabel(emaillblNoColon);
+	lbl = Util::createSubLabel("Email");
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
 	listBox->setSelectedIndex(2);
-	lbl = createSubLabel(phoneNumlbl);
+	lbl = Util::createSubLabel("Cell Number");
 	lbl->addWidgetListener(this);
 	listBox->add(lbl);
 	listBox->setSelectedIndex(1);
@@ -72,15 +72,15 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	notice->setCaption("");
 	clearListBox();
-	setPadding(listBox);
-	updateSoftKeyLayout(sharelbl, back, "", layout);
+	//Util::setPadding(listBox);
+	Util::updateSoftKeyLayout("Share", "Back", "", layout);
 
 	Label* l;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel, 0, gFontWhite);
-	lbl->setSkin(gSkinBack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel, 0, Util::getDefaultFont());
+	lbl->setSkin(Util::getSkinBack());
 
-	lblMethod = createEditLabel("enter cell number");
+	lblMethod = Util::createEditLabel("");
 	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER/*MA_TB_TYPE_ANY*/, lblMethod, "enter cell number", L"", fresh);
 	//if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
 		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
@@ -104,12 +104,12 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	l = lbl;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, personalNotelbl, 0, gFontWhite);
-	lbl->setSkin(gSkinBack);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Add a personal note", 0, Util::getDefaultFont());
+	lbl->setSkin(Util::getSkinBack());
 
-	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, gFontWhite);
-	lblMethod->setSkin(gSkinEditBox);
-	setPadding(lblMethod);
+	lblMethod =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-100-(PADDING)), NULL, "", 0, Util::getDefaultFont());
+	lblMethod->setSkin(Util::getSkinEditBox());
+	Util::setPadding(lblMethod);
 	editBoxNote = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 140, MA_TB_TYPE_ANY, lblMethod, "", L"Note:");
 	editBoxNote->setDrawBackground(false);
 	editBoxNote->setMaxLength(140);
@@ -131,23 +131,24 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	updateSoftKeyLayout(confirm, back, "", layout);
+	Util::updateSoftKeyLayout("Confirm", "Back", "", layout);
 
-	String confirmLabel = sure_you_want_to_send + card->getText() + friend_with + methodLabel + " " + friendDetail + "?";
+	String confirmLabel = "Are you sure you want to send your " + card->getText() +
+			" to your friend with " + methodLabel + " " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontWhite);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_LEFT);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
+	lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
 
 	confirmLabel = "Personal Note\n\n" + friendNote;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, gFontWhite);
+	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_LEFT);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(gSkinBack);
+	lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
 }
@@ -270,21 +271,21 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				}
 				else {
 					if(index == 1) {
-						method = by_username;
-						methodLabel = userlblNoColon;
+						method = "username";
+						methodLabel = "Username";
 					} else if(index == 2) {
-						method = by_email;
-						methodLabel = emaillblNoColon;
+						method = "email";
+						methodLabel = "Email";
 					} else if(index == 3) {
-						method = by_phone_number;
-						methodLabel = phoneNumlbl;
+						method = "phone_number";
+						methodLabel = "Cell Number";
 					}
 					drawDetailScreen();
 				}
 				break;
 			case SP_DETAIL:
 				if (contactEditBox->getText() == "") {
-					notice->setCaption(no_contact + method + ".");
+					notice->setCaption("Ensure that you have entered\n your friend's " + method + ".");
 					break;
 				}
 				else {
@@ -298,18 +299,18 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				if (!sending) {
 					sending = true;
 
-					notice->setCaption(sending_card_message);
+					notice->setCaption("Sending card...");
 
-					String noteStr = base64_encode(reinterpret_cast<const unsigned char*>(friendNote.c_str()), friendNote.length());
+					String noteStr = Util::base64_encode(reinterpret_cast<const unsigned char*>(friendNote.c_str()), friendNote.length());
 
 					//make the http connection to trade the card
-					int urlLength = TRADE.length() + card->getId().length() + strlen(trade_method) +
-							method.length() + strlen(trade_by_detail) + friendDetail.length() + 6 + strlen(noteLlbl) + noteStr.length();
+					int urlLength = 60 + URLSIZE + card->getId().length() +
+							method.length() + friendDetail.length() + 6 + noteStr.length();
 					char *url = new char[urlLength];
 					memset(url, '\0', urlLength);
 
-					sprintf(url, "%s%s&%s=%s&%s=%s&%s=%s", TRADE.c_str(), card->getId().c_str(),
-							trade_method, method.c_str(), trade_by_detail, friendDetail.c_str(), noteLlbl, noteStr.c_str());
+					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s&note=%s", URL, card->getId().c_str(),
+							method.c_str(), friendDetail.c_str(), noteStr.c_str());
 					//url.append("&sms=Yes", 8);
 
 					if(mHttp.isOpen()){
@@ -321,8 +322,9 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					if(res < 0) {
 
 					} else {
-						mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-						mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+						mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+						mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+						feed->addHttp();
 						mHttp.finish();
 					}
 					delete [] url;
@@ -369,6 +371,7 @@ void TradeFriendDetailScreen::httpFinished(MAUtil::HttpConnection* http, int res
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
@@ -376,7 +379,7 @@ void TradeFriendDetailScreen::connReadFinished(Connection* conn, int result) {
 }
 
 void TradeFriendDetailScreen::xcConnError(int code) {
-
+	feed->remHttp();
 }
 
 void TradeFriendDetailScreen::mtxEncoding(const char* ) {
@@ -390,7 +393,7 @@ void TradeFriendDetailScreen::mtxTagAttr(const char* attrName, const char* attrV
 }
 
 void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
-	if (strcmp(parentTag.c_str(), xml_result) == 0) {
+	if (strcmp(parentTag.c_str(), "result") == 0) {
 		String check = data;
 		if (!(check.find("User not found."))) {
 			maSendTextSMS(contactEditBox->getText().c_str(), check.substr(16).c_str());
@@ -400,7 +403,7 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 		}
 	}
 	else {
-		result = error_sending_card_message;
+		result = "Error sending card.";
 	}
 	drawCompleteScreen();
 }
@@ -408,7 +411,7 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 void TradeFriendDetailScreen::mtxTagEnd(const char* name, int len) {
 }
 
-void TradeFriendDetailScreen::mtxParseError(/*int offSet*/) {
+void TradeFriendDetailScreen::mtxParseError(int) {
 }
 
 

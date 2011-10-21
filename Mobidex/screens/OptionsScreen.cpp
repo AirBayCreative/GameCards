@@ -6,7 +6,7 @@
 #include "DetailScreen.h"
 #include "Login.h"
 #include "../utils/Util.h"
-#include "../utils/MAHeaders.h"
+#include "../MAHeaders.h"
 #include "../utils/Albums.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
@@ -18,58 +18,58 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = createMainLayout(select, exit, true);
+		layout = Util::createMainLayout("Select", "Exit", true);
 	}
 	else {
-		layout = createMainLayout(select, back, true);
+		layout = Util::createMainLayout("Select", "Back", true);
 	}
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
 		case ST_CARD_OPTIONS:
-			lbl = createSubLabel(noteslbl);
+			lbl = Util::createSubLabel("Notes");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(sharelbl);
+			lbl = Util::createSubLabel("Share");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(details);
+			lbl = Util::createSubLabel("Contact");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(deletecardlbl);
+			lbl = Util::createSubLabel("Delete");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_NEW_CARD:
-			lbl = createSubLabel(acceptlbl);
+			lbl = Util::createSubLabel("Accept Card");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(rejectlbl);
+			lbl = Util::createSubLabel("Reject Card");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 		case ST_NUMBER_OPTIONS:
-			lbl = createSubLabel(calllbl);
+			lbl = Util::createSubLabel("Call");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(smslbl);
+			lbl = Util::createSubLabel("SMS");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 			break;
 		case ST_LOGIN_OPTIONS:
-			lbl = createSubLabel(login);
+			lbl = Util::createSubLabel("Log In");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
-			lbl = createSubLabel(reg);
+			lbl = Util::createSubLabel("Register");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
@@ -145,9 +145,18 @@ void OptionsScreen::locateItem(MAPoint2d point)
 #endif
 void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-		((Label *)widget)->setFont(gFontBlue);
+		((Label *)widget)->setFont(Util::getDefaultSelected());
 	} else {
-		((Label *)widget)->setFont(gFontWhite);
+		((Label *)widget)->setFont(Util::getDefaultFont());
+	}
+}
+
+void OptionsScreen::show() {
+	Screen::show();
+
+	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)&&(screenType == ST_LOGIN_OPTIONS)) {
+		menu = new Login(feed, this, Login::S_LOGIN);
+		menu->show();
 	}
 }
 
@@ -233,7 +242,11 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
-					maExit(0);
+					if (feed->getHttps() > 0) {
+						notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
+					} else {
+						maExit(0);
+					}
 					break;
 				default:
 					previous->show();
@@ -251,10 +264,10 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 
 void OptionsScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = ACCEPTCARD.length() + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	int urlLength = 38 + URLSIZE + card->getId().length();
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -263,8 +276,9 @@ void OptionsScreen::acceptCard() {
 	if(res < 0) {
 		notice->setCaption("");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -272,10 +286,10 @@ void OptionsScreen::acceptCard() {
 
 void OptionsScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = REJECTCARD.length() + card->getId().length();
+	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -284,8 +298,9 @@ void OptionsScreen::rejectCard() {
 	if(res < 0) {
 		notice->setCaption("");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -293,10 +308,10 @@ void OptionsScreen::rejectCard() {
 
 void OptionsScreen::deleteCard() {
 	//work out how long the url will be
-	int urlLength = DELETECARD.length() + card->getId().length();
+	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", DELETECARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s?deletecard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -305,8 +320,9 @@ void OptionsScreen::deleteCard() {
 	if(res < 0) {
 		notice->setCaption("");
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -320,13 +336,15 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		connError = true;
 		mHttp.close();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
+		feed->remHttp();
 	}
 }
 
 void OptionsScreen::connReadFinished(Connection* conn, int result) {}
 
 void OptionsScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {
@@ -354,7 +372,7 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 
 }
 
-void OptionsScreen::mtxParseError(/*int offSet*/) {
+void OptionsScreen::mtxParseError(int) {
 }
 
 void OptionsScreen::mtxEmptyTagEnd() {

@@ -4,7 +4,7 @@
 #include "../UI/Widgets/MobImage.h"
 #include "../UI/KineticListBox.h"
 #include "ImageCacheRequest.h"
-#include "MAHeaders.h"
+#include "../MAHeaders.h"
 #include "Util.h"
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)
@@ -16,162 +16,282 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-Font *gFontGrey;
-Font *gFontBlue;
-Font *gFontBlack;
-Font *gFontWhite;
-WidgetSkin *gSkinEditBox;
-WidgetSkin *gSkinButton;
-WidgetSkin *gSkinBack;
-WidgetSkin *gSkinList;
-WidgetSkin *gSkinAlbum;
-WidgetSkin *gSkinText;
-WidgetSkin *gSkinKeyboard;
-WidgetSkin *gSkinHeader;
 Screen *orig;
 Screen *origAlbum;
 Screen *origMenu;
 int scrWidth;
 int scrHeight;
-int mCount;
-Image *image;
-Widget *softKeys;
 
+Util::Util() {}
+Util::~Util() {}
 
-void increase() {
-	mCount++;
-}
-void decrease() {
-	mCount--;
-}
-int getCount() {
-	return mCount;
+MAHandle Util::loadImageFromResource(MAHandle resourceId)
+{
+	MAHandle image = maCreatePlaceholder();
+	int result = maCreateImageFromData(
+		image,
+		resourceId,
+		0,
+		maGetDataSize(resourceId));
+
+	if (RES_OK == result)
+	{
+		return image;
+	}
+	else
+	{
+		return NULL;
+	}
 }
 
-void setPadding(Widget *w) {
+Font* Util::getFontBlue() {
+	static Font* blue;
+	if (blue == NULL) {
+#if defined(RES_FONT_BLUE)
+		blue = new MAUI::Font(RES_FONT_BLUE);
+#endif
+	}
+	return blue;
+}
+
+Font* Util::getFontBlack() {
+	static Font* black;
+	if (black == NULL) {
+#if defined(RES_FONT_BLACK)
+		black = new MAUI::Font(RES_FONT_BLACK);
+#endif
+#if defined(RES_FONT_PUREWHITE)
+		black = new MAUI::Font(RES_FONT_PUREWHITE);
+#endif
+	}
+	return black;
+}
+
+Font* Util::getFontWhite() {
+	static Font* white;
+	if (white == NULL) {
+#if defined(RES_FONT_WHITE)
+		white = new MAUI::Font(RES_FONT_WHITE);
+#endif
+	}
+	return white;
+}
+Font* Util::getFontRed() {
+	static Font* red;
+	if (red == NULL) {
+#if defined(RES_FONT_RED)
+			red = new MAUI::Font(RES_FONT_RED);
+#endif
+	}
+	return red;
+}
+Font* Util::getDefaultFont() {
+#if defined(RES_FONT_WHITE)
+	return getFontWhite();
+#endif
+	return getFontBlack();
+}
+Font* Util::getDefaultSelected() {
+#if defined(RES_FONT_WHITE)
+	return getFontWhite();
+#endif
+	return getFontBlue();
+}
+Font* Util::getButtonFont() {
+	return getFontWhite();
+}
+
+WidgetSkin* Util::getSkinEditBox() {
+	static WidgetSkin* gSkinEditBox;
+	if (gSkinEditBox == NULL) {
+		gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX,
+				EDITBOX_X_LEFT, EDITBOX_X_RIGHT, EDITBOX_Y_TOP, EDITBOX_Y_BOTTOM, true, true);
+	}
+	return gSkinEditBox;
+}
+
+WidgetSkin* Util::getSkinButton() {
+	static WidgetSkin* gSkinButton;
+	if (gSkinButton == NULL) {
+		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON,
+				BUTTON_X_LEFT, BUTTON_X_RIGHT, BUTTON_Y_TOP, BUTTON_Y_BOTTOM, true, true);
+	}
+	return gSkinButton;
+}
+
+void Util::setCaption(Label *label) {
+	label->setHeight(36);
+	label->setAutoSizeY(false);
+	label->setFont(Util::getDefaultSelected());
+}
+
+WidgetSkin* Util::getSkinBack() {
+	static WidgetSkin* gSkinBack;
+	if (gSkinBack == NULL) {
+		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND,
+				BACKGROUND_X_LEFT, BACKGROUND_X_RIGHT, BACKGROUND_Y_TOP, BACKGROUND_Y_BOTTOM, true, true);
+	}
+	return gSkinBack;
+}
+
+WidgetSkin* Util::getSkinList() {
+	static WidgetSkin* gSkinList;
+	if (gSkinList == NULL) {
+		gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST,
+				LIST_X_LEFT, LIST_X_RIGHT, LIST_Y_TOP, LIST_Y_BOTTOM, true, true);
+	}
+	return gSkinList;
+}
+
+WidgetSkin* Util::getSkinListNoArrows() {
+	static WidgetSkin* gSkinListNoArrows;
+	if (gSkinListNoArrows == NULL) {
+		gSkinListNoArrows = new WidgetSkin(RES_UNSELECTED_LIST, RES_UNSELECTED_LIST,
+				LISTNOARROWS_X_LEFT, LISTNOARROWS_X_RIGHT, LISTNOARROWS_Y_TOP, LISTNOARROWS_Y_BOTTOM, true, true);
+	}
+	return gSkinListNoArrows;
+}
+
+WidgetSkin* Util::getSkinAlbum() {
+	static WidgetSkin* gSkinAlbum;
+	if (gSkinAlbum == NULL) {
+		gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM,
+				ALBUM_X_LEFT, ALBUM_X_RIGHT, ALBUM_Y_TOP, ALBUM_Y_BOTTOM, true, true);
+	}
+	return gSkinAlbum;
+}
+
+WidgetSkin* Util::getSkinText() {
+	static WidgetSkin* gSkinText;
+	if (gSkinText == NULL) {
+		gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX,
+				TEXT_X_LEFT, TEXT_X_RIGHT, TEXT_Y_TOP, TEXT_Y_BOTTOM, true, true);
+	}
+	return gSkinText;
+}
+
+void Util::setPadding(Widget *w) {
 	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);
 }
 
-Label* createLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
-	label->setSkin(gSkinText);
-	setPadding(label);
-	return label;
-}
-Label* createEditLabel(String str, int height) {
-	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, gFontWhite);
-	label->setSkin(gSkinEditBox);
-	setPadding(label);
+Label* Util::createLabel(String str, int height) {
+	Label *label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
+	label->setSkin(Util::getSkinText());
+	Util::setPadding(label);
 	return label;
 }
 
-Label* createSubLabel(String str, int height) {
-	Label *label = new Label(0, 0, scrWidth, height, NULL, str, 0, gFontWhite);
+Label* Util::createEditLabel(String str, int height) {
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
+	return label;
+}
+
+Label* Util::createSubLabel(String str, int height) {
+	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_LEFT);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setSkin(gSkinList);
+	label->setSkin(Util::getSkinList());
 	return label;
 }
-Widget* createSoftKeyBar(int height, const char *left, const char *right) {
-	return createSoftKeyBar(height, left, right, "");
+Widget* Util::createSoftKeyBar(int height, const char *left, const char *right) {
+	return Util::createSoftKeyBar(height, left, right, "");
 }
 
-Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
+Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
 	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	layout->setSkin(gSkinBack);
-	layout->setPaddingLeft(PADDING);
-	layout->setPaddingRight(PADDING);
-	layout->setMarginX(PADDING);
+	//layout->setSkin(Util::getSkinBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3 - (PADDING*2), height - PADDING, NULL, left, 0, gFontWhite);
+	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height - PADDING, NULL, centre, 0, gFontWhite);
+	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3 - (PADDING*2), height - PADDING, NULL, right, 0, gFontWhite);
+	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
-		label->setSkin(gSkinButton);
+		label->setSkin(Util::getSkinButton());
 	}
 	layout->add(label);
 
 	return layout;
 }
 // first child is listbox
-Layout* createMainLayout(const char *left, const char *right, bool useKinetic) {
+Layout* Util::createMainLayout(const char *left, const char *right, bool useKinetic) {
 	return createMainLayout(left, right, "", useKinetic);
 }
 
-Layout* createNoHeaderLayout() {
+Layout* Util::createNoHeaderLayout() {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	return mainLayout;
 }
 
-Layout* createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
+Layout* Util::createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,scrHeight/4,NULL,"",0,gFontWhite);
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
+	label->setMultiLine(true);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
+	//int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
-	int imgWidth = EXTENT_X(imgSize);
-	image = new Image((int)((scrWidth-imgWidth)/2), 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
-	listBox->add(image);
 
-	//ListBox *mBox = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-	//mBox->setSkin(gSkinHeader);
-	//listBox->add(mBox);
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	//Label *lblz = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
+	listBox->add(image);
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
-	label->setPaddingLeft(PADDING);
 	listBox->add(label);
 
 	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight),
+		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mListBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-		listBox->add(mListBox);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		listBox->add(mBox);
 	}
-	//setPadding(listBox);
+	listBox->setPaddingLeft(PADDING);
+
 	imgSize = -1;
 	mainLayout->add(softKeys);
 
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left, bool useKinetic) {
+Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
-	int imgWidth = EXTENT_X(imgSize);
+	//int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
-	image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
-	image->setPaddingLeft((int)((scrWidth-imgWidth)/2));
+
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	listBox->add(image);
+
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
@@ -189,18 +309,18 @@ Layout* createImageLayout(const char *left, bool useKinetic) {
 	return mainLayout;
 }
 
-Layout* createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
+Layout* Util::createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	softKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
+	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, true);
-		setPadding(mKineticBox);
+		mKineticBox->setPaddingLeft(PADDING);
 	}
 	else {
 		ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-		setPadding(listBox);
+		listBox->setPaddingLeft(PADDING);
 	}
 
 	mainLayout->add(softKeys);
@@ -208,21 +328,18 @@ Layout* createImageLayout(const char *left, const char *right, const char *centr
 	return mainLayout;
 }
 
-void updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
+void Util::updateSoftKeyLayout(const char *left, const char *right, const char *centre, Layout *mainLayout) {
 	//this function assumes the standard mainlayout format, with softkeys at the end.
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
-
 	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
 	if (currentSoftKeys != NULL) {
 		delete currentSoftKeys;
 	}
-
-	currentSoftKeys = createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-
+	currentSoftKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	mainLayout->add(currentSoftKeys);
 }
 
-void saveData(const char* storefile, const char *value) {
+void Util::saveData(const char* storefile, const char *value) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (strlen(value) == 0) {
 		maCloseStore(store, 1);
@@ -233,12 +350,13 @@ void saveData(const char* storefile, const char *value) {
 			maWriteStore(store, hValue);
 		}
 		maCloseStore(store, 0);
+		maDestroyObject(hValue);
 		hValue = -1;
 	}
 	store = -1;
 }
 
-void saveFile(const char* storefile, MAHandle data) {
+void Util::saveFile(const char* storefile, MAHandle data) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), MAS_CREATE_IF_NECESSARY);
 	if (store > 0) {
 		maWriteStore(store, data);
@@ -247,44 +365,76 @@ void saveFile(const char* storefile, MAHandle data) {
 	store = -1;
 }
 
-char* getData(const char* storefile) {
+bool Util::getData(const char* storefile, String &data) {
 	MAHandle store = maOpenStore((FILE_PREFIX+storefile).c_str(), 0);
+	if(store>0)
+	{
+		MAHandle dataHandle = maCreatePlaceholder();
+		//int len = data.length();
+		if( maReadStore(store, dataHandle) != RES_OUT_OF_MEMORY  )
+		{
+			int size = maGetDataSize(dataHandle);
+			char temp[size + 1];
+			temp[size] = '\0';
+			maReadData(dataHandle, &temp, 0, size);
+
+			data.clear();
+			data = String(temp);
+
+			memset(temp, 0, size+1);
+			maDestroyObject(dataHandle);
+			return true;
+		}
+	}
+	return false;
+
+
+/*
 	MAHandle tmp = maCreatePlaceholder();
 	if (store != STERR_NONEXISTENT) {
 		maReadStore(store, tmp);
 		int size = maGetDataSize(tmp);
 		if (size > 0) {
-			char *ret = new char[size+1];
-			memset(ret,'\0',size+1);
-			maReadData(tmp, ret, 0, size);
+			char *res = new char[size+1];
+			memset(res,0,size+1);
+			maReadData(tmp, res, 0, size);
 			maCloseStore(store, 0);
-			return ret;
+			store = -1;
+			maDestroyObject(tmp);
+			return res;
 		} else {
 			return "";
 		}
 	}
-	return "";
+	maDestroyObject(tmp);
+	store = -1;
+	tmp = -1;
+	return "";*/
 }
 
-void returnImage(MobImage *img, MAHandle i, int height)
+void Util::returnImage(MobImage *img, MAHandle i, int height)
 {
 	MAHandle imageh = maCreatePlaceholder();
 	maCreateImageFromData(imageh, i, 0, maGetDataSize(i));
-	img->setResource(imageh);
-	img->update();
-	img->requestRepaint();
+	if (img != NULL) {
+		if (img->getResource() != NULL) {
+			maDestroyObject(img->getResource());
+		}
+		img->setResource(imageh);
+		img->requestRepaint();
+	}
 	maUpdateScreen();
 	imageh = -1;
 	i = -1;
 }
 
-void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
+void Util::retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+".sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -298,21 +448,27 @@ void retrieveThumb(MobImage *img, Card *card, ImageCache *mImageCache)
 			req1 = new ImageCacheRequest(img, card, 64, 0);
 			mImageCache->request(req1);
 		}
+		maDestroyObject(cacheimage);
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 0);
+		req1 = new ImageCacheRequest(img, card, 64, 0);
 		mImageCache->request(req1);
 	}
+	store = -1;
+	req1 = NULL;
 }
 
-void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
+	if (mImageCache == NULL) {
+		return;
+	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f.sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -320,6 +476,9 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 		maCloseStore(store, 0);
 
 		if (maGetDataSize(cacheimage) > 0) {
+			if (img == NULL) {
+				return;
+			}
 			returnImage(img, cacheimage, 64);
 		}
 		else {
@@ -334,13 +493,13 @@ void retrieveFront(MobImage *img, Card *card, int height, ImageCache *mImageCach
 	}
 }
 
-void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+void Util::retrieveFrontFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
 {
 	if (card == NULL) {
 		return;
 	}
 
-	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b.sav").c_str(), -1);
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"f_flip.sav").c_str(), 0);
 	ImageCacheRequest* req1;
 	if(store != STERR_NONEXISTENT) {
 		MAHandle cacheimage = maCreatePlaceholder();
@@ -351,28 +510,86 @@ void retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache
 			returnImage(img, cacheimage, 64);
 		}
 		else {
-			req1 = new ImageCacheRequest(img, card, 64, 2);
+			req1 = new ImageCacheRequest(img, card, 64, 3);
 			mImageCache->request(req1);
 		}
 		cacheimage = -1;
 	}
 	else {
-		ImageCacheRequest* req1 = new ImageCacheRequest(img, card, 64, 1);
+		req1 = new ImageCacheRequest(img, card, 64, 3);
 		mImageCache->request(req1);
 	}
 }
 
-bool isNumeric(String isValid) {
-	const char* isValArr = isValid.c_str();
-	for (int i = 0; i < isValid.length(); i++) {
-		if (!isdigit(isValArr[i])) {
-			return false;
+void Util::retrieveBack(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+{
+
+	if (card == NULL) {
+		return;
+	}
+	/*if (img == NULL) {
+		return;
+	}*/
+	if (mImageCache == NULL) {
+		return;
+	}
+
+	if (card != NULL) {
+		String filename = (FILE_PREFIX+card->getId()+"b.sav");
+		MAHandle store = maOpenStore(filename.c_str(), 0);
+		ImageCacheRequest* req1;
+		if(store != STERR_NONEXISTENT) {
+			MAHandle cacheimage = maCreatePlaceholder();
+			maReadStore(store, cacheimage);
+			maCloseStore(store, 0);
+
+			if (maGetDataSize(cacheimage) > 0) {
+				if (img == NULL) {
+					return;
+				}
+				returnImage(img, cacheimage, 64);
+			}
+			else {
+				req1 = new ImageCacheRequest(img, card, 64, 2);
+				mImageCache->request(req1);
+			}
+			cacheimage = -1;
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 2);
+			mImageCache->request(req1);
 		}
 	}
-	return true;
 }
 
-int intlen(float start) {
+void Util::retrieveBackFlip(MobImage *img, Card *card, int height, ImageCache *mImageCache)
+{
+	if (card == NULL) {
+		return;
+	}
+
+	MAHandle store = maOpenStore((FILE_PREFIX+card->getId()+"b_flip.sav").c_str(), 0);
+	ImageCacheRequest* req1;
+	if(store != STERR_NONEXISTENT) {
+		MAHandle cacheimage = maCreatePlaceholder();
+		maReadStore(store, cacheimage);
+		maCloseStore(store, 0);
+
+		if (maGetDataSize(cacheimage) > 0) {
+			returnImage(img, cacheimage, 64);
+		}
+		else {
+			req1 = new ImageCacheRequest(img, card, 64, 4);
+			mImageCache->request(req1);
+		}
+		cacheimage = -1;
+	} else {
+		req1 = new ImageCacheRequest(img, card, 64, 4);
+		mImageCache->request(req1);
+	}
+}
+
+int Util::intlen(float start) {
 	int end = 0;
 	while(start >= 1) {
 		start = start/10;
@@ -381,14 +598,21 @@ int intlen(float start) {
 	return end;
 }
 
-int absoluteValue(int num){
+int Util::absoluteValue(int num){
 	if(num <0){
 		num = num * -1;
 	}
 	return num;
 }
+bool Util::validateNoWhiteSpaces(String val) {
+	int spaceIndex = val.find(" ");
+	if (spaceIndex < 0) {
+		return true;
+	}
+	return false;
+}
 
-bool validateEmailAddress(String email) {
+bool Util::validateEmailAddress(String email) {
 	int atIndex = email.findFirstOf('@');
 	int lastDotIndex = email.findLastOf('.');
 	if (atIndex == email.npos || atIndex == 0 || atIndex == email.length()-1
@@ -403,18 +627,28 @@ bool validateEmailAddress(String email) {
 	return true;
 }
 
-int getSoftKeyBarHeight() {
+int Util::getSoftKeyBarHeight() {
 	//42 is the default height. It needs to scale up a bit for bigger screens
-	int scaledHeight = ((42*0.1)>scrHeight?42:(int)(scrHeight*0.1));
+	int scaledHeight = ((scrHeight*0.1)>MIN_SOFTKEY_BAR_HEIGHT?(int)(scrHeight*0.1):MIN_SOFTKEY_BAR_HEIGHT);
 
 	return scaledHeight;
 }
 
-int getMaxImageHeight() {
+int Util::getMaxImageWidth() {
+	return scrWidth - (PADDING * 4);
+}
+int Util::getMaxImageHeight() {
 	return scrHeight - getSoftKeyBarHeight() - (PADDING * 4);
 }
 
-String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
+	String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
+										"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
+										"0123456789"				  // 52 to 61
+										"+"							  // 62
+										"/";
+
+
 	/* Copyright (C) 2004-2008 René Nyffenegger
 
 	   This source code is provided 'as-is', without any express or implied
@@ -473,7 +707,13 @@ String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) 
 	return ret;
 }
 
-String base64_decode(String encoded_string) {
+String Util::base64_decode(String encoded_string) {
+	String base64_chars =  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  //  0 to 25
+										"abcdefghijklmnopqrstuvwxyz"  // 26 to 51
+										"0123456789"				  // 52 to 61
+										"+"							  // 62
+										"/";
+
 	int in_len = encoded_string.size();
 	int i = 0;
 	int j = 0;
@@ -521,7 +761,6 @@ String base64_decode(String encoded_string) {
 	return ret;
 }
 
-static inline bool is_base64(unsigned char c) {
+inline bool Util::is_base64(unsigned char c) {
 	return (isalnum(c) || (c == '+') || (c == '/'));
 }
-

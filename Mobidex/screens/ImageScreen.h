@@ -8,7 +8,7 @@
 
 #include "../utils/Card.h"
 #include "../utils/Feed.h"
-#include "../utils/MAHeaders.h"
+#include "../MAHeaders.h"
 #include "../utils/ImageCache.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
@@ -40,7 +40,8 @@ private:
 	Card *card;
 	Feed *feed;
 	MobImage *imge;
-	ImageCache *imageCache;
+	ImageCache *imageCacheFront;
+	ImageCache *imageCacheBack;
 	Layout *mainLayout;
 	ListBox *listBox;
 	int height, screenType, flipOrSelect, currentSelectedStat;
@@ -53,7 +54,8 @@ private:
 
 	void acceptCard();
 	void rejectCard();
-	void checkForGames();
+
+	void selectStat(int upOrDown); //-1 for up, 1 for down
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
@@ -63,7 +65,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError(/*int offSet*/);
+	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 };

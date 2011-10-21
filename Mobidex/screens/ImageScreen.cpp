@@ -1,4 +1,5 @@
 #include <conprint.h>
+#include <MAUtil/Graphics.h>
 
 #include "AlbumViewScreen.h"
 #include "ImageScreen.h"
@@ -12,21 +13,22 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
-	imageCache = new ImageCache();
+	imageCacheFront = new ImageCache();
+	imageCacheBack = new ImageCache();
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
-			mainLayout =  createImageLayout(acceptlbl, rejectlbl, flipit);
-		} else if (screenType == AT_SHARE) {
-			mainLayout = createImageLayout(sharelbl, back, flipit);
+			mainLayout =  Util::createImageLayout("Accept Card", "Reject Card", "Flip");
+		} else if (screenType == Util::AT_SHARE) {
+			mainLayout = Util::createImageLayout("Share", "Back", "Flip");
 		} else {
-			mainLayout = createImageLayout((hasConnection&&canAuction)?options:"", back, flipit);
+			mainLayout = Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip");
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
 		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
-		mainLayout = createImageLayout(back);
+		mainLayout = Util::createImageLayout("Back");
 		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
@@ -34,13 +36,16 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	this->setMain(mainLayout);
 	if (card != NULL) {
 		if (flip) {
-			retrieveBack(imge, card, height-PADDING*2, imageCache);
+			Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+			Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
 		} else {
-			retrieveFront(imge, card, height-PADDING*2, imageCache);
+			Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+			Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
 		}
 	}
 	else {
-		imageCache = NULL;
+		imageCacheFront = NULL;
+		imageCacheBack = NULL;
 	}
 }
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -67,7 +72,8 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 	if (card != NULL) {
 		if (list) {
-			if(absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||absoluteValue(pointPressed.x-pointReleased.x) > 45){
+			if(Util::absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||
+					Util::absoluteValue(pointPressed.x-pointReleased.x) > 45){
 				flipOrSelect = 1;
 			}else{
 				flipOrSelect = 0;
@@ -75,7 +81,7 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				for(int i = 0;i<card->getStats().size();i++){
 					if(flip==card->getStats()[i]->getFrontOrBack()){
 						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
 							imge->refreshWidget();
 							currentSelectedStat = i;
 						}
@@ -145,77 +151,85 @@ ImageScreen::~ImageScreen() {
 	delete mainLayout;
 	img = -1;
 	if (next != NULL) {
+		feed->remHttp();
 		delete next;
 		next = NULL;
 	}
-	if (imageCache != NULL) {
-		delete imageCache;
+	if (imageCacheFront != NULL) {
+		delete imageCacheFront;
+	}
+	if (imageCacheBack != NULL) {
+		delete imageCacheBack;
 	}
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
+	lprintfln("keyPressEvent");
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
-			updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+			Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"",
+					"Back", "Flip", mainLayout);
 			imge->refreshWidget();
 			imge->statAdded = false;
 			currentSelectedStat = -1;
 
 			flip=!flip;
-			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != NULL) {
 				maDestroyObject(imge->getResource());
 			}
-			imge->setResource(RES_LOADING);
+			imge->setResource(Util::loadImageFromResource(RES_LOADING1));
 			imge->update();
 			imge->requestRepaint();
 			maUpdateScreen();
 			if (flip) {
-				retrieveBack(imge, card, height-PADDING*2, imageCache);
+				Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+				Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
 			} else {
-				retrieveFront(imge, card, height-PADDING*2, imageCache);
+				Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+				Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
 			}
 			currentSelectedStat = -1;
 			break;
 		case MAK_UP:
-			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
-						currentSelectedStat--;
-						if(currentSelectedStat < -1){
-							currentSelectedStat = 2;
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
-							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
-						} else if (currentSelectedStat == -1) {
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+						selectStat(-1);
+						//currentSelectedStat--;
+						if (currentSelectedStat == -1) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
 							imge->refreshWidget();
 							imge->statAdded = false;
 						} else {
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
 							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
 					}
 				}
 			}
 			break;
 		case MAK_DOWN:
-			if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+			if (imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					if(flip==card->getStats()[0]->getFrontOrBack()){
-						if(currentSelectedStat <= card->getStats().size()-1){
-							currentSelectedStat++;
-						}
-						if (currentSelectedStat > card->getStats().size()-1) {
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+						selectStat(1);
+						if (currentSelectedStat == -1) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
 							imge->refreshWidget();
 							imge->statAdded = false;
-							currentSelectedStat = -1;
+							//currentSelectedStat = -1;
 						} else {
-							updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, select, mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
 							imge->refreshWidget();
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
 					}
 				}
@@ -225,8 +239,9 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (screenType == ST_NEW_CARD) {
 				busy = true;
 				acceptCard();
-			} else if (screenType == AT_SHARE) {
+			} else if (screenType == Util::AT_SHARE) {
 				if (next != NULL) {
+					feed->remHttp();
 					delete next;
 				}
 				next = new TradeFriendDetailScreen(this, feed, card);
@@ -234,6 +249,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			} else {
 				if (card != NULL && hasConnection && canAuction) {
 					if (next != NULL) {
+						feed->remHttp();
 						delete next;
 					}
 					next = new OptionsScreen(feed,
@@ -256,42 +272,52 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (card != NULL) {
 				if((flipOrSelect)||(currentSelectedStat == -1)){
 					flip=!flip;
-					updateSoftKeyLayout((hasConnection&&canAuction)?options:"", back, flipit, mainLayout);
+					Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
 					imge->refreshWidget();
 					imge->statAdded = false;
 					currentSelectedStat = -1;
-					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+					if (imge->getResource() != NULL) {
 						maDestroyObject(imge->getResource());
 					}
-					imge->setResource(RES_LOADING);
+					imge->setResource(Util::loadImageFromResource(RES_LOADING1));
 					imge->update();
 					imge->requestRepaint();
 					maUpdateScreen();
 					if (flip) {
-						retrieveBack(imge, card, height-PADDING*2, imageCache);
+						if ((imageCacheBack != NULL)&&(imge != NULL)) {
+							Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+							Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
+						}
 					} else {
-						retrieveFront(imge, card, height-PADDING*2, imageCache);
+						if ((imageCacheFront != NULL)&&(imge != NULL)) {
+							Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+							Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
+						}
 					}
 					flipOrSelect=0;
 					currentSelectedStat = -1;
 				}else{
-					if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
+					if (imge->getResource() != RES_TEMP) {
 						if(currentSelectedStat>-1){
 							if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 								imge->refreshWidget();
-								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(), card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(), card->getStats()[currentSelectedStat]->getColorBlue());
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 								Stat *stat = card->getStats()[currentSelectedStat];
-								if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+								if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
 									if (next != NULL) {
+										feed->remHttp();
 										delete next;
 										next == NULL;
 									}
 									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
 									next->show();
 								}
-								else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+								else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
 								}
-								else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+								else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
 									String url = stat->getDisplay();
 									//maPlatformRequest will only work if the url starts with http://
 									//so we need to check for it, and add it if it isnt there
@@ -311,12 +337,46 @@ void ImageScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void ImageScreen::selectStat(int upOrDown) {
+	currentSelectedStat += upOrDown;
+	int loops = 0;
+
+	if (currentSelectedStat == card->getStats().size()) {
+		currentSelectedStat = -1;
+		return;
+	}
+
+	if (currentSelectedStat < -1) {
+		currentSelectedStat = card->getStats().size() - 1;
+	}
+	else if (currentSelectedStat == -1) {
+		return;
+	}
+
+	while (card->getStats().size() > loops &&
+			card->getStats()[currentSelectedStat]->getHeight() == 0 &&
+			card->getStats()[currentSelectedStat]->getWidth() == 0) {
+		loops++;
+		currentSelectedStat += upOrDown;
+		if (currentSelectedStat == -1) {
+			return;
+		}
+		else if (currentSelectedStat >= card->getStats().size()) {
+			currentSelectedStat = -1;
+		}
+	}
+
+	if (loops >= card->getStats().size()) {
+		currentSelectedStat = -1;
+	}
+}
+
 void ImageScreen::acceptCard() {
 	//work out how long the url will be
-	int urlLength = ACCEPTCARD.length() + card->getId().length();
+	int urlLength = 40 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", ACCEPTCARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -324,8 +384,9 @@ void ImageScreen::acceptCard() {
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -333,10 +394,10 @@ void ImageScreen::acceptCard() {
 
 void ImageScreen::rejectCard() {
 	//work out how long the url will be
-	int urlLength = REJECTCARD.length() + card->getId().length();
+	int urlLength = 42 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s%s", REJECTCARD.c_str(), card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -344,8 +405,9 @@ void ImageScreen::rejectCard() {
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 	} else {
-		mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-		mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
 		mHttp.finish();
 	}
 	delete [] url;
@@ -357,12 +419,14 @@ void ImageScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
+		feed->remHttp();
 	}
 }
 
 void ImageScreen::connReadFinished(Connection* conn, int result) {}
 
 void ImageScreen::xcConnError(int code) {
+	feed->remHttp();
 	if (code == -6) {
 		return;
 	} else {
@@ -384,12 +448,12 @@ void ImageScreen::mtxTagData(const char* data, int len) {
 }
 
 void ImageScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, xml_result)) {
+	if(!strcmp(name, "result")) {
 		((AlbumViewScreen *)previous)->refresh();
 	}
 }
 
-void ImageScreen::mtxParseError(/*int offSet*/) {
+void ImageScreen::mtxParseError(int) {
 }
 
 void ImageScreen::mtxEmptyTagEnd() {

@@ -17,31 +17,31 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = createMainLayout(savelbl, back, true);
+			mainLayout = Util::createMainLayout("Save", "Back", true);
 			break;
 		case ST_SMS:
-			mainLayout = createMainLayout(sendlbl, back, true);
+			mainLayout = Util::createMainLayout("Share", "Back", true);
 		break;
 	}
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	setPadding(listBox);
+	//Util::setPadding(listBox);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, notelbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Personal Note", 0, Util::getDefaultFont());
 			listBox->add(label);
 			break;
 		case ST_SMS:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, smslbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "SMS", 0, Util::getDefaultFont());
 			listBox->add(label);
 		break;
 	}
 
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, gFontWhite);
-	label->setSkin(gSkinEditBox);
-	setPadding(label);
+	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-24-(PADDING)), NULL, "", 0, Util::getDefaultFont());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
 	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note:");
 	editBoxNote->setDrawBackground(false);
 	editBoxNote->setMaxLength(140);
@@ -49,7 +49,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			editBoxNote->setText(base64_decode(card->getNote()));
+			editBoxNote->setText(Util::base64_decode(card->getNote()));
 			break;
 	}
 
@@ -135,13 +135,13 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				case ST_CARD_NOTE:
 					if (!isBusy) {
 						isBusy = true;
-						encodedNote = base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
+						encodedNote = Util::base64_encode(reinterpret_cast<const unsigned char*>(note.c_str()),note.length());
 						card->setNote(encodedNote.c_str());
 						//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-						int urlLength = SAVENOTE.length() + encodedNote.length() + strlen(xml_cardid) + card->getId().length() + 4;
+						int urlLength = 46 + URLSIZE + encodedNote.length() + card->getId().length();
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s%s&%s=%s", SAVENOTE.c_str(), encodedNote.c_str(), xml_cardid, card->getId().c_str());
+						sprintf(url, "%s?savenote=%s&cardid=%s", URL, encodedNote.c_str(), card->getId().c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -150,8 +150,8 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						if(res < 0) {
 							notice->setCaption("Error updating note");
 						} else {
-							mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-							mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 							mHttp.finish();
 							notice->setCaption("Updating note...");
 						}
@@ -180,14 +180,16 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn.parse(http, this, this);
 	} else {
 		mHttp.close();
-		notice->setCaption(no_connect);
+		notice->setCaption("Unable to connect, try again later...");
 		isBusy = false;
+		feed->remHttp();
 	}
 }
 
 void NoteScreen::connReadFinished(Connection* conn, int result) {}
 
 void NoteScreen::xcConnError(int code) {
+	feed->remHttp();
 	isBusy = false;
 }
 
@@ -209,7 +211,7 @@ void NoteScreen::mtxTagEnd(const char* name, int len) {
 	notice->setCaption("Note Updated.");
 }
 
-void NoteScreen::mtxParseError(/*int offSet*/) {
+void NoteScreen::mtxParseError(int) {
 }
 
 void NoteScreen::mtxEmptyTagEnd() {

@@ -20,7 +20,7 @@ using namespace MAUtil;
 
 class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=AT_NORMAL, Map<String, Card*> map=NULL);
+	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=Util::AT_NORMAL, Map<String, Card*> map=NULL);
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -67,8 +67,11 @@ private:
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
+	Vector<Card*> deleted;
 	Vector<Stat*> stats;
 	Stat *stat;
+
+	Card *newCard;
 
 	String getAll();
 	void loadDemo();
@@ -80,12 +83,13 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError(/*int offSet*/);
+	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
 	//void clearFeedLayouts();
 	void clearCardMap();
+	void deleteCards();
 	void clearListBox();
 };
 

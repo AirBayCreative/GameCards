@@ -5,32 +5,35 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = createMainLayout(screenType==CARD?select:"", back, true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"Select":"", "Back", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
+	isBusy=true;
+	desc = "", id = "", date = "";
+	count = 0;
 	switch (screenType) {
 		case PROFILE:
 			//USERNAME
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, userlbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
 			listBox->add(label);
 
-			label = createLabel(feed->getUsername());
+			label = Util::createLabel(feed->getUsername());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(label);
 
 			//EMAIL
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, emaillbl, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getDefaultFont());
 			listBox->add(label);
 
-			label = createLabel(feed->getEmail());
+			label = Util::createLabel(feed->getEmail());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(label);
 			break;
 		case BALANCE:
-			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, avail_credits, 0, gFontWhite);
+			label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Available Credits:", 0, Util::getDefaultFont());
 			listBox->add(label);
 
-			balanceLabel = createLabel(feed->getCredits());
+			balanceLabel = Util::createLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 			break;
@@ -40,31 +43,66 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 				label->setVerticalAlignment(Label::VA_CENTER);
 				setPadding(label);
 				listBox->add(label);*/
-				label = createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
+				label = Util::createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
 				label->setPaddingBottom(5);
 				label->addWidgetListener(this);
 				listBox->add(label);
 			}
 			if (card->getStats().size() == 0) {
-				label = createSubLabel(empty);
+				label = Util::createSubLabel("Empty");
 				label->setPaddingBottom(5);
 				label->addWidgetListener(this);
 				listBox->add(label);
 			}
 			break;
+		case NOTIFICATIONS:
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Notifications", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			break;
 	}
 
-	if (screenType != CARD) {
-		int res = mHttp.create(USER.c_str(), HTTP_GET);
+	if (screenType == NOTIFICATIONS) {
+		int urlLength = 100 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?notifications=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
 
 		} else {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
-			label->setCaption(checking_info);
+			label->setCaption("Updating notifications...");
 
-			mHttp.setRequestHeader(auth_user, feed->getUsername().c_str());
-			mHttp.setRequestHeader(auth_pw, feed->getEncrypt().c_str());
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+
+		}
+		delete [] url;
+	}
+	else if (screenType != CARD) {
+
+		int urlLength = strlen("?userdetails=1") + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?userdetails=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
+
+		if(res < 0) {
+
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("Checking for updated info...");
+
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
 			mHttp.finish();
 		}
 	}
@@ -78,6 +116,7 @@ DetailScreen::~DetailScreen() {
 	delete mainLayout;
 	if(next!=NULL){
 		delete next;
+		feed->remHttp();
 	}
 	username = "";
 	credits = "";
@@ -115,9 +154,9 @@ void DetailScreen::pointerReleaseEvent(MAPoint2d point)
 
 void DetailScreen::locateItem(MAPoint2d point)
 {
-	if (feed->setTouch(truesz)) {
+	/*if (feed->setTouch(truesz)) {
 		saveData(FEED, feed->getAll().c_str());
-	}
+	}*/
 	list = false;
 	left = false;
 	right = false;
@@ -149,9 +188,16 @@ void DetailScreen::locateItem(MAPoint2d point)
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if (screenType == CARD) {
 		if(selected) {
-			((Label *)widget)->setFont(gFontBlue);
+			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
-			((Label *)widget)->setFont(gFontWhite);
+			((Label *)widget)->setFont(Util::getDefaultFont());
+		}
+	}
+	else if (screenType == NOTIFICATIONS) {
+		if(selected) {
+			((Label *)widget)->setFont(Util::getDefaultSelected());
+		} else {
+			((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	}
 	else {
@@ -182,18 +228,19 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					int index = listBox->getSelectedIndex();
 					if(card->getStats()[index]!=NULL){
 						Stat *stat = card->getStats()[index];
-						if (strcmp(stat->getDesc().c_str(), contact_number) == 0) {
+						if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
 							if (next != NULL) {
+								feed->remHttp();
 								delete next;
 								next == NULL;
 							}
 							next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
 							next->show();
 						}
-						else if (strcmp(stat->getDesc().c_str(), contact_email) == 0) {
+						else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
 
 						}
-						else if (strcmp(stat->getDesc().c_str(), contact_website) == 0) {
+						else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
 							String url = stat->getDisplay();
 							//maPlatformRequest will only work if the url starts with http://
 							//so we need to check for it, and add it if it isnt there
@@ -226,12 +273,14 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	} else {
 		mHttp.close();
 		label->setCaption("");
+		feed->remHttp();
 	}
 }
 
 void DetailScreen::connReadFinished(Connection* conn, int result) {}
 
 void DetailScreen::xcConnError(int code) {
+	feed->remHttp();
 }
 
 void DetailScreen::mtxEncoding(const char* ) {}
@@ -244,40 +293,91 @@ void DetailScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void DetailScreen::mtxTagData(const char* data, int len) {
-	if(!strcmp(parentTag.c_str(), xml_username)) {
+	if(!strcmp(parentTag.c_str(), "username")) {
 		username += data;
-	} else if(!strcmp(parentTag.c_str(), xml_credits)) {
+	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits += data;
-	} else if(!strcmp(parentTag.c_str(), xml_email)) {
+	} else if(!strcmp(parentTag.c_str(), "email")) {
 		email += data;
-	} else if(!strcmp(parentTag.c_str(), xml_error)) {
+	} else if(!strcmp(parentTag.c_str(), "error")) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), "desc")) {
+		desc += data;
+	}  else if(!strcmp(parentTag.c_str(), "id")) {
+		id += data;
+	} else if(!strcmp(parentTag.c_str(), "date")) {
+		date += data;
 	}
 }
 
 void DetailScreen::mtxTagEnd(const char* name, int len) {
 	//TODO not currently updating screen components. Only on screen recreate.
-	if(!strcmp(name, xml_status)) {
+	if(!strcmp(name, "status")) {
 		label->setCaption("");
 		feed->setCredits(credits.c_str());
 		feed->setEmail(email.c_str());
-		feed->setUnsuccessful(success);
+		feed->setUnsuccessful("Success");
 		username,error_msg= "";
-		saveData(FEED, feed->getAll().c_str());
+		Util::saveData("fd.sav", feed->getAll().c_str());
 
 		refreshData();
-	} else if(!strcmp(name, xml_error)) {
+	} else if(!strcmp(name, "error")) {
 		if (label != NULL) {
 			label->setCaption(error_msg.c_str());
 		}
+	} else if(!strcmp(name, "notifications")) {
+		int seconds = maLocalTime();
+		int secondsLength = Util::intlen(seconds);
+		char *secString = new char[secondsLength+1];
+		memset(secString,'\0',secondsLength+1);
+		sprintf(secString, "%d", seconds);
+		feed->setNoteSeconds(secString);
+		feed->setNoteLoaded(false);
+		delete secString;
+		if (count == 0) {
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());
+			label->setPaddingLeft(20);
+			label->setPaddingRight(20);
+			label->addWidgetListener(this);
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+
+			listBox->setSelectedIndex(0);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		} else {
+			listBox->setSelectedIndex(1);
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
+		}
+	} else if(!strcmp(name, "note")) {
+		count++;
+
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+				"", 0, Util::getDefaultFont());
+		label->setCaption(date + ": " + desc);
+		label->setVerticalAlignment(Label::VA_CENTER);
+		label->setSkin(Util::getSkinListNoArrows());
+		label->setMultiLine(true);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(PADDING);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		desc = "";
+		date = "";
+		id = "";
 	} else {
-		if (label != NULL) {
+		if (label != NULL && screenType != NOTIFICATIONS) {
 			label->setCaption("");
 		}
 	}
 }
 
-void DetailScreen::mtxParseError(/*int offSet*/) {
+void DetailScreen::mtxParseError(int) {
 }
 
 void DetailScreen::mtxEmptyTagEnd() {
