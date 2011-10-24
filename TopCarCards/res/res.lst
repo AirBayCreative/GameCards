@@ -10,7 +10,7 @@
 
 .res RES_UNSELECTED_EDITBOX
 .ubin 
-.image "background_editbox_unsel.png"  
+.image "background_editbox_unsel.png"
 
 .res RES_UNSELECTED_BUTTON
 .ubin
@@ -64,7 +64,7 @@
 
 .res RES_CHANGE_STAR
 .ubin
-.include "change_star.png"
+.image "change_star.png"
 
 .res RES_EMPTY_FLIP
 .ubin

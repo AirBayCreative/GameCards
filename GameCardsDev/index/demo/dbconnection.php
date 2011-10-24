@@ -8,8 +8,8 @@ class dbconnection {
 	//	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
 		/** truncate long queries */
 		$sQueryCut=substr($sQuery,0,1024);
-		fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-			.' '.$sQueryCut."\n");
+		/*fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
+			.' '.$sQueryCut."\n");*/
 		$aString=explode(',',$sMysqlConnectString);
 		$aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
 		$aResult=@mysqli_query($aLink, $sQuery);
@@ -33,8 +33,8 @@ class dbconnection {
 	  $sMysqlConnectString='dedi94.flk1.host-h.net,demomjezfh_1,KFTpUq58,demomjezfh_db1';
 	  $aFileHandle=fopen('sqlq.log','a+');
 	  $sQueryCut=substr($sQuery,0,1024);
-	  fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-		.' '.$sQueryCut."\n");
+	  /*fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
+		.' '.$sQueryCut."\n");*/
 	  
 	  $aString=explode(',',$sMysqlConnectString);
 	  $aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);

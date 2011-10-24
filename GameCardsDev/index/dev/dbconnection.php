@@ -8,7 +8,7 @@ class dbconnection {
 	//	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
 		/** truncate long queries */
 		$sQueryCut=substr($sQuery,0,1024);
-		fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
+		/*fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']*/
 			.' '.$sQueryCut."\n");
 		$aString=explode(',',$sMysqlConnectString);
 		$aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
@@ -34,8 +34,8 @@ class dbconnection {
 	  $sMysqlConnectString='dedi94.flk1.host-h.net,mytcg_dev,g4m3c4rd98,gamecard_dev';
 	  $aFileHandle=fopen('/usr/www/users/dmytcg/sqlq.log','a+');
 	  $sQueryCut=substr($sQuery,0,1024);
-	  fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
-		.' '.$sQueryCut."\n");
+	  /*fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']
+		.' '.$sQueryCut."\n");*/
 	  
 	  $aString=explode(',',$sMysqlConnectString);
 	  $aLink=mysqli_connect($aString[0],$aString[1],$aString[2],$aString[3]);
