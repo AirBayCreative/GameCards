@@ -28,7 +28,7 @@ public:
 	void locateItem(MAPoint2d point);
 #endif
 
-	enum screenType {PROFILE, BALANCE, CARD};
+	enum screenType {PROFILE, BALANCE, CARD, NOTIFICATIONS};
 private:
 	Screen *previous, *next;
 	EditBox *editBox;
@@ -40,11 +40,13 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String username, credits, encrypt, error_msg, parentTag, email;
-	int i,j, moved, screenType;
+	String username, credits, encrypt, error_msg, parentTag, email, desc, id, date;
+	int i,j, moved, screenType, count;
 
 	Card *card;
 	Feed *feed;
+
+	bool isBusy;
 
 	void refreshData();
 
@@ -56,7 +58,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError(/*int offSet*/);
+	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 };

@@ -7,6 +7,9 @@ using namespace MAUtil;
 
 class Feed  {
 public:
+	Feed();
+	~Feed();
+
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);
@@ -23,6 +26,9 @@ public:
 	bool setTouch(const char* touch);
 	bool setTouchEnabled(bool touch);
 	void setSeconds(const char* seconds);
+	void setRegistered(String reg);
+	void setNoteLoaded(bool load);
+	void setNoteSeconds(const char* seconds);
 	Albums* getAlbum();
 	String getAlbumString();
 	String getEncrypt();
@@ -40,7 +46,13 @@ public:
 	Vector<String> getAlbumNames();
 	bool getTouchEnabled();
 	String getTouch();
+	String getRegistered();
 	bool getLoaded();
+	int getHttps();
+	void addHttp();
+	void remHttp();
+	bool getNoteLoaded();
+	String getNoteSeconds();
 private:
 	String encrypt;
 	String uname;
@@ -53,10 +65,14 @@ private:
 	String touch;
 	String gameId;
 	String seconds;
+	String registered;
+	String noteSeconds;
 	Albums *album;
 	Albums real_album;
 	bool touchEnabled;
 	bool loaded;
+	int https;
+	bool noteLoaded;
 };
 
 #endif	//_FEED_H_

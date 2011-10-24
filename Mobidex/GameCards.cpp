@@ -2,33 +2,32 @@
 
 #include "GameCards.h"
 #include "utils/Util.h"
-#include "utils/MAHeaders.h"
+#include "MAHeaders.h"
 #include "screens/OptionsScreen.h"
 #include "screens/AlbumLoadScreen.h"
 
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
-	gFontBlack = new MAUI::Font(RES_FONT_BLACK);
-	gFontWhite = new MAUI::Font(RES_FONT_WHITE);
-    gFontBlue = new MAUI::Font(RES_FONT_WHITE);
-
-	gSkinEditBox = new WidgetSkin(RES_SELECTED_EDITBOX, RES_UNSELECTED_EDITBOX, 16, 32, 22, 26, true, true);
-	gSkinButton = new WidgetSkin(RES_SELECTED_BUTTON, RES_UNSELECTED_BUTTON, 16, 32, 23, 25, true, true);
-	gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND, 10, 70, 10, 70, true, true);
-	gSkinList = new WidgetSkin(RES_SELECTED_LIST, RES_UNSELECTED_LIST, 21, 37, 16, 32, true, true);
-	gSkinAlbum = new WidgetSkin(RES_SELECTED_ALBUM, RES_UNSELECTED_ALBUM, 2, 32, 16, 32, true, true);
-	gSkinText = new WidgetSkin(RES_TEXT_BOX, RES_TEXT_BOX, 16, 32, 16, 32, true, true);
-	//gSkinHeader = new WidgetSkin(RES_IMAGE, RES_IMAGE, 236, 252, 83, 84, true);
 	Engine& engine = Engine::getSingleton();
-	engine.setDefaultFont(gFontBlack);
-	engine.setDefaultSkin(gSkinBack);
+	engine.setDefaultFont(Util::getFontBlack());
+	engine.setDefaultSkin(Util::getSkinBack());
 	MAExtent screenSize = maGetScrSize();
 	scrWidth = EXTENT_X(screenSize);
 	scrHeight = EXTENT_Y(screenSize);
 	feed = Feed();
-	feed.setAll(getData(FEED));
-	feed.setAlbum(getData(ALBUM));
+	String data = "";
+	Util::getData("fd.sav", data);
+	if (data.length() <= 0) {
+		data = "";
+	}
+	feed.setAll(data.c_str());
+	Util::getData("lb.sav", data);
+	if (data.length() <= 0) {
+		data = "";
+	}
+	feed.setAlbum(data.c_str());
+	data = "";
 	if (feed.getLoaded()) {
 		next = new AlbumLoadScreen(&feed);
 		next->show();

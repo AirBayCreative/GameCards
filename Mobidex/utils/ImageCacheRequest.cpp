@@ -5,7 +5,10 @@
 ImageCacheRequest::ImageCacheRequest(MobImage *img, Card *card, int height, int type) : img(img), card(card), height(height), type(type) {
 }
 
-ImageCacheRequest::~ImageCacheRequest() {}
+ImageCacheRequest::~ImageCacheRequest() {
+	card = NULL;
+	img = NULL;
+}
 
 String ImageCacheRequest::getUrl()
 {
@@ -24,6 +27,7 @@ String ImageCacheRequest::getSaveName()
 {
 	switch (type) {
 			case 0:
+			case 5:
 				card->setThumb((card->getId()+".sav").c_str());
 				return (card->getId()+".sav");
 			case 1:
@@ -49,4 +53,9 @@ int ImageCacheRequest::getHeight()
 int ImageCacheRequest::getType()
 {
 	return type;
+}
+
+void ImageCacheRequest::setType(int tp)
+{
+	type = tp;
 }

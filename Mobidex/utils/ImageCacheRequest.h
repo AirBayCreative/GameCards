@@ -23,6 +23,7 @@ class ImageCacheRequest
     MobImage* getImage();
     int getHeight();
     int getType();
+    void setType(int type);
 
   private:
     Card *card;

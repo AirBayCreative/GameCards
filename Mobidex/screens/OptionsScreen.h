@@ -20,6 +20,7 @@ class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::Xm
 public:
 	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
 	~OptionsScreen();
+	void show();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 #if defined(MA_PROF_SUPPORT_STYLUS)
@@ -57,7 +58,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError(/*int offSet*/);
+	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 };

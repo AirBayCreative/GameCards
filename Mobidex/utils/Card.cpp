@@ -139,48 +139,48 @@ void Card::setNote(const char *n) {
 }
 
 String Card::getAll() {
-	String all = getQuantity()+delim+getText()+delim+getThumb()+delim+getFront()+
-			delim+getBack()+delim+getId()+delim+getRate()+delim+getValue()+delim+getNote()+delim;
+	String all = getQuantity()+","+getText()+","+getThumb()+","+getFront()+
+			","+getBack()+","+getId()+","+getRate()+","+getValue()+","+getNote()+",";
 	for (int i = 0; i < stats.size(); i++) {
-		all += stats[i]->getAll() + innerDelim;
+		all += stats[i]->getAll() + "$";
 	}
 	return all;
 }
 
 void Card::setAll(const char* allch) {
 		String all = allch;
-		int indexof = all.find(delim);
+		int indexof = all.find(",");
 		if (indexof > -1) {
 			setQuantity(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setText(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setThumb(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setFront(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setBack(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setId(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setRate(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setValue(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
-			indexof = all.find(delim);
+			indexof = all.find(",");
 			setNote(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
 
 			Stat *newStat;
 			while (all.length() > 1) {
-				indexof = all.find(innerDelim);
+				indexof = all.find("$");
 				newStat = new Stat();
 				newStat->setAll(all.substr(0,indexof++).c_str());
 				stats.add(newStat);

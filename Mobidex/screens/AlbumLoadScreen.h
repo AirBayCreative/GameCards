@@ -42,14 +42,14 @@ private:
 
 	Vector<String> path;
 	Vector<Widget*> tempWidgets;
-	String parentTag;
+	String parentTag, notedate;
 	String temp,temp1,error_msg,hasCards,updated;
-	int size, i, moved;
-	bool list, left, right, mid, empt, hasConnection, collapsed;
+	int size, i, moved, first;
+	bool list, left, right, mid, empt, hasConnection, collapsed, shown;
 
 	Layout *mainLayout;
 	KineticListBox *listBox;
-	Label *notice, *label;
+	Label *notice, *label, *noteLabel;
 
 	Feed *feed;
 	Albums *album;
@@ -63,7 +63,7 @@ private:
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
-	void mtxParseError();
+	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
 
