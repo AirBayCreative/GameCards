@@ -83,11 +83,11 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	lblMethod = Util::createEditLabel("");
 	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, lblMethod, "", L"Cell Number:");
-//#if defined(MA_PROF_SUPPORT_STYLUS)
+#if defined(MA_PROF_SUPPORT_STYLUS)
 
-//#else
+#else
 	contactEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
-//#endif
+#endif
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
 
@@ -95,8 +95,6 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	listBox->add(lblMethod);
 
 	/*contactEditBox->setSelected(true);*/
-
-	listBox->setSelectedIndex(1);
 
 	/*l = lbl;*/
 
@@ -116,6 +114,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	listBox->add(lbl);
 	listBox->add(lblMethod);
+
+	contactEditBox->setSelected(true);
+	listBox->setSelectedIndex(1);
 
 	/*lbl = l;
 	l = NULL;*/
