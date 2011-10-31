@@ -160,8 +160,6 @@ void DetailScreen::contactReceived(Contact& contact) {
 	//contacts.add(contact);
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
