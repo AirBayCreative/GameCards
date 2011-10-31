@@ -63,6 +63,18 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label->setMultiLine(true);
 			listBox->add(label);
 			break;
+		case CONTACTS:
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Contacts", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+			PIM *pim = new PIM();
+			pim->addListener(this);
+			pim->getContacts();
+			delete pim;
+			break;
 	}
 
 	if (screenType == NOTIFICATIONS) {
@@ -125,6 +137,30 @@ DetailScreen::~DetailScreen() {
 	parentTag = "";
 	email = "";
 }
+
+
+void DetailScreen::contactReceived(Contact& contact) {
+	lprintfln("contact %s",contact.name.c_str());
+	if(contact.name.length() != 0){
+		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+				"", 0, Util::getDefaultFont());
+
+		char *buffer = new char[128];
+		sprintf(buffer, "%S", contact.name.c_str());
+
+		label->setCaption(buffer);
+		label = Util::createSubLabel(buffer);
+		label->setPaddingBottom(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+
+		listBox->setSelectedIndex(0);
+		delete buffer;
+	}
+	//contacts.add(contact);
+}
+
+#if defined(MA_PROF_SUPPORT_STYLUS)
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
