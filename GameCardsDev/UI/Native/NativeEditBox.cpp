@@ -88,12 +88,10 @@ bool NativeEditBox::pointerReleased(MAPoint2d p, int id) {
 }
 void NativeEditBox::pointerPressEvent(MAPoint2d point)
 {
-
 }
 
 void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 {
-
 }
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)

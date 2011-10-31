@@ -47,7 +47,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Select", "Back", "", layout);
+	Util::updateSoftKeyLayout("", "Back", "", layout);
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Select friend by:", 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
@@ -75,34 +75,29 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	//Util::setPadding(listBox);
 	Util::updateSoftKeyLayout("Share", "Back", "", layout);
 
-	Label* l;
+	/*Label* l;*/
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, methodLabel, 0, Util::getDefaultFont());
 	lbl->setSkin(Util::getSkinBack());
 
 	lblMethod = Util::createEditLabel("");
-	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER/*MA_TB_TYPE_ANY*/, lblMethod, "enter cell number", L"", fresh);
-	//if (strcmp(methodLabel.c_str(), phoneNumlbl) == 0) {
-		contactEditBox->setInputMode(EditBox::IM_NUMBERS);
-	//}
+	contactEditBox = new NativeEditBox(0, 0, lblMethod->getWidth()-PADDING*2, lblMethod->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, lblMethod, "", L"Cell Number:");
+#if defined(MA_PROF_SUPPORT_STYLUS)
+
+#else
+	contactEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
+#endif
 	contactEditBox->setDrawBackground(false);
 	lblMethod->addWidgetListener(this);
-
-	/*lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Enter the cell number of the person you want to share your card with", 0, gFontWhite);
-	lbl->setMultiLine(true);
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setSkin(gSkinBack);*/
 
 	listBox->add(lbl);
 	listBox->add(lblMethod);
 
-
-	//contactEditBox->setText("");
-	contactEditBox->setSelected(true);
+	/*contactEditBox->setSelected(true);*/
 
 	listBox->setSelectedIndex(1);
 
-	l = lbl;
+	/*l = lbl;*/
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Add a personal note", 0, Util::getDefaultFont());
 	lbl->setSkin(Util::getSkinBack());
@@ -121,8 +116,8 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	listBox->add(lbl);
 	listBox->add(lblMethod);
 
-	lbl = l;
-	l = NULL;
+	/*lbl = l;
+	l = NULL;*/
 }
 
 void TradeFriendDetailScreen::drawConfirmScreen() {
@@ -184,7 +179,6 @@ void TradeFriendDetailScreen::clearListBox() {
 	}
 	tempWidgets.clear();
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void TradeFriendDetailScreen::pointerPressEvent(MAPoint2d point) {
 	locateItem(point);
 }
@@ -235,7 +229,6 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-#endif
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
@@ -247,18 +240,6 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
-	if (fresh) {
-		String text = contactEditBox->getText();
-		if (text.length() == 16) {
-			text.remove(0,text.length());
-		} else if (text.length() == 17){
-			text.remove(0,17);
-		} else if (text.length() == 18) {
-			text.remove(0,17);
-		}
-		contactEditBox->setText(text);
-		fresh = !fresh;
-	}
 	switch(keyCode) {
 	case MAK_FIRE:
 		//break;

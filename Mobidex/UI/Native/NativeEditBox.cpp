@@ -3,6 +3,7 @@
 #include <mavsprintf.h>
 #include <mawvsprintf.h>
 #include <maassert.h>
+#include "../../utils/Util.h"
 
 namespace MAUI {
 
@@ -27,10 +28,12 @@ mTitleString(titleString),
 mString(NULL),
 mOptions(options), x(x), y(y), width(width), height(height), fresh(fresh)
 {
-	//wsprintf(mString, L"%s","");
 	setMaxSize(maxSize);
 	setCaption(initialText);
 	Environment::getEnvironment().addPointerListener(this);
+#if defined(MA_PROF_QWERTY)
+	setInputMode(EditBox::IM_QWERTY);
+#endif
 }
 
 NativeEditBox::~NativeEditBox() {
@@ -56,51 +59,72 @@ void NativeEditBox::setMaxSize(int size) {
 	mMaxSize = size;
 }
 
+void NativeEditBox::focusGained() {
+
+}
 bool NativeEditBox::pointerPressed(MAPoint2d p, int id) {
 	mStartX = p.x;
 	mStartY = p.y;
 	return true;
 }
 
+void NativeEditBox::setSelected(bool selected) {
+	EditBox::setSelected(selected);
+}
+
+
 bool NativeEditBox::pointerMoved(MAPoint2d p, int id) {
 	p.x-=mStartX;
 	p.y-=mStartY;
-	if((abs(p.x)<7) && (abs(p.y)<7)) return true;
-	else return false;
+	if((abs(p.x)<7) && (abs(p.y)<7)) {
+		moved = true;
+	} else {
+		moved = false;
+	}
+	return moved;
 }
 
 bool NativeEditBox::pointerReleased(MAPoint2d p, int id) {
-	activate();
+	if (!moved) {
+		activate();
+	}
 	return false;
 }
-void NativeEditBox::pointerPressEvent(MAPoint2d point)
+void NativeEditBox::pointerPressEvent(MAPoint2d p)
 {
+	moved = 0;
 }
 
-void NativeEditBox::pointerMoveEvent(MAPoint2d point)
+void NativeEditBox::pointerMoveEvent(MAPoint2d p)
 {
+	moved++;
 }
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if(this->isActive()&&this->contains(point.x, point.y)){
-		activate();
+	if (moved <= 2) {
+		if (point.y < scrHeight-Util::getSoftKeyBarHeight()) {
+			if(this->isActive()&&this->contains(point.x, point.y)) {
+				activate();
+			} else
+			if (isSelected()) {
+				activate();
+			}
+		}
 	}
 }
 
+
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
-	mListener = listener;
-	Environment::getEnvironment().addTextBoxListener(this);
-	if (!fresh) {
-		wsprintf(mString, L"%s",getCaption().c_str());
-		fresh = !fresh;
-	}
+	moved = false;
+		mListener = listener;
+	wsprintf(mString, L"%s",getCaption().c_str());
 	int res = maTextBox((const wchar*)mTitleString.c_str(), (wchar*)mString,
 		(wchar*)mString, mMaxSize, mOptions);
 	if(res < 0) {
 		PANIC_MESSAGE("maTextBox failed");
 	}
-}
+	Environment::getEnvironment().addTextBoxListener(this);}
 
 void NativeEditBox::setTitleString(const WString& titleString) {
 	mTitleString = titleString;

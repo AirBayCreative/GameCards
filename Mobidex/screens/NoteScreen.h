@@ -19,12 +19,10 @@ public:
 	~NoteScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-#if defined(MA_PROF_SUPPORT_STYLUS)
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-#endif
 
 	enum screenTypes {ST_CARD_NOTE, ST_SMS};
 private:

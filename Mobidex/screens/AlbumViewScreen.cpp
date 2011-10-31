@@ -27,17 +27,9 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	searchString = "";
 
 	if (albumType != Util::AT_SHARE) {
-		#if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout = Util::createMainLayout("", "Back", "", true);
-		#else
-			mainLayout = Util::createMainLayout("Options", "Back", "", true);
-		#endif
+		mainLayout = Util::createMainLayout("", "Back", "", true);
 	} else {
-		#if defined(MA_PROF_SUPPORT_STYLUS)
-			mainLayout = Util::createMainLayout("", "Back", "", true);
-		#else
-			mainLayout = Util::createMainLayout("Share", "Back", "", true);
-		#endif
+		mainLayout = Util::createMainLayout("", "Back", "", true);
 	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -166,8 +158,6 @@ void AlbumViewScreen::loadImages(const char *text) {
 	tmp = "", all = "";
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
     locateItem(point);
 }
@@ -222,8 +212,6 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 		}
 	}
 }
-
-#endif
 
 void AlbumViewScreen::clearListBox() {
 	for (int i = 0; i < listBox->getChildren().size(); i++) {

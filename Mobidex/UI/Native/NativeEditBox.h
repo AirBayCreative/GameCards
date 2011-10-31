@@ -52,9 +52,11 @@ public:
 	void setOptions(int options);
 	void setMaxSize(int size);
 
+	void focusGained();
+
+	void setSelected(bool selected = false);
 	void setTitleString(const MAUtil::WString& mTitleString);
 	const MAUtil::WString& getTitleString() const;
-	//const MAUtil::String getCaption();
 
 	bool pointerPressed(MAPoint2d p, int id);
 	bool pointerMoved(MAPoint2d p, int id);
@@ -76,7 +78,7 @@ protected:
 	int mMaxSize;
 	int mOptions;
 	int x,y,width,height;
-	int mStartX, mStartY;
+	int mStartX, mStartY, moved;
 	bool fresh;
 
 	NativeEditBoxListener* mListener;
