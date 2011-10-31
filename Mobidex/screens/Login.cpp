@@ -129,7 +129,12 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER, label, "", L"Cell Number:");
+	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Cell Number:");
+#if defined(MA_PROF_SUPPORT_STYLUS)
+
+#else
+	editBoxCell->setInputMode(NativeEditBox::IM_NUMBERS);
+#endif
 	editBoxCell->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
@@ -141,6 +146,11 @@ void Login::drawRegisterScreen() {
 	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Email:");
 	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
+	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	listBox->add(label);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	listBox->setSelectedIndex(1);
@@ -167,7 +177,6 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void Login::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -232,7 +241,6 @@ void Login::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void Login::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
@@ -350,13 +358,22 @@ void Login::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_UP:
-			if (index-2 > 0) {
+			if (index == 3) {
+				listBox->setSelectedIndex(0);
+				listBox->setSelectedIndex(1);
+			} else if (index-2 > 0) {
 				listBox->setSelectedIndex(index-2);
+			} else {
+				listBox->setSelectedIndex(listBox->getChildren().size()-1);
+				listBox->setSelectedIndex(listBox->getChildren().size()-3);
 			}
 			break;
 		case MAK_DOWN:
 			if (index+2 < listBox->getChildren().size()) {
 				listBox->setSelectedIndex(index+2);
+			} else {
+				listBox->setSelectedIndex(0);
+				listBox->setSelectedIndex(1);
 			}
 			break;
 		case MAK_LEFT:

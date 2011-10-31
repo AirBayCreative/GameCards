@@ -48,7 +48,6 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		imageCacheBack = NULL;
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
 	pointPressed = point;
@@ -81,7 +80,7 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				for(int i = 0;i<card->getStats().size();i++){
 					if(flip==card->getStats()[i]->getFrontOrBack()){
 						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
 							imge->refreshWidget();
 							currentSelectedStat = i;
 						}
@@ -141,7 +140,6 @@ void ImageScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 ImageScreen::~ImageScreen() {
 	/*if (card != NULL) {
 		if (imge->getResource() != RES_LOADING && imge->getResource() != RES_TEMP) {
@@ -202,7 +200,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 							imge->refreshWidget();
 							imge->statAdded = false;
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
 							imge->refreshWidget();
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
@@ -224,7 +222,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 							imge->statAdded = false;
 							//currentSelectedStat = -1;
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Select", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
 							imge->refreshWidget();
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),

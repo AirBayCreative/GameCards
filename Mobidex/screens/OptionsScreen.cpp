@@ -18,10 +18,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	menu = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
-		layout = Util::createMainLayout("Select", "Exit", true);
+		layout = Util::createMainLayout("", "Exit", true);
 	}
 	else {
-		layout = Util::createMainLayout("Select", "Back", true);
+		layout = Util::createMainLayout("", "Back", true);
 	}
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
@@ -91,7 +91,6 @@ OptionsScreen::~OptionsScreen() {
 	}
 }
 
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -142,7 +141,6 @@ void OptionsScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
 		((Label *)widget)->setFont(Util::getDefaultSelected());
@@ -161,6 +159,7 @@ void OptionsScreen::show() {
 }
 
 void OptionsScreen::keyPressEvent(int keyCode) {
+	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
@@ -254,10 +253,18 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (index == listBox->getChildren().size()-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if (index == 0) {
+				listBox->setSelectedIndex(listBox->getChildren().size()-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 	}
 }

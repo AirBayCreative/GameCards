@@ -5,7 +5,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
-	mainLayout = Util::createMainLayout(screenType==CARD?"Select":"", "Back", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	isBusy=true;
@@ -138,6 +138,7 @@ DetailScreen::~DetailScreen() {
 	email = "";
 }
 
+
 void DetailScreen::contactReceived(Contact& contact) {
 	lprintfln("contact %s",contact.name.c_str());
 	if(contact.name.length() != 0){
@@ -160,6 +161,7 @@ void DetailScreen::contactReceived(Contact& contact) {
 }
 
 #if defined(MA_PROF_SUPPORT_STYLUS)
+
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -216,7 +218,6 @@ void DetailScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 
 void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if (screenType == CARD) {
@@ -366,6 +367,8 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		sprintf(secString, "%d", seconds);
 		feed->setNoteSeconds(secString);
 		feed->setNoteLoaded(false);
+		Util::saveData("fd.sav", feed->getAll().c_str());
+
 		delete secString;
 		if (count == 0) {
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());

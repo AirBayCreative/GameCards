@@ -91,7 +91,6 @@ void SearchScreen::selectionChanged(Widget *widget, bool selected) {
 		widget->getChildren()[0]->setSelected(false);
 	}
 }
-#if defined(MA_PROF_SUPPORT_STYLUS)
 void SearchScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -142,7 +141,6 @@ void SearchScreen::locateItem(MAPoint2d point)
 		}
 	}
 }
-#endif
 void SearchScreen::show() {
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
