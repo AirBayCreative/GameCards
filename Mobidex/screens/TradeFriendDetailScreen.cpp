@@ -1,6 +1,7 @@
 #include "TradeFriendDetailScreen.h"
 #include "AlbumViewScreen.h"
 #include "OptionsScreen.h"
+#include "DetailScreen.h"
 #include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
@@ -12,7 +13,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = Util::createMainLayout("Share", "Back", "", true);
+	layout = Util::createMainLayout("Share", "Back", "Contacts", true);
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
@@ -73,7 +74,7 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	notice->setCaption("");
 	clearListBox();
 	//Util::setPadding(listBox);
-	Util::updateSoftKeyLayout("Share", "Back", "", layout);
+	Util::updateSoftKeyLayout("Share", "Back", "Contacts", layout);
 
 	Label* l;
 
@@ -202,7 +203,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		keyPressEvent(MAK_SOFTRIGHT);
 	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
-	} else if (phase != SP_DETAIL && list) {
+	} else if (phase == SP_DETAIL && list) {
 		keyPressEvent(MAK_FIRE);
 	}
 }
@@ -219,7 +220,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
 			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
-			list = true;
+			//list = true;
 		}
 	}
 	for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
@@ -228,7 +229,9 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 		{
 			if (i == 0) {
 				left = true;
-			} else if (i == 2) {
+			}else if (i == 1) {
+				list = true;
+			}else if (i == 2) {
 				right = true;
 			}
 			return;
@@ -261,7 +264,17 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	}
 	switch(keyCode) {
 	case MAK_FIRE:
-		//break;
+		switch(phase) {
+			case SP_DETAIL:
+				if (menu != NULL) {
+					delete menu;
+				}
+				menu = new DetailScreen(this, feed,
+				DetailScreen::CONTACTS, card);
+				menu->show();
+				break;
+		}
+		break;
 	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:

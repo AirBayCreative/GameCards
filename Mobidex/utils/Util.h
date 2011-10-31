@@ -14,6 +14,7 @@
 #include "ImageCache.h"
 #include "Convert.h"
 #include "URLEncode.h"
+#include "PIM.h"
 
 using namespace MAUI;
 
