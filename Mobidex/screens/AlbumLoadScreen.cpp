@@ -376,21 +376,16 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				if (val->getHasCards()) {
-					if (listBox->getSelectedIndex() == (1))
-					{
+					if (strcmp(val->getId().c_str(), "-1") == 0) {
 						next = new AlbumViewScreen(this, feed, val->getId(), Util::AT_SHARE);
 						next->show();
+					} else if (strcmp(val->getId().c_str(), "-2") == 0) {
+						next = new AlbumViewScreen(this, feed, val->getId(), Util::AT_NEW_CARDS);
+						next->show();
 					}
-					else
-					{
-						if (strcmp(val->getId().c_str(), "-2") == 0) {
-							next = new AlbumViewScreen(this, feed, val->getId(), Util::AT_NEW_CARDS);
-							next->show();
-						}
-						else {
-							next = new AlbumViewScreen(this, feed, val->getId());
-							next->show();
-						}
+					else {
+						next = new AlbumViewScreen(this, feed, val->getId());
+						next->show();
 					}
 				}
 				else {
@@ -521,6 +516,7 @@ void AlbumLoadScreen::xcConnError(int code) {
 			mHttp.finish();
 		}
 		delete [] url;
+		feed->setNoteLoaded(true);
 	}
 }
 
@@ -561,8 +557,16 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		t.tm_min = atoi(notedate.substr(14,2).c_str());
 		t.tm_sec = atoi(notedate.substr(17,2).c_str());
 		int ndate = mktime(&t);
-		if(ndate > atoi(feed->getNoteSeconds().c_str())){
+		if(ndate > atoi(feed->getNoteSeconds().c_str())) {
 			feed->setNoteLoaded(true);
+			int seconds = maLocalTime();
+			int secondsLength = Util::intlen(seconds);
+			char *secString = new char[secondsLength+1];
+			memset(secString,'\0',secondsLength+1);
+			sprintf(secString, "%d", seconds);
+			feed->setNoteSeconds(secString);
+			Util::saveData("fd.sav", feed->getAll().c_str());
+
 			noteLabel->setCaption("*Notifications");
 			noteLabel->setFont(Util::getDefaultSelected());
 
@@ -574,7 +578,6 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 					if(next!=NULL){
 						delete next;
 					}
-					/* Notifications */
 					next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 					next->show();
 				}
@@ -586,7 +589,6 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album")) {
 		notice->setCaption("");
-		//album->names.add(temp1);
 		album->addAlbum(temp.c_str(), temp1, (hasCards=="true"), (updated=="1"));
 		temp1 = "";
 		temp = "";

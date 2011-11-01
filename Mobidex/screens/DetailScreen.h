@@ -14,7 +14,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, ContactListener {
+class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
 	~DetailScreen();
@@ -27,8 +27,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	void contactReceived(Contact& contact);
-	enum screenType {PROFILE, BALANCE, CARD, NOTIFICATIONS, CONTACTS};
+	enum screenType {PROFILE, BALANCE, CARD, NOTIFICATIONS};
 private:
 	Screen *previous, *next;
 	EditBox *editBox;

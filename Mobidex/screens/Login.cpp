@@ -223,7 +223,7 @@ void Login::locateItem(MAPoint2d point)
         {
         	if (moved <= 1) listBox->setSelectedIndex(i);
         	list = true;
-            return;
+            //return;
         }
     }
     for(int i = 0; i < (this->getMain()->getChildren()[1]->getChildren()).size(); i++)
@@ -286,7 +286,6 @@ void Login::keyPressEvent(int keyCode) {
 							conCatenation = "";
 							value = "";
 						} else {
-							maVibrate(1000);
 							notice->setCaption("Ensure that you have entered your username and password.");
 						}
 						break;
@@ -294,23 +293,18 @@ void Login::keyPressEvent(int keyCode) {
 						notice->setCaption("");
 						if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
-							maVibrate(1000);
 						}
 						else if (editBoxPass->getText().length() < 6) {
 							notice->setCaption("Your password needs to be at least 6 characters long");
-							maVibrate(1000);
 						}
 						else if (editBoxFullname->getText().length() < 1) {
 							notice->setCaption("Please enter your name");
-							maVibrate(1000);
 						}
 						else if (editBoxCell->getText().length() < 10) {
 							notice->setCaption("Your cell needs to be at least 10 numbers long");
-							maVibrate(1000);
 						}
 						else if (editBoxEmail->getText().length() < 1) {
 							notice->setCaption("You need to enter an email address");
-							maVibrate(1000);
 						}
 						else {
 							response = "";
@@ -460,9 +454,9 @@ void Login::mtxTagEnd(const char* name, int len) {
 		Util::getData("lb.sav", albums);
 		feed->setAlbum(albums.c_str());
 		albums = "";
-		if (next != NULL) {
+		/*if (next != NULL) {
 			delete next;
-		}
+		}*/
 		next = new AlbumLoadScreen(feed);
 		next->show();
 	} else if(!strcmp(name, "error")) {
@@ -499,9 +493,9 @@ void Login::mtxTagEnd(const char* name, int len) {
 		username,error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
 
-		if (next != NULL) {
+		/*if (next != NULL) {
 			delete next;
-		}
+		}*/
 		next = new AlbumLoadScreen(feed, album);
 		next->show();
 	} else {

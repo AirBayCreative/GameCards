@@ -715,8 +715,8 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
 		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobidex. Please visit '.$url.' for an even greater Mobidex experience.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
+			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobidex. Please visit '.$url.' for an even greater Mobidex experience.", now(), 1)');
 		
 		$aUserCards=myqu('SELECT * 
 					FROM mytcg_tradecard
