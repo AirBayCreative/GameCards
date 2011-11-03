@@ -5,6 +5,7 @@
 #include "AlbumLoadScreen.h"
 
 Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed), prev(previous), screen(screen) {
+	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
 
@@ -320,7 +321,6 @@ void Login::keyPressEvent(int keyCode) {
 							urlLength = 100 + urlLength + encodedName.length()
 									+ editBoxLogin->getText().length() + editBoxCell->getText().length()
 									+ editBoxPass->getText().length() + editBoxEmail->getText().length() + 10;
-							lprintfln("urlLength: %d", urlLength);
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
 							sprintf(url, "%s?registeruser=1&name=%s&username=%s&cell=%s&password=%s&email=%s", URL, encodedName.c_str(),
