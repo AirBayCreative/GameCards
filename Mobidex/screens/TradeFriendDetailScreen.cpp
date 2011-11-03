@@ -13,7 +13,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 	method = "";
 	result = "";
 	menu = NULL;
-	layout = Util::createMainLayout("Share", "Back", "Contacts", true);
+	layout = Util::createMainLayout("Share", "Back", "", true);
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
 
@@ -74,7 +74,7 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	notice->setCaption("");
 	clearListBox();
 	//Util::setPadding(listBox);
-	Util::updateSoftKeyLayout("Share", "Back", "Contacts", layout);
+	Util::updateSoftKeyLayout("Share", "Back", "", layout);
 
 	/*Label* l;*/
 
@@ -198,7 +198,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (phase == SP_DETAIL && list) {
-		keyPressEvent(MAK_FIRE);
+		//keyPressEvent(MAK_FIRE);
 	}
 }
 
@@ -245,7 +245,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 	case MAK_FIRE:
-		switch(phase) {
+		/*switch(phase) {
 			case SP_DETAIL:
 				if (menu != NULL) {
 					delete menu;
@@ -254,7 +254,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				DetailScreen::CONTACTS, card);
 				menu->show();
 				break;
-		}
+		}*/
 		break;
 	case MAK_SOFTLEFT:
 		switch(phase) {
