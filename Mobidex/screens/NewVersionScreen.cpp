@@ -4,6 +4,7 @@
 #include "NewVersionScreen.h"
 
 NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
+	lprintfln("NewVersionScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	layout = Util::createMainLayout("Download", "Back");
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];

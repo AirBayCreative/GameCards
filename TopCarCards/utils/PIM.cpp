@@ -29,7 +29,7 @@ void PIM::getContacts()
 	char output[255];
 	MA_PIM_ARGS args;
 
-	/*MAHandle temp = maCreatePlaceholder();*/
+	MAHandle temp = maCreatePlaceholder();
 
 	WString familyName;
 	WString givenName;
@@ -37,15 +37,14 @@ void PIM::getContacts()
 	WString prefix;
 	WString suffix;
 
-
+	//lprintf("Starting PIM access");
 	MAHandle contactList = maPimListOpen(MA_PIM_CONTACTS);
-	lprintf("Starting PIM access %i",contactList);
-	if(contactList > 0)
+	if(contactList != 0)
 	{
 		MAHandle nextItem = maPimListNext(contactList);
-		while(nextItem > 0)
+		while(nextItem != 0)
 		{
-			lprintf("Got a pim item");
+			//lprintf("Got a pim item");
 			args.item = nextItem;
 			args.buf = output;
 			args.bufSize = sizeof(output);
@@ -56,28 +55,28 @@ void PIM::getContacts()
 			WString formattedName;
 			pimData.reserve(50);
 
-			lprintf("Iterating through the fields");
+			//lprintf("Iterating through the fields");
 			//Iterate through the fields
 			for(int j=0; j<nFields; j++)
 			{
-				lprintf("Iteration %d of %d", j, nFields);
+				//lprintf("Iteration %d of %d", j, nFields);
 				int field = maPimItemGetField(nextItem, j);
 				int type = maPimFieldType(contactList, field);
 
-				lprintf("Field : %d, type %d", field, type);
+				//lprintf("Field : %d, type %d", field, type);
 				args.field = field;
 
 				pimData.clear();
 
-				lprintf("Getting the number of values");
+				//lprintf("Getting the number of values");
 				int nValues = maPimItemFieldCount(nextItem, field);
 				for(int k = 0; k < nValues; k++)
 				{
 					pimData.clear();
-					lprintf("Iteration %d of %d values", k, nValues);
+					//lprintf("Iteration %d of %d values", k, nValues);
 					output[0] = 0;
-					/*int attr = maPimItemGetAttributes(nextItem, field, k);
-					int len = maPimItemGetValue(&args, k);*/
+					int attr = maPimItemGetAttributes(nextItem, field, k);
+					int len = maPimItemGetValue(&args, k);
 
 					switch(type)
 					{
@@ -94,18 +93,16 @@ void PIM::getContacts()
 						case MA_PIM_TYPE_DATE:
 							break;
 						case MA_PIM_TYPE_STRING_ARRAY:
-							lprintf("String array");
+							//lprintf("String array");
 							int num = *(int*)output;
-							lprintf("There are %d values in this field", num);
+							//lprintf("There are %d values in this field", num);
 							const wchar* ptr = (wchar*)(output + 4);
 							for(int i=0; i<num; i++)
 							{
 								pimData.clear();
-								if(wcslen(ptr) != 0){
-									pimData.append(ptr, wcslen(ptr));
-								}
+								pimData.append(ptr, wcslen(ptr));
 
-								lprintfln("Processing data '%s'", pimData.c_str());
+								//lprintf("Processing data '%S'", pimData.c_str());
 								processData(pimData, field, i);
 
 								ptr += wcslen(ptr) + 1;
@@ -125,7 +122,7 @@ void PIM::getContacts()
 			Vector_each(ContactListener*, itr, mListeners)
 				(*itr)->contactReceived(c);
 
-			lprintf("FORMATTED NAME: %S", c.name.c_str());
+			//lprintf("FORMATTED NAME: %S", c.name.c_str());
 
 			mPrefix.clear();
 			mGivenName.clear();
@@ -138,7 +135,6 @@ void PIM::getContacts()
 		}
 		maPimListClose(contactList);
 	}
-	lprintf("derp");
 }
 
 void PIM::processData(WString& data, int field, int index)

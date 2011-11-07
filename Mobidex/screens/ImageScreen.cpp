@@ -8,6 +8,7 @@
 
 ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
 		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
+	lprintfln("ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	//TODO add touch
 	busy = false;
 	next = NULL;
@@ -18,7 +19,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
-			mainLayout =  Util::createImageLayout("Accept Card", "Reject Card", "Flip");
+			mainLayout =  Util::createImageLayout("Accept", "Reject", "Flip");
 		} else if (screenType == Util::AT_SHARE) {
 			mainLayout = Util::createImageLayout("Share", "Back", "Flip");
 		} else {
@@ -76,15 +77,18 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				flipOrSelect = 1;
 			}else{
 				flipOrSelect = 0;
-				//currentSelectedStat = -1;
+				bool gotstat = false;
 				for(int i = 0;i<card->getStats().size();i++){
 					if(flip==card->getStats()[i]->getFrontOrBack()){
 						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
+							gotstat = true;
 							imge->refreshWidget();
 							currentSelectedStat = i;
 						}
 					}
+				}
+				if (!gotstat) {
+					currentSelectedStat = -1;
 				}
 			}
 			keyPressEvent(MAK_FIRE);
@@ -162,12 +166,9 @@ ImageScreen::~ImageScreen() {
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
-	lprintfln("keyPressEvent");
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:
-			Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"",
-					"Back", "Flip", mainLayout);
 			imge->refreshWidget();
 			imge->statAdded = false;
 			currentSelectedStat = -1;
@@ -196,11 +197,23 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						selectStat(-1);
 						//currentSelectedStat--;
 						if (currentSelectedStat == -1) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							if (screenType == ST_NEW_CARD) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							} else if (screenType == Util::AT_SHARE) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							} else {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							}
 							imge->refreshWidget();
 							imge->statAdded = false;
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
+							if (screenType == ST_NEW_CARD) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							} else if (screenType == Util::AT_SHARE) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							} else {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							}
 							imge->refreshWidget();
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
@@ -217,12 +230,24 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					if(flip==card->getStats()[0]->getFrontOrBack()){
 						selectStat(1);
 						if (currentSelectedStat == -1) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							if (screenType == ST_NEW_CARD) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							} else if (screenType == Util::AT_SHARE) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							} else {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							}
 							imge->refreshWidget();
 							imge->statAdded = false;
 							//currentSelectedStat = -1;
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "", mainLayout);
+							if (screenType == ST_NEW_CARD) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							} else if (screenType == Util::AT_SHARE) {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							} else {
+								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							}
 							imge->refreshWidget();
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
@@ -270,7 +295,6 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			if (card != NULL) {
 				if((flipOrSelect)||(currentSelectedStat == -1)){
 					flip=!flip;
-					Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
 					imge->refreshWidget();
 					imge->statAdded = false;
 					currentSelectedStat = -1;
@@ -433,6 +457,7 @@ void ImageScreen::xcConnError(int code) {
 }
 
 void ImageScreen::mtxEncoding(const char* ) {
+
 }
 
 void ImageScreen::mtxTagStart(const char* name, int len) {
@@ -440,9 +465,11 @@ void ImageScreen::mtxTagStart(const char* name, int len) {
 }
 
 void ImageScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+
 }
 
 void ImageScreen::mtxTagData(const char* data, int len) {
+
 }
 
 void ImageScreen::mtxTagEnd(const char* name, int len) {

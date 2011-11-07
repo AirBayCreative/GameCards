@@ -10,6 +10,7 @@
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) : mHttp(this),
 filename(category+"-lst.sav"), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
+	lprintfln("AlbumViewScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	busy = true;
 	emp = true;
 	next = NULL;

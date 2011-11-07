@@ -5,6 +5,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
+	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	mainLayout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
@@ -62,18 +63,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
 			listBox->add(label);
-			break;
-		case CONTACTS:
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Contacts", 0, Util::getDefaultFont());
-			label->setHorizontalAlignment(Label::HA_CENTER);
-			label->setVerticalAlignment(Label::VA_CENTER);
-			label->setSkin(Util::getSkinListNoArrows());
-			label->setMultiLine(true);
-			listBox->add(label);
-			PIM *pim = new PIM();
-			pim->addListener(this);
-			pim->getContacts();
-			delete pim;
 			break;
 	}
 
@@ -138,28 +127,6 @@ DetailScreen::~DetailScreen() {
 	email = "";
 }
 
-
-void DetailScreen::contactReceived(Contact& contact) {
-	lprintfln("contact %s",contact.name.c_str());
-	if(contact.name.length() != 0){
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
-				"", 0, Util::getDefaultFont());
-
-		char *buffer = new char[128];
-		sprintf(buffer, "%S", contact.name.c_str());
-
-		label->setCaption(buffer);
-		label = Util::createSubLabel(buffer);
-		label->setPaddingBottom(5);
-		label->addWidgetListener(this);
-		listBox->add(label);
-
-		listBox->setSelectedIndex(0);
-		delete buffer;
-	}
-	//contacts.add(contact);
-}
-
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -187,9 +154,6 @@ void DetailScreen::pointerReleaseEvent(MAPoint2d point)
 
 void DetailScreen::locateItem(MAPoint2d point)
 {
-	/*if (feed->setTouch(truesz)) {
-		saveData(FEED, feed->getAll().c_str());
-	}*/
 	list = false;
 	left = false;
 	right = false;
@@ -358,16 +322,6 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setCaption(error_msg.c_str());
 		}
 	} else if(!strcmp(name, "notifications")) {
-		int seconds = maLocalTime();
-		int secondsLength = Util::intlen(seconds);
-		char *secString = new char[secondsLength+1];
-		memset(secString,'\0',secondsLength+1);
-		sprintf(secString, "%d", seconds);
-		feed->setNoteSeconds(secString);
-		feed->setNoteLoaded(false);
-		Util::saveData("fd.sav", feed->getAll().c_str());
-
-		delete secString;
 		if (count == 0) {
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);

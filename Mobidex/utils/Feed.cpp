@@ -251,10 +251,10 @@ void Feed::setAll(const char* allch) {
 		setSeconds(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
-		setNoteSeconds(all.substr(0,indexof++).c_str());
+		setRegistered(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
-		setRegistered(all.substr(0,indexof++).c_str());
+		setNoteSeconds(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {

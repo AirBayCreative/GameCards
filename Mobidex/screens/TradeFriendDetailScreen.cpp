@@ -5,6 +5,7 @@
 #include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
+	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	sending = false;
 	fresh = true;
 	friendDetail = "";
@@ -96,8 +97,6 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	/*contactEditBox->setSelected(true);*/
 
-	listBox->setSelectedIndex(1);
-
 	/*l = lbl;*/
 
 	lbl = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Add a personal note", 0, Util::getDefaultFont());
@@ -116,6 +115,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	listBox->add(lbl);
 	listBox->add(lblMethod);
+
+	contactEditBox->setSelected(true);
+	listBox->setSelectedIndex(1);
 
 	/*lbl = l;
 	l = NULL;*/
