@@ -52,16 +52,6 @@ MenuScreen::MenuScreen(Feed *feed) : GameCardScreen(NULL, feed, -1) {
 	label->addWidgetListener(this);
 	listBox->add(label);
 #endif
-#if (OP_RANKINGS > -1)
-	label = Util::createSubLabel("Rankings");
-	label->addWidgetListener(this);
-	listBox->add(label);
-#endif
-#if (OP_FRIENDRANKS > -1)
-	label = Util::createSubLabel("Friend Ranks");
-	label->addWidgetListener(this);
-	listBox->add(label);
-#endif
 #if (OP_FRIENDS > -1)
 	label = Util::createSubLabel("Friends");
 	label->addWidgetListener(this);
@@ -206,12 +196,6 @@ void MenuScreen::keyPressEvent(int keyCode) {
 				}
 				/* Notifications */
 				menu = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
-				menu->show();
-			} else if(index == OP_FRIENDRANKS) {
-				if(menu!=NULL){
-					delete menu;
-				}
-				menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
 				menu->show();
 			} else if(index == OP_FRIENDS) {
 				if(menu!=NULL){

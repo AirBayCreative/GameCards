@@ -115,11 +115,9 @@
 #define OP_SHOP 1
 #define OP_NOTIFICATIONS 2
 #define OP_PROFILE 3
-#define OP_RANKINGS 4
-#define OP_FRIENDRANKS 5
-#define OP_FRIENDS 6
-#define OP_INVITEFRIENDS 7
-#define OP_LOGOUT 8
+#define OP_FRIENDS 4
+#define OP_INVITEFRIENDS 5
+#define OP_LOGOUT 6
 
 #include <MAUtil/String.h>
 

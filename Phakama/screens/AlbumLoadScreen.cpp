@@ -200,13 +200,15 @@ void AlbumLoadScreen::drawList() {
 	size = 0;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		albumname = itr->c_str();
-		if (!strcmp(albumname.c_str(), "New Cards")) {
+		lprintfln("wawawa %s",albumname.c_str());
+		if (strcmp(albumname.c_str(), "New Cards")) {
 			label = Util::createSubLabel(albumname);
 			label->setPaddingBottom(5);
 			label->addWidgetListener(this);
 			listBox->add(label);
 
 			size++;
+			lprintfln("size %d", size);
 		}
 		albumname = "";
 	}
