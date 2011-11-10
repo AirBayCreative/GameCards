@@ -200,7 +200,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 	} else if (left) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (phase == SP_DETAIL && list) {
-		keyPressEvent(MAK_FIRE);
+		//keyPressEvent(MAK_FIRE);
 	}
 }
 
@@ -247,6 +247,16 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 	case MAK_FIRE:
+		/*switch(phase) {
+			case SP_DETAIL:
+				if (menu != NULL) {
+					delete menu;
+				}
+				menu = new DetailScreen(this, feed,
+				DetailScreen::CONTACTS, card);
+				menu->show();
+				break;
+		}*/
 		break;
 	case MAK_SOFTLEFT:
 		switch(phase) {
