@@ -5,6 +5,7 @@
 
 DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
 		feed(feed), screenType(screenType), card(card) {
+	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	mainLayout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;

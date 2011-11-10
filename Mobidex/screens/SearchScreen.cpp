@@ -5,6 +5,7 @@
 #include "AlbumViewScreen.h"
 
 SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(feed), prev(previous) {
+	lprintfln("SearchScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
 	isActive = true;
@@ -163,7 +164,6 @@ void SearchScreen::doSearch() {
 		urlLength = 100 + urlLength + base64SearchString.length() + feed->getSeconds().length()
 				+ Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 		char *url = new char[urlLength];
-		lprintfln("char *url created!");
 		memset(url,'\0',urlLength);
 		sprintf(url, "%s?search=%s&seconds=%s&height=%d&width=%d&%s", URL, base64SearchString.c_str(),
 				feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);

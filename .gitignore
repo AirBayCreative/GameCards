@@ -1,4 +1,3 @@
-
 /GameCardsDev/.project
 /GameCardsDev/Sld.tab
 /GameCardsDev/stabs.tab
@@ -9,7 +8,6 @@
 /GameCardsDev/.mosyncproject
 /GameCardsDev/.mosyncproject.local
 /PRGCards/.project
-/PRGCardsC/MoTweet.mopro
 /PRGCards/Sld.tab
 /PRGCards/stabs.tab
 /PRGCards/FinalOutput
@@ -26,3 +24,20 @@
 /Mobidex/.DS_Store
 /Mobidex/.mosyncproject.local
 /Mobidex/.mosyncproject
+/Phakama/.project
+/Phakama/Sld.tab
+/Phakama/stabs.tab
+/Phakama/FinalOutput
+/Phakama/Output
+/Phakama/.cproject
+/Phakama/.DS_Store
+/Phakama/.mosyncproject
+/Phakama/.mosyncproject.local
+/TopCarCards/Sld.tab
+/TopCarCards/stabs.tab
+/TopCarCards/FinalOutput
+/TopCarCards/Output
+/TopCarCards/.cproject
+/TopCarCards/.DS_Store
+/TopCarCards/.mosyncproject.local
+/TopCarCards/.mosyncproject

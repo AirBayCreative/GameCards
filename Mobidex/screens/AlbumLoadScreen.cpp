@@ -35,6 +35,7 @@ void AlbumLoadScreen::refresh() {
 }
 
 AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(feed) {
+	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
 	collapsed = false;
@@ -97,6 +98,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 		feed->remHttp();
 	}
 	parentTag="";
+	notedate="";
 	temp="";
 	temp1="";
 	error_msg="";
@@ -147,7 +149,6 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			//((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
 			list = true;
 		}
 	}
@@ -327,15 +328,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
-			/*if (path.size() == 0 && listBox->getSelectedIndex() == (size-3)) {
-				if (next != NULL) {
-					delete next;
-					next = NULL;
-				}
-				next = new RedeemScreen(feed, this);
-				next->show();
-			}
-			else */
 			if (((((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()) == "- My Directories")||((((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()) == "+ My Directories")) {
 				collapsed = !collapsed;
 				drawList();
@@ -357,7 +349,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					delete next;
 					next = NULL;
 				}
-				/* Notifications */
 				next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 				next->show();
 			}
@@ -389,10 +380,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					}
 				}
 				else {
-					//if a category has no cards, it means it has sub categories.
-					//it is added to the path so we can back track
 					path.add(val->getId());
-					//then it must be loaded
 					loadCategory();
 				}
 				break;
@@ -403,11 +391,8 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 
 void AlbumLoadScreen::loadCategory() {
 	Util::updateSoftKeyLayout(path.size() == 0?"Exit":"Back", "", "", mainLayout);
-
-	//the list needs to be cleared
 	album->clearAll();
 	clearListBox();
-	//then if the category has been loaded before, we need to load from the file
 	notice->setCaption("Checking for new albums...");
 	if (path.size() == 0) {
 		album->setAll(this->feed->getAlbum()->getAll().c_str());
@@ -423,7 +408,6 @@ void AlbumLoadScreen::loadCategory() {
 		delete file;
 	}
 	drawList();
-	//then request up to date info, if there is a connection available
 	if (hasConnection) {
 		int res;
 		int urlLength;
@@ -517,6 +501,8 @@ void AlbumLoadScreen::xcConnError(int code) {
 		}
 		delete [] url;
 		feed->setNoteLoaded(true);
+	} else {
+		feed->setNoteLoaded(false);
 	}
 }
 

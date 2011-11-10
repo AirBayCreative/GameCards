@@ -9,6 +9,7 @@
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
+	lprintfln("MAUIMoblet::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	Engine& engine = Engine::getSingleton();
 	engine.setDefaultFont(Util::getFontBlack());
 	engine.setDefaultSkin(Util::getSkinBack());
@@ -38,14 +39,6 @@ MAUIMoblet::MAUIMoblet() {
 }
 
 MAUIMoblet::~MAUIMoblet() {}
-
-/*void MAUIMoblet::customEvent(const MAEvent& event)
-{
-	if(event.type == EVENT_TYPE_SCREEN_CHANGED)
-	{
-		next->getMain()->requestRepaint();
-	}
-}*/
 
 void MAUIMoblet::keyPressEvent(int keyCode) {
 }
