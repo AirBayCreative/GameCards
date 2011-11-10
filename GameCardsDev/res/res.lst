@@ -231,3 +231,11 @@
 .res RES_FONT_BLACK
 .bin
 .include "arialblack.mof"  
+
+.res RES_LEFT_ARROW
+.ubin
+.include "leftarrow.png"
+
+.res RES_RIGHT_ARROW
+.ubin
+.include "rightarrow.png"

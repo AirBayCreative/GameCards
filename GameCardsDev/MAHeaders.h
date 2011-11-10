@@ -60,7 +60,11 @@
 #define RES_FONT_BLUE 57
 #define RES_FONT_BLACK 58
 
-#define URL "http://www.mytcg.net/_phone/"
+//new albumview images
+#define RES_LEFT_ARROW 59
+#define RES_RIGHT_ARROW 60
+
+#define URL "http://dev.mytcg.net/_phone/"
 #define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up
