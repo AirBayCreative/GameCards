@@ -31,6 +31,7 @@ class Util
 		static Label* createLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createEditLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createSubLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
+		static Label* createSubLabel(String str, int width, int height=DEFAULT_LABEL_HEIGHT);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
 		static Layout* createNoHeaderLayout();

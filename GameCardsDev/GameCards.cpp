@@ -6,6 +6,8 @@
 #include "screens/MenuScreen.h"
 #include "screens/Login.h"
 
+#include "screens/NewMenuScreen.h"
+
 MAUIMoblet *moblet;
 
 MAUIMoblet::MAUIMoblet() {
@@ -36,6 +38,7 @@ MAUIMoblet::MAUIMoblet() {
 
 	if (feed.getLoaded()) {
 		next = new MenuScreen(&feed);
+		//next = new NewMenuScreen(&feed);
 		next->show();
 	} else {
 		next = new OptionsScreen(&feed, OptionsScreen::ST_LOGIN_OPTIONS);

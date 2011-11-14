@@ -4,13 +4,13 @@
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 #include <maprofile.h>
+#include <MAUI/ListBox.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/Stat.h"
 #include "../utils/ImageCache.h"
-#include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
@@ -49,7 +49,8 @@ public:
 private:
 	Screen *next, *previous;
 	Label *notice, *label;
-	KineticListBox *listBox;
+	ListBox *listBox;
+	ListBox *midListBox;
 	Layout *mainLayout;
 
 	HttpConnection mHttp;
@@ -59,8 +60,8 @@ private:
 	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	int size, i, moved, listSizes;
-	bool list, left, right, emp, hasConnection, busy, isAuction, adding;
+	int size, i, moved, listSizes, xStart;
+	bool list, left, right, listLeft, listRight, emp, hasConnection, busy, isAuction, adding;
 
 	Feed *feed;
 	Card *card, *newCard;
@@ -70,7 +71,7 @@ private:
 	Vector<Card *> deleted;
 	Vector<Stat*> stats;
 	Stat *stat;
-	MobImage *tempImage;
+	MobImage *tempImage, *leftArrow, *rightArrow;
 
 	String getAll();
 	void loadDemo();
@@ -92,6 +93,11 @@ private:
 	void clearListBox();
 
 	void addCard(String cardId);
+
+	int selectedList;
+	Vector<ListBox *> cardLists;
+
+	void switchList(int nextOrPrev);
 };
 
 #endif	//_ALBUMVIEWSCREEN_H_*/

@@ -54,11 +54,16 @@
 #define RES_LOADING_FLIP16 54
 #define RES_LOADING_FLIP17 55
 #define RES_LOADING_FLIP18 56
-
+//new albumview images
+#define RES_LEFT_ARROW 57
+#define RES_RIGHT_ARROW 58
 /* Custom Variables per App */
 
-#define RES_FONT_RED 57
-#define RES_FONT_WHITE 58
+#define RES_FONT_RED 59
+#define RES_FONT_WHITE 60
+
+#define THUMB_HEIGHT 74
+#define ITEM_HEIGHT 48
 
 #define URL "http://www.mytcg.net/_phone/topcar/"
 #define URLSIZE 35

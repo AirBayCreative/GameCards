@@ -8,7 +8,7 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 
 	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	String msg = "There is a new version of the app, please download via " + url;
+	String msg = "There is a new version of the app, want to see all the sexy new features? Then download at " + url;
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);

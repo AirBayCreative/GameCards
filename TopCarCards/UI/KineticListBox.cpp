@@ -320,6 +320,7 @@ namespace MAUI {
                     //bool res = engine.pushClipRectIntersect(bounds.x, bounds.y, bounds.width, bounds.height);
                     Gfx_pushMatrix();
                     Gfx_translate(relX, relY);
+
                     BOOL res = Gfx_intersectClipRect(0, 0, bounds.width, bounds.height);
 
                     if(res)
@@ -367,16 +368,31 @@ namespace MAUI {
 			if(this->contains(point.x, point.y))
 			{
 				stop();
-				previousPoints.add(Point(0, point.y));
-				previousTimes.add(maGetMilliSecondCount());
+				if (orientation == LBO_VERTICAL) {
+					previousPoints.add(Point(0, point.y));
+					previousTimes.add(maGetMilliSecondCount());
 
-				int y = point.y-(yOffset>>16);
-				for(int i = 0; i < children.size(); i++) {
-						Widget *widget = children[i];
-						if(widget->contains(point.x, y)) {
-								setSelectedIndex(i);
-								break;
-						}
+					int y = point.y-(yOffset>>16);
+					for(int i = 0; i < children.size(); i++) {
+							Widget *widget = children[i];
+							if(widget->contains(point.x, y)) {
+									setSelectedIndex(i);
+									break;
+							}
+					}
+				}
+				else if (orientation == LBO_HORIZONTAL) {
+					previousPoints.add(Point(point.x, 0));
+					previousTimes.add(maGetMilliSecondCount());
+
+					int x = point.x-(yOffset>>16);
+					for(int i = 0; i < children.size(); i++) {
+							Widget *widget = children[i];
+							if(widget->contains(x, point.y)) {
+									setSelectedIndex(i);
+									break;
+							}
+					}
 				}
 				requestRepaint();
 			}
@@ -385,42 +401,75 @@ namespace MAUI {
         void KineticListBox::pointerMoveEvent( MAPoint2d point ) {
 			if(this->contains(point.x, point.y))
 			{
-				if(previousPoints.size() > 0)
-				{
-					Point currPoint(0, point.y);
-					float currTime = maGetMilliSecondCount();
+				if (orientation == LBO_VERTICAL) {
+					if(previousPoints.size() > 0)
+					{
+						Point currPoint(0, point.y);
+						float currTime = maGetMilliSecondCount();
 
-					Point previousPoint(previousPoints[previousPoints.size()-1]);
-					/*float previousTime(previousTimes[previousTimes.size()-1]);*/
-					Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
+						Point previousPoint(previousPoints[previousPoints.size()-1]);
+						/*float previousTime(previousTimes[previousTimes.size()-1]);*/
+						Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
 
-					previousPoints.add(currPoint);
-					previousTimes.add(currTime);
-					if (previousPoints.size() >= HISTORY_LENGTH) {
-							previousPoints.remove(0);
-							previousTimes.remove(0);
+						previousPoints.add(currPoint);
+						previousTimes.add(currTime);
+						if (previousPoints.size() >= HISTORY_LENGTH) {
+								previousPoints.remove(0);
+								previousTimes.remove(0);
+						}
+
+						yOffset += (int)diff.y << 16;
+
+		/*	            if(point.y > getHeight() || point.y < 0) {
+								kineticTimer = true;
+								Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
+						}*/
+
+						requestRepaint();
 					}
-
-					yOffset += (int)diff.y << 16;
-
-	/*	            if(point.y > getHeight() || point.y < 0) {
-							kineticTimer = true;
-							Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
-					}*/
-
-					requestRepaint();
+					else
+					{
+						previousPoints.add(Point(0, point.y));
+						previousTimes.add(maGetMilliSecondCount());
+					}
 				}
-				else
-				{
-					previousPoints.add(Point(0, point.y));
-					previousTimes.add(maGetMilliSecondCount());
+				else if (orientation == LBO_HORIZONTAL) {
+					if(previousPoints.size() > 0)
+					{
+						Point currPoint(point.x, 0);
+						float currTime = maGetMilliSecondCount();
+
+						Point previousPoint(previousPoints[previousPoints.size()-1]);
+						/*float previousTime(previousTimes[previousTimes.size()-1]);*/
+						Point diff(currPoint.x-previousPoint.x, currPoint.y-previousPoint.y);
+
+						previousPoints.add(currPoint);
+						previousTimes.add(currTime);
+						if (previousPoints.size() >= HISTORY_LENGTH) {
+								previousPoints.remove(0);
+								previousTimes.remove(0);
+						}
+
+						yOffset += (int)diff.x << 16;
+
+		/*	            if(point.y > getHeight() || point.y < 0) {
+								kineticTimer = true;
+								Environment::getEnvironment().addTimer(this, MS_PER_FRAME, FRAMES+1);
+						}*/
+
+						requestRepaint();
+					}
+					else
+					{
+						previousPoints.add(Point(point.x, 0));
+						previousTimes.add(maGetMilliSecondCount());
+					}
 				}
 			}
         }
 
         void KineticListBox::pointerReleaseEvent( MAPoint2d point ) {
-
-        	Point currPoint(0, point.y);
+        	Point currPoint((orientation==LBO_VERTICAL?0:point.x), (orientation==LBO_HORIZONTAL?0:point.y));
 			float currTime = maGetMilliSecondCount();
 			Point firstPoint = previousPoints[0];
 			float firstTime = previousTimes[0];
@@ -648,22 +697,24 @@ namespace MAUI {
 
         void KineticListBox::runTimerEvent() {
 				if(kineticTimer) {
-						velocity = Point((int)(velocity.x * .99), (int)(velocity.y * .99));
 
-						float x = velocity.x;
-						if(x < 0) x *=-1;
+					velocity = Point((int)(velocity.x * .99), (int)(velocity.y * .99));
 
-						float y = velocity.y;
-						if(y < 0) y *=-1;
+					float x = velocity.x;
+					if(x < 0) x *=-1;
 
-						if (x < .1) velocity.x = 0;
-						if (y < .1) velocity.y = 0;
+					float y = velocity.y;
+					if(y < 0) y *=-1;
 
-						if (!velocity.x && !velocity.y)
-						{
-								stop();
-						}
+					if (x < .1) velocity.x = 0;
+					if (y < .1) velocity.y = 0;
 
+					if (!velocity.x && !velocity.y)
+					{
+							stop();
+					}
+
+					if (orientation == LBO_VERTICAL) {
 						yOffset += ((int)velocity.y << 16);
 
 						if(yOffset > 0) {
@@ -682,6 +733,27 @@ namespace MAUI {
 								yOffset = 0;
 							}
 						}
+					}
+					else if (orientation == LBO_HORIZONTAL) {
+						yOffset += ((int)velocity.x << 16);
+
+						if(yOffset > 0) {
+								stop();
+								yOffset = 0;
+						}
+						if (getChildren().size() > 0) {
+							Widget *c = children[getChildren().size()-1];
+							if((c->getPosition().x+c->getWidth()-getWidth() > 0) &&
+									((yOffset>>16)*-1) > c->getPosition().x+c->getWidth()-getWidth()) {
+									stop();
+									yOffset = ((c->getPosition().x+c->getWidth()-getWidth()) << 16)*-1;
+							}
+							else if (c->getPosition().x+c->getWidth()-getWidth() <= 0) {
+								stop();
+								yOffset = 0;
+							}
+						}
+					}
 				}
 				else
 				{

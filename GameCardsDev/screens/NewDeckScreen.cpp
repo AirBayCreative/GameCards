@@ -269,7 +269,7 @@ void NewDeckScreen::drawEnterNameScreen() {
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxName = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Deck Name");
+	editBoxName = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Deck Name");
 	editBoxName->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);

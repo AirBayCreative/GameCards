@@ -222,6 +222,14 @@
 .ubin
 .include "loading_flip18.png"
 
+.res RES_LEFT_ARROW
+.ubin
+.include "leftarrow.png"
+
+.res RES_RIGHT_ARROW
+.ubin
+.include "rightarrow.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE
