@@ -1,5 +1,6 @@
 #include <MAUI/Layout.h>
 #include <mavsprintf.h>
+#include <mastdlib.h>
 
 #include "GCMenu.h"
 #include "../../utils/Util.h"
@@ -13,7 +14,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 
 	int imageHeight = height - 69;
 
-	Layout *subLayout = new Layout(0, 0, width, imageHeight, mainLayout, 3, 1);
+	subLayout = new Layout(0, 0, width, imageHeight, mainLayout, 3, 1);
 	subLayout->setPaddingLeft(5);
 	subLayout->setPaddingRight(5);
 
@@ -22,7 +23,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	arrow = new MobImage(0, 0, 13, imageHeight, subLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
 
 	iconList = new KineticListBox(0, 0, width, height - imageHeight, mainLayout,
-			KineticListBox::LBO_HORIZONTAL, KineticListBox::LBA_LINEAR, true);
+			KineticListBox::LBO_HORIZONTAL);
 
 	for (int i = 0; i < numItems; i++) {
 		MobImage *tempImage = new MobImage(0, 0, 46 + (PADDING * 2), height - imageHeight, iconList);
@@ -123,6 +124,7 @@ void GCMenu::keyPressEvent(int keyCode) {
 
 void GCMenu::pointerPressEvent(MAPoint2d point) {
 	moved = 0;
+	xStart = point.x;
 }
 
 void GCMenu::pointerMoveEvent(MAPoint2d point) {
@@ -132,6 +134,15 @@ void GCMenu::pointerMoveEvent(MAPoint2d point) {
 void GCMenu::pointerReleaseEvent(MAPoint2d point) {
 	if (moved < 8) {
 		locateItem(point);
+	}
+	else if (subLayout->contains(point.x, point.y)) {
+		int xEnd = point.x;
+		int distance = abs(xEnd - xStart);
+
+		if (distance >= (scrWidth * 0.4)) {
+			moved=0;
+			xEnd>xStart?selectPrevious():selectNext();
+		}
 	}
 }
 
@@ -149,4 +160,12 @@ void GCMenu::locateItem(MAPoint2d point) {
 }
 
 void GCMenu::drawWidget() {
+}
+
+bool GCMenu::iconListContains(int x, int y) {
+	return iconList->contains(x, y);
+}
+
+bool GCMenu::imageContains(int x, int y) {
+	return mainImage->contains(x, y);
 }

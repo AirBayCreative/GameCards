@@ -26,7 +26,6 @@ public:
 	Feed *feed;
 
 	bool list, left, right;
-	int moved;
 
 	int screenType;
 private:
@@ -38,7 +37,7 @@ private:
 	Screen *next;
 	Label *noteLabel;
 	String parentTag, notedate;
-	int c, versionChecked, first;
+	int c, versionChecked, first, moved;
 	bool shown;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
