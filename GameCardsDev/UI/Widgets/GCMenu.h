@@ -34,13 +34,17 @@ public:
 	int getSelectedKey();
 	int getSelectedIndex();
 
+	bool iconListContains(int x, int y);
+	bool imageContains(int x, int y);
+
 	void setEnabled(bool e);
 private:
 	item *items;
 	KineticListBox *iconList;
 	MobImage *mainImage;
+	Layout *subLayout;
 
-	int moved, numItems;
+	int moved, numItems, xStart;
 	bool emp, enabled;
 protected:
    void drawWidget();
