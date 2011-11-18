@@ -2,8 +2,8 @@
 #define _GCMENU_H_
 
 #include <MAUI/Widget.h>
+#include <MAUI/ListBox.h>
 
-#include "../KineticListBox.h"
 #include "MobImage.h"
 
 using namespace MAUI;
@@ -30,6 +30,7 @@ public:
 	void selectNext();
 	void selectPrevious();
 	void select(int i);
+	void swipeList(int dir); //-1 to select previous, 1 for next
 
 	int getSelectedKey();
 	int getSelectedIndex();
@@ -40,11 +41,15 @@ public:
 	void setEnabled(bool e);
 private:
 	item *items;
-	KineticListBox *iconList;
 	MobImage *mainImage;
 	Layout *subLayout;
 
-	int moved, numItems, xStart;
+	ListBox *iconList;
+	Vector<ListBox*> iconLists;
+
+	ListBox *dotList;
+
+	int moved, numItems, xStart, selectedList, iconsPerList;
 	bool emp, enabled;
 protected:
    void drawWidget();
