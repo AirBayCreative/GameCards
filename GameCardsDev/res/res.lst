@@ -230,6 +230,118 @@
 .ubin
 .include "rightarrow.png"
 
+.res RES_ALBUM
+.ubin
+.include "Album.png"
+
+.res RES_ALBUM_THUMB
+.ubin
+.include "Album_thumb.png"
+
+.res RES_AUCTIONS
+.ubin
+.include "Auctions.png"
+
+.res RES_AUCTIONS_THUMB
+.ubin
+.include "Auctions_thumb.png"
+
+.res RES_CREDITS
+.ubin
+.include "Credits.png"
+
+.res RES_CREDITS_THUMB
+.ubin
+.include "Credits_thumb.png"
+
+.res RES_DECKS
+.ubin
+.include "Decks.png"
+
+.res RES_DECKS_THUMB
+.ubin
+.include "Decks_thumb.png"
+
+.res RES_FRIENDRANKS
+.ubin
+.include "FriendRanks.png"
+
+.res RES_FRIENDRANKS_THUMB
+.ubin
+.include "FriendRanks_thumb.png"
+
+.res RES_Friends
+.ubin
+.include "Friends.png"
+
+.res RES_FRIENDS_THUMB
+.ubin
+.include "Friends_thumb.png"
+
+.res RES_INVITE
+.ubin
+.include "Invite.png"
+
+.res RES_INVITE_THUMB
+.ubin
+.include "Invite_thumb.png"
+
+.res RES_LOGOUT
+.ubin
+.include "Logout.png"
+
+.res RES_LOGOUT_THUMB
+.ubin
+.include "Logout_thumb.png"
+
+.res RES_NOTIFICATIONS
+.ubin
+.include "Notifications.png"
+
+.res RES_NOTIFICATIONS_THUMB
+.ubin
+.include "Notifications_thumb.png"
+
+.res RES_PLAY
+.ubin
+.include "Play.png"
+
+.res RES_PLAY_THUMB
+.ubin
+.include "Play_thumb.png"
+
+.res RES_PROFILE
+.ubin
+.include "Profile.png"
+
+.res RES_PROFILE_THUMB
+.ubin
+.include "Profile_thumb.png"
+
+.res RES_RANKINGS
+.ubin
+.include "Rankings.png"
+
+.res RES_RANKINGS_THUMB
+.ubin
+.include "Rankings_thumb.png"
+
+.res RES_REDEEM
+.ubin
+.include "Redeem.png"
+
+.res RES_REDEEM_THUMB
+.ubin
+.include "Redeem_thumb.png"
+
+.res RES_SHOP
+.ubin
+.include "Shop.png"
+
+.res RES_SHOP_THUMB
+.ubin
+.include "Shop_thumb.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE

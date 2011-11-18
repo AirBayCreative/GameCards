@@ -5,6 +5,7 @@
 
 #include "../KineticListBox.h"
 #include "MobImage.h"
+#include "TransitionImage.h"
 
 using namespace MAUI;
 
@@ -41,7 +42,7 @@ public:
 private:
 	item *items;
 	KineticListBox *iconList;
-	MobImage *mainImage;
+	TransitionImage *mainImage;
 	Layout *subLayout;
 
 	int moved, numItems, xStart;

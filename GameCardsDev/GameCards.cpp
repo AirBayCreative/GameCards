@@ -37,8 +37,8 @@ MAUIMoblet::MAUIMoblet() {
 	data = "";
 
 	if (feed.getLoaded()) {
-		next = new MenuScreen(&feed);
-		//next = new NewMenuScreen(&feed);
+		//next = new MenuScreen(&feed);
+		next = new NewMenuScreen(&feed);
 		next->show();
 	} else {
 		next = new OptionsScreen(&feed, OptionsScreen::ST_LOGIN_OPTIONS);

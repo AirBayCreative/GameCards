@@ -19,15 +19,20 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	subLayout->setPaddingRight(5);
 
 	Image *arrow = new MobImage(0, 0, 13, imageHeight, subLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
-	mainImage = new MobImage(0, 0, width - 36, imageHeight, subLayout);
+	/*mainImage = new MobImage(0, 0, width - 36, imageHeight, subLayout);*/
+
+	/*mainImage = new TransitionImage(0, 0, scrWidth, scrHeight, subLayout, false, false, NULL);*/
+	mainImage = new TransitionImage(0, 0, width - 36, imageHeight, subLayout, false, false, NULL);
 	arrow = new MobImage(0, 0, 13, imageHeight, subLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
 
 	iconList = new KineticListBox(0, 0, width, height - imageHeight, mainLayout,
 			KineticListBox::LBO_HORIZONTAL);
 
 	for (int i = 0; i < numItems; i++) {
-		MobImage *tempImage = new MobImage(0, 0, 46 + (PADDING * 2), height - imageHeight, iconList);
-		tempImage->setResource(Util::loadImageFromResource(items[i].icon));
+		if (items[i].key > -1) {
+			MobImage *tempImage = new MobImage(0, 0, 46 + (PADDING * 2), height - imageHeight, iconList);
+			tempImage->setResource(Util::loadImageFromResource(items[i].icon));
+		}
 	}
 	if (iconList->getChildren().size() > 0) {
 		emp = false;
@@ -93,6 +98,7 @@ void GCMenu::select(int i) {
 	if (!emp && i < numItems) {
 		iconList->setSelectedIndex(i);
 		iconList->getChildren()[i]->setSelected(true);
+		mainImage->setTransition(TT_SLIDE_IN, 0, -1);
 		mainImage->setResource(Util::loadImageFromResource(items[iconList->getSelectedIndex()].bigImage));
 	}
 }
@@ -114,9 +120,11 @@ int GCMenu::getSelectedIndex() {
 void GCMenu::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_RIGHT:
+			mainImage->setTransition(TT_PUSH, -1, 0);
 			selectNext();
 			break;
 		case MAK_LEFT:
+			mainImage->setTransition(TT_PUSH, 1, 0);
 			selectPrevious();
 			break;
 	}
@@ -141,7 +149,13 @@ void GCMenu::pointerReleaseEvent(MAPoint2d point) {
 
 		if (distance >= (scrWidth * 0.4)) {
 			moved=0;
-			xEnd>xStart?selectPrevious():selectNext();
+			if (xEnd>xStart) {
+				mainImage->setTransition(TT_PUSH, 1, 0);
+				selectPrevious();
+			} else {
+				mainImage->setTransition(TT_PUSH, -1, 0);
+				selectNext();
+			}
 		}
 	}
 }
