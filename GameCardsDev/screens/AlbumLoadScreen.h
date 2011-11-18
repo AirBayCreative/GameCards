@@ -4,11 +4,13 @@
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
 #include <maprofile.h>
+#include <MAUI/ListBox.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
 #include "../utils/Card.h"
+#include "../UI/Widgets/MobImage.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -47,16 +49,22 @@ private:
 	Vector<String> path;
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId;
-	int size, i, moved, screenType;
-	bool list, left, right, mid, empt, hasConnection, isAuction;
+	int size, i, moved, screenType, xStart;
+	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction;
 
 	Layout *mainLayout;
+	ListBox *midListBox;
 	KineticListBox *listBox;
 	Label *notice, *label;
+	MobImage *leftArrow, *rightArrow;
 
 	Feed *feed;
 	Albums *album;
 	Card *card;
+
+	int selectedList;
+	Vector<ListBox *> cardLists;
+	void switchList(int nextOrPrev);
 
 	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);

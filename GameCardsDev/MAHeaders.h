@@ -54,15 +54,47 @@
 #define RES_LOADING_FLIP16 54
 #define RES_LOADING_FLIP17 55
 #define RES_LOADING_FLIP18 56
+#define RES_LEFT_ARROW 57
+#define RES_RIGHT_ARROW 58
+#define RES_ALBUM 59
+#define RES_ALBUM_THUMB 60
+#define RES_AUCTIONS 61
+#define RES_AUCTIONS_THUMB 62
+#define RES_CREDITS 63
+#define RES_CREDITS_THUMB 64
+#define RES_DECKS 65
+#define RES_DECKS_THUMB 66
+#define RES_FRIENDRANKS 67
+#define RES_FRIENDRANKS_THUMB 68
+#define RES_FRIENDS 69
+#define RES_FRIENDS_THUMB 70
+#define RES_INVITE 71
+#define RES_INVITE_THUMB 72
+#define RES_LOGOUT 73
+#define RES_LOGOUT_THUMB 74
+#define RES_NOTIFICATIONS 75
+#define RES_NOTIFICATIONS_THUMB 76
+#define RES_PLAY 77
+#define RES_PLAY_THUMB 78
+#define RES_PROFILE 79
+#define RES_PROFILE_THUMB 80
+#define RES_RANKINGS 81
+#define RES_RANKINGS_THUMB 82
+#define RES_REDEEM 83
+#define RES_REDEEM_THUMB 84
+#define RES_SHOP 85
+#define RES_SHOP_THUMB 86
 
 /* Custom Variables per App */
 
-#define RES_FONT_BLUE 57
-#define RES_FONT_BLACK 58
+#define RES_FONT_BLUE 87
+#define RES_FONT_BLACK 88
 
-//new albumview images
-#define RES_LEFT_ARROW 59
-#define RES_RIGHT_ARROW 60
+#define RES_GREY_DOT 89
+#define RES_WHITE_DOT 90
+
+#define THUMB_HEIGHT 74
+#define ITEM_HEIGHT 48
 
 #define URL "http://dev.mytcg.net/_phone/"
 #define URLSIZE 35

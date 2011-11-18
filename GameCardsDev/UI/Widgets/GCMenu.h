@@ -4,7 +4,7 @@
 #include <MAUI/Widget.h>
 #include <MAUI/ListBox.h>
 
-#include "MobImage.h"
+#include "TransitionImage.h"
 
 using namespace MAUI;
 
@@ -41,7 +41,7 @@ public:
 	void setEnabled(bool e);
 private:
 	item *items;
-	MobImage *mainImage;
+	TransitionImage *mainImage;
 	Layout *subLayout;
 
 	ListBox *iconList;

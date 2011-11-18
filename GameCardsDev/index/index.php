@@ -10,7 +10,7 @@ only authenticated users may use these
 1. userdetails=1					- send userdetails
 2. cards=-1								- send all card details for this user
 3. cards=CSV list					-	all cards except in CSV list
-4. decks=1								- deck ids and names for this user
+4. decks=1								- deck ids and names for this `
 5. cardsindeck=deck_id		- cards in this deck
 6. image?????????
 7. allcategories=1				- list all categories 
@@ -36,6 +36,9 @@ if ($_GET['addCreditsSMS']) {
 	$user_id = $_REQUEST['user_id'];
 	addCreditsSMS($user_id);
 	exit;
+}
+if ($iUserID = $_GET['test']) {
+			
 }
 
 function addCreditsSMS($iUserID,$amount=350){
@@ -179,18 +182,9 @@ if ($iUserID == 0){
 				WHERE transactionid = 1');
 				
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
-		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "If you are experiencing any difficulties please visit '.$url.'.", now(), 1)');
-		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "You have recieved 50 credits for logging in today.", now(), 1)');
-			
-		/*myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "To purchase 350 extra credits, SMS TopCar Cards and your username to 36262.", now(), 1)');*/
+			VALUES ('.$iUserID.', "Recieved 50 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1)');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -2048,13 +2042,44 @@ if ($_GET['auctioncategories']) {
 		}
 	}
 		
-	/*$aCategories=myqu('SELECT c.category_id, c.description
-		FROM mytcg_category c
-		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
-			FROM mytcg_category_x) ORDER BY c.description');*/
-			
-			/*removed INNER JOIN mytcg_category_x cx
-								ON d.category_id = cx.category_child_id*/
+	$qu = 'SELECT count(*) AS cnt
+			FROM mytcg_market a, mytcg_usercard b, mytcg_card c
+			WHERE datediff(now(), date_expired) <= 0
+			AND a.usercard_id = b.usercard_id
+			AND b.card_id = c.card_id
+			AND a.user_id <> '.$iUserID.'
+			AND c.card_id NOT IN (SELECT card_id
+									FROM mytcg_usercard
+									WHERE user_id = '.$iUserID.')';
+	$aAuctionCards=myqu($qu);
+		
+	if ($aMine=$aAuctionCards[0]) {
+		if ($aMine['cnt'] > 0) {
+			$sOP.="<album>";
+			$sOP.=$sTab.'<albumid>-3</albumid>'.$sCRLF;
+			$sOP.=$sTab.'<albumname>Not Owned</albumname>'.$sCRLF;
+			$sOP.="</album>";
+		}
+	}
+	
+	$qu = 'SELECT count(*) as cnt
+			FROM mytcg_market a, mytcg_usercard b, mytcg_card c
+			WHERE datediff(now(), date_expired) <= 0
+			AND a.usercard_id = b.usercard_id
+			AND b.card_id = c.card_id
+			AND c.value > a.minimum_bid
+			AND a.marketstatus_id = 1
+			AND a.user_id <> '.$iUserID;
+	$aAuctionCards=myqu($qu);
+		
+	if ($aMine=$aAuctionCards[0]) {
+		if ($aMine['cnt'] > 0) {
+			$sOP.="<album>";
+			$sOP.=$sTab.'<albumid>-4</albumid>'.$sCRLF;
+			$sOP.=$sTab.'<albumname>Good Deals</albumname>'.$sCRLF;
+			$sOP.="</album>";
+		}
+	}
 	
 	$qu = 'SELECT c.category_id, d.description
 								FROM mytcg_card c

@@ -222,6 +222,14 @@
 .ubin
 .include "loading_flip18.png"
 
+.res RES_LEFT_ARROW
+.ubin
+.include "leftarrow.png"
+
+.res RES_RIGHT_ARROW
+.ubin
+.include "rightarrow.png"
+
 /* CUSTOM IMAGES */
 
 .res RES_FONT_RED

@@ -33,6 +33,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	ranking = "";
 	rarity = "";
 	value = "";
+	selectedList = 0;
 	error_msg = "";
 	updated = "";
 	statDisplay = "";
@@ -44,7 +45,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	if (albumType == AT_COMPARE) {
 		mainLayout = Util::createMainLayout("", "Back" , "");
 	} else if (albumType == AT_DECK) {
-		mainLayout = Util::createMainLayout("Select", "Back" , "");
+		mainLayout = Util::createMainLayout("View", "Back" , "");
 	} else {
 		mainLayout = Util::createMainLayout(isAuction ? "" : "", "Back" , "");
 	}
@@ -52,6 +53,8 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Checking for new cards...");
+
+	this->setMain(mainLayout);
 
 	mImageCache = new ImageCache();
 	if (albumType == AT_BUY) {
@@ -184,7 +187,6 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		}
 		delete [] url;
 	}
-	this->setMain(mainLayout);
 	moved=0;
 	if (albumType != AT_COMPARE) {
 		origAlbum = this;
@@ -380,17 +382,31 @@ void AlbumViewScreen::drawList() {
 	String cardText = "";
 
 	//we need a layout to have arrow images on the sides of the list
-	Layout *listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 3, 1);
-	listLayout->setDrawBackground(false);
-	listLayout->setVerticalAlignment(Layout::VA_CENTER);
+	int cardsPerList = listBox->getHeight() / ALBUM_ITEM_HEIGHT; //74 is the default card display item height
+	Layout *listLayout;
+	//check if we need more than 1 page
+	if (cardsPerList < cards.size()) {
+		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 3, 1);
+		listLayout->setDrawBackground(false);
+		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-	leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
 
-	midListBox = new ListBox(0, 0, listLayout->getWidth() - 26 - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox = new ListBox(0, 0, listLayout->getWidth() - 26 - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
 
-	rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+	} else {
+		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 1, 1);
+		listLayout->setDrawBackground(false);
+		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-	int cardsPerList = midListBox->getHeight() / 74; //74 is the default card display item height
+		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+
+		midListBox = new ListBox(0, 0, listLayout->getWidth() - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+
+		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+	}
+
 	int currentList = -1;
 	ListBox *tempList = NULL;
 	int i = 0;
@@ -413,7 +429,7 @@ void AlbumViewScreen::drawList() {
 		cardText += "\nRating: ";
 		cardText += itr->second->getRanking();
 
-		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), 74 + ((midListBox->getHeight() % 74) / cardsPerList), tempList, 3, 1);
+		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT + ((midListBox->getHeight() % THUMB_HEIGHT) / cardsPerList), tempList, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -429,7 +445,7 @@ void AlbumViewScreen::drawList() {
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-86, ALBUM_ITEM_HEIGHT, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
 		label->setDrawBackground(false);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -438,7 +454,6 @@ void AlbumViewScreen::drawList() {
 		label->setMultiLine();
 
 		i++;
-
 	}
 
 	if (cards.size() >= 1) {
@@ -454,6 +469,11 @@ void AlbumViewScreen::drawList() {
 		midListBox->add(Util::createSubLabel("Empty"));
 		midListBox->setSelectedIndex(0);
 	}
+	int capLength = 6 + Util::intlen((selectedList + 1)) + Util::intlen(cardLists.size());
+	char *cap = new char[capLength+1];
+	memset(cap,'\0',capLength+1);
+	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
+	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
@@ -620,16 +640,20 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
 					next->show();
 				} else {
-					if (albumType == AT_NEW_CARDS) {
-						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
+					if (albumType == AT_DECK) {
+						busy = true;
+						adding = true;
+						notice->setCaption("Adding...");
+						addCard(cards.find(index[selected])->second->getId());
+					} else {
+						if (albumType == AT_NEW_CARDS) {
+							next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
+						}
+						else {
+							next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
+						}
+						next->show();
 					}
-					else if (albumType == AT_DECK) {
-						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
-					}
-					else {
-						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
-					}
-					next->show();
 				}
 			}
 			break;
@@ -639,33 +663,24 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				feed->remHttp();
 			}
 			else if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
-				if (albumType == AT_DECK) {
-					busy = true;
-					adding = true;
-					notice->setCaption("Adding...");
-					addCard(cards.find(index[selected])->second->getId());
-					//((EditDeckScreen*)orig)->addCard(cards.find(index[selected])->second->getId());
-					//((EditDeckScreen*)orig)->refresh();
-					//((EditDeckScreen*)orig)->show();
+				if (next != NULL) {
+					delete next;
+					feed->remHttp();
+				}
+				if (albumType == AT_AUCTION) {
+					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
+				}
+				else if (albumType == AT_NEW_CARDS) {
+					next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
+							this, cards.find(index[selected])->second);
+				} else if (albumType == AT_DECK) {
+					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
 				}
 				else {
-					if (next != NULL) {
-						delete next;
-						feed->remHttp();
-					}
-					if (albumType == AT_AUCTION) {
-						next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
-					}
-					else if (albumType == AT_NEW_CARDS) {
-						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
-								this, cards.find(index[selected])->second);
-					}
-					else {
-						next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
-								this, cards.find(index[selected])->second);
-					}
-					next->show();
+					next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
+							this, cards.find(index[selected])->second);
 				}
+				next->show();
 			}
 			break;
 	}

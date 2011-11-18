@@ -196,6 +196,13 @@ Label* Util::createSubLabel(String str, int height) {
 	label->setSkin(Util::getSkinList());
 	return label;
 }
+Label* Util::createSubLabel(String str, int width, int height) {
+	Label *label = new Label(0, 0, width, height, NULL, str, 0, Util::getDefaultFont());
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setSkin(Util::getSkinList());
+	return label;
+}
 Widget* Util::createSoftKeyBar(int height, const char *left, const char *right) {
 	return Util::createSoftKeyBar(height, left, right, "");
 }

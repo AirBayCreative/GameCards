@@ -1,6 +1,7 @@
 #include <MAUI/Layout.h>
 #include <mavsprintf.h>
 #include <mastdlib.h>
+#include <MAUtil/Graphics.h>
 
 #include "GCMenu.h"
 #include "../../utils/Util.h"
@@ -20,9 +21,10 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	subLayout->setPaddingLeft(5);
 	subLayout->setPaddingRight(5);
 
-	Image *arrow = new MobImage(0, 0, 13, imageHeight, subLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
-	mainImage = new MobImage(0, 0, width - 36, imageHeight, subLayout);
-	arrow = new MobImage(0, 0, 13, imageHeight, subLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+	Image *arrow = new Image(0, 0, 13, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
+
+	mainImage = new TransitionImage(0, 0, width - 36, imageHeight, subLayout, false, false, NULL);
+	arrow = new Image(0, 0, 13, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
 
 	iconList = new ListBox(0, 0, width, iconHeight, mainLayout,
 		ListBox::LBO_HORIZONTAL);
@@ -33,7 +35,6 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	Image *tempImage = NULL;
 
 	for (int i = 0; i < numItems; i++) {
-
 		if (i % iconsPerList == 0) {
 			tempList = new ListBox(0, 0, iconList->getWidth(), iconList->getHeight(), NULL);
 			tempList->setOrientation(ListBox::LBO_HORIZONTAL);
@@ -41,26 +42,22 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 			iconLists.add(tempList);
 		}
 
-		tempImage = new MobImage(0, 0, 46 + PADDING + ((iconList->getWidth() % (PADDING + 46)) / iconsPerList), iconHeight, tempList);
-		tempImage->setResource(Util::loadImageFromResource(items[i].icon));
+		tempImage = new Image(0, 0, 46 + PADDING + ((iconList->getWidth() % (PADDING + 46)) / iconsPerList), iconHeight, tempList, false, false, items[i].icon);
 	}
-	lprintfln("1");
 	dotList = new ListBox(0, 0, width, dotHeight, mainLayout,
 			ListBox::LBO_HORIZONTAL);
 	int dotListPadding = (width - (iconLists.size() * (11 + PADDING))) / 2;
 	dotList->setPaddingLeft(dotListPadding>0?dotListPadding:0);
 	for (int j = 0; j < iconLists.size(); j++) {
-		tempImage = new MobImage(0, 0, 11 + PADDING, dotHeight, dotList);
-		tempImage->setResource(RES_GREY_DOT);
+		tempImage = new Image(0, 0, 11 + PADDING, dotHeight, dotList, false, false, RES_GREY_DOT);
 	}
-	lprintfln("2");
 
 	if (numItems > 0) {
 		emp = false;
 		selectedList = 0;
-		lprintfln("2.1");
+
 		((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
-		lprintfln("2.2");
+
 		iconList->add(iconLists[selectedList]);
 		iconLists[selectedList]->setSelectedIndex(0);
 		iconLists[selectedList]->getChildren()[iconLists[0]->getSelectedIndex()]->setSelected(true);
@@ -70,7 +67,6 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	else {
 		emp = true;
 	}
-	lprintfln("3");
 	add(mainLayout);
 }
 
@@ -111,6 +107,7 @@ void GCMenu::selectNext() {
 		else {
 			iconLists[selectedList]->selectNextItem();
 		}
+		mainImage->setTransition(TT_SLIDE_IN, -1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
@@ -130,6 +127,7 @@ void GCMenu::selectPrevious() {
 		else {
 			iconLists[selectedList]->selectPreviousItem();
 		}
+		mainImage->setTransition(TT_SLIDE_IN, 1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
@@ -148,7 +146,8 @@ void GCMenu::select(int i) {
 		iconLists[selectedList]->setSelectedIndex(i % iconsPerList);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
 
-		mainImage->setResource(Util::loadImageFromResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage));
+		mainImage->setTransition(TT_SLIDE_IN, 0, -1);
+		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
 
@@ -172,7 +171,8 @@ void GCMenu::swipeList(int dir) {
 		iconLists[selectedList]->setSelectedIndex(index);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
 
-		mainImage->setResource(Util::loadImageFromResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage));
+		mainImage->setTransition(TT_SLIDE_IN, 0, -1);
+		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
 
@@ -193,9 +193,11 @@ int GCMenu::getSelectedIndex() {
 void GCMenu::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_RIGHT:
+			mainImage->setTransition(TT_PUSH, -1, 0);
 			selectNext();
 			break;
 		case MAK_LEFT:
+			mainImage->setTransition(TT_PUSH, 1, 0);
 			selectPrevious();
 			break;
 	}
@@ -220,7 +222,13 @@ void GCMenu::pointerReleaseEvent(MAPoint2d point) {
 
 		if (distance >= (scrWidth * 0.3)) {
 			moved=0;
-			xEnd>xStart?selectPrevious():selectNext();
+			if (xEnd>xStart) {
+				mainImage->setTransition(TT_PUSH, 1, 0);
+				selectPrevious();
+			} else {
+				mainImage->setTransition(TT_PUSH, -1, 0);
+				selectNext();
+			}
 		}
 	}
 	else if (iconList->contains(point.x, point.y)) {

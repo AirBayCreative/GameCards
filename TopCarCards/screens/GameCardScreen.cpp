@@ -36,18 +36,18 @@ void GameCardScreen::keyPressEvent(int keyCode) {
 
 void GameCardScreen::pointerPressEvent(MAPoint2d point)
 {
-	locateItem(point);
+	//locateItem(point);
 }
 
 void GameCardScreen::pointerMoveEvent(MAPoint2d point)
 {
 	//locateItem(point);
-	moved++;
+	//moved++;
 }
 
 void GameCardScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (moved <= 8) {
+	/*if (moved <= 8) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
@@ -56,7 +56,7 @@ void GameCardScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_FIRE);
 		}
 	}
-	moved=0;
+	moved=0;*/
 }
 
 void GameCardScreen::locateItem(MAPoint2d point)

@@ -372,41 +372,114 @@ function updateAuctions() {
 }
 //recurring function to get all cards on auction within a category and its children
 function getAuctionCards($categoryId, $cards, $iUserID) {
-	$aAuctionCards = myqu('SELECT a.market_id, a.usercard_id, a.card_id, a.description, a.minimum_bid, 
-									a.buy_now_price, a.thumbnail_phone_imageserver_id, a.back_phone_imageserver_id, a.front_phone_imageserver_id, 
-									a.price, a.last_bid_username, a.end_date, 
-									a.username, a.image, IFNULL(b.cnt, 0) cnt 
-							FROM 
-							(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
-									ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
-									max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
-									u.username, c.image 
-									FROM mytcg_market ac 
-									INNER JOIN mytcg_usercard uc 
-									ON uc.usercard_id = ac.usercard_id 
-									INNER JOIN mytcg_card c 
-									ON c.card_id = uc.card_id 
-									INNER JOIN mytcg_user u 
-									ON u.user_id = uc.user_id 
-									LEFT OUTER JOIN mytcg_marketcard ab 
-									ON ab.market_id = ac.market_id 
-									LEFT OUTER JOIN mytcg_user ub 
-									ON ub.user_id = ab.user_id 
-									WHERE ac.marketstatus_id = 1 
-									AND c.category_id = '.$categoryId.' 
-									AND ac.user_id <> '.$iUserID.' 
-									AND datediff(now(), ac.date_expired) <= 0 
-									AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
-											 OR ISNULL(ab.price)) 
-									GROUP BY ac.market_id) a 
-							LEFT OUTER JOIN 
-							(SELECT card_id, count(*) cnt 
-									FROM mytcg_usercard 
-									WHERE user_id = '.$iUserID.' 
-									AND usercardstatus_id = 1 
-									GROUP BY card_id) b 
-							ON a.card_id = b.card_id');
-		
+	//Cards not owned
+	if ($categoryId == -3) {
+		$aAuctionCards = myqu('SELECT a.market_id, a.usercard_id, a.card_id, a.description, a.minimum_bid, 
+					a.buy_now_price, a.thumbnail_phone_imageserver_id, a.back_phone_imageserver_id, a.front_phone_imageserver_id, 
+					a.price, a.last_bid_username, a.end_date, 
+					a.username, a.image, IFNULL(b.cnt, 0) cnt 
+			FROM 
+			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
+					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
+					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					u.username, c.image 
+					FROM mytcg_market ac 
+					INNER JOIN mytcg_usercard uc 
+					ON uc.usercard_id = ac.usercard_id 
+					INNER JOIN mytcg_card c 
+					ON c.card_id = uc.card_id 
+					INNER JOIN mytcg_user u 
+					ON u.user_id = uc.user_id 
+					LEFT OUTER JOIN mytcg_marketcard ab 
+					ON ab.market_id = ac.market_id 
+					LEFT OUTER JOIN mytcg_user ub 
+					ON ub.user_id = ab.user_id 
+					WHERE ac.marketstatus_id = 1 
+					AND ac.user_id <> '.$iUserID.' 
+					AND uc.card_id NOT IN (SELECT card_id FROM mytcg_usercard WHERE user_id = '.$iUserID.')
+					AND datediff(now(), ac.date_expired) <= 0 
+					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+							 OR ISNULL(ab.price)) 
+					GROUP BY ac.market_id) a 
+			LEFT OUTER JOIN 
+			(SELECT card_id, count(*) cnt 
+					FROM mytcg_usercard 
+					WHERE user_id = '.$iUserID.' 
+					AND usercardstatus_id = 1 
+					GROUP BY card_id) b 
+			ON a.card_id = b.card_id');
+	} else if ($categoryId == -4) {
+		$aAuctionCards = myqu('SELECT a.market_id, a.usercard_id, a.card_id, a.description, a.minimum_bid, 
+					a.buy_now_price, a.thumbnail_phone_imageserver_id, a.back_phone_imageserver_id, a.front_phone_imageserver_id, 
+					a.price, a.last_bid_username, a.end_date, 
+					a.username, a.image, IFNULL(b.cnt, 0) cnt 
+			FROM 
+			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
+					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
+					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					u.username, c.image 
+					FROM mytcg_market ac 
+					INNER JOIN mytcg_usercard uc 
+					ON uc.usercard_id = ac.usercard_id 
+					INNER JOIN mytcg_card c 
+					ON c.card_id = uc.card_id 
+					INNER JOIN mytcg_user u 
+					ON u.user_id = uc.user_id 
+					LEFT OUTER JOIN mytcg_marketcard ab 
+					ON ab.market_id = ac.market_id 
+					LEFT OUTER JOIN mytcg_user ub 
+					ON ub.user_id = ab.user_id 
+					WHERE ac.marketstatus_id = 1 
+					AND ac.user_id <> '.$iUserID.' 
+					AND ac.minimum_bid < c.value
+					AND datediff(now(), ac.date_expired) <= 0 
+					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+							 OR ISNULL(ab.price)) 
+					GROUP BY ac.market_id) a 
+			LEFT OUTER JOIN 
+			(SELECT card_id, count(*) cnt 
+					FROM mytcg_usercard 
+					WHERE user_id = '.$iUserID.' 
+					AND usercardstatus_id = 1 
+					GROUP BY card_id) b 
+			ON a.card_id = b.card_id');
+	} else {
+		$aAuctionCards = myqu('SELECT a.market_id, a.usercard_id, a.card_id, a.description, a.minimum_bid, 
+					a.buy_now_price, a.thumbnail_phone_imageserver_id, a.back_phone_imageserver_id, a.front_phone_imageserver_id, 
+					a.price, a.last_bid_username, a.end_date, 
+					a.username, a.image, IFNULL(b.cnt, 0) cnt 
+			FROM 
+			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
+					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
+					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					u.username, c.image 
+					FROM mytcg_market ac 
+					INNER JOIN mytcg_usercard uc 
+					ON uc.usercard_id = ac.usercard_id 
+					INNER JOIN mytcg_card c 
+					ON c.card_id = uc.card_id 
+					INNER JOIN mytcg_user u 
+					ON u.user_id = uc.user_id 
+					LEFT OUTER JOIN mytcg_marketcard ab 
+					ON ab.market_id = ac.market_id 
+					LEFT OUTER JOIN mytcg_user ub 
+					ON ub.user_id = ab.user_id 
+					WHERE ac.marketstatus_id = 1 
+					AND c.category_id = '.$categoryId.' 
+					AND ac.user_id <> '.$iUserID.' 
+					AND datediff(now(), ac.date_expired) <= 0 
+					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+							 OR ISNULL(ab.price)) 
+					GROUP BY ac.market_id) a 
+			LEFT OUTER JOIN 
+			(SELECT card_id, count(*) cnt 
+					FROM mytcg_usercard 
+					WHERE user_id = '.$iUserID.' 
+					AND usercardstatus_id = 1 
+					GROUP BY card_id) b 
+			ON a.card_id = b.card_id');
+	}
+	
 	$count = 0;
 	$index = sizeof($cards);
 	while ($card = $aAuctionCards[$count]) {
@@ -1155,14 +1228,52 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 				$winnerName = $oppPlayerUsername;
 				
 			}
-			$aUpdate=myqu('SELECT gameswon
+			$aUpdate=myqu('SELECT gameswon, credits
 					FROM mytcg_user where user_id = (SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
+			$qu = 'SELECT credits
+					FROM mytcg_user where user_id = '.$iUserID;
+			$aCredits=myqu($qu);
+			
+			$qu = 'SELECT count(*) as cnt
+					FROM mytcg_gameplayer a, mytcg_game b
+					WHERE a.game_id = b.game_id
+					AND gamestatus_id = 2
+					AND user_id = '.$iUserID;
+			$aPlayed=myqu($qu);
+			
+			$qu = 'select rownum 
+					from (select @rownum:=@rownum+1 rownum, credits, user_id 
+							from mytcg_user, (select @rownum:=0) r 
+							where user_id <> 1 order by credits DESC) a 
+					where user_id = '.$iUserID;
+			$aRich=myqu($qu);
+			
+			$qu = 'SELECT rownum
+					FROM
+					(SELECT @rownum:=@rownum+1 as rownum, count(*) val, user_id 
+					FROM (SELECT c.user_id, c.username, b.gameplayer_id, b.game_id , count(d.gameplayercard_id) as cnt 
+						FROM mytcg_game a 
+						INNER JOIN mytcg_gameplayer b ON b.game_id = a.game_id 
+						INNER JOIN mytcg_user c ON c.user_id = b.user_id 
+						LEFT OUTER JOIN mytcg_gameplayercard d ON d.gameplayer_id = b.gameplayer_id 
+						WHERE c.user_id <> 1 GROUP BY b.gameplayer_id) e, 
+						(SELECT @rownum:=0) f
+					WHERE e.cnt = 20 
+					GROUP BY username 
+					ORDER BY count(*) DESC) a
+					WHERE user_id = '.$iUserID;
+			
+			$aWon=myqu($qu);
 		
 			$iUpdate=$aUpdate[0];
 			if ($iUpdate['gameswon'] <= 3) {
-				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.';
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning. 
+						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
 			} else {
-				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.';
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun. 
+						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
 			}
 		}
 		

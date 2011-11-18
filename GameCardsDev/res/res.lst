@@ -222,6 +222,126 @@
 .ubin
 .include "loading_flip18.png"
 
+.res RES_LEFT_ARROW
+.ubin
+.image "leftarrow.png"
+
+.res RES_RIGHT_ARROW
+.ubin
+.image "rightarrow.png"
+
+.res RES_ALBUM
+.ubin
+.image "Album.png"
+
+.res RES_ALBUM_THUMB
+.ubin
+.image "Album_thumb.png"
+
+.res RES_AUCTIONS
+.ubin
+.image "Auctions.png"
+
+.res RES_AUCTIONS_THUMB
+.ubin
+.image "Auctions_thumb.png"
+
+.res RES_CREDITS
+.ubin
+.image "Credits.png"
+
+.res RES_CREDITS_THUMB
+.ubin
+.image "Credits_thumb.png"
+
+.res RES_DECKS
+.ubin
+.image "Decks.png"
+
+.res RES_DECKS_THUMB
+.ubin
+.image "Decks_thumb.png"
+
+.res RES_FRIENDRANKS
+.ubin
+.image "FriendRanks.png"
+
+.res RES_FRIENDRANKS_THUMB
+.ubin
+.image "FriendRanks_thumb.png"
+
+.res RES_Friends
+.ubin
+.image "Friends.png"
+
+.res RES_FRIENDS_THUMB
+.ubin
+.image "Friends_thumb.png"
+
+.res RES_INVITE
+.ubin
+.image "Invite.png"
+
+.res RES_INVITE_THUMB
+.ubin
+.image "Invite_thumb.png"
+
+.res RES_LOGOUT
+.ubin
+.image "Logout.png"
+
+.res RES_LOGOUT_THUMB
+.ubin
+.image "Logout_thumb.png"
+
+.res RES_NOTIFICATIONS
+.ubin
+.image "Notifications.png"
+
+.res RES_NOTIFICATIONS_THUMB
+.ubin
+.image "Notifications_thumb.png"
+
+.res RES_PLAY
+.ubin
+.image "Play.png"
+
+.res RES_PLAY_THUMB
+.ubin
+.image "Play_thumb.png"
+
+.res RES_PROFILE
+.ubin
+.image "Profile.png"
+
+.res RES_PROFILE_THUMB
+.ubin
+.image "Profile_thumb.png"
+
+.res RES_RANKINGS
+.ubin
+.image "Rankings.png"
+
+.res RES_RANKINGS_THUMB
+.ubin
+.image "Rankings_thumb.png"
+
+.res RES_REDEEM
+.ubin
+.image "Redeem.png"
+
+.res RES_REDEEM_THUMB
+.ubin
+.image "Redeem_thumb.png"
+
+.res RES_SHOP
+.ubin
+.image "Shop.png"
+
+.res RES_SHOP_THUMB
+.ubin
+.image "Shop_thumb.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE
@@ -232,10 +352,10 @@
 .bin
 .include "arialblack.mof"  
 
-.res RES_LEFT_ARROW
+.res RES_GREY_DOT
 .ubin
-.include "leftarrow.png"
+.image "greydot.png"
 
-.res RES_RIGHT_ARROW
+.res RES_WHITE_DOT
 .ubin
-.include "rightarrow.png"
+.image "whitedot.png"
