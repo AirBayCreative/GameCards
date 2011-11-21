@@ -342,6 +342,26 @@
 .ubin
 .image "Shop_thumb.png"
 
+.res RES_DESELECTED_LIST_DOT
+.ubin
+.image "inactive_dot.png"
+
+.res RES_SELECTED_LIST_DOT
+.ubin
+.image "active_dot.png"
+
+.res RES_ICONS_BACK
+.ubin
+.image "icon_bar.png"
+
+.res RES_SELECT_ICON
+.ubin
+.image "select.png"
+
+.res RES_UNSELECT_ICON 
+.ubin
+.image "unselect.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE
@@ -351,11 +371,3 @@
 .res RES_FONT_BLACK
 .bin
 .include "arialblack.mof"  
-
-.res RES_GREY_DOT
-.ubin
-.image "greydot.png"
-
-.res RES_WHITE_DOT
-.ubin
-.image "whitedot.png"

@@ -85,13 +85,17 @@
 #define RES_SHOP 85
 #define RES_SHOP_THUMB 86
 
+#define RES_DESELECTED_LIST_DOT 87
+#define RES_SELECTED_LIST_DOT 88
+
+#define RES_ICONS_BACK 89
+#define RES_SELECT_ICON 90
+#define RES_UNSELECT_ICON 91
+
 /* Custom Variables per App */
 
-#define RES_FONT_BLUE 87
-#define RES_FONT_BLACK 88
-
-#define RES_GREY_DOT 89
-#define RES_WHITE_DOT 90
+#define RES_FONT_BLUE 92
+#define RES_FONT_BLACK 93
 
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
@@ -144,6 +148,9 @@
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
 #define DEFAULT_DETAILS_ITEM_HEIGHT 80
 #define PADDING 5
+#define ICON_HEIGHT 69
+#define DOT_HEIGHT 16
+#define ARROW_WIDTH 29
 
 //renumber the menu options if one is removed
 //numbers must always run sequential for index

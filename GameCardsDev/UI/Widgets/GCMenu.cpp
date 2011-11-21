@@ -11,23 +11,27 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	:Widget(x, y, width, height, parent), items(items), numItems(numItems), enabled(false) {
 	setEnabled(true);
 
-	Layout *mainLayout = new Layout(0, 0, width, height, NULL, 1, 3);
+	Layout *mainLayout = new Layout(0, 0, width, height, NULL, 1, 2);
 
-	int iconHeight = 69;
-	int dotHeight = 21;
-	int imageHeight = height - iconHeight - dotHeight;
+	int imageHeight = height - ICON_HEIGHT - DOT_HEIGHT;
 
 	subLayout = new Layout(0, 0, width, imageHeight, mainLayout, 3, 1);
 	subLayout->setPaddingLeft(5);
 	subLayout->setPaddingRight(5);
 
-	Image *arrow = new Image(0, 0, 13, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
+	Image *arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
 
-	mainImage = new TransitionImage(0, 0, width - 36, imageHeight, subLayout, false, false, NULL);
-	arrow = new Image(0, 0, 13, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
+	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2) - 10, imageHeight, subLayout, false, false, NULL);
 
-	iconList = new ListBox(0, 0, width, iconHeight, mainLayout,
+	arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
+
+	ListBox *iconAndDotList = new ListBox(0, 0, width, ICON_HEIGHT + DOT_HEIGHT, mainLayout,
+			ListBox::LBO_VERTICAL);
+	iconAndDotList->setSkin(Util::getIconListBack());
+
+	iconList = new ListBox(0, 0, width, ICON_HEIGHT, iconAndDotList,
 		ListBox::LBO_HORIZONTAL);
+	iconList->setDrawBackground(false);
 
 	iconsPerList = iconList->getWidth() / (PADDING + 46); //46 is the default icon width
 	int currentList = -1;
@@ -38,25 +42,29 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		if (i % iconsPerList == 0) {
 			tempList = new ListBox(0, 0, iconList->getWidth(), iconList->getHeight(), NULL);
 			tempList->setOrientation(ListBox::LBO_HORIZONTAL);
+			tempList->setDrawBackground(false);
 			currentList++;
 			iconLists.add(tempList);
 		}
 
-		tempImage = new Image(0, 0, 46 + PADDING + ((iconList->getWidth() % (PADDING + 46)) / iconsPerList), iconHeight, tempList, false, false, items[i].icon);
+		tempImage = new Image(0, 0, 46 + PADDING + ((iconList->getWidth() % (PADDING + 46)) / iconsPerList), ICON_HEIGHT, tempList, false, false, items[i].icon);
+		tempImage->setSkin(Util::getIconSelect());
+		tempImage->setDrawBackground(true);
 	}
-	dotList = new ListBox(0, 0, width, dotHeight, mainLayout,
+	dotList = new ListBox(0, 0, width, DOT_HEIGHT, iconAndDotList,
 			ListBox::LBO_HORIZONTAL);
+	dotList->setDrawBackground(false);
 	int dotListPadding = (width - (iconLists.size() * (11 + PADDING))) / 2;
 	dotList->setPaddingLeft(dotListPadding>0?dotListPadding:0);
 	for (int j = 0; j < iconLists.size(); j++) {
-		tempImage = new Image(0, 0, 11 + PADDING, dotHeight, dotList, false, false, RES_GREY_DOT);
+		tempImage = new Image(0, 0, 11 + PADDING, DOT_HEIGHT, dotList, false, false, RES_DESELECTED_LIST_DOT);
 	}
 
 	if (numItems > 0) {
 		emp = false;
 		selectedList = 0;
 
-		((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
+		((Image*)dotList->getChildren()[selectedList])->setResource(RES_SELECTED_LIST_DOT);
 
 		iconList->add(iconLists[selectedList]);
 		iconLists[selectedList]->setSelectedIndex(0);
@@ -95,11 +103,11 @@ void GCMenu::setEnabled(bool e) {
 void GCMenu::selectNext() {
 	if (!emp) {
 		if (iconLists[selectedList]->getSelectedIndex() + 1 >= iconLists[selectedList]->getChildren().size()) {
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_GREY_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
 			selectedList = (selectedList + 1 >= iconLists.size())?0:(selectedList + 1);
 			iconList->add(iconLists[selectedList]);
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_SELECTED_LIST_DOT);
 
 			iconLists[selectedList]->setSelectedIndex(0);
 			iconLists[selectedList]->getChildren()[0]->setSelected(true);
@@ -115,11 +123,11 @@ void GCMenu::selectNext() {
 void GCMenu::selectPrevious() {
 	if (!emp) {
 		if (iconLists[selectedList]->getSelectedIndex() - 1 < 0) {
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_GREY_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
 			selectedList = (selectedList - 1 < 0)?iconLists.size() - 1:(selectedList - 1);
 			iconList->add(iconLists[selectedList]);
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_SELECTED_LIST_DOT);
 
 			iconLists[selectedList]->setSelectedIndex(iconLists[selectedList]->getChildren().size() - 1);
 			iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
@@ -136,11 +144,11 @@ void GCMenu::select(int i) {
 	if (!emp && i < numItems) {
 
 		if (i < selectedList*iconsPerList && i >= selectedList*(iconsPerList + 1)) {
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_GREY_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
 			selectedList = i / iconsPerList;
 			iconList->add(iconLists[selectedList]);
-			((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
+			((Image*)dotList->getChildren()[selectedList])->setResource(RES_SELECTED_LIST_DOT);
 		}
 
 		iconLists[selectedList]->setSelectedIndex(i % iconsPerList);
@@ -153,7 +161,7 @@ void GCMenu::select(int i) {
 
 void GCMenu::swipeList(int dir) {
 	if (iconLists.size() > 1) {
-		((Image*)dotList->getChildren()[selectedList])->setResource(RES_GREY_DOT);
+		((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 		int index = iconLists[selectedList]->getSelectedIndex();
 		selectedList = selectedList + dir;
 		if (selectedList < 0) {
@@ -162,7 +170,7 @@ void GCMenu::swipeList(int dir) {
 		else if (selectedList >= iconLists.size()) {
 			selectedList = 0;
 		}
-		((Image*)dotList->getChildren()[selectedList])->setResource(RES_WHITE_DOT);
+		((Image*)dotList->getChildren()[selectedList])->setResource(RES_SELECTED_LIST_DOT);
 		iconList->clear();
 		iconList->add(iconLists[selectedList]);
 

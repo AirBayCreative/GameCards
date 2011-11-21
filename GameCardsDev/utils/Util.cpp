@@ -170,6 +170,24 @@ WidgetSkin* Util::getSkinText() {
 	return gSkinText;
 }
 
+WidgetSkin* Util::getIconListBack() {
+	static WidgetSkin* gSkinIconListBack;
+	if (gSkinIconListBack == NULL) {
+		gSkinIconListBack = new WidgetSkin(RES_ICONS_BACK, RES_ICONS_BACK,
+				5, 315, 10, 90, true, true);
+	}
+	return gSkinIconListBack;
+}
+
+WidgetSkin* Util::getIconSelect() {
+	static WidgetSkin* gSkinIconSelect;
+	if (gSkinIconSelect == NULL) {
+		gSkinIconSelect = new WidgetSkin(RES_SELECT_ICON, RES_UNSELECT_ICON,
+				4, 48, 10, 50, true, true);
+	}
+	return gSkinIconSelect;
+}
+
 void Util::setPadding(Widget *w) {
 	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);

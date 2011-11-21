@@ -79,6 +79,8 @@ class Util
 		static WidgetSkin* getSkinListNoArrows();
 		static WidgetSkin* getSkinText();
 		static WidgetSkin* getSkinAlbum();
+		static WidgetSkin* getIconListBack();
+		static WidgetSkin* getIconSelect();
 
 	private:
 
