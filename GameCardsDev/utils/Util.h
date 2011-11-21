@@ -75,6 +75,7 @@ class Util
 		static WidgetSkin* getSkinButton();
 		static void setCaption(Label *label);
 		static WidgetSkin* getSkinBack();
+		static WidgetSkin* getSkinHeader();
 		static WidgetSkin* getSkinList();
 		static WidgetSkin* getSkinListNoArrows();
 		static WidgetSkin* getSkinText();

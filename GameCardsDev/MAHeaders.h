@@ -92,10 +92,12 @@
 #define RES_SELECT_ICON 90
 #define RES_UNSELECT_ICON 91
 
+#define RES_HEAD 92
+
 /* Custom Variables per App */
 
-#define RES_FONT_BLUE 92
-#define RES_FONT_BLACK 93
+#define RES_FONT_BLUE 93
+#define RES_FONT_BLACK 94
 
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
@@ -118,6 +120,11 @@
 #define BACKGROUND_X_RIGHT 464
 #define BACKGROUND_Y_TOP 1
 #define BACKGROUND_Y_BOTTOM 399
+
+#define HEAD_X_LEFT 1
+#define HEAD_X_RIGHT 211
+#define HEAD_Y_TOP 1
+#define HEAD_Y_BOTTOM 43
 
 #define LIST_X_LEFT 19
 #define LIST_X_RIGHT 77

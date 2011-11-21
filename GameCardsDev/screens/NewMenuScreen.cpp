@@ -43,14 +43,24 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 
 	mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-	listBox->setDrawBackground(false);
-
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
-	listBox->add(image);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	/*listBox->setSkin(Util::getSkinHeader());*/
+	/*listBox->setDrawBackground(false);*/
+
+
+	/*Layout *header = new Layout(0,0,scrWidth, imgHeight, NULL, 1, 1);
+	header->setSkin(Util::getSkinHeader());*/
+
+	ListBox *header = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	header->setSkin(Util::getSkinHeader());
+
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, true, true, RES_IMAGE);
+	header->add(image);
+
+	listBox->add(header);
 
 	label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
 	label->setMultiLine(true);

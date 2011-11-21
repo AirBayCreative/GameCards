@@ -362,6 +362,10 @@
 .ubin
 .image "unselect.png"
 
+.res RES_HEAD
+.ubin
+.image "head.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE
