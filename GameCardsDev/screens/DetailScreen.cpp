@@ -1,7 +1,7 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
 #include "ShopProductsScreen.h"
-#include "MenuScreen.h"
+#include "NewMenuScreen.h"
 #include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
@@ -433,7 +433,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
 			if(screenType == NOTIFICATIONS){
-				((MenuScreen *)previous)->refresh();
+				((NewMenuScreen *)previous)->refresh();
 			}
 			previous->show();
 			break;

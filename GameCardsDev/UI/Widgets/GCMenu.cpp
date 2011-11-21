@@ -33,7 +33,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		ListBox::LBO_HORIZONTAL);
 	iconList->setDrawBackground(false);
 
-	iconsPerList = iconList->getWidth() / (PADDING + 46); //46 is the default icon width
+	iconsPerList = iconList->getWidth() / (PADDING + MIN_MENU_ICON_WIDTH);
 	int currentList = -1;
 	ListBox *tempList = NULL;
 	Image *tempImage = NULL;
@@ -47,7 +47,8 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 			iconLists.add(tempList);
 		}
 
-		tempImage = new Image(0, 0, 46 + PADDING + ((iconList->getWidth() % (PADDING + 46)) / iconsPerList), ICON_HEIGHT, tempList, false, false, items[i].icon);
+		tempImage = new Image(0, 0, MIN_MENU_ICON_WIDTH + PADDING + ((iconList->getWidth() % (PADDING + MIN_MENU_ICON_WIDTH)) / iconsPerList),
+				ICON_HEIGHT, tempList, false, false, items[i].icon);
 		tempImage->setSkin(Util::getIconSelect());
 		tempImage->setDrawBackground(true);
 	}
