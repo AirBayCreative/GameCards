@@ -204,6 +204,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		} else {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Updating notifications...");
+			label->setDrawBackground(false);
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
@@ -645,7 +646,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		listBox->add(label);
 
 		Layout *feedlayout = new Layout(0, 0, scrWidth, DEFAULT_LABEL_HEIGHT, listBox, 3, 1);
-		feedlayout->setDrawBackground(true);
+		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 
 		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getDefaultFont());

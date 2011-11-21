@@ -180,7 +180,7 @@ void AuctionListScreen::drawList() {
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
-		feedlayout->setDrawBackground(true);
+		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 

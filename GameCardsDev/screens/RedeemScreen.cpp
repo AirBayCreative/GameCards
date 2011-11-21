@@ -16,7 +16,7 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 
 	mainLayout = Util::createMainLayout("Redeem", "Back", "", true);
 
-	mainLayout->setDrawBackground(true);
+	mainLayout->setDrawBackground(false);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);

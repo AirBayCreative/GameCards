@@ -15,7 +15,7 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, C
 
 	layout = Util::createMainLayout("Continue", "Back", "", true);
 
-	layout->setDrawBackground(TRUE);
+	layout->setDrawBackground(false);
 
 	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
@@ -73,7 +73,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
-		feedlayout->setDrawBackground(true);
+		feedlayout->setDrawBackground(false);
 		//feedlayout->addWidgetListener(this);
 
 		if (strcmp(card->getQuantity().c_str(), "0") != 0) {
@@ -194,7 +194,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
-	feedlayout->setDrawBackground(true);
+	feedlayout->setDrawBackground(false);
 	//feedlayout->addWidgetListener(this);
 
 	if (strcmp(card->getQuantity().c_str(), "0") != 0) {
@@ -250,7 +250,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
-	feedlayout->setDrawBackground(true);
+	feedlayout->setDrawBackground(false);
 	//feedlayout->addWidgetListener(this);
 
 	if (strcmp(card->getQuantity().c_str(), "0") != 0) {

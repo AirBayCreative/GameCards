@@ -47,6 +47,7 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 	int imgHeight = EXTENT_Y(imgSize);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	listBox->setSkin(Util::getSkinBack());
 	/*listBox->setSkin(Util::getSkinHeader());*/
 	/*listBox->setDrawBackground(false);*/
 

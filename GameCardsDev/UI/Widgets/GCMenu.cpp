@@ -17,10 +17,14 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 
 	int imageHeight = height - ICON_HEIGHT - DOT_HEIGHT;
 
-	subLayout = new Layout(0, 0, width, imageHeight, mainLayout, 3, 1);
+	ListBox *listBox = new ListBox(0, 0, mainLayout->getWidth(), mainLayout->getHeight(), mainLayout, ListBox::LBO_VERTICAL);
+	listBox->setSkin(Util::getSkinBack());
+
+	subLayout = new Layout(0, 0, width, imageHeight, listBox, 3, 1);
 	subLayout->setPaddingLeft(5);
 	subLayout->setPaddingRight(5);
 	subLayout->setDrawBackground(false);
+	/*subLayout->setSkin(Util::getSkinBack());*/
 
 	Image *arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
 	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2) - 10, imageHeight, subLayout, false, false, NULL);
@@ -29,7 +33,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
 	arrow->setDrawBackground(false);
 
-	ListBox *iconAndDotList = new ListBox(0, 0, width, ICON_HEIGHT + DOT_HEIGHT, mainLayout,
+	ListBox *iconAndDotList = new ListBox(0, 0, width, ICON_HEIGHT + DOT_HEIGHT, listBox,
 			ListBox::LBO_VERTICAL);
 	iconAndDotList->setSkin(Util::getIconListBack());
 
@@ -54,7 +58,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		tempImage = new Image(0, 0, MIN_MENU_ICON_WIDTH + PADDING + ((iconList->getWidth() % (PADDING + MIN_MENU_ICON_WIDTH)) / iconsPerList),
 				ICON_HEIGHT, tempList, false, false, items[i].icon);
 		tempImage->setSkin(Util::getIconSelect());
-		tempImage->setDrawBackground(true);
+		tempImage->setDrawBackground(false);
 	}
 	dotList = new ListBox(0, 0, width, DOT_HEIGHT, iconAndDotList,
 			ListBox::LBO_HORIZONTAL);

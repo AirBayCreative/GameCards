@@ -249,7 +249,7 @@ void EditDeckScreen::drawList() {
 	if (cards.size() < 10) {
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinList());
-		feedlayout->setDrawBackground(true);
+		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 
 		label = new Label(0, 0, 0, 0, NULL, "", 0, Util::getDefaultFont());
@@ -263,7 +263,7 @@ void EditDeckScreen::drawList() {
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinList());
-	feedlayout->setDrawBackground(true);
+	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
 
 	label = new Label(0, 0, 0, 0, NULL, "", 0, Util::getDefaultFont());
@@ -302,6 +302,7 @@ void EditDeckScreen::drawList() {
 		}
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		label->setDrawBackground(false);
 		cardText = "";
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();

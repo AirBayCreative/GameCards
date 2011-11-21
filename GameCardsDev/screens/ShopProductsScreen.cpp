@@ -25,7 +25,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	notice->setDrawBackground(true);
+	notice->setDrawBackground(false);
 	notice->setCaption("Checking for products...");
 
 	mImageCache = new ImageCache();
@@ -166,6 +166,7 @@ void ShopProductsScreen::drawList() {
 		Util::retrieveProductThumb(tempImage, products[i], mImageCache);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		label->setDrawBackground(false);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine();

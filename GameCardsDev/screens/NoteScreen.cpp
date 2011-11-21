@@ -2,7 +2,6 @@
 
 #include "NoteScreen.h"
 #include "../utils/Util.h"
-#include "MenuScreen.h"
 
 NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
 feed(feed), card(card), screenType(screenType), detail(detail) {
@@ -48,7 +47,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
 			feedlayout->setSkin(Util::getSkinAlbum());
-			feedlayout->setDrawBackground(true);
+			feedlayout->setDrawBackground(false);
 			feedlayout->addWidgetListener(this);
 
 			if (strcmp(card->getQuantity().c_str(), "0") != 0) {

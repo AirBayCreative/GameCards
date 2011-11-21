@@ -71,7 +71,8 @@ private:
 	Vector<Card *> deleted;
 	Vector<Stat*> stats;
 	Stat *stat;
-	MobImage *tempImage, *leftArrow, *rightArrow;
+	Image *leftArrow, *rightArrow;
+	MobImage *tempImage;
 
 	String getAll();
 	void loadDemo();
