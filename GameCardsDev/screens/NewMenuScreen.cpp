@@ -267,6 +267,46 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 	}
 }
 
+void NewMenuScreen::refresh() {
+	/*if(feed->getNoteLoaded()){
+		noteLabel->setCaption("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
+	}else{
+		noteLabel->setCaption("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
+	}*/
+}
+
+void NewMenuScreen::show() {
+	shown = true;
+	if(feed->getNoteLoaded()==false){
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int urlLength = 11 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?notedate=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+		} else {
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+		}
+		delete [] url;
+	}
+	versionChecked = 0;
+	Screen::show();
+}
+
+void NewMenuScreen::hide() {
+	shown = false;
+	Screen::hide();
+}
+
 void NewMenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
 		xmlConn = XmlConnection::XmlConnection();
@@ -298,8 +338,8 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 		int ndate = mktime(&t);
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
-			noteLabel->setCaption("*Notifications");
-			noteLabel->setFont(Util::getDefaultSelected());
+			//noteLabel->setCaption("*Notifications");
+			//noteLabel->setFont(Util::getDefaultSelected());
 
 			if(first==1){
 				first = 0;

@@ -151,6 +151,7 @@
 #define ICON_HEIGHT 69
 #define DOT_HEIGHT 16
 #define ARROW_WIDTH 29
+#define MIN_MENU_ICON_WIDTH 50
 
 //renumber the menu options if one is removed
 //numbers must always run sequential for index

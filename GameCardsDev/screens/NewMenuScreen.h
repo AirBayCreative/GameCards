@@ -31,6 +31,9 @@ public:
 private:
 	void clearListBox();
 
+	void show();
+	void hide();
+
 	Layout *mainLayout;
 	Label *label;
 	GCMenu *menu;
