@@ -10,20 +10,24 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		bool autosizeX, bool autosizeY, Widget* parent)
 	:Widget(x, y, width, height, parent), items(items), numItems(numItems), enabled(false) {
 	setEnabled(true);
+	/*setDrawBackground(false);*/
 
 	Layout *mainLayout = new Layout(0, 0, width, height, NULL, 1, 2);
+	mainLayout->setDrawBackground(false);
 
 	int imageHeight = height - ICON_HEIGHT - DOT_HEIGHT;
 
 	subLayout = new Layout(0, 0, width, imageHeight, mainLayout, 3, 1);
 	subLayout->setPaddingLeft(5);
 	subLayout->setPaddingRight(5);
+	subLayout->setDrawBackground(false);
 
 	Image *arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
-
 	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2) - 10, imageHeight, subLayout, false, false, NULL);
+	mainImage->setDrawBackground(false);
 
 	arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
+	arrow->setDrawBackground(false);
 
 	ListBox *iconAndDotList = new ListBox(0, 0, width, ICON_HEIGHT + DOT_HEIGHT, mainLayout,
 			ListBox::LBO_VERTICAL);
@@ -115,7 +119,7 @@ void GCMenu::selectNext() {
 		else {
 			iconLists[selectedList]->selectNextItem();
 		}
-		mainImage->setTransition(TT_SLIDE_IN, -1, 0);
+		mainImage->setTransition(TT_PUSH, -1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
@@ -135,7 +139,7 @@ void GCMenu::selectPrevious() {
 		else {
 			iconLists[selectedList]->selectPreviousItem();
 		}
-		mainImage->setTransition(TT_SLIDE_IN, 1, 0);
+		mainImage->setTransition(TT_PUSH, 1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }

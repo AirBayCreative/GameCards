@@ -129,10 +129,20 @@ WidgetSkin* Util::getSkinBack() {
 	static WidgetSkin* gSkinBack;
 	if (gSkinBack == NULL) {
 		gSkinBack = new WidgetSkin(RES_BACKGROUND, RES_BACKGROUND,
-				BACKGROUND_X_LEFT, BACKGROUND_X_RIGHT, BACKGROUND_Y_TOP, BACKGROUND_Y_BOTTOM, true, true);
+				BACKGROUND_X_LEFT, BACKGROUND_X_RIGHT, BACKGROUND_Y_TOP, BACKGROUND_Y_BOTTOM, false, false);
 	}
 	return gSkinBack;
 }
+
+WidgetSkin* Util::getSkinHeader() {
+	static WidgetSkin* gSkinHead;
+	if (gSkinHead == NULL) {
+		gSkinHead = new WidgetSkin(RES_HEAD, RES_HEAD,
+				HEAD_X_LEFT, HEAD_X_RIGHT, HEAD_Y_TOP, HEAD_Y_BOTTOM, false, false);
+	}
+	return gSkinHead;
+}
+
 
 WidgetSkin* Util::getSkinList() {
 	static WidgetSkin* gSkinList;

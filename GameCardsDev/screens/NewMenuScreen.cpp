@@ -42,7 +42,9 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 	first = 1;
 
 	mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	listBox->setDrawBackground(false);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgHeight = EXTENT_Y(imgSize);
