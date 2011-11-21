@@ -62,7 +62,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	notice->setDrawBackground(true);
+	notice->setDrawBackground(false);
 
 	listBox->setHeight(listBox->getHeight() - 20);
 

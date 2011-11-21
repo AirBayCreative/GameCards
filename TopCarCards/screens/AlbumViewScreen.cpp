@@ -382,7 +382,7 @@ void AlbumViewScreen::drawList() {
 	String cardText = "";
 
 	//we need a layout to have arrow images on the sides of the list
-	int cardsPerList = listBox->getHeight() / THUMB_HEIGHT; //74 is the default card display item height
+	int cardsPerList = listBox->getHeight() / ALBUM_ITEM_HEIGHT; //74 is the default card display item height
 	Layout *listLayout;
 	//check if we need more than 1 page
 	if (cardsPerList < cards.size()) {
@@ -390,21 +390,27 @@ void AlbumViewScreen::drawList() {
 		listLayout->setDrawBackground(false);
 		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+		leftArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), listLayout, false, false, RES_LEFT_ARROW);
+		leftArrow->setDrawBackground(false);
 
-		midListBox = new ListBox(0, 0, listLayout->getWidth() - 26 - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox = new ListBox(0, 0, listLayout->getWidth() - (ARROW_WIDTH*2) - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox->setDrawBackground(false);
 
-		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+		rightArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), listLayout, false, false, RES_RIGHT_ARROW);
+		rightArrow->setDrawBackground(false);
 	} else {
 		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 1, 1);
 		listLayout->setDrawBackground(false);
 		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+		leftArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), NULL, false, false, RES_LEFT_ARROW);
+		leftArrow->setDrawBackground(false);
 
 		midListBox = new ListBox(0, 0, listLayout->getWidth() - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox->setDrawBackground(false);
 
-		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+		rightArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), NULL, false, false, RES_RIGHT_ARROW);
+		rightArrow->setDrawBackground(false);
 	}
 
 	int currentList = -1;
@@ -414,6 +420,7 @@ void AlbumViewScreen::drawList() {
 		//gotta make the tempList for the cards
 		if (i % cardsPerList == 0) {
 			tempList = new ListBox(0, 0, midListBox->getWidth(), midListBox->getHeight(), NULL);
+			tempList->setDrawBackground(false);
 			tempList->setOrientation(ListBox::LBO_VERTICAL);
 			currentList++;
 			cardLists.add(tempList);
@@ -429,7 +436,7 @@ void AlbumViewScreen::drawList() {
 		cardText += "\nRating: ";
 		cardText += itr->second->getRanking();
 
-		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), THUMB_HEIGHT/* + ((midListBox->getHeight() % THUMB_HEIGHT) / cardsPerList)*/, tempList, 3, 1);
+		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT + ((midListBox->getHeight() % THUMB_HEIGHT) / cardsPerList), tempList, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -445,8 +452,10 @@ void AlbumViewScreen::drawList() {
 			tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_MISSINGTHUMB));
 		}
 
-		label = new Label(0,0, scrWidth-86, THUMB_HEIGHT, feedlayout, cardText, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-86, ALBUM_ITEM_HEIGHT, feedlayout, cardText, 0, Util::getDefaultFont());
 		cardText = "";
+
+		tempImage->setDrawBackground(false);
 		label->setDrawBackground(false);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
@@ -454,7 +463,6 @@ void AlbumViewScreen::drawList() {
 		label->setMultiLine();
 
 		i++;
-
 	}
 
 	if (cards.size() >= 1) {

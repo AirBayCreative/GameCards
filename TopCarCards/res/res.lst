@@ -224,11 +224,147 @@
 
 .res RES_LEFT_ARROW
 .ubin
-.include "leftarrow.png"
+.image "leftarrow.png"
 
 .res RES_RIGHT_ARROW
 .ubin
-.include "rightarrow.png"
+.image "rightarrow.png"
+
+.res RES_ALBUM
+.ubin
+.image "Album.png"
+
+.res RES_ALBUM_THUMB
+.ubin
+.image "Album_thumb.png"
+
+.res RES_AUCTIONS
+.ubin
+.image "Auctions.png"
+
+.res RES_AUCTIONS_THUMB
+.ubin
+.image "Auctions_thumb.png"
+
+.res RES_CREDITS
+.ubin
+.image "Credits.png"
+
+.res RES_CREDITS_THUMB
+.ubin
+.image "Credits_thumb.png"
+
+.res RES_DECKS
+.ubin
+.image "Decks.png"
+
+.res RES_DECKS_THUMB
+.ubin
+.image "Decks_thumb.png"
+
+.res RES_FRIENDRANKS
+.ubin
+.image "FriendRanks.png"
+
+.res RES_FRIENDRANKS_THUMB
+.ubin
+.image "FriendRanks_thumb.png"
+
+.res RES_Friends
+.ubin
+.image "Friends.png"
+
+.res RES_FRIENDS_THUMB
+.ubin
+.image "Friends_thumb.png"
+
+.res RES_INVITE
+.ubin
+.image "Invite.png"
+
+.res RES_INVITE_THUMB
+.ubin
+.image "Invite_thumb.png"
+
+.res RES_LOGOUT
+.ubin
+.image "Logout.png"
+
+.res RES_LOGOUT_THUMB
+.ubin
+.image "Logout_thumb.png"
+
+.res RES_NOTIFICATIONS
+.ubin
+.image "Notifications.png"
+
+.res RES_NOTIFICATIONS_THUMB
+.ubin
+.image "Notifications_thumb.png"
+
+.res RES_PLAY
+.ubin
+.image "Play.png"
+
+.res RES_PLAY_THUMB
+.ubin
+.image "Play_thumb.png"
+
+.res RES_PROFILE
+.ubin
+.image "Profile.png"
+
+.res RES_PROFILE_THUMB
+.ubin
+.image "Profile_thumb.png"
+
+.res RES_RANKINGS
+.ubin
+.image "Rankings.png"
+
+.res RES_RANKINGS_THUMB
+.ubin
+.image "Rankings_thumb.png"
+
+.res RES_REDEEM
+.ubin
+.image "Redeem.png"
+
+.res RES_REDEEM_THUMB
+.ubin
+.image "Redeem_thumb.png"
+
+.res RES_SHOP
+.ubin
+.image "Shop.png"
+
+.res RES_SHOP_THUMB
+.ubin
+.image "Shop_thumb.png"
+
+.res RES_DESELECTED_LIST_DOT
+.ubin
+.image "inactive_dot.png"
+
+.res RES_SELECTED_LIST_DOT
+.ubin
+.image "active_dot.png"
+
+.res RES_ICONS_BACK
+.ubin
+.image "icon_bar.png"
+
+.res RES_SELECT_ICON
+.ubin
+.image "select.png"
+
+.res RES_UNSELECT_ICON 
+.ubin
+.image "unselect.png"
+
+.res RES_HEAD
+.ubin
+.image "head.png"
 
 /* CUSTOM IMAGES */
 

@@ -56,7 +56,7 @@ private:
 	ListBox *midListBox;
 	KineticListBox *listBox;
 	Label *notice, *label;
-	MobImage *leftArrow, *rightArrow;
+	Image *leftArrow, *rightArrow;
 
 	Feed *feed;
 	Albums *album;

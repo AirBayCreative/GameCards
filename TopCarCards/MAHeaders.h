@@ -54,13 +54,50 @@
 #define RES_LOADING_FLIP16 54
 #define RES_LOADING_FLIP17 55
 #define RES_LOADING_FLIP18 56
-//new albumview images
 #define RES_LEFT_ARROW 57
 #define RES_RIGHT_ARROW 58
+#define RES_ALBUM 59
+#define RES_ALBUM_THUMB 60
+#define RES_AUCTIONS 61
+#define RES_AUCTIONS_THUMB 62
+#define RES_CREDITS 63
+#define RES_CREDITS_THUMB 64
+#define RES_DECKS 65
+#define RES_DECKS_THUMB 66
+#define RES_FRIENDRANKS 67
+#define RES_FRIENDRANKS_THUMB 68
+#define RES_FRIENDS 69
+#define RES_FRIENDS_THUMB 70
+#define RES_INVITE 71
+#define RES_INVITE_THUMB 72
+#define RES_LOGOUT 73
+#define RES_LOGOUT_THUMB 74
+#define RES_NOTIFICATIONS 75
+#define RES_NOTIFICATIONS_THUMB 76
+#define RES_PLAY 77
+#define RES_PLAY_THUMB 78
+#define RES_PROFILE 79
+#define RES_PROFILE_THUMB 80
+#define RES_RANKINGS 81
+#define RES_RANKINGS_THUMB 82
+#define RES_REDEEM 83
+#define RES_REDEEM_THUMB 84
+#define RES_SHOP 85
+#define RES_SHOP_THUMB 86
+
+#define RES_DESELECTED_LIST_DOT 87
+#define RES_SELECTED_LIST_DOT 88
+
+#define RES_ICONS_BACK 89
+#define RES_SELECT_ICON 90
+#define RES_UNSELECT_ICON 91
+
+#define RES_HEAD 92
+
 /* Custom Variables per App */
 
-#define RES_FONT_RED 59
-#define RES_FONT_WHITE 60
+#define RES_FONT_RED 93
+#define RES_FONT_WHITE 94
 
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
@@ -79,10 +116,15 @@
 #define BUTTON_Y_TOP 16
 #define BUTTON_Y_BOTTOM 80
 
-#define BACKGROUND_X_LEFT 39
-#define BACKGROUND_X_RIGHT 429
-#define BACKGROUND_Y_TOP 39
-#define BACKGROUND_Y_BOTTOM 429
+#define BACKGROUND_X_LEFT 1
+#define BACKGROUND_X_RIGHT 464
+#define BACKGROUND_Y_TOP 1
+#define BACKGROUND_Y_BOTTOM 399
+
+#define HEAD_X_LEFT 1
+#define HEAD_X_RIGHT 211
+#define HEAD_Y_TOP 1
+#define HEAD_Y_BOTTOM 43
 
 #define LIST_X_LEFT 21
 #define LIST_X_RIGHT 171
@@ -113,6 +155,10 @@
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
 #define DEFAULT_DETAILS_ITEM_HEIGHT 80
 #define PADDING 5
+#define ICON_HEIGHT 69
+#define DOT_HEIGHT 16
+#define ARROW_WIDTH 29
+#define MIN_MENU_ICON_WIDTH 50
 
 //renumber the menu options if one is removed
 //numbers must always run sequential for index

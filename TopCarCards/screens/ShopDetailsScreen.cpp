@@ -59,7 +59,6 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/140, listBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
-	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
 	mImageCache = new ImageCache();

@@ -311,21 +311,27 @@ void AlbumLoadScreen::drawList() {
 		listLayout->setDrawBackground(false);
 		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+		leftArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), listLayout, false, false, RES_LEFT_ARROW);
+		leftArrow->setDrawBackground(false);
 
-		midListBox = new ListBox(0, 0, listLayout->getWidth() - 26 - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox = new ListBox(0, 0, listLayout->getWidth() - (ARROW_WIDTH*2) - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox->setDrawBackground(false);
 
-		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), listLayout, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+		rightArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), listLayout, false, false, RES_RIGHT_ARROW);
+		rightArrow->setDrawBackground(false);
 	} else {
 		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 1, 1);
 		listLayout->setDrawBackground(false);
 		listLayout->setVerticalAlignment(Layout::VA_CENTER);
 
-		leftArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_LEFT_ARROW));
+		leftArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), NULL, false, false, RES_LEFT_ARROW);
+		leftArrow->setDrawBackground(false);
 
 		midListBox = new ListBox(0, 0, listLayout->getWidth() - (PADDING*2), listLayout->getHeight(), listLayout, ListBox::LBO_VERTICAL);
+		midListBox->setDrawBackground(false);
 
-		rightArrow = new MobImage(0, 0, 13, listLayout->getHeight(), NULL, false, false, Util::loadImageFromResource(RES_RIGHT_ARROW));
+		rightArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), NULL, false, false, RES_RIGHT_ARROW);
+		rightArrow->setDrawBackground(false);
 	}
 
 
@@ -340,6 +346,7 @@ void AlbumLoadScreen::drawList() {
 		if (i % itemsPerList == 0) {
 			tempList = new ListBox(0, 0, midListBox->getWidth(), midListBox->getHeight(), NULL);
 			tempList->setOrientation(ListBox::LBO_VERTICAL);
+			tempList->setDrawBackground(false);
 			currentList++;
 			cardLists.add(tempList);
 		}

@@ -2,7 +2,7 @@
 
 #include "Login.h"
 #include "../utils/Util.h"
-#include "MenuScreen.h"
+#include "NewMenuScreen.h"
 #include "ShopCategoriesScreen.h"
 
 Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
@@ -13,7 +13,7 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 	result = "";
 	mainLayout = Util::createMainLayout("", "", "", true);
 
-	mainLayout->setDrawBackground(TRUE);
+	mainLayout->setDrawBackground(false);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
@@ -70,6 +70,7 @@ void Login::drawLoginScreen() {
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -79,6 +80,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Password", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -449,10 +451,10 @@ void Login::mtxTagEnd(const char* name, int len) {
 
 		// Check result
 		if (strcmp("0", freebie.c_str()) == 0) {
-			origMenu = new MenuScreen(feed);
+			origMenu = new NewMenuScreen(feed);
 			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
 		} else {
-			next = new MenuScreen(feed);
+			next = new NewMenuScreen(feed);
 		}
 		next->show();
 	} else if(!strcmp(name, "error")) {

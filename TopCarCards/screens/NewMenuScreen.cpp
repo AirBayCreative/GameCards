@@ -15,15 +15,20 @@
 
 static item menuItems[] =
 {
-	{ RES_MISSINGTHUMB, RES_LOADING1, 0 },
-	{ RES_TEMPTHUMB, RES_LOADING2, 1 },
-	{ RES_MISSINGTHUMB, RES_LOADING3, 2 },
-	{ RES_TEMPTHUMB, RES_LOADING4, 3 },
-	{ RES_MISSINGTHUMB, RES_LOADING5, 4 },
-	{ RES_TEMPTHUMB, RES_LOADING6, 5 },
-	{ RES_MISSINGTHUMB, RES_LOADING7, 6 },
-	{ RES_TEMPTHUMB, RES_LOADING8, 7 },
-	{ RES_MISSINGTHUMB, RES_LOADING9, 8 }
+	{ RES_ALBUM_THUMB, RES_ALBUM, OP_ALBUMS },
+	{ RES_PLAY_THUMB, RES_PLAY, OP_PLAY },
+	{ RES_DECKS_THUMB, RES_DECKS, OP_DECKS },
+	{ RES_SHOP_THUMB, RES_SHOP, OP_SHOP },
+	{ RES_AUCTIONS_THUMB, RES_AUCTIONS, OP_AUCTIONS },
+	{ RES_NOTIFICATIONS_THUMB, RES_NOTIFICATIONS, OP_NOTIFICATIONS },
+	{ RES_CREDITS_THUMB, RES_CREDITS, OP_CREDITS },
+	{ RES_PROFILE_THUMB, RES_PROFILE, OP_PROFILE },
+	{ RES_RANKINGS_THUMB, RES_RANKINGS, OP_RANKINGS },
+	{ RES_FRIENDRANKS_THUMB, RES_FRIENDRANKS, OP_FRIENDRANKS },
+	{ RES_FRIENDS_THUMB, RES_FRIENDS, OP_FRIENDS },
+	{ RES_INVITE_THUMB, RES_INVITE, OP_INVITEFRIENDS },
+	{ RES_REDEEM_THUMB, RES_REDEEM, OP_REDEEM },
+	{ RES_LOGOUT_THUMB, RES_LOGOUT, OP_LOGOUT }
 };
 
 NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(screenType) {
@@ -37,13 +42,26 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 	first = 1;
 
 	mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
-	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
-	listBox->add(image);
+	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight, mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	listBox->setSkin(Util::getSkinBack());
+	/*listBox->setSkin(Util::getSkinHeader());*/
+	/*listBox->setDrawBackground(false);*/
+
+
+	/*Layout *header = new Layout(0,0,scrWidth, imgHeight, NULL, 1, 1);
+	header->setSkin(Util::getSkinHeader());*/
+
+	ListBox *header = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	header->setSkin(Util::getSkinHeader());
+
+	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, true, true, RES_IMAGE);
+	header->add(image);
+
+	listBox->add(header);
 
 	label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
 	label->setMultiLine(true);
@@ -102,46 +120,202 @@ void NewMenuScreen::locateItem(MAPoint2d point)
 }
 
 void NewMenuScreen::selectionChanged(Widget *widget, bool selected) {
-	//menu->selectionChanged(widget, selected);
+
 }
 
 void NewMenuScreen::pointerPressEvent(MAPoint2d point)
 {
-	//menu->pointerPressEvent(point);
-	//locateItem(point);
+	moved = 0;
 }
 
 void NewMenuScreen::pointerMoveEvent(MAPoint2d point)
 {
-	//menu->pointerMoveEvent(point);
-	//locateItem(point);
-	//moved++;
+	moved++;
 }
 
 void NewMenuScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	//menu->pointerReleaseEvent(point);
-	/*if (moved <= 8) {
-		if (right) {
-			keyPressEvent(MAK_SOFTRIGHT);
-		} else if (left) {
-			keyPressEvent(MAK_SOFTLEFT);
-		} else if (list) {
-			keyPressEvent(MAK_FIRE);
-		}
+	if (moved < 8 && menu->imageContains(point.x, point.y)) {
+		keyPressEvent(MAK_FIRE);
 	}
-	moved=0;*/
 }
 
 void NewMenuScreen::keyPressEvent(int keyCode) {
-	/*switch(keyCode) {
-		case MAK_RIGHT:
-			menu->selectNext();
+	switch(keyCode) {
+		case MAK_FIRE:
+		case MAK_SOFTLEFT:
+			int index = menu->getSelectedKey();
+			if(index == OP_ALBUMS) {
+				if(next!=NULL){
+					delete next;
+					feed->remHttp();
+				}
+				next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
+				next->show();
+			} else if(index == OP_PLAY) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
+				next->show();
+			} else if(index == OP_DECKS) {//decks
+				if(next!=NULL){
+					delete next;
+				}
+				next = new DeckListScreen(this, feed);
+				next->show();
+			} else if(index == OP_SHOP) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
+				next->show();
+			} else if(index == OP_AUCTIONS) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
+				next->show();
+			} else if(index == OP_CREDITS) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new DetailScreen(this, feed, DetailScreen::BALANCE);
+				next->show();
+			} else if(index == OP_PROFILE) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
+				next->show();
+			} else if(index == OP_NOTIFICATIONS) {
+				if(next!=NULL){
+					delete next;
+				}
+				/* Notifications */
+				next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
+				next->show();
+			} else if(index == OP_RANKINGS) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
+				next->show();
+			} else if(index == OP_FRIENDRANKS) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
+				next->show();
+			} else if(index == OP_FRIENDS) {
+				if(next!=NULL){
+					delete next;
+				}
+				/* Notifications */
+				next = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
+				next->show();
+			} else if(index == OP_INVITEFRIENDS) {
+				if(next!=NULL){
+					delete next;
+				}
+				/*Invite Friend */
+				next = new TradeFriendDetailScreen(this, feed, NULL);
+				next->show();
+			} else if(index == OP_REDEEM) {
+				if(next!=NULL){
+					delete next;
+				}
+				next = new RedeemScreen(feed, this);
+				next->show();
+			} else if (index == OP_LOGOUT) {
+#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+				Albums *albums = feed->getAlbum();
+				Vector<String> tmp = albums->getIDs();
+				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
+					String s = itr->c_str();
+					s+="-lst.sav";
+					Util::saveData(s.c_str(),"");
+				}
+				feed->setAll("");
+				feed->setRegistered("1");
+				Util::saveData("fd.sav",feed->getAll().c_str());
+				Util::saveData("lb.sav","");
+
+				if (feed->getHttps() > 0) {
+					label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+					label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
+				} else {
+					if(next!=NULL){
+						//delete next;
+					}
+					maExit(0);
+				}
+#endif
+			}
 			break;
-		case MAK_LEFT:
-			menu->selectPrevious();
+		case MAK_BACK:
+		case MAK_SOFTRIGHT:
+#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+			/*if (next!=NULL) {
+					delete next;
+			}*/
+			int seconds = maLocalTime();
+			int secondsLength = Util::intlen(seconds);
+			char *secString = new char[secondsLength+1];
+			memset(secString,'\0',secondsLength+1);
+			sprintf(secString, "%d", seconds);
+			feed->setSeconds(secString);
+			Util::saveData("fd.sav", feed->getAll().c_str());
+
+			if (feed->getHttps() > 0) {
+				label = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+				label->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
+			} else {
+				maExit(0);
+			}
+#endif
 			break;
+	}
+}
+
+void NewMenuScreen::refresh() {
+	/*if(feed->getNoteLoaded()){
+		noteLabel->setCaption("*Notifications");
+		noteLabel->setFont(Util::getDefaultSelected());
+	}else{
+		noteLabel->setCaption("Notifications");
+		noteLabel->setFont(Util::getDefaultFont());
 	}*/
+}
+
+void NewMenuScreen::show() {
+	shown = true;
+	if(feed->getNoteLoaded()==false){
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int urlLength = 11 + URLSIZE;
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?notedate=1", URL);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+		} else {
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+		}
+		delete [] url;
+	}
+	versionChecked = 0;
+	Screen::show();
+}
+
+void NewMenuScreen::hide() {
+	shown = false;
+	Screen::hide();
 }
 
 void NewMenuScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -175,8 +349,8 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 		int ndate = mktime(&t);
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
-			noteLabel->setCaption("*Notifications");
-			noteLabel->setFont(Util::getDefaultSelected());
+			//noteLabel->setCaption("*Notifications");
+			//noteLabel->setFont(Util::getDefaultSelected());
 
 			if(first==1){
 				first = 0;

@@ -26,11 +26,13 @@ public:
 	Feed *feed;
 
 	bool list, left, right;
-	int moved;
 
 	int screenType;
 private:
 	void clearListBox();
+
+	void show();
+	void hide();
 
 	Layout *mainLayout;
 	Label *label;
@@ -38,7 +40,7 @@ private:
 	Screen *next;
 	Label *noteLabel;
 	String parentTag, notedate;
-	int c, versionChecked, first;
+	int c, versionChecked, first, moved;
 	bool shown;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

@@ -3,7 +3,6 @@
 #include "GameCards.h"
 #include "utils/Util.h"
 #include "screens/OptionsScreen.h"
-#include "screens/MenuScreen.h"
 #include "screens/Login.h"
 
 #include "screens/NewMenuScreen.h"
@@ -13,7 +12,7 @@ MAUIMoblet *moblet;
 MAUIMoblet::MAUIMoblet() {
 	Engine& engine = Engine::getSingleton();
 	engine.setDefaultFont(Util::getDefaultFont());
-	engine.setDefaultSkin(Util::getSkinBack());
+	/*engine.setDefaultSkin(Util::getSkinBack());*/
 	MAExtent screenSize = maGetScrSize();
 	scrWidth = EXTENT_X(screenSize);
 	scrHeight = EXTENT_Y(screenSize);
@@ -37,8 +36,8 @@ MAUIMoblet::MAUIMoblet() {
 	data = "";
 
 	if (feed.getLoaded()) {
-		next = new MenuScreen(&feed);
-		//next = new NewMenuScreen(&feed);
+		//next = new MenuScreen(&feed);
+		next = new NewMenuScreen(&feed);
 		next->show();
 	} else {
 		next = new OptionsScreen(&feed, OptionsScreen::ST_LOGIN_OPTIONS);
