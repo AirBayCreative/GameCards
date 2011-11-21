@@ -236,15 +236,19 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right) 
 }
 
 Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, const char *centre) {
-	Layout *layout = new Layout(0, 0, scrWidth, height, NULL, 3, 1);
-	//layout->setSkin(Util::getSkinBack());
-	layout->setDrawBackground(false);
+	Layout *layout = new Layout(0, 0, scrWidth, height + 5, NULL, 3, 1);
+	layout->setPaddingTop(5);
+	layout->setSkin(Util::getIconListBack());
+	layout->setDrawBackground(true);
 
 	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
 		label->setSkin(Util::getSkinButton());
+	}
+	else {
+		label->setDrawBackground(false);
 	}
 	layout->add(label);
 
@@ -255,6 +259,9 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	if (strlen(centre) != 0) {
 		label->setSkin(Util::getSkinButton());
 	}
+	else {
+		label->setDrawBackground(false);
+	}
 	layout->add(label);
 
 	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getButtonFont());
@@ -262,6 +269,9 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
 		label->setSkin(Util::getSkinButton());
+	}
+	else {
+		label->setDrawBackground(false);
 	}
 	layout->add(label);
 
@@ -280,13 +290,15 @@ Layout* Util::createNoHeaderLayout() {
 
 Layout* Util::createMainLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+	mainLayout->setSkin(Util::getSkinBack());
+	mainLayout->setDrawBackground(true);
 
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-	listBox->setSkin(Util::getSkinBack());
-	/*listBox->setDrawBackground(false);*/
+	//listBox->setSkin(Util::getSkinBack());
+	listBox->setDrawBackground(false);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
 	//int imgWidth = EXTENT_X(imgSize);
