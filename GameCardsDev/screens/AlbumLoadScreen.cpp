@@ -83,9 +83,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	updated = "0";
 
 	next = NULL;
-	mainLayout = Util::createMainLayout("", "Back", true);
+	mainLayout = Util::createMainLayout("", "Back");
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	album = new Albums();

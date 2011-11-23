@@ -324,7 +324,8 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 		listBox->add(mKineticBox);
 	}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
+				NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		mBox->setDrawBackground(false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);

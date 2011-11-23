@@ -8,7 +8,6 @@
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-#include "../UI/KineticListBox.h"
 #include "../utils/Card.h"
 #include "../UI/Widgets/MobImage.h"
 
@@ -53,8 +52,7 @@ private:
 	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction, shown;
 
 	Layout *mainLayout;
-	ListBox *midListBox;
-	KineticListBox *listBox;
+	ListBox *midListBox, *listBox;
 	Label *notice, *label;
 	Image *leftArrow, *rightArrow;
 
