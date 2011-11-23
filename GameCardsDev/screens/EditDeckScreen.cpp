@@ -40,7 +40,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	statIVal = "";
 	deckCategory = "";
 
-	mainLayout = Util::createMainLayout("Remove", "Back" , "", true);
+	mainLayout = Util::createMainLayout("", "Back" , "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -249,30 +249,36 @@ void EditDeckScreen::drawList() {
 	if (cards.size() < 10) {
 		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinList());
-		feedlayout->setDrawBackground(false);
+		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
 
 		label = new Label(0, 0, 0, 0, NULL, "", 0, Util::getDefaultFont());
 		feedlayout->add(label);
 
-		label = new Label(0,0, feedlayout->getWidth(), 48, feedlayout, "Add Card", 0, Util::getDefaultFont());
-		label->setVerticalAlignment(Label::VA_CENTER);
-		label->setHorizontalAlignment(Label::HA_CENTER);
+		//label = new Label(0,0, feedlayout->getWidth(), 48, feedlayout, "Add Card", 0, Util::getDefaultFont());
+		label = Util::createSubLabel("Add Card");
 		label->setDrawBackground(false);
+		feedlayout->add(label);
+		//label->setSkin(Util::getSkinList());
+		//label->setVerticalAlignment(Label::VA_CENTER);
+		//label->setHorizontalAlignment(Label::HA_CENTER);
 	}
 
 	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinList());
-	feedlayout->setDrawBackground(false);
+	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
 
 	label = new Label(0, 0, 0, 0, NULL, "", 0, Util::getDefaultFont());
 	feedlayout->add(label);
 
-	label = new Label(0,0, feedlayout->getWidth(), 48, feedlayout, "Delete Deck", 0, Util::getDefaultFont());
-	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setHorizontalAlignment(Label::HA_CENTER);
+	label = Util::createSubLabel("Delete Deck");
 	label->setDrawBackground(false);
+	feedlayout->add(label);
+	//label = new Label(0,0, feedlayout->getWidth(), 48, feedlayout, "Delete Deck", 0, Util::getDefaultFont());
+	//label->setSkin(Util::getSkinList());
+	//label->setVerticalAlignment(Label::VA_CENTER);
+	//label->setHorizontalAlignment(Label::HA_CENTER);
 
 	String cardText = "";
 	for (int i = 0; i < cards.size(); i++) {
@@ -329,6 +335,7 @@ void EditDeckScreen::drawConfirm() {
 	label = new Label(0, 0, listBox->getWidth() - 10, 0, listBox, "Are you sure you want to delete this deck?", 0, Util::getDefaultFont());
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	label->setPaddingLeft(5);
 	label->setPaddingTop(5);
 	label->setPaddingRight(5);
@@ -382,7 +389,7 @@ void EditDeckScreen::selectionChanged(Widget *widget, bool selected) {
 
 			if ((listBox->getSelectedIndex() == 1 && cards.size() < 10) ||
 					(listBox->getSelectedIndex() == 0)) {
-				Util::updateSoftKeyLayout("Select", "Back", "", mainLayout);
+				Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 			}
 			else {
 				Util::updateSoftKeyLayout("Remove", "Back", "", mainLayout);

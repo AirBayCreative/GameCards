@@ -268,6 +268,8 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void OptionsScreen::keyPressEvent(int keyCode) {
+	int ind = listBox->getSelectedIndex();
+	int max = listBox->getChildren().size();
 	switch(keyCode) {
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
@@ -460,10 +462,18 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (ind == max-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if (ind == 0) {
+				listBox->setSelectedIndex(max-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 	}
 }

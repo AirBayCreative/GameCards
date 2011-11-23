@@ -16,12 +16,12 @@ RedeemScreen::RedeemScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 
 	mainLayout = Util::createMainLayout("Redeem", "Back", "", true);
 
-	mainLayout->setDrawBackground(false);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Redeem code:", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");

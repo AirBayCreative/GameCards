@@ -27,7 +27,6 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 			mainLayout =  Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back" , "Flip");
 		}
 		listBox = (ListBox*) mainLayout->getChildren()[0];
-		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
