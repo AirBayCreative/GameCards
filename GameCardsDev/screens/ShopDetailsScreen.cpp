@@ -46,12 +46,14 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	if ((first)||(free)) {
 		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultSelected());
 		label->setMultiLine(true);
+		label->setDrawBackground(false);
 		listBox->add(label);
 	} else if (screenType != ST_USER) {
 		String msg = "Current credits: " + feed->getCredits();
 		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		label->setMultiLine(true);
+		label->setDrawBackground(false);
 		listBox->add(label);
 	}
 
@@ -124,6 +126,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
+	cardLabel->setDrawBackground(false);
 	cardLabel->setMultiLine(true);
 
 	if (screenType == ST_AUCTION)

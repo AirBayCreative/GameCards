@@ -23,6 +23,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		case PROFILE:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
+			label->setDrawBackground(false);
 			label->setMultiLine(true);
 			listBox->add(label);
 			/*Screen Header*/
@@ -37,6 +38,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
 			label->setMultiLine(true);
+			label->setDrawBackground(false);
 			listBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
@@ -461,7 +463,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			max = listBox->getChildren().size();
 			if (ind == max-1) {
 				listBox->setSelectedIndex(0);
-			} else if (ind == 0) {
+			} else if ((ind == 0)&&(screenType != CARD)) {
 				if ((screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 					listBox->setSelectedIndex(1);
 				} else if ((screenType == RANKING)||(screenType == FRIEND)) {
@@ -469,7 +471,6 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				} else {
 					listBox->setSelectedIndex(3);
 				}
-
 			} else {
 				listBox->selectNextItem();
 				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
@@ -552,6 +553,9 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		} else if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Unable to connect, try again later...");
+		} else {
+			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label->setCaption("");
 		}
 	}
 }
@@ -643,6 +647,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		date = "";
 	} else if(!strcmp(name, "detail")) {
 		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, desc, 0, Util::getDefaultFont());
+		label->setDrawBackground(false);
 		listBox->add(label);
 
 		Layout *feedlayout = new Layout(0, 0, scrWidth, DEFAULT_LABEL_HEIGHT, listBox, 3, 1);
@@ -658,6 +663,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feedlayout->add(label);
 
 		CheckBox *test = new CheckBox(scrWidth - 40, 0, 36, 46, feedlayout);
+		test->setDrawBackground(false);
 		if (answered) {
 			test->flip();
 		}
@@ -689,14 +695,6 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setCaption(error_msg.c_str());
 		}
 	} else if(!strcmp(name, "notifications")) {
-		int seconds = maLocalTime();
-		int secondsLength = Util::intlen(seconds);
-		char *secString = new char[secondsLength+1];
-		memset(secString,'\0',secondsLength+1);
-		sprintf(secString, "%d", seconds);
-		feed->setNoteSeconds(secString);
-		feed->setNoteLoaded(false);
-		delete secString;
 		if (count == 0) {
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No notifications yet.", 0, Util::getDefaultFont());
 			label->setPaddingLeft(20);
@@ -737,6 +735,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		count++;
 		label->setCaption("");
 		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, usr, 0, Util::getDefaultFont());
+		label->setDrawBackground(false);
 		listBox->add(label);
 
 		label = Util::createEditLabel("");

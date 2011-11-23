@@ -64,13 +64,16 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setAutoSizeY();
+			label->setDrawBackground(false);
 			label->setAutoSizeX();
 			label->setMultiLine();
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Note", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 			break;
 		case ST_SMS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "SMS", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 		break;
 	}

@@ -297,7 +297,6 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-	//listBox->setSkin(Util::getSkinBack());
 	listBox->setDrawBackground(false);
 
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
@@ -322,17 +321,14 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		mKineticBox->setPaddingLeft(PADDING);
 		mKineticBox->setDrawBackground(false);
-		/*mKineticBox->setSkin(Util::getSkinBack());*/
 		listBox->add(mKineticBox);
 	}
 	else {
 		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-		/*mBox->setSkin(Util::getSkinBack());*/
 		mBox->setDrawBackground(false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
 	}
-	/*listBox->setPaddingLeft(PADDING);*/
 
 	imgSize = -1;
 	mainLayout->add(softKeys);
@@ -342,6 +338,9 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 
 Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+	mainLayout->setSkin(Util::getSkinBack());
+	mainLayout->setDrawBackground(true);
+
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, "", "");
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	MAExtent imgSize = maGetImageSize(RES_IMAGE);
@@ -359,13 +358,14 @@ Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+		mKineticBox->setDrawBackground(false);
 		listBox->add(mKineticBox);
 	}
 	else {
 		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		listBox->setDrawBackground(false);
 		listBox->add(mBox);
 	}
-	/*setPadding(listBox);*/
 
 	imgSize = -1;
 	mainLayout->add(softKeys);
@@ -375,17 +375,20 @@ Layout* Util::createImageLayout(const char *left, bool useKinetic) {
 
 Layout* Util::createImageLayout(const char *left, const char *right, const char *centre, bool useKinetic) {
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
+	mainLayout->setSkin(Util::getSkinBack());
+	mainLayout->setDrawBackground(true);
+
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()),
 				mainLayout, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, true);
-		mKineticBox->setSkin(Util::getSkinBack());
+		mKineticBox->setDrawBackground(false);
 		mKineticBox->setPaddingLeft(PADDING);
 	}
 	else {
 		ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
-		listBox->setSkin(Util::getSkinBack());
+		listBox->setDrawBackground(false);
 		listBox->setPaddingLeft(PADDING);
 	}
 
