@@ -136,12 +136,17 @@ void EditDeckScreen::deleteDeck() {
 }
 
 void EditDeckScreen::removeCard() {
+	int cardIndex = listBox->getSelectedIndex() - 1; //-1 for the "delete deck" option
+	if (cards.size() < 10) {
+		cardIndex -= 1; //if there are less than 10 cards, there is also the "add card" option
+	}
+
 	int urlLength = 65 + URLSIZE + strlen("deck_id") + deckId.length() + strlen("card_id") +
-		cards[listBox->getSelectedIndex() - 1]->getId().length();
+		cards[cardIndex]->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL,
-			deckId.c_str(), cards[listBox->getSelectedIndex() - 1]->getId().c_str());
+			deckId.c_str(), cards[cardIndex]->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -161,10 +166,9 @@ void EditDeckScreen::removeCard() {
 	}
 	delete [] url;
 
-	int cardIndex = listBox->getSelectedIndex();
-	delete cards[cardIndex-1];
-	cards[cardIndex-1] = NULL;
-	cards.remove(cardIndex-1);
+	delete cards[cardIndex];
+	cards[cardIndex] = NULL;
+	cards.remove(cardIndex);
 
 	drawList();
 }

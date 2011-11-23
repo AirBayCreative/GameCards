@@ -26,12 +26,14 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	subLayout->setDrawBackground(false);
 	/*subLayout->setSkin(Util::getSkinBack());*/
 
-	Image *arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
+	leftArrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
+	leftArrow->setDrawBackground(false);
+
 	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2) - 10, imageHeight, subLayout, false, false, NULL);
 	mainImage->setDrawBackground(false);
 
-	arrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
-	arrow->setDrawBackground(false);
+	rightArrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);
+	rightArrow->setDrawBackground(false);
 
 	ListBox *iconAndDotList = new ListBox(0, 0, width, ICON_HEIGHT + DOT_HEIGHT, listBox,
 			ListBox::LBO_VERTICAL);
@@ -58,7 +60,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		tempImage = new Image(0, 0, MIN_MENU_ICON_WIDTH + PADDING + ((iconList->getWidth() % (PADDING + MIN_MENU_ICON_WIDTH)) / iconsPerList),
 				ICON_HEIGHT, tempList, false, false, items[i].icon);
 		tempImage->setSkin(Util::getIconSelect());
-		tempImage->setDrawBackground(false);
+		tempImage->setDrawBackground(true);
 	}
 	dotList = new ListBox(0, 0, width, DOT_HEIGHT, iconAndDotList,
 			ListBox::LBO_HORIZONTAL);
@@ -262,7 +264,14 @@ void GCMenu::pointerReleaseEvent(MAPoint2d point) {
 void GCMenu::locateItem(MAPoint2d point) {
 	Point p;
 	p.set(point.x, point.y);
-
+	if (leftArrow->contains(p)) {
+		keyPressEvent(MAK_LEFT);
+		return;
+	}
+	else if (rightArrow->contains(p)) {
+		keyPressEvent(MAK_RIGHT);
+		return;
+	}
 	for (int i = 0; i < iconLists[selectedList]->getChildren().size(); i++) {
 		if(iconLists[selectedList]->getChildren()[i]->contains(p))
 		{
