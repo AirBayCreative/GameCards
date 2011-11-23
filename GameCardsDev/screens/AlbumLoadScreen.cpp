@@ -113,11 +113,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
-			lprintfln("2");
 			listBox->setHeight(listBox->getHeight() - 20);
 
 			if (a != NULL) {
-				lprintfln("2.1");
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
 				drawList();
@@ -126,7 +124,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				return;
 			}
 			else {
-				lprintfln("2.2");
 				notice->setCaption("Checking games...");
 				//drawList();
 				int urlLength = 60 + URLSIZE;
@@ -135,7 +132,6 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				sprintf(url, "%s?getusergames=1", URL);
 				res = mHttp.create(url, HTTP_GET);
 			}
-			lprintfln("2.3");
 			break;
 		case ST_LOBBY:
 			listBox->setHeight(listBox->getHeight() - 20);
