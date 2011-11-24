@@ -43,6 +43,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	mainLayout = Util::createMainLayout("", "Back" , "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox->setWrapping(true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Getting card list...");
 
