@@ -8,7 +8,6 @@
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
-#include "../UI/KineticListBox.h"
 #include "../utils/Card.h"
 #include "../UI/Widgets/MobImage.h"
 
@@ -50,11 +49,10 @@ private:
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId;
 	int size, i, moved, screenType, xStart;
-	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction;
+	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction, shown;
 
 	Layout *mainLayout;
-	ListBox *midListBox;
-	KineticListBox *listBox;
+	ListBox *midListBox, *listBox;
 	Label *notice, *label;
 	Image *leftArrow, *rightArrow;
 

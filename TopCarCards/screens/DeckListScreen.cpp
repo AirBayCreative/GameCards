@@ -221,6 +221,8 @@ void DeckListScreen::locateItem(MAPoint2d point)
 }
 
 void DeckListScreen::keyPressEvent(int keyCode) {
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -254,12 +256,20 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 				}
 			}
 			break;
-		case MAK_UP:
-			kinListBox->selectPreviousItem();
-			break;
 		case MAK_DOWN:
+		if (ind == max-1) {
+			kinListBox->setSelectedIndex(0);
+		} else {
 			kinListBox->selectNextItem();
-			break;
+		}
+		break;
+	case MAK_UP:
+		if (ind == 0) {
+			kinListBox->setSelectedIndex(max-1);
+		} else {
+			kinListBox->selectPreviousItem();
+		}
+		break;
 	}
 }
 

@@ -77,14 +77,15 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 	hasCards = "";
 	temp = "";
 	empt = true;
+	shown = false;
 	temp1 = "";
 	deckId = "";
 	updated = "0";
 
 	next = NULL;
-	mainLayout = Util::createMainLayout("", "Back", true);
+	mainLayout = Util::createMainLayout("", "Back");
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	album = new Albums();
@@ -112,9 +113,11 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
+			lprintfln("2");
 			listBox->setHeight(listBox->getHeight() - 20);
 
 			if (a != NULL) {
+				lprintfln("2.1");
 				notice->setCaption("Please choose a game to continue.");
 				album = a;
 				drawList();
@@ -123,6 +126,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				return;
 			}
 			else {
+				lprintfln("2.2");
 				notice->setCaption("Checking games...");
 				//drawList();
 				int urlLength = 60 + URLSIZE;
@@ -131,6 +135,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 				sprintf(url, "%s?getusergames=1", URL);
 				res = mHttp.create(url, HTTP_GET);
 			}
+			lprintfln("2.3");
 			break;
 		case ST_LOBBY:
 			listBox->setHeight(listBox->getHeight() - 20);
@@ -301,7 +306,6 @@ void AlbumLoadScreen::drawList() {
 	empt = false;
 	listBox->clear();
 	int ind = listBox->getSelectedIndex();
-
 	int itemsPerList = listBox->getHeight() / ITEM_HEIGHT;
 	Vector<String> display = album->getNames();
 	Layout *listLayout;
@@ -334,8 +338,6 @@ void AlbumLoadScreen::drawList() {
 		rightArrow->setDrawBackground(false);
 	}
 
-
-
 	int currentList = -1;
 	ListBox *tempList = NULL;
 	int i = 0;
@@ -365,7 +367,6 @@ void AlbumLoadScreen::drawList() {
 	}
 	albumname="";
 	display.clear();
-
 	if (album->size() >= 1) {
 		int listIndex = ind / itemsPerList;
 		int listItem = ind % itemsPerList;
@@ -388,7 +389,10 @@ void AlbumLoadScreen::drawList() {
 	char *cap = new char[capLength+1];
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
-	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+
+	if (shown) {
+		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	}
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -430,6 +434,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void AlbumLoadScreen::show() {
+	shown = true;
 	if (listBox->getChildren().size() > 0) {
 		if (empt){
 			listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
@@ -441,13 +446,14 @@ void AlbumLoadScreen::show() {
 	Screen::show();
 
 	int capLength = 6 + Util::intlen((selectedList + 1)) + Util::intlen(cardLists.size());
-		char *cap = new char[capLength+1];
-		memset(cap,'\0',capLength+1);
-		sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
-		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	char *cap = new char[capLength+1];
+	memset(cap,'\0',capLength+1);
+	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
+	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 }
 
 void AlbumLoadScreen::hide() {
+	shown = false;
 	if (listBox->getChildren().size() > 0) {
 		if (empt){
 			listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);

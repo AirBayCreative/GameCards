@@ -199,6 +199,7 @@ void GamePlayScreen::drawResultsScreen() {
 	Label *lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
 	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
+	lbl->setDrawBackground(false);
 	lbl->setMultiLine(true);
 
 	lbl->setCaption("Match Results:");
@@ -207,6 +208,7 @@ void GamePlayScreen::drawResultsScreen() {
 	listBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
+	lbl->setDrawBackground(false);
 	lbl->setFont(Util::getDefaultFont());
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
@@ -317,6 +319,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
 	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
+	userLabel->setDrawBackground(false);
 	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
 
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
@@ -329,6 +332,7 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
 	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
+	userLabel->setDrawBackground(false);
 	if (!active) {
 		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
 	}

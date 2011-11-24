@@ -279,9 +279,11 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Opening bid", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -292,6 +294,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Buy now price", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -303,6 +306,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -361,7 +365,7 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	//label->setSkin(Util::getSkinBack());
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -382,6 +386,7 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 
@@ -423,7 +428,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
-	//label->setSkin(Util::getSkinBack());
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -439,6 +444,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setDrawBackground(false);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 
@@ -458,6 +464,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, errorString, 0, Util::getDefaultSelected());
 	label->setMultiLine();
 	label->setAutoSizeY();
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	this->setMain(mainLayout);

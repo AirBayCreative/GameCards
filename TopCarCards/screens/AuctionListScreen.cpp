@@ -190,6 +190,7 @@ void AuctionListScreen::drawList() {
 		Util::retrieveThumb(tempImage, tmp, mImageCache);
 
 		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		label->setDrawBackground(false);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
 		label->setMultiLine();

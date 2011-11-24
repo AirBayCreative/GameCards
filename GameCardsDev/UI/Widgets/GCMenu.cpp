@@ -165,7 +165,7 @@ void GCMenu::select(int i) {
 		iconLists[selectedList]->setSelectedIndex(i % iconsPerList);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
 
-		mainImage->setTransition(TT_SLIDE_IN, 0, -1);
+		mainImage->setTransition(TT_WIPE, 0, -1);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }
@@ -190,7 +190,7 @@ void GCMenu::swipeList(int dir) {
 		iconLists[selectedList]->setSelectedIndex(index);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
 
-		mainImage->setTransition(TT_SLIDE_IN, 0, -1);
+		mainImage->setTransition(TT_WIPE, 0, -1);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
 }

@@ -13,7 +13,6 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 	result = "";
 	mainLayout = Util::createMainLayout("", "", "", true);
 
-	mainLayout->setDrawBackground(false);
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);

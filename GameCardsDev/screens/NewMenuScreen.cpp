@@ -67,6 +67,7 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 	label->setMultiLine(true);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	menu = new GCMenu(menuItems, itemCount, 0, 0, scrWidth, listBox->getHeight() - imgHeight, false, false, listBox);

@@ -67,6 +67,7 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 	label->setMultiLine(true);
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	menu = new GCMenu(menuItems, itemCount, 0, 0, scrWidth, listBox->getHeight() - imgHeight, false, false, listBox);
@@ -337,6 +338,7 @@ void NewMenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void NewMenuScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "notedate")) {
+		lprintfln("parentTag.c_str(%s)", parentTag.c_str());
 		parentTag = "";
 		notedate = data;
 		tm t;
@@ -347,10 +349,21 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 		t.tm_min = atoi(notedate.substr(14,2).c_str());
 		t.tm_sec = atoi(notedate.substr(17,2).c_str());
 		int ndate = mktime(&t);
+		lprintfln("ndate %d", ndate);
+		lprintfln("getNoteSeconds %d", atoi(feed->getNoteSeconds().c_str()));
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
-			//noteLabel->setCaption("*Notifications");
-			//noteLabel->setFont(Util::getDefaultSelected());
+			int seconds = maLocalTime();
+			int secondsLength = Util::intlen(seconds);
+			char *secString = new char[secondsLength+1];
+			memset(secString,'\0',secondsLength+1);
+			sprintf(secString, "%d", seconds);
+			feed->setNoteSeconds(secString);
+			delete secString;
+
+			lprintfln("getNoteSeconds(%s)", feed->getNoteSeconds().c_str());
+
+			Util::saveData("fd.sav",feed->getAll().c_str());
 
 			if(first==1){
 				first = 0;

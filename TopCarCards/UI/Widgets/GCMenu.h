@@ -43,6 +43,7 @@ private:
 	item *items;
 	TransitionImage *mainImage;
 	Layout *subLayout;
+	Image *leftArrow, *rightArrow;
 
 	ListBox *iconList;
 	Vector<ListBox*> iconLists;

@@ -143,6 +143,8 @@ void NewDeckScreen::locateItem(MAPoint2d point)
 }
 
 void NewDeckScreen::keyPressEvent(int keyCode) {
+	int ind = listBox->getSelectedIndex();
+	int max = listBox->getChildren().size();
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -214,9 +216,19 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 					break;
 			}
 			break;
-		case MAK_UP:
-			break;
 		case MAK_DOWN:
+			if (ind == max-1) {
+				listBox->setSelectedIndex(0);
+			} else {
+				listBox->selectNextItem();
+			}
+			break;
+		case MAK_UP:
+			if (ind == 0) {
+				listBox->setSelectedIndex(max-1);
+			} else {
+				listBox->selectPreviousItem();
+			}
 			break;
 	}
 }
@@ -243,7 +255,7 @@ void NewDeckScreen::selectionChanged(Widget *widget, bool selected) {
 
 void NewDeckScreen::drawSelectCategoryScreen() {
 	clearListBox();
-	Util::updateSoftKeyLayout("Select", "Back", "", mainLayout);
+	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	for(int i = 0; i < albums.size(); i++) {
 		label = Util::createSubLabel(albums[i]->getDescription());
@@ -266,6 +278,7 @@ void NewDeckScreen::drawEnterNameScreen() {
 	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Deck Name", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
