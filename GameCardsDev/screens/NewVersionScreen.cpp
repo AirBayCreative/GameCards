@@ -24,6 +24,7 @@ NewVersionScreen::~NewVersionScreen() {
 	listBox->clear();
 	delete layout;
 }
+
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);

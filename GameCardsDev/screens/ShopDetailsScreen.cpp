@@ -135,6 +135,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Place bid", 0, Util::getDefaultFont());
 			label->setMultiLine();
 			label->setAutoSizeY();
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			label = Util::createEditLabel("");
@@ -620,6 +621,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	Layout *feedlayout;
@@ -684,6 +686,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 
@@ -713,6 +716,7 @@ void ShopDetailsScreen::drawBuyNow()
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	//label->setSkin(Util::getSkinBack());
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -760,6 +764,7 @@ void ShopDetailsScreen::drawBuyNow()
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 
