@@ -12,8 +12,8 @@ NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : p
 	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
-	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
+	lbl->setDrawBackground(false);
 	listBox->add(lbl);
 
 	this->setMain(layout);
