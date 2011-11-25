@@ -136,6 +136,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			label->setDrawBackground(false);
 			label->setMultiLine();
 			label->setAutoSizeY();
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			label = Util::createEditLabel("");
@@ -622,6 +623,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	label->setDrawBackground(false);
 	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	Layout *feedlayout;
@@ -687,6 +689,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 
@@ -717,6 +720,7 @@ void ShopDetailsScreen::drawBuyNow()
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	//label->setSkin(Util::getSkinBack());
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -765,6 +769,7 @@ void ShopDetailsScreen::drawBuyNow()
 	cardLabel->setDrawBackground(false);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 

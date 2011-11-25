@@ -338,7 +338,6 @@ void NewMenuScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 
 void NewMenuScreen::mtxTagData(const char* data, int len) {
 	if(!strcmp(parentTag.c_str(), "notedate")) {
-		lprintfln("parentTag.c_str(%s)", parentTag.c_str());
 		parentTag = "";
 		notedate = data;
 		tm t;
@@ -349,8 +348,6 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 		t.tm_min = atoi(notedate.substr(14,2).c_str());
 		t.tm_sec = atoi(notedate.substr(17,2).c_str());
 		int ndate = mktime(&t);
-		lprintfln("ndate %d", ndate);
-		lprintfln("getNoteSeconds %d", atoi(feed->getNoteSeconds().c_str()));
 		if(ndate > atoi(feed->getNoteSeconds().c_str())){
 			feed->setNoteLoaded(true);
 			int seconds = maLocalTime();
@@ -360,8 +357,6 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 			sprintf(secString, "%d", seconds);
 			feed->setNoteSeconds(secString);
 			delete secString;
-
-			lprintfln("getNoteSeconds(%s)", feed->getNoteSeconds().c_str());
 
 			Util::saveData("fd.sav",feed->getAll().c_str());
 
