@@ -351,7 +351,7 @@ void TransitionImage::drawWidget()
 	int oy = (paddedBounds.height - imageHeight)>>1;
 
 	MAExtent screenSize = maGetScrSize();
-	//int scrWidth = EXTENT_X(screenSize);
+	int scrWidth = EXTENT_X(screenSize);
 	//int scrHeight = EXTENT_Y(screenSize);
 
 	switch (running ? transType : TT_NONE)
@@ -363,10 +363,10 @@ void TransitionImage::drawWidget()
 			p.y = (ty >= 0 ? ty : 0);
 			r.left = tx >= 0 ? 0 : - tx;
 			r.top = ty >= 0 ? 0 : - ty;
-			//r.width = scrWidth - abs(tx);
 			r.width = imageWidth;// - abs(tx);
-			//r.height = scrHeight - abs(ty);
 			r.height = imageHeight;// - abs(ty);
+
+			//lprintfln("p.x %d total %d", p.x, (p.x + r.width));
 
 			Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
 
@@ -376,12 +376,12 @@ void TransitionImage::drawWidget()
 			p.y = (ty >= 0 ? ty : 0);
 			r.left = tx >= 0 ? 0 : - tx;
 			r.top = ty >= 0 ? 0 : - ty;
-			//r.width = scrWidth - abs(tx);
 			r.width = imageWidth;// - abs(tx);
-			//r.height = scrHeight - abs(ty);
 			r.height = imageHeight;// - abs(ty);
 
-			Gfx_drawImageRegion(toImage,&r, &p, TRANS_NONE);
+			if ((p.x + r.width) < scrWidth) {
+				Gfx_drawImageRegion(toImage,&r, &p, TRANS_NONE);
+			}
 			break;
 
 		case TT_SLIDE_IN:
