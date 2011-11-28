@@ -368,7 +368,10 @@ void TransitionImage::drawWidget()
 
 			//lprintfln("p.x %d total %d", p.x, (p.x + r.width));
 
-			Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
+			if ((p.x - r.width) < 0) {
+				Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
+			}
+
 
 			tx -= directionX*imageWidth;
 			ty -= directionY*imageHeight;
