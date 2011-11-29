@@ -86,10 +86,10 @@ void MobImage::selectStat(int x, int y, int width, int height, int red, int gree
 
 void MobImage::refreshWidget() {
 	if (resource) {
-		Gfx_drawImage(resource, 5 + (paddedBounds.width >> 1) - (imageWidth >> 1),
+		Gfx_drawImage(resource, PADDING + (paddedBounds.width >> 1) - (imageWidth >> 1),
 			((paddedBounds.height >> 1) - (imageHeight >> 1))+getPosition().y);
 		if (hasNote) {
-			Gfx_drawImage(RES_CHANGE_STAR, 5 + (paddedBounds.width >> 1) - (imageWidth >> 1),
+			Gfx_drawImage(RES_CHANGE_STAR, PADDING + (paddedBounds.width >> 1) - (imageWidth >> 1),
 				((paddedBounds.height >> 1) - (imageHeight >> 1))+getPosition().y);
 		}
 	}
