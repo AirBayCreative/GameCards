@@ -366,12 +366,17 @@ void TransitionImage::drawWidget()
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
 
-			//lprintfln("p.x %d total %d", p.x, (p.x + r.width));
+			lprintfln("directionX %d", directionX);
 
-			if ((p.x - r.width) < 0) {
-				Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
+			if (directionX == -1) {
+				if (p.x > 0) {
+					Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
+				}
+			} else {
+				if ((p.x + r.width) < scrWidth) {
+					Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
+				}
 			}
-
 
 			tx -= directionX*imageWidth;
 			ty -= directionY*imageHeight;
@@ -382,8 +387,16 @@ void TransitionImage::drawWidget()
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
 
-			if ((p.x + r.width) < scrWidth) {
-				Gfx_drawImageRegion(toImage,&r, &p, TRANS_NONE);
+			lprintfln("p.x %d total %d", p.x, (p.x - r.width));
+
+			if (directionX == -1) {
+				if ((p.x + r.width) < scrWidth) {
+					Gfx_drawImageRegion(toImage,&r, &p, TRANS_NONE);
+				}
+			} else {
+				if (p.x > 0) {
+					Gfx_drawImageRegion(toImage,&r, &p, TRANS_NONE);
+				}
 			}
 			break;
 
@@ -506,8 +519,8 @@ void TransitionImage::drawWidget()
 	}
 
 	// Draw the overlay
-	if (overlay)
-		Gfx_drawImage(overlay, overlayPos.x, overlayPos.y);
+	/*if (overlay)
+		Gfx_drawImage(overlay, overlayPos.x, overlayPos.y);*/
 }
 
 /** Advances the transition **/

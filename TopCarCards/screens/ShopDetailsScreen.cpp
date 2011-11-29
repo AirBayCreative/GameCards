@@ -133,8 +133,10 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	{
 		if (!expired) {
 			label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Place bid", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			label->setMultiLine();
 			label->setAutoSizeY();
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			label = Util::createEditLabel("");
@@ -618,8 +620,10 @@ void ShopDetailsScreen::drawPostBid(String message)
 	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setDrawBackground(false);
 	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	Layout *feedlayout;
@@ -681,9 +685,11 @@ void ShopDetailsScreen::drawPostBid(String message)
 	}
 
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
+	cardLabel->setDrawBackground(false);
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 
@@ -712,7 +718,9 @@ void ShopDetailsScreen::drawBuyNow()
 	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, message.c_str(), 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setDrawBackground(false);
 	//label->setSkin(Util::getSkinBack());
+	label->setDrawBackground(false);
 	label->setMultiLine(true);
 	listBox->add(label);
 
@@ -758,8 +766,10 @@ void ShopDetailsScreen::drawBuyNow()
 
 	cardLabel = new Label(0,0, scrWidth-86, /*74*/scrHeight/2, feedlayout, fullDesc/*nameDesc*/, 0, Util::getDefaultFont());
 	cardLabel->setVerticalAlignment(Label::VA_CENTER);
+	cardLabel->setDrawBackground(false);
 	cardLabel->setAutoSizeY();
 	cardLabel->setMultiLine();
+	cardLabel->setDrawBackground(false);
 
 	this->setMain(mainLayout);
 

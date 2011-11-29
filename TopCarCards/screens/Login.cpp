@@ -102,6 +102,7 @@ void Login::drawRegisterScreen() {
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -111,6 +112,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Password", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -120,6 +122,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
@@ -129,6 +132,7 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Referrer", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	listBox->add(label);
 
 	label = Util::createEditLabel("");
