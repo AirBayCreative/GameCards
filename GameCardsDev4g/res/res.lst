@@ -48,19 +48,19 @@
 
 .res RES_TEMPTHUMB
 .ubin
-.image "emptythumb.png"
+.include "emptythumb.png"
 
 .res RES_TEMP
 .ubin
-.image "empty.png"
+.include "empty.png"
 
 .res RES_LOADINGTHUMB
 .ubin
-.image "loadingthumb.png"
+.include "loadingthumb.png"
 
 .res RES_MISSINGTHUMB
 .ubin
-.image "missingcardthumb.png"
+.include  "missingcardthumb.png"
 
 .res RES_CHANGE_STAR
 .ubin
@@ -68,7 +68,7 @@
 
 .res RES_EMPTY_FLIP
 .ubin
-.image "empty_flip.png"
+.include  "empty_flip.png"
 
 .res RES_BOX_SELECTED
 .ubin
@@ -80,154 +80,298 @@
 
 .res RES_LOADING1
 .ubin
-.image "loading1.png"
+.include "loading1.png"
 
 .res RES_LOADING2
 .ubin
-.image "loading2.png"
+.include "loading2.png"
 
 .res RES_LOADING3
 .ubin
-.image "loading3.png"
+.include "loading3.png"
 
 .res RES_LOADING4
 .ubin
-.image "loading4.png"
+.include "loading4.png"
 
 .res RES_LOADING5
 .ubin
-.image "loading5.png"
+.include "loading5.png"
 
 .res RES_LOADING6
 .ubin
-.image "loading6.png"
+.include "loading6.png"
 
 .res RES_LOADING7
 .ubin
-.image "loading7.png"
+.include "loading7.png"
 
 .res RES_LOADING8
 .ubin
-.image "loading8.png"
+.include "loading8.png"
 
 .res RES_LOADING9
 .ubin
-.image "loading9.png"
+.include "loading9.png"
 
 .res RES_LOADING10
 .ubin
-.image "loading10.png"
+.include "loading10.png"
 
 .res RES_LOADING11
 .ubin
-.image "loading11.png"
+.include "loading11.png"
 
 .res RES_LOADING12
 .ubin
-.image "loading12.png"
+.include "loading12.png"
 
 .res RES_LOADING13
 .ubin
-.image "loading13.png"
+.include "loading13.png"
 
 .res RES_LOADING14
 .ubin
-.image "loading14.png"
+.include "loading14.png"
 
 .res RES_LOADING15
 .ubin
-.image "loading15.png"
+.include "loading15.png"
 
 .res RES_LOADING16
 .ubin
-.image "loading16.png"
+.include "loading16.png"
 
 .res RES_LOADING17
 .ubin
-.image "loading17.png"
+.include "loading17.png"
 
 .res RES_LOADING18
 .ubin
-.image "loading18.png"
+.include "loading18.png"
 
 .res RES_LOADING_FLIP1
 .ubin
-.image "loading_flip1.png"
+.include "loading_flip1.png"
 
 .res RES_LOADING_FLIP2
 .ubin
-.image "loading_flip2.png"
+.include "loading_flip2.png"
 
 .res RES_LOADING_FLIP3
 .ubin
-.image "loading_flip3.png"
+.include "loading_flip3.png"
 
 .res RES_LOADING_FLIP4
 .ubin
-.image "loading_flip4.png"
+.include "loading_flip4.png"
 
 .res RES_LOADING_FLIP5
 .ubin
-.image "loading_flip5.png"
+.include "loading_flip5.png"
 
 .res RES_LOADING_FLIP6
 .ubin
-.image "loading_flip6.png"
+.include "loading_flip6.png"
 
 .res RES_LOADING_FLIP7
 .ubin
-.image "loading_flip7.png"
+.include "loading_flip7.png"
 
 .res RES_LOADING_FLIP8
 .ubin
-.image "loading_flip8.png"
+.include "loading_flip8.png"
 
 .res RES_LOADING_FLIP9
 .ubin
-.image "loading_flip9.png"
+.include "loading_flip9.png"
 
 .res RES_LOADING_FLIP10
 .ubin
-.image "loading_flip10.png"
+.include "loading_flip10.png"
 
 .res RES_LOADING_FLIP11
 .ubin
-.image "loading_flip11.png"
+.include "loading_flip11.png"
 
 .res RES_LOADING_FLIP12
 .ubin
-.image "loading_flip12.png"
+.include "loading_flip12.png"
 
 .res RES_LOADING_FLIP13
 .ubin
-.image "loading_flip13.png"
+.include "loading_flip13.png"
 
 .res RES_LOADING_FLIP14
 .ubin
-.image "loading_flip14.png"
+.include "loading_flip14.png"
 
 .res RES_LOADING_FLIP15
 .ubin
-.image "loading_flip15.png"
+.include "loading_flip15.png"
 
 .res RES_LOADING_FLIP16
 .ubin
-.image "loading_flip16.png"
+.include "loading_flip16.png"
 
 .res RES_LOADING_FLIP17
 .ubin
-.image "loading_flip17.png"
+.include "loading_flip17.png"
 
 .res RES_LOADING_FLIP18
 .ubin
-.image "loading_flip18.png"
+.include "loading_flip18.png"
+
+.res RES_LEFT_ARROW
+.ubin
+.image "leftarrow.png"
+
+.res RES_RIGHT_ARROW
+.ubin
+.image "rightarrow.png"
+
+.res RES_ALBUM
+.ubin
+.image "Album.png"
+
+.res RES_ALBUM_THUMB
+.ubin
+.image "Album_thumb.png"
+
+.res RES_AUCTIONS
+.ubin
+.image "Auctions.png"
+
+.res RES_AUCTIONS_THUMB
+.ubin
+.image "Auctions_thumb.png"
+
+.res RES_CREDITS
+.ubin
+.image "Credits.png"
+
+.res RES_CREDITS_THUMB
+.ubin
+.image "Credits_thumb.png"
+
+.res RES_DECKS
+.ubin
+.image "Decks.png"
+
+.res RES_DECKS_THUMB
+.ubin
+.image "Decks_thumb.png"
+
+.res RES_FRIENDRANKS
+.ubin
+.image "FriendRanks.png"
+
+.res RES_FRIENDRANKS_THUMB
+.ubin
+.image "FriendRanks_thumb.png"
+
+.res RES_Friends
+.ubin
+.image "Friends.png"
+
+.res RES_FRIENDS_THUMB
+.ubin
+.image "Friends_thumb.png"
+
+.res RES_INVITE
+.ubin
+.image "Invite.png"
+
+.res RES_INVITE_THUMB
+.ubin
+.image "Invite_thumb.png"
+
+.res RES_LOGOUT
+.ubin
+.image "Logout.png"
+
+.res RES_LOGOUT_THUMB
+.ubin
+.image "Logout_thumb.png"
+
+.res RES_NOTIFICATIONS
+.ubin
+.image "Notifications.png"
+
+.res RES_NOTIFICATIONS_THUMB
+.ubin
+.image "Notifications_thumb.png"
+
+.res RES_PLAY
+.ubin
+.image "Play.png"
+
+.res RES_PLAY_THUMB
+.ubin
+.image "Play_thumb.png"
+
+.res RES_PROFILE
+.ubin
+.image "Profile.png"
+
+.res RES_PROFILE_THUMB
+.ubin
+.image "Profile_thumb.png"
+
+.res RES_RANKINGS
+.ubin
+.image "Rankings.png"
+
+.res RES_RANKINGS_THUMB
+.ubin
+.image "Rankings_thumb.png"
+
+.res RES_REDEEM
+.ubin
+.image "Redeem.png"
+
+.res RES_REDEEM_THUMB
+.ubin
+.image "Redeem_thumb.png"
+
+.res RES_SHOP
+.ubin
+.image "Shop.png"
+
+.res RES_SHOP_THUMB
+.ubin
+.image "Shop_thumb.png"
+
+.res RES_DESELECTED_LIST_DOT
+.ubin
+.image "inactive_dot.png"
+
+.res RES_SELECTED_LIST_DOT
+.ubin
+.image "active_dot.png"
+
+.res RES_ICONS_BACK
+.ubin
+.image "icon_bar.png"
+
+.res RES_SELECT_ICON
+.ubin
+.image "select.png"
+
+.res RES_UNSELECT_ICON 
+.ubin
+.image "unselect.png"
+
+.res RES_HEAD
+.ubin
+.image "head.png"
 
 /* Custom variables per app */
 
-.res RES_FONT_BLUE
+.res RES_FONT_RED
 .bin
-.include "arialblue.mof" 
+.include "arialredbig.mof" 
 
-.res RES_FONT_BLACK
+.res RES_FONT_WHITE
 .bin
-.include "arialblack.mof"  
+.include "arialwhitebig.mof"  

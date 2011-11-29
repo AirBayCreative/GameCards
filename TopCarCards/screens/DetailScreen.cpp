@@ -110,6 +110,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			pim->addListener(this);
 			pim->getContacts();
 			delete pim;
+			pim = NULL;
 
 			break;
 	}
@@ -134,6 +135,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.finish();
 		}
 		delete [] url;
+		url = NULL;
 	} else if (screenType == BALANCE) {
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
@@ -154,6 +156,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		}
 		delete [] url;
+		url = NULL;
 	} else if (screenType == RANKING) {
 			int urlLength = 100 + URLSIZE;
 			char *url = new char[urlLength+1];
@@ -174,6 +177,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 			}
 			delete [] url;
+			url = NULL;
 	} else if (screenType == FRIEND) {
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
@@ -194,6 +198,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		}
 		delete [] url;
+		url = NULL;
 	} else if (screenType == NOTIFICATIONS) {
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
@@ -215,6 +220,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 
 		}
 		delete [] url;
+		url = NULL;
 	} else if (screenType == FRIENDS) {
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
@@ -234,6 +240,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			mHttp.finish();
 		}
 		delete [] url;
+		url = NULL;
 	}
 
 	this->setMain(mainLayout);
@@ -256,6 +263,7 @@ void DetailScreen::contactReceived(Contact& contact) {
 
 	listBox->setSelectedIndex(0);
 	delete buffer;
+	buffer = NULL;
 
 	//contacts.add(contact);
 }
@@ -280,9 +288,11 @@ DetailScreen::~DetailScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
+		next = NULL;
 	}
 	encrypt = "";
 	error_msg = "";
@@ -506,6 +516,7 @@ void DetailScreen::saveProfileData() {
 
 			}
 			delete [] url;
+			url = NULL;
 			if(answers[i]->getAnswered()==0 && answers[i]->getEditBoxPointer()->getCaption().size()>0){
 				credits = credits + atoi(answers[i]->getCreditValue().c_str());
 				count++;
@@ -720,10 +731,10 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
-		label->setVerticalAlignment(Label::VA_CENTER);
+		//label->setVerticalAlignment(Label::VA_CENTER);
 		label->setSkin(Util::getSkinListNoArrows());
 		label->setMultiLine(true);
-		label->setPaddingBottom(5);
+		label->setPaddingBottom(PADDING);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
 		listBox->add(label);
@@ -753,6 +764,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (count == 0) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No users found.", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			usr="";
@@ -804,6 +816,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 					String lab = lbl;
 					label->setCaption(lab);
 					delete lbl;
+					lbl = NULL;
 				} else{
 					label->setCaption("Profile details updated.");
 				}

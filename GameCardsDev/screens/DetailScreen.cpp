@@ -731,10 +731,10 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
-		label->setVerticalAlignment(Label::VA_CENTER);
+		//label->setVerticalAlignment(Label::VA_CENTER);
 		label->setSkin(Util::getSkinListNoArrows());
 		label->setMultiLine(true);
-		label->setPaddingBottom(5);
+		label->setPaddingBottom(PADDING);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
 		listBox->add(label);

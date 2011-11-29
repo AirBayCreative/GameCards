@@ -61,6 +61,7 @@ void AlbumLoadScreen::refresh() {
 
 	if (url != NULL) {
 		delete url;
+		url = NULL;
 	}
 }
 
@@ -185,8 +186,10 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 		}
 		cardLists.clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if(next!=NULL){
 		delete next;
+		next = NULL;
 		feed->remHttp();
 	}
 	parentTag="";
@@ -659,6 +662,7 @@ void AlbumLoadScreen::loadCategory() {
 		album->setAll(filecards.c_str());
 		filecards = "";
 		delete file;
+		file = NULL;
 	}
 	drawList();
 	//then request up to date info, if there is a connection available
@@ -800,6 +804,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				sprintf(file, "a%s.sav", path[path.size()-1].c_str());
 				Util::saveData(file, al.c_str());
 				delete file;
+				file = NULL;
 			}
 			al = "";
 		}

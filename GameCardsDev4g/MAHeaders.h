@@ -54,11 +54,53 @@
 #define RES_LOADING_FLIP16 54
 #define RES_LOADING_FLIP17 55
 #define RES_LOADING_FLIP18 56
+#define RES_LEFT_ARROW 57
+#define RES_RIGHT_ARROW 58
+#define RES_ALBUM 59
+#define RES_ALBUM_THUMB 60
+#define RES_AUCTIONS 61
+#define RES_AUCTIONS_THUMB 62
+#define RES_CREDITS 63
+#define RES_CREDITS_THUMB 64
+#define RES_DECKS 65
+#define RES_DECKS_THUMB 66
+#define RES_FRIENDRANKS 67
+#define RES_FRIENDRANKS_THUMB 68
+#define RES_FRIENDS 69
+#define RES_FRIENDS_THUMB 70
+#define RES_INVITE 71
+#define RES_INVITE_THUMB 72
+#define RES_LOGOUT 73
+#define RES_LOGOUT_THUMB 74
+#define RES_NOTIFICATIONS 75
+#define RES_NOTIFICATIONS_THUMB 76
+#define RES_PLAY 77
+#define RES_PLAY_THUMB 78
+#define RES_PROFILE 79
+#define RES_PROFILE_THUMB 80
+#define RES_RANKINGS 81
+#define RES_RANKINGS_THUMB 82
+#define RES_REDEEM 83
+#define RES_REDEEM_THUMB 84
+#define RES_SHOP 85
+#define RES_SHOP_THUMB 86
+
+#define RES_DESELECTED_LIST_DOT 87
+#define RES_SELECTED_LIST_DOT 88
+
+#define RES_ICONS_BACK 89
+#define RES_SELECT_ICON 90
+#define RES_UNSELECT_ICON 91
+
+#define RES_HEAD 92
 
 /* Custom Variables per App */
 
-#define RES_FONT_BLUE 57
-#define RES_FONT_BLACK 58
+#define RES_FONT_RED 93
+#define RES_FONT_WHITE 94
+
+#define THUMB_HEIGHT 138
+#define ITEM_HEIGHT 96
 
 #define URL "http://dev.mytcg.net/_phone/"
 #define URLSIZE 28
@@ -74,10 +116,15 @@
 #define BUTTON_Y_TOP 47
 #define BUTTON_Y_BOTTOM 48
 
-#define BACKGROUND_X_LEFT 98
-#define BACKGROUND_X_RIGHT 880
-#define BACKGROUND_Y_TOP 98
-#define BACKGROUND_Y_BOTTOM 882
+#define BACKGROUND_X_LEFT 1
+#define BACKGROUND_X_RIGHT 464
+#define BACKGROUND_Y_TOP 1
+#define BACKGROUND_Y_BOTTOM 399
+
+#define HEAD_X_LEFT 1
+#define HEAD_X_RIGHT 211
+#define HEAD_Y_TOP 1
+#define HEAD_Y_BOTTOM 43
 
 #define LIST_X_LEFT 33
 #define LIST_X_RIGHT 255
@@ -108,6 +155,27 @@
 #define DEFAULT_DETAIL_HEADER_HEIGHT 72
 #define DEFAULT_DETAILS_ITEM_HEIGHT 160
 #define PADDING 10
+#define ICON_HEIGHT 138
+#define DOT_HEIGHT 16
+#define ARROW_WIDTH 29
+#define MIN_MENU_ICON_WIDTH 100
+
+//renumber the menu options if one is removed
+//numbers must always run sequential for index
+#define OP_ALBUMS 0
+#define OP_PLAY 1
+#define OP_DECKS 2
+#define OP_SHOP 3
+#define OP_AUCTIONS 4
+#define OP_NOTIFICATIONS 5
+#define OP_CREDITS 6
+#define OP_PROFILE 7
+#define OP_RANKINGS 8
+#define OP_FRIENDRANKS 9
+#define OP_FRIENDS 10
+#define OP_INVITEFRIENDS 11
+#define OP_REDEEM 12
+#define OP_LOGOUT 13
 
 #include <MAUtil/String.h>
 

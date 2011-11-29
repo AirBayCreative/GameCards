@@ -60,6 +60,7 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 
 	if (url != NULL) {
 		delete url;
+		url = NULL;
 	}
 }
 
@@ -67,9 +68,11 @@ NewDeckScreen::~NewDeckScreen() {
 	lprintfln("~NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	if (next != NULL) {
 		delete next;
+		next = NULL;
 	}
 
 	delete mainLayout;
+	mainLayout = NULL;
 
 	for (int i = 0; i < albums.size(); i++) {
 		delete albums[i];
@@ -210,6 +213,7 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 
 						if (url != NULL) {
 							delete url;
+							url = NULL;
 						}
 						base64DeckName = "";
 					}

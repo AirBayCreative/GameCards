@@ -404,6 +404,7 @@ void Util::updateSoftKeyLayout(const char *left, const char *right, const char *
 	mainLayout->getChildren().remove(mainLayout->getChildren().size() - 1);
 	if (currentSoftKeys != NULL) {
 		delete currentSoftKeys;
+		currentSoftKeys = NULL;
 	}
 	currentSoftKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
 	mainLayout->add(currentSoftKeys);

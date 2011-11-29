@@ -88,6 +88,7 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 
 	}
 	delete [] url;
+	url = NULL;
 
 	this->setMain(mainLayout);
 }
@@ -277,6 +278,7 @@ String AuctionListScreen::getTime(String enddate) {
 		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
 	}
 	delete cmp_p;
+	cmp_p = NULL;
 
 	if (timeleft == 0) {
 		return "Expired";
@@ -328,6 +330,7 @@ void AuctionListScreen::refresh()
 
 	}
 	delete [] url;
+	url = NULL;
 
 	show();
 }
@@ -376,6 +379,7 @@ void AuctionListScreen::updateAuctions()
 
 	}
 	delete [] url;
+	url = NULL;
 }
 
 AuctionListScreen::~AuctionListScreen() {
@@ -383,12 +387,14 @@ AuctionListScreen::~AuctionListScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
 		next = NULL;
 	}
 	delete mImageCache;
+	mImageCache = NULL;
 
 	clearAuctions();
 	deleteAuctions();
@@ -437,6 +443,7 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 					feed->remHttp();
+					next = NULL;
 				}
 				if (screenType == ST_USER) {
 					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_USER, false, NULL, auctions[listBox->getSelectedIndex()], false);

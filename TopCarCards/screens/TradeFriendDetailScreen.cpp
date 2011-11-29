@@ -35,13 +35,16 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 	error_msg="";
 	result="";
 	delete layout;
+	layout = NULL;
 	if (menu != NULL) {
 		delete menu;
+		feed->remHttp();
 		menu = NULL;
 	}
 
 	cardText="";
 	delete mImageCache;
+	mImageCache = NULL;
 }
 
 void TradeFriendDetailScreen::drawMethodScreen() {
@@ -471,6 +474,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 								mHttp.finish();
 							}
 							delete [] url;
+							url = NULL;
 						}
 					}
 				}
@@ -504,6 +508,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 						mHttp.finish();
 					}
 					delete [] url;
+					url = NULL;
 				}
 				break;
 			case SP_COMPLETE:

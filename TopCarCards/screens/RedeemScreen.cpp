@@ -42,9 +42,11 @@ RedeemScreen::~RedeemScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
+		next = NULL;
 	}
 	result = "";
 	error_msg = "";
@@ -153,6 +155,7 @@ void RedeemScreen::redeemCode() {
 			mHttp.finish();
 		}
 		delete [] url;
+		url = NULL;
 	} else {
 		notice->setCaption("Please enter a valid code.");
 		isBusy=false;

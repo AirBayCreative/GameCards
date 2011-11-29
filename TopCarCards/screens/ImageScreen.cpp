@@ -151,6 +151,7 @@ ImageScreen::~ImageScreen() {
 	clearListBox();
 	//listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
@@ -158,9 +159,11 @@ ImageScreen::~ImageScreen() {
 	}
 	if (imageCacheFront != NULL) {
 		delete imageCacheFront;
+		imageCacheFront = NULL;
 	}
 	if (imageCacheBack != NULL) {
 			delete imageCacheBack;
+			imageCacheBack = NULL;
 		}
 }
 void ImageScreen::clearListBox() {
@@ -226,6 +229,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					if (next != NULL) {
 						delete next;
 						feed->remHttp();
+						next = NULL;
 					}
 					next = new OptionsScreen(feed,
 							OptionsScreen::ST_CARD_OPTIONS, this, card);
@@ -307,6 +311,7 @@ void ImageScreen::acceptCard() {
 
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void ImageScreen::rejectCard() {
@@ -329,6 +334,7 @@ void ImageScreen::rejectCard() {
 
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void ImageScreen::httpFinished(MAUtil::HttpConnection* http, int result) {

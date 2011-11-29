@@ -71,6 +71,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 
 	}
 	delete [] url;
+	url = NULL;
 
 	this->setMain(mainLayout);
 	moved=0;
@@ -105,6 +106,7 @@ void EditDeckScreen::refresh() {
 
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void EditDeckScreen::deleteDeck() {
@@ -134,6 +136,7 @@ void EditDeckScreen::deleteDeck() {
 
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void EditDeckScreen::removeCard() {
@@ -166,6 +169,7 @@ void EditDeckScreen::removeCard() {
 
 	}
 	delete [] url;
+	url = NULL;
 
 	delete cards[cardIndex];
 	cards[cardIndex] = NULL;
@@ -351,10 +355,14 @@ void EditDeckScreen::drawConfirm() {
 EditDeckScreen::~EditDeckScreen() {
 	lprintfln("~EditDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
+	mainLayout = NULL;
 	if(next != NULL){
 		delete next;
+		feed->remHttp();
+		next = NULL;
 	}
 	delete mImageCache;
+	mImageCache = NULL;
 
 	clearCards();
 
@@ -430,6 +438,8 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
+							feed->remHttp();
+							next = NULL;
 						}
 						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_DECK, NULL, false, NULL, deckCategory);
 						((AlbumLoadScreen*)next)->setDeckId(deckId);
@@ -444,6 +454,8 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
+							feed->remHttp();
+							next = NULL;
 						}
 						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_DECK, NULL, false, NULL, deckCategory);
 						((AlbumLoadScreen*)next)->setDeckId(deckId);

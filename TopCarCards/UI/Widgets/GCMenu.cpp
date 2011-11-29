@@ -92,6 +92,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 GCMenu::~GCMenu() {
 	for (int i = 0; i < children.size(); i++) {
 		delete children[i];
+		children[i] = NULL;
 	}
 
 	items = NULL;
