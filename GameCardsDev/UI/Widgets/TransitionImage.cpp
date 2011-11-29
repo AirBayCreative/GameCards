@@ -366,7 +366,7 @@ void TransitionImage::drawWidget()
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
 
-			lprintfln("directionX %d", directionX);
+			//lprintfln("directionX %d", directionX);
 
 			if (directionX == -1) {
 				if (p.x > 0) {
@@ -387,7 +387,7 @@ void TransitionImage::drawWidget()
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
 
-			lprintfln("p.x %d total %d", p.x, (p.x - r.width));
+			//lprintfln("p.x %d total %d", p.x, (p.x - r.width));
 
 			if (directionX == -1) {
 				if ((p.x + r.width) < scrWidth) {
