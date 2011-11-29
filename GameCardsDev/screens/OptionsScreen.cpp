@@ -141,8 +141,11 @@ OptionsScreen::~OptionsScreen() {
 	clearListBox();
 	listBox->clear();
 	delete layout;
+	layout = NULL;
 	if(menu!=NULL){
 		delete menu;
+		feed->remHttp();
+		menu = NULL;
 	}
 
 	if (album != NULL) {
@@ -207,6 +210,7 @@ void OptionsScreen::checkForGames() {
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
@@ -279,12 +283,16 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if(index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AuctionCreateScreen(this, feed, card);
 						menu->show();
 					} else if(index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new TradeFriendDetailScreen(this, feed, card);
 						menu->show();
@@ -294,6 +302,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if(index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
 						menu->show();
@@ -301,6 +311,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 						menu->show();
@@ -310,6 +322,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if(index == 0 && !connError) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_PLAY);
 						menu->show();
@@ -317,6 +331,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1 && !connError) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_GAMES, album);
 						menu->show();
@@ -329,6 +345,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
 						menu->show();
@@ -338,6 +356,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if (index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new GamePlayScreen(this, feed, true, number, "1", false, deckId);
 						menu->show();
@@ -345,6 +365,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new GamePlayScreen(this, feed, true, number, "2", false, deckId);
 						menu->show();
@@ -352,6 +374,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 2) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new GamePlayScreen(this, feed, true, number, "2", true, deckId);
 						menu->show();
@@ -359,6 +383,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 3) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_LOBBY, album,false,NULL,number);
 						((AlbumLoadScreen*)menu)->setDeckId(deckId);
@@ -369,6 +395,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if (index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
 							menu = NULL;
 						}
 						menu = new NoteScreen(this, feed, card);
@@ -377,6 +404,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new TradeFriendDetailScreen(this, feed, card);
 						menu->show();
@@ -384,6 +413,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 2) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AuctionCreateScreen(this, feed, card);
 						menu->show();
@@ -391,6 +422,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 3) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
 						menu->show();
@@ -398,6 +431,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 4) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
@@ -423,6 +458,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new NoteScreen(this, feed,
 								card, NoteScreen::ST_SMS, number);
@@ -433,6 +470,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					if(index == 0) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new Login(this, feed, Login::S_LOGIN);
 						menu->show();
@@ -440,6 +479,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					else if(index == 1) {
 						if (menu != NULL) {
 							delete menu;
+							feed->remHttp();
+							menu = NULL;
 						}
 						menu = new Login(this, feed, Login::S_REGISTER);
 						menu->show();
@@ -498,6 +539,7 @@ void OptionsScreen::acceptCard() {
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void OptionsScreen::rejectCard() {
@@ -520,6 +562,7 @@ void OptionsScreen::rejectCard() {
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 }
 void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 	if (result == 200) {
@@ -593,6 +636,8 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 		else {
 			if (menu != NULL) {
 				delete menu;
+				feed->remHttp();
+				menu = NULL;
 			}
 			menu = new AlbumLoadScreen(previous, feed, AlbumLoadScreen::ST_PLAY);
 			menu->show();

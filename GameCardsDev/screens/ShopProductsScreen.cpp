@@ -69,6 +69,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 	this->setMain(mainLayout);
 
 	moved=0;
@@ -209,6 +210,7 @@ ShopProductsScreen::~ShopProductsScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
@@ -256,6 +258,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 					feed->remHttp();
+					next = NULL;
 				}
 				if (free) {
 					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, false);

@@ -30,8 +30,10 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 AuctionCreateScreen::~AuctionCreateScreen() {
 	lprintfln("~AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
+	mainLayout = NULL;
 	if (mImageCache != NULL) {
 		delete mImageCache;
+		mImageCache = NULL;
 	}
 	mImageCache = NULL;
 	tempImage = NULL;
@@ -196,6 +198,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 
 									}
 									delete [] url;
+									url = NULL;
 								}
 								else {
 									notice->setCaption(errorString);

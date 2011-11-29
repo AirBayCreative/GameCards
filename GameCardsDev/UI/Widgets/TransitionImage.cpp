@@ -366,8 +366,6 @@ void TransitionImage::drawWidget()
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
 
-			lprintfln("directionX %d", directionX);
-
 			if (directionX == -1) {
 				if (p.x > 0) {
 					Gfx_drawImageRegion(fromImage,&r, &p, TRANS_NONE);
@@ -386,8 +384,6 @@ void TransitionImage::drawWidget()
 			r.top = ty >= 0 ? 0 : - ty;
 			r.width = imageWidth;// - abs(tx);
 			r.height = imageHeight;// - abs(ty);
-
-			lprintfln("p.x %d total %d", p.x, (p.x - r.width));
 
 			if (directionX == -1) {
 				if ((p.x + r.width) < scrWidth) {

@@ -80,12 +80,14 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	urlLength = 0;
 	if (url != NULL) {
 		delete [] url;
+		url = NULL;
 	}
 }
 
 GameDetailsScreen::~GameDetailsScreen() {
 	lprintfln("~GameDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete layout;
+	layout = NULL;
 
 	parentTag="";
 	playerDeck="";

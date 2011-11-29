@@ -107,6 +107,7 @@ NoteScreen::~NoteScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 
 	parentTag = "";
 	note = "";
@@ -114,8 +115,10 @@ NoteScreen::~NoteScreen() {
 	encodedNote = "";
 	cardText = "";
 
-	if(mImageCache!=NULL)
+	if(mImageCache!=NULL) {
 		delete mImageCache;
+		mImageCache = NULL;
+	}
 }
 void NoteScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
@@ -233,6 +236,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 								notice->setCaption("Updating note...");
 							}
 							delete [] url;
+							url = NULL;
 						} else {
 							notice->setCaption("Nothing to save.");
 						}

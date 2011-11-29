@@ -136,6 +136,7 @@ CompareScreen::~CompareScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	img = -1;
 	if (next != NULL) {
 		delete next;
@@ -144,6 +145,7 @@ CompareScreen::~CompareScreen() {
 	}
 	if (imageCache != NULL) {
 		delete imageCache;
+		imageCache = NULL;
 	}
 }
 

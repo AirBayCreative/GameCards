@@ -257,6 +257,7 @@ String ShopDetailsScreen::getTime() {
 		snprintf(buffer, 128, "%d %s %d %s", cmp_p->tm_mday, days.c_str(), cmp_p->tm_hour, hours.c_str());
 	}
 	delete cmp_p;
+	cmp_p = NULL;
 
 	if (timeleft == 0) {
 		return "Expired";
@@ -270,12 +271,15 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if(mImageCache != NULL){
 		delete mImageCache;
+		mImageCache = NULL;
 	}
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
+		next = NULL;
 	}
 
 	/*if (tempImage != NULL) {
@@ -382,6 +386,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					if (next != NULL) {
 						delete next;
 						feed->remHttp();
+						next = NULL;
 					}
 					next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_PRODUCT);
 					next->show();
@@ -392,6 +397,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			if (next != NULL) {
 				delete next;
 				feed->remHttp();
+				next = NULL;
 			}
 			switch (screenType) {
 				case ST_AUCTION: // Buy
@@ -548,6 +554,7 @@ void ShopDetailsScreen::postBid()
 				mHttp.finish();
 			}
 			delete [] url;
+			url = NULL;
 		}
 	}
 }
@@ -594,6 +601,7 @@ void ShopDetailsScreen::buyNow()
 				mHttp.finish();
 			}
 			delete [] url;
+			url = NULL;
 		}
 		else
 		{

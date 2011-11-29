@@ -23,6 +23,7 @@ NewVersionScreen::~NewVersionScreen() {
 	clearListBox();
 	listBox->clear();
 	delete layout;
+	layout = NULL;
 }
 
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)

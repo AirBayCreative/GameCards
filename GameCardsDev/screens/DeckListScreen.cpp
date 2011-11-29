@@ -67,12 +67,14 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 	urlLength = 0;
 	if (url != NULL) {
 		delete [] url;
+		url = NULL;
 	}
 }
 
 DeckListScreen::~DeckListScreen() {
 	lprintfln("~DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete layout;
+	layout = NULL;
 
 	parentTag= "";
 	description = "";
@@ -81,6 +83,7 @@ DeckListScreen::~DeckListScreen() {
 
 	if (next != NULL) {
 		delete next;
+		feed->remHttp();
 		next = NULL;
 	}
 
@@ -123,6 +126,7 @@ void DeckListScreen::refresh() {
 	urlLength = 0;
 	if (url != NULL) {
 		delete [] url;
+		url = NULL;
 	}
 }
 
@@ -236,6 +240,8 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 						if (kinListBox->getSelectedIndex() == 0) {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
+								next = NULL;
 							}
 							next = new NewDeckScreen(this, feed);
 							next->show();
@@ -243,6 +249,8 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 						else {
 							if (next != NULL) {
 								delete next;
+								feed->remHttp();
+								 next = NULL;
 							}
 							next = new EditDeckScreen(this, feed, albums[kinListBox->getSelectedIndex()-1]->getId());
 							next->show();

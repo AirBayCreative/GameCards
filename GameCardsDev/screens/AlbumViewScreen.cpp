@@ -83,6 +83,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 
 		}
 		delete [] url;
+		url = NULL;
 	} else if (albumType == AT_PRODUCT) {
 			loadImages("");
 			notice->setCaption("Fetching list...");
@@ -109,6 +110,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 
 			}
 			delete [] url;
+			url = NULL;
 	} else if (albumType == AT_FREE) {
 		albumType = AT_BUY;
 		loadImages("");
@@ -136,6 +138,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 
 		}
 		delete [] url;
+		url = NULL;
 	} else if (albumType == AT_DECK) {
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
 		int urlLength = 81 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) +
@@ -162,6 +165,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 
 		}
 		delete [] url;
+		url = NULL;
 	} else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
@@ -186,6 +190,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.finish();
 		}
 		delete [] url;
+		url = NULL;
 	}
 	moved=0;
 	if (albumType != AT_COMPARE) {
@@ -221,6 +226,7 @@ void AlbumViewScreen::refresh() {
 
 		}
 		delete [] url;
+		url = NULL;
 	}
 	show();
 }
@@ -236,6 +242,7 @@ void AlbumViewScreen::loadFile() {
 	loadImages(filecards.c_str());
 	filecards = "";
 	delete file;
+	file = NULL;
 }
 
 void AlbumViewScreen::loadImages(const char *text) {
@@ -494,12 +501,15 @@ AlbumViewScreen::~AlbumViewScreen() {
 	}
 	cardLists.clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
+		next = NULL;
 	}
 	if (mImageCache != NULL) {
 		delete mImageCache;
+		mImageCache = NULL;
 	}
 	if (!busy) {
 		String all = getAll();
@@ -641,6 +651,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 					feed->remHttp();
+					next = NULL;
 				}
 				if (albumType == AT_COMPARE) {
 					next = new CompareScreen(this, RES_LOADING_FLIP1, feed, false, cards.find(index[selected])->second, card);
@@ -675,6 +686,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				if (next != NULL) {
 					delete next;
 					feed->remHttp();
+					next = NULL;
 				}
 				if (albumType == AT_AUCTION) {
 					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
@@ -1050,4 +1062,5 @@ void AlbumViewScreen::addCard(String cardId) {
 
 	}
 	delete [] url;
+	url = NULL;
 }

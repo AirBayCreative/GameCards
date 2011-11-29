@@ -34,6 +34,7 @@ Login::~Login() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	error_msg = "";
 	parentTag="";
 	conCatenation="";
@@ -278,6 +279,7 @@ void Login::keyPressEvent(int keyCode) {
 								mHttp.finish();
 							}
 							delete url;
+							url = NULL;
 							conCatenation = "";
 							value = "";
 						} else {
@@ -351,6 +353,7 @@ void Login::keyPressEvent(int keyCode) {
 								mHttp.finish();
 							}
 							delete url;
+							url = NULL;
 						}
 						break;
 				}
@@ -444,6 +447,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		sprintf(secString, "%d", seconds);
 		feed->setSeconds(secString);
 		delete secString;
+		secString = NULL;
 		username = "";
 		error_msg= "";
 		Util::saveData("fd.sav", feed->getAll().c_str());
@@ -482,6 +486,7 @@ void Login::cleanup() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 
 	parentTag = "";
 	conCatenation = "";

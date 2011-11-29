@@ -150,6 +150,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 
 	}
 	delete [] url;
+	url = NULL;
 	this->setMain(mainLayout);
 
 	moved=0;
@@ -442,6 +443,7 @@ GamePlayScreen::~GamePlayScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 
 	if (next != NULL) {
 		delete next;
@@ -449,9 +451,12 @@ GamePlayScreen::~GamePlayScreen() {
 		next = NULL;
 	}
 	delete imageCacheUser;
+	imageCacheUser = NULL;
 	delete imageCacheOpp;
+	imageCacheOpp = NULL;
 
 	delete [] feedLayouts;
+	feedLayouts = NULL;
 
 	delete gcCard;
 	gcCard = NULL;
@@ -744,6 +749,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							}
 							res = 0;
 							delete [] url;
+							url = NULL;
 							base64Friend = "";
 						}
 						break;
@@ -785,6 +791,7 @@ void GamePlayScreen::runTimerEvent() {
 
 		}
 		delete [] url;
+		url = NULL;
 		urlLength = 0;
 		return;
 	}
@@ -890,6 +897,7 @@ void GamePlayScreen::runTimerEvent() {
 
 		}
 		delete [] url;
+		url = NULL;
 	}
 	else if (selectingStat && ticks == 8) {
 		MAUtil::Environment::getEnvironment().removeTimer(this);
@@ -960,6 +968,7 @@ void GamePlayScreen::selectStat() {
 	}
 
 	delete url;
+	url = NULL;
 }
 
 void GamePlayScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
@@ -1022,6 +1031,7 @@ void GamePlayScreen::xcConnError(int code) {
 
 		}
 		delete [] url;
+		url = NULL;
 	}
 	else if (!active && phase == P_CARD_DETAILS) {
 		//notice->setCaption("Opponent is making choices...");
@@ -1154,6 +1164,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 	if (!strcmp(name, "usercard")) {
 		if (card != NULL) {
 			delete card;
+			card = NULL;
 		}
 		card = new Card();
 		card->setText(description.c_str());
@@ -1179,6 +1190,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 	} else if (!strcmp(name, "oppcard")) {
 		if (oppCard != NULL) {
 			delete oppCard;
+			oppCard = NULL;
 		}
 		oppCard = new Card();
 		oppCard->setText(description.c_str());

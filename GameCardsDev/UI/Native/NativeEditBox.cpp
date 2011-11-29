@@ -57,6 +57,7 @@ void NativeEditBox::disableListener(){
 
 void NativeEditBox::setMaxSize(int size) {
 	if(mString) delete mString;
+	mString = NULL;
 	mString = new wchar_t[size];
 	mMaxSize = size;
 }

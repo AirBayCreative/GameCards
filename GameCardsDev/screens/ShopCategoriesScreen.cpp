@@ -38,6 +38,7 @@ void ShopCategoriesScreen::refresh() {
 			break;
 	}
 	delete [] url;
+	url = NULL;
 	if(res < 0) {
 
 	} else {
@@ -94,6 +95,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 			break;
 	}
 	delete [] url;
+	url = NULL;
 	if(res < 0) {
 		drawList();
 		notice->setCaption("Unable to connect, try again later...");
@@ -113,6 +115,7 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 	clearListBox();
 	listBox->clear();
 	delete mainLayout;
+	mainLayout = NULL;
 	if (next != NULL) {
 		delete next;
 		feed->remHttp();
@@ -263,6 +266,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
+							next = NULL;
 						}
 						next = new ShopProductsScreen(this, feed, category, true);
 						next->show();
@@ -276,6 +280,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
+							next = NULL;
 						}
 						next = new DetailScreen(this, feed, DetailScreen::RANKING, NULL, category, selectedCaption);
 						next->show();
@@ -289,6 +294,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
+								next = NULL;
 							}
 							next = new DetailScreen(this, feed, DetailScreen::FRIEND, NULL, category, selectedCaption);
 							next->show();
@@ -302,6 +308,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
+							next = NULL;
 						}
 						next = new ShopProductsScreen(this, feed, category, false);
 						next->show();
@@ -316,6 +323,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
+								next = NULL;
 							}
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
 							next->show();
@@ -323,6 +331,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
+								next = NULL;
 							}
 
 							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_AUCTION, NULL, true);
@@ -331,6 +340,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
+								next = NULL;
 							}
 							orig = this;
 							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();

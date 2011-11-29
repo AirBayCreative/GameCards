@@ -80,8 +80,11 @@ NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(s
 NewMenuScreen::~NewMenuScreen() {
 	lprintfln("~NewMenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
+	mainLayout = NULL;
 	if(next!=NULL){
 		delete next;
+		feed->remHttp();
+		next = NULL;
 	}
 	parentTag="";
 	notedate="";
@@ -150,48 +153,63 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				if(next!=NULL){
 					delete next;
 					feed->remHttp();
+					next = NULL;
 				}
 				next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				next->show();
 			} else if(index == OP_PLAY) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
 				next->show();
 			} else if(index == OP_DECKS) {//decks
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new DeckListScreen(this, feed);
 				next->show();
 			} else if(index == OP_SHOP) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_SHOP);
 				next->show();
 			} else if(index == OP_AUCTIONS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
 				next->show();
 			} else if(index == OP_CREDITS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new DetailScreen(this, feed, DetailScreen::BALANCE);
 				next->show();
 			} else if(index == OP_PROFILE) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new DetailScreen(this, feed, DetailScreen::PROFILE, NULL);
 				next->show();
 			} else if(index == OP_NOTIFICATIONS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				/* Notifications */
 				next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
@@ -199,18 +217,24 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 			} else if(index == OP_RANKINGS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
 				next->show();
 			} else if(index == OP_FRIENDRANKS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
 				next->show();
 			} else if(index == OP_FRIENDS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				/* Notifications */
 				next = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
@@ -218,6 +242,8 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 			} else if(index == OP_INVITEFRIENDS) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				/*Invite Friend */
 				next = new TradeFriendDetailScreen(this, feed, NULL);
@@ -225,6 +251,8 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 			} else if(index == OP_REDEEM) {
 				if(next!=NULL){
 					delete next;
+					feed->remHttp();
+					next = NULL;
 				}
 				next = new RedeemScreen(feed, this);
 				next->show();
@@ -309,6 +337,7 @@ void NewMenuScreen::show() {
 			mHttp.finish();
 		}
 		delete [] url;
+		url = NULL;
 	}
 	versionChecked = 0;
 	Screen::show();
@@ -357,6 +386,7 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 			sprintf(secString, "%d", seconds);
 			feed->setNoteSeconds(secString);
 			delete secString;
+			secString = NULL;
 
 			Util::saveData("fd.sav",feed->getAll().c_str());
 
@@ -367,6 +397,8 @@ void NewMenuScreen::mtxTagData(const char* data, int len) {
 				if (shown) {
 					if(next!=NULL){
 						delete next;
+						feed->remHttp();
+						next = NULL;
 					}
 					/* Notifications */
 					next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
@@ -448,6 +480,7 @@ void NewMenuScreen::xcConnError(int code) {
 			}
 
 			delete [] url;
+			url = NULL;
 			versionChecked = 1;
 		}
 	} else {
