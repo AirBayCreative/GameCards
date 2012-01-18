@@ -38,7 +38,7 @@
 #define RES_LOADING17 38
 #define RES_LOADING18 39
 
-#define URL "http://dex.mytcg.net/_phone/"
+#define URL "http://mobidex.mytcg.net/_phone/"
 #define URLSIZE 28
 #define JPG "jpg=1"
 
