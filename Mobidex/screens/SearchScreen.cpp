@@ -284,7 +284,7 @@ void SearchScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 		}else if(!strcmp(attrName, "height")) {
 			statHeight = atoi(attrValue);
 		}else if(!strcmp(attrName, "frontorback")) {
-			statFrontOrBack = atoi(attrValue);
+			statFrontOrBack = atoi(attrValue)-1;
 		}else if(!strcmp(attrName, "red")) {
 			statRed = atoi(attrValue);
 		}else if(!strcmp(attrName, "green")) {

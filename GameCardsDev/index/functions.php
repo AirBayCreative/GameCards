@@ -1267,13 +1267,13 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		
 			$iUpdate=$aUpdate[0];
 			if ($iUpdate['gameswon'] <= 3) {
-				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning. 
-						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
-						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.'; 
+						/*You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';*/
 			} else {
-				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun. 
-						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
-						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.'; 
+						/*You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';*/
 			}
 		}
 		
