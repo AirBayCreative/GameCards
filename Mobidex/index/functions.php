@@ -358,7 +358,19 @@ function getAllUserCatCards($userId,$categoryId,$results){
 
 
 function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
-	$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+	
+	$aCategories=myqu('SELECT d.deck_id as category_id, d.description, "true" hasCards, 
+		null as category_parent_id,
+		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+			THEN 1 ELSE 0 END) updated
+		FROM mytcg_deck d 
+		INNER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		INNER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
+		AND uc.user_id = '.$iUserID.'
+		GROUP BY d.deck_id');
+	/*$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		cx.category_parent_id,
 		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 			THEN 1 ELSE 0 END) updated
@@ -374,7 +386,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
 		WHERE LOWER(ucs.description) = LOWER("album")
 		AND uc.user_id = '.$iUserID.'
 		GROUP BY ca.category_id
-		ORDER BY ca.description');
+		ORDER BY ca.description');*/
 		
 	$subCats = array();
 	$updated = array();
@@ -525,7 +537,7 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote) {
 		$query .= 'email_address = "'.$receiveNumber.'"';
 	}
 	else if ($tradeMethod == 'phone_number') {
-		$query .= 'msisdn = "'.$receiveNumber.'" or cell = "'.$receiveNumber.'" or mobile = "'.$receiveNumber.'"';
+		$query .= 'cell = "'.$receiveNumber.'" or mobile = "'.$receiveNumber.'"';
 	}
 	
 	myqui('INSERT INTO mytcg_tradecard
@@ -683,7 +695,7 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell, ip) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}', '{$ip}')");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -727,7 +739,19 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 }
 function usercategories($lastCheckSeconds,$iUserID) {
 	//this gets the categories that the user has cards in, and their parents
-	$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
+	$aCategories=myqu('SELECT d.deck_id as category_id, d.description, "true" hasCards, 
+		"top" as category_parent_id,
+		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+			THEN 1 ELSE 0 END) updated
+		FROM mytcg_deck d 
+		LEFT OUTER JOIN mytcg_usercard uc 
+		ON uc.deck_id = d.deck_id 
+		LEFT OUTER JOIN mytcg_card c 
+		ON c.card_id = uc.card_id 
+		WHERE d.user_id = '.$iUserID.'
+		GROUP BY d.deck_id');
+	
+	/*$aCategories=myqu('SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		CASE WHEN cx.category_parent_id IS NULL THEN "top" ELSE cx.category_parent_id END category_parent_id,
 		(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 			THEN 1 ELSE 0 END) updated 
@@ -742,7 +766,7 @@ function usercategories($lastCheckSeconds,$iUserID) {
 		ON cx.category_child_id = ca.category_id
 		WHERE LOWER(ucs.description) = LOWER("album")
 		AND uc.user_id = '.$iUserID.' 
-		GROUP BY ca.category_id ');
+		GROUP BY ca.category_id ');*/
 	$topCats = array();
 	$updated = array();
 	$finalCats = array();
@@ -868,6 +892,23 @@ function usercategories($lastCheckSeconds,$iUserID) {
 			$sOP.=$sTab.'</album>'.$sCRLF;
 		}
 	}
+	
+	$aAnyCard=myqu('SELECT COUNT(*) as cnt
+			FROM mytcg_usercard
+			WHERE usercardstatus_id = 1
+			AND user_id = '.$iUserID);
+			
+	if ($aCard=$aAnyCard[0]) {
+		if ($aCard['cnt'] > 0) {
+			$sOP.=$sTab.'<album>'.$sCRLF;
+			$sOP.=$sTab.$sTab.'<albumid>-5</albumid>'.$sCRLF;
+			$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
+			$sOP.=$sTab.$sTab.'<updated>0</updated>'.$sCRLF;
+			$sOP.=$sTab.$sTab.'<albumname>All Cards</albumname>'.$sCRLF;
+			$sOP.=$sTab.'</album>'.$sCRLF;
+		}
+	}
+	
 	if ($aMine=$aMyCards[0]) {
 		if ($aMine['cnt'] > 0) {
 			$sOP.=$sTab.'<album>'.$sCRLF;
@@ -1001,7 +1042,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=4
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
-		$aCards=myqu('SELECT * FROM (
+				$aCards=myqu('SELECT * FROM (
 					SELECT A.card_id, count(*) quantity, A.usercard_id, 
 						B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 						(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -1045,8 +1086,8 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					WHERE B.user_id='.$iUserID.' 
 					AND C.usercardstatus_id=1 
 					GROUP BY B.card_id ');
-	} else {
-		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
+	} else if ($iCategory == -5) {
+			$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
@@ -1058,17 +1099,53 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					LEFT OUTER JOIN 
 					(SELECT note, date_updated, user_id, card_id
 						FROM mytcg_usercardnote
+						WHERE user_id = '.$iUserID. '
+						AND usercardnotestatus_id = 1
+					) D 
+					ON A.user_id = D.user_id 
+					AND A.card_id = D.card_id 
+					WHERE A.user_id='.$iUserID. '
+					AND C.usercardstatus_id=1 	
+					GROUP BY B.card_id ');
+	} else {
+		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
+					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+					FROM mytcg_card B 
+					INNER JOIN mytcg_usercard A 
+					ON A.card_id=B.card_id 
+					INNER JOIN mytcg_deck E
+					ON E.deck_id = A.deck_id
+					INNER JOIN mytcg_usercardstatus C 
+					ON C.usercardstatus_id=A.usercardstatus_id 
+					LEFT OUTER JOIN 
+					(SELECT note, date_updated, user_id, card_id
+						FROM mytcg_usercardnote
 						WHERE user_id = '.$iUserID.'
 						AND usercardnotestatus_id = 1
 					) D 
 					ON A.user_id = D.user_id 
 					AND A.card_id = D.card_id 
-					WHERE A.user_id='.$iUserID.' 
-					AND (B.category_id='.$iCategory.' OR B.category_id IN (SELECT category_child_id FROM mytcg_category_x WHERE category_parent_id = '.$iCategory.')) 
+					WHERE A.user_id= '.$iUserID.'
+					AND (E.deck_id='.$iCategory.') 
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	}
 	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg);
+	
+	return $sOP;
+}
+function createDeck($iUserID,$iDescription) {
+	myqui('INSERT INTO mytcg_deck (user_id, description) 
+		VALUES('.$iUserID.',"'.$iDescription.'")');
+		
+	$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
+		FROM mytcg_deck 
+		WHERE user_id = '.$iUserID.' 
+		AND description = "'.$iDescription.'"');
+	$deckId = $deckIdQuery[0]['deck_id'];
+	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Deck Created!</result></created>';
 	
 	return $sOP;
 }
@@ -1140,10 +1217,14 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['card_id'].'_back_flip'.$ext.'</backflipurl>'.$sCRLF; 
 
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
-		A.left, top, width, height, frontorback, 
-		colour_r, colour_g, colour_b 
-		FROM mytcg_cardstat A, mytcg_categorystat B 
+		(CASE WHEN cardorientation_id = 2 THEN 250-(top+(height*1.5)) ELSE A.left END)-2 as "left", 
+		(CASE WHEN cardorientation_id = 2 THEN A.left ELSE top END)-2 as "top", 
+		(CASE WHEN cardorientation_id = 2 THEN height ELSE width END)+8 as "width", 
+		(CASE WHEN cardorientation_id = 2 THEN width ELSE height END)+8 as "height", 
+		frontorback, colour_r, colour_g, colour_b, C.cardorientation_id
+		FROM mytcg_cardstat A, mytcg_categorystat B , mytcg_card C
 		WHERE A.categorystat_id = B.categorystat_id 
+		AND A.card_id = C.card_id
 		AND A.description <> ""
 		AND A.description is NOT NULL
 		AND A.card_id = '.$aOneCard['card_id'].'
