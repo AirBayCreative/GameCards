@@ -92,7 +92,7 @@ void ImageCache::finishedDownloading()
 	} else if (mNextRequest != NULL){
 		if (mNextRequest->getImage() != NULL) {
 			if (mNextRequest->getType() == 0) {
-				if (mNextRequest->getImage()->getResource() != NULL) {
+				if ((mNextRequest->getImage()->getResource() != NULL)) {
 					maDestroyObject(mNextRequest->getImage()->getResource());
 				}
 				mNextRequest->getImage()->setResource(Util::loadImageFromResource(RES_TEMPTHUMB));

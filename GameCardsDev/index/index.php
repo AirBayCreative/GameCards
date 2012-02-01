@@ -193,37 +193,41 @@ if ($iUserID == 0){
 if ($iTestVersion=$_GET['update']){
   
 	if (!($iMSISDN=$_GET['msisdn'])) {
-		$iMSISDN = '';
+		$iMSISDN = 'unknown';
 	}
 	if (!($iIMSI=$_GET['imsi'])) {
-		$iIMSI = '';
+		$iIMSI = 'unknown';
 	}
 	if (!($iIMEI=$_GET['imei'])) {
-		$iIMEI = '';
+		$iIMEI = 'unknown';
 	}
 	if (!($iOs=$_GET['os'])) {
-		$iOs = '';
+		$iOs = 'unknown';
 	}
 	if (!($iMake=$_GET['make'])) {
-		$iMake = '';
+		$iMake = 'unknown';
 	}
 	if (!($iModel=$_GET['model'])) {
-		$iModel = '';
+		$iModel = 'unknown';
 	}
 	if (!($iOsVer=$_GET['osver'])) {
-		$iOsVer = '';
+		$iOsVer = 'unknown';
 	}
 	if (!($iTouch=$_GET['touch'])) {
-		$iTouch = '';
+		$iTouch = '0';
 	}
 	if (!($iScreenWidth=$_GET['width'])) {
-		$iScreenWidth = '';
+		$iScreenWidth = '0';
 	}
 	if (!($iScreenHeight=$_GET['height'])) {
-		$iScreenHeight = '';
+		$iScreenHeight = '0';
 	}
 	
-	$aChanged=myqu('SELECT * FROM mytcg_userphone WHERE msisdn="'.$iMSISDN.'" AND imsi="'.$iIMSI.'" AND imei="'.$iIMEI.'" AND os="'.$iOs.'" AND make="'.$iMake.'" AND model="'.$iModel.'" AND osver="'.$iOsVer.'" AND touch='.$iTouch.' AND width='.$iScreenWidth.' AND height='.$iScreenHeight.' AND version="'.$iTestVersion.'" AND user_id ='.$iUserID);
+	$qu = 'SELECT * FROM mytcg_userphone WHERE msisdn="'.$iMSISDN.'" AND imsi="'.$iIMSI.'" AND imei="'.$iIMEI.'" AND os="'.$iOs.'" AND make="'.$iMake.'" AND model="'.$iModel.'" AND osver="'.$iOsVer.'" AND touch='.$iTouch.' AND width='.$iScreenWidth.' AND height='.$iScreenHeight.' AND version="'.$iTestVersion.'" AND user_id ='.$iUserID;
+	
+	//echo $qu;
+	
+	$aChanged=myqu($qu);
 	$iUpdated = sizeof($aChanged);
 	if ($iUpdated==0){
 		$aUpdate=myqui('INSERT INTO mytcg_userphone (user_id, msisdn, imsi, imei, os, make, model, osver, touch, width, height, version) VALUES ('.$iUserID.',"'.$iMSISDN.'", "'.$iIMSI.'", "'.$iIMEI.'","'.$iOs.'","'.$iMake.'","'.$iModel.'","'.$iOsVer.'",'.$iTouch.','.$iScreenWidth.','.$iScreenHeight.',"'.$iTestVersion.'")');

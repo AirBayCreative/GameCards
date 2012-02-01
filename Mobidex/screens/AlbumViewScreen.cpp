@@ -261,7 +261,7 @@ void AlbumViewScreen::drawList() {
 		feedlayout->addWidgetListener(this);
 		feedlayout->setPaddingTop(2);
 
-		tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
+		tempImage = new MobImage(0, 0, 68, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
 		tempImage->setHasNote(itr->second->getNote().length()>0);
 		Util::retrieveThumb(tempImage, itr->second, mImageCache);
 

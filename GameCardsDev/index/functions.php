@@ -1267,13 +1267,13 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 		
 			$iUpdate=$aUpdate[0];
 			if ($iUpdate['gameswon'] <= 3) {
-				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning. 
-						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
-						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
+				$exp = $winnerName.' wins! '.$winnerName.' received 50 credits for winning.'; 
+						/*You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';*/
 			} else {
-				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun. 
-						You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
-						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';
+				$exp = $winnerName.' wins! '.$winnerName.' already won 3 games today and was just playing for fun.'; 
+						/*You have played '.$aPlayed[0]['cnt'].' game(s) in total. You are currently ranked number '.$aWon[0]['rownum'].' on Most Games Won.
+						Current credits '.$aCredits[0][credits].'. You are currently ranked number '.$aRich[0]['rownum'].' on Richest User.';*/
 			}
 		}
 		
@@ -1972,15 +1972,10 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 											THEN 1 ELSE 0 END) updated, count(distinct c.card_id) as total
 										FROM mytcg_card c
-										LEFT OUTER JOIN mytcg_usercard uc
-										ON uc.card_id = c.card_id
 										INNER JOIN mytcg_category ca
 										ON ca.category_id = c.category_id
-										INNER JOIN mytcg_usercardstatus ucs
-										ON ucs.usercardstatus_id = uc.usercardstatus_id
 										LEFT OUTER JOIN mytcg_category_x cx
 										ON cx.category_child_id = ca.category_id
-										WHERE LOWER(ucs.description) = LOWER("album")
 										GROUP BY ca.category_id
 										ORDER BY ca.description
 							) a LEFT OUTER JOIN 
@@ -2011,16 +2006,11 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 										(CASE WHEN (MAX(c.date_updated) > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
 											THEN 1 ELSE 0 END) updated, count(distinct c.card_id) as total
 										FROM mytcg_card c
-										LEFT OUTER JOIN mytcg_usercard uc
-										ON uc.card_id = c.card_id
 										INNER JOIN mytcg_category ca
 										ON ca.category_id = c.category_id
-										INNER JOIN mytcg_usercardstatus ucs
-										ON ucs.usercardstatus_id = uc.usercardstatus_id
 										LEFT OUTER JOIN mytcg_category_x cx
 										ON cx.category_child_id = ca.category_id
-										WHERE LOWER(ucs.description) = LOWER("album")
-										AND cx.category_parent_id = '.$topcar.'
+										WHERE cx.category_parent_id = '.$topcar.'
 										GROUP BY ca.category_id
 										ORDER BY ca.description
 							) a LEFT OUTER JOIN 

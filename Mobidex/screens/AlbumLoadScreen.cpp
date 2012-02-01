@@ -4,6 +4,7 @@
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "SearchScreen.h"
+#include "NewDeckScreen.h"
 #include "DetailScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
@@ -179,7 +180,7 @@ void AlbumLoadScreen::drawList() {
 	Vector<String> display = album->getNames();
 	size = 0;
 
-	if (path.size() == 0) {
+	if (display.size() > 0) {
 		label = Util::createSubLabel("Search Cards");
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(5);
@@ -190,6 +191,7 @@ void AlbumLoadScreen::drawList() {
 
 	int count = 0;
 	bool dirc = false;
+	bool owned = false;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		label = Util::createSubLabel(itr->c_str());
 		label->setPaddingBottom(5);
@@ -200,46 +202,43 @@ void AlbumLoadScreen::drawList() {
 			label->addWidgetListener(this);
 		}
 		if (label->getCaption() == "My Cards") {
-			delete label;
-			if (!collapsed) {
-				label = Util::createSubLabel("- My Directories");
-				label->setPaddingBottom(5);
-				label->setPaddingLeft(5);
-				listBox->add(label);
-				size++;
-				label = Util::createSubLabel(itr->c_str());
-				label->setPaddingBottom(5);
-				label->setPaddingLeft(20);
-				label->addWidgetListener(this);
-				dirc = true;
-			} else {
-				label = Util::createSubLabel("+ My Directories");
-				label->setPaddingBottom(5);
-				label->setPaddingLeft(5);
-				listBox->add(label);
-				size++;
-				dirc = true;
-			}
+			owned = true;
+			label->addWidgetListener(this);
 		} else {
 			label->addWidgetListener(this);
 		}
-		if ((!collapsed)||(!dirc)) {
-			listBox->add(label);
-			size++;
-		}
+		listBox->add(label);
+		size++;
 		count++;
+	}
+	if (!owned) {
+		//add the logout option
+		label = Util::createSubLabel("Create Card");
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(5);
+		label->addWidgetListener(this);
+		listBox->add(label);
+		size++;
 	}
 
 	if (album->size() == 0) {
 		empt = true;
-		label = Util::createSubLabel("Empty");
+		/*label = Util::createSubLabel("Empty");
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(5);
 		label->addWidgetListener(this);
 		listBox->add(label);
 
-		size++;
+		size++;*/
 	}
+
+	//add the logout option
+	label = Util::createSubLabel("Create Album");
+	label->setPaddingBottom(5);
+	label->setPaddingLeft(5);
+	label->addWidgetListener(this);
+	listBox->add(label);
+	size++;
 
 	//add the Notifications option
 	if(feed->getNoteLoaded()){
@@ -341,6 +340,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				next = new SearchScreen(feed, this);
+				next->show();
+			}
+			else if (listBox->getSelectedIndex() == (size-3)) {
+				if(next!=NULL){
+					feed->remHttp();
+					delete next;
+					next = NULL;
+				}
+				next = new NewDeckScreen(this, feed);
 				next->show();
 			}
 			else if (listBox->getSelectedIndex() == (size-2)) {
