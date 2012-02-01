@@ -91,8 +91,9 @@ class SimpleImage {
 	}
 	
    function rotateToHeight($cardheight, $screenheight) {
-      $ratio = $cardheight / $this->getHeight();
-      $cardwidth = $this->getWidth() * $ratio;
+	if ($this->getHeight() > $this->getWidth()) {
+	  $ratio = $cardheight / $this->getHeight();
+	  $cardwidth = $this->getWidth() * $ratio;
 	  
 	  if ($screenheight/2 < $cardwidth) {
 		$cardwidth = $screenheight/2;
@@ -105,11 +106,34 @@ class SimpleImage {
 	  
 	  $rotated_image = $this->rotateImage($this->image);
 	  $this->image = $rotated_image;
+	} else if ($this->getWidth() > $this->getHeight()) {
+		$ratio = $cardheight / $this->getHeight();
+		$cardwidth = $this->getWidth() * $ratio;
+
+		if ($screenheight/2 < $cardwidth) {
+			$cardwidth = $screenheight/2;
+			$ratio = $cardwidth / $this->getWidth();
+			$cardheight = $this->getHeight() * $ratio;
+		}
+
+		$this->resize($cardwidth,$cardheight);
+
+		//$rotated_image = $this->rotateImage($this->image);
+		//$this->image = $rotated_image;
+	}
    }
    function resizeToHeight($height) {
-      $ratio = $height / $this->getHeight();
-      $width = $this->getWidth() * $ratio;
-      $this->resize($width,$height);
+	if ($this->getHeight() > $this->getWidth()) {
+		$ratio = $height / $this->getHeight();
+		$width = $this->getWidth() * $ratio;
+		$this->resize($width,$height);
+	} else if ($this->getWidth() > $this->getHeight()) {
+		$ratio = $height / $this->getWidth();
+		$width = $this->getHeight() * $ratio;
+		$rotated_image = $this->rotateImage($this->image);
+		$this->image = $rotated_image;
+		$this->resize($width,$height);
+	}
    }
    function resizeToWidth($width) {
       $ratio = $width / $this->getWidth();

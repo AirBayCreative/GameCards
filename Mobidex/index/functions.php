@@ -33,9 +33,11 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 		$image = new SimpleImage();
 		$image->load($filename);
 		$ratio = $iHeight / $image->getHeight();
-		if (($ratio * ($image->getWidth())) > $iWidth) {
-			$ratio = $iWidth / $image->getWidth();
-			$iHeight =  intval($ratio * $image->getHeight());
+		if ($image->getHeight() > $image->getWidth()) {
+			if (($ratio * ($image->getWidth())) > $iWidth) {
+				$ratio = $iWidth / $image->getWidth();
+				$iHeight =  intval($ratio * $image->getHeight());
+			}
 		}
 	}
 	else {
@@ -85,19 +87,6 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 		$image->save($filenameResized, $image_type);
 	}
 	
-	$filename = $root.'img/cards/'.$iImage.'_front'.$ext;
-	$filenameResized = $dir.$iImage.'_front_flip'.$ext;
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		if ($iBBHeight) {
-			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
-		} else {
-			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
-		}
-		$image->save($filenameResized, $image_type);
-	}
-	
 	//Check and create new resized back image
 	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
 	$filenameResized = $dir.$iImage.'_back'.$ext;
@@ -105,19 +94,6 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 		$image = new SimpleImage();
 		$image->load($filename);
 		$image->resizeToHeight($iHeight);
-		$image->save($filenameResized, $image_type);
-	}
-	
-	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
-	$filenameResized = $dir.$iImage.'_back_flip'.$ext;
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		if ($iBBHeight) {
-			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
-		} else {
-			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
-		}
 		$image->save($filenameResized, $image_type);
 	}
 	
@@ -1097,6 +1073,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	return $sOP;
 }
 function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0) {
+
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 		.'FROM mytcg_imageserver b '
 		.'ORDER BY b.description DESC '
@@ -1127,8 +1104,9 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 			}
 		}
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['card_id'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
+		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
+		resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -1169,7 +1147,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		AND A.description <> ""
 		AND A.description is NOT NULL
 		AND A.card_id = '.$aOneCard['card_id'].'
-		ORDER BY A.top ASC');
+		ORDER BY frontorback, A.top ASC');
 		
 		$iCountStat=0;
 		$sOP.=$sTab.$sTab.'<stats>'.$sCRLF;

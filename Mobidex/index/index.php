@@ -347,6 +347,7 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
+	
 	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$root, $iBBHeight, $jpg);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -631,7 +632,7 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight,$jpg);
+		resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight,$jpg);
 		
 		$dir = '/cards/';
 		if ($iBBHeight) {

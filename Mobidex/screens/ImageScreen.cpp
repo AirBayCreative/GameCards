@@ -193,28 +193,27 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_UP:
 			if (imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
-					if(flip==card->getStats()[0]->getFrontOrBack()){
-						selectStat(-1);
-						//currentSelectedStat--;
-						if (currentSelectedStat == -1) {
-							if (screenType == ST_NEW_CARD) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-							} else if (screenType == Util::AT_SHARE) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
-							} else {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-							}
-							imge->refreshWidget();
-							imge->statAdded = false;
+					selectStat(-1);
+					if (currentSelectedStat == -1) {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else if (screenType == Util::AT_SHARE) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
 						} else {
-							if (screenType == ST_NEW_CARD) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-							} else if (screenType == Util::AT_SHARE) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
-							} else {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-							}
-							imge->refreshWidget();
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						imge->statAdded = false;
+					} else {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else if (screenType == Util::AT_SHARE) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
@@ -227,32 +226,39 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			if (imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
-					if(flip==card->getStats()[0]->getFrontOrBack()){
-						selectStat(1);
-						if (currentSelectedStat == -1) {
-							if (screenType == ST_NEW_CARD) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-							} else if (screenType == Util::AT_SHARE) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
-							} else {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-							}
-							imge->refreshWidget();
-							imge->statAdded = false;
-							//currentSelectedStat = -1;
+					selectStat(1);
+					if (currentSelectedStat == -1) {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else if (screenType == Util::AT_SHARE) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
 						} else {
-							if (screenType == ST_NEW_CARD) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-							} else if (screenType == Util::AT_SHARE) {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
-							} else {
-								Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-							}
-							imge->refreshWidget();
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						imge->statAdded = false;
+					} else {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else if (screenType == Util::AT_SHARE) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
 							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
 									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
 									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
 									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+						} else {
+							while((flip!=card->getStats()[currentSelectedStat]->getFrontOrBack())&&(currentSelectedStat <= card->getStats().size())){
+								selectStat(1);
+							}
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+																card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+																card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+																card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
 					}
 				}
