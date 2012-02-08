@@ -53,6 +53,10 @@ void NativeEditBox::disableListener(){
 	Environment::getEnvironment().removePointerListener(this);
 }
 
+void NativeEditBox::enableListener(){
+	Environment::getEnvironment().addPointerListener(this);
+}
+
 void NativeEditBox::setMaxSize(int size) {
 	if(mString) delete mString;
 	mString = new wchar_t[size];

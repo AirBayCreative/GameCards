@@ -37,6 +37,7 @@
 #define RES_LOADING16 37
 #define RES_LOADING17 38
 #define RES_LOADING18 39
+#define RES_CREATECARD 40
 
 #define URL "http://mobidex.mytcg.net/_phone/"
 #define URLSIZE 28
