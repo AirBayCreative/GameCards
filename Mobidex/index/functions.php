@@ -1149,6 +1149,7 @@ function createDeck($iUserID,$iDescription) {
 	
 	return $sOP;
 }
+
 function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0) {
 
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
