@@ -38,7 +38,7 @@ private:
 	Screen *previous;
 	Card *card;
 	bool list, left, right, connError, busy;
-	int index, screenType;
+	int index, screenType, moved;
 	String error_msg, number;
 
 	HttpConnection mHttp;

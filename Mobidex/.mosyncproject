@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project supports-build-configs="false" version="1.2">
+<project supports-build-configs="true" version="1.2">
+<build.cfg id="Debug" types="Debug"/>
+<build.cfg id="Release" types="Release"/>
 <properties>
 <property key="build.prefs:additional.include.paths" value=""/>
 <property key="build.prefs:additional.libraries" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
 <property key="build.prefs:additional.library.paths" value=""/>
 <property key="build.prefs:app.name" value="Mobidex"/>
-<property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access Vibrate"/>
+<property key="build.prefs:app.permissions" value="Contacts Contacts/Read Contacts/Write File\ Storage Internet\ Access Vibrate"/>
 <property key="build.prefs:app.vendor" value="mytcg Technologies"/>
 <property key="build.prefs:extra.link.sw" value=""/>
 <property key="build.prefs:extra.res.sw" value=""/>
@@ -14,8 +16,11 @@
 <property key="build.prefs:ignore.default.libraries" value="true"/>
 <property key="build.prefs:ignore.default.library.paths" value="false"/>
 <property key="build.prefs:memory.data" value="512"/>
+<property key="build.prefs:memory.data/Release" value="2048"/>
 <property key="build.prefs:memory.heap" value="256"/>
+<property key="build.prefs:memory.heap/Release" value="1024"/>
 <property key="build.prefs:memory.stack" value="128"/>
+<property key="build.prefs:memory.stack/Release" value="512"/>
 <property key="build.prefs:project.type" value=""/>
 <property key="dependency.strategy" value="0"/>
 <property key="excludes" value=""/>

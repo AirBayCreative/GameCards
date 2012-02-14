@@ -151,3 +151,7 @@
 .res RES_LOADING18
 .ubin
 .include "loading18.png"
+
+.res RES_CREATECARD
+.ubin
+.include "createcard.jpg"

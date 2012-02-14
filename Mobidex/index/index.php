@@ -553,6 +553,42 @@ if ($_GET['createdeck']){
 	exit;
 }
 
+/** give all the user decks */
+if ($_GET['getalldecks']){
+	
+	$aDeckDetails=myqu('SELECT deck_id, description 
+		FROM mytcg_deck 
+		WHERE user_id='.$iUserID);
+	$sOP='<decks>'.$sCRLF;
+	$iCount=0;
+	while ($aDeckDetail=$aDeckDetails[$iCount]){
+		$sOP.='<deck>'.$sCRLF;
+		$sOP.=$sTab.'<deck_id>'.trim($aDeckDetail['deck_id']).'</deck_id>'.$sCRLF;
+		$sOP.=$sTab.'<desc>'.trim($aDeckDetail['description']).'</desc>'.$sCRLF;	
+		$sOP.='</deck>'.$sCRLF;
+		$iCount++;
+	}
+	
+	$sOP.='</decks>';
+	
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
+/** give all the user decks */
+if ($cardId = $_GET['addtodeck']){
+	$deckId = $_GET['deckid'];
+	
+	myqu("UPDATE mytcg_usercard SET deck_id = ".$deckId." WHERE user_id = ".$iUserID." AND card_id = ".$cardId);
+	
+	$sResult = '<result>Card Added!</result>';
+	
+	header('xml_length: '.strlen($sResult));
+	echo $sResult;
+	exit;
+}
+
 /** Searches on a string and returns a list of cards belonging to the user */
 if ($searchstring=$_GET['search']) {
 	if (!($iHeight=$_GET['height'])) {

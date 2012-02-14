@@ -49,6 +49,7 @@ public:
 	~NativeEditBox();
 
 	void disableListener();
+	void enableListener();
 	void setOptions(int options);
 	void setMaxSize(int size);
 

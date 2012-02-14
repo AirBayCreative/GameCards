@@ -2,6 +2,7 @@
 #include "AlbumViewScreen.h"
 #include "OptionsScreen.h"
 #include "DetailScreen.h"
+#include "ContactScreen.h"
 #include "../utils/Util.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
@@ -75,7 +76,7 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 	notice->setCaption("");
 	clearListBox();
 	//Util::setPadding(listBox);
-	Util::updateSoftKeyLayout("Share", "Back", "", layout);
+	Util::updateSoftKeyLayout("Share", "Back", "Contacts", layout);
 
 	/*Label* l;*/
 
@@ -201,6 +202,8 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 		keyPressEvent(MAK_SOFTLEFT);
 	} else if (phase == SP_DETAIL && list) {
 		//keyPressEvent(MAK_FIRE);
+	} else if (center) {
+		keyPressEvent(MAK_FIRE);
 	}
 }
 
@@ -208,6 +211,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 	list = false;
 	left = false;
 	right = false;
+	center = false;
 
 	Point p;
 	p.set(point.x, point.y);
@@ -226,7 +230,8 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 			if (i == 0) {
 				left = true;
 			}else if (i == 1) {
-				list = true;
+				//list = true;
+				center = true;
 			}else if (i == 2) {
 				right = true;
 			}
@@ -243,20 +248,24 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 		}
 }
 
+void TradeFriendDetailScreen::show() {
+	contactEditBox->setSelected(true);
+	contactEditBox->enableListener();
+	Screen::show();
+}
+
+void TradeFriendDetailScreen::hide() {
+	contactEditBox->setSelected(false);
+	contactEditBox->disableListener();
+	Screen::hide();
+}
+
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 	case MAK_FIRE:
-		/*switch(phase) {
-			case SP_DETAIL:
-				if (menu != NULL) {
-					delete menu;
-				}
-				menu = new DetailScreen(this, feed,
-				DetailScreen::CONTACTS, card);
-				menu->show();
-				break;
-		}*/
+		menu = new ContactScreen(this);
+		menu->show();
 		break;
 	case MAK_SOFTLEFT:
 		switch(phase) {

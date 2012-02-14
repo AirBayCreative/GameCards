@@ -4,6 +4,7 @@
 #include "AlbumViewScreen.h"
 #include "NoteScreen.h"
 #include "DetailScreen.h"
+#include "DeckListScreen.h"
 #include "Login.h"
 #include "../utils/Util.h"
 #include "../MAHeaders.h"
@@ -12,6 +13,7 @@
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
 	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	error_msg = "";
+	moved = 0;
 
 	connError = false;
 	busy = false;
@@ -29,6 +31,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 
 	switch(screenType) {
 		case ST_CARD_OPTIONS:
+			lbl = Util::createSubLabel("Add to Album");
+			lbl->setPaddingLeft(5);
+			lbl->addWidgetListener(this);
+			listBox->add(lbl);
 			lbl = Util::createSubLabel("Notes");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
@@ -95,21 +101,25 @@ OptionsScreen::~OptionsScreen() {
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved = 0;
 }
 
 void OptionsScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved++;
 }
 
 void OptionsScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (moved < 8) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
 }
 
@@ -171,17 +181,24 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new NoteScreen(this, feed, card);
+						menu = new DeckListScreen(this, feed, card);
 						menu->show();
 					}
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						menu = new TradeFriendDetailScreen(this, feed, card);
+						menu = new NoteScreen(this, feed, card);
 						menu->show();
 					}
 					else if (index == 2) {
+						if (menu != NULL) {
+							delete menu;
+						}
+						menu = new TradeFriendDetailScreen(this, feed, card);
+						menu->show();
+					}
+					else if (index == 3) {
 						if (menu != NULL) {
 							delete menu;
 						}
@@ -189,7 +206,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 								DetailScreen::CARD, card);
 						menu->show();
 					}
-					else if (index == 3 && !busy) {
+					else if (index == 4 && !busy) {
 						busy = true;
 						notice->setCaption("Deleting...");
 						deleteCard();

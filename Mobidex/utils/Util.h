@@ -58,6 +58,7 @@ class Util
 		static String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
 		static String base64_decode(String encoded_string);
 		static inline bool is_base64(unsigned char c);
+		static const wchar* getWCharArrayFromBuf(void* buffer, const int arrayIndex);
 
 		static Font* getFontBlue();
 		static Font* getFontBlack();
