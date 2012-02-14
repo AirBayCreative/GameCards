@@ -69,6 +69,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			busy = false;
@@ -96,6 +97,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 				mHttp.close();
 			}
 			mHttp = HttpConnection(this);
+			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
 				busy = false;
@@ -124,6 +126,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			busy = false;
@@ -151,6 +154,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			busy = false;
@@ -177,6 +181,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			busy = false;
@@ -212,6 +217,7 @@ void AlbumViewScreen::refresh() {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			busy = false;
@@ -1048,6 +1054,7 @@ void AlbumViewScreen::addCard(String cardId) {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		busy = false;

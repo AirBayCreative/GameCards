@@ -301,6 +301,7 @@ void ImageScreen::acceptCard() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 	} else {
@@ -324,6 +325,7 @@ void ImageScreen::rejectCard() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 	} else {

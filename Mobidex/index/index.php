@@ -545,6 +545,14 @@ if ($_GET['userdetails']){
 	exit;
 }
 
+if ($_GET['createdeck']){
+	$iDescription=base64_decode($_GET['description']);
+	$sOP = createDeck($iUserID,$iDescription);
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 /** Searches on a string and returns a list of cards belonging to the user */
 if ($searchstring=$_GET['search']) {
 	if (!($iHeight=$_GET['height'])) {

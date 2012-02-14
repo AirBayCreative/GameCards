@@ -66,6 +66,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("Connection error.");

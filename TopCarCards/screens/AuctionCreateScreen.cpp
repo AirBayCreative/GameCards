@@ -186,6 +186,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 										mHttp.close();
 									}
 									mHttp = HttpConnection(this);
+									lprintfln("%s", url);
 									int res = mHttp.create(url, HTTP_GET);
 
 									if(res < 0) {
