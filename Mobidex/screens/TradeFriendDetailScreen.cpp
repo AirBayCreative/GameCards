@@ -242,10 +242,10 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-			widget->getChildren()[0]->setSelected(true);
-		} else {
-			widget->getChildren()[0]->setSelected(false);
-		}
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
+	}
 }
 
 void TradeFriendDetailScreen::show() {
@@ -258,6 +258,14 @@ void TradeFriendDetailScreen::hide() {
 	contactEditBox->setSelected(false);
 	contactEditBox->disableListener();
 	Screen::hide();
+}
+
+void TradeFriendDetailScreen::contactSelected(String number) {
+	if (phase == SP_DETAIL) {
+		contactEditBox->setText(number);
+
+		show();
+	}
 }
 
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
