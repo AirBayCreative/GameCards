@@ -810,3 +810,24 @@ const wchar* Util::getWCharArrayFromBuf(void* buffer, const int arrayIndex)
 		return NULL;
 	}
 }
+
+/**
+ * find the first occurrence of the second string, within the first one, ignoreing case
+ * @param mainString The String we are going to look in.
+ * @param searchString The String we are going to look for.
+ * @return The index of the first occurrence of the second String within the first one, or -1 if it isnt there.
+ */
+int Util::findIgnoreCase(String mainString, String searchString) {
+	String upperMain = mainString.c_str();
+	String upperSearch = searchString.c_str();
+
+	for (int i = 0; i < upperMain.size(); i++) {
+		upperMain[i] = toupper(upperMain[i]);
+	}
+
+	for (int j = 0; j < upperSearch.size(); j++) {
+		upperSearch[j] = toupper(upperSearch[j]);
+	}
+
+	return upperMain.find(upperSearch);
+}

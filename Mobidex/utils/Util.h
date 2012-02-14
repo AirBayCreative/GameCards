@@ -59,6 +59,7 @@ class Util
 		static String base64_decode(String encoded_string);
 		static inline bool is_base64(unsigned char c);
 		static const wchar* getWCharArrayFromBuf(void* buffer, const int arrayIndex);
+		static int findIgnoreCase(String mainString, String searchString);
 
 		static Font* getFontBlue();
 		static Font* getFontBlack();
