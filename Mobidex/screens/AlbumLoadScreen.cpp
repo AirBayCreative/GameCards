@@ -6,6 +6,7 @@
 #include "SearchScreen.h"
 #include "NewDeckScreen.h"
 #include "DetailScreen.h"
+#include "CreateCardScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
@@ -340,6 +341,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				next = new SearchScreen(feed, this);
+				next->show();
+			}
+			else if (listBox->getSelectedIndex() == (size-4)) {
+				if(next!=NULL){
+					feed->remHttp();
+					delete next;
+					next = NULL;
+				}
+				next = new CreateCardScreen(this);
 				next->show();
 			}
 			else if (listBox->getSelectedIndex() == (size-3)) {

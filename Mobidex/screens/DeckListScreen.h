@@ -1,5 +1,5 @@
-#ifndef _TRADEFRIENDDETAILSCREEN_H_
-#define _TRADEFRIENDDETAILSCREEN_H_
+#ifndef _DECKLISTSCREEN_H_
+#define _DECKLISTSCREEN_H_
 
 #include <ma.h>
 #include <MAUI/ListBox.h>
@@ -8,55 +8,54 @@
 #include <MAUI/Screen.h>
 #include <maprofile.h>
 
-#include "../utils/Feed.h"
-#include "../UI/Native/NativeEditBox.h"
-#include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "../utils/Feed.h"
+#include "../utils/Album.h"
+#include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendDetailScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class DeckListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card);
-	~TradeFriendDetailScreen();
+	DeckListScreen(Screen *previous, Feed *feed, Card *card);
+	~DeckListScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
-	void show();
-	void hide();
+
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-private:
-	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
-	int phase;
 
-	Vector<Widget*> tempWidgets;
+	enum screenPhase {SP_LIST = 0,
+			SP_ADDING, SP_FINISHED};
+private:
+	Screen *previous;
+	Screen *next;
 
 	Feed *feed;
 	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *lblMethod, *notice;
+	KineticListBox* kinListBox;
+	Label *lbl, *notice;
+	Album *album;
+	Vector<Album*> albums;
 
-	Screen *menu;
-	Screen *previous;
 	Card *card;
-	bool left, right, center, sending, list, fresh;
-	String method, methodLabel, friendDetail, friendNote, parentTag;
-	String temp, temp1, error_msg, result;
-	NativeEditBox *contactEditBox, *editBoxNote;
+
+	bool list, left, right, selecting;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	void drawMethodScreen();
-	void drawDetailScreen();
-	void drawConfirmScreen();
-	void drawCompleteScreen();
+	String parentTag;
+	String deckId, description, result;
+	int moved, phase;
 
 	void clearListBox();
+	void clearAlbums();
+	void drawList();
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

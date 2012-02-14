@@ -1,5 +1,6 @@
 #include <mavsprintf.h>
 #include <conprint.h>
+#include <mawstring.h>
 
 #include "../UI/Widgets/MobImage.h"
 #include "../UI/KineticListBox.h"
@@ -763,4 +764,49 @@ String Util::base64_decode(String encoded_string) {
 
 inline bool Util::is_base64(unsigned char c) {
 	return (isalnum(c) || (c == '+') || (c == '/'));
+}
+
+/**
+ * Get a wchar array from a specified buffer.
+ * @param buffer Contains n wchar-arrays, where n is the int value that can
+ * be read from buffer address.
+ * @param arrayIndex The index of the array.
+ * @return A pointer to the wchar array if the arrayIndex is valid, or
+ * NULL otherwise.
+ */
+const wchar* Util::getWCharArrayFromBuf(void* buffer, const int arrayIndex)
+{
+	int totalBytes = *(int*) buffer;
+	char* charBuffer = (char*) buffer;
+	const wchar* ptr = (wchar*) (charBuffer + sizeof(int));
+	int countBytes = sizeof(int);
+	int countArrays = 0;
+	while (countBytes < totalBytes)
+	{
+		if (arrayIndex == countArrays)
+		{
+			break;
+		}
+		int stringLength = wcslen(ptr) + 1;
+		countBytes += stringLength;
+		if (stringLength < totalBytes)
+		{
+			ptr += stringLength;
+			countArrays++;
+		}
+		else
+		{
+			ptr = NULL;
+			break;
+		}
+	}
+
+	if (arrayIndex == countArrays)
+	{
+		return ptr;
+	}
+	else
+	{
+		return NULL;
+	}
 }
