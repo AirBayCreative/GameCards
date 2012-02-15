@@ -535,13 +535,16 @@ if ($_GET['userdetails']){
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '350';
 	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
 	if (!($jpg=$_GET['jpg'])) {
 		$jpg = '0';
 	}
-	echo userdetails($iUserID,$iHeight,$iWidth,$root,$jpg);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root,$iBBHeight,$jpg);
 	exit;
 }
 
