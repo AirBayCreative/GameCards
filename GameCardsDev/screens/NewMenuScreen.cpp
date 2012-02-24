@@ -11,6 +11,7 @@
 #include "OptionsScreen.h"
 #include "NewVersionScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "MenuTestScreen.h"
 #include "../utils/Util.h"
 
 static item menuItems[] =

@@ -155,3 +155,23 @@
 .res RES_CREATECARD
 .ubin
 .include "createcard.jpg"
+
+.res RES_BLANK
+.ubin
+.image "blank.png"
+
+.res RES_DROPDOWNITEM_SEL
+.ubin 
+.image "dropdownitem_sel.png" 
+
+.res RES_DROPDOWNITEM_UNSEL
+.ubin 
+.image "dropdownitem_unsel.png"  
+
+.res RES_DROPDOWN_SEL
+.ubin 
+.image "dropdownbox_sel.png" 
+
+.res RES_DROPDOWN_UNSEL
+.ubin 
+.image "dropdownbox_unsel.png"  

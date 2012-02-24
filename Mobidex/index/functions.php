@@ -784,7 +784,7 @@ function getip(){
 }
 
 // register user 
-function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $ip='', $url='www.mobidex.co.za') {
+function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $country, $ip='', $url='www.mobidex.co.za') {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -840,7 +840,7 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}')");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell, country) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}', '{$country}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -1148,7 +1148,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id 
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1169,7 +1169,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1191,7 +1191,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					SELECT A.card_id, count(*) quantity, A.usercard_id, 
 						B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 						(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-							THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+							THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 						FROM mytcg_card B 
 						INNER JOIN mytcg_usercard A 
 						ON A.card_id=B.card_id 
@@ -1214,7 +1214,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 			$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id 
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1235,7 +1235,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 			$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1256,7 +1256,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1317,6 +1317,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<quantity>'.$aOneCard['quantity'].'</quantity>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>'.$aOneCard['updated'].'</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<cardorientation>'.$aOneCard['cardorientation_id'].'</cardorientation>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -1380,7 +1381,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<stats>'.$sCRLF;
 		While ($aOneStat=$aStats[$iCountStat]) {
 			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
-				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
+				left="'.intval($aOneStat['left']).'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
 				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
 			$iCountStat++;
 		}

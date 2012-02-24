@@ -38,7 +38,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value, orientation;
 	String error_msg, id,description,quantity, thumburl, fronturl, backurl, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	bool left, right, mid, error, fresh;

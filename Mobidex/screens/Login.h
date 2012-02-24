@@ -15,6 +15,11 @@
 using namespace MAUI;
 using namespace MAUtil;
 
+struct country {
+	const char *code;
+	const char *country;
+};
+
 class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	Login(Feed *feed, Screen *previous, int screen);
@@ -27,6 +32,7 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+	void menuOptionSelected(int index);
 	enum screens {S_LOGIN, S_REGISTER};
 private:
 	Layout *mainLayout;
@@ -68,6 +74,10 @@ private:
 
 	void drawLoginScreen();
 	void drawRegisterScreen();
+
+	void disableEditBoxes();
+
+	int checkCountryCode();
 };
 
 #endif	//_LOGIN_H_

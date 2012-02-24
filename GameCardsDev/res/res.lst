@@ -366,6 +366,9 @@
 .ubin
 .image "head.png"
 
+.res BLANK
+.image "blank.png"
+
 /* Custom variables per app */
 
 .res RES_FONT_BLUE

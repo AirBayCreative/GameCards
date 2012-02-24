@@ -28,6 +28,7 @@ mTitleString(titleString),
 mString(NULL),
 mOptions(options), x(x), y(y), width(width), height(height), fresh(fresh)
 {
+	setFont(Util::getFontWhite());
 	setMaxSize(maxSize);
 	setCaption(initialText);
 	Environment::getEnvironment().addPointerListener(this);
