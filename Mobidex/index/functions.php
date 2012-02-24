@@ -641,7 +641,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
 	return $sOP;
 }
 
-function userdetails($iUserID,$iHeight,$iWidth,$root,$iBBHeight=0,$jpg=0) {
+function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0,$iBBHeight=0) {
 	$aUserDetails=myqu('SELECT username, email_address, name, credits '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');

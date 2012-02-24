@@ -545,7 +545,7 @@ if ($_GET['userdetails']){
 	if (!($jpg=$_GET['jpg'])) {
 		$jpg = '0';
 	}
-	echo userdetails($iUserID,$iHeight,$iWidth,$root,$iBBHeight,$jpg);
+	echo userdetails($iUserID,$iHeight,$iWidth,$root,$jpg,$iBBHeight);
 	exit;
 }
 
