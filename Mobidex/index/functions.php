@@ -1330,7 +1330,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['card_id'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
 		
 		$sFound='';
 		$iCountServer=0;
