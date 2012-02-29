@@ -27,6 +27,7 @@ class Util
 		static void setPadding(Widget *w);
 		static Label* createLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createEditLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
+		static Label* createDropDownLabel(String str, int height=DEFAULT_DROPDOWN_HEIGHT);
 		static Label* createSubLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right, const char *centre);
@@ -59,6 +60,7 @@ class Util
 		static String base64_decode(String encoded_string);
 		static inline bool is_base64(unsigned char c);
 		static const wchar* getWCharArrayFromBuf(void* buffer, const int arrayIndex);
+		static int findIgnoreCase(String mainString, String searchString);
 
 		static Font* getFontBlue();
 		static Font* getFontBlack();
@@ -75,6 +77,10 @@ class Util
 		static WidgetSkin* getSkinListNoArrows();
 		static WidgetSkin* getSkinText();
 		static WidgetSkin* getSkinAlbum();
+		static WidgetSkin* getSkinDropDownItem();
+		static WidgetSkin* getSkinDropDownBox();
+		static WidgetSkin* getSkinDropDownBack();
+		static WidgetSkin* getSkinHeader();
 
 		enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH, AT_SHARE};
 	private:

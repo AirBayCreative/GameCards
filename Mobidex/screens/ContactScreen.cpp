@@ -6,10 +6,12 @@
 #include "ContactScreen.h"
 #include "../utils/Util.h"
 #include "AlbumViewScreen.h"
+#include "TradeFriendDetailScreen.h"
 
 ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 	lprintfln("ContactScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
+	index = -1;
 	isBusy = false;
 
 	mainLayout = Util::createMainLayout("Search", "Back", "", false);
@@ -45,7 +47,7 @@ ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 	char *name, *number;
 	String strName, strNumber;
 
-	/*MAHandle mContactsListHandle = maPimListOpen(MA_PIM_CONTACTS);
+	MAHandle mContactsListHandle = maPimListOpen(MA_PIM_CONTACTS);
 	MAHandle pimItemHandle = maPimListNext(mContactsListHandle);
 
 	MA_PIM_ARGS args;
@@ -83,10 +85,12 @@ ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 						strName.append(", ", 2);
 					}
 					strName.append(name, strlen(name));
+
+					delete name;
 				}
 			}
 
-			printf("name: %s", strName.c_str());
+			//printf("name: %s", strName.c_str());
 
 			args.field = MA_PIM_FIELD_CONTACT_TEL;
 
@@ -106,8 +110,10 @@ ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 
 				strNumber = number;
 				temp = new Contact(strName, strNumber);
-				//allContacts.add(temp);
-				printf("number: %s", strNumber.c_str());
+				allContacts.add(temp);
+
+				delete number;
+				//printf("number: %s", strNumber.c_str());
 			}
 		}
 
@@ -115,19 +121,27 @@ ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 		pimItemHandle = maPimListNext(mContactsListHandle);
 	}
 	maPimListClose(mContactsListHandle);
-	*/
 }
 
 ContactScreen::~ContactScreen() {
+	contacts.clear();
+	for (int i = 0; i < allContacts.size(); i++) {
+		delete allContacts[i];
+		allContacts[i] = NULL;
+	}
+	allContacts.clear();
 
+	delete mainLayout;
 }
 
 void ContactScreen::selectionChanged(Widget *widget, bool selected) {
-	/*if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
-	}*/
+	if (widget->getParent() == listBox) {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
+	}
 }
 void ContactScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -147,7 +161,7 @@ void ContactScreen::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		} else if (mid) {
+		} else if (mid || list) {
 			keyPressEvent(MAK_FIRE);
 		}
 	}
@@ -161,13 +175,23 @@ void ContactScreen::locateItem(MAPoint2d point)
 	left = false;
 	right = false;
 	mid = false;
+	list = false;
 
     Point p;
     p.set(point.x, point.y);
-    for(int i = 0; i < contactListBox->getChildren().size(); i++)
+    if (editBoxSearch->contains(p)) {
+		editBoxSearch->enableListener();
+		editBoxSearch->setSelected(true);
+    }
+    else {
+		editBoxSearch->disableListener();
+		editBoxSearch->setSelected(false);
+	}
+    for(int i = 0; i < contactListBox->getChildren().size() && contactListBox->contains(p); i++)
 	{
 		if(contactListBox->getChildren()[i]->contains(p))
 		{
+			index = i;
 			list = true;
 		}
 	}
@@ -192,11 +216,10 @@ void ContactScreen::doSearch() {
 
 	String searchString = editBoxSearch->getCaption();
 
-	lprintfln("searchString: %s", searchString.c_str());
-
 	int found = -1;
 	for (int i = 0; i < allContacts.size(); i++) {
-		found = allContacts[i]->getName().find(searchString);
+		found = Util::findIgnoreCase(allContacts[i]->getName(), searchString);
+
 
 		if (found >= 0) {
 			contacts.add(allContacts[i]);
@@ -213,6 +236,15 @@ void ContactScreen::doSearch() {
 		label->setPaddingLeft(5);
 		label->addWidgetListener(this);
 		contactListBox->add(label);
+	}
+
+	index = -1;
+	editBoxSearch->setSelected(true);
+	if (contacts.size() > 0) {
+		Util::updateSoftKeyLayout("Search", "Back", "Select", mainLayout);
+	}
+	else {
+		Util::updateSoftKeyLayout("Search", "Back", "", mainLayout);
 	}
 }
 
@@ -242,19 +274,27 @@ void ContactScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTLEFT:
 			doSearch();
 			break;
+		case MAK_FIRE:
+			if (index >= 0) {
+				((TradeFriendDetailScreen*)prev)->contactSelected(contacts[contactListBox->getSelectedIndex()]->getNumber());
+			}
+			break;
 		case MAK_UP:
 			if (editBoxSearch->isSelected() && contacts.size() > 0) {
 				editBoxSearch->setSelected(false);
 				listBox->setSelectedIndex(2);
 				contactListBox->setSelectedIndex(contactListBox->getChildren().size() - 1);
+				index = contactListBox->getSelectedIndex();
 			}
-			else if (contactListBox->getSelectedIndex() == 0) {
+			else if (contactListBox->getSelectedIndex() == 0 && contacts.size() > 0) {
 				listBox->setSelectedIndex(1);
 				contactListBox->getChildren()[contactListBox->getSelectedIndex()]->setSelected(false);
 				editBoxSearch->setSelected(true);
+				index = -1;
 			}
 			else if (contacts.size() > 0) {
 				contactListBox->selectPreviousItem(true);
+				index = contactListBox->getSelectedIndex();
 			}
 			break;
 		case MAK_DOWN:
@@ -262,14 +302,17 @@ void ContactScreen::keyPressEvent(int keyCode) {
 				editBoxSearch->setSelected(false);
 				listBox->setSelectedIndex(2);
 				contactListBox->setSelectedIndex(0);
+				index = contactListBox->getSelectedIndex();
 			}
 			else if (contactListBox->getSelectedIndex() == (contacts.size() - 1)) {
 				listBox->setSelectedIndex(1);
 				contactListBox->getChildren()[contactListBox->getSelectedIndex()]->setSelected(false);
 				editBoxSearch->setSelected(true);
+				index = -1;
 			}
 			else if (contacts.size() > 0) {
 				contactListBox->selectNextItem(true);
+				index = contactListBox->getSelectedIndex();
 			}
 			break;
 	}

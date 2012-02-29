@@ -75,8 +75,9 @@ void TradeFriendDetailScreen::drawDetailScreen() {
 
 	notice->setCaption("");
 	clearListBox();
+	listBox->setPaddingLeft(PADDING);
 	//Util::setPadding(listBox);
-	Util::updateSoftKeyLayout("Share", "Back", "Contacts", layout);
+	Util::updateSoftKeyLayout("Share", "Back", /*"Contacts"*/"", layout);
 
 	/*Label* l;*/
 
@@ -242,10 +243,10 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 
 void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 	if(selected) {
-			widget->getChildren()[0]->setSelected(true);
-		} else {
-			widget->getChildren()[0]->setSelected(false);
-		}
+		widget->getChildren()[0]->setSelected(true);
+	} else {
+		widget->getChildren()[0]->setSelected(false);
+	}
 }
 
 void TradeFriendDetailScreen::show() {
@@ -260,13 +261,21 @@ void TradeFriendDetailScreen::hide() {
 	Screen::hide();
 }
 
+void TradeFriendDetailScreen::contactSelected(String number) {
+	if (phase == SP_DETAIL) {
+		contactEditBox->setText(number);
+
+		show();
+	}
+}
+
 void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 	case MAK_FIRE:
-		menu = new ContactScreen(this);
+		/*menu = new ContactScreen(this);
 		menu->show();
-		break;
+		break;*/
 	case MAK_SOFTLEFT:
 		switch(phase) {
 			case SP_METHOD:

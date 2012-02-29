@@ -36,7 +36,7 @@ private:
 	Vector<Widget*> tempWidgets;
 
 	bool left, right, mid, list;
-	int moved;
+	int moved, index;
 
 	Screen *prev;
 	bool isBusy;
