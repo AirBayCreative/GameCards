@@ -34,7 +34,8 @@ if ($_GET['registeruser']) {
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
 	$name = base64_decode($_REQUEST['name']);
-	$cell = $_REQUEST['cell'];
+	$cell = base64_decode($_REQUEST['cell']);
+	$country = base64_decode($_REQUEST['country']);
 	
 	if (!($iHeight=$_GET['height'])) {
 		$iHeight = '350';
@@ -43,7 +44,7 @@ if ($_GET['registeruser']) {
 		$iWidth = '250';
 	}
 	$ip = getip();
-	$sOP = registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root,$ip,$url);
+	$sOP = registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $country, $ip, $url);
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -622,7 +623,7 @@ if ($searchstring=$_GET['search']) {
 	$sql = 'SELECT DISTINCT UC.card_id, Q.quantity, C.image, UC.usercard_id, '
 		.'C.description, C.thumbnail_phone_imageserver_id, C.front_phone_imageserver_id, C.back_phone_imageserver_id, '
 		.'(CASE WHEN (C.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) '
-		.'	THEN 1 ELSE 0 END) updated, D.note, D.date_updated '
+		.'	THEN 1 ELSE 0 END) updated, D.note, D.date_updated, C.cardorientation_id '
 		.'FROM mytcg_usercard UC '
 		.'INNER JOIN mytcg_card C ON (UC.card_id = C.card_id) '
 		.'INNER JOIN mytcg_imageserver I ON (C.front_imageserver_id = imageserver_id) '
@@ -667,6 +668,7 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<quantity>'.$aOneCard['quantity'].'</quantity>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>'.$aOneCard['updated'].'</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<cardorientation>'.$aOneCard['cardorientation_id'].'</cardorientation>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -679,7 +681,7 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['image'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight,$jpg);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['image'], $root, $iBBHeight,$jpg);
 		
 		$dir = '/cards/';
 		if ($iBBHeight) {
@@ -711,19 +713,24 @@ if ($searchstring=$_GET['search']) {
 		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back'.$ext.'</backurl>'.$sCRLF; 
 		
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
-		A.left, top, width, height, frontorback, 
-		colour_r, colour_g, colour_b 
-		FROM mytcg_cardstat A, mytcg_categorystat B 
+		(CASE WHEN cardorientation_id = 2 THEN 250-(top+(height*1.5)) ELSE A.left END)-2 as "left", 
+		(CASE WHEN cardorientation_id = 2 THEN A.left ELSE top END)-2 as "top", 
+		(CASE WHEN cardorientation_id = 2 THEN height ELSE width END)+8 as "width", 
+		(CASE WHEN cardorientation_id = 2 THEN width ELSE height END)+8 as "height", 
+		frontorback, colour_r, colour_g, colour_b, C.cardorientation_id
+		FROM mytcg_cardstat A, mytcg_categorystat B , mytcg_card C
 		WHERE A.categorystat_id = B.categorystat_id 
+		AND A.card_id = C.card_id
 		AND A.description <> ""
 		AND A.description is NOT NULL
-		AND A.card_id = '.$aOneCard['card_id']);
+		AND A.card_id = '.$aOneCard['card_id'].'
+		ORDER BY frontorback, A.top ASC');
 		
 		$iCountStat=0;
 		$sOP.=$sTab.$sTab.'<stats>'.$sCRLF;
 		While ($aOneStat=$aStats[$iCountStat]) {
 			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
-				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
+				left="'.intval($aOneStat['left']).'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
 				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
 			$iCountStat++;
 		}

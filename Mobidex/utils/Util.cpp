@@ -93,13 +93,13 @@ Font* Util::getDefaultFont() {
 	return getFontBlack();
 }
 Font* Util::getDefaultSelected() {
-#if defined(RES_FONT_WHITE)
-	return getFontWhite();
+#if defined(RES_FONT_BLACK)
+	return getFontBlack();
 #endif
 	return getFontBlue();
 }
 Font* Util::getButtonFont() {
-	return getFontWhite();
+	return getFontBlack();
 }
 
 WidgetSkin* Util::getSkinEditBox() {
@@ -171,6 +171,46 @@ WidgetSkin* Util::getSkinText() {
 	return gSkinText;
 }
 
+WidgetSkin* Util::getSkinDropDownItem() {
+	static WidgetSkin* gSkinDropDownItem;
+	if (gSkinDropDownItem == NULL) {
+		gSkinDropDownItem = new WidgetSkin(RES_DROPDOWNITEM_SEL, RES_DROPDOWNITEM_UNSEL,
+				DROPDOWNITEM_X_LEFT, DROPDOWNITEM_X_RIGHT, DROPDOWNITEM_Y_TOP,
+				DROPDOWNITEM_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownItem;
+}
+
+WidgetSkin* Util::getSkinDropDownBox() {
+	static WidgetSkin* gSkinDropDownBox;
+	if (gSkinDropDownBox == NULL) {
+		gSkinDropDownBox = new WidgetSkin(RES_DROPDOWNBOX_SEL, RES_DROPDOWNBOX_UNSEL,
+				DROPDOWNBOX_X_LEFT, DROPDOWNBOX_X_RIGHT, DROPDOWNBOX_Y_TOP,
+				DROPDOWNBOX_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBox;
+}
+
+WidgetSkin* Util::getSkinDropDownBack() {
+	static WidgetSkin* gSkinDropDownBack;
+	if (gSkinDropDownBack == NULL) {
+		gSkinDropDownBack = new WidgetSkin(RES_BLANK, RES_BLANK,
+				DROPDOWNBACK_X_LEFT, DROPDOWNBACK_X_RIGHT, DROPDOWNBACK_Y_TOP,
+				DROPDOWNBACK_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBack;
+}
+
+WidgetSkin* Util::getSkinHeader() {
+	static WidgetSkin* gSkinHeader;
+	if (gSkinHeader == NULL) {
+		gSkinHeader = new WidgetSkin(RES_IMAGE, RES_IMAGE,
+				HEADER_X_LEFT, HEADER_X_RIGHT, HEADER_Y_TOP,
+				HEADER_Y_BOTTOM, true, true);
+	}
+	return gSkinHeader;
+}
+
 void Util::setPadding(Widget *w) {
 	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);
@@ -184,8 +224,15 @@ Label* Util::createLabel(String str, int height) {
 }
 
 Label* Util::createEditLabel(String str, int height) {
-	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontWhite());
 	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
+	return label;
+}
+
+Label* Util::createDropDownLabel(String str, int height) {
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinDropDownBox());
 	Util::setPadding(label);
 	return label;
 }
@@ -248,7 +295,7 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	Layout *mainLayout = new Layout(0, 0, scrWidth, scrHeight, NULL, 1, 2);
 
 	Widget *softKeys = Util::createSoftKeyBar(getSoftKeyBarHeight(), left, right, centre);
-	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
+	Label *label = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultFont());
 	label->setMultiLine(true);
 
 	ListBox *listBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()), mainLayout, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
@@ -257,24 +304,31 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	//int imgWidth = EXTENT_X(imgSize);
 	int imgHeight = EXTENT_Y(imgSize);
 
-	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
+	/*Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, false, false, RES_IMAGE);
 	//Label *lblz = new Label(0,0,scrWidth,36,NULL,"",0,Util::getDefaultSelected());
-	listBox->add(image);
+	listBox->add(image);*/
+	ListBox *header = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
+	header->setSkin(Util::getSkinHeader());
+
+	listBox->add(header);
 
 	label->setAutoSizeY();
 	label->setMultiLine(true);
+	label->setPaddingLeft(PADDING);
 	listBox->add(label);
 
 	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+		mKineticBox->setPaddingLeft(PADDING);
 		listBox->add(mKineticBox);
 	}
 	else {
 		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
+		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
 	}
-	listBox->setPaddingLeft(PADDING);
+	//listBox->setPaddingLeft(PADDING);
 
 	imgSize = -1;
 	mainLayout->add(softKeys);
