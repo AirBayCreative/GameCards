@@ -960,6 +960,7 @@ void GamePlayScreen::selectStat() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		hasConnection = false;

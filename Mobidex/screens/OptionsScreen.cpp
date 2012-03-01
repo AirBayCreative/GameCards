@@ -226,12 +226,14 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_NUMBER_OPTIONS:
 					if(index == 0) {
-						maPlatformRequest(("tel:"+number).c_str());
+						int ret = maPlatformRequest(("tel://"+number).c_str());
+						printf("ret %d %s", ret, number.c_str());
 					}
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
+						printf("ret %d %s", 0, number.c_str());
 						menu = new NoteScreen(this, feed,
 								card, NoteScreen::ST_SMS, number);
 						menu->show();

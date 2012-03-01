@@ -2,12 +2,17 @@
 <project supports-build-configs="true" version="1.4">
 <build.cfg id="Debug" types="Debug"/>
 <build.cfg id="Release" types="Release"/>
+<criteria>
+<filter type="com.mobilesorcery.sdk.capabilities.devices.elementfactory">
+<capabilities optional="" required="Contacts File\ Storage Internet\ Access"/>
+</filter>
+</criteria>
 <properties>
 <property key="build.prefs:additional.include.paths" value=""/>
 <property key="build.prefs:additional.libraries" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
 <property key="build.prefs:additional.library.paths" value=""/>
 <property key="build.prefs:app.name" value="Mobidex"/>
-<property key="build.prefs:app.permissions" value="Contacts/Read File\ Storage Internet\ Access Vibration"/>
+<property key="build.prefs:app.permissions" value="Contacts Contacts/Read Contacts/Write File\ Storage Internet\ Access SMS/Send Vibration"/>
 <property key="build.prefs:app.vendor" value="mytcg Technologies"/>
 <property key="build.prefs:extra.link.sw" value=""/>
 <property key="build.prefs:extra.res.sw" value=""/>
@@ -24,8 +29,9 @@
 <property key="build.prefs:project.type" value=""/>
 <property key="dependency.strategy" value="0"/>
 <property key="excludes" value=""/>
-<property key="profile.mgr.type" value="1"/>
+<property key="profile.mgr.type" value="0"/>
 <property key="symbian.uids:uid.s60v2uid" value="0x0c0516c9"/>
 <property key="symbian.uids:uid.s60v3uid" value="0xe97cdcc3"/>
+<property key="winmobilecs:guid" value="f63efb20-459b-102f-802f-f1fa3dca1ef2"/>
 </properties>
 </project>
