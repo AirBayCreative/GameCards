@@ -10,7 +10,7 @@
 #include "../MAHeaders.h"
 #include "../utils/Albums.h"
 
-OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String num) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(num) {
 	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	error_msg = "";
 	moved = 0;
@@ -19,6 +19,7 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	busy = false;
 
 	menu = NULL;
+	confirmation = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
 		layout = Util::createMainLayout("", "Exit", true);
@@ -51,6 +52,19 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
+
+			confirmation = new MenuScreen(RES_BLANK, "Are you sure?");
+			confirmation->setMenuWidth(120);
+			confirmation->setMarginX(5);
+			confirmation->setMarginY(5);
+			confirmation->setDock(MenuScreen::MD_CENTER);
+			confirmation->setListener(this);
+			confirmation->setMenuFontSel(Util::getDefaultFont());
+			confirmation->setMenuFontUnsel(Util::getDefaultFont());
+			confirmation->setMenuSkin(Util::getSkinDropDownItem());
+			confirmation->addItem("Yes");
+			confirmation->addItem("No");
+
 			break;
 		case ST_NEW_CARD:
 			lbl = Util::createSubLabel("Accept Card");
@@ -62,6 +76,9 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 			lbl->addWidgetListener(this);
 			listBox->add(lbl);
 		case ST_NUMBER_OPTIONS:
+			while (number.find(" ") != -1) {
+				number = number.substr(0, number.find(" ")) + number.substr(number.find(" ") + 1, number.length() - (number.find(" ") + 1));
+			}
 			lbl = Util::createSubLabel("Call");
 			lbl->setPaddingLeft(5);
 			lbl->addWidgetListener(this);
@@ -207,9 +224,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						menu->show();
 					}
 					else if (index == 4 && !busy) {
-						busy = true;
-						notice->setCaption("Deleting...");
-						deleteCard();
+						confirmation->show();
 					}
 					break;
 				case ST_NEW_CARD:
@@ -227,13 +242,28 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 				case ST_NUMBER_OPTIONS:
 					if(index == 0) {
 						int ret = maPlatformRequest(("tel://"+number).c_str());
-						printf("ret %d %s", ret, number.c_str());
+						if (ret < 0) {
+							ret = maCallDial(("tel://"+number).c_str());
+						}
+						if (ret < 0) {
+							MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+							confirmation->setMenuWidth(170);
+							confirmation->setMarginX(5);
+							confirmation->setMarginY(5);
+							confirmation->setDock(MenuScreen::MD_CENTER);
+							confirmation->setListener(this);
+							confirmation->setMenuFontSel(Util::getDefaultFont());
+							confirmation->setMenuFontUnsel(Util::getDefaultFont());
+							confirmation->setMenuSkin(Util::getSkinDropDownItem());
+							confirmation->addItem("Ok");
+							confirmation->show();
+							accept = true;
+						}
 					}
 					else if (index == 1) {
 						if (menu != NULL) {
 							delete menu;
 						}
-						printf("ret %d %s", 0, number.c_str());
 						menu = new NoteScreen(this, feed,
 								card, NoteScreen::ST_SMS, number);
 						menu->show();
@@ -406,4 +436,17 @@ void OptionsScreen::mtxEmptyTagEnd() {
 }
 
 void OptionsScreen::mtxTagStartEnd() {
+}
+
+void OptionsScreen::menuOptionSelected(int index) {
+	this->show();
+	if (!accept) {
+		if (index == 0) {
+			busy = true;
+			notice->setCaption("Deleting...");
+			deleteCard();
+		}
+	} else {
+		accept = false;
+	}
 }

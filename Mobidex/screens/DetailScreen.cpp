@@ -127,6 +127,11 @@ DetailScreen::~DetailScreen() {
 	email = "";
 }
 
+void DetailScreen::menuOptionSelected(int index) {
+	this->show();
+}
+
+
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -190,11 +195,11 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		}
 	}
 	else if (screenType == NOTIFICATIONS) {
-		if(selected) {
+		/*if(selected) {
 			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
 			((Label *)widget)->setFont(Util::getDefaultFont());
-		}
+		}*/
 	}
 	else {
 		if(selected) {
@@ -224,7 +229,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					int index = listBox->getSelectedIndex();
 					if(card->getStats()[index]!=NULL){
 						Stat *stat = card->getStats()[index];
-						if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
+						if ((strcmp(stat->getDesc().c_str(), "Mobile No") == 0)||
+							(strcmp(stat->getDesc().c_str(), "Tel No") == 0) ){
 							if (next != NULL) {
 								feed->remHttp();
 								delete next;
@@ -234,16 +240,51 @@ void DetailScreen::keyPressEvent(int keyCode) {
 							next->show();
 						}
 						else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
-
+							String email = stat->getDisplay();
+							int ret = maPlatformRequest(("mailto:"+email).c_str());
+							if (ret < 0 ) {
+								ret = maPlatformRequest(email.c_str());
+							}
+							if (ret < 0) {
+								MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on Handset.");
+								confirmation->setMenuWidth(120);
+								confirmation->setMarginX(5);
+								confirmation->setMarginY(5);
+								confirmation->setDock(MenuScreen::MD_CENTER);
+								confirmation->setListener(this);
+								confirmation->setMenuFontSel(Util::getDefaultFont());
+								confirmation->setMenuFontUnsel(Util::getDefaultFont());
+								confirmation->setMenuSkin(Util::getSkinDropDownItem());
+								confirmation->addItem("Ok");
+								confirmation->show();
+							}
 						}
-						else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
+						else if ((strcmp(stat->getDesc().c_str(), "Web Address") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)) {
 							String url = stat->getDisplay();
 							//maPlatformRequest will only work if the url starts with http://
 							//so we need to check for it, and add it if it isnt there
 							if (url.find("http://") != 0) {
 								url = "http://"+url;
 							}
-							maPlatformRequest(url.c_str());
+							int ret = maPlatformRequest(url.c_str());
+							if (ret < 0) {
+								MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+								confirmation->setMenuWidth(170);
+								confirmation->setMarginX(5);
+								confirmation->setMarginY(5);
+								confirmation->setDock(MenuScreen::MD_CENTER);
+								confirmation->setListener(this);
+								confirmation->setMenuFontSel(Util::getDefaultFont());
+								confirmation->setMenuFontUnsel(Util::getDefaultFont());
+								confirmation->setMenuSkin(Util::getSkinDropDownItem());
+								confirmation->addItem("Ok");
+								confirmation->show();
+							}
 						}
 					}
 					break;

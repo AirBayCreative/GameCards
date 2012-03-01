@@ -26,7 +26,6 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	}
 
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	//Util::setPadding(listBox);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	switch (screenType) {
@@ -159,7 +158,22 @@ void NoteScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_SMS:
 					if (note.length() > 0) {
-						maSendTextSMS(detail.c_str(), note.c_str());
+						int ret = maSendTextSMS(detail.c_str(), note.c_str());
+						if (ret == 0) {
+							editBoxNote->setSelected(false);
+							editBoxNote->disableListener();
+							MenuScreen *confirmation = new MenuScreen(RES_BLANK, "SMS Sent.");
+							confirmation->setMenuWidth(120);
+							confirmation->setMarginX(5);
+							confirmation->setMarginY(5);
+							confirmation->setDock(MenuScreen::MD_CENTER);
+							confirmation->setListener(this);
+							confirmation->setMenuFontSel(Util::getDefaultFont());
+							confirmation->setMenuFontUnsel(Util::getDefaultFont());
+							confirmation->setMenuSkin(Util::getSkinDropDownItem());
+							confirmation->addItem("Ok");
+							confirmation->show();
+						}
 					}
 				break;
 			}
@@ -183,6 +197,12 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		isBusy = false;
 		feed->remHttp();
 	}
+}
+
+void NoteScreen::menuOptionSelected(int index) {
+	this->show();
+	editBoxNote->setSelected(true);
+	editBoxNote->enableListener();
 }
 
 void NoteScreen::connReadFinished(Connection* conn, int result) {}

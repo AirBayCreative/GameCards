@@ -11,6 +11,7 @@
 #include "../utils/ImageCache.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 #include "TradeFriendDetailScreen.h"
 
 using namespace MAUI;
@@ -19,7 +20,7 @@ using namespace MAUI;
  *  The screen class used for demonstrating how to
  *  use MAUI::Image widgets.
  */
-class ImageScreen : public Screen, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ImageScreen : public Screen, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	ImageScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, int screenType = ST_NORMAL,
 			bool hasConnection = true, bool canAuction = true);
@@ -65,6 +66,8 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void ImageScreen::menuOptionSelected(int index);
 };
 
 #endif	//_IMAGESCREEN_H_

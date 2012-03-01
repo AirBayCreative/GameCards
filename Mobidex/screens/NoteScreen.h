@@ -9,10 +9,11 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 
-class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
 	~NoteScreen();
@@ -53,6 +54,8 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
 };
 
 #endif	//_NOTESCREEN_H_

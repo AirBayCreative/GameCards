@@ -154,7 +154,7 @@
 
 .res RES_CREATECARD
 .ubin
-.include "createcard.jpg"
+.include "createcard.png"
 
 .res RES_BLANK
 .ubin
@@ -174,4 +174,12 @@
 
 .res RES_DROPDOWN_UNSEL
 .ubin 
-.image "dropdownbox_unsel.png"  
+.image "dropdownbox_unsel.png"
+
+.res RES_BOX_SELECTED
+.ubin
+.image "box_selected.png"
+
+.res RES_BOX_UNSELECTED
+.ubin
+.image "box_unselected.png"

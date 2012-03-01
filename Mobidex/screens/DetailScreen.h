@@ -9,11 +9,12 @@
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
 	~DetailScreen();
@@ -59,6 +60,8 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
 };
 
 #endif	//_DETAILSCREEN_H_

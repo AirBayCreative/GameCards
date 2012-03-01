@@ -43,6 +43,11 @@ if ($_GET['registeruser']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	
+	if ($cell{0} != "+") {
+		$cell = ("+".$cell);
+	}
+	
 	$ip = getip();
 	$sOP = registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $country, $ip, $url);
 	
@@ -177,11 +182,15 @@ if ($cardID = $_GET['tradecard']){
 	//Friend detail type
   $tradeMethod = $_REQUEST['trademethod'];
   //Friend detail
-  $receiveNumber = $_REQUEST['detail'];
+	$receiveNumber = base64_decode($_REQUEST['detail']);
   //note to send user
   $sentNote = $_REQUEST['note'];
+	
+	if ($receiveNumber{0} != "+") {
+		$receiveNumber = ("+".$receiveNumber);
+	}
   
-  tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote);
+  tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sentNote);
   exit;
 }
 

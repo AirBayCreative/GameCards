@@ -12,7 +12,11 @@
 <property key="build.prefs:additional.libraries" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
 <property key="build.prefs:additional.library.paths" value=""/>
 <property key="build.prefs:app.name" value="Mobidex"/>
+<<<<<<< HEAD
 <property key="build.prefs:app.permissions" value="Contacts Contacts/Read Contacts/Write File\ Storage Internet\ Access SMS/Send Vibration"/>
+=======
+<property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access SMS/Send Vibration"/>
+>>>>>>> 144eea482db6c17ab46203e644bb163aad99fed3
 <property key="build.prefs:app.vendor" value="mytcg Technologies"/>
 <property key="build.prefs:extra.link.sw" value=""/>
 <property key="build.prefs:extra.res.sw" value=""/>
