@@ -295,6 +295,7 @@ Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed)
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
+	termsMenu == NULL;
 
 	response = "";
 
@@ -341,6 +342,11 @@ Login::~Login() {
 	email="";
 	handle="";
 	touch="";
+
+	if (termsMenu != NULL) {
+		delete termsMenu;
+		termsMenu = NULL;
+	}
 }
 
 void Login::drawLoginScreen() {
@@ -373,6 +379,15 @@ void Login::drawLoginScreen() {
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
 	listBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	listBox->add(label);
+
+	termsLink = new Label(0,0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, NULL, "Forgot password", 0, Util::getFontBlue());
+	termsLink->setSkin(Util::getSkinDropDownItem());
+	Util::setPadding(termsLink);
+	termsLink->addWidgetListener(this);
+	listBox->add(termsLink);
 
 	listBox->setSelectedIndex(1);
 }
@@ -441,10 +456,16 @@ void Login::drawRegisterScreen() {
 
 	termsLayout = new Layout(0, 0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, listBox, 2, 1);
 	termsLayout->setHorizontalAlignment(Layout::HA_CENTER);
+	termsLayout->setVerticalAlignment(Layout::VA_CENTER);
+	termsLayout->setSkin(Util::getSkinDropDownItem());
+	termsLayout->setDrawBackground(true);
+	termsLayout->setPaddingLeft(PADDING);
 	termsLink = new Label(0, 0, 0, 0, termsLayout, "Terms and conditions ", 0, Util::getFontBlue());
 	termsLink->setAutoSizeX(true);
 	termsLink->setAutoSizeY(true);
+	termsLink->setDrawBackground(false);
 	termsBox = new CheckBox(0, 0, 35, 35, termsLayout);
+	termsBox->setDrawBackground(false);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
@@ -452,6 +473,20 @@ void Login::drawRegisterScreen() {
 	listBox->add(label);
 
 	listBox->setSelectedIndex(1);
+
+	termsMenu = new MenuScreen(RES_BLANK);
+	termsMenu->setMenuWidth(140);
+	termsMenu->setMarginX(5);
+	termsMenu->setMarginY(5);
+	termsMenu->setDock(MenuScreen::MD_CENTER);
+	termsMenu->setMenuFontSel(Util::getFontBlack());
+	termsMenu->setMenuFontUnsel(Util::getFontWhite());
+	termsMenu->setMenuSkin(Util::getSkinDropDownItem());
+	termsMenu->addItem("View T's and C's");
+	termsMenu->addItem("Accept");
+	termsMenu->addItem("Reject");
+	termsMenu->setListener(this);
+
 }
 
 void Login::clearListBox() {
@@ -492,6 +527,10 @@ void Login::pointerMoveEvent(MAPoint2d point)
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
+		if (screen == S_REGISTER && editBoxEmail->isSelected()) {
+			editBoxEmail->activate();
+		}
+
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
@@ -519,8 +558,7 @@ void Login::locateItem(MAPoint2d point)
     Point listP, p;
     p.set(point.x, point.y);
     listP.set(point.x, point.y - (listBox->getYOffset()>>16));
-    for(int i = 0; i < (listBox->getChildren()).size() &&
-    	!mainLayout->getChildren()[1]->contains(p); i++)
+    for(int i = 0; i < (listBox->getChildren()).size(); i++)
     {
         if(listBox->getChildren()[i]->contains(listP))
         {
@@ -535,6 +573,8 @@ void Login::locateItem(MAPoint2d point)
 		{
 			if (i == 0) {
 				left = true;
+			} else if (i == 1) {
+				mid = true;
 			} else if (i == 2) {
 				right = true;
 			}
@@ -557,6 +597,18 @@ void Login::keyPressEvent(int keyCode) {
 	int index = listBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_FIRE:
+			switch (screen) {
+				case S_LOGIN:
+					if (termsLink->isSelected()) {
+						maPlatformRequest("http://www.mobidex.biz/forgotpassword");
+					}
+					break;
+				case S_REGISTER:
+					if (termsLayout->isSelected()) {
+						termsMenu->show();
+					}
+					break;
+			}
 			break;
 		case MAK_SOFTLEFT:
 			if (!isBusy) {
@@ -564,6 +616,7 @@ void Login::keyPressEvent(int keyCode) {
 					case S_LOGIN:
 						if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
 							isBusy = true;
+							response = "";
 							notice->setCaption("Please wait, logging in...");
 							conCatenation = editBoxPass->getText().c_str();
 							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
@@ -611,6 +664,9 @@ void Login::keyPressEvent(int keyCode) {
 						}
 						else if (countryIndex == -1) {
 							notice->setCaption("Please enter your cell number in the international format");
+						}
+						else if (!termsBox->isChecked()) {
+							notice->setCaption("You need to accept the terms and conditions to register");
 						}
 						else {
 							response = "";
@@ -681,8 +737,6 @@ void Login::keyPressEvent(int keyCode) {
 				listBox->setSelectedIndex(0);
 				listBox->setSelectedIndex(1);
 			}
-			break;
-		case MAK_LEFT:
 			break;
 	}
 }
@@ -884,4 +938,18 @@ void Login::mtxEmptyTagEnd() {
 }
 
 void Login::mtxTagStartEnd() {
+}
+
+void Login::menuOptionSelected(int index) {
+	if (index == 0) {
+		maPlatformRequest("http://www.mobidex.biz/terms");
+	}
+	else if (index == 1) {
+		termsBox->setChecked(true);
+		this->show();
+	}
+	else if (index == 2) {
+		termsBox->setChecked(false);
+		this->show();
+	}
 }

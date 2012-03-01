@@ -265,6 +265,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setMultiLine(true);
 	if (strlen(centre) != 0) {
 		label->setSkin(Util::getSkinButton());
 	}

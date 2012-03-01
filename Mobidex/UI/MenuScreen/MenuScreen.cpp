@@ -224,7 +224,6 @@ void MenuScreen::pointerMoveEvent(MAPoint2d point) {
 
 void MenuScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	printf("moved: %d", moved);
 	if (moved <= 5) {
 		if (header==NULL ||
 				(header!=NULL && !header->isSelected())) {

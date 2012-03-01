@@ -109,6 +109,11 @@ OptionsScreen::~OptionsScreen() {
 	error_msg = "";
 	number="";
 
+	if (confirmation != NULL) {
+		delete confirmation;
+		confirmation = NULL;
+	}
+
 	delete layout;
 	if(menu!=NULL){
 		delete menu;
