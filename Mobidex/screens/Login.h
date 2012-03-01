@@ -11,6 +11,7 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/CheckBox.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -35,10 +36,11 @@ public:
 	void menuOptionSelected(int index);
 	enum screens {S_LOGIN, S_REGISTER};
 private:
-	Layout *mainLayout;
+	Layout *mainLayout, *termsLayout;
 	KineticListBox *listBox;
-	Label *label, *notice;
+	Label *label, *notice, *termsLink;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxFullname, *editBoxCell, *editBoxEmail;
+	CheckBox *termsBox;
 	Vector<Widget*> tempWidgets;
 
 	HttpConnection mHttp;

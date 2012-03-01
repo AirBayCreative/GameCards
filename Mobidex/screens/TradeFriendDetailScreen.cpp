@@ -316,15 +316,16 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					notice->setCaption("Sending card...");
 
 					String noteStr = Util::base64_encode(reinterpret_cast<const unsigned char*>(friendNote.c_str()), friendNote.length());
+					String numStr = Util::base64_encode(reinterpret_cast<const unsigned char*>(friendDetail.c_str()), friendDetail.length());
 
 					//make the http connection to trade the card
 					int urlLength = 60 + URLSIZE + card->getId().length() +
-							method.length() + friendDetail.length() + 6 + noteStr.length();
+							method.length() + numStr.length() + 6 + noteStr.length();
 					char *url = new char[urlLength];
 					memset(url, '\0', urlLength);
 
 					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s&note=%s", URL, card->getId().c_str(),
-							method.c_str(), friendDetail.c_str(), noteStr.c_str());
+							method.c_str(), numStr.c_str(), noteStr.c_str());
 					//url.append("&sms=Yes", 8);
 
 					if(mHttp.isOpen()){
@@ -410,7 +411,7 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 	if (strcmp(parentTag.c_str(), "result") == 0) {
 		String check = data;
 		if (!(check.find("User not found."))) {
-			maSendTextSMS(contactEditBox->getText().c_str(), check.substr(16).c_str());
+			maSendTextSMS(("+" + contactEditBox->getText()).c_str(), check.substr(16).c_str());
 			result = "User not found. Invite Sent.";
 		} else {
 			result = data;

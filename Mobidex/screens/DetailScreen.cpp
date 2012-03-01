@@ -190,11 +190,11 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		}
 	}
 	else if (screenType == NOTIFICATIONS) {
-		if(selected) {
+		/*if(selected) {
 			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
 			((Label *)widget)->setFont(Util::getDefaultFont());
-		}
+		}*/
 	}
 	else {
 		if(selected) {

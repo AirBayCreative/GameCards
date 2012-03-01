@@ -7,16 +7,18 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 #include <maprofile.h>
+#include <IX_CALL.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
 	~OptionsScreen();
@@ -59,6 +61,10 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
+
+	MenuScreen *confirmation;
 };
 
 #endif

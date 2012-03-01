@@ -356,7 +356,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 										delete next;
 										next == NULL;
 									}
-									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
+									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDisplay());
 									next->show();
 								}
 								else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {

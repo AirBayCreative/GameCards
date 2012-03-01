@@ -1,8 +1,8 @@
 #include "MenuScreen.h"
 #include "../../utils/Util.h"
 
-MenuScreen::MenuScreen(MAHandle blank) : mBlankImage(blank), mListener(NULL), mSkin(NULL), mFontSel(NULL), mFontUnsel(NULL),
-										 mDock(MD_BOTTOM_LEFT), mIsDirty(false), mMarginX(0), mMarginY(0)
+MenuScreen::MenuScreen(MAHandle blank, char *headerLabel) : mBlankImage(blank), mListener(NULL), mSkin(NULL), mFontSel(NULL), mFontUnsel(NULL),
+										 mDock(MD_BOTTOM_LEFT), mIsDirty(false), mMarginX(0), mMarginY(0), header(NULL)
 {
 	MAExtent scr = maGetScrSize();
 	mScreenHeight = EXTENT_Y(scr);
@@ -19,6 +19,21 @@ MenuScreen::MenuScreen(MAHandle blank) : mBlankImage(blank), mListener(NULL), mS
 	mOptions->setPaddingRight(2);
 	mOptions->setPaddingTop(2);
 	//mOptions->setAutoSize(true);
+
+	if (strlen(headerLabel) > 0) {
+		header = new Label(0, 0, mOptions->getWidth() - 4, 20, mOptions);
+		header->setMultiLine(true);
+		//header->setAutoSizeX(false);
+		header->setAutoSizeY(true);
+		header->setHorizontalAlignment(Label::HA_LEFT);
+		header->setVerticalAlignment(Label::VA_CENTER);
+		header->setPaddingTop(5);
+		header->setPaddingBottom(5);
+		header->setPaddingLeft(5);
+		header->setPaddingRight(5);
+		header->setCaption(headerLabel);
+		header->setDrawBackground(false);
+	}
 
 	setMain(mBlank);
 }
@@ -151,7 +166,7 @@ void MenuScreen::keyPressEvent(int keyCode, int nativeCode)
 	{
 		case MAK_LEFT:
 		case MAK_UP:
-			if (mOptions->getSelectedIndex() == 0) {
+			if (mOptions->getSelectedIndex() == (header==NULL?0:1)) {
 				mOptions->setSelectedIndex(mOptions->getChildren().size() - 1);
 			}
 			else {
@@ -161,7 +176,7 @@ void MenuScreen::keyPressEvent(int keyCode, int nativeCode)
 		case MAK_RIGHT:
 		case MAK_DOWN:
 			if (mOptions->getSelectedIndex() == mOptions->getChildren().size() - 1) {
-				mOptions->setSelectedIndex(0);
+				mOptions->setSelectedIndex(header==NULL?0:1);
 			}
 			else {
 				mOptions->selectNextItem();
@@ -209,14 +224,19 @@ void MenuScreen::pointerMoveEvent(MAPoint2d point) {
 
 void MenuScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (moved < 3)
-		informListener();
+	printf("moved: %d", moved);
+	if (moved <= 5) {
+		if (header==NULL ||
+				(header!=NULL && !header->isSelected())) {
+			informListener();
+		}
+	}
 }
 
 void MenuScreen::informListener()
 {
 	if(mListener != NULL)
-		mListener->menuOptionSelected(mOptions->getSelectedIndex());
+		mListener->menuOptionSelected(header==NULL?mOptions->getSelectedIndex():mOptions->getSelectedIndex()-1);
 }
 
 Label* MenuScreen::createLabel(const char* text)
