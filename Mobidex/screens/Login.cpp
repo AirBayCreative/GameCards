@@ -563,7 +563,8 @@ void Login::locateItem(MAPoint2d point)
     Point listP, p;
     p.set(point.x, point.y);
     listP.set(point.x, point.y - (listBox->getYOffset()>>16));
-    for(int i = 0; i < (listBox->getChildren()).size(); i++)
+    for(int i = 0; i < (listBox->getChildren()).size() &&
+    	!mainLayout->getChildren()[1]->contains(p); i++)
     {
         if(listBox->getChildren()[i]->contains(listP))
         {
