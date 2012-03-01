@@ -389,6 +389,11 @@ void Login::drawLoginScreen() {
 	termsLink->addWidgetListener(this);
 	listBox->add(termsLink);
 
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	listBox->add(label);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	listBox->add(label);
+
 	listBox->setSelectedIndex(1);
 }
 
