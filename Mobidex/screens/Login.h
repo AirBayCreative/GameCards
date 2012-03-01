@@ -11,6 +11,7 @@
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/CheckBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -20,7 +21,7 @@ struct country {
 	const char *country;
 };
 
-class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	Login(Feed *feed, Screen *previous, int screen);
 	~Login();
@@ -41,6 +42,7 @@ private:
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxFullname, *editBoxCell, *editBoxEmail;
 	CheckBox *termsBox;
 	Vector<Widget*> tempWidgets;
+	MenuScreen *termsMenu;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
