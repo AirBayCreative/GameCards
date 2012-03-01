@@ -135,11 +135,13 @@ ContactScreen::~ContactScreen() {
 }
 
 void ContactScreen::selectionChanged(Widget *widget, bool selected) {
-	/*if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
-	}*/
+	if (widget->getParent() == listBox) {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
+	}
 }
 void ContactScreen::pointerPressEvent(MAPoint2d point)
 {

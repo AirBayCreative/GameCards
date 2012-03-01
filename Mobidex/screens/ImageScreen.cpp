@@ -166,6 +166,22 @@ ImageScreen::~ImageScreen() {
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
+	if (strcmp(Card::ORIENTATION_LANDSCAPE, card->getOrientation().c_str()) == 0) {
+		//if it is a landscape card, the orientation must be switched
+		switch(keyCode) {
+			case MAK_UP:
+			case MAK_DOWN:
+				keyCode = MAK_LEFT;
+				break;
+			case MAK_LEFT:
+				keyCode = MAK_DOWN;
+				break;
+			case MAK_RIGHT:
+				keyCode = MAK_UP;
+				break;
+		}
+	}
+
 	switch (keyCode) {
 		case MAK_LEFT:
 		case MAK_RIGHT:

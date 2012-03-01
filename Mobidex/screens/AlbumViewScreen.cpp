@@ -26,6 +26,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	updated = "";
 	note = "";
 	searchString = "";
+	orientation = "";
 
 	if (albumType != Util::AT_SHARE) {
 		mainLayout = Util::createMainLayout("", "Back", "", true);
@@ -34,6 +35,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	}
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox->setPaddingRight(PADDING);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	mImageCache = new ImageCache();
@@ -318,6 +320,7 @@ AlbumViewScreen::~AlbumViewScreen() {
 	note="";
 	category="";
 	searchString="";
+	orientation="";
 }
 
 void AlbumViewScreen::selectionChanged(Widget *widget, bool selected) {
@@ -482,6 +485,8 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		statDisplay += data;
 	} else if(!strcmp(parentTag.c_str(), "note")) {
 		note += data;
+	} else if(!strcmp(parentTag.c_str(), "cardorientation")) {
+		orientation += data;
 	}
 }
 
@@ -489,7 +494,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "card")) {
 		notice->setCaption("");
 		Card *newCard = new Card();
-		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+",").c_str());
+		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+orientation+",").c_str());
 		newCard->setStats(stats);
 		cardExists = cards.find(newCard->getId());
 		if (category == "-3") { //-3 is ALBUM_UPDATES
@@ -522,6 +527,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		value = "";
 		updated = "";
 		note = "";
+		orientation = "";
 		stats.clear();
 	} else if(!strcmp(name, "stat")) {
 		stat = new Stat();

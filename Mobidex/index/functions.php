@@ -1,5 +1,5 @@
 <?php
-include('SimpleImage.php');
+include('class.upload.php');
 include('dbconnection.php');
 
 //i just made this for convenience
@@ -9,10 +9,11 @@ function resizeThumbs($root) {
 		$filename = $root.'img/cards/'.$iImage.'_thumb.png';
 		
 		if(file_exists($filename)){
-			$image = new SimpleImage();
-			$image->load($filename);
-			$image->resizeToHeight(64);
-			$image->save($filename);
+			$image = new Upload($filename);
+			$image->image_resize = true;
+			$image->image_ratio_x = true;
+			$image->image_y = 64;
+			$image->Process($root.'img/cards/');
 		}
 		$iImage++;
 	}
@@ -30,14 +31,11 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	
 	$filename = $root.'img/cards/'.$iImage.'_front'.$ext;
 	if (file_exists($filename)) {
-		$image = new SimpleImage();
-		$image->load($filename);
-		$ratio = $iHeight / $image->getHeight();
-		if ($image->getHeight() > $image->getWidth()) {
-			if (($ratio * ($image->getWidth())) > $iWidth) {
-				$ratio = $iWidth / $image->getWidth();
-				$iHeight =  intval($ratio * $image->getHeight());
-			}
+		$image = new Upload($filename);
+		$ratio = $iHeight / $image->image_src_y;
+		if (($ratio * ($image->image_src_x)) > $iWidth) {
+			$ratio = $iWidth / $image->image_src_x;
+			$iHeight =  intval($ratio * $image->image_src_y);
 		}
 	}
 	else {
@@ -81,43 +79,135 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	//Check and create new resized front image
 	$filenameResized = $dir.$iImage.'_front'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->image_ratio_x = true;
+		$image->image_y = $iHeight;
+		$image->Process($dir);
+	}
+	
+	$filename = $root.'img/cards/'.$iImage.'_front'.$ext;
+	$filenameResized = $dir.$iImage.'_front_flip'.$ext;
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->file_new_name_body = $iImage.'_front_flip';
+		if ($iBBHeight) {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iBBRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iBBRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		} else {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		}
+		$image->Process($dir);
 	}
 	
 	//Check and create new resized back image
 	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
 	$filenameResized = $dir.$iImage.'_back'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->image_ratio_x = true;
+		$image->image_y = $iHeight;
+		$image->Process($dir);
+	}
+	
+	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
+	$filenameResized = $dir.$iImage.'_back_flip'.$ext;
+	if((!file_exists($filenameResized)) && (file_exists($filename))){
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->file_new_name_body = $iImage.'_back_flip';
+		if ($iBBHeight) {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iBBRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iBBRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		} else {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		}
+		$image->Process($dir);
 	}
 	
 	//we need to resize the gc image for this size, if it hasnt been done yet.
 	$filename = $root.'img/cards/gc'.$ext;
 	$filenameResized = $dir.'gc'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight - 60);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->image_ratio_x = true;
+		$image->image_y = $iHeight - 60;
+		$image->Process($dir);
 	}
 	
 	$filename = $root.'img/cards/gc'.$ext;
 	$filenameResized = $dir.'gcFlip'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->file_new_name_body = 'gcFlip';
 		if ($iBBHeight) {
-			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iBBRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iBBRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
 		} else {
-			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
 		}
-		$image->save($filenameResized, $image_type);
+		$image->Process($dir);
 	}
 	
 	return $iHeight;
@@ -135,12 +225,11 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
 	
 	$filename = $root.'img/cards/gc'.$ext;
 	if (file_exists($filename)) {
-		$image = new SimpleImage();
-		$image->load($filename);
-		$ratio = $iHeight / $image->getHeight();
-		if (($ratio * ($image->getWidth())) > $iWidth) {
-			$ratio = $iWidth / $image->getWidth();
-			$iHeight =  intval($ratio * $image->getHeight());
+		$image = new Upload($filename);
+		$ratio = $iHeight / $image->image_src_y;
+		if (($ratio * ($image->image_src_x)) > $iWidth) {
+			$ratio = $iWidth / $image->image_src_x;
+			$iHeight =  intval($ratio * $image->image_src_y);
 		}
 	}
 	else {
@@ -185,29 +274,51 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
 	$filename = $root.'img/cards/gc'.$ext;
 	$filenameResized = $dir.'gc'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight - 60);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->image_ratio_x = true;
+		$image->image_y = $iHeight - 60;
+		$image->Process($dir);
 	}
 	
 	$filename = $root.'img/cards/gc'.$ext;
 	$filenameResized = $dir.'gcFlip'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->file_new_name_body = 'gcFlip';
 		if ($iBBHeight) {
-			$image->rotateToHeight($iRotateWidth, $iBBRotateHeight);
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iBBRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iBBRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
 		}  else {
-			$image->rotateToHeight($iRotateWidth, $iRotateHeight);
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
 		}
-		$image->save($filenameResized, $image_type);
+		$image->Process($dir);
 	}
 	
 	return $iHeight;
 }
 
-function resizeLoadingCard($iHeight, $iWidth, $root, $jpg=0) {
+function resizeLoadingCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
 
 	$ext = '.png';
 	$image_type=IMAGETYPE_PNG;
@@ -220,12 +331,11 @@ function resizeLoadingCard($iHeight, $iWidth, $root, $jpg=0) {
 	//we need to check if the width after scaling would be too wide for the screen.
 	$filename = $root.'img/cards/loading'.$ext;
 	if (file_exists($filename)) {
-		$image = new SimpleImage();
-		$image->load($filename);
-		$ratio = $iHeight / $image->getHeight();
-		if (($ratio * ($image->getWidth())) > $iWidth) {
-			$ratio = $iWidth / $image->getWidth();
-			$iHeight =  intval($ratio * $image->getHeight());
+		$image = new Upload($filename);
+		$ratio = $iHeight / $image->image_src_y;
+		if (($ratio * ($image->image_src_x)) > $iWidth) {
+			$ratio = $iWidth / $image->image_src_x;
+			$iHeight =  intval($ratio * $image->image_src_y);
 		}
 	}
 	else {
@@ -252,6 +362,9 @@ function resizeLoadingCard($iHeight, $iWidth, $root, $jpg=0) {
 		}
 	}
 	$dir .= "/cards";
+	if ($iBBHeight) {
+		$dir .= "bb";
+	}
 	if (!is_dir($dir)){
 		if (!mkdir($dir, 0777, true)) {
 			die('Failed to create folders -> '.$dir);
@@ -261,24 +374,51 @@ function resizeLoadingCard($iHeight, $iWidth, $root, $jpg=0) {
 	
 	$iRotateHeight = ($iHeight-20<=0)?$iHeight:$iHeight-20;
 	$iRotateWidth = ($iWidth-40<=0)?$iWidth:$iWidth-40;
+	$iBBRotateHeight = ($iBBHeight-20<=0)?$iBBHeight:$iBBHeight-20;
 	
 	//we need to resize the loading image for this size, if it hasnt been done yet.
 	$filename = $root.'img/cards/loading'.$ext;
 	$filenameResized = $dir.'loading'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->resizeToHeight($iHeight - 60);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->image_ratio_x = true;
+		$image->image_y = $iHeight - 60;
+		$image->Process($dir);
 	}
 	
 	$filename = $root.'img/cards/loading'.$ext;
 	$filenameResized = $dir.'loadingFlip'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new SimpleImage();
-		$image->load($filename);
-		$image->rotateToHeight($iRotateWidth, $iRotateHeight);
-		$image->save($filenameResized, $image_type);
+		$image = new Upload($filename);
+		$image->image_resize = true;
+		$image->file_new_name_body = 'loadingFlip';
+		if ($iBBHeight) {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iBBRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iBBRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		} else {
+			$ratio = $iRotateWidth / $image->image_src_y;
+			$cardwidth = $image->image_src_x * $ratio;
+			if ($iRotateHeight/2 < $cardwidth) {
+				$cardwidth = $iRotateHeight/2;
+				$ratio = $cardwidth / $image->image_src_x;
+				$iRotateWidth = $image->image_src_y * $ratio;
+			}
+			$image->image_x = $cardwidth;
+			$image->image_y = $iRotateWidth;
+			
+			$image->image_rotate = '90';
+		}
+		$image->Process($dir);
 	}
 	
 	return $iHeight;
@@ -501,7 +641,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard) {
 	return $sOP;
 }
 
-function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0) {
+function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0,$iBBHeight=0) {
 	$aUserDetails=myqu('SELECT username, email_address, name, credits '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
@@ -517,11 +657,16 @@ function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0) {
 		$ext = '.jpg';
 	}
 	
+	$dir = '/cards/';
+	if ($iBBHeight) {
+		$dir = '/cardsbb/';
+	}
+	
 	//we need to return the url for the loading card
-	$height = resizeLoadingCard($iHeight, $iWidth, $root, $jpg);
+	$height = resizeLoadingCard($iHeight, $iWidth, $root, $iBBHeight, $jpg);
 	$imageUrlQuery = myqu('SELECT description FROM mytcg_imageserver WHERE imageserver_id = 1');
-	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.'/cards/loading'.$ext.'</loadingurl>'.$sCRLF;
-	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.'/cards/loadingFlip'.$ext.'</loadingurlflip>'.$sCRLF;
+	$sOP.='<loadingurl>'.$imageUrlQuery[0]['description'].$height.$dir.'loading'.$ext.'</loadingurl>'.$sCRLF;
+	$sOP.='<loadingurlflip>'.$imageUrlQuery[0]['description'].$height.$dir.'loadingFlip'.$ext.'</loadingurlflip>'.$sCRLF;
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
@@ -639,7 +784,7 @@ function getip(){
 }
 
 // register user 
-function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $ip='', $url='www.mobidex.co.za') {
+function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $country, $ip='', $url='www.mobidex.co.za') {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -695,7 +840,7 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 			return $sOP;
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}')");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, name, cell, country) VALUES ('{$username}', '{$email}', 1, now(), 0, '{$name}', '{$cell}', '{$country}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -1003,7 +1148,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id 
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1024,7 +1169,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1046,7 +1191,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					SELECT A.card_id, count(*) quantity, A.usercard_id, 
 						B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 						(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-							THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+							THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 						FROM mytcg_card B 
 						INNER JOIN mytcg_usercard A 
 						ON A.card_id=B.card_id 
@@ -1069,7 +1214,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 			$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated 
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id 
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1090,7 +1235,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 			$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1111,7 +1256,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, A.usercard_id, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
-						THEN 1 ELSE 0 END) updated, D.note, D.date_updated  
+						THEN 1 ELSE 0 END) updated, D.note, D.date_updated, B.cardorientation_id  
 					FROM mytcg_card B 
 					INNER JOIN mytcg_usercard A 
 					ON A.card_id=B.card_id 
@@ -1172,6 +1317,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<quantity>'.$aOneCard['quantity'].'</quantity>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<updated>'.$aOneCard['updated'].'</updated>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<note>'.$aOneCard['note'].'</note>'.$sCRLF;
+		$sOP.=$sTab.$sTab.'<cardorientation>'.$aOneCard['cardorientation_id'].'</cardorientation>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
@@ -1184,7 +1330,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<thumburl>'.$sFound.'cards/'.$aOneCard['card_id'].'_thumb'.$ext.'</thumburl>'.$sCRLF;
 		
 		//before setting the front and back urls, make sure the card is resized for the height
-		resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
+		$iHeight = resizeCard($iHeight, $iWidth, $aOneCard['card_id'], $root, $iBBHeight, $jpg);
 		
 		$sFound='';
 		$iCountServer=0;
@@ -1235,7 +1381,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<stats>'.$sCRLF;
 		While ($aOneStat=$aStats[$iCountStat]) {
 			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
-				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
+				left="'.intval($aOneStat['left']).'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
 				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
 			$iCountStat++;
 		}

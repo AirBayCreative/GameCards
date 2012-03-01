@@ -1,6 +1,9 @@
 #include "Card.h"
 #include "Util.h"
 
+const char *Card::ORIENTATION_PORTRAIT = "1";
+const char *Card::ORIENTATION_LANDSCAPE = "2";
+
 Card::Card() {
 	quantity = "";
 	text = "";
@@ -12,6 +15,7 @@ Card::Card() {
 	value = "";
 	fullDesc = "";
 	note = "";
+	orientation = "";
 	loaded = false;
 	updated = false;
 }
@@ -27,6 +31,7 @@ Card::~Card() {
 	value = "";
 	fullDesc = "";
 	note = "";
+	orientation = "";
 	for (int i = 0; i < stats.size(); i++) {
 		if (stats[i] != NULL) {
 			delete stats[i];
@@ -114,6 +119,14 @@ void Card::setValue(const char *valu) {
 	value = valu;
 }
 
+String Card::getOrientation() {
+	return orientation;
+}
+
+void Card::setOrientation(const char *o) {
+	orientation = o;
+}
+
 String Card::getFullDesc() {
 	return fullDesc;
 }
@@ -140,7 +153,7 @@ void Card::setNote(const char *n) {
 
 String Card::getAll() {
 	String all = getQuantity()+","+getText()+","+getThumb()+","+getFront()+
-			","+getBack()+","+getId()+","+getRate()+","+getValue()+","+getNote()+",";
+			","+getBack()+","+getId()+","+getRate()+","+getValue()+","+getNote()+","+getOrientation()+",";
 	for (int i = 0; i < stats.size(); i++) {
 		all += stats[i]->getAll() + "$";
 	}
@@ -177,6 +190,9 @@ void Card::setAll(const char* allch) {
 			indexof = all.find(",");
 			setNote(all.substr(0,indexof++).c_str());
 			all=all.substr(indexof);
+			indexof = all.find(",");
+			setOrientation(all.substr(0,indexof++).c_str());
+			all=all.substr(indexof);
 
 			Stat *newStat;
 			while (all.length() > 1) {
@@ -203,6 +219,7 @@ void Card::setAll(const char* allch) {
 			setRate("");
 			setValue("");
 			setNote("");
+			setOrientation("");
 			setLoaded(false);
 		}
 }

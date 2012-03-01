@@ -9,6 +9,9 @@ using namespace MAUtil;
 
 class Card  {
 public:
+	static const char *ORIENTATION_PORTRAIT;
+	static const char *ORIENTATION_LANDSCAPE;
+
 	Card();
 	~Card();
 
@@ -45,6 +48,9 @@ public:
 	String getNote();
 	void setNote(const char *note);
 
+	String getOrientation();
+	void setOrientation(const char *orientation);
+
 	bool getLoaded();
 	void setLoaded(bool load);
 
@@ -61,7 +67,7 @@ public:
 	Stat* getStatAt(int index);
 private:
 	//the note is generally saved in base64
-	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note;
+	String quantity, text, thumb, front, back, id, rate, value, fullDesc, gamePlayerCardId, note, orientation;
 	bool loaded, updated;
 	Vector<Stat*> stats;
 };

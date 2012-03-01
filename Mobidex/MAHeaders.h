@@ -38,8 +38,13 @@
 #define RES_LOADING17 38
 #define RES_LOADING18 39
 #define RES_CREATECARD 40
+#define RES_BLANK 41
+#define RES_DROPDOWNITEM_SEL 42
+#define RES_DROPDOWNITEM_UNSEL 43
+#define RES_DROPDOWNBOX_SEL 44
+#define RES_DROPDOWNBOX_UNSEL 45
 
-#define URL "http://mobidex.mytcg.net/_phone/"
+#define URL "http://mobidex.biz/_phone/"
 #define URLSIZE 28
 #define JPG "jpg=1"
 
@@ -79,6 +84,26 @@
 #define TEXT_Y_TOP 16
 #define TEXT_Y_BOTTOM 32
 
+#define DROPDOWNITEM_X_LEFT 5
+#define DROPDOWNITEM_X_RIGHT 33
+#define DROPDOWNITEM_Y_TOP 19
+#define DROPDOWNITEM_Y_BOTTOM 20
+
+#define DROPDOWNBOX_X_LEFT 10
+#define DROPDOWNBOX_X_RIGHT 225
+#define DROPDOWNBOX_Y_TOP 35
+#define DROPDOWNBOX_Y_BOTTOM 37
+
+#define DROPDOWNBACK_X_LEFT 10
+#define DROPDOWNBACK_X_RIGHT 40
+#define DROPDOWNBACK_Y_TOP 10
+#define DROPDOWNBACK_Y_BOTTOM 40
+
+#define HEADER_X_LEFT 222
+#define HEADER_X_RIGHT 250
+#define HEADER_Y_TOP 67
+#define HEADER_Y_BOTTOM 84
+
 //the default heights and widths for various widgets
 #define DEFAULT_LABEL_HEIGHT 48
 #define ALBUM_ITEM_HEIGHT 74
@@ -88,6 +113,7 @@
 #define DEFAULT_DETAIL_HEADER_HEIGHT 36
 #define DEFAULT_DETAILS_ITEM_HEIGHT 80
 #define PADDING 5
+#define DEFAULT_DROPDOWN_HEIGHT 38
 
 #include <MAUtil/String.h>
 

@@ -6,5 +6,5 @@ $root = "../";
 $invite = 1;
 $usercategories = "";
 $productcategories = "";
-$url = "www.mytcg.net";
+$url = "mobidex.biz";
 ?>

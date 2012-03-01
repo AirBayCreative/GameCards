@@ -26,6 +26,7 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	note = "";
 	parentTag = "";
 	error_msg = "";
+	orientation = "";
 
 	mainLayout = Util::createMainLayout("Search", "Back", "", false);
 
@@ -83,6 +84,7 @@ SearchScreen::~SearchScreen() {
 	note = "";
 	parentTag = "";
 	error_msg = "";
+	orientation = "";
 }
 
 void SearchScreen::selectionChanged(Widget *widget, bool selected) {
@@ -320,6 +322,8 @@ void SearchScreen::mtxTagData(const char* data, int len) {
 		statDisplay += data;
 	} else if(!strcmp(parentTag.c_str(), "note")) {
 		note += data;
+	} else if(!strcmp(parentTag.c_str(), "cardorientation")) {
+		orientation += data;
 	}
 }
 
@@ -327,7 +331,7 @@ void SearchScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "card")) {
 		notice->setCaption("");
 		Card *newCard = new Card();
-		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+",").c_str());
+		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+orientation+",").c_str());
 		newCard->setStats(stats);
 		newCard->setUpdated(updated == "1");
 		cards.insert(newCard->getId(),newCard);
@@ -341,6 +345,7 @@ void SearchScreen::mtxTagEnd(const char* name, int len) {
 		value = "";
 		updated = "";
 		note = "";
+		orientation = "";
 		stats.clear();
 	} else if(!strcmp(name, "stat")) {
 		stat = new Stat();

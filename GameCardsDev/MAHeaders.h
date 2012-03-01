@@ -94,10 +94,12 @@
 
 #define RES_HEAD 92
 
+#define RES_BLANK 93
+
 /* Custom Variables per App */
 
-#define RES_FONT_BLUE 93
-#define RES_FONT_BLACK 94
+#define RES_FONT_BLUE 94
+#define RES_FONT_BLACK 95
 
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48

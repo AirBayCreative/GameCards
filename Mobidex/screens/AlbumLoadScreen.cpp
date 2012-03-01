@@ -192,7 +192,7 @@ void AlbumLoadScreen::drawList() {
 
 	int count = 0;
 	bool dirc = false;
-	bool owned = false;
+	owned = false;
 	for(Vector<String>::iterator itr = display.begin(); itr != display.end(); itr++) {
 		label = Util::createSubLabel(itr->c_str());
 		label->setPaddingBottom(5);
@@ -213,7 +213,7 @@ void AlbumLoadScreen::drawList() {
 		count++;
 	}
 	if (!owned) {
-		//add the logout option
+		//add the create card
 		label = Util::createSubLabel("Create Card");
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(5);
@@ -343,7 +343,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				next = new SearchScreen(feed, this);
 				next->show();
 			}
-			else if (listBox->getSelectedIndex() == (size-4)) {
+			else if (!owned && listBox->getSelectedIndex() == (size-4)) {
 				if(next!=NULL){
 					feed->remHttp();
 					delete next;

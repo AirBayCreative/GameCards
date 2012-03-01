@@ -55,7 +55,7 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category, searchString;
+	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category, searchString, orientation;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, albumType;
