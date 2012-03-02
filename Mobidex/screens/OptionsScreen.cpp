@@ -296,11 +296,11 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
-					if (feed->getHttps() > 0) {
+					/*if (feed->getHttps() > 0) {
 						notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-					} else {
+					} else {*/
 						maExit(0);
-					}
+					/*}*/
 					break;
 				default:
 					previous->show();

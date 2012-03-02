@@ -32,7 +32,7 @@
 
 .res RES_BACKGROUND
 .ubin
-.image "background.png"
+.image "background.jpg"
 
 .res RES_SELECTED_LIST
 .ubin
@@ -75,10 +75,6 @@
 .res RES_NOTE
 .ubin
 .image "note.png"
-
-.res RES_SELECTED_BUTTON
-.ubin
-.image "background_button_sel.png"
 
 .res RES_LOADING1
 .ubin

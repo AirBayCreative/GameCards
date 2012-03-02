@@ -319,11 +319,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				loadCategory();
 			}
 			else {
-				if (feed->getHttps() > 0) {
+				/*if (feed->getHttps() > 0) {
 					notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-				} else {
+				} else {*/
 					maExit(0);
-				}
+				/*}*/
 			}
 			break;
 		case MAK_FIRE:
@@ -371,11 +371,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				next->show();
 			}
 			else if (listBox->getSelectedIndex() == (size-1)) {
-				if (feed->getHttps() > 0) {
+				/*if (feed->getHttps() > 0) {
 					notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-				} else {
+				} else {*/
 					cleanup();
-				}
+				//}
 			}
 			else if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
