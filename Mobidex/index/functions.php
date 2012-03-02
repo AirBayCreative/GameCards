@@ -32,10 +32,18 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	$filename = $root.'img/cards/'.$iImage.'_front'.$ext;
 	if (file_exists($filename)) {
 		$image = new Upload($filename);
-		$ratio = $iHeight / $image->image_src_y;
-		if (($ratio * ($image->image_src_x)) > $iWidth) {
-			$ratio = $iWidth / $image->image_src_x;
-			$iHeight =  intval($ratio * $image->image_src_y);
+		if ($image->image_src_x < $image->image_src_y) {
+			$ratio = $iHeight / $image->image_src_y;
+			if (($ratio * ($image->image_src_x)) > $iWidth) {
+				$ratio = $iWidth / $image->image_src_x;
+				$iHeight =  intval($ratio * $image->image_src_y);
+			}
+		}  else {
+			$ratio = $iHeight / $image->image_src_x;
+			if (($ratio * ($image->image_src_y)) > $iWidth) {
+				$ratio = $iWidth / $image->image_src_y;
+				$iHeight =  intval($ratio * $image->image_src_x);
+			}
 		}
 	}
 	else {
@@ -80,89 +88,39 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	$filenameResized = $dir.$iImage.'_front'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new Upload($filename);
-		$image->image_resize = true;
-		$image->image_ratio_x = true;
-		$image->image_y = $iHeight;
-		$image->Process($dir);
+		if ($image->image_src_x < $image->image_src_y) {
+			$image->image_resize = true;
+			$image->image_ratio_x = true;
+			$image->image_y = $iHeight;
+			$image->Process($dir);
+		} else if ($image->image_src_x > $image->image_src_y) {
+			$image->image_rotate = '90';
+			$image->image_resize = true;
+			$image->image_ratio_y = true;
+			$image->image_x = $iHeight;
+			$image->Process($dir);
+		}
 	}
 	
-	$filename = $root.'img/cards/'.$iImage.'_front'.$ext;
-	$filenameResized = $dir.$iImage.'_front_flip'.$ext;
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new Upload($filename);
-		$image->image_resize = true;
-		$image->file_new_name_body = $iImage.'_front_flip';
-		if ($iBBHeight) {
-			$ratio = $iRotateWidth / $image->image_src_y;
-			$cardwidth = $image->image_src_x * $ratio;
-			if ($iBBRotateHeight/2 < $cardwidth) {
-				$cardwidth = $iBBRotateHeight/2;
-				$ratio = $cardwidth / $image->image_src_x;
-				$iRotateWidth = $image->image_src_y * $ratio;
-			}
-			$image->image_x = $cardwidth;
-			$image->image_y = $iRotateWidth;
-			
-			$image->image_rotate = '90';
-		} else {
-			$ratio = $iRotateWidth / $image->image_src_y;
-			$cardwidth = $image->image_src_x * $ratio;
-			if ($iRotateHeight/2 < $cardwidth) {
-				$cardwidth = $iRotateHeight/2;
-				$ratio = $cardwidth / $image->image_src_x;
-				$iRotateWidth = $image->image_src_y * $ratio;
-			}
-			$image->image_x = $cardwidth;
-			$image->image_y = $iRotateWidth;
-			
-			$image->image_rotate = '90';
-		}
-		$image->Process($dir);
-	}
 	
 	//Check and create new resized back image
 	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
 	$filenameResized = $dir.$iImage.'_back'.$ext;
 	if((!file_exists($filenameResized)) && (file_exists($filename))){
 		$image = new Upload($filename);
-		$image->image_resize = true;
-		$image->image_ratio_x = true;
-		$image->image_y = $iHeight;
-		$image->Process($dir);
-	}
-	
-	$filename = $root.'img/cards/'.$iImage.'_back'.$ext;
-	$filenameResized = $dir.$iImage.'_back_flip'.$ext;
-	if((!file_exists($filenameResized)) && (file_exists($filename))){
-		$image = new Upload($filename);
-		$image->image_resize = true;
-		$image->file_new_name_body = $iImage.'_back_flip';
-		if ($iBBHeight) {
-			$ratio = $iRotateWidth / $image->image_src_y;
-			$cardwidth = $image->image_src_x * $ratio;
-			if ($iBBRotateHeight/2 < $cardwidth) {
-				$cardwidth = $iBBRotateHeight/2;
-				$ratio = $cardwidth / $image->image_src_x;
-				$iRotateWidth = $image->image_src_y * $ratio;
-			}
-			$image->image_x = $cardwidth;
-			$image->image_y = $iRotateWidth;
-			
+		if ($image->image_src_x < $image->image_src_y) {
+			$image = new Upload($filename);
+			$image->image_resize = true;
+			$image->image_ratio_x = true;
+			$image->image_y = $iHeight;
+			$image->Process($dir);
+		} else if ($image->image_src_x > $image->image_src_y) {
 			$image->image_rotate = '90';
-		} else {
-			$ratio = $iRotateWidth / $image->image_src_y;
-			$cardwidth = $image->image_src_x * $ratio;
-			if ($iRotateHeight/2 < $cardwidth) {
-				$cardwidth = $iRotateHeight/2;
-				$ratio = $cardwidth / $image->image_src_x;
-				$iRotateWidth = $image->image_src_y * $ratio;
-			}
-			$image->image_x = $cardwidth;
-			$image->image_y = $iRotateWidth;
-			
-			$image->image_rotate = '90';
+			$image->image_resize = true;
+			$image->image_ratio_y = true;
+			$image->image_x = $iHeight;
+			$image->Process($dir);
 		}
-		$image->Process($dir);
 	}
 	
 	//we need to resize the gc image for this size, if it hasnt been done yet.

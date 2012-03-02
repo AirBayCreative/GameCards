@@ -46,7 +46,7 @@
 #define RES_BOX_SELECTED 45
 #define RES_BOX_UNSELECTED 46
 
-#define URL "http://mobidex.biz/_phone/"
+#define URL "http://www.mobidex.biz/_phone/"
 #define URLSIZE 28
 #define JPG "jpg=1"
 
