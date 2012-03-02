@@ -81,6 +81,7 @@ class Util
 		static WidgetSkin* getSkinDropDownBox();
 		static WidgetSkin* getSkinDropDownBack();
 		static WidgetSkin* getSkinHeader();
+		static WidgetSkin* getSkinPopupHeader();
 
 		enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_SEARCH, AT_SHARE};
 	private:

@@ -34,7 +34,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, Card *card)
 	urlLength = strlen("?getalldecks=1") + URLSIZE;
 	url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getalldecks=1", URL);
+	sprintf(url, "%s?getalldecks=1", URL_PHONE.c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -196,7 +196,7 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 						int urlLength = 18+URLSIZE + card->getId().length() + albums[ind]->getId().length();
 						char* url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?addtodeck=%s&deckid=%s", URL, card->getId().c_str(), albums[ind]->getId().c_str());
+						sprintf(url, "%s?addtodeck=%s&deckid=%s", URL_PHONE.c_str(), card->getId().c_str(), albums[ind]->getId().c_str());
 						int res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {
 							notice->setCaption("Connection error");

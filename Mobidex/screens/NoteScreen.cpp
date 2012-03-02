@@ -139,7 +139,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						int urlLength = 46 + URLSIZE + encodedNote.length() + card->getId().length();
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?savenote=%s&cardid=%s", URL, encodedNote.c_str(), card->getId().c_str());
+						sprintf(url, "%s?savenote=%s&cardid=%s", URL_PHONE.c_str(), encodedNote.c_str(), card->getId().c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}

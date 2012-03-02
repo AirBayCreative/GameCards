@@ -378,12 +378,12 @@ void Login::drawLoginScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, 5, NULL, "", 0, Util::getDefaultFont());
 	listBox->add(label);
 
 	termsLink = new Label(0,0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, NULL, "Forgot password", 0, Util::getFontBlue());
 	termsLink->setDrawBackground(false);
-	Util::setPadding(termsLink);
+	termsLink->setPaddingLeft(PADDING);
 	termsLink->addWidgetListener(this);
 	listBox->add(termsLink);
 
@@ -612,7 +612,7 @@ void Login::keyPressEvent(int keyCode) {
 			switch (screen) {
 				case S_LOGIN:
 					if (termsLink->isSelected()) {
-						maPlatformRequest("http://www.mobidex.biz/forgotpassword");
+						maPlatformRequest(URL_FORGOTPASSWORD.c_str());
 					}
 					break;
 				case S_REGISTER:
@@ -639,7 +639,7 @@ void Login::keyPressEvent(int keyCode) {
 							int urlLength = 71 + URLSIZE;
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "%s?userdetails=1", URL);
+							sprintf(url, "%s?userdetails=1", URL_PHONE.c_str());
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
@@ -702,7 +702,7 @@ void Login::keyPressEvent(int keyCode) {
 									+ editBoxPass->getText().length() + editBoxEmail->getText().length() + encodedCountry.length() + 10;
 							url = new char[urlLength];
 							memset(url,'\0',urlLength);
-							sprintf(url, "%s?registeruser=1&name=%s&username=%s&cell=%s&password=%s&email=%s&country=%s", URL, encodedName.c_str(),
+							sprintf(url, "%s?registeruser=1&name=%s&username=%s&cell=%s&password=%s&email=%s&country=%s", URL_PHONE.c_str(), encodedName.c_str(),
 									editBoxLogin->getText().c_str(), encodedNumber.c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), encodedCountry.c_str());
 							mHttp = HttpConnection(this);
@@ -954,7 +954,7 @@ void Login::mtxTagStartEnd() {
 
 void Login::menuOptionSelected(int index) {
 	if (index == 0) {
-		maPlatformRequest("http://www.mobidex.biz/terms");
+		maPlatformRequest(URL_TERMS.c_str());
 	}
 	else if (index == 1) {
 		termsBox->setChecked(true);

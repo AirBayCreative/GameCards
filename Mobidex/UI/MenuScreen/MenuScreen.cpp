@@ -23,7 +23,9 @@ MenuScreen::MenuScreen(MAHandle blank, char *headerLabel) : mBlankImage(blank), 
 	if (strlen(headerLabel) > 0) {
 		header = new Label(0, 0, mOptions->getWidth() - 4, 20, mOptions);
 		header->setMultiLine(true);
-		//header->setAutoSizeX(false);
+		header->setFont(Util::getFontWhite());
+		header->setSkin(Util::getSkinPopupHeader());
+		header->setDrawBackground(true);
 		header->setAutoSizeY(true);
 		header->setHorizontalAlignment(Label::HA_LEFT);
 		header->setVerticalAlignment(Label::VA_CENTER);
@@ -32,7 +34,6 @@ MenuScreen::MenuScreen(MAHandle blank, char *headerLabel) : mBlankImage(blank), 
 		header->setPaddingLeft(5);
 		header->setPaddingRight(5);
 		header->setCaption(headerLabel);
-		header->setDrawBackground(false);
 	}
 
 	setMain(mBlank);

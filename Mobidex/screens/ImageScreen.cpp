@@ -11,6 +11,7 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 	lprintfln("ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	//TODO add touch
 	busy = false;
+	tapped = false;
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -93,8 +94,10 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				}
 				if (!gotstat) {
 					currentSelectedStat = -1;
+					flipOrSelect = tapped?1:0;
 				}
 			}
+			tapped = true;
 			keyPressEvent(MAK_FIRE);
 		}
 	}
@@ -105,6 +108,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 	list = false;
 	left = false;
 	right = false;
+	tapped = false;
+	flipOrSelect = 0;
 
 	Point p;
 	p.set(point.x, point.y);
@@ -117,6 +122,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -140,6 +147,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -319,7 +328,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
-				if((flipOrSelect)||(currentSelectedStat == -1)){
+				if(((flipOrSelect && tapped)&&(currentSelectedStat == -1)) ||
+						(!tapped && currentSelectedStat == -1)){
 					flip=!flip;
 					imge->refreshWidget();
 					imge->statAdded = false;
@@ -344,6 +354,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					}
 					flipOrSelect=0;
 					currentSelectedStat = -1;
+					tapped = false;
 				}else{
 					if (imge->getResource() != RES_TEMP) {
 						if(currentSelectedStat>-1){
@@ -460,7 +471,7 @@ void ImageScreen::acceptCard() {
 	int urlLength = 40 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -481,7 +492,7 @@ void ImageScreen::rejectCard() {
 	int urlLength = 42 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

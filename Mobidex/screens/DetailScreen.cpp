@@ -70,7 +70,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?notifications=1", URL);
+		sprintf(url, "%s?notifications=1", URL_PHONE.c_str());
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -92,7 +92,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		int urlLength = strlen("?userdetails=1") + URLSIZE;
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?userdetails=1", URL);
+		sprintf(url, "%s?userdetails=1", URL_PHONE.c_str());
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {

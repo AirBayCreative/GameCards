@@ -137,7 +137,7 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 						base64DeckName.length();
 				char *url = new char[urlLength+1];
 				memset(url,'\0',urlLength+1);
-				sprintf(url, "%s?createdeck=1&description=%s", URL, base64DeckName.c_str());
+				sprintf(url, "%s?createdeck=1&description=%s", URL_PHONE.c_str(), base64DeckName.c_str());
 
 				if(mHttp.isOpen()){
 					mHttp.close();
