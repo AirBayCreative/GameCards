@@ -324,8 +324,6 @@ Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed)
 }
 
 Login::~Login() {
-	clearListBox();
-	listBox->clear();
 	delete mainLayout;
 	error_msg = "";
 	parentTag="";
