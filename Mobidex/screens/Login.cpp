@@ -384,7 +384,7 @@ void Login::drawLoginScreen() {
 	listBox->add(label);
 
 	termsLink = new Label(0,0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, NULL, "Forgot password", 0, Util::getFontBlue());
-	termsLink->setSkin(Util::getSkinDropDownItem());
+	termsLink->setDrawBackground(false);
 	Util::setPadding(termsLink);
 	termsLink->addWidgetListener(this);
 	listBox->add(termsLink);
@@ -462,9 +462,10 @@ void Login::drawRegisterScreen() {
 	termsLayout = new Layout(0, 0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, listBox, 2, 1);
 	termsLayout->setHorizontalAlignment(Layout::HA_CENTER);
 	termsLayout->setVerticalAlignment(Layout::VA_CENTER);
-	termsLayout->setSkin(Util::getSkinDropDownItem());
-	termsLayout->setDrawBackground(true);
+	//termsLayout->setSkin(Util::getSkinDropDownItem());
+	//termsLayout->setDrawBackground(true);
 	termsLayout->setPaddingLeft(PADDING);
+	termsLayout->addWidgetListener(this);
 	termsLink = new Label(0, 0, 0, 0, termsLayout, "Terms and conditions ", 0, Util::getFontBlue());
 	termsLink->setAutoSizeX(true);
 	termsLink->setAutoSizeY(true);
@@ -515,6 +516,13 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 		} else {
 			widget->getChildren()[0]->setSelected(false);
 		}
+	}
+
+	if (termsLink != NULL && widget == termsLink) {
+		termsLink->setFont(selected?Util::getFontWhite():Util::getFontBlue());
+	}
+	else if (termsLayout != NULL && widget == termsLayout) {
+		termsLink->setFont(selected?Util::getFontWhite():Util::getFontBlue());
 	}
 }
 
