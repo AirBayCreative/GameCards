@@ -275,6 +275,7 @@ void NewDeckScreen::mtxTagEnd(const char* name, int len) {
 	if (!strcmp(name, "result")) {
 		busy = false;
 		notice->setCaption(createResult);
+		createResult = "";
 
 		//next = new EditDeckScreen(previous, feed, deckId);
 	}

@@ -1290,7 +1290,7 @@ function createDeck($iUserID,$iDescription) {
 		WHERE user_id = '.$iUserID.' 
 		AND description = "'.$iDescription.'"');
 	$deckId = $deckIdQuery[0]['deck_id'];
-	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Deck Created!</result></created>';
+	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Album Created!</result></created>';
 	
 	return $sOP;
 }
