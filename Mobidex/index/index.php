@@ -186,6 +186,18 @@ if ($cardID = $_GET['tradecard']){
   //note to send user
   $sentNote = $_REQUEST['note'];
 	
+	if ($receiveNumber{0} == "0"){
+		$aCountry=myqu('SELECT c.country_name, c.country_code
+			FROM mytcg_country c 
+			INNER JOIN mytcg_user u
+			ON u.country = c.country_name
+			WHERE u.user_id = '.$iUserID);
+		
+		if ($aC=$aCountry[0]) {
+			$receiveNumber = ($aC['country_code'].substr($receiveNumber, 1));
+		}
+	}
+	
 	if ($receiveNumber{0} != "+") {
 		$receiveNumber = ("+".$receiveNumber);
 	}
@@ -197,14 +209,25 @@ if ($cardID = $_GET['tradecard']){
 //this saves a note for a user, per card
 if ($iNote=$_GET['savenote']) {
 	$cardId = $_GET['cardid'];
-
-	myqui('INSERT INTO mytcg_usercardnote
-		(user_id, card_id, usercardnotestatus_id, note, date_updated)
-		VALUES
-		('.$iUserID.', '.$cardId.', 1, "'.$iNote.'", now())
-		ON DUPLICATE KEY UPDATE 
-		note = "'.$iNote.'",
-		date_updated = now()');
+	
+	$aNotes=myqu('SELECT usercardnote_id
+		FROM mytcg_usercardnote
+		WHERE card_id = '.$cardId.' AND user_id = '.$iUserID);	
+	
+	if ($aNote=$aNotes[0]){
+		myqui('UPDATE mytcg_usercardnote 
+			SET usercardnotestatus_id = 1, 
+			note = "'.$iNote.'",
+			date_updated = now() 
+			WHERE user_id = '.$iUserID.'
+			AND card_id = '.$cardId);
+	}
+	else {
+		myqui('INSERT INTO mytcg_usercardnote
+			(user_id, card_id, usercardnotestatus_id, note, date_updated)
+			VALUES
+			('.$iUserID.', '.$cardId.', 1, "'.$iNote.'", now())');
+	}
 		
 	$sOP='<result>Note saved successfully</result>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
