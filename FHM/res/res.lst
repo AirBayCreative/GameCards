@@ -238,6 +238,10 @@
 .ubin
 .image "Album_thumb.png"
 
+.res RES_ALBUM_THUMB_SEL
+.ubin
+.image "Album_thumb_sel.png"
+
 .res RES_AUCTIONS
 .ubin
 .image "Auctions.png"
@@ -245,6 +249,10 @@
 .res RES_AUCTIONS_THUMB
 .ubin
 .image "Auctions_thumb.png"
+
+.res RES_AUCTIONS_THUMB_SEL
+.ubin
+.image "Auctions_thumb_sel.png"
 
 .res RES_CREDITS
 .ubin
@@ -254,21 +262,9 @@
 .ubin
 .image "Credits_thumb.png"
 
-.res RES_DECKS
+.res RES_CREDITS_THUMB_SEL
 .ubin
-.image "Decks.png"
-
-.res RES_DECKS_THUMB
-.ubin
-.image "Decks_thumb.png"
-
-.res RES_FRIENDRANKS
-.ubin
-.image "FriendRanks.png"
-
-.res RES_FRIENDRANKS_THUMB
-.ubin
-.image "FriendRanks_thumb.png"
+.image "Credits_thumb_sel.png"
 
 .res RES_Friends
 .ubin
@@ -278,6 +274,10 @@
 .ubin
 .image "Friends_thumb.png"
 
+.res RES_FRIENDS_THUMB_SEL
+.ubin
+.image "Friends_thumb_sel.png"
+
 .res RES_INVITE
 .ubin
 .image "Invite.png"
@@ -285,6 +285,10 @@
 .res RES_INVITE_THUMB
 .ubin
 .image "Invite_thumb.png"
+
+.res RES_INVITE_THUMB_SEL
+.ubin
+.image "Invite_thumb_sel.png"
 
 .res RES_LOGOUT
 .ubin
@@ -294,6 +298,10 @@
 .ubin
 .image "Logout_thumb.png"
 
+.res RES_LOGOUT_THUMB_SEL
+.ubin
+.image "Logout_thumb_sel.png"
+
 .res RES_NOTIFICATIONS
 .ubin
 .image "Notifications.png"
@@ -302,13 +310,9 @@
 .ubin
 .image "Notifications_thumb.png"
 
-.res RES_PLAY
+.res RES_NOTIFICATIONS_THUMB_SEL
 .ubin
-.image "Play.png"
-
-.res RES_PLAY_THUMB
-.ubin
-.image "Play_thumb.png"
+.image "Notifications_thumb_sel.png"
 
 .res RES_PROFILE
 .ubin
@@ -318,13 +322,9 @@
 .ubin
 .image "Profile_thumb.png"
 
-.res RES_RANKINGS
+.res RES_PROFILE_THUMB_SEL
 .ubin
-.image "Rankings.png"
-
-.res RES_RANKINGS_THUMB
-.ubin
-.image "Rankings_thumb.png"
+.image "Profile_thumb_sel.png"
 
 .res RES_REDEEM
 .ubin
@@ -334,6 +334,10 @@
 .ubin
 .image "Redeem_thumb.png"
 
+.res RES_REDEEM_THUMB_SEL
+.ubin
+.image "Redeem_thumb_sel.png"
+
 .res RES_SHOP
 .ubin
 .image "Shop.png"
@@ -341,6 +345,10 @@
 .res RES_SHOP_THUMB
 .ubin
 .image "Shop_thumb.png"
+
+.res RES_SHOP_THUMB_SEL
+.ubin
+.image "Shop_thumb_sel.png"
 
 .res RES_DESELECTED_LIST_DOT
 .ubin

@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<project supports-build-configs="false" version="1.4">
-=======
 <project supports-build-configs="true" version="1.4">
 <build.cfg id="Debug" types="Debug"/>
 <build.cfg id="Release" types="Release"/>
->>>>>>> 1ffaf533c63465c16d953f61b6ad7ac27d2ebf46
+<criteria>
+<filter type="com.mobilesorcery.sdk.capabilities.devices.elementfactory">
+<capabilities optional="" required="File\ Storage Internet\ Access"/>
+</filter>
+</criteria>
 <properties>
 <property key="build.prefs:additional.include.paths" value=""/>
 <property key="build.prefs:additional.libraries" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
 <property key="build.prefs:additional.library.paths" value=""/>
-<<<<<<< HEAD
-=======
 <property key="build.prefs:app.name" value="Mobidex"/>
 <property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access SMS/Send Vibration"/>
 <property key="build.prefs:app.vendor" value="mytcg Technologies"/>
->>>>>>> 1ffaf533c63465c16d953f61b6ad7ac27d2ebf46
 <property key="build.prefs:extra.link.sw" value=""/>
 <property key="build.prefs:extra.res.sw" value=""/>
 <property key="build.prefs:gcc.warnings" value="0"/>
+<property key="build.prefs:ignore.default.include.paths" value="false"/>
 <property key="build.prefs:ignore.default.libraries" value="true"/>
+<property key="build.prefs:ignore.default.library.paths" value="false"/>
+<property key="build.prefs:memory.data" value="512"/>
+<property key="build.prefs:memory.data/Release" value="2048"/>
+<property key="build.prefs:memory.heap" value="256"/>
+<property key="build.prefs:memory.heap/Release" value="1024"/>
+<property key="build.prefs:memory.stack" value="128"/>
+<property key="build.prefs:memory.stack/Release" value="512"/>
 <property key="build.prefs:project.type" value=""/>
 <property key="dependency.strategy" value="0"/>
 <property key="excludes" value=""/>
-<<<<<<< HEAD
-=======
-<property key="profile.mgr.type" value="1"/>
+<property key="profile.mgr.type" value="0"/>
 <property key="symbian.uids:uid.s60v2uid" value="0x0c0516c9"/>
 <property key="symbian.uids:uid.s60v3uid" value="0xe97cdcc3"/>
->>>>>>> 1ffaf533c63465c16d953f61b6ad7ac27d2ebf46
 </properties>
 </project>

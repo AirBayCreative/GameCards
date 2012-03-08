@@ -378,3 +378,33 @@
 .res RES_FONT_BLACK
 .bin
 .include "arialblack.mof"  
+
+/* Tutorial images */
+
+.res RES_TUT_1
+.ubin
+.image "tut_1.png"
+
+.res RES_TUT_2
+.ubin
+.image "tut_2.png"
+
+.res RES_TUT_3
+.ubin
+.image "tut_3.png"
+
+.res RES_TUT_4
+.ubin
+.image "tut_4.png"
+
+.res RES_TUT_5
+.ubin
+.image "tut_5.png"
+
+.res RES_TUT_6
+.ubin
+.image "tut_6.png"
+
+.res RES_TUT_7
+.ubin
+.image "tut_7.png"

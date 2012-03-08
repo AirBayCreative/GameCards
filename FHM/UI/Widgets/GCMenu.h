@@ -10,6 +10,7 @@ using namespace MAUI;
 
 struct item {
 	MAHandle icon;
+	MAHandle iconSel;
 	MAHandle bigImage;
 	int key;
 };

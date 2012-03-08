@@ -763,18 +763,18 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	//somewhere here, still need to figure out where exactly
-	int seconds = maLocalTime();
+	/*int seconds = maLocalTime();
 	int secondsLength = Util::intlen(seconds);
 	char *secString = new char[secondsLength+1];
 	memset(secString,'\0',secondsLength+1);
 	sprintf(secString, "%d", seconds);
 	feed->setSeconds(secString);
 	delete secString;
-	secString = NULL;
+	secString = NULL;*/
 
-	destroy all cards that currently have updated
+	//destroy all cards that currently have updated
 
-	save seconds...
+	//save seconds...
 
 	if(!strcmp(name, "card")) {
 		Card *newCard = new Card();

@@ -59,8 +59,8 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 
 		tempImage = new Image(0, 0, MIN_MENU_ICON_WIDTH + PADDING + ((iconList->getWidth() % (PADDING + MIN_MENU_ICON_WIDTH)) / iconsPerList),
 				ICON_HEIGHT, tempList, false, false, items[i].icon);
-		tempImage->setSkin(Util::getIconSelect());
-		tempImage->setDrawBackground(true);
+		//tempImage->setSkin(Util::getIconSelect());
+		//tempImage->setDrawBackground(true);
 	}
 	dotList = new ListBox(0, 0, width, DOT_HEIGHT, iconAndDotList,
 			ListBox::LBO_HORIZONTAL);
@@ -80,6 +80,7 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 		iconList->add(iconLists[selectedList]);
 		iconLists[selectedList]->setSelectedIndex(0);
 		iconLists[selectedList]->getChildren()[iconLists[0]->getSelectedIndex()]->setSelected(true);
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(items[iconLists[selectedList]->getSelectedIndex()].iconSel);
 
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
@@ -114,6 +115,8 @@ void GCMenu::setEnabled(bool e) {
 
 void GCMenu::selectNext() {
 	if (!emp) {
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].icon);
 		if (iconLists[selectedList]->getSelectedIndex() + 1 >= iconLists[selectedList]->getChildren().size()) {
 			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
@@ -127,6 +130,8 @@ void GCMenu::selectNext() {
 		else {
 			iconLists[selectedList]->selectNextItem();
 		}
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].iconSel);
 		mainImage->setTransition(TT_PUSH, -1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
@@ -134,6 +139,9 @@ void GCMenu::selectNext() {
 
 void GCMenu::selectPrevious() {
 	if (!emp) {
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].icon);
+
 		if (iconLists[selectedList]->getSelectedIndex() - 1 < 0) {
 			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
@@ -147,6 +155,9 @@ void GCMenu::selectPrevious() {
 		else {
 			iconLists[selectedList]->selectPreviousItem();
 		}
+
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].iconSel);
 		mainImage->setTransition(TT_PUSH, 1, 0);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
@@ -154,7 +165,8 @@ void GCMenu::selectPrevious() {
 
 void GCMenu::select(int i) {
 	if (!emp && i < numItems) {
-
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].icon);
 		if (i < selectedList*iconsPerList && i >= selectedList*(iconsPerList + 1)) {
 			((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 			iconList->clear();
@@ -166,6 +178,9 @@ void GCMenu::select(int i) {
 		iconLists[selectedList]->setSelectedIndex(i % iconsPerList);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
 
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].iconSel);
+
 		mainImage->setTransition(TT_WIPE, 0, -1);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
 	}
@@ -173,6 +188,9 @@ void GCMenu::select(int i) {
 
 void GCMenu::swipeList(int dir) {
 	if (iconLists.size() > 1) {
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].icon);
+
 		((Image*)dotList->getChildren()[selectedList])->setResource(RES_DESELECTED_LIST_DOT);
 		int index = iconLists[selectedList]->getSelectedIndex();
 		selectedList = selectedList + dir;
@@ -190,6 +208,9 @@ void GCMenu::swipeList(int dir) {
 
 		iconLists[selectedList]->setSelectedIndex(index);
 		iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()]->setSelected(true);
+
+		((Image*)iconLists[selectedList]->getChildren()[iconLists[selectedList]->getSelectedIndex()])->setResource(
+				items[iconLists[selectedList]->getSelectedIndex() + (iconsPerList * selectedList)].iconSel);
 
 		mainImage->setTransition(TT_WIPE, 0, -1);
 		mainImage->setResource(items[iconLists[selectedList]->getSelectedIndex() + (selectedList * iconsPerList)].bigImage);
