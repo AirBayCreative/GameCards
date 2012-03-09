@@ -658,7 +658,7 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						int countryIndex = checkCountryCode();
+						int countryIndex = (editBoxCell->getText().length() >= 10)?checkCountryCode():-1;
 						if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
 						}
