@@ -755,13 +755,19 @@ void Login::keyPressEvent(int keyCode) {
 
 //returns -1 if the country code wasnt found, otherwise it returns the index of the country
 int Login::checkCountryCode() {
+	int subStart = 0, numLength = editBoxCell->getText().length();
+	if(editBoxCell->getText()[0] == '+') {
+		subStart = 1;
+		numLength-=1;
+	}
+
 	int found = -1;
 	int countryIndex;
 	int countryCount = sizeof(countries)/sizeof(country);
 	for (countryIndex = 0; countryIndex < countryCount; countryIndex++) {
 		int codeLength = strlen(countries[countryIndex].code);
-		if (editBoxCell->getText().length() == codeLength + 9) {
-			if (strcmp((editBoxCell->getText().substr(0, codeLength)).c_str(), countries[countryIndex].code) == 0) {
+		if (numLength == codeLength + 9) {
+			if (strcmp((editBoxCell->getText().substr(subStart, codeLength)).c_str(), countries[countryIndex].code) == 0) {
 				found = 1;
 				break;
 			}
