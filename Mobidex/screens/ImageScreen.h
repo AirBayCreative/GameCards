@@ -43,7 +43,7 @@ private:
 	Layout *mainLayout;
 	ListBox *listBox;
 	int height, screenType, flipOrSelect, currentSelectedStat;
-	bool flip, busy;
+	bool flip, busy, tapped;
 	bool left, right, list, hasConnection, canAuction;
 	String parentTag;
 

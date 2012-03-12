@@ -54,7 +54,7 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 			int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 			char *url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&%s", URL, category.c_str(), feed->getSeconds().c_str(),
+			sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&%s", URL_PHONE.c_str(), category.c_str(), feed->getSeconds().c_str(),
 					Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -91,7 +91,7 @@ void AlbumViewScreen::refresh() {
 				+ Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?search=%s&seconds=%s&height=%d&width=%d&%s", URL, searchString.c_str(),
+			sprintf(url, "%s?search=%s&seconds=%s&height=%d&width=%d&%s", URL_PHONE.c_str(), searchString.c_str(),
 				feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);
 			break;
 		default:
@@ -101,7 +101,7 @@ void AlbumViewScreen::refresh() {
 			urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&%s", URL,
+			sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&%s", URL_PHONE.c_str(),
 					category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);
 			break;
 	}

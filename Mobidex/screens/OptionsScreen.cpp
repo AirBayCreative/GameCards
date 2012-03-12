@@ -329,7 +329,7 @@ void OptionsScreen::acceptCard() {
 	int urlLength = 38 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -351,7 +351,7 @@ void OptionsScreen::rejectCard() {
 	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -373,7 +373,7 @@ void OptionsScreen::deleteCard() {
 	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?deletecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?deletecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

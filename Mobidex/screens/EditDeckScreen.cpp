@@ -51,7 +51,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL_PHONE.c_str(),
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -86,7 +86,7 @@ void EditDeckScreen::refresh() {
 	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL_PHONE.c_str(),
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -117,7 +117,7 @@ void EditDeckScreen::deleteDeck() {
 	int urlLength = 65 + URLSIZE + strlen("deck_id") + deckId.length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL,	deckId.c_str());
+	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL_PHONE.c_str(),	deckId.c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -149,7 +149,7 @@ void EditDeckScreen::removeCard() {
 		cards[cardIndex]->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL,
+	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL_PHONE.c_str(),
 			deckId.c_str(), cards[cardIndex]->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();

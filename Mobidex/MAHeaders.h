@@ -42,11 +42,10 @@
 #define RES_DROPDOWNITEM_UNSEL 42
 #define RES_DROPDOWNBOX_SEL 43
 #define RES_DROPDOWNBOX_UNSEL 44
-
 #define RES_BOX_SELECTED 45
 #define RES_BOX_UNSELECTED 46
+#define RES_POPUP_HEADER 47
 
-#define URL "http://www.mobidex.biz/_phone/"
 #define URLSIZE 28
 #define JPG "jpg=1"
 
@@ -106,6 +105,11 @@
 #define HEADER_Y_TOP 67
 #define HEADER_Y_BOTTOM 84
 
+#define POPUP_HEADER_X_LEFT 10
+#define POPUP_HEADER_X_RIGHT 48
+#define POPUP_HEADER_Y_TOP 24
+#define POPUP_HEADER_Y_BOTTOM 25
+
 //the default heights and widths for various widgets
 #define DEFAULT_LABEL_HEIGHT 48
 #define ALBUM_ITEM_HEIGHT 74
@@ -125,5 +129,10 @@ using namespace MAUtil;
 #define _MAHeaders_H_
 
 static String FILE_PREFIX = "dex_";
+
+static String URL_BASIC = "http://mobidex.biz/";
+static String URL_PHONE = URL_BASIC+"_phone/";
+static String URL_FORGOTPASSWORD = URL_BASIC+"forgotpassword/";
+static String URL_TERMS = URL_BASIC+"terms/";
 
 #endif

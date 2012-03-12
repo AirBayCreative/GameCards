@@ -121,6 +121,11 @@ void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 
 
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
+	if (fresh) {
+		setCaption("");
+		fresh = false;
+	}
+
 	moved = false;
 		mListener = listener;
 	wsprintf(mString, L"%s",getCaption().c_str());

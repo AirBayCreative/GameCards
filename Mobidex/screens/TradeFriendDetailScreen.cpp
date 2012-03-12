@@ -324,7 +324,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 					char *url = new char[urlLength];
 					memset(url, '\0', urlLength);
 
-					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s&note=%s", URL, card->getId().c_str(),
+					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s&note=%s", URL_PHONE.c_str(), card->getId().c_str(),
 							method.c_str(), numStr.c_str(), noteStr.c_str());
 					//url.append("&sms=Yes", 8);
 

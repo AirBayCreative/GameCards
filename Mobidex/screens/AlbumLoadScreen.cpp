@@ -22,7 +22,7 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 52+URLSIZE + feed->getSeconds().length();
 	char* url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+	sprintf(url, "%s?usercategories=1&seconds=%s", URL_PHONE.c_str(), feed->getSeconds().c_str());
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		hasConnection = false;
@@ -71,7 +71,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(fee
 	urlLength = 60 + URLSIZE + feed->getSeconds().length();
 	url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+	sprintf(url, "%s?usercategories=1&seconds=%s", URL_PHONE.c_str(), feed->getSeconds().c_str());
 	res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -440,7 +440,7 @@ void AlbumLoadScreen::loadCategory() {
 			urlLength = 60 + URLSIZE + feed->getSeconds().length();
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			sprintf(url, "%s?usercategories=1&seconds=%s", URL_PHONE.c_str(), feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
@@ -448,7 +448,7 @@ void AlbumLoadScreen::loadCategory() {
 			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
 			url = new char[urlLength];
 			memset(url,'\0',urlLength);
-			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL_PHONE.c_str(), path[path.size()-1].c_str(), feed->getSeconds().c_str());
 			res = mHttp.create(url, HTTP_GET);
 		}
 
@@ -508,7 +508,7 @@ void AlbumLoadScreen::xcConnError(int code) {
 		int urlLength = 11 + URLSIZE;
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?notedate=1", URL);
+		sprintf(url, "%s?notedate=1", URL_PHONE.c_str());
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {

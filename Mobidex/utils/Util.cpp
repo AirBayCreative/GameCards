@@ -211,6 +211,16 @@ WidgetSkin* Util::getSkinHeader() {
 	return gSkinHeader;
 }
 
+WidgetSkin* Util::getSkinPopupHeader() {
+	static WidgetSkin* gSkinPopupHeader;
+	if (gSkinPopupHeader == NULL) {
+		gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
+				POPUP_HEADER_X_LEFT, POPUP_HEADER_X_RIGHT, POPUP_HEADER_Y_TOP,
+				POPUP_HEADER_Y_BOTTOM, true, true);
+	}
+	return gSkinPopupHeader;
+}
+
 void Util::setPadding(Widget *w) {
 	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);

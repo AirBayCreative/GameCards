@@ -179,3 +179,7 @@
 .res RES_BOX_UNSELECTED
 .ubin
 .image "box_unselected.png"
+
+.res RES_POPUP_HEADER
+.ubin 
+.image "popup_header.png"
