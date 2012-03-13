@@ -12,6 +12,7 @@
 #include "NewVersionScreen.h"
 #include "TradeFriendDetailScreen.h"
 #include "MenuTestScreen.h"
+#include "TutorialScreen.h"
 #include "../utils/Util.h"
 
 static item menuItems[] =
@@ -31,6 +32,17 @@ static item menuItems[] =
 	{ RES_REDEEM_THUMB, RES_REDEEM, OP_REDEEM },
 	{ RES_LOGOUT_THUMB, RES_LOGOUT, OP_LOGOUT }
 };
+
+/*static tutItem tutItems[] =
+{
+	{RES_TUT_1, "1", 1},
+	{RES_TUT_2, "2", 2},
+	{RES_TUT_3, "3", 3},
+	{RES_TUT_4, "4", 4},
+	{RES_TUT_5, "5", 5},
+	{RES_TUT_6, "6", 6},
+	{RES_TUT_7, "7", 7}
+};*/
 
 NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(screenType) {
 	lprintfln("NewMenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -158,6 +170,13 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				}
 				next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				next->show();
+				/*if(next!=NULL){
+					delete next;
+					feed->remHttp();
+					next = NULL;
+				}
+				next = new TutorialScreen(this, tutItems, sizeof(tutItems)/sizeof(tutItem));
+				next->show();*/
 			} else if(index == OP_PLAY) {
 				if(next!=NULL){
 					delete next;
