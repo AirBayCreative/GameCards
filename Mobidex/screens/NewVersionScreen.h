@@ -5,13 +5,14 @@
 #include <MAUI/Label.h>
 
 #include "../utils/Feed.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class NewVersionScreen : public Screen, WidgetListener {
+class NewVersionScreen : public MainScreen, WidgetListener {
 public:
-	NewVersionScreen(Screen *previous, String url, Feed *feed);
+	NewVersionScreen(MainScreen *previous, String url, Feed *feed);
 	~NewVersionScreen();
 	void keyPressEvent(int keyCode);
 	void pointerPressEvent(MAPoint2d point);
@@ -19,15 +20,9 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 private:
-	Screen *previous;
 
 	String downloadUrl;
 
-	Layout *layout;
-	ListBox *listBox;
-	Label *lbl;
-	Feed *feed;
-	Screen *menu;
 	bool list, left, right;
 };
 

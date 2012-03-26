@@ -1,7 +1,7 @@
 #include "MenuScreen.h"
 #include "../../utils/Util.h"
 
-MenuScreen::MenuScreen(MAHandle blank, char *headerLabel) : mBlankImage(blank), mListener(NULL), mSkin(NULL), mFontSel(NULL), mFontUnsel(NULL),
+MenuScreen::MenuScreen(MAHandle blank, const char *headerLabel) : mBlankImage(blank), mListener(NULL), mSkin(NULL), mFontSel(NULL), mFontUnsel(NULL),
 										 mDock(MD_BOTTOM_LEFT), mIsDirty(false), mMarginX(0), mMarginY(0), header(NULL)
 {
 	MAExtent scr = maGetScrSize();

@@ -3,21 +3,22 @@
 
 using namespace MAUtil;
 
-CreateCardScreen::CreateCardScreen(Screen *previous) : previous(previous) {
+CreateCardScreen::CreateCardScreen(MainScreen *previous) {
+	this->previous = previous;
 	lprintfln("CreateCardScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout("", "Back", "");
+	layout = Util::createMainLayout("", "Back", "");
 
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 
 	imge = new Image(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, Util::loadImageFromResource(RES_CREATECARD));
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 }
 
 CreateCardScreen::~CreateCardScreen() {
-	delete mainLayout;
+	delete layout;
 
-	mainLayout = NULL;
+	layout = NULL;
 	listBox = NULL;
 	imge = NULL;
 }

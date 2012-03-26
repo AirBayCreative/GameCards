@@ -11,9 +11,14 @@
 #include "../utils/Albums.h"
 #include "../utils/Album.h"
 
-void AlbumLoadScreen::refresh() {
+void AlbumLoadScreen::refresh(bool pop) {
+	lprintfln("AlbumLoadScreen::refresh()");
 	show();
 	path.clear();
+
+	album = new Albums();
+	album->setAll(this->feed->getAlbum()->getAll().c_str());
+
 	notice->setCaption("Checking for new albums...");
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -36,7 +41,8 @@ void AlbumLoadScreen::refresh() {
 	delete url;
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(feed) {
+AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al):mHttp(this) {
+	this->feed = feed;
 	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
@@ -52,10 +58,10 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(fee
 	updated = "0";
 
 	next = NULL;
-	mainLayout = Util::createMainLayout("", "Exit", true);
+	layout = Util::createMainLayout("", "Exit", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	album = new Albums();
 
@@ -84,7 +90,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(fee
 		feed->addHttp();
 		mHttp.finish();
 	}
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	if (url != NULL) {
 		delete url;
@@ -94,7 +100,7 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al) : mHttp(this), feed(fee
 }
 
 AlbumLoadScreen::~AlbumLoadScreen() {
-	delete mainLayout;
+	delete layout;
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
@@ -293,6 +299,7 @@ void AlbumLoadScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void AlbumLoadScreen::show() {
+	lprintfln("AlbumLoadScreen::show()");
 	shown = true;
 	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
@@ -301,7 +308,7 @@ void AlbumLoadScreen::show() {
 void AlbumLoadScreen::hide() {
 	shown = false;
     listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
-	Screen::hide();
+    Screen::hide();
 }
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
@@ -317,8 +324,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 			if (path.size() > 0) {
 				path.remove(path.size()-1);
 				loadCategory();
-			}
-			else {
+			} else {
 				/*if (feed->getHttps() > 0) {
 					notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 				} else {*/
@@ -333,17 +339,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				drawList();
 				break;
 			}
-
-			if (path.size() == 0 && listBox->getSelectedIndex() == (0)) {
-				if (next != NULL) {
-					feed->remHttp();
-					delete next;
-					next = NULL;
-				}
-				next = new SearchScreen(feed, this);
-				next->show();
-			}
-			else if (!owned && listBox->getSelectedIndex() == (size-4)) {
+			if (!owned && listBox->getSelectedIndex() == (size-4)) {
 				if(next!=NULL){
 					feed->remHttp();
 					delete next;
@@ -351,8 +347,15 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 				next = new CreateCardScreen(this);
 				next->show();
-			}
-			else if (listBox->getSelectedIndex() == (size-3)) {
+			} else if (path.size() == 0 && listBox->getSelectedIndex() == (0)) {
+				if (next != NULL) {
+					feed->remHttp();
+					delete next;
+					next = NULL;
+				}
+				next = new SearchScreen(feed, this);
+				next->show();
+			} else if (listBox->getSelectedIndex() == (size-3)) {
 				if(next!=NULL){
 					feed->remHttp();
 					delete next;
@@ -360,8 +363,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 				next = new NewDeckScreen(this, feed);
 				next->show();
-			}
-			else if (listBox->getSelectedIndex() == (size-2)) {
+			} else if (listBox->getSelectedIndex() == (size-2)) {
 				if(next!=NULL){
 					feed->remHttp();
 					delete next;
@@ -369,15 +371,13 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 				}
 				next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
 				next->show();
-			}
-			else if (listBox->getSelectedIndex() == (size-1)) {
+			} else if (listBox->getSelectedIndex() == (size-1)) {
 				/*if (feed->getHttps() > 0) {
 					notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
 				} else {*/
 					cleanup();
 				//}
-			}
-			else if (!empt) {
+			} else if (!empt) {
 				Album* val = (album->getAlbum(((Label *)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
 					feed->remHttp();
@@ -391,13 +391,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					} else if (strcmp(val->getId().c_str(), "-2") == 0) {
 						next = new AlbumViewScreen(this, feed, val->getId(), Util::AT_NEW_CARDS);
 						next->show();
-					}
-					else {
+					} else {
 						next = new AlbumViewScreen(this, feed, val->getId());
 						next->show();
 					}
-				}
-				else {
+				} else {
 					path.add(val->getId());
 					loadCategory();
 				}
@@ -408,7 +406,7 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 }
 
 void AlbumLoadScreen::loadCategory() {
-	Util::updateSoftKeyLayout(path.size() == 0?"Exit":"Back", "", "", mainLayout);
+	Util::updateSoftKeyLayout(path.size() == 0?"Exit":"Back", "", "", layout);
 	album->clearAll();
 	clearListBox();
 	notice->setCaption("Checking for new albums...");

@@ -291,7 +291,10 @@ static country countries[] =
 	{ "263", "Zimbabwe" }
 };
 
-Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed), prev(previous), screen(screen) {
+Login::Login(Feed *feed, MainScreen *previous, int screen):mHttp(this) {
+	this->feed = feed;
+	this->previous = previous;
+	this->screen = screen;
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
@@ -299,12 +302,12 @@ Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed)
 
 	response = "";
 
-	mainLayout = Util::createMainLayout("", "", "", true);
+	layout = Util::createMainLayout("", "", "", true);
 
-	mainLayout->setDrawBackground(TRUE);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	layout->setDrawBackground(TRUE);
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	//Util::setPadding(listBox);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
 	switch (screen) {
@@ -320,11 +323,11 @@ Login::Login(Feed *feed, Screen *previous, int screen) : mHttp(this), feed(feed)
 		label->setCaption(feed->getUnsuccessful());
 	}
 	touch = "false";
-	this->setMain(mainLayout);
+	this->setMain(layout);
 }
 
 Login::~Login() {
-	delete mainLayout;
+	delete layout;
 	error_msg = "";
 	parentTag="";
 	conCatenation="";
@@ -354,9 +357,9 @@ void Login::drawLoginScreen() {
 	clearListBox();
 
 	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
-		Util::updateSoftKeyLayout("Log In", "Exit", "", mainLayout);
+		Util::updateSoftKeyLayout("Log In", "Exit", "", layout);
 	} else {
-		Util::updateSoftKeyLayout("Log In", "Back", "", mainLayout);
+		Util::updateSoftKeyLayout("Log In", "Back", "", layout);
 	}
 	notice->setCaption("");
 
@@ -401,7 +404,7 @@ void Login::drawRegisterScreen() {
 	screen = S_REGISTER;
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
+	Util::updateSoftKeyLayout("Register", "Back", "", layout);
 	notice->setCaption("");
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Username:", 0, Util::getDefaultFont());
@@ -570,7 +573,7 @@ void Login::locateItem(MAPoint2d point)
     p.set(point.x, point.y);
     listP.set(point.x, point.y - (listBox->getYOffset()>>16));
     for(int i = 0; i < (listBox->getChildren()).size() &&
-    	!mainLayout->getChildren()[1]->contains(p); i++)
+    	!layout->getChildren()[1]->contains(p); i++)
     {
         if(listBox->getChildren()[i]->contains(listP))
         {
@@ -658,7 +661,7 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						int countryIndex = checkCountryCode();
+						int countryIndex = (editBoxCell->getText().length() >= 10)?checkCountryCode():-1;
 						if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
 						}
@@ -728,7 +731,7 @@ void Login::keyPressEvent(int keyCode) {
 				maExit(1);
 			} else {
 				disableEditBoxes();
-				prev->show();
+				previous->show();
 			}
 			break;
 		case MAK_UP:
@@ -755,13 +758,19 @@ void Login::keyPressEvent(int keyCode) {
 
 //returns -1 if the country code wasnt found, otherwise it returns the index of the country
 int Login::checkCountryCode() {
+	int subStart = 0, numLength = editBoxCell->getText().length();
+	if(editBoxCell->getText()[0] == '+') {
+		subStart = 1;
+		numLength-=1;
+	}
+
 	int found = -1;
 	int countryIndex;
 	int countryCount = sizeof(countries)/sizeof(country);
 	for (countryIndex = 0; countryIndex < countryCount; countryIndex++) {
 		int codeLength = strlen(countries[countryIndex].code);
-		if (editBoxCell->getText().length() == codeLength + 9) {
-			if (strcmp((editBoxCell->getText().substr(0, codeLength)).c_str(), countries[countryIndex].code) == 0) {
+		if (numLength == codeLength + 9) {
+			if (strcmp((editBoxCell->getText().substr(subStart, codeLength)).c_str(), countries[countryIndex].code) == 0) {
 				found = 1;
 				break;
 			}
@@ -925,7 +934,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 	}
 }
 void Login::cleanup() {
-	delete mainLayout;
+	delete layout;
 
 	parentTag = "";
 	conCatenation = "";
@@ -951,6 +960,7 @@ void Login::mtxEmptyTagEnd() {
 
 void Login::mtxTagStartEnd() {
 }
+
 
 void Login::menuOptionSelected(int index) {
 	if (index == 0) {

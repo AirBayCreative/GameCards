@@ -13,6 +13,7 @@
 #include "../UI/Widgets/MobImage.h"
 #include "../UI/MenuScreen/MenuScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 
@@ -20,9 +21,9 @@ using namespace MAUI;
  *  The screen class used for demonstrating how to
  *  use MAUI::Image widgets.
  */
-class ImageScreen : public Screen, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
+class ImageScreen : public MainScreen, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	ImageScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, int screenType = ST_NORMAL,
+	ImageScreen(MainScreen *previous, MAHandle image, Feed *feed, bool flip, Card *card, int screenType = ST_NORMAL,
 			bool hasConnection = true, bool canAuction = true);
 	~ImageScreen();
 	void keyPressEvent(int keyCode);
@@ -30,25 +31,20 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+	void pop();
 	enum screenTypes {ST_NORMAL, ST_NEW_CARD};
 private:
-	Screen *previous, *next;
 	MAHandle img;
 	MAPoint2d pointPressed, pointReleased;
 	Card *card;
-	Feed *feed;
 	MobImage *imge;
 	ImageCache *imageCacheFront;
 	ImageCache *imageCacheBack;
-	Layout *mainLayout;
-	ListBox *listBox;
 	int height, screenType, flipOrSelect, currentSelectedStat;
 	bool flip, busy, tapped;
 	bool left, right, list, hasConnection, canAuction;
 	String parentTag;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void acceptCard();
 	void rejectCard();

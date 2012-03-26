@@ -12,13 +12,16 @@
 #include "../utils/Album.h"
 #include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
+#include "OptionsScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DeckListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DeckListScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	DeckListScreen(Screen *previous, Feed *feed, Card *card);
+	DeckListScreen(MainScreen *previous, Feed *feed, Card *card);
 	~DeckListScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -31,22 +34,13 @@ public:
 	enum screenPhase {SP_LIST = 0,
 			SP_ADDING, SP_FINISHED};
 private:
-	Screen *previous;
-	Screen *next;
-
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* kinListBox;
-	Label *lbl, *notice;
-	Album *album;
 	Vector<Album*> albums;
+	Album *album;
 
 	Card *card;
-
-	bool list, left, right, selecting;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
+
+	bool list, left, right, selecting, emp;
 
 	String parentTag;
 	String deckId, description, result;
@@ -67,6 +61,8 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
 };
 
 #endif

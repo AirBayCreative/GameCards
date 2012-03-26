@@ -8,14 +8,19 @@
 #include "OptionsScreen.h"
 #include "TradeFriendDetailScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) : mHttp(this),
-filename(category+"-lst.sav"), category(category), previous(previous), feed(feed), cardExists(cards.end()), albumType(albumType) {
+AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) :
+filename(category+"-lst.sav"), category(category),cardExists(cards.end()), albumType(albumType), mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
 	lprintfln("AlbumViewScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	busy = true;
 	emp = true;
 	next = NULL;
+	pop = false;
 	error_msg = "";
 	id = "";
+	deleting = false;
+	loading = true;
 	description = "";
 	quantity = "";
 	thumburl = "";
@@ -28,15 +33,10 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 	searchString = "";
 	orientation = "";
 
-	if (albumType != Util::AT_SHARE) {
-		mainLayout = Util::createMainLayout("", "Back", "", true);
-	} else {
-		mainLayout = Util::createMainLayout("", "Back", "", true);
-	}
-
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	layout = Util::createMainLayout("", "Back", "", true);
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	listBox->setPaddingRight(PADDING);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	mImageCache = new ImageCache();
 	switch (albumType) {
@@ -76,12 +76,14 @@ filename(category+"-lst.sav"), category(category), previous(previous), feed(feed
 			break;
 	}
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 	moved=0;
 	origAlbum = this;
 }
 
-void AlbumViewScreen::refresh() {
+void AlbumViewScreen::refresh(bool pop) {
+	lprintfln("AlbumViewScreen::refresh()");
+	this->pop = pop;
 	int urlLength = 0;
 	char *url = NULL;
 	switch (albumType) {
@@ -105,6 +107,7 @@ void AlbumViewScreen::refresh() {
 					category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);
 			break;
 	}
+	loading = true;
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -278,15 +281,62 @@ void AlbumViewScreen::drawList() {
 	if (cards.size() >= 1) {
 		emp = false;
 		listBox->setSelectedIndex(0);
-	} else {
+	} else if (loading) {
 		emp = true;
 		listBox->add(Util::createSubLabel("Empty"));
 		listBox->setSelectedIndex(0);
+	} else if (!loading) {
+		emp = true;
+		listBox->add(Util::createSubLabel("Remove Album"));
+		listBox->setSelectedIndex(0);
+	}
+
+	if (cards.size() < 1) {
+		if (pop) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		}
 	}
 }
 
+void AlbumViewScreen::deleteDeck() {
+	deleting = true;
+
+	notice->setCaption("Deleting deck...");
+
+	int urlLength = 65 + URLSIZE + strlen("deck_id") + category.length();
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL_PHONE.c_str(),	category.c_str());
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		busy = false;
+		hasConnection = false;
+		notice->setCaption("");
+	} else {
+		hasConnection = true;
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
+		mHttp.finish();
+
+	}
+
+	Albums *album = feed->getAlbum();
+	album->removeAlbum(category.c_str());
+	feed->getAlbum()->setAll(album->getAll().c_str());
+	feed->setAlbum(album->getAll().c_str());
+	Util::saveData("lb.sav", album->getAll().c_str());
+
+	delete [] url;
+	url = NULL;
+}
+
 AlbumViewScreen::~AlbumViewScreen() {
-	delete mainLayout;
+	delete layout;
 	if(next!=NULL){
 		feed->remHttp();
 		delete next;
@@ -357,7 +407,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				all = getAll();
 				Util::saveData(filename.c_str(), all.c_str());
 				all = "";
-				((AlbumLoadScreen *)previous)->refresh();
+				previous->refresh(false);
 			} else if (albumType == Util::AT_SEARCH) {
 				previous->show();
 			}
@@ -378,6 +428,8 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
 				}
 				next->show();
+			} else if (!loading) {
+				deleteDeck();
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -414,6 +466,7 @@ void AlbumViewScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		xmlConn = XmlConnection::XmlConnection();
 		xmlConn.parse(http, this, this);
 	} else {
+		loading = false;
 		mHttp.close();
 		notice->setCaption("");
 		busy = false;
@@ -553,12 +606,17 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption("");
 		clearCardMap();
 		cards = tmp;
+		loading = false;
 		drawList();
 		busy = false;
 		String all = getAll();
 		Util::saveData(filename.c_str(), all.c_str());
 		all = "";
 	} else {
+		if (deleting) {
+			((AlbumLoadScreen*)previous)->refresh();
+			previous->show();
+		}
 		notice->setCaption("");
 	}
 }

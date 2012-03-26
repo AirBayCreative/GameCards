@@ -3,11 +3,14 @@
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
-		feed(feed), screenType(screenType), card(card) {
+DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->screenType = screenType;
+	this->card = card;
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	layout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	isBusy=true;
 	desc = "", id = "", date = "";
@@ -76,7 +79,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		if(res < 0) {
 
 		} else {
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Updating notifications...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
@@ -98,7 +101,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		if(res < 0) {
 
 		} else {
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Checking for updated info...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
@@ -108,13 +111,13 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		}
 	}
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	moved = 0;
 }
 
 DetailScreen::~DetailScreen() {
-	delete mainLayout;
+	delete layout;
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
@@ -375,11 +378,11 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			listBox->add(label);
 
 			listBox->setSelectedIndex(0);
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		} else {
 			listBox->setSelectedIndex(1);
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		}
 	} else if(!strcmp(name, "note")) {

@@ -18,6 +18,30 @@ function resizeThumbs($root) {
 		$iImage++;
 	}
 }
+
+function sendMail($to, $subject, $message)
+{
+     $subject = 'Mobidex Registration';
+     $headers = 'MIME-Version: 1.0' . "\r\n";
+     $headers.= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+     $headers.= 'From: support@mobidex.biz' . "\r\n";
+     //send actual email
+     try
+     {
+           error_reporting(E_ERROR);
+           if(mail($to, $subject, $message, $headers)){
+                return true;
+           }
+           else{
+                return false;
+           }    
+     }
+     catch(Exception $e)
+     {
+           return false;
+     }
+}
+
 function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 
 	//we need to check if the width after scaling would be too wide for the screen.
@@ -51,14 +75,14 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	}
 	
 	//we want a maximum image size, so larger devices dont have to download huge images
-	if ($iHeight > 520) {
-		//for now, max = 520
-		$iHeight = 520;
+	if ($iHeight > 1040) {
+		//for now, max = 1040
+		$iHeight = 1040;
 	}
 	
-	if ($iWidth > 520) {
-		//for now, max = 520
-		$iWidth = 520;
+	if ($iWidth > 1040) {
+		//for now, max = 1040
+		$iWidth = 1040;
 	}
 	
 	//Check directory for resized version
@@ -646,7 +670,7 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote) {
 	myqui('INSERT INTO mytcg_tradecard
 		(user_id, trademethod, detail, date, card_id, status_id, note)
 		VALUES
-		('.$iUserID.', "'.$tradeMethod.'", "'.$receiveNumber.'", now(), '.$cardID.', 0, "'.$sentNote.'") ');
+		('.$iUserID.', "'.$tradeMethod.'", "'.$receiveNumber.'", now(), '.$cardID.', 0, "'.$sendNote.'") ');
 	
 	$aCheckUser = myqu($query);
 	if (sizeof($aCheckUser) == 0){
@@ -670,9 +694,9 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote) {
 	myqui('INSERT INTO mytcg_usercardnote
 		(user_id, card_id, usercardnotestatus_id, note, date_updated)
 		VALUES
-		('.$aCheckUser[0]['user_id'].', '.$cardID.', 1, "'.$sentNote.'", now())
+		('.$aCheckUser[0]['user_id'].', '.$cardID.', 1, "'.$sendNote.'", now())
 		ON DUPLICATE KEY UPDATE 
-		note = concat(note,"'.$sentNote.'"),
+		note = concat(note,"'.$sendNote.'"),
 		date_updated = now()');
   
 	  //SMS Notification of Trade completed
@@ -835,6 +859,34 @@ function registerUser($username, $password, $email, $name, $cell, $iHeight, $iWi
 		}
 		
 		myqui('UPDATE mytcg_tradecard SET status_id = 1 WHERE detail = "'.$username.'" OR detail = "'.$email.'" OR detail = '.$cell.' AND status_id = 0');
+		
+		//send the user a welcome email
+     $subject = 'Mobidex Registration';
+     $message = <<<STR
+
+<p>Hi {$name},</p>
+
+<p>Welcome to Mobidex! You have successfully registered on <a href="http://www.mobidex.biz/">www.mobidex.biz</a></p>
+
+<p>Your login details:</p>
+<pre>
+<ul>
+     <li>Username: <strong>{$username}</strong></li>
+     <li>Password: <strong>{$password}</strong></li>
+</ul>
+</pre>
+
+<p>Please contact us if you experience any difficulties with the system.</p>
+
+<p>Kind regards,</p>
+
+<p>Mobidex Support Team</p>
+
+STR;
+
+     sendMail($email, $subject, $message);
+
+
 		
 		$sOP.=usercategories(0,$iUserID);
 		return $sOP;
@@ -1240,16 +1292,25 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	return $sOP;
 }
 function createDeck($iUserID,$iDescription) {
-	myqui('INSERT INTO mytcg_deck (user_id, description) 
-		VALUES('.$iUserID.',"'.$iDescription.'")');
-		
+
 	$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
 		FROM mytcg_deck 
 		WHERE user_id = '.$iUserID.' 
 		AND description = "'.$iDescription.'"');
 	$deckId = $deckIdQuery[0]['deck_id'];
-	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Deck Created!</result></created>';
+	if ($deckId > 0) {
 	
+	} else {
+		myqui('INSERT INTO mytcg_deck (user_id, description) 
+			VALUES('.$iUserID.',"'.$iDescription.'")');
+			
+		$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
+			FROM mytcg_deck 
+			WHERE user_id = '.$iUserID.' 
+			AND description = "'.$iDescription.'"');
+		$deckId = $deckIdQuery[0]['deck_id'];
+	}
+	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Album Created!</result></created>';
 	return $sOP;
 }
 

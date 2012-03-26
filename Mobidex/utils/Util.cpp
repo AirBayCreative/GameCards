@@ -327,18 +327,10 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	label->setMultiLine(true);
 	label->setPaddingLeft(PADDING);
 	listBox->add(label);
-
-	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
-				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
-		mKineticBox->setPaddingLeft(PADDING);
-		listBox->add(mKineticBox);
-	}
-	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-		mBox->setPaddingLeft(PADDING);
-		listBox->add(mBox);
-	}
+	KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
+			NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+	mKineticBox->setPaddingLeft(PADDING);
+	listBox->add(mKineticBox);
 	//listBox->setPaddingLeft(PADDING);
 
 	imgSize = -1;

@@ -11,13 +11,14 @@
 #include "../utils/Card.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class SearchScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class SearchScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	SearchScreen(Feed *feed, Screen *previous);
+	SearchScreen(Feed *feed, MainScreen *previous);
 	~SearchScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -28,14 +29,8 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 private:
-	Layout *mainLayout;
-	ListBox *listBox;
-	Label *label, *notice;
-	NativeEditBox *editBoxSearch;
-	Vector<Widget*> tempWidgets;
 
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
+	NativeEditBox *editBoxSearch;
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, rate, value, orientation;
 	String error_msg, id,description,quantity, thumburl, fronturl, backurl, updated;
@@ -43,9 +38,6 @@ private:
 	bool left, right, mid, error, fresh;
 	int moved;
 
-	Feed *feed;
-
-	Screen *next, *prev;
 	bool isBusy, isActive;
 
 	Map<String, Card*> cards;
@@ -58,6 +50,7 @@ private:
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void cleanup();
+	HttpConnection mHttp;
 	void xcConnError(int code);
 	void mtxEncoding(const char*);
 	void mtxTagStart(const char*, int);

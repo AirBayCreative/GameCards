@@ -46,7 +46,6 @@ String Albums::getId(String val) {
 }
 
 Album* Albums::getAlbum(String val) {
-
 	return album.find(albumnames.find(val)->second)->second;
 }
 
@@ -94,7 +93,11 @@ void Albums::addAlbum(const char* id, String name, bool hasCards, bool updated) 
 }
 
 void Albums::removeAlbum(const char* id) {
-	album.erase(id);
+	Map<String,Album*>::Iterator i = album.find(id);
+	if(i != album.end()) {
+		albumnames.erase(i->second->getDescription());
+		album.erase(id);
+	}
 }
 
 Vector<String> Albums::getNames() {
