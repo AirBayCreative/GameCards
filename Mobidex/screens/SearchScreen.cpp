@@ -4,7 +4,10 @@
 #include "../utils/Util.h"
 #include "AlbumViewScreen.h"
 
-SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(feed), prev(previous) {
+
+SearchScreen::SearchScreen(Feed *feed, MainScreen *previous):mHttp(this) {
+	this->feed = feed;
+	this->previous = previous;
 	lprintfln("SearchScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
@@ -28,12 +31,12 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	error_msg = "";
 	orientation = "";
 
-	mainLayout = Util::createMainLayout("Search", "Back", "", false);
+	layout = Util::createMainLayout("Search", "Back", "", false);
 
-	mainLayout->setDrawBackground(true);
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	layout->setDrawBackground(true);
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	//listBox->setPaddingLeft(PADDING);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	//notice->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 16, NULL, "", 0, Util::getDefaultFont());
@@ -59,12 +62,12 @@ SearchScreen::SearchScreen(Feed *feed, Screen *previous) : mHttp(this), feed(fee
 	if (feed->getUnsuccessful() != "Success") {
 		label->setCaption(feed->getUnsuccessful());
 	}
-	this->setMain(mainLayout);
+	this->setMain(layout);
 	listBox->setSelectedIndex(1);
 }
 
 SearchScreen::~SearchScreen() {
-	delete mainLayout;
+	delete layout;
 	if (next != NULL) {
 		feed->remHttp();
 		delete next;
@@ -223,7 +226,7 @@ void SearchScreen::keyPressEvent(int keyCode) {
 			isActive = false;
 			editBoxSearch->setSelected(false);
 			editBoxSearch->disableListener();
-			prev->show();
+			previous->show();
 			break;
 		case MAK_UP:
 			break;

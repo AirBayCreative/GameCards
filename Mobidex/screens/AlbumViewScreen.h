@@ -13,13 +13,14 @@
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
 #include "../utils/Util.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumViewScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=Util::AT_NORMAL, Map<String, Card*> map=NULL);
+	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=Util::AT_NORMAL, Map<String, Card*> map=NULL);
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -30,6 +31,7 @@ public:
 	String *Retrieve(int id);
 	void drawList();
 	void setSearchString(String ss);
+	void deleteDeck();
 
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
@@ -41,26 +43,17 @@ public:
 
 	typedef Map<String, Card*> StringCardMap;
 
-	void refresh();
+	void refresh(bool pop=false);
 private:
-	Screen *next, *previous;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
-	Label *notice, *label;
-	KineticListBox *listBox;
-	Layout *mainLayout;
-	Vector<Widget*> tempWidgets;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, cardText, statDesc, statIVal, statDisplay, note, category, searchString, orientation;
 	String id,description,quantity, thumburl, fronturl, backurl, filename,error_msg, rate, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, albumType;
-	bool list, left, right, emp, hasConnection, busy;
+	bool list, left, right, emp, hasConnection, busy, deleting, loading, pop;
 
-	Feed *feed;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;
 	Vector<String> index;
@@ -69,6 +62,7 @@ private:
 	Stat *stat;
 
 	Card *newCard;
+	HttpConnection mHttp;
 
 	String getAll();
 	void loadDemo();

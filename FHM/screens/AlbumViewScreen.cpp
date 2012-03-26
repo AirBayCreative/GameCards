@@ -763,12 +763,17 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	//somewhere here, still need to figure out where exactly
+<<<<<<< HEAD
+
+	int seconds = maLocalTime();
+=======
 	/*int seconds = maLocalTime();
+>>>>>>> 7afe3ccde46eb2980b6c55d0be8346c9117a7a6b
 	int secondsLength = Util::intlen(seconds);
 	char *secString = new char[secondsLength+1];
 	memset(secString,'\0',secondsLength+1);
 	sprintf(secString, "%d", seconds);
-	feed->setSeconds(secString);
+	feed->setSeconds(secString, category.c_str());
 	delete secString;
 	secString = NULL;*/
 

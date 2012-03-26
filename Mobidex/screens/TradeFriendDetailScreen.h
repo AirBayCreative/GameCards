@@ -12,13 +12,15 @@
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendDetailScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class TradeFriendDetailScreen : public MainScreen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener, MenuListener {
 public:
-	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card);
+	TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card);
 	~TradeFriendDetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,36 +31,28 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
+	void menuOptionSelected(int index);
+
 	void contactSelected(String number);
 private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
 	int phase;
 
-	Vector<Widget*> tempWidgets;
+	Label *lblMethod;
 
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *lblMethod, *notice;
-
-	Screen *menu;
-	Screen *previous;
 	Card *card;
 	bool left, right, center, sending, list, fresh;
 	String method, methodLabel, friendDetail, friendNote, parentTag;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *contactEditBox, *editBoxNote;
 
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
-
 	void drawMethodScreen();
 	void drawDetailScreen();
 	void drawConfirmScreen();
-	void drawCompleteScreen();
 
 	void clearListBox();
 
+	HttpConnection mHttp;
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);
 	void xcConnError(int code);

@@ -588,6 +588,20 @@ if ($_GET['createdeck']){
 	echo $sOP;
 	exit;
 }
+if ($_GET['deletedeck']){
+	$iDeckID=$_GET['deck_id'];
+	myqui('UPDATE mytcg_usercard 
+			SET deck_id = NULL  
+			WHERE deck_id = '.$iDeckID);
+	
+	myqui('DELETE FROM mytcg_deck 
+			WHERE deck_id = '.$iDeckID);
+	$sOP = "<result>Deck deleted!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 
 /** give all the user decks */
 if ($_GET['getalldecks']){

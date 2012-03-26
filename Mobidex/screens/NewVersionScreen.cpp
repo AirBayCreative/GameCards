@@ -3,19 +3,22 @@
 #include "../utils/Util.h"
 #include "NewVersionScreen.h"
 
-NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
+NewVersionScreen::NewVersionScreen(MainScreen *previous, String url, Feed *feed) {
+	this->previous = previous;
+	this->downloadUrl = url;
+	this->feed = feed;
 	lprintfln("NewVersionScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	layout = Util::createMainLayout("Download", "Back");
 
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.",
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, "There is a new version of the Game Cards app available, please download it before continuing.",
 			0, Util::getDefaultFont());
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setSkin(Util::getSkinBack());
-	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setSkin(Util::getSkinBack());
+	label->setMultiLine(true);
+	listBox->add(label);
 
 	this->setMain(layout);
 }

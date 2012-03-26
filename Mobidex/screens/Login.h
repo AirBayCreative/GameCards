@@ -12,6 +12,7 @@
 #include "../UI/KineticListBox.h"
 #include "../UI/CheckBox.h"
 #include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
@@ -21,9 +22,9 @@ struct country {
 	const char *country;
 };
 
-class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
+class Login : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	Login(Feed *feed, Screen *previous, int screen);
+	Login(Feed *feed, MainScreen *previous, int screen);
 	~Login();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -36,16 +37,11 @@ public:
 	void menuOptionSelected(int index);
 	enum screens {S_LOGIN, S_REGISTER};
 private:
-	Layout *mainLayout, *termsLayout;
-	KineticListBox *listBox;
-	Label *label, *notice, *termsLink;
+	Layout *termsLayout;
+	Label *termsLink;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxFullname, *editBoxCell, *editBoxEmail;
 	CheckBox *termsBox;
-	Vector<Widget*> tempWidgets;
 	MenuScreen *termsMenu;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
@@ -53,11 +49,8 @@ private:
 
 	bool list, left, right, mid, error;
 	int screen, moved;
+	HttpConnection mHttp;
 
-	Feed *feed;
-	Albums *album;
-
-	Screen *next, *prev;
 	bool isBusy;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

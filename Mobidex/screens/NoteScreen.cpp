@@ -3,8 +3,12 @@
 #include "NoteScreen.h"
 #include "../utils/Util.h"
 
-NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
-feed(feed), card(card), screenType(screenType), detail(detail) {
+NoteScreen::NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType, String detail):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->card = card;
+	this->screenType = screenType;
+	this->detail = detail;
 	lprintfln("NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	left = false;
@@ -18,15 +22,15 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = Util::createMainLayout("Save", "Back", true);
+			layout = Util::createMainLayout("Save", "Back", true);
 			break;
 		case ST_SMS:
-			mainLayout = Util::createMainLayout("Share", "Back", true);
+			layout = Util::createMainLayout("Share", "Back", true);
 		break;
 	}
 
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
@@ -56,14 +60,14 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	editBoxNote->setSelected(true);
 	listBox->setSelectedIndex(1);
 }
 
 NoteScreen::~NoteScreen() {
-	delete mainLayout;
+	delete layout;
 
 	parentTag = "";
 	note = "";

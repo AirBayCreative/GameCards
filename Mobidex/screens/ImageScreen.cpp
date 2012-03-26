@@ -2,12 +2,20 @@
 #include <MAUtil/Graphics.h>
 
 #include "AlbumViewScreen.h"
+#include "DeckListScreen.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
-		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
+ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection, bool canAuction):mHttp(this) {
+	this->previous = previous;
+	this->img = img;
+	this->flip = flip;
+	this->card = card;
+	this->screenType = screenType;
+	this->feed = feed;
+	this->hasConnection = hasConnection;
+	this->canAuction = canAuction;
 	lprintfln("ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	//TODO add touch
 	busy = false;
@@ -20,22 +28,22 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
-			mainLayout =  Util::createImageLayout("Accept", "Reject", "Flip");
+			layout =  Util::createImageLayout("Accept", "Reject", "Flip");
 		} else if (screenType == Util::AT_SHARE) {
-			mainLayout = Util::createImageLayout("Share", "Back", "Flip");
+			layout = Util::createImageLayout("Share", "Back", "Flip");
 		} else {
-			mainLayout = Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip");
+			layout = Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip");
 		}
-		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox = (KineticListBox*) layout->getChildren()[0];
 		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
-		mainLayout = Util::createImageLayout("Back");
-		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		layout = Util::createImageLayout("Back");
+		listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
-	this->setMain(mainLayout);
+	this->setMain(layout);
 	if (card != NULL) {
 		if (flip) {
 			Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
@@ -103,6 +111,10 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 }
 
+void ImageScreen::pop() {
+	previous->refresh(true);
+}
+
 void ImageScreen::locateItem(MAPoint2d point)
 {
 	list = false;
@@ -163,7 +175,7 @@ ImageScreen::~ImageScreen() {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!*/
-	delete mainLayout;
+	delete layout;
 	img = -1;
 	if (next != NULL) {
 		feed->remHttp();
@@ -225,21 +237,21 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					selectStat(-1);
 					if (currentSelectedStat == -1) {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
@@ -258,21 +270,21 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					selectStat(1);
 					if (currentSelectedStat == -1) {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
@@ -547,7 +559,12 @@ void ImageScreen::mtxTagData(const char* data, int len) {
 
 void ImageScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "result")) {
-		((AlbumViewScreen *)previous)->refresh();
+		if (next != NULL) {
+			feed->remHttp();
+			delete next;
+		}
+		next = new DeckListScreen(this, feed, card);
+		next->show();
 	}
 }
 

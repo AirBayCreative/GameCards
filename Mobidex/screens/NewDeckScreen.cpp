@@ -4,10 +4,12 @@
 #include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 
-NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previous(previous), feed(feed) {
+NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
 	lprintfln("NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	listBox = NULL;
-	mainLayout= NULL;
+	layout= NULL;
 
 	deckName = "";
 	errorString = "";
@@ -22,28 +24,34 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 	busy = false;
 	empty = false;
 
-	mainLayout = Util::createMainLayout("", "Back", true);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	layout = Util::createMainLayout("", "Back", true);
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
 	drawEnterNameScreen();
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	mHttp = HttpConnection(this);
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
+}
+void NewDeckScreen::menuOptionSelected(int index) {
+	this->show();
+	editBoxName->disableListener();
+	((AlbumLoadScreen*)previous)->refresh();
+	//editBoxNote->setSelected(true);
+	//editBoxNote->enableListener();
 }
 
 NewDeckScreen::~NewDeckScreen() {
-	lprintfln("~NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	if (next != NULL) {
 		delete next;
 		next = NULL;
 	}
 
-	delete mainLayout;
-	mainLayout = NULL;
+	delete layout;
+	layout = NULL;
 
 	for (int i = 0; i < albums.size(); i++) {
 		delete albums[i];
@@ -201,7 +209,7 @@ void NewDeckScreen::selectionChanged(Widget *widget, bool selected) {
 
 void NewDeckScreen::drawEnterNameScreen() {
 	clearListBox();
-	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
+	Util::updateSoftKeyLayout("Continue", "Back", "", layout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Album Name", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
@@ -274,7 +282,19 @@ void NewDeckScreen::mtxTagData(const char* data, int len) {
 void NewDeckScreen::mtxTagEnd(const char* name, int len) {
 	if (!strcmp(name, "result")) {
 		busy = false;
-		notice->setCaption(createResult);
+		MenuScreen *confirmation = new MenuScreen(RES_BLANK,createResult.c_str());
+		confirmation->setMenuWidth(120);
+		confirmation->setMarginX(5);
+		confirmation->setMarginY(5);
+		confirmation->setDock(MenuScreen::MD_CENTER);
+		confirmation->setListener(this);
+		confirmation->setMenuFontSel(Util::getDefaultFont());
+		confirmation->setMenuFontUnsel(Util::getDefaultFont());
+		confirmation->setMenuSkin(Util::getSkinDropDownItem());
+		confirmation->addItem("Ok");
+		confirmation->show();
+		//delete confirmation;
+		notice->setCaption("");
 		createResult = "";
 
 		//next = new EditDeckScreen(previous, feed, deckId);

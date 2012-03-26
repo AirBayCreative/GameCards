@@ -8,17 +8,19 @@
 #include "AlbumViewScreen.h"
 #include "TradeFriendDetailScreen.h"
 
-ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
+
+ContactScreen::ContactScreen(MainScreen *previous) {
+	this->previous = previous;
 	lprintfln("ContactScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	index = -1;
 	isBusy = false;
 
-	mainLayout = Util::createMainLayout("Search", "Back", "", false);
+	layout = Util::createMainLayout("Search", "Back", "", false);
 
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Enter contact name", 0, Util::getDefaultFont());
 	listBox->add(label);
@@ -37,7 +39,7 @@ ContactScreen::ContactScreen(Screen *previous) : prev(previous) {
 	contactListBox = new KineticListBox(0, 0, scrWidth, listBox->getHeight() - editBoxSearch->getParent()->getHeight() - 24,
 		listBox, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	listBox->setSelectedIndex(1);
 	editBoxSearch->setSelected(true);
@@ -131,7 +133,7 @@ ContactScreen::~ContactScreen() {
 	}
 	allContacts.clear();
 
-	delete mainLayout;
+	delete layout;
 }
 
 void ContactScreen::selectionChanged(Widget *widget, bool selected) {
@@ -241,10 +243,10 @@ void ContactScreen::doSearch() {
 	index = -1;
 	editBoxSearch->setSelected(true);
 	if (contacts.size() > 0) {
-		Util::updateSoftKeyLayout("Search", "Back", "Select", mainLayout);
+		Util::updateSoftKeyLayout("Search", "Back", "Select", layout);
 	}
 	else {
-		Util::updateSoftKeyLayout("Search", "Back", "", mainLayout);
+		Util::updateSoftKeyLayout("Search", "Back", "", layout);
 	}
 }
 
@@ -269,14 +271,14 @@ void ContactScreen::keyPressEvent(int keyCode) {
 		case MAK_BACK:
 			editBoxSearch->setSelected(false);
 			editBoxSearch->disableListener();
-			prev->show();
+			previous->show();
 			break;
 		case MAK_SOFTLEFT:
 			doSearch();
 			break;
 		case MAK_FIRE:
 			if (index >= 0) {
-				((TradeFriendDetailScreen*)prev)->contactSelected(contacts[contactListBox->getSelectedIndex()]->getNumber());
+				((TradeFriendDetailScreen*)previous)->contactSelected(contacts[contactListBox->getSelectedIndex()]->getNumber());
 			}
 			break;
 		case MAK_UP:
