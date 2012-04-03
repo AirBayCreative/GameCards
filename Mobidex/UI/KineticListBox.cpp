@@ -247,21 +247,8 @@ namespace MAUI {
 #endif
 
         void KineticListBox::draw(bool forceDraw) {
-            //Engine& engine = Engine::getSingleton();
             if(orientation == LBO_VERTICAL) {
-            //      int x = paddedBounds.x;
-            //      int y = paddedBounds.y+(yOffset>>16);
-
                     int i = 0;
-                    //int cy = (yOffset>>16);
-                    //int startIndex = 0;
-                    //int size = children.size();
-                    //int endIndex = size;
-
-                    //printf("numWidgets: %d\n", size);
-
-                    //bool res = engine.pushClipRectIntersect(bounds.x, bounds.y,
-                    //bounds.width, bounds.height);
                     Gfx_pushMatrix();
                     Gfx_translate(relX, relY);
 
@@ -306,18 +293,7 @@ namespace MAUI {
                     Gfx_popMatrix();
                     Gfx_popClipRect();
             } else if(orientation == LBO_HORIZONTAL) {
-                    //int x = paddedBounds.x+(yOffset>>16);
-                    //int y = paddedBounds.y;
-
                     int i = 0;
-                    //int cx = (yOffset>>16);
-                    //int startIndex = 0;
-                    //int size = children.size();
-                    //int endIndex = size;
-
-                    //printf("numWidgets: %d\n", size);
-
-                    //bool res = engine.pushClipRectIntersect(bounds.x, bounds.y, bounds.width, bounds.height);
                     Gfx_pushMatrix();
                     Gfx_translate(relX, relY);
                     BOOL res = Gfx_intersectClipRect(0, 0, bounds.width, bounds.height);
@@ -526,7 +502,6 @@ namespace MAUI {
                                         break;
                         }
                 }
-                //printf("element: %d\n", selectedIndex);
 
                 Widget *unselectedWidget = children[prevIndex];
                 children[prevIndex]->setSelected(false);
@@ -598,8 +573,6 @@ namespace MAUI {
                 c = children[selectedIndex];
 
                 c->setSelected(true);
-
-                //printf("element: %d\n", selectedIndex);
 
                 int pos = 0;
                 int bound = 0;

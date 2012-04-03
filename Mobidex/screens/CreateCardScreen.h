@@ -4,14 +4,15 @@
 #include <MAUI/Screen.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Image.h>
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
 
-class CreateCardScreen : public Screen {
+class CreateCardScreen : public MainScreen {
 public:
-	CreateCardScreen(Screen *previous);
+	CreateCardScreen(MainScreen *previous);
 	~CreateCardScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -23,10 +24,7 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Layout *mainLayout;
-	ListBox *listBox;
 	Image *imge;
-	Screen *previous;
 	bool list, left, right;
 };
 

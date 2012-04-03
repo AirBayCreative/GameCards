@@ -211,6 +211,16 @@ WidgetSkin* Util::getSkinHeader() {
 	return gSkinHeader;
 }
 
+WidgetSkin* Util::getSkinPopupHeader() {
+	static WidgetSkin* gSkinPopupHeader;
+	if (gSkinPopupHeader == NULL) {
+		gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
+				POPUP_HEADER_X_LEFT, POPUP_HEADER_X_RIGHT, POPUP_HEADER_Y_TOP,
+				POPUP_HEADER_Y_BOTTOM, true, true);
+	}
+	return gSkinPopupHeader;
+}
+
 void Util::setPadding(Widget *w) {
 	w->setPaddingTop(PADDING*2);
 	w->setPaddingLeft(PADDING);
@@ -265,6 +275,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setMultiLine(true);
 	if (strlen(centre) != 0) {
 		label->setSkin(Util::getSkinButton());
 	}
@@ -316,18 +327,10 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	label->setMultiLine(true);
 	label->setPaddingLeft(PADDING);
 	listBox->add(label);
-
-	if (useKinetic) {
-		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
-				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
-		mKineticBox->setPaddingLeft(PADDING);
-		listBox->add(mKineticBox);
-	}
-	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(/*softKeys->getHeight()*/48+imgHeight/*image->getHeight()*/), NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
-		mBox->setPaddingLeft(PADDING);
-		listBox->add(mBox);
-	}
+	KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
+			NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
+	mKineticBox->setPaddingLeft(PADDING);
+	listBox->add(mKineticBox);
 	//listBox->setPaddingLeft(PADDING);
 
 	imgSize = -1;

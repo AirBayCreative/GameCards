@@ -101,6 +101,16 @@
 #define RES_FONT_BLUE 94
 #define RES_FONT_BLACK 95
 
+/* Tutorial images*/
+
+#define RES_TUT_1 96
+#define RES_TUT_2 97
+#define RES_TUT_3 98
+#define RES_TUT_4 99
+#define RES_TUT_5 100
+#define RES_TUT_6 101
+#define RES_TUT_7 102
+
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 

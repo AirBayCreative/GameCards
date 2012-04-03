@@ -137,6 +137,7 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		hasConnection = false;
@@ -605,6 +606,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						mHttp.close();
 					}
 					mHttp = HttpConnection(this);
+					lprintfln("%s", url);
 					int res = mHttp.create(url, HTTP_GET);
 					if(res < 0) {
 						hasConnection = false;
@@ -695,6 +697,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 							mHttp.close();
 						}
 						mHttp = HttpConnection(this);
+						lprintfln("%s", url);
 						int res = mHttp.create(url, HTTP_GET);
 						if(res < 0) {
 							hasConnection = false;
@@ -737,6 +740,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 								mHttp.close();
 							}
 							mHttp = HttpConnection(this);
+							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
 								hasConnection = false;
@@ -778,6 +782,7 @@ void GamePlayScreen::runTimerEvent() {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			hasConnection = false;
@@ -884,6 +889,7 @@ void GamePlayScreen::runTimerEvent() {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			hasConnection = false;
@@ -954,6 +960,7 @@ void GamePlayScreen::selectStat() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		hasConnection = false;
@@ -1018,6 +1025,7 @@ void GamePlayScreen::xcConnError(int code) {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			hasConnection = false;

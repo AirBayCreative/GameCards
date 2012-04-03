@@ -107,7 +107,7 @@ void NativeEditBox::pointerMoveEvent(MAPoint2d p)
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if (moved <= 2) {
+	if (moved <= 5) {
 		if (point.y < scrHeight-Util::getSoftKeyBarHeight()) {
 			if(this->isActive()&&this->contains(point.x, point.y)) {
 				activate();
@@ -121,6 +121,11 @@ void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 
 
 void NativeEditBox::activate(NativeEditBoxListener* listener) {
+	if (fresh) {
+		setCaption("");
+		fresh = false;
+	}
+
 	moved = false;
 		mListener = listener;
 	wsprintf(mString, L"%s",getCaption().c_str());

@@ -23,7 +23,7 @@ class MenuScreen : public Screen, WidgetListener
 		//Make this quite large (the correct size for the screen if possible).  If you
 		//use a 1x1 pixel blank image, then it will have to tile it across the whole background,
 		//which even for a small screen will be 240x320 (76800) separate drawing calls, instead of 1
-		MenuScreen(MAHandle blankPng);
+		MenuScreen(MAHandle blankPng,const char *header = "");
 		~MenuScreen();
 
 		//An interface to add menu options
@@ -74,6 +74,8 @@ class MenuScreen : public Screen, WidgetListener
 		int mMarginX;
 		int mMarginY;
 		int moved;
+
+		Label *header;
 
 		Label* createLabel(const char* text);
 

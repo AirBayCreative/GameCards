@@ -3,20 +3,21 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/Album.h"
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class NewDeckScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class NewDeckScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	NewDeckScreen(Screen *previous, Feed *feed);
+	NewDeckScreen(MainScreen *previous, Feed *feed);
 	~NewDeckScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -27,24 +28,13 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Screen *previous;
-	Screen *next;
-	Layout *mainLayout;
-	Label *label, *notice;
-	KineticListBox *listBox;
 	NativeEditBox *editBoxName;
 
 	bool list, left, right, busy, empty;
 
 	int moved;
 
-	Album *album;
 	Vector<Album*> albums;
-
-	Feed *feed;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void validateInput();
 
@@ -59,6 +49,7 @@ private:
 	void mtxEncoding(const char*);
 	void mtxTagStart(const char*, int);
 	void mtxTagAttr(const char*, const char*);
+	HttpConnection mHttp;
 	void mtxTagData(const char*, int);
 	void mtxTagEnd(const char*, int);
 	void mtxParseError(int);
@@ -66,6 +57,8 @@ private:
 	void mtxTagStartEnd();
 
 	void clearListBox();
+
+	void menuOptionSelected(int index);
 };
 
 #endif	//_NEWDECKSCREEN_H_

@@ -57,6 +57,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		busy = false;
@@ -92,6 +93,7 @@ void EditDeckScreen::refresh() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		busy = false;
@@ -121,7 +123,9 @@ void EditDeckScreen::deleteDeck() {
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
+
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		busy = false;
@@ -155,6 +159,7 @@ void EditDeckScreen::removeCard() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		busy = false;

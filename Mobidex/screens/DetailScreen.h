@@ -3,20 +3,21 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
-#include <maprofile.h>
 
 #include "../utils/Util.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DetailScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL);
+	DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card=NULL);
 	~DetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,21 +30,15 @@ public:
 
 	enum screenType {PROFILE, BALANCE, CARD, NOTIFICATIONS};
 private:
-	Screen *previous, *next;
 	EditBox *editBox;
-	Layout *mainLayout;
-	Label *label, *balanceLabel;
-	KineticListBox *listBox;
+	Label *balanceLabel;
 	bool list, left, right;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String username, credits, encrypt, error_msg, parentTag, email, desc, id, date;
 	int i,j, moved, screenType, count;
 
 	Card *card;
-	Feed *feed;
+	HttpConnection mHttp;
 
 	bool isBusy;
 
@@ -60,6 +55,8 @@ private:
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
 };
 
 #endif	//_DETAILSCREEN_H_

@@ -10,7 +10,12 @@
 #include "../MAHeaders.h"
 #include "../utils/Albums.h"
 
-OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number) :mHttp(this), previous(previous), feed(feed), card(card), screenType(screenType), number(number) {
+OptionsScreen::OptionsScreen(Feed *feed, int screenType, MainScreen *previous, Card *card, String num):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->card = card;
+	this->screenType = screenType;
+	this->number = num;
 	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	error_msg = "";
 	moved = 0;
@@ -18,7 +23,8 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 	connError = false;
 	busy = false;
 
-	menu = NULL;
+	next = NULL;
+	confirmation = NULL;
 
 	if (screenType == ST_LOGIN_OPTIONS) {
 		layout = Util::createMainLayout("", "Exit", true);
@@ -31,55 +37,71 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card 
 
 	switch(screenType) {
 		case ST_CARD_OPTIONS:
-			lbl = Util::createSubLabel("Add to Album");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Notes");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Share");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Contact");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Delete");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Add to Album");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Notes");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Share");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Contact");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Delete");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+
+			confirmation = new MenuScreen(RES_BLANK, "Are you sure?");
+			confirmation->setMenuWidth(120);
+			confirmation->setMarginX(5);
+			confirmation->setMarginY(5);
+			confirmation->setDock(MenuScreen::MD_CENTER);
+			confirmation->setListener(this);
+			confirmation->setMenuFontSel(Util::getDefaultFont());
+			confirmation->setMenuFontUnsel(Util::getDefaultFont());
+			confirmation->setMenuSkin(Util::getSkinDropDownItem());
+			confirmation->addItem("Yes");
+			confirmation->addItem("No");
+
 			break;
 		case ST_NEW_CARD:
-			lbl = Util::createSubLabel("Accept Card");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Reject Card");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Accept Card");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Reject Card");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
 		case ST_NUMBER_OPTIONS:
-			lbl = Util::createSubLabel("Call");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("SMS");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			while (number.find(" ") != -1) {
+				number = number.substr(0, number.find(" ")) + number.substr(number.find(" ") + 1, number.length() - (number.find(" ") + 1));
+			}
+			label = Util::createSubLabel("Call");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("SMS");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
 			break;
 		case ST_LOGIN_OPTIONS:
-			lbl = Util::createSubLabel("Log In");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Register");
-			lbl->setPaddingLeft(5);
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Log In");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
+			label = Util::createSubLabel("Register");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
 			break;
 	}
 
@@ -92,9 +114,14 @@ OptionsScreen::~OptionsScreen() {
 	error_msg = "";
 	number="";
 
+	if (confirmation != NULL) {
+		delete confirmation;
+		confirmation = NULL;
+	}
+
 	delete layout;
-	if(menu!=NULL){
-		delete menu;
+	if(next!=NULL){
+		delete next;
 	}
 }
 
@@ -164,8 +191,8 @@ void OptionsScreen::show() {
 	Screen::show();
 
 	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)&&(screenType == ST_LOGIN_OPTIONS)) {
-		menu = new Login(feed, this, Login::S_LOGIN);
-		menu->show();
+		next = new Login(feed, this, Login::S_LOGIN);
+		next->show();
 	}
 }
 
@@ -178,38 +205,36 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			switch(screenType) {
 				case ST_CARD_OPTIONS:
 					if (index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new DeckListScreen(this, feed, card);
-						menu->show();
+						next = new DeckListScreen(this, feed, card);
+						next->show();
 					}
 					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new NoteScreen(this, feed, card);
-						menu->show();
+						next = new NoteScreen(this, feed, card);
+						next->show();
 					}
 					else if (index == 2) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new TradeFriendDetailScreen(this, feed, card);
-						menu->show();
+						next = new TradeFriendDetailScreen(this, feed, card);
+						next->show();
 					}
 					else if (index == 3) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new DetailScreen(this, feed,
+						next = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
-						menu->show();
+						next->show();
 					}
 					else if (index == 4 && !busy) {
-						busy = true;
-						notice->setCaption("Deleting...");
-						deleteCard();
+						confirmation->show();
 					}
 					break;
 				case ST_NEW_CARD:
@@ -226,31 +251,48 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_NUMBER_OPTIONS:
 					if(index == 0) {
-						maPlatformRequest(("tel:"+number).c_str());
+						int ret = maPlatformRequest(("tel://"+number).c_str());
+						if (ret < 0) {
+							ret = maCallDial(("tel://"+number).c_str());
+						}
+						if (ret < 0) {
+							MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+							confirmation->setMenuWidth(170);
+							confirmation->setMarginX(5);
+							confirmation->setMarginY(5);
+							confirmation->setDock(MenuScreen::MD_CENTER);
+							confirmation->setListener(this);
+							confirmation->setMenuFontSel(Util::getDefaultFont());
+							confirmation->setMenuFontUnsel(Util::getDefaultFont());
+							confirmation->setMenuSkin(Util::getSkinDropDownItem());
+							confirmation->addItem("Ok");
+							confirmation->show();
+							accept = true;
+						}
 					}
 					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new NoteScreen(this, feed,
+						next = new NoteScreen(this, feed,
 								card, NoteScreen::ST_SMS, number);
-						menu->show();
+						next->show();
 					}
 					break;
 				case ST_LOGIN_OPTIONS:
 					if(index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new Login(feed, this, Login::S_LOGIN);
-						menu->show();
+						next = new Login(feed, this, Login::S_LOGIN);
+						next->show();
 					}
 					else if(index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 						}
-						menu = new Login(feed, this, Login::S_REGISTER);
-						menu->show();
+						next = new Login(feed, this, Login::S_REGISTER);
+						next->show();
 					}
 					break;
 			}
@@ -259,11 +301,11 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTRIGHT:
 			switch(screenType) {
 				case ST_LOGIN_OPTIONS:
-					if (feed->getHttps() > 0) {
+					/*if (feed->getHttps() > 0) {
 						notice->setCaption("Please wait for all connections to finish before exiting. Try again in a few seconds.");
-					} else {
+					} else {*/
 						maExit(0);
-					}
+					/*}*/
 					break;
 				default:
 					previous->show();
@@ -292,7 +334,7 @@ void OptionsScreen::acceptCard() {
 	int urlLength = 38 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -314,7 +356,7 @@ void OptionsScreen::rejectCard() {
 	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -336,7 +378,7 @@ void OptionsScreen::deleteCard() {
 	int urlLength = 20 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?deletecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?deletecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -404,4 +446,17 @@ void OptionsScreen::mtxEmptyTagEnd() {
 }
 
 void OptionsScreen::mtxTagStartEnd() {
+}
+
+void OptionsScreen::menuOptionSelected(int index) {
+	this->show();
+	if (!accept) {
+		if (index == 0) {
+			busy = true;
+			notice->setCaption("Deleting...");
+			deleteCard();
+		}
+	} else {
+		accept = false;
+	}
 }

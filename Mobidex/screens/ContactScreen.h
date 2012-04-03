@@ -5,20 +5,20 @@
 #include <MAUI/EditBox.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Contact.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ContactScreen : public Screen, WidgetListener {
+class ContactScreen : public MainScreen, WidgetListener  {
 public:
-	ContactScreen(Screen *previous);
+	ContactScreen(MainScreen *previous);
 	~ContactScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -28,17 +28,12 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Layout *mainLayout;
-	ListBox *listBox;
 	KineticListBox *contactListBox;
-	Label *label, *notice;
 	NativeEditBox *editBoxSearch;
-	Vector<Widget*> tempWidgets;
 
 	bool left, right, mid, list;
 	int moved, index;
 
-	Screen *prev;
 	bool isBusy;
 
 	void doSearch();

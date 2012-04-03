@@ -3,8 +3,12 @@
 #include "NoteScreen.h"
 #include "../utils/Util.h"
 
-NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
-feed(feed), card(card), screenType(screenType), detail(detail) {
+NoteScreen::NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType, String detail):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->card = card;
+	this->screenType = screenType;
+	this->detail = detail;
 	lprintfln("NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	left = false;
@@ -18,16 +22,15 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
-			mainLayout = Util::createMainLayout("Save", "Back", true);
+			layout = Util::createMainLayout("Save", "Back", true);
 			break;
 		case ST_SMS:
-			mainLayout = Util::createMainLayout("Share", "Back", true);
+			layout = Util::createMainLayout("Share", "Back", true);
 		break;
 	}
 
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
-	//Util::setPadding(listBox);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
@@ -57,14 +60,14 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	editBoxNote->setSelected(true);
 	listBox->setSelectedIndex(1);
 }
 
 NoteScreen::~NoteScreen() {
-	delete mainLayout;
+	delete layout;
 
 	parentTag = "";
 	note = "";
@@ -140,7 +143,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 						int urlLength = 46 + URLSIZE + encodedNote.length() + card->getId().length();
 						char *url = new char[urlLength];
 						memset(url,'\0',urlLength);
-						sprintf(url, "%s?savenote=%s&cardid=%s", URL, encodedNote.c_str(), card->getId().c_str());
+						sprintf(url, "%s?savenote=%s&cardid=%s", URL_PHONE.c_str(), encodedNote.c_str(), card->getId().c_str());
 						if(mHttp.isOpen()){
 							mHttp.close();
 						}
@@ -159,7 +162,22 @@ void NoteScreen::keyPressEvent(int keyCode) {
 					break;
 				case ST_SMS:
 					if (note.length() > 0) {
-						maSendTextSMS(detail.c_str(), note.c_str());
+						int ret = maSendTextSMS(detail.c_str(), note.c_str());
+						if (ret == 0) {
+							editBoxNote->setSelected(false);
+							editBoxNote->disableListener();
+							MenuScreen *confirmation = new MenuScreen(RES_BLANK, "SMS Sent.");
+							confirmation->setMenuWidth(120);
+							confirmation->setMarginX(5);
+							confirmation->setMarginY(5);
+							confirmation->setDock(MenuScreen::MD_CENTER);
+							confirmation->setListener(this);
+							confirmation->setMenuFontSel(Util::getDefaultFont());
+							confirmation->setMenuFontUnsel(Util::getDefaultFont());
+							confirmation->setMenuSkin(Util::getSkinDropDownItem());
+							confirmation->addItem("Ok");
+							confirmation->show();
+						}
 					}
 				break;
 			}
@@ -183,6 +201,12 @@ void NoteScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		isBusy = false;
 		feed->remHttp();
 	}
+}
+
+void NoteScreen::menuOptionSelected(int index) {
+	this->show();
+	editBoxNote->setSelected(true);
+	editBoxNote->enableListener();
 }
 
 void NoteScreen::connReadFinished(Connection* conn, int result) {}

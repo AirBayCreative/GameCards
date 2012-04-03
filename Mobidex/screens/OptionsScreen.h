@@ -6,19 +6,21 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
-#include <maprofile.h>
+#include <IX_CALL.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class OptionsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "");
+	OptionsScreen(Feed *feed, int screenType, MainScreen *previous = NULL, Card *card = NULL, String number = "");
 	~OptionsScreen();
 	void show();
 	void keyPressEvent(int keyCode);
@@ -30,20 +32,10 @@ public:
 	enum screenTypes {ST_CARD_OPTIONS,
 		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
 private:
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *notice;
-	Screen *menu;
-	Screen *previous;
 	Card *card;
-	bool list, left, right, connError, busy;
+	bool list, left, right, connError, busy, accept;
 	int index, screenType, moved;
 	String error_msg, number;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
-
 	void acceptCard();
 	void rejectCard();
 	void deleteCard();
@@ -55,10 +47,15 @@ private:
 	void mtxTagStart(const char*, int);
 	void mtxTagAttr(const char*, const char*);
 	void mtxTagData(const char*, int);
+	HttpConnection mHttp;
 	void mtxTagEnd(const char*, int);
 	void mtxParseError(int);
 	void mtxEmptyTagEnd();
 	void mtxTagStartEnd();
+
+	void menuOptionSelected(int index);
+
+	MenuScreen *confirmation;
 };
 
 #endif

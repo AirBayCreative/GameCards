@@ -3,11 +3,14 @@
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 
-DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card) : mHttp(this), previous(previous),
-		feed(feed), screenType(screenType), card(card) {
+DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->screenType = screenType;
+	this->card = card;
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	mainLayout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	layout = Util::createMainLayout(screenType==CARD?"":"", "Back", true);
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	isBusy=true;
 	desc = "", id = "", date = "";
@@ -70,13 +73,13 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		int urlLength = 100 + URLSIZE;
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?notifications=1", URL);
+		sprintf(url, "%s?notifications=1", URL_PHONE.c_str());
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
 
 		} else {
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Updating notifications...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
@@ -92,13 +95,13 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		int urlLength = strlen("?userdetails=1") + URLSIZE;
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?userdetails=1", URL);
+		sprintf(url, "%s?userdetails=1", URL_PHONE.c_str());
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
 
 		} else {
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Checking for updated info...");
 
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
@@ -108,13 +111,13 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		}
 	}
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 
 	moved = 0;
 }
 
 DetailScreen::~DetailScreen() {
-	delete mainLayout;
+	delete layout;
 	if(next!=NULL){
 		delete next;
 		feed->remHttp();
@@ -126,6 +129,11 @@ DetailScreen::~DetailScreen() {
 	parentTag = "";
 	email = "";
 }
+
+void DetailScreen::menuOptionSelected(int index) {
+	this->show();
+}
+
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -190,11 +198,11 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 		}
 	}
 	else if (screenType == NOTIFICATIONS) {
-		if(selected) {
+		/*if(selected) {
 			((Label *)widget)->setFont(Util::getDefaultSelected());
 		} else {
 			((Label *)widget)->setFont(Util::getDefaultFont());
-		}
+		}*/
 	}
 	else {
 		if(selected) {
@@ -224,7 +232,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					int index = listBox->getSelectedIndex();
 					if(card->getStats()[index]!=NULL){
 						Stat *stat = card->getStats()[index];
-						if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
+						if ((strcmp(stat->getDesc().c_str(), "Mobile No") == 0)||
+							(strcmp(stat->getDesc().c_str(), "Tel No") == 0) ){
 							if (next != NULL) {
 								feed->remHttp();
 								delete next;
@@ -234,16 +243,51 @@ void DetailScreen::keyPressEvent(int keyCode) {
 							next->show();
 						}
 						else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
-
+							String email = stat->getDisplay();
+							int ret = maPlatformRequest(("mailto:"+email).c_str());
+							if (ret < 0 ) {
+								ret = maPlatformRequest(email.c_str());
+							}
+							if (ret < 0) {
+								MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on Handset.");
+								confirmation->setMenuWidth(170);
+								confirmation->setMarginX(5);
+								confirmation->setMarginY(5);
+								confirmation->setDock(MenuScreen::MD_CENTER);
+								confirmation->setListener(this);
+								confirmation->setMenuFontSel(Util::getDefaultFont());
+								confirmation->setMenuFontUnsel(Util::getDefaultFont());
+								confirmation->setMenuSkin(Util::getSkinDropDownItem());
+								confirmation->addItem("Ok");
+								confirmation->show();
+							}
 						}
-						else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
+						else if ((strcmp(stat->getDesc().c_str(), "Web Address") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+								(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)) {
 							String url = stat->getDisplay();
 							//maPlatformRequest will only work if the url starts with http://
 							//so we need to check for it, and add it if it isnt there
 							if (url.find("http://") != 0) {
 								url = "http://"+url;
 							}
-							maPlatformRequest(url.c_str());
+							int ret = maPlatformRequest(url.c_str());
+							if (ret < 0) {
+								MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+								confirmation->setMenuWidth(170);
+								confirmation->setMarginX(5);
+								confirmation->setMarginY(5);
+								confirmation->setDock(MenuScreen::MD_CENTER);
+								confirmation->setListener(this);
+								confirmation->setMenuFontSel(Util::getDefaultFont());
+								confirmation->setMenuFontUnsel(Util::getDefaultFont());
+								confirmation->setMenuSkin(Util::getSkinDropDownItem());
+								confirmation->addItem("Ok");
+								confirmation->show();
+							}
 						}
 					}
 					break;
@@ -334,11 +378,11 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			listBox->add(label);
 
 			listBox->setSelectedIndex(0);
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		} else {
 			listBox->setSelectedIndex(1);
-			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
+			label = (Label *) layout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		}
 	} else if(!strcmp(name, "note")) {

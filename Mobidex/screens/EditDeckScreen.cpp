@@ -1,24 +1,22 @@
 #include <conprint.h>
 #include <mastdlib.h>
 
-/*#include "DeckListScreen.h"*/
 #include "EditDeckScreen.h"
 #include "AlbumLoadScreen.h"
 #include "../utils/Util.h"
 #include "ImageScreen.h"
-/*#include "CompareScreen.h"*/
 #include "OptionsScreen.h"
-/*#include "ShopDetailsScreen.h"*/
 
-EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mHttp(this), deckId(deckId), previous(previous), feed(feed) {
+EditDeckScreen::EditDeckScreen(MainScreen *previous, Feed *feed, String deckId):mHttp(this)  {
+	this->deckId = deckId;
+	this->previous = previous;
+	this->feed = feed;
 	busy = true;
 	emp = true;
 
 	deleting = false;
 
 	next = NULL;
-
-	lprintfln("EditDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 
 	id = "";
 	description = "";
@@ -40,18 +38,18 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	statIVal = "";
 	deckCategory = "";
 
-	mainLayout = Util::createMainLayout("", "Back" , "", true);
+	layout = Util::createMainLayout("", "Back" , "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[2];
 	listBox->setWrapping(true);
-	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Getting card list...");
 
 	mImageCache = new ImageCache();
 	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL_PHONE.c_str(),
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -73,20 +71,20 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	delete [] url;
 	url = NULL;
 
-	this->setMain(mainLayout);
+	this->setMain(layout);
 	moved=0;
 
 	orig = this;
 }
 
-void EditDeckScreen::refresh() {
+void EditDeckScreen::refresh(bool pop) {
 	clearListBox();
 	clearCards();
 
 	int urlLength = 71 + URLSIZE + strlen("deck_id") + deckId.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
+	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL_PHONE.c_str(),
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -117,7 +115,7 @@ void EditDeckScreen::deleteDeck() {
 	int urlLength = 65 + URLSIZE + strlen("deck_id") + deckId.length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL,	deckId.c_str());
+	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL_PHONE.c_str(),	deckId.c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -149,7 +147,7 @@ void EditDeckScreen::removeCard() {
 		cards[cardIndex]->getId().length();
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL,
+	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL_PHONE.c_str(),
 			deckId.c_str(), cards[cardIndex]->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -346,13 +344,13 @@ void EditDeckScreen::drawConfirm() {
 	label->setPaddingTop(5);
 	label->setPaddingRight(5);
 
-	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
+	Util::updateSoftKeyLayout("Confirm", "Back", "", layout);
 }
 
 EditDeckScreen::~EditDeckScreen() {
 	lprintfln("~EditDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	delete mainLayout;
-	mainLayout = NULL;
+	delete layout;
+	layout = NULL;
 	if(next != NULL){
 		delete next;
 		feed->remHttp();
@@ -399,10 +397,10 @@ void EditDeckScreen::selectionChanged(Widget *widget, bool selected) {
 
 			if ((listBox->getSelectedIndex() == 1 && cards.size() < 10) ||
 					(listBox->getSelectedIndex() == 0)) {
-				Util::updateSoftKeyLayout("", "Back", "", mainLayout);
+				Util::updateSoftKeyLayout("", "Back", "", layout);
 			}
 			else {
-				Util::updateSoftKeyLayout("Remove", "Back", "", mainLayout);
+				Util::updateSoftKeyLayout("Remove", "Back", "", layout);
 			}
 			break;
 	}

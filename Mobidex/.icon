@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <icon>
-	<instance size="default" src="res/icon tiny.svg" />
+	<instance size="default" src="res/icon.svg" />
 	<instance size="36x36" src="res/icon_36.png" />
 	<instance size="48x48" src="res/icon.png" />
 </icon>

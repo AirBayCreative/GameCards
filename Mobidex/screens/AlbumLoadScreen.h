@@ -3,16 +3,15 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
-#include "../utils/XmlConnection.h"
-#include "../UI/KineticListBox.h"
+#include "MainScreen.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumLoadScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	AlbumLoadScreen(Feed *feed, Albums *album = NULL);
 	~AlbumLoadScreen();
@@ -30,27 +29,16 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
-	void refresh();
+	void refresh(bool pop=false);
 private:
-
-	Screen *next;
-
-	HttpConnection mHttp;
-	XmlConnection xmlConn;
-
 	Vector<String> path;
-	Vector<Widget*> tempWidgets;
 	String parentTag, notedate;
 	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved, first;
 	bool list, left, right, mid, empt, hasConnection, collapsed, shown, owned;
 
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *notice, *label, *noteLabel;
-
-	Feed *feed;
-	Albums *album;
+	Label *noteLabel;
+	HttpConnection mHttp;
 
 	void loadDemo();
 	void httpFinished(MAUtil::HttpConnection*, int);

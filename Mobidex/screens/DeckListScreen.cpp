@@ -3,14 +3,18 @@
 #include <MAUI/Image.h>
 
 #include "DeckListScreen.h"
+#include "ImageScreen.h"
 #include "../utils/Util.h"
 
-DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, Card *card)
-		:mHttp(this), previous(previous), feed(feed), card(card), phase(SP_LIST) {
+DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, Card *card):mHttp(this) {
+	this->previous = previous;
+	this->feed = feed;
+	this->card = card;
+	this->phase = SP_LIST;
 	lprintfln("DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	layout = Util::createMainLayout("", "Back", true);
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
-	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(layout);
 
@@ -26,7 +30,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, Card *card)
 	selecting = true;
 
 	notice->setCaption("Loading Albums...");
-	kinListBox->setHeight(kinListBox->getHeight() - notice->getHeight());
+	listBox->setHeight(listBox->getHeight() - notice->getHeight());
 
 	int urlLength = 0;
 	char *url = NULL;
@@ -34,7 +38,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, Card *card)
 	urlLength = strlen("?getalldecks=1") + URLSIZE;
 	url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?getalldecks=1", URL);
+	sprintf(url, "%s?getalldecks=1", URL_PHONE.c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -89,11 +93,11 @@ void DeckListScreen::clearAlbums() {
 
 void DeckListScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
-		tempWidgets.add(kinListBox->getChildren()[i]);
+	for (int i = 0; i < listBox->getChildren().size(); i++) {
+		tempWidgets.add(listBox->getChildren()[i]);
 	}
-	kinListBox->clear();
-	kinListBox->getChildren().clear();
+	listBox->clear();
+	listBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -106,11 +110,18 @@ void DeckListScreen::drawList() {
 	notice->setCaption("Please select an album");
 
 	for(int i = 0; i < albums.size(); i++) {
-		lbl = Util::createSubLabel(albums[i]->getDescription());
-		lbl->addWidgetListener(this);
-		kinListBox->add(lbl);
+		label = Util::createSubLabel(albums[i]->getDescription());
+		label->addWidgetListener(this);
+		listBox->add(label);
 	}
-	kinListBox->setSelectedIndex(0);
+	if (albums.size() >= 1) {
+		emp = false;
+		listBox->setSelectedIndex(0);
+	} else {
+		emp = true;
+		listBox->add(Util::createSubLabel("Empty"));
+		listBox->setSelectedIndex(0);
+	}
 
 	selecting = false;
 }
@@ -170,8 +181,8 @@ void DeckListScreen::locateItem(MAPoint2d point)
 }
 
 void DeckListScreen::keyPressEvent(int keyCode) {
-	int ind = kinListBox->getSelectedIndex();
-	int max = kinListBox->getChildren().size();
+	int ind = listBox->getSelectedIndex();
+	int max = listBox->getChildren().size();
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -184,53 +195,55 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
-			switch (phase) {
-				case SP_LIST:
-					if (!selecting) {
-						selecting = true;
-						//add the card to the album
-						if(mHttp.isOpen()){
-							mHttp.close();
-						}
-						mHttp = HttpConnection(this);
-						int urlLength = 18+URLSIZE + card->getId().length() + albums[ind]->getId().length();
-						char* url = new char[urlLength];
-						memset(url,'\0',urlLength);
-						sprintf(url, "%s?addtodeck=%s&deckid=%s", URL, card->getId().c_str(), albums[ind]->getId().c_str());
-						int res = mHttp.create(url, HTTP_GET);
-						if(res < 0) {
-							notice->setCaption("Connection error");
-							selecting = false;
-						} else {
-							notice->setCaption("Adding...");
-							mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-							mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-							feed->addHttp();
-							mHttp.finish();
+			if (!emp) {
+				switch (phase) {
+					case SP_LIST:
+						if (!selecting) {
+							selecting = true;
+							//add the card to the album
+							if(mHttp.isOpen()){
+								mHttp.close();
+							}
+							mHttp = HttpConnection(this);
+							int urlLength = 18+URLSIZE + card->getId().length() + albums[ind]->getId().length();
+							char* url = new char[urlLength];
+							memset(url,'\0',urlLength);
+							sprintf(url, "%s?addtodeck=%s&deckid=%s", URL_PHONE.c_str(), card->getId().c_str(), albums[ind]->getId().c_str());
+							int res = mHttp.create(url, HTTP_GET);
+							if(res < 0) {
+								notice->setCaption("Connection error");
+								selecting = false;
+							} else {
+								notice->setCaption("Adding...");
+								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+								feed->addHttp();
+								mHttp.finish();
 
-							clearListBox();
+								clearListBox();
+							}
+							delete url;
 						}
-						delete url;
-					}
-					break;
-				case SP_FINISHED:
-					//return to the card list
-					origAlbum->show();
-					break;
+						break;
+					case SP_FINISHED:
+						//return to the card list
+						origAlbum->show();
+						break;
+				}
 			}
 			break;
 		case MAK_DOWN:
 		if (ind == max-1) {
-			kinListBox->setSelectedIndex(0);
+			listBox->setSelectedIndex(0);
 		} else {
-			kinListBox->selectNextItem();
+			listBox->selectNextItem();
 		}
 		break;
 	case MAK_UP:
 		if (ind == 0) {
-			kinListBox->setSelectedIndex(max-1);
+			listBox->setSelectedIndex(max-1);
 		} else {
-			kinListBox->selectPreviousItem();
+			listBox->selectPreviousItem();
 		}
 		break;
 	}
@@ -281,6 +294,12 @@ void DeckListScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
+void DeckListScreen::menuOptionSelected(int index) {
+	this->show();
+	previous->pop();
+}
+
+
 void DeckListScreen::mtxTagEnd(const char* name, int len) {
 	if (!strcmp(name, "deck")) {
 		album = new Album(deckId, description);
@@ -294,8 +313,21 @@ void DeckListScreen::mtxTagEnd(const char* name, int len) {
 	}
 	else if (!strcmp(name, "result")) {
 		phase = SP_FINISHED;
-		notice->setCaption(result);
-		Util::updateSoftKeyLayout("Continue", "", "", layout);
+
+		MenuScreen *confirmation = new MenuScreen(RES_BLANK,result.c_str());
+		confirmation->setMenuWidth(120);
+		confirmation->setMarginX(5);
+		confirmation->setMarginY(5);
+		confirmation->setDock(MenuScreen::MD_CENTER);
+		confirmation->setListener(this);
+		confirmation->setMenuFontSel(Util::getDefaultFont());
+		confirmation->setMenuFontUnsel(Util::getDefaultFont());
+		confirmation->setMenuSkin(Util::getSkinDropDownItem());
+		confirmation->addItem("Ok");
+		confirmation->show();
+
+		//notice->setCaption(result);
+		//Util::updateSoftKeyLayout("Continue", "", "", layout);
 	}
 }
 

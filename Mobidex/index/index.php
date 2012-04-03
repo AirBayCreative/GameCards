@@ -43,6 +43,11 @@ if ($_GET['registeruser']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	
+	if ($cell{0} != "+") {
+		$cell = ("+".$cell);
+	}
+	
 	$ip = getip();
 	$sOP = registerUser($username, $password, $email, $name, $cell, $iHeight, $iWidth, $root, $country, $ip, $url);
 	
@@ -177,25 +182,52 @@ if ($cardID = $_GET['tradecard']){
 	//Friend detail type
   $tradeMethod = $_REQUEST['trademethod'];
   //Friend detail
-  $receiveNumber = $_REQUEST['detail'];
+	$receiveNumber = base64_decode($_REQUEST['detail']);
   //note to send user
   $sentNote = $_REQUEST['note'];
+	
+	if ($receiveNumber{0} == "0"){
+		$aCountry=myqu('SELECT c.country_name, c.country_code
+			FROM mytcg_country c 
+			INNER JOIN mytcg_user u
+			ON u.country = c.country_name
+			WHERE u.user_id = '.$iUserID);
+		
+		if ($aC=$aCountry[0]) {
+			$receiveNumber = ($aC['country_code'].substr($receiveNumber, 1));
+		}
+	}
+	
+	if ($receiveNumber{0} != "+") {
+		$receiveNumber = ("+".$receiveNumber);
+	}
   
-  tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote);
+  tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sentNote);
   exit;
 }
 
 //this saves a note for a user, per card
 if ($iNote=$_GET['savenote']) {
 	$cardId = $_GET['cardid'];
-
-	myqui('INSERT INTO mytcg_usercardnote
-		(user_id, card_id, usercardnotestatus_id, note, date_updated)
-		VALUES
-		('.$iUserID.', '.$cardId.', 1, "'.$iNote.'", now())
-		ON DUPLICATE KEY UPDATE 
-		note = "'.$iNote.'",
-		date_updated = now()');
+	
+	$aNotes=myqu('SELECT usercardnote_id
+		FROM mytcg_usercardnote
+		WHERE card_id = '.$cardId.' AND user_id = '.$iUserID);	
+	
+	if ($aNote=$aNotes[0]){
+		myqui('UPDATE mytcg_usercardnote 
+			SET usercardnotestatus_id = 1, 
+			note = "'.$iNote.'",
+			date_updated = now() 
+			WHERE user_id = '.$iUserID.'
+			AND card_id = '.$cardId);
+	}
+	else {
+		myqui('INSERT INTO mytcg_usercardnote
+			(user_id, card_id, usercardnotestatus_id, note, date_updated)
+			VALUES
+			('.$iUserID.', '.$cardId.', 1, "'.$iNote.'", now())');
+	}
 		
 	$sOP='<result>Note saved successfully</result>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
@@ -556,6 +588,20 @@ if ($_GET['createdeck']){
 	echo $sOP;
 	exit;
 }
+if ($_GET['deletedeck']){
+	$iDeckID=$_GET['deck_id'];
+	myqui('UPDATE mytcg_usercard 
+			SET deck_id = NULL  
+			WHERE deck_id = '.$iDeckID);
+	
+	myqui('DELETE FROM mytcg_deck 
+			WHERE deck_id = '.$iDeckID);
+	$sOP = "<result>Deck deleted!</result>";
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 
 /** give all the user decks */
 if ($_GET['getalldecks']){

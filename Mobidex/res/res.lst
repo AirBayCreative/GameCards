@@ -32,7 +32,7 @@
 
 .res RES_BACKGROUND
 .ubin
-.image "background.png"
+.image "background.jpg"
 
 .res RES_SELECTED_LIST
 .ubin
@@ -75,10 +75,6 @@
 .res RES_NOTE
 .ubin
 .image "note.png"
-
-.res RES_SELECTED_BUTTON
-.ubin
-.image "background_button_sel.png"
 
 .res RES_LOADING1
 .ubin
@@ -154,7 +150,7 @@
 
 .res RES_CREATECARD
 .ubin
-.include "createcard.jpg"
+.include "createcard.png"
 
 .res RES_BLANK
 .ubin
@@ -174,4 +170,16 @@
 
 .res RES_DROPDOWN_UNSEL
 .ubin 
-.image "dropdownbox_unsel.png"  
+.image "dropdownbox_unsel.png"
+
+.res RES_BOX_SELECTED
+.ubin
+.image "box_selected.png"
+
+.res RES_BOX_UNSELECTED
+.ubin
+.image "box_unselected.png"
+
+.res RES_POPUP_HEADER
+.ubin 
+.image "popup_header.png"

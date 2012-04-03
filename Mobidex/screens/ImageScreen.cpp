@@ -2,15 +2,24 @@
 #include <MAUtil/Graphics.h>
 
 #include "AlbumViewScreen.h"
+#include "DeckListScreen.h"
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
-		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
+ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection, bool canAuction):mHttp(this) {
+	this->previous = previous;
+	this->img = img;
+	this->flip = flip;
+	this->card = card;
+	this->screenType = screenType;
+	this->feed = feed;
+	this->hasConnection = hasConnection;
+	this->canAuction = canAuction;
 	lprintfln("ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	//TODO add touch
 	busy = false;
+	tapped = false;
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -19,22 +28,22 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
-			mainLayout =  Util::createImageLayout("Accept", "Reject", "Flip");
+			layout =  Util::createImageLayout("Accept", "Reject", "Flip");
 		} else if (screenType == Util::AT_SHARE) {
-			mainLayout = Util::createImageLayout("Share", "Back", "Flip");
+			layout = Util::createImageLayout("Share", "Back", "Flip");
 		} else {
-			mainLayout = Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip");
+			layout = Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip");
 		}
-		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox = (KineticListBox*) layout->getChildren()[0];
 		listBox->setPaddingTop(0);
 		height = listBox->getHeight();
 	}else{
-		mainLayout = Util::createImageLayout("Back");
-		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		layout = Util::createImageLayout("Back");
+		listBox = (KineticListBox*) layout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
-	this->setMain(mainLayout);
+	this->setMain(layout);
 	if (card != NULL) {
 		if (flip) {
 			Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
@@ -53,6 +62,10 @@ void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
 	pointPressed = point;
     locateItem(point);
+}
+
+void ImageScreen::menuOptionSelected(int index) {
+	this->show();
 }
 
 void ImageScreen::pointerMoveEvent(MAPoint2d point)
@@ -89,11 +102,17 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 				}
 				if (!gotstat) {
 					currentSelectedStat = -1;
+					flipOrSelect = tapped?1:0;
 				}
 			}
+			tapped = true;
 			keyPressEvent(MAK_FIRE);
 		}
 	}
+}
+
+void ImageScreen::pop() {
+	previous->refresh(true);
 }
 
 void ImageScreen::locateItem(MAPoint2d point)
@@ -101,6 +120,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 	list = false;
 	left = false;
 	right = false;
+	tapped = false;
+	flipOrSelect = 0;
 
 	Point p;
 	p.set(point.x, point.y);
@@ -113,6 +134,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -136,6 +159,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -150,7 +175,7 @@ ImageScreen::~ImageScreen() {
 			maDestroyObject(imge->getResource());
 		}
 	} // <-- dont delete!*/
-	delete mainLayout;
+	delete layout;
 	img = -1;
 	if (next != NULL) {
 		feed->remHttp();
@@ -212,21 +237,21 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					selectStat(-1);
 					if (currentSelectedStat == -1) {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
@@ -245,21 +270,21 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					selectStat(1);
 					if (currentSelectedStat == -1) {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
 						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", layout);
 						} else if (screenType == Util::AT_SHARE) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Share":"", "Back", "Flip", layout);
 						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", layout);
 						}
 						imge->refreshWidget();
 						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()){
@@ -315,7 +340,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_FIRE:
 			if (card != NULL) {
-				if((flipOrSelect)||(currentSelectedStat == -1)){
+				if(((flipOrSelect && tapped)&&(currentSelectedStat == -1)) ||
+						(!tapped && currentSelectedStat == -1)){
 					flip=!flip;
 					imge->refreshWidget();
 					imge->statAdded = false;
@@ -340,6 +366,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					}
 					flipOrSelect=0;
 					currentSelectedStat = -1;
+					tapped = false;
 				}else{
 					if (imge->getResource() != RES_TEMP) {
 						if(currentSelectedStat>-1){
@@ -350,25 +377,61 @@ void ImageScreen::keyPressEvent(int keyCode) {
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
 										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 								Stat *stat = card->getStats()[currentSelectedStat];
-								if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
+								if ((strcmp(stat->getDesc().c_str(), "Mobile No") == 0)||
+									(strcmp(stat->getDesc().c_str(), "Tel No") == 0) ){
 									if (next != NULL) {
 										feed->remHttp();
 										delete next;
 										next == NULL;
 									}
-									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDesc());
+									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDisplay());
 									next->show();
+								} else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
+									String email = stat->getDisplay();
+									int ret = maPlatformRequest(("mailto:"+email).c_str());
+									if (ret < 0 ) {
+										ret = maPlatformRequest(email.c_str());
+									}
+									if (ret < 0) {
+										MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+										confirmation->setMenuWidth(170);
+										confirmation->setMarginX(5);
+										confirmation->setMarginY(5);
+										confirmation->setDock(MenuScreen::MD_CENTER);
+										confirmation->setListener(this);
+										confirmation->setMenuFontSel(Util::getDefaultFont());
+										confirmation->setMenuFontUnsel(Util::getDefaultFont());
+										confirmation->setMenuSkin(Util::getSkinDropDownItem());
+										confirmation->addItem("Ok");
+										confirmation->show();
+									}
 								}
-								else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
-								}
-								else if (strcmp(stat->getDesc().c_str(), "Web Address") == 0) {
+								else if ((strcmp(stat->getDesc().c_str(), "Web Address") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)) {
 									String url = stat->getDisplay();
 									//maPlatformRequest will only work if the url starts with http://
 									//so we need to check for it, and add it if it isnt there
 									if (url.find("http://") != 0) {
 										url = "http://"+url;
 									}
-									maPlatformRequest(url.c_str());
+									int ret = maPlatformRequest(url.c_str());
+									if (ret < 0) {
+										MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+										confirmation->setMenuWidth(170);
+										confirmation->setMarginX(5);
+										confirmation->setMarginY(5);
+										confirmation->setDock(MenuScreen::MD_CENTER);
+										confirmation->setListener(this);
+										confirmation->setMenuFontSel(Util::getDefaultFont());
+										confirmation->setMenuFontUnsel(Util::getDefaultFont());
+										confirmation->setMenuSkin(Util::getSkinDropDownItem());
+										confirmation->addItem("Ok");
+										confirmation->show();
+									}
 								}
 							}
 						}
@@ -420,7 +483,7 @@ void ImageScreen::acceptCard() {
 	int urlLength = 40 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?savecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -441,7 +504,7 @@ void ImageScreen::rejectCard() {
 	int urlLength = 42 + URLSIZE + card->getId().length();
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
-	sprintf(url, "%s?rejectcard=%s", URL, card->getId().c_str());
+	sprintf(url, "%s?rejectcard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -496,7 +559,12 @@ void ImageScreen::mtxTagData(const char* data, int len) {
 
 void ImageScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "result")) {
-		((AlbumViewScreen *)previous)->refresh();
+		if (next != NULL) {
+			feed->remHttp();
+			delete next;
+		}
+		next = new DeckListScreen(this, feed, card);
+		next->show();
 	}
 }
 
