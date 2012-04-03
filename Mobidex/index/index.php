@@ -1,6 +1,6 @@
 <?php
 include('settings.php');
-
+include('geoip.inc');
 /*
 this page handles requests from the handset
 
@@ -27,6 +27,19 @@ $sTab=chr(9);
 //constants
 $sCRLF="";
 $sTab="";
+
+if ($_GET['checkcountry']) {
+	echo "This product includes GeoLite data created by MaxMind, available from http://www.maxmind.com/.\n" ;
+	$ip = getip();
+	$gi = geoip_open("GeoIP.dat",GEOIP_STANDARD);
+
+	$sOP = "<country_code>".geoip_country_code_by_addr($gi, $ip)."</country_code><country_name>".geoip_country_name_by_addr($gi, $ip)."</country_name>";
+	geoip_close($gi);
+	
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
