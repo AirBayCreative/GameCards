@@ -59,6 +59,9 @@ class MenuScreen : public Screen, WidgetListener
 		void setMarginY(int margin);
 		void setDock(MenuDock dock);
 
+		void setSelectedIndex(int index);
+		int getSelectedIndex();
+
 		void show();
 	private:
 		Image* mBlank;
