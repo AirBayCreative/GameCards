@@ -6,289 +6,289 @@
 
 static country countries[] =
 {
-	{ "99544", "Abkhazia" },
-	{ "88213", "EMSAT (Mobile Satellite service)" },
-	{ "39066", "Holy See (Vatican City State)" },
-	{ "88216", "Thuraya (Mobile Satellite service)" },
-	{ "39066", "Vatican City State" },
-	{ "7840", "Abkhazia" },
-	{ "7940", "Abkhazia" },
-	{ "1684", "American Samoa" },
-	{ "1264", "Anguilla" },
-	{ "1268", "Antigua and Barbuda" },
-	{ "1242", "Bahamas" },
-	{ "1246", "Barbados" },
-	{ "1268", "Barbuda" },
-	{ "1441", "Bermuda" },
-	{ "5997", "Bonaire" },
-	{ "1284", "British Virgin Islands" },
-	{ "5993", "Caribbean Netherlands" },
-	{ "5994", "Caribbean Netherlands" },
-	{ "5997", "Caribbean Netherlands" },
-	{ "1345", "Cayman Islands" },
-	{ "5399", "Cuba (Guantanamo Bay)" },
-	{ "5999", "Curaçao" },
-	{ "1767", "Dominica" },
-	{ "1809", "Dominican Republic" },
-	{ "1829", "Dominican Republic" },
-	{ "1849", "Dominican Republic" },
-	{ "8812", "Ellipso (Mobile Satellite service)" },
-	{ "8813", "Ellipso (Mobile Satellite service)" },
-	{ "8818", "Globalstar (Mobile Satellite Service)" },
-	{ "8819", "Globalstar (Mobile Satellite Service)" },
-	{ "1473", "Grenada" },
-	{ "1671", "Guam" },
-	{ "8810", "ICO Global (Mobile Satellite Service)" },
-	{ "8811", "ICO Global (Mobile Satellite Service)" },
-	{ "8816", "Iridium (Mobile Satellite service)" },
-	{ "8817", "Iridium (Mobile Satellite service)" },
-	{ "1876", "Jamaica" },
-	{ "1808", "Midway Island" },
-	{ "1664", "Montserrat" },
-	{ "1869", "Nevis" },
-	{ "1670", "Northern Mariana Islands" },
-	{ "1787", "Puerto Rico" },
-	{ "1939", "Puerto Rico" },
-	{ "5994", "Saba" },
-	{ "1869", "Saint Kitts and Nevis" },
-	{ "1758", "Saint Lucia" },
-	{ "1784", "Saint Vincent and the Grenadines" },
-	{ "5993", "Sint Eustatius" },
-	{ "1721", "Sint Maarten (Dutch)" },
-	{ "1868", "Trinidad and Tobago" },
-	{ "1649", "Turks and Caicos Islands" },
-	{ "1340", "Virgin Islands, US" },
-	{ "1808", "Wake Island" },
-	{ "681", "Wallis and Futuna" },
-	{ "967", "Yemen" },
-	{ "260", "Zambia" },
-	{ "255", "Zanzibar" },
-	{ "263", "Zimbabwe" },
-	{ "688", "Tuvalu" },
-	{ "256", "Uganda" },
-	{ "380", "Ukraine" },
-	{ "971", "United Arab Emirates" },
-	{ "216", "Tunisia" },
-	{ "421", "Slovakia" },
-	{ "386", "Slovenia" },
-	{ "677", "Solomon Islands" },
-	{ "252", "Somalia" },
-	{ "685", "Samoa" },
-	{ "378", "San Marino" },
-	{ "239", "São Tomé and Príncipe" },
-	{ "966", "Saudi Arabia" },
-	{ "221", "Senegal" },
-	{ "381", "Serbia" },
-	{ "248", "Seychelles" },
-	{ "232", "Sierra Leone" },
-	{ "590", "Saint Martin (French)" },
-	{ "508", "Saint Pierre and Miquelon" },
-	{ "590", "Saint Barthélemy" },
-	{ "290", "Saint Helena and Tristan da Cunha" },
-	{ "974", "Qatar" },
-	{ "262", "Réunion" },
-	{ "687", "New Caledonia" },
-	{ "212", "Morocco" },
-	{ "258", "Mozambique" },
-	{ "502", "Guatemala" },
-	{ "590", "Guadeloupe" },
-	{ "670", "East Timor" },
-	{ "357", "Cyprus" },
-	{ "420", "Czech Republic" },
-	{ "236", "Central African Republic" },
-	{ "235", "Chad" },
-	{ "673", "Brunei Darussalam" },
-	{ "359", "Bulgaria" },
-	{ "226", "Burkina Faso" },
-	{ "257", "Burundi" },
-	{ "855", "Cambodia" },
-	{ "257", "Cameroon" },
-	{ "387", "Bosnia and Herzegovina" },
-	{ "267", "Botswana" },
-	{ "975", "Bhutan" },
-	{ "591", "Bolivia" },
-	{ "358", "Aland Islands" },
-	{ "355", "Albania" },
-	{ "213", "Algeria" },
-	{ "376", "Andorra" },
-	{ "244", "Angola" },
-	{ "374", "Armenia" },
-	{ "297", "Aruba" },
+	{ "7840", "Abkhazia", "" },
+	{ "7940", "Abkhazia", "" },
+	{ "99544", "Abkhazia", "" },
+	{ "93", "Afghanistan", "AF" },
+	{ "358", "Aland Islands", "AX" },
+	{ "355", "Albania" ,"AL" },
+	{ "213", "Algeria", "DZ" },
+	{ "1684", "American Samoa", "AS" },
+	{ "376", "Andorra", "AD" },
+	{ "244", "Angola", "AO" },
+	{ "1264", "Anguilla", "AI" },
+	{ "1268", "Antigua and Barbuda", "AG" },
+	{ "54", "Argentina", "AR" },
+	{ "374", "Armenia", "AM" },
+	{ "297", "Aruba", "AW" },
 	{ "247", "Ascension" },
+	{ "61", "Australia", "AU" },
 	{ "672", "Australian External Territories" },
-	{ "994", "Azerbaijan" },
-	{ "973", "Bahrain" },
-	{ "880", "Bangladesh" },
-	{ "375", "Belarus" },
-	{ "501", "Belize" },
-	{ "229", "Benin" },
-	{ "246", "British Indian Ocean Territory" },
-	{ "238", "Cape Verde" },
-	{ "269", "Comoros" },
-	{ "242", "Congo (Brazzaville)" },
-	{ "243", "Congo, The Democratic Republic of the (Zaire)" },
-	{ "682", "Cook Islands" },
-	{ "506", "Costa Rica" },
-	{ "225", "Côte d'Ivoire" },
-	{ "385", "Croatia" },
-	{ "246", "Diego Garcia" },
-	{ "253", "Djibouti" },
-	{ "593", "Ecuador" },
-	{ "503", "El Salvador" },
-	{ "240", "Equatorial Guinea" },
-	{ "291", "Eritrea" },
-	{ "372", "Estonia" },
-	{ "251", "Ethiopia" },
-	{ "500", "Falkland Islands (Malvinas)" },
-	{ "298", "Faroe Islands" },
-	{ "679", "Fiji" },
-	{ "358", "Finland" },
-	{ "596", "French Antilles" },
-	{ "594", "French Guiana" },
-	{ "689", "French Polynesia" },
-	{ "241", "Gabon" },
-	{ "220", "Gambia" },
-	{ "995", "Georgia" },
-	{ "233", "Ghana" },
-	{ "350", "Gibraltar" },
-	{ "881", "Global Mobile Satellite System (GMSS)" },
-	{ "299", "Greenland" },
-	{ "224", "Guinea" },
-	{ "245", "Guinea-Bissau" },
-	{ "592", "Guyana" },
-	{ "509", "Haiti" },
-	{ "379", "Holy See (Vatican City State)" },
-	{ "504", "Honduras" },
-	{ "852", "Hong Kong" },
-	{ "354", "Iceland" },
+	{ "43", "Austria", "AT" },
+	{ "994", "Azerbaijan", "AZ" },
+	{ "1242", "Bahamas", "BS" },
+	{ "973", "Bahrain", "BH" },
+	{ "880", "Bangladesh", "BD" },
+	{ "1246", "Barbados", "BB" },
+	{ "1268", "Barbuda", "" },
+	{ "375", "Belarus", "BY" },
+	{ "32", "Belgium", "BE" },
+	{ "501", "Belize", "BZ" },
+	{ "229", "Benin", "BJ" },
+	{ "1441", "Bermuda", "BM" },
+	{ "975", "Bhutan", "BT" },
+	{ "591", "Bolivia", "BO" },
+	{ "5997", "Bonaire", "" },
+	{ "387", "Bosnia and Herzegovina", "BA" },
+	{ "267", "Botswana", "BW" },
+	{ "55", "Brazil", "BR" },
+	{ "246", "British Indian Ocean Territory","IO" },
+	{ "1284", "British Virgin Islands", "" },
+	{ "673", "Brunei Darussalam", "BN" },
+	{ "359", "Bulgaria", "BG" },
+	{ "226", "Burkina Faso", "BF" },
+	{ "257", "Burundi", "BI" },
+	{ "855", "Cambodia", "KH" },
+	{ "257", "Cameroon", "CM" },
+	{ "1", "Canada", "CA" },
+	{ "238", "Cape Verde", "CV" },
+	{ "5993", "Caribbean Netherlands", "BQ" },
+	{ "5994", "Caribbean Netherlands", "BQ" },
+	{ "5997", "Caribbean Netherlands", "BQ" },
+	{ "1345", "Cayman Islands", "KY" },
+	{ "236", "Central African Republic", "CF" },
+	{ "235", "Chad", "TD" },
+	{ "64", "Chatham Island (New Zealand)", "" },
+	{ "56", "Chile", "CL" },
+	{ "86", "China", "CN" },
+	{ "61", "Christmas Island", "CX" },
+	{ "61", "Cocos (Keeling) Islands", "CC" },
+	{ "57", "Colombia", "CO" },
+	{ "269", "Comoros" "KM" },
+	{ "242", "Congo (Brazzaville)", "CG" },
+	{ "243", "Congo, The Democratic Republic of the (Zaire)", "CD" },
+	{ "682", "Cook Islands", "CK" },
+	{ "506", "Costa Rica", "CR" },
+	{ "225", "Côte d'Ivoire", "CI" },
+	{ "385", "Croatia", "HR" },
+	{ "53", "Cuba", "CU" },
+	{ "5399", "Cuba (Guantanamo Bay)", "CU" },
+	{ "5999", "Curaçao", "CW" },
+	{ "357", "Cyprus", "CY" },
+	{ "420", "Czech Republic", "CZ" },
+	{ "45", "Denmark", "DK" },
+	{ "246", "Diego Garcia", "" },
+	{ "253", "Djibouti", "DJ" },
+	{ "1767", "Dominica", "DM" },
+	{ "1809", "Dominican Republic", "DO" },
+	{ "1829", "Dominican Republic", "DO" },
+	{ "1849", "Dominican Republic", "DO" },
+	{ "670", "East Timor", "" },
+	{ "56", "Easter Island", "" },
+	{ "593", "Ecuador", "EC" },
+	{ "20", "Egypt", "EG" },
+	{ "503", "El Salvador", "SV" },
+	{ "8812", "Ellipso (Mobile Satellite service)", "" },
+	{ "8813", "Ellipso (Mobile Satellite service)", "" },
+	{ "88213", "EMSAT (Mobile Satellite service)", "" },
+	{ "240", "Equatorial Guinea", "GQ" },
+	{ "291", "Eritrea", "ER" },
+	{ "372", "Estonia", "EE" },
+	{ "251", "Ethiopia", "ET" },
+	{ "500", "Falkland Islands (Malvinas)", "FK" },
+	{ "298", "Faroe Islands", "FO" },
+	{ "679", "Fiji", "FJ" },
+	{ "358", "Finland", "FI" },
+	{ "33", "France", "FR" },
+	{ "596", "French Antilles", "TF" },
+	{ "594", "French Guiana", "GF" },
+	{ "689", "French Polynesia", "PF" },
+	{ "241", "Gabon", "GA" },
+	{ "220", "Gambia", "GM" },
+	{ "995", "Georgia", "GE" },
+	{ "49", "Germany", "DE" },
+	{ "233", "Ghana", "GH" },
+	{ "350", "Gibraltar", "GI" },
+	{ "881", "Global Mobile Satellite System (GMSS)", "" },
+	{ "8818", "Globalstar (Mobile Satellite Service)", "" },
+	{ "8819", "Globalstar (Mobile Satellite Service)", "" },
+	{ "30", "Greece", "GR" },
+	{ "299", "Greenland", "GL" },
+	{ "1473", "Grenada", "GD" },
+	{ "590", "Guadeloupe", "GP" },
+	{ "1671", "Guam", "GU" },
+	{ "502", "Guatemala", "GT" },
+	{ "44", "Guernsey", "GG" },
+	{ "224", "Guinea", "GN" },
+	{ "245", "Guinea-Bissau", "GW" },
+	{ "592", "Guyana", "GY" },
+	{ "509", "Haiti", "HT" },
+	{ "39066", "Holy See (Vatican City State)", "" },
+	{ "379", "Holy See (Vatican City State)", "" },
+	{ "504", "Honduras", "HN" },
+	{ "852", "Hong Kong", "HK" },
+	{ "36", "Hungary", "HU" },
+	{ "354", "Iceland", "IS" },
+	{ "8810", "ICO Global (Mobile Satellite Service)", "" },
+	{ "8811", "ICO Global (Mobile Satellite Service)", "" },
+	{ "91", "India", "IN" },
+	{ "62", "Indonesia", "ID" },
 	{ "870", "Inmarsat SNAC" },
-	{ "800", "International Freephone Service" },
-	{ "808", "International Shared Cost Service (ISCS)" },
-	{ "964", "Iraq" },
-	{ "353", "Ireland" },
-	{ "972", "Israel" },
-	{ "962", "Jordan" },
-	{ "686", "Kiribati" },
-	{ "850", "North Korea" },
-	{ "965", "Kuwait" },
-	{ "996", "Kyrgyzstan" },
-	{ "856", "Laos" },
-	{ "371", "Latvia" },
-	{ "961", "Lebanon" },
-	{ "266", "Lesotho" },
-	{ "231", "Liberia" },
-	{ "218", "Libya" },
-	{ "423", "Liechtenstein" },
-	{ "370", "Lithuania" },
-	{ "352", "Luxembourg" },
-	{ "853", "Macau" },
-	{ "389", "Macedonia" },
-	{ "261", "Madagascar" },
-	{ "256", "Malawi" },
-	{ "960", "Maldives" },
-	{ "223", "Mali" },
-	{ "356", "Malta" },
-	{ "692", "Marshall Islands" },
-	{ "596", "Martinique" },
-	{ "222", "Mauritania" },
-	{ "230", "Mauritius" },
-	{ "262", "Mayotte" },
-	{ "691", "Micronesia, Federated States of" },
-	{ "373", "Moldova" },
-	{ "377", "Monaco" },
-	{ "976", "Mongolia" },
-	{ "382", "Montenegro" },
-	{ "264", "Namibia" },
-	{ "674", "Nauru" },
-	{ "977", "Nepal" },
-	{ "505", "Nicaragua" },
-	{ "227", "Niger" },
-	{ "234", "Nigeria" },
-	{ "683", "Niue" },
-	{ "672", "Norfolk Island" },
-	{ "968", "Oman" },
-	{ "680", "Palau" },
-	{ "970", "Palestinian territories" },
-	{ "507", "Panama" },
-	{ "675", "Papua New Guinea" },
-	{ "595", "Paraguay" },
-	{ "351", "Portugal" },
-	{ "250", "Rwanda" },
-	{ "500", "South Georgia and the South Sandwich Islands" },
-	{ "211", "South Sudan" },
-	{ "249", "Sudan" },
-	{ "597", "Suriname" },
-	{ "268", "Swaziland" },
-	{ "963", "Syria" },
-	{ "886", "Taiwan" },
-	{ "992", "Tajikistan" },
-	{ "255", "Tanzania" },
-	{ "228", "Togo" },
-	{ "690", "Tokelau" },
-	{ "676", "Tonga" },
-	{ "993", "Turkmenistan" },
-	{ "878", "Universal Personal Telecommunications " },
-	{ "598", "Uruguay" },
-	{ "998", "Uzbekistan" },
-	{ "678", "Vanuatu" },
-	{ "379", "Vatican City State" },
-	{ "84", "Vietnam" },
-	{ "58", "Venezuela" },
-	{ "66", "Thailand" },
-	{ "46", "Sweden" },
-	{ "41", "Switzerland" },
-	{ "47", "Svalbard and Jan Mayen" },
-	{ "34", "Spain" },
-	{ "94", "Sri Lanka" },
-	{ "51", "Peru" },
-	{ "63", "Philippines" },
-	{ "48", "Poland" },
-	{ "92", "Pakistan" },
-	{ "31", "Netherlands" },
-	{ "52", "Mexico" },
-	{ "60", "Malaysia" },
-	{ "82", "South Korea" },
-	{ "76", "Kazakhstan" },
-	{ "77", "Kazakhstan" },
-	{ "39", "Italy" },
-	{ "98", "Iran" },
-	{ "36", "Hungary" },
-	{ "49", "Germany" },
-	{ "33", "France" },
-	{ "20", "Egypt" },
-	{ "53", "Cuba" },
-	{ "32", "Belgium" },
-	{ "43", "Austria" },
-	{ "61", "Australia" },
-	{ "93", "Afghanistan" },
-	{ "54", "Argentina" },
-	{ "55", "Brazil" },
-	{ "64", "Chatham Island (New Zealand)" },
-	{ "56", "Chile" },
-	{ "86", "China" },
-	{ "61", "Christmas Island" },
-	{ "61", "Cocos (Keeling) Islands" },
-	{ "57", "Colombia" },
-	{ "45", "Denmark" },
-	{ "56", "Easter Island" },
-	{ "30", "Greece" },
-	{ "44", "Guernsey" },
-	{ "91", "India" },
-	{ "62", "Indonesia" },
-	{ "44", "Isle of Man" },
-	{ "81", "Japan" },
-	{ "44", "Jersey" },
-	{ "95", "Myanmar" },
-	{ "64", "New Zealand" },
-	{ "47", "Norway" },
-	{ "40", "Romania" },
-	{ "65", "Singapore" },
-	{ "27", "South Africa" },
-	{ "90", "Turkey" },
-	{ "44", "United Kingdom" },
-	{ "1", "United States" },
-	{ "7", "Russia" },
-	{ "1", "Canada" }
+	{ "800", "International Freephone Service", "" },
+	{ "808", "International Shared Cost Service (ISCS)", "" },
+	{ "98", "Iran", "IR" },
+	{ "964", "Iraq", "IQ" },
+	{ "353", "Ireland", "IE" },
+	{ "8816", "Iridium (Mobile Satellite service)", "" },
+	{ "8817", "Iridium (Mobile Satellite service)", "" },
+	{ "44", "Isle of Man", "" },
+	{ "972", "Israel", "IL" },
+	{ "39", "Italy", "IT" },
+	{ "1876", "Jamaica", "JM" },
+	{ "81", "Japan", "JP" },
+	{ "44", "Jersey", "JE" },
+	{ "962", "Jordan", "JO" },
+	{ "76", "Kazakhstan", "KZ" },
+	{ "77", "Kazakhstan", "KZ" },
+	{ "686", "Kiribati", "KI" },
+	{ "850", "North Korea", "KP" },
+	{ "82", "South Korea", "KR" },
+	{ "965", "Kuwait", "KW" },
+	{ "996", "Kyrgyzstan", "KG" },
+	{ "856", "Laos", "LA" },
+	{ "371", "Latvia", "LV" },
+	{ "961", "Lebanon", "LB" },
+	{ "266", "Lesotho", "LS" },
+	{ "231", "Liberia", "LR" },
+	{ "218", "Libya", "LY" },
+	{ "423", "Liechtenstein", "LI" },
+	{ "370", "Lithuania", "LT" },
+	{ "352", "Luxembourg", "LU" },
+	{ "853", "Macau", "MO" },
+	{ "389", "Macedonia", "MK" },
+	{ "261", "Madagascar", "MG" },
+	{ "256", "Malawi", "MW" },
+	{ "60", "Malaysia", "MY" },
+	{ "960", "Maldives", "MV" },
+	{ "223", "Mali", "ML" },
+	{ "356", "Malta", "MT" },
+	{ "692", "Marshall Islands", "MH" },
+	{ "596", "Martinique", "MQ" },
+	{ "222", "Mauritania", "MR" },
+	{ "230", "Mauritius", "MU" },
+	{ "262", "Mayotte", "YT" },
+	{ "52", "Mexico", "MX" },
+	{ "691", "Micronesia, Federated States of", "FM" },
+	{ "1808", "Midway Island" },
+	{ "373", "Moldova", "MD" },
+	{ "377", "Monaco", "MC" },
+	{ "976", "Mongolia", "MN" },
+	{ "382", "Montenegro", "ME" },
+	{ "1664", "Montserrat", "MS" },
+	{ "212", "Morocco", "MA" },
+	{ "258", "Mozambique", "MZ" },
+	{ "95", "Myanmar", "MM" },
+	{ "264", "Namibia", "NA" },
+	{ "674", "Nauru", "NR" },
+	{ "977", "Nepal", "NP" },
+	{ "31", "Netherlands", "NL" },
+	{ "1869", "Nevis", "" },
+	{ "687", "New Caledonia", "NC" },
+	{ "64", "New Zealand", "NZ" },
+	{ "505", "Nicaragua", "NI" },
+	{ "227", "Niger", "NE" },
+	{ "234", "Nigeria", "NG" },
+	{ "683", "Niue", "NU" },
+	{ "672", "Norfolk Island", "NF" },
+	{ "1670", "Northern Mariana Islands", "MP" },
+	{ "47", "Norway", "NO" },
+	{ "968", "Oman", "OM" },
+	{ "92", "Pakistan", "PK" },
+	{ "680", "Palau", "PW" },
+	{ "970", "Palestinian territories", "PS" },
+	{ "507", "Panama", "PA" },
+	{ "675", "Papua New Guinea", "PG" },
+	{ "595", "Paraguay", "PY" },
+	{ "51", "Peru", "PE" },
+	{ "63", "Philippines", "PH" },
+	{ "48", "Poland", "PL" },
+	{ "351", "Portugal", "PT" },
+	{ "1787", "Puerto Rico", "PR" },
+	{ "1939", "Puerto Rico", "PR" },
+	{ "974", "Qatar", "QA" },
+	{ "262", "Réunion", "RE" },
+	{ "40", "Romania", "RO" },
+	{ "7", "Russia", "RU" },
+	{ "250", "Rwanda", "RW" },
+	{ "5994", "Saba", "" },
+	{ "590", "Saint Barthélemy", "BL" },
+	{ "290", "+Saint Helena and Tristan da Cunha", "SH" },
+	{ "1869", "Saint Kitts and Nevis", "KN" },
+	{ "1758", "Saint Lucia", "LC" },
+	{ "590", "Saint Martin (French)", "MF" },
+	{ "508", "Saint Pierre and Miquelon", "PM" },
+	{ "1784", "Saint Vincent and the Grenadines", "VC" },
+	{ "685", "Samoa", "WS" },
+	{ "378", "San Marino", "SM" },
+	{ "239", "Sao Tomé and Príncipe", "ST" },
+	{ "966", "Saudi Arabia", "SA" },
+	{ "221", "Senegal", "SN" },
+	{ "381", "Serbia", "RS" },
+	{ "248", "Seychelles", "SC" },
+	{ "232", "Sierra Leone", "SL" },
+	{ "65", "Singapore", "SG" },
+	{ "5993", "Sint Eustatius" },
+	{ "1721", "Sint Maarten (Dutch)", "SX" },
+	{ "421", "Slovakia", "SK" },
+	{ "386", "Slovenia", "SI" },
+	{ "677", "Solomon Islands", "SB" },
+	{ "252", "Somalia", "SO" },
+	{ "27", "South Africa", "ZA" },
+	{ "500", "South Georgia and the South Sandwich Islands", "GS" },
+	{ "211", "South Sudan", "SS" },
+	{ "34", "Spain", "ES" },
+	{ "94", "Sri Lanka", "LK" },
+	{ "249", "Sudan", "SD" },
+	{ "597", "Suriname", "SR" },
+	{ "47", "Svalbard and Jan Mayen", "SJ" },
+	{ "268", "Swaziland", "SZ" },
+	{ "46", "Sweden", "SE" },
+	{ "41", "Switzerland", "CH" },
+	{ "963", "Syria", "SY" },
+	{ "886", "Taiwan", "TW" },
+	{ "992", "Tajikistan", "TJ" },
+	{ "255", "Tanzania", "TZ" },
+	{ "66", "Thailand", "TH" },
+	{ "88216", "Thuraya (Mobile Satellite service)", "" },
+	{ "228", "Togo", "TG" },
+	{ "690", "Tokelau", "TK" },
+	{ "676", "Tonga", "TO" },
+	{ "1868", "Trinidad and Tobago", "TT" },
+	{ "216", "Tunisia", "TN" },
+	{ "90", "Turkey", "TR" },
+	{ "993", "Turkmenistan", "TM" },
+	{ "1649", "Turks and Caicos Islands", "TC" },
+	{ "688", "Tuvalu", "TV" },
+	{ "256", "Uganda", "UG" },
+	{ "380", "Ukraine", "UA" },
+	{ "971", "United Arab Emirates", "AE" },
+	{ "44", "United Kingdom", "GB" },
+	{ "1", "United States", "US" },
+	{ "878", "Universal Personal Telecommunications", "" },
+	{ "598", "Uruguay", "UY" },
+	{ "998", "Uzbekistan", "UZ" },
+	{ "678", "Vanuatu", "VU" },
+	{ "58", "Venezuela", "VE" },
+	{ "39066", "Vatican City State", "VA" },
+	{ "379", "Vatican City State", "VA" },
+	{ "84", "Vietnam", "VN" },
+	{ "1340", "Virgin Islands, US", "VI" },
+	{ "1808", "Wake Island" },
+	{ "681", "Wallis and Futuna", "WF" },
+	{ "967", "Yemen", "YE" },
+	{ "260", "Zambia", "ZM" },
+	{ "255", "Zanzibar", "" },
+	{ "263", "Zimbabwe", "ZW" }
 };
 
 Login::Login(Feed *feed, MainScreen *previous, int screen):mHttp(this) {
@@ -301,6 +301,8 @@ Login::Login(Feed *feed, MainScreen *previous, int screen):mHttp(this) {
 	termsMenu == NULL;
 
 	response = "";
+	temp = "";
+	temp1 = "";
 
 	layout = Util::createMainLayout("", "", "", true);
 
@@ -399,6 +401,9 @@ void Login::drawLoginScreen() {
 }
 
 void Login::drawRegisterScreen() {
+	isTerms = false;
+	isCountry = false;
+
 	listBox->setYOffset(0);
 	moved = 0;
 	screen = S_REGISTER;
@@ -434,10 +439,25 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	listBox->add(label);
 
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Country:", 0, Util::getDefaultFont());
+	listBox->add(label);
+
+	countryLabel = Util::createDropDownLabel("");
+	countryLabel->addWidgetListener(this);
+	listBox->add(countryLabel);
+
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "International Cell Number", 0, Util::getDefaultFont());
 	listBox->add(label);
 
-	label = Util::createEditLabel("");
+	numberLayout = new Layout(0, 0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, listBox, 2, 1);
+	numberLayout->setHorizontalAlignment(Layout::HA_CENTER);
+	numberLayout->setVerticalAlignment(Layout::VA_CENTER);
+	numberLayout->setPaddingLeft(PADDING);
+	label = new Label(0,0, 10, 24, NULL, "+", 0, Util::getDefaultFont());
+	numberLayout->add(label);
+	label =  new Label(0,0, scrWidth-(PADDING*3) - 10, DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getFontWhite());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
 	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Cell Number:");
 #if defined(MA_PROF_SUPPORT_STYLUS)
 
@@ -445,8 +465,8 @@ void Login::drawRegisterScreen() {
 	editBoxCell->setInputMode(NativeEditBox::IM_NUMBERS);
 #endif
 	editBoxCell->setDrawBackground(false);
-	label->addWidgetListener(this);
-	listBox->add(label);
+	numberLayout->add(label);
+	numberLayout->addWidgetListener(this);
 
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getDefaultFont());
 	listBox->add(label);
@@ -494,6 +514,45 @@ void Login::drawRegisterScreen() {
 	termsMenu->addItem("Reject");
 	termsMenu->setListener(this);
 
+	countryMenu = new MenuScreen(RES_BLANK);
+	countryMenu->setMenuWidth(240<=scrWidth?240:scrWidth);
+	countryMenu->setMarginX(5);
+	countryMenu->setMarginY(5);
+	countryMenu->setDock(MenuScreen::MD_CENTER);
+	countryMenu->setListener(this);
+	countryMenu->setMenuFontSel(Util::getFontBlack());
+	countryMenu->setMenuFontUnsel(Util::getFontWhite());
+	countryMenu->setMenuSkin(Util::getSkinDropDownItem());
+
+	notice->setCaption("Loading countries...");
+
+	String cName = "";
+	int countryCount = sizeof(countries)/sizeof(country);
+	for (int i = 0; i < countryCount; i++) {
+		cName = "+";
+		cName.append(countries[i].code, strlen(countries[i].code));
+		cName.append("  ", 2);
+		cName.append(countries[i].country, strlen(countries[i].country));
+		countryMenu->addItem(cName.c_str());
+	}
+
+	char *url = NULL;
+	//work out how long the url will be, the 10 is for the & and = symbols
+	int urlLength = URL_PHONE.length() + 15;
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s?checkcountry=1", URL_PHONE.c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		notice->setCaption("Unable to connect, try again later...");
+	} else {
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
+		mHttp.finish();
+	}
+	delete url;
 }
 
 void Login::clearListBox() {
@@ -511,6 +570,11 @@ void Login::clearListBox() {
 }
 
 void Login::selectionChanged(Widget *widget, bool selected) {
+	if (numberLayout != NULL && widget == numberLayout) {
+		widget = numberLayout->getChildren()[1];
+		widget->setSelected(selected);
+;	}
+
 	if (widget->getChildren().size() > 0) {
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
@@ -620,7 +684,12 @@ void Login::keyPressEvent(int keyCode) {
 					break;
 				case S_REGISTER:
 					if (termsLayout->isSelected()) {
+						isTerms = true;
 						termsMenu->show();
+					}
+					else if (countryLabel->isSelected()) {
+						isCountry = true;
+						countryMenu->show();
 					}
 					break;
 			}
@@ -661,7 +730,20 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						int countryIndex = (editBoxCell->getText().length() >= 10)?checkCountryCode():-1;
+						int countryIndex = countryMenu->getSelectedIndex();
+
+						if (editBoxCell->getText().length() >= strlen(countries[countryIndex].code) + 5) {
+							String enteredCode = editBoxCell->getText().substr(0, strlen(countries[countryIndex].code));
+							if(strcmp(countries[countryIndex].code, enteredCode.c_str()) != 0){
+								notice->setCaption("The number you entered does not match the international cellphone number code you have selected");
+								return;
+							}
+						}
+						else {
+							 notice->setCaption("Please enter your cell number in the international format");
+							 return;
+						}
+
 						if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
 						}
@@ -671,8 +753,8 @@ void Login::keyPressEvent(int keyCode) {
 						else if (editBoxFullname->getText().length() < 1) {
 							notice->setCaption("Please enter your name");
 						}
-						else if (editBoxCell->getText().length() < 10) {
-							notice->setCaption("Your cell needs to be at least 10 numbers long");
+						else if (editBoxCell->getText().length() < strlen(countries[countryIndex].code) + 5) {
+							notice->setCaption("Please enter your cell number in the international format");
 						}
 						else if (editBoxEmail->getText().length() < 1) {
 							notice->setCaption("You need to enter an email address");
@@ -856,6 +938,10 @@ void Login::mtxTagData(const char* data, int len) {
 		hasCards += data;
 	} else if (!strcmp(parentTag.c_str(), "updated")) {
 		updated += data;
+	} else if (!strcmp(parentTag.c_str(), "country_code")) {
+		temp += data;
+	} else if (!strcmp(parentTag.c_str(), "country_name")) {
+		temp1 += data;
 	}
 }
 
@@ -925,7 +1011,10 @@ void Login::mtxTagEnd(const char* name, int len) {
 		}*/
 		next = new AlbumLoadScreen(feed, album);
 		next->show();
-	} else {
+	} else if(!strcmp(name, "country_name")) {
+		setCountry(temp.c_str());
+		notice->setCaption("");
+	}  else {
 		if (!error) {
 			if (notice != NULL) {
 				notice->setCaption("");
@@ -963,15 +1052,45 @@ void Login::mtxTagStartEnd() {
 
 
 void Login::menuOptionSelected(int index) {
-	if (index == 0) {
-		maPlatformRequest(URL_TERMS.c_str());
+	if (isTerms) {
+		if (index == 0) {
+			maPlatformRequest(URL_TERMS.c_str());
+		}
+		else if (index == 1) {
+			termsBox->setChecked(true);
+			this->show();
+		}
+		else if (index == 2) {
+			termsBox->setChecked(false);
+			this->show();
+		}
 	}
-	else if (index == 1) {
-		termsBox->setChecked(true);
+	else if (isCountry) {
+		String cName = "+";
+		cName.append(countries[index].code, strlen(countries[index].code));
+		cName.append("  ", 2);
+		cName.append(countries[index].country, strlen(countries[index].country));
+
+		countryLabel->setCaption(cName.c_str());
 		this->show();
 	}
-	else if (index == 2) {
-		termsBox->setChecked(false);
-		this->show();
+
+	isTerms = false;
+	isCountry = false;
+}
+
+void Login::setCountry(const char *countryCode) {
+	int countryCount = sizeof(countries)/sizeof(country);
+	for (int i = 0; i < countryCount; i++) {
+		if (strcmp(countries[i].countryCode, countryCode) == 0) {
+			String cName = "+";
+			cName.append(countries[i].code, strlen(countries[i].code));
+			cName.append("  ", 2);
+			cName.append(countries[i].country, strlen(countries[i].country));
+
+			countryLabel->setCaption(cName.c_str());
+			countryMenu->setSelectedIndex(i);
+			return;
+		}
 	}
 }
