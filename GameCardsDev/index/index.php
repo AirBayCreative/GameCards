@@ -181,10 +181,10 @@ if ($iUserID == 0){
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
 				
-		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+50) WHERE user_id = '.$iUserID);
+		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+25) WHERE user_id = '.$iUserID);
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "Recieved 50 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1)');
+			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1)');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);

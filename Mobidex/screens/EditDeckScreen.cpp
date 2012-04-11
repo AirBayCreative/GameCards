@@ -436,8 +436,6 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 							feed->remHttp();
 							next = NULL;
 						}
-						/*next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_DECK, NULL, false, NULL, deckCategory);
-						((AlbumLoadScreen*)next)->setDeckId(deckId);*/
 						next->show();
 					}
 					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
@@ -452,8 +450,6 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 							feed->remHttp();
 							next = NULL;
 						}
-						/*next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_DECK, NULL, false, NULL, deckCategory);
-						((AlbumLoadScreen*)next)->setDeckId(deckId);*/
 						next->show();
 					}
 					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
