@@ -384,8 +384,10 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	else if (screenType == PROFILE){
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
+			//((Label *)widget)->setFont(Util::getFontBlack());
 		} else {
 			widget->getChildren()[0]->setSelected(false);
+			//((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	} else if ((screenType == BALANCE)||(screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 		if(selected) {
@@ -802,6 +804,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (count == 0) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No friends found.", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			usr="";

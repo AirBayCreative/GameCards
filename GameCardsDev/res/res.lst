@@ -408,3 +408,11 @@
 .res RES_TUT_7
 .ubin
 .image "tut_7.png"
+
+.res RES_FONT_GREEN
+.bin
+.include "arialgreen.mof"  
+
+.res RES_FONT_GREY
+.bin
+.include "arialgrey.mof"  

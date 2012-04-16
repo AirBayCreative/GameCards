@@ -179,7 +179,7 @@ void AuctionListScreen::drawList() {
 		cardText += "\n";
 		cardText += getTime(auctions[i]->getEndDate());
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT, listBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
@@ -190,7 +190,7 @@ void AuctionListScreen::drawList() {
 
 		Util::retrieveThumb(tempImage, tmp, mImageCache);
 
-		label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-86, ALBUM_ITEM_HEIGHT, feedlayout, cardText, 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
 		label->setVerticalAlignment(Label::VA_CENTER);
 		label->setAutoSizeY();
