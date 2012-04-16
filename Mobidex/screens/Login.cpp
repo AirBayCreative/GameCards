@@ -468,9 +468,6 @@ void Login::drawRegisterScreen() {
 	numberLayout->add(label);
 	numberLayout->addWidgetListener(this);
 
-	label = new Label(scrWidth-strlen("e.g. 821234567"),0, scrWidth-PADDING*2, 24, NULL, "e.g. 821234567", 0, Util::getDefaultFont());
-	listBox->add(label);
-
 	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Email:", 0, Util::getDefaultFont());
 	listBox->add(label);
 
