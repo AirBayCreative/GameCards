@@ -825,6 +825,8 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		statDisplay += data;
 	} else if(!strcmp(parentTag.c_str(), "note")) {
 		note += data;
+	} else if (!strcmp(parentTag.c_str(), "playable")) {
+		playable += data;
 	}
 }
 
@@ -851,6 +853,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		tmp.insert(newCard->getId(),newCard);
 
 		note="";
+		playable="";
 		id="";
 		description="";
 		quantity="";
@@ -898,6 +901,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal = "";
 
 		note="";
+		playable="";
 		id="";
 		description="";
 		quantity="";
@@ -933,6 +937,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal = "";
 
 		note="";
+		playable="";
 		id="";
 		description="";
 		quantity="";
@@ -959,6 +964,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		statIVal = "";
 
 		note="";
+		playable="";
 		id="";
 		description="";
 		quantity="";

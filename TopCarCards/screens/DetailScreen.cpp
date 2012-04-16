@@ -132,7 +132,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?profiledetails=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -153,7 +152,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?creditlog=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -175,7 +173,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?leaderboard=%s", URL, category.c_str());
-			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 
 			if(res < 0) {
@@ -197,7 +194,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?leaderboard=%s&friends=1", URL, category.c_str());
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -219,7 +215,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notifications=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -242,7 +237,6 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?friends=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -521,7 +515,6 @@ void DetailScreen::saveProfileData() {
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", URL, URLencode(answers[i]->getAnswerId()).c_str(),URLencode(answers[i]->getEditBoxPointer()->getCaption()).c_str(),answers[i]->getAnswered(),URLencode(answers[i]->getCreditValue()).c_str());
 			mHttp = HttpConnection(this);
-			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
 				label->setCaption("Unable to connect, try again later...");

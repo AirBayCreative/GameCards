@@ -543,7 +543,6 @@ void ShopDetailsScreen::postBid()
 			}
 			mHttp = HttpConnection(this);
 
-			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 
 			if(res < 0) {
@@ -591,7 +590,6 @@ void ShopDetailsScreen::buyNow()
 			}
 			mHttp = HttpConnection(this);
 
-			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 
 			if(res < 0) {

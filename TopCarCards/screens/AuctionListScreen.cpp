@@ -74,7 +74,6 @@ AuctionListScreen::AuctionListScreen(Screen *previous, Feed *feed, int screenTyp
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		drawList();
@@ -318,7 +317,6 @@ void AuctionListScreen::refresh()
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		drawList();
@@ -368,7 +366,6 @@ void AuctionListScreen::updateAuctions()
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		//drawList();

@@ -41,7 +41,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label->setDrawBackground(false);
 			listBox->add(label);
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Silver", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -49,6 +49,17 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 
 			balanceLabel = Util::createEditLabel(feed->getCredits());
+			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
+			listBox->add(balanceLabel);
+
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Gold", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+
+			balanceLabel = Util::createEditLabel(feed->getPremium());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 

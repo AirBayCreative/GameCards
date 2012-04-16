@@ -57,7 +57,6 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	}
 	mHttp = HttpConnection(this);
 
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
