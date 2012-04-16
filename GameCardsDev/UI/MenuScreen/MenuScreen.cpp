@@ -193,3 +193,11 @@ Label* MenuScreen::createLabel(const char* text)
 
 	return l;
 }
+
+void MenuScreen::setSelectedIndex(int index) {
+	mOptions->setSelectedIndex(index);
+}
+
+int MenuScreen::getSelectedIndex() {
+	return mOptions->getSelectedIndex();
+}

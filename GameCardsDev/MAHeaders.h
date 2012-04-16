@@ -111,6 +111,9 @@
 #define RES_TUT_6 101
 #define RES_TUT_7 102
 
+#define RES_FONT_GREEN 103
+#define RES_FONT_GREY 104
+
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
