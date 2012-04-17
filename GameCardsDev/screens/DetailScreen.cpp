@@ -384,10 +384,8 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	else if (screenType == PROFILE){
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
-			//((Label *)widget)->setFont(Util::getFontBlack());
 		} else {
 			widget->getChildren()[0]->setSelected(false);
-			//((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	} else if ((screenType == BALANCE)||(screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 		if(selected) {

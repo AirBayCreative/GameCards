@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 #include <MAUI/ListBox.h>
 
 #include "../utils/XmlConnection.h"

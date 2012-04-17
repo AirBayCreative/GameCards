@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../UI/Native/NativeEditBox.h"
 #include "../utils/Card.h"

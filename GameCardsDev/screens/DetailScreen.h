@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
-#include <maprofile.h>
 
 #include "../utils/Util.h"
 #include "../utils/Card.h"

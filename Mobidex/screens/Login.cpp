@@ -1087,7 +1087,6 @@ void Login::setCountry(const char *countryCode) {
 			String cName = "+";
 			cName.append(countries[i].code, strlen(countries[i].code));
 			String cText = countries[i].code;
-			cText.append("(0)", 3);
 			editBoxCell->setText(cText);
 			cName.append("  ", 2);
 			cName.append(countries[i].country, strlen(countries[i].country));

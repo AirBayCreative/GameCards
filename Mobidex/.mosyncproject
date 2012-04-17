@@ -8,24 +8,20 @@
 </filter>
 </criteria>
 <properties>
-<property key="android:version.number" value="3"/>
-<property key="build.prefs:additional.include.paths" value=""/>
-<property key="build.prefs:additional.libraries" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
-<property key="build.prefs:additional.library.paths" value=""/>
-<property key="build.prefs:app.permissions" value="File\ Storage Internet\ Access SMS SMS/Send Vibration"/>
-<property key="build.prefs:extra.link.sw" value=""/>
-<property key="build.prefs:extra.res.sw" value=""/>
-<property key="build.prefs:gcc.warnings" value="0"/>
-<property key="build.prefs:ignore.default.libraries" value="true"/>
-<property key="build.prefs:memory.data" value="2048"/>
-<property key="build.prefs:memory.heap" value="1024"/>
-<property key="build.prefs:memory.stack" value="512"/>
+<property key="build.prefs:additional.include.paths/Release" value=""/>
+<property key="build.prefs:additional.libraries/Release" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
+<property key="build.prefs:additional.library.paths/Release" value=""/>
+<property key="build.prefs:extra.link.sw/Release" value=""/>
+<property key="build.prefs:extra.res.sw/Release" value=""/>
+<property key="build.prefs:gcc.warnings/Release" value="0"/>
+<property key="build.prefs:ignore.default.libraries/Release" value="true"/>
 <property key="build.prefs:project.type" value=""/>
 <property key="dependency.strategy" value="0"/>
-<property key="excludes" value=""/>
+<property key="excludes/Release" value=""/>
 <property key="profile.mgr.type" value="0"/>
-<property key="symbian.uids:uid.s60v2uid" value="0x0d8b2b2f"/>
+<property key="symbian.uids:uid.s60v2uid" value="0x04243c27"/>
+<property key="symbian.uids:uid.s60v3uid" value="0xe63afb13"/>
 <property key="template.id" value="project.empty"/>
-<property key="winmobilecs:guid" value="f6ede420-4f30-102f-804c-3ba46a2a0666"/>
+<property key="winmobilecs:guid" value="9a1bbc70-6a8a-102f-803a-83bc3b1e4fa0"/>
 </properties>
 </project>

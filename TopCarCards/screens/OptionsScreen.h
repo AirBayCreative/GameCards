@@ -7,7 +7,6 @@
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
 
-
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"

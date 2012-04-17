@@ -802,6 +802,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (count == 0) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No friends found.", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			usr="";
