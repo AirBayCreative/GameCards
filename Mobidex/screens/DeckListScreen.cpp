@@ -109,6 +109,10 @@ void DeckListScreen::clearListBox() {
 void DeckListScreen::drawList() {
 	notice->setCaption("Please select an album");
 
+	label = Util::createSubLabel("All Cards");
+	label->addWidgetListener(this);
+	listBox->add(label);
+
 	for(int i = 0; i < albums.size(); i++) {
 		label = Util::createSubLabel(albums[i]->getDescription());
 		label->addWidgetListener(this);
@@ -118,9 +122,9 @@ void DeckListScreen::drawList() {
 		emp = false;
 		listBox->setSelectedIndex(0);
 	} else {
-		emp = true;
+		/*emp = true;
 		listBox->add(Util::createSubLabel("Empty"));
-		listBox->setSelectedIndex(0);
+		listBox->setSelectedIndex(0);*/
 	}
 
 	selecting = false;
@@ -204,25 +208,42 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
-							mHttp = HttpConnection(this);
-							int urlLength = 18+URLSIZE + card->getId().length() + albums[ind]->getId().length();
-							char* url = new char[urlLength];
-							memset(url,'\0',urlLength);
-							sprintf(url, "%s?addtodeck=%s&deckid=%s", URL_PHONE.c_str(), card->getId().c_str(), albums[ind]->getId().c_str());
-							int res = mHttp.create(url, HTTP_GET);
-							if(res < 0) {
-								notice->setCaption("Connection error");
-								selecting = false;
-							} else {
-								notice->setCaption("Adding...");
-								mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-								mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-								feed->addHttp();
-								mHttp.finish();
+							if (ind == 0) {
+								phase = SP_FINISHED;
 
-								clearListBox();
+								MenuScreen *confirmation = new MenuScreen(RES_BLANK,result.c_str());
+								confirmation->setMenuWidth(120);
+								confirmation->setMarginX(5);
+								confirmation->setMarginY(5);
+								confirmation->setDock(MenuScreen::MD_CENTER);
+								confirmation->setListener(this);
+								confirmation->setMenuFontSel(Util::getDefaultFont());
+								confirmation->setMenuFontUnsel(Util::getDefaultFont());
+								confirmation->setMenuSkin(Util::getSkinDropDownItem());
+								confirmation->addItem("Ok");
+								confirmation->show();
+
+							} else {
+								mHttp = HttpConnection(this);
+								int urlLength = 18+URLSIZE + card->getId().length() + albums[ind-1]->getId().length();
+								char* url = new char[urlLength];
+								memset(url,'\0',urlLength);
+								sprintf(url, "%s?addtodeck=%s&deckid=%s", URL_PHONE.c_str(), card->getId().c_str(), albums[ind-1]->getId().c_str());
+								int res = mHttp.create(url, HTTP_GET);
+								if(res < 0) {
+									notice->setCaption("Connection error");
+									selecting = false;
+								} else {
+									notice->setCaption("Adding...");
+									mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+									mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+									feed->addHttp();
+									mHttp.finish();
+
+									clearListBox();
+								}
+								delete url;
 							}
-							delete url;
 						}
 						break;
 					case SP_FINISHED:
