@@ -68,6 +68,8 @@ class Util
 		static Font* getFontBlack();
 		static Font* getFontWhite();
 		static Font* getFontRed();
+		static Font* getFontGreen();
+		static Font* getFontGrey();
 		static Font* getDefaultFont();
 		static Font* getDefaultSelected();
 		static Font* Util::getButtonFont();

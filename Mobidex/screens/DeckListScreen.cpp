@@ -318,6 +318,7 @@ void DeckListScreen::mtxTagData(const char* data, int len) {
 void DeckListScreen::menuOptionSelected(int index) {
 	this->show();
 	previous->pop();
+	previous->previous->pop();
 }
 
 

@@ -85,13 +85,39 @@ Font* Util::getFontRed() {
 	}
 	return red;
 }
+
+Font* Util::getFontGreen() {
+	static Font* green;
+	if (green == NULL) {
+#if defined(RES_FONT_GREEN)
+		green = new MAUI::Font(RES_FONT_GREEN);
+#endif
+	}
+	return green;
+}
+Font* Util::getFontGrey() {
+	static Font* grey;
+	if (grey == NULL) {
+#if defined(RES_FONT_GREY)
+		grey = new MAUI::Font(RES_FONT_GREY);
+#endif
+	}
+	return grey;
+}
+
 Font* Util::getDefaultFont() {
+#if defined(RES_FONT_GREY)
+	return getFontGrey();
+#endif
 #if defined(RES_FONT_WHITE)
 	return getFontWhite();
 #endif
 	return getFontBlack();
 }
 Font* Util::getDefaultSelected() {
+#if defined(RES_FONT_GREEN)
+	return getFontGreen();
+#endif
 #if defined(RES_FONT_RED)
 	return getFontRed();
 #endif

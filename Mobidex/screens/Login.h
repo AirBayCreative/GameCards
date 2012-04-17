@@ -20,6 +20,7 @@ using namespace MAUtil;
 struct country {
 	const char *code;
 	const char *country;
+	const char *countryCode;
 };
 
 class Login : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
@@ -37,17 +38,18 @@ public:
 	void menuOptionSelected(int index);
 	enum screens {S_LOGIN, S_REGISTER};
 private:
-	Layout *termsLayout;
-	Label *termsLink;
+	Layout *termsLayout, *numberLayout;
+	Label *termsLink, *countryLabel;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxFullname, *editBoxCell, *editBoxEmail;
 	CheckBox *termsBox;
-	MenuScreen *termsMenu;
+	MenuScreen *termsMenu, *countryMenu;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, response;
 	String temp,temp1,hasCards,updated;
 
 	bool list, left, right, mid, error;
+	bool isTerms, isCountry;
 	int screen, moved;
 	HttpConnection mHttp;
 
@@ -74,6 +76,8 @@ private:
 	void disableEditBoxes();
 
 	int checkCountryCode();
+
+	void setCountry(const char *countryCode);
 };
 
 #endif	//_LOGIN_H_

@@ -1,6 +1,5 @@
 #include "OptionsScreen.h"
 #include "TradeFriendDetailScreen.h"
-#include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
 #include "NoteScreen.h"
 #include "DetailScreen.h"

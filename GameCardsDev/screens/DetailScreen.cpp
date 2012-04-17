@@ -41,7 +41,7 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			label->setDrawBackground(false);
 			listBox->add(label);
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Silver", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -49,6 +49,17 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			listBox->add(label);
 
 			balanceLabel = Util::createEditLabel(feed->getCredits());
+			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
+			listBox->add(balanceLabel);
+
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Gold", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+
+			balanceLabel = Util::createEditLabel(feed->getPremium());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
 
@@ -373,8 +384,10 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	else if (screenType == PROFILE){
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
+			//((Label *)widget)->setFont(Util::getFontBlack());
 		} else {
 			widget->getChildren()[0]->setSelected(false);
+			//((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	} else if ((screenType == BALANCE)||(screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 		if(selected) {
@@ -791,6 +804,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		if (count == 0) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No friends found.", 0, Util::getDefaultFont());
+			label->setDrawBackground(false);
 			listBox->add(label);
 
 			usr="";

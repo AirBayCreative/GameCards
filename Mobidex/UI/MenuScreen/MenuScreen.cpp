@@ -204,10 +204,13 @@ void MenuScreen::selectionChanged(Widget *widget, bool selected) {
 void MenuScreen::pointerPressEvent(MAPoint2d point) {
 	moved = 0;
 
+	int firstVisible = (-1*mOptions->getYOffset()>>16) / DEFAULT_DROPDOWNITEM_HEIGHT;
+	int lastVisible = firstVisible + (mOptions->getHeight() / DEFAULT_DROPDOWNITEM_HEIGHT);
+
 	Point p(point.x, point.y);
 	if(mOptions->contains(p))
 	{
-		for(int i = 0; i < mOptions->getChildren().size(); i++)
+		for(int i = firstVisible; i < lastVisible; i++)
 		{
 			Widget* w = mOptions->getChildren()[i];
 			if(w->contains(p))
@@ -241,10 +244,10 @@ void MenuScreen::informListener()
 
 Label* MenuScreen::createLabel(const char* text)
 {
-	Label* l = new Label(0, 0, mOptions->getWidth() - 4, 20, NULL);
-	l->setMultiLine(true);
+	Label* l = new Label(0, 0, mOptions->getWidth() - 4, DEFAULT_DROPDOWNITEM_HEIGHT, NULL);
+	//l->setMultiLine(true);
 	//l->setAutoSizeX(false);
-	l->setAutoSizeY(true);
+	//l->setAutoSizeY(true);
 	l->setHorizontalAlignment(Label::HA_CENTER);
 	l->setVerticalAlignment(Label::VA_CENTER);
 	l->setPaddingTop(5);
@@ -262,4 +265,12 @@ Label* MenuScreen::createLabel(const char* text)
 		l->setFont(mFontUnsel);
 
 	return l;
+}
+
+void MenuScreen::setSelectedIndex(int index) {
+	mOptions->setSelectedIndex(index);
+}
+
+int MenuScreen::getSelectedIndex() {
+	return mOptions->getSelectedIndex();
 }

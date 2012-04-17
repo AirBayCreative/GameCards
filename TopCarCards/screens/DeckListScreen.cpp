@@ -53,7 +53,6 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("Connection error.");
@@ -114,7 +113,6 @@ void DeckListScreen::refresh() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("Connection error.");

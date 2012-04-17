@@ -268,7 +268,6 @@ void Login::keyPressEvent(int keyCode) {
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?userdetails=1", URL);
-							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
@@ -344,7 +343,6 @@ void Login::keyPressEvent(int keyCode) {
 							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
 							mHttp = HttpConnection(this);
-							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
 								notice->setCaption("Unable to connect, try again later...");

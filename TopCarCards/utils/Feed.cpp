@@ -87,6 +87,10 @@ MAUtil::String Feed::getCredits() {
 	return credits;
 }
 
+MAUtil::String Feed::getPremium() {
+	return premium;
+}
+
 void Feed::setEmail(const char *eml) {
 	email = eml;
 }
