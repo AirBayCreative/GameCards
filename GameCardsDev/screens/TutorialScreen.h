@@ -3,8 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Image.h>
-#include <maprofile.h>
-
 #include "../utils/Card.h"
 #include "../utils/Feed.h"
 #include "../MAHeaders.h"

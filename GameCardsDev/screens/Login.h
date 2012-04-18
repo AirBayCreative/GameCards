@@ -39,8 +39,8 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, result, freebie, notedate;
-	bool list, left, right, mid, error/*, kbShown*/;
+	String username,credits,encrypt,error_msg,email,handle,touch,result,freebie,notedate,premium;
+	bool list, left, right, mid, error;
 	int screen, moved;
 
 	Feed *feed;

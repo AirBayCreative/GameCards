@@ -42,9 +42,9 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,cardText;
-	String id, productType, productName, price, thumb, cardsInPack, category, cred;
-	int i, moved;
-	bool list, left, right, emp, free, credits, first;
+	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem;
+	int i,moved;
+	bool list,left,right,emp,free,credits,first;
 
 	Feed *feed;
 	ProductVector products;

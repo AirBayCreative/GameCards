@@ -30,7 +30,8 @@ Feed::Feed() {
 	noSuccess = "";
 	whiteSpace = "";
 	specialCharacters = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	email = "";
 	handle = "";
 	touch = "";
@@ -49,16 +50,13 @@ Feed::~Feed() {
 	noSuccess = "";
 	whiteSpace = "";
 	specialCharacters = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	email = "";
 	handle = "";
 	touch = "";
 	gameId = "";
 	seconds = "";
-	/*if (album != NULL) {
-		delete album;
-	}
-	album = NULL;*/
 	touchEnabled = false;
 	loaded = false;
 	noteLoaded = false;
@@ -81,6 +79,10 @@ bool Feed::setTouchEnabled(bool tch) {
 
 void Feed::setCredits(const char *creds) {
 	credits = creds;
+}
+
+void Feed::setPremium(const char *prem) {
+	premium = prem;
 }
 
 MAUtil::String Feed::getCredits() {
@@ -216,7 +218,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+","+registered+",";
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+","+registered+","+premium+",";
 }
 
 void Feed::setAll(const char* allch) {
@@ -264,6 +266,9 @@ void Feed::setAll(const char* allch) {
 		indexof = all.find(",");
 		setRegistered(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
+		indexof = all.find(",");
+		setPremium(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
 			setUsername("");
@@ -278,6 +283,7 @@ void Feed::setAll(const char* allch) {
 		setReplaceWhiteSpaces("");
 		setReplaceSpecialCharacters("");
 		setCredits("");
+		setPremium("");
 		setEmail("");
 		setHandle("");
 		setNoteLoaded(false);

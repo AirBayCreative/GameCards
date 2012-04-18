@@ -16,6 +16,8 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	buynow = false;
 	success = false;
 	expired = false;
+	credits = "0";
+	premium = "0";
 	confirmbuynow = false;
 	if (screenType == ST_AUCTION)
 	{
@@ -44,12 +46,12 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 	next = NULL;
 
 	if ((first)||(free)) {
-		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultSelected());
+		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 150 credits and a free starter pack.", 0, Util::getDefaultSelected());
 		label->setMultiLine(true);
 		label->setDrawBackground(false);
 		listBox->add(label);
 	} else if (screenType != ST_USER) {
-		String msg = "Current credits: " + feed->getCredits();
+		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
 		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		label->setMultiLine(true);
@@ -296,7 +298,8 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	fullDesc = "";
 	parentTag = "";
 	result = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -479,12 +482,15 @@ void ShopDetailsScreen::mtxTagData(const char* data, int len) {
 		result = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits = data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		premium = data;
 	}
 }
 
 void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "credits")) {
 		feed->setCredits(credits.c_str());
+		feed->setPremium(premium.c_str());
 		success = true;
 	}
 	if (bidOrBuy) {
@@ -566,10 +572,9 @@ void ShopDetailsScreen::buyNow()
 		bool canPurchase;
 
 		//check that the user can afford the buy out price
-		if (atof(feed->getCredits().c_str()) >= atof(auction->getBuyNowPrice().c_str())) {
+		if ((atof(feed->getCredits().c_str())+atof(feed->getPremium().c_str())) >= atof(auction->getBuyNowPrice().c_str())) {
 			canPurchase = true;
-		}
-		else {
+		} else {
 			canPurchase = false;
 		}
 
@@ -834,10 +839,6 @@ String ShopDetailsScreen::validateBid(){
 	if (bid.length() == 0) {
 		errorString = "Please enter a bid.";
 	}
-
-	//else if (atof(bid.c_str()) >= atof(feed->getCredits().c_str())) {
-		//errorString = "You do not have enough credits to make that bid.";
-	//}
 	else if (auction->getPrice().length() > 0 && (atof(auction->getPrice().c_str()) >= atof(bid.c_str()))) {
 		errorString = "Your bid needs to be higher than the current bid.";
 	}

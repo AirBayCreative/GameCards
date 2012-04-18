@@ -63,7 +63,6 @@ void NativeEditBox::setMaxSize(int size) {
 }
 
 void NativeEditBox::focusGained() {
-
 }
 
 bool NativeEditBox::pointerPressed(MAPoint2d p, int id) {
@@ -74,6 +73,11 @@ bool NativeEditBox::pointerPressed(MAPoint2d p, int id) {
 
 void NativeEditBox::setSelected(bool selected) {
 	EditBox::setSelected(selected);
+	if (selected) {
+		EditBox::setFont(Util::getFontBlack());
+	} else {
+		EditBox::setFont(Util::getDefaultFont());
+	}
 }
 
 bool NativeEditBox::pointerMoved(MAPoint2d p, int id) {

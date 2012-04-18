@@ -12,6 +12,7 @@ public:
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);
+	void setPremium(const char*);
 	void setEmail(const char*);
 	void setHandle(const char*);
 	void setUnsuccessful(const char*);

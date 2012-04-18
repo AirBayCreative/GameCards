@@ -43,7 +43,7 @@ if ($iUserID = $_GET['test']) {
 
 function addCreditsSMS($iUserID,$amount=350){
   if(intval($iUserID) > 0){
-    $sql = "UPDATE mytcg_user SET credits = credits + ".$amount." WHERE user_id = ".$iUserID;
+    $sql = "UPDATE mytcg_user SET premium = premium + ".$amount." WHERE user_id = ".$iUserID;
     myqu($sql);
     $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
 val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
