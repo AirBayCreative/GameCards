@@ -46,7 +46,6 @@ NewDeckScreen::NewDeckScreen(Screen *previous, Feed *feed) : mHttp(this), previo
 	}
 	mHttp = HttpConnection(this);
 
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -201,7 +200,6 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 						}
 						mHttp = HttpConnection(this);
 
-						lprintfln("%s", url);
 						int res = mHttp.create(url, HTTP_GET);
 
 						if(res < 0) {

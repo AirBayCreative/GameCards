@@ -144,7 +144,6 @@ void RedeemScreen::redeemCode() {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 			notice->setCaption("Unable to connect, try again later...");

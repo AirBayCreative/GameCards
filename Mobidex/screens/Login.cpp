@@ -69,11 +69,11 @@ static country countries[] =
 	{ "243", "Congo, The Democratic Republic of the (Zaire)", "CD" },
 	{ "682", "Cook Islands", "CK" },
 	{ "506", "Costa Rica", "CR" },
-	{ "225", "Côte d'Ivoire", "CI" },
+	{ "225", "Cï¿½te d'Ivoire", "CI" },
 	{ "385", "Croatia", "HR" },
 	{ "53", "Cuba", "CU" },
 	{ "5399", "Cuba (Guantanamo Bay)", "CU" },
-	{ "5999", "Curaçao", "CW" },
+	{ "5999", "Curaï¿½ao", "CW" },
 	{ "357", "Cyprus", "CY" },
 	{ "420", "Czech Republic", "CZ" },
 	{ "45", "Denmark", "DK" },
@@ -216,12 +216,12 @@ static country countries[] =
 	{ "1787", "Puerto Rico", "PR" },
 	{ "1939", "Puerto Rico", "PR" },
 	{ "974", "Qatar", "QA" },
-	{ "262", "Réunion", "RE" },
+	{ "262", "Rï¿½union", "RE" },
 	{ "40", "Romania", "RO" },
 	{ "7", "Russia", "RU" },
 	{ "250", "Rwanda", "RW" },
 	{ "5994", "Saba", "" },
-	{ "590", "Saint Barthélemy", "BL" },
+	{ "590", "Saint Barthï¿½lemy", "BL" },
 	{ "290", "+Saint Helena and Tristan da Cunha", "SH" },
 	{ "1869", "Saint Kitts and Nevis", "KN" },
 	{ "1758", "Saint Lucia", "LC" },
@@ -230,7 +230,7 @@ static country countries[] =
 	{ "1784", "Saint Vincent and the Grenadines", "VC" },
 	{ "685", "Samoa", "WS" },
 	{ "378", "San Marino", "SM" },
-	{ "239", "Sao Tomé and Príncipe", "ST" },
+	{ "239", "Sao Tomï¿½ and Prï¿½ncipe", "ST" },
 	{ "966", "Saudi Arabia", "SA" },
 	{ "221", "Senegal", "SN" },
 	{ "381", "Serbia", "RS" },
@@ -1080,11 +1080,14 @@ void Login::menuOptionSelected(int index) {
 }
 
 void Login::setCountry(const char *countryCode) {
+	lprintfln("%s", countryCode);
 	int countryCount = sizeof(countries)/sizeof(country);
 	for (int i = 0; i < countryCount; i++) {
 		if (strcmp(countries[i].countryCode, countryCode) == 0) {
 			String cName = "+";
 			cName.append(countries[i].code, strlen(countries[i].code));
+			String cText = countries[i].code;
+			editBoxCell->setText(cText);
 			cName.append("  ", 2);
 			cName.append(countries[i].country, strlen(countries[i].country));
 

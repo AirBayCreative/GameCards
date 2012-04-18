@@ -33,6 +33,7 @@ public:
 	String getEncrypt();
 	String getUsername();
 	String getCredits();
+	String getPremium();
 	String getEmail();
 	String getHandle();
 	String getUnsuccessful();
@@ -59,6 +60,7 @@ private:
 	String whiteSpace;
 	String specialCharacters;
 	String credits;
+	String premium;
 	String email;
 	String handle;
 	String touch;

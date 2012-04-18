@@ -6,7 +6,6 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
-#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/ImageCache.h"

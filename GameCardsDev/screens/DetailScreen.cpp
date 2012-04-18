@@ -19,6 +19,8 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 	desc = "";
 	date = "";
 	id = "";
+	cred = "0";
+	prem = "0";
 	switch (screenType) {
 		case PROFILE:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
@@ -51,6 +53,17 @@ DetailScreen::DetailScreen(Screen *previous, Feed *feed, int screenType, Card *c
 			balanceLabel = Util::createEditLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			listBox->add(balanceLabel);
+
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			listBox->add(label);
+
+			premiumLabel = Util::createEditLabel(feed->getPremium());
+			premiumLabel->setVerticalAlignment(Label::VA_CENTER);
+			listBox->add(premiumLabel);
 
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Last Transactions:", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -373,10 +386,8 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 	else if (screenType == PROFILE){
 		if(selected) {
 			widget->getChildren()[0]->setSelected(true);
-			//((Label *)widget)->setFont(Util::getFontBlack());
 		} else {
 			widget->getChildren()[0]->setSelected(false);
-			//((Label *)widget)->setFont(Util::getDefaultFont());
 		}
 	} else if ((screenType == BALANCE)||(screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 		if(selected) {
@@ -436,11 +447,9 @@ void DetailScreen::keyPressEvent(int keyCode) {
 						isBusy = true;
 						saveProfileData();
 					}
-					// TODO: need to check what fields have been updated and how many credits should be awarded.
 					break;
 				case BALANCE:
 					maPlatformRequest("http://buy.mytcg.net/");
-					//next = new ShopProductsScreen(this, feed, "credits", false, false);
 					//next->show();
 					break;
 			}
@@ -597,6 +606,8 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		creditvalue = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		cred = data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		prem = data;
 	} else if(!strcmp(parentTag.c_str(), "desc")) {
 		desc += data;
 	} else if(!strcmp(parentTag.c_str(), "answer")) {
@@ -625,9 +636,12 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		isBusy = false;
 	} else if(!strcmp(name, "credits")) {
 		feed->setCredits(cred.c_str());
+		feed->setPremium(prem.c_str());
 		balanceLabel->setCaption(cred.c_str());
+		premiumLabel->setCaption(prem.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
-		cred = "";
+		cred = "0";
+		prem = "0";
 	} else if(!strcmp(name, "transactions")) {
 		if (count == 0) {
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "No transactions yet.", 0, Util::getDefaultFont());
@@ -846,6 +860,7 @@ void DetailScreen::refreshData() {
 			break;
 		case BALANCE:
 			balanceLabel->setCaption(feed->getCredits());
+			premiumLabel->setCaption(feed->getPremium());
 			break;
 	}
 }

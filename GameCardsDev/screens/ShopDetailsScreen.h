@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
@@ -37,22 +36,22 @@ public:
 
 	Auction *auction;
 private:
-	Screen *next, *previous;
+	Screen *next,*previous;
 	Layout *mainLayout;
-	Label *label, *cardLabel, *notice;
+	Label *label,*cardLabel,*notice;
 	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	NativeEditBox *editBidBox;
 
-	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow, expired;
+	bool list,left,right,free,first,busy,bidOrBuy,hasBid,buynow,success,confirmbuynow,expired;
 
-	String parentTag, result, credits;
+	String parentTag,result,credits,premium;
 	String temp,temp1,error_msg;
 
-	int moved, screenType;
+	int moved,screenType;
 
-	String nameDesc, fullDesc;
+	String nameDesc,fullDesc;
 
 	Product *product;
 	Feed *feed;

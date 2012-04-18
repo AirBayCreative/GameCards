@@ -5,7 +5,6 @@
 #include <MAUI/EditBox.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
@@ -40,8 +39,8 @@ private:
 	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, result, freebie, notedate;
-	bool list, left, right, mid, error/*, kbShown*/;
+	String username,credits,encrypt,error_msg,email,handle,touch,result,freebie,notedate,premium;
+	bool list, left, right, mid, error;
 	int screen, moved;
 
 	Feed *feed;

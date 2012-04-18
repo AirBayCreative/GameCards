@@ -21,6 +21,9 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 	else
 		credits = false;
 
+	prem = "0";
+	cred = "0";
+
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
@@ -326,6 +329,8 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 			cred += data;
 		} else if(!strcmp(parentTag.c_str(), "productid")) {
 			id += data;
+		} else if(!strcmp(parentTag.c_str(), "premium")) {
+			prem += data;
 		} else if(!strcmp(parentTag.c_str(), "productname")) {
 			productName += data;
 		} else if(!strcmp(parentTag.c_str(), "producttype")) {
@@ -377,10 +382,11 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			cardsInPack = "";
 		} else if (!strcmp(name, "categoryproducts")) {
 			if (strcmp(cred.c_str(), "")) {
-				String msg = "Current credits: " + cred;
+				String msg = "Credits: " + cred + " Premium: " + prem;
 				feed->setCredits(cred.c_str());
+				feed->setPremium(prem.c_str());
 				if ((first)||(free)) {
-					msg = "Received: 300 credits and a free starter pack.";
+					msg = "Received: 150 credits and a free starter pack.";
 				}
 				notice->setHeight(36);
 				notice->setAutoSizeY(false);

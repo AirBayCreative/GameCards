@@ -328,7 +328,6 @@ void NewMenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
@@ -440,13 +439,13 @@ void NewMenuScreen::xcConnError(int code) {
 			int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
 			memset(buf, 0, 128);
 
-			char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
-			memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
-			sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
+			char *os = new char[strlen("temp")+1];
+			memset(os, 0, strlen("temp")+1);
+			sprintf(os, "%s", "temp");
 
-			char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
-			memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
-			sprintf(make, "%s", MA_PROF_STRING_VENDOR);
+			char *make = new char[strlen("temp")+1];
+			memset(make, 0, strlen("temp")+1);
+			sprintf(make, "%s", "temp");
 
 			//char *model = "temp";//MA_PROF_STRING_DEVICE;
 			char *model = new char[strlen("temp")+1];
@@ -470,7 +469,6 @@ void NewMenuScreen::xcConnError(int code) {
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?update=1.04&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
 					imsi, imei, os, make, model, touch, scrWidth, scrHeight);
-			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
 

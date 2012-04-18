@@ -1693,7 +1693,7 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 		$iUserCardID = $aCheckCard[0]['usercard_id'];
 	}
 	
-	$aCheckCredits=myqu('SELECT credits from mytcg_user
+	$aCheckCredits=myqu('SELECT IFNULL(credits,0)+IFNULL(premium,0) credits, IFNULL(credits,0) free, IFNULL(premium,0) premium from mytcg_user
 						WHERE user_id = '.$iUserID);
 	
 	
@@ -1717,7 +1717,13 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 		$getDesc=myqu('SELECT description from mytcg_card
 						WHERE card_id = '.$iCardId);
 		
-		myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
+		if ($aCheckCredits[0]['free'] < $cost) {
+			$spent = $cost - $aCheckCredits[0]['free'];
+			myqui('UPDATE mytcg_user set credits = credits - '.$aCheckCredits[0]['free'].' WHERE user_id = '.$iUserID);
+			myqui('UPDATE mytcg_user set premium = premium - '.$spent.' WHERE user_id = '.$iUserID);
+		} else {
+			myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
+		}
 		
 		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
 			VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.')');
@@ -1743,7 +1749,8 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 function auctionBid($bid, $username, $iUserID) {
 
   //SELECT USERS CURRENT CREDITS
-	$query = "select credits from mytcg_user where user_id = ".$iUserID;
+	$query = "SELECT IFNULL(credits,0)+IFNULL(premium,0) credits, IFNULL(credits,0) free, IFNULL(premium,0) premium from mytcg_user
+						WHERE user_id = ".$iUserID;
   $result = myqu($query);
   $credits = $result[0]['credits'];
   

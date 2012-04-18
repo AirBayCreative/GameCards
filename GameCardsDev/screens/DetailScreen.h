@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/EditBox.h>
-#include <maprofile.h>
 
 #include "../utils/Util.h"
 #include "../utils/Card.h"
@@ -37,7 +36,7 @@ private:
 	Screen *previous, *next;
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
 	Layout *mainLayout;
-	Label *label, *balanceLabel;
+	Label *label,*balanceLabel,*premiumLabel;
 	KineticListBox *listBox;
 	bool list, left, right;
 
@@ -46,10 +45,10 @@ private:
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
 
-	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue, id, date, value, cred, usr, val;
+	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val;
 	Answer *ans;
 	Vector<Answer*> answers;
-	int i,j, moved, screenType, answered, count, credits;
+	int i,j,moved,screenType,answered,count,credits;
 
 	Card *card;
 	Feed *feed;

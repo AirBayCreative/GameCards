@@ -12,6 +12,7 @@ public:
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);
+	void setPremium(const char*);
 	void setEmail(const char*);
 	void setHandle(const char*);
 	void setUnsuccessful(const char*);
@@ -33,6 +34,7 @@ public:
 	String getEncrypt();
 	String getUsername();
 	String getCredits();
+	String getPremium();
 	String getEmail();
 	String getHandle();
 	String getUnsuccessful();
@@ -59,6 +61,7 @@ private:
 	String whiteSpace;
 	String specialCharacters;
 	String credits;
+	String premium;
 	String email;
 	String handle;
 	String touch;

@@ -24,19 +24,16 @@ void ShopCategoriesScreen::refresh() {
 		case ST_FREEBIE:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=1", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=2", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_AUCTIONS:
 			notice->setCaption("Checking for auction categories...");
 			sprintf(url, "%s?auctioncategories=1", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
@@ -78,26 +75,22 @@ ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int scr
 		case ST_FREEBIE:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=1", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=2", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_AUCTIONS:
 			notice->setCaption("Checking for auction categories...");
 			sprintf(url, "%s?auctioncategories=1", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_RANKING:
 		case ST_FRIEND:
 			notice->setCaption("Checking the latest rankings...");
 			sprintf(url, "%s?leaders=1", URL);
-			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 	}

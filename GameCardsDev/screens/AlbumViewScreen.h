@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 #include <MAUI/ListBox.h>
 
 #include "../utils/XmlConnection.h"
@@ -57,7 +56,7 @@ private:
 	XmlConnection xmlConn;
 	ImageCache *mImageCache;
 
-	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId;
+	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId, playable;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
 	int size, i, moved, listSizes, xStart;

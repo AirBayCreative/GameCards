@@ -4,7 +4,6 @@
 #include <MAUI/Screen.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"

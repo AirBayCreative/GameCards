@@ -199,7 +199,6 @@ void OptionsScreen::checkForGames() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getusergames=1", URL);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -530,7 +529,6 @@ void OptionsScreen::acceptCard() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("");
@@ -554,7 +552,6 @@ void OptionsScreen::rejectCard() {
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("");
