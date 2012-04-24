@@ -1951,7 +1951,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1) {
-		$sOP = subcategories($lastCheckSeconds, $aCategory['category_id'], $iUserID, $aMine, $aCard, $topcar);
+		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $iUserID, $aMine, $aCard, $topcar);
 	}
 	
 	header('xml_length: '.strlen($sOP));
