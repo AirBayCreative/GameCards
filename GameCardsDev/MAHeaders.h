@@ -114,10 +114,16 @@
 #define RES_FONT_GREEN 103
 #define RES_FONT_GREY 104
 
+#define RES_DROPDOWNITEM_SEL 105
+#define RES_DROPDOWNITEM_UNSEL 106
+#define RES_DROPDOWNBOX_SEL 107
+#define RES_DROPDOWNBOX_UNSEL 108
+#define RES_POPUP_HEADER 111
+
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
-#define URL "http://dev.mytcg.net/_phone/"
+#define URL "http://www.mytcg.net/_phone/test_index.php"
 #define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up
@@ -161,6 +167,26 @@
 #define TEXT_Y_TOP 16
 #define TEXT_Y_BOTTOM 32
 
+#define DROPDOWNITEM_X_LEFT 5
+#define DROPDOWNITEM_X_RIGHT 33
+#define DROPDOWNITEM_Y_TOP 19
+#define DROPDOWNITEM_Y_BOTTOM 20
+
+#define DROPDOWNBOX_X_LEFT 10
+#define DROPDOWNBOX_X_RIGHT 225
+#define DROPDOWNBOX_Y_TOP 35
+#define DROPDOWNBOX_Y_BOTTOM 37
+
+#define DROPDOWNBACK_X_LEFT 10
+#define DROPDOWNBACK_X_RIGHT 40
+#define DROPDOWNBACK_Y_TOP 10
+#define DROPDOWNBACK_Y_BOTTOM 40
+
+#define POPUP_HEADER_X_LEFT 10
+#define POPUP_HEADER_X_RIGHT 48
+#define POPUP_HEADER_Y_TOP 24
+#define POPUP_HEADER_Y_BOTTOM 25
+
 //the default heights and widths for various widgets
 #define DEFAULT_LABEL_HEIGHT 48
 #define ALBUM_ITEM_HEIGHT 74
@@ -174,6 +200,9 @@
 #define DOT_HEIGHT 16
 #define ARROW_WIDTH 29
 #define MIN_MENU_ICON_WIDTH 50
+
+#define DEFAULT_DROPDOWN_HEIGHT 38
+#define DEFAULT_DROPDOWNITEM_HEIGHT 30
 
 //renumber the menu options if one is removed
 //numbers must always run sequential for index
@@ -199,6 +228,6 @@ using namespace MAUtil;
 #ifndef _MAHeaders_H_
 #define _MAHeaders_H_
 
-static String FILE_PREFIX = "dev_";
+static String FILE_PREFIX = "gamecards_";
 
 #endif

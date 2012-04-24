@@ -6,10 +6,13 @@
 #include "../utils/Util.h"
 #include "AuctionListScreen.h"
 
-ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
-		bool canAuction) :mHttp(this), previous(previous), img(img), flip(flip), card(card), screenType(screenType), feed(feed), hasConnection(hasConnection), canAuction(canAuction) {
+ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
+		bool canAuction) :mHttp(this),img(img), flip(flip), card(card), screenType(screenType), hasConnection(hasConnection), canAuction(canAuction) {
 	lprintfln("ImageScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	busy = false;
+	tapped = false;
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
@@ -26,11 +29,11 @@ ImageScreen::ImageScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, 
 		else {
 			mainLayout =  Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back" , "Flip");
 		}
-		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox = (KineticListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
-		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
@@ -57,6 +60,11 @@ void ImageScreen::pointerPressEvent(MAPoint2d point)
     locateItem(point);
 }
 
+void ImageScreen::menuOptionSelected(int index) {
+	this->show();
+}
+
+
 void ImageScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
@@ -74,29 +82,44 @@ void ImageScreen::pointerReleaseEvent(MAPoint2d point)
 	}
 	if (card != NULL) {
 		if (list) {
-			if(Util::absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||Util::absoluteValue(pointPressed.x-pointReleased.x) > 45){
+			if(Util::absoluteValue(pointPressed.x-pointReleased.x) >imge->getWidth()/100*15||
+			Util::absoluteValue(pointPressed.x-pointReleased.x) > 45){
 				flipOrSelect = 1;
 			}else{
 				flipOrSelect = 0;
-				currentSelectedStat = -1;
+				bool gotstat = false;
 				for(int i = 0;i<card->getStats().size();i++){
 					if(flip==card->getStats()[i]->getFrontOrBack()){
 						if(imge->statContains(card->getStats()[i]->getLeft(),card->getStats()[i]->getTop(),card->getStats()[i]->getWidth(),card->getStats()[i]->getHeight(),point.x, point.y)){
+							gotstat = true;
+							imge->refreshWidget();
 							currentSelectedStat = i;
 						}
 					}
 				}
+				if (!gotstat) {
+					currentSelectedStat = -1;
+					flipOrSelect = tapped?1:0;
+				}
 			}
+			tapped = true;
 			keyPressEvent(MAK_FIRE);
 		}
 	}
 }
+
+void ImageScreen::pop() {
+	previous->refresh(true);
+}
+
 
 void ImageScreen::locateItem(MAPoint2d point)
 {
 	list = false;
 	left = false;
 	right = false;
+	tapped = false;
+	flipOrSelect = 0;
 
 	Point p;
 	p.set(point.x, point.y);
@@ -109,6 +132,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -132,6 +157,8 @@ void ImageScreen::locateItem(MAPoint2d point)
 					left = true;
 				} else if (i == 1) {
 					list = true;
+					tapped = true;
+					flipOrSelect = 1;
 				} else if (i == 2) {
 					right = true;
 				}
@@ -216,8 +243,70 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			currentSelectedStat = -1;
 			break;
 		case MAK_UP:
+			if (imge->getResource() != RES_TEMP) {
+				if(card->getStats().size()>0){
+					selectStat(-1);
+					if (currentSelectedStat == -1) {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						imge->statAdded = false;
+					} else {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+						}
+					}
+				}
+			}
 			break;
 		case MAK_DOWN:
+			if (imge->getResource() != RES_TEMP) {
+				if(card->getStats().size()>0){
+					selectStat(1);
+					if (currentSelectedStat == -1) {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						imge->statAdded = false;
+					} else {
+						if (screenType == ST_NEW_CARD) {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
+						} else {
+							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+						}
+						imge->refreshWidget();
+						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+						} else {
+							while((flip!=card->getStats()[currentSelectedStat]->getFrontOrBack())&&(currentSelectedStat <= card->getStats().size())){
+								selectStat(1);
+							}
+							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+																card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+																card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+																card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+						}
+					}
+				}
+			}
 			break;
 		case MAK_SOFTLEFT:
 			if (screenType == ST_NEW_CARD) {
@@ -254,7 +343,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			if (screenType != ST_NEW_CARD) {
 				if (card != NULL) {
-					//if((flipOrSelect)||(currentSelectedStat == -1)){
+					if(((flipOrSelect && tapped)&&(currentSelectedStat == -1)) ||
+						(!tapped && currentSelectedStat == -1)){
 						flip=!flip;
 						if (screenType != ST_DECK) {
 							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
@@ -283,11 +373,116 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						}
 						flipOrSelect=0;
 						currentSelectedStat = -1;
+						tapped = false;
 				} else {
-					previous->show();
+					if (imge->getResource() != RES_TEMP) {
+						if(currentSelectedStat>-1){
+							if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+								imge->refreshWidget();
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+								Stat *stat = card->getStats()[currentSelectedStat];
+								if ((strcmp(stat->getDesc().c_str(), "Mobile No") == 0)||
+									(strcmp(stat->getDesc().c_str(), "Tel No") == 0) ){
+									if (next != NULL) {
+										feed->remHttp();
+										delete next;
+										next == NULL;
+									}
+									next = new OptionsScreen(feed, OptionsScreen::ST_NUMBER_OPTIONS, this, card, stat->getDisplay());
+									next->show();
+								} else if (strcmp(stat->getDesc().c_str(), "Email") == 0) {
+									String email = stat->getDisplay();
+									int ret = maPlatformRequest(("mailto:"+email).c_str());
+									if (ret < 0 ) {
+										ret = maPlatformRequest(email.c_str());
+									}
+									if (ret < 0) {
+										MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+										confirmation->setMenuWidth(170);
+										confirmation->setMarginX(5);
+										confirmation->setMarginY(5);
+										confirmation->setDock(MenuScreen::MD_CENTER);
+										confirmation->setListener(this);
+										confirmation->setMenuFontSel(Util::getDefaultFont());
+										confirmation->setMenuFontUnsel(Util::getDefaultFont());
+										confirmation->setMenuSkin(Util::getSkinDropDownItem());
+										confirmation->addItem("Ok");
+										confirmation->show();
+									}
+								}
+								else if ((strcmp(stat->getDesc().c_str(), "Web Address") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)||
+										(strcmp(stat->getDesc().c_str(), "Social Media Link 1") == 0)) {
+									String url = stat->getDisplay();
+									//maPlatformRequest will only work if the url starts with http://
+									//so we need to check for it, and add it if it isnt there
+									if (url.find("http://") != 0) {
+										url = "http://"+url;
+									}
+									int ret = maPlatformRequest(url.c_str());
+									if (ret < 0) {
+										MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Feature currently not supported on device.");
+										confirmation->setMenuWidth(170);
+										confirmation->setMarginX(5);
+										confirmation->setMarginY(5);
+										confirmation->setDock(MenuScreen::MD_CENTER);
+										confirmation->setListener(this);
+										confirmation->setMenuFontSel(Util::getDefaultFont());
+										confirmation->setMenuFontUnsel(Util::getDefaultFont());
+										confirmation->setMenuSkin(Util::getSkinDropDownItem());
+										confirmation->addItem("Ok");
+										confirmation->show();
+									}
+								}
+							}
+						}
+					}
 				}
+			} else {
+				previous->show();
 			}
-			break;
+		}
+		break;
+	}
+}
+
+void ImageScreen::selectStat(int upOrDown) {
+	currentSelectedStat += upOrDown;
+	int loops = 0;
+
+	if (currentSelectedStat == card->getStats().size()) {
+		currentSelectedStat = -1;
+		return;
+	}
+
+	if (currentSelectedStat < -1) {
+		currentSelectedStat = card->getStats().size() - 1;
+	}
+	else if (currentSelectedStat == -1) {
+		return;
+	}
+
+	while (card->getStats().size() > loops &&
+			card->getStats()[currentSelectedStat]->getHeight() == 0 &&
+			card->getStats()[currentSelectedStat]->getWidth() == 0) {
+		loops++;
+		currentSelectedStat += upOrDown;
+		if (currentSelectedStat == -1) {
+			return;
+		}
+		else if (currentSelectedStat >= card->getStats().size()) {
+			currentSelectedStat = -1;
+		}
+	}
+
+	if (loops >= card->getStats().size()) {
+		currentSelectedStat = -1;
 	}
 }
 

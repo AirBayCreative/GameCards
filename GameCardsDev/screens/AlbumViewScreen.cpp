@@ -10,10 +10,13 @@
 #include "AuctionCreateScreen.h"
 #include "ShopDetailsScreen.h"
 #include "EditDeckScreen.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, bool bAction, Card *card, String deckId) : mHttp(this),
-filename(category+"-lst.sav"), category(category), previous(previous), feed(feed),
+AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, bool bAction, Card *card, String deckId) : mHttp(this),
+filename(category+"-lst.sav"), category(category),
 cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), deckId(deckId) {
+	this->previous = previous;
+	this->feed = feed;
 	busy = true;
 	emp = true;
 	adding = false;
@@ -50,7 +53,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		mainLayout = Util::createMainLayout(isAuction ? "" : "", "Back" , "");
 	}
 
-	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Checking for new cards...");
 
@@ -788,6 +791,8 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 			statGreen = atoi(attrValue);
 		}else if(!strcmp(attrName, "blue")) {
 			statBlue = atoi(attrValue);
+		}else if(!strcmp(attrName, "selectable")) {
+			selectable = atoi(attrValue);
 		}
 	}
 }
@@ -828,6 +833,11 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 	} else if (!strcmp(parentTag.c_str(), "playable")) {
 		playable += data;
 	}
+}
+
+
+void AlbumViewScreen::menuOptionSelected(int index) {
+	previous->show();
 }
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
@@ -886,6 +896,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setColorRed(statRed);
 		stat->setColorGreen(statGreen);
 		stat->setColorBlue(statBlue);
+		stat->setSelectable(selectable);
 		stats.add(stat);
 
 		statDesc = "";
@@ -896,6 +907,21 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		//delete stat;
 	} else if(!strcmp(name, "result")) {
 		notice->setCaption(error_msg.c_str());
+
+		if (!strcmp(error_msg.c_str(), "Insufficient funds.")) {
+			MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
+			confirmation->setMenuWidth(180);
+			confirmation->setMarginX(5);
+			confirmation->setMarginY(5);
+			confirmation->setDock(MenuScreen::MD_CENTER);
+			confirmation->setListener(this);
+			confirmation->setMenuFontSel(Util::getDefaultFont());
+			confirmation->setMenuFontUnsel(Util::getDefaultFont());
+			confirmation->setMenuSkin(Util::getSkinDropDownItem());
+			confirmation->addItem("Ok");
+			confirmation->show();
+		}
+
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";

@@ -416,3 +416,25 @@
 .res RES_FONT_GREY
 .bin
 .include "arialgrey.mof"  
+
+.res RES_DROPDOWNITEM_SEL
+.ubin 
+.image "dropdownitem_sel.png" 
+
+.res RES_DROPDOWNITEM_UNSEL
+.ubin 
+.image "dropdownitem_unsel.png"  
+
+.res RES_DROPDOWN_SEL
+.ubin 
+.image "dropdownbox_sel.png" 
+
+.res RES_DROPDOWN_UNSEL
+.ubin 
+.image "dropdownbox_unsel.png"
+
+.res RES_POPUP_HEADER
+.ubin 
+.image "popup_header.png"
+
+

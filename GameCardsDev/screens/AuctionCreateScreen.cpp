@@ -5,8 +5,10 @@
 #include "../utils/Util.h"
 #include "../UI/Widgets/MobImage.h"
 
-AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
+AuctionCreateScreen::AuctionCreateScreen(MainScreen *previous, Feed *feed, Card *card) : mHttp(this), card(card) {
 	lprintfln("AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+		this->feed = feed;
 	listBox = NULL;
 	mainLayout= NULL;
 

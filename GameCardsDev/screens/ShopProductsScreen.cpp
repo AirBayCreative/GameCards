@@ -13,9 +13,11 @@ void ShopProductsScreen::pop() {
 	}
 }
 
-ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), previous(previous), feed(feed), first(first), free(free) {
+ShopProductsScreen::ShopProductsScreen(MainScreen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), first(first), free(free) {
 	next = NULL;
 	lprintfln("ShopProductsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	if (strcmp(category.c_str(), "credits") == 0)
 		credits = true;
 	else

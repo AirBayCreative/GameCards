@@ -49,9 +49,11 @@ void ShopCategoriesScreen::refresh() {
 	}
 }
 
-ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
+ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int screenType) : mHttp(this), screenType(screenType) {
 
 	lprintfln("ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	next = NULL;
 	label = NULL;
 	if (screenType == ST_FREEBIE) {

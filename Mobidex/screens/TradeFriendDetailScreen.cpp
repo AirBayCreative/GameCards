@@ -312,6 +312,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s&note=%s", URL_PHONE.c_str(), card->getId().c_str(),
 							method.c_str(), numStr.c_str(), noteStr.c_str());
+
+					lprintfln("%s", url);
 					//url.append("&sms=Yes", 8);
 
 					if(mHttp.isOpen()){

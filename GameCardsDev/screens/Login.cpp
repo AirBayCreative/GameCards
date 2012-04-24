@@ -5,8 +5,10 @@
 #include "NewMenuScreen.h"
 #include "ShopCategoriesScreen.h"
 
-Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
+Login::Login(MainScreen *previous, Feed *feed, int screen) : mHttp(this), screen(screen) {
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	moved = 0;
 	changed = false;
 	isBusy = false;
