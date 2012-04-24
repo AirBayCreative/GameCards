@@ -205,6 +205,35 @@ WidgetSkin* Util::getSkinText() {
 	}
 	return gSkinText;
 }
+WidgetSkin* Util::getSkinDropDownItem() {
+	static WidgetSkin* gSkinDropDownItem;
+	if (gSkinDropDownItem == NULL) {
+		gSkinDropDownItem = new WidgetSkin(RES_DROPDOWNITEM_SEL, RES_DROPDOWNITEM_UNSEL,
+				DROPDOWNITEM_X_LEFT, DROPDOWNITEM_X_RIGHT, DROPDOWNITEM_Y_TOP,
+				DROPDOWNITEM_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownItem;
+}
+
+WidgetSkin* Util::getSkinDropDownBox() {
+	static WidgetSkin* gSkinDropDownBox;
+	if (gSkinDropDownBox == NULL) {
+		gSkinDropDownBox = new WidgetSkin(RES_DROPDOWNBOX_SEL, RES_DROPDOWNBOX_UNSEL,
+				DROPDOWNBOX_X_LEFT, DROPDOWNBOX_X_RIGHT, DROPDOWNBOX_Y_TOP,
+				DROPDOWNBOX_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBox;
+}
+
+WidgetSkin* Util::getSkinDropDownBack() {
+	static WidgetSkin* gSkinDropDownBack;
+	if (gSkinDropDownBack == NULL) {
+		gSkinDropDownBack = new WidgetSkin(RES_BLANK, RES_BLANK,
+				DROPDOWNBACK_X_LEFT, DROPDOWNBACK_X_RIGHT, DROPDOWNBACK_Y_TOP,
+				DROPDOWNBACK_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBack;
+}
 
 WidgetSkin* Util::getIconListBack() {
 	static WidgetSkin* gSkinIconListBack;
@@ -222,6 +251,16 @@ WidgetSkin* Util::getIconSelect() {
 				4, 48, 10, 50, true, true);
 	}
 	return gSkinIconSelect;
+}
+
+WidgetSkin* Util::getSkinPopupHeader() {
+	static WidgetSkin* gSkinPopupHeader;
+	if (gSkinPopupHeader == NULL) {
+		/*gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
+				POPUP_HEADER_X_LEFT, POPUP_HEADER_X_RIGHT, POPUP_HEADER_Y_TOP,
+				POPUP_HEADER_Y_BOTTOM, true, true);*/
+	}
+	return gSkinPopupHeader;
 }
 
 void Util::setPadding(Widget *w) {
@@ -242,7 +281,12 @@ Label* Util::createEditLabel(String str, int height) {
 	Util::setPadding(label);
 	return label;
 }
-
+Label* Util::createDropDownLabel(String str, int height) {
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinDropDownBox());
+	Util::setPadding(label);
+	return label;
+}
 Label* Util::createSubLabel(String str, int height) {
 	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
@@ -779,7 +823,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 										"/";
 
 
-	/* Copyright (C) 2004-2008 René Nyffenegger
+	/* Copyright (C) 2004-2008 Renï¿½ Nyffenegger
 
 	   This source code is provided 'as-is', without any express or implied
 	   warranty. In no event will the author be held liable for any damages
@@ -799,7 +843,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 
 	   3. This notice may not be removed or altered from any source distribution.
 
-	   René Nyffenegger rene.nyffenegger@adp-gmbh.ch */
+	   Renï¿½ Nyffenegger rene.nyffenegger@adp-gmbh.ch */
 
 	unsigned char char_array_3[3];
 	unsigned char char_array_4[4];

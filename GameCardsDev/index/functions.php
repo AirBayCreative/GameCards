@@ -1784,6 +1784,7 @@ function auctionBid($bid, $username, $iUserID) {
 				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
 				exit;
 			}
+			/*TODO: ANDRE CONTINUE FROM HERE*/
 			if ($aBid['price'] > $bid) {
 				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
 				exit;

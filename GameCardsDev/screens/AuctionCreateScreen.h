@@ -10,13 +10,14 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AuctionCreateScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AuctionCreateScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AuctionCreateScreen(Screen *previous, Feed *feed, Card *card);
+	AuctionCreateScreen(MainScreen *previous, Feed *feed, Card *card);
 	~AuctionCreateScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -27,10 +28,6 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Screen *previous;
-	Layout *mainLayout;
-	Label *label, *notice;
-	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	/*Native*/EditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
@@ -40,10 +37,8 @@ private:
 	int moved, screenMode;
 
 	Card *card;
-	Feed *feed;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void validateInput();
 
