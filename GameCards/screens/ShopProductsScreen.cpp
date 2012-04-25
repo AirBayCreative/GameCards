@@ -42,6 +42,7 @@ ShopProductsScreen::ShopProductsScreen(MainScreen *previous, Feed *feed, String 
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?getpayments=1", URL);
+		lprintfln("%s", url);
 	} else
 	{
 		if (!free) {
@@ -49,6 +50,7 @@ ShopProductsScreen::ShopProductsScreen(MainScreen *previous, Feed *feed, String 
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?categoryproducts=2&categoryId=%s", URL, category.c_str());
+			lprintfln("%s", url);
 		} else if (free) {
 			urlLength = 60 + URLSIZE + category.length();
 			url = new char[urlLength+1];

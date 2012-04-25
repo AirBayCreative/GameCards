@@ -2134,10 +2134,10 @@ if ($iFreebie = $_GET['categoryproducts']){
 	$sOP='<categoryproducts>'.$sCRLF;
 	
 	
-	$aUserDetails=myqu('SELECT credits 
+	$aUserDetails=myqu('SELECT credits, premium 
 		FROM mytcg_user 
 		WHERE user_id='.$iUserID);
-	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 	
 	$iCount=0;
 	while ($aProduct=$aProducts[$iCount]){
@@ -2147,6 +2147,7 @@ if ($iFreebie = $_GET['categoryproducts']){
 			$sOP.=$sTab.'<productname>'.trim($aProduct['DESCRIPTION']).'</productname>'.$sCRLF;
 			$sOP.=$sTab.'<producttype>'.trim($aProduct['PACK_TYPE']).'</producttype>'.$sCRLF;
 			$sOP.=$sTab.'<productprice>'.trim($aProduct['PRICE']).'</productprice>'.$sCRLF;
+			$sOP.=$sTab.'<productpremium>'.trim($aProduct['PREMIUM']).'</productpremium>'.$sCRLF;
 			$sOP.=$sTab.'<productnumcards>'.trim($aProduct['NO_OF_CARDS']).'</productnumcards>'.$sCRLF;
 			$sOP.=$sTab.'<productthumb>'.trim($aProduct['IMAGEURL']).'</productthumb>'.$sCRLF;
 			$sOP.=$sTab.'</product>'.$sCRLF;

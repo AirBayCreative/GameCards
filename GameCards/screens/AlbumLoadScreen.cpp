@@ -38,6 +38,7 @@ void AlbumLoadScreen::refresh() {
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+		lprintfln("%s", url);
 		res = mHttp.create(url, HTTP_GET);
 	}else{
 		notice->setCaption("Checking for new albums...");
@@ -45,6 +46,7 @@ void AlbumLoadScreen::refresh() {
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+		lprintfln("%s", url);
 		res = mHttp.create(url, HTTP_GET);
 	}
 	if(res < 0) {
@@ -103,6 +105,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:
@@ -113,6 +116,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?playablecategories=1&username=%s", URL, feed->getUsername().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_GAMES:
@@ -133,6 +137,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 				url = new char[urlLength+1];
 				memset(url,'\0',urlLength+1);
 				sprintf(url, "%s?getusergames=1", URL);
+				lprintfln("%s", url);
 				res = mHttp.create(url, HTTP_GET);
 			}
 			break;
@@ -144,6 +149,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_DECK:
@@ -684,6 +690,7 @@ void AlbumLoadScreen::loadCategory() {
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
@@ -692,6 +699,7 @@ void AlbumLoadScreen::loadCategory() {
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
 

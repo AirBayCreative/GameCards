@@ -545,6 +545,7 @@ void ShopDetailsScreen::postBid()
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?auctionbid=1&username=%s&bid=%s&auctioncardid=%s", URL, feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
+			lprintfln("%s", url);
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -591,6 +592,7 @@ void ShopDetailsScreen::buyNow()
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?buyauctionnow=1&auctioncardid=%s", URL, auction->getAuctionCardId().c_str());
+			lprintfln("%s", url);
 
 			if(mHttp.isOpen()){
 				mHttp.close();

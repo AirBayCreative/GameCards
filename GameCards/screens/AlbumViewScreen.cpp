@@ -68,6 +68,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0);
+		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -95,6 +96,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?cardsinbooster=%s&height=%d&width=%d", URL,
 					category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			if(mHttp.isOpen()){
 				mHttp.close();
 			}
@@ -123,6 +125,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 1);
+		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -150,6 +153,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?cardsincategorynotdeck=%s&seconds=%s&height=%d&width=%d&deck_id=%s&jpg=1", URL, category.c_str(),
 				feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
+		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -176,6 +180,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -211,6 +216,7 @@ void AlbumViewScreen::refresh() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
@@ -1076,6 +1082,7 @@ void AlbumViewScreen::addCard(String cardId) {
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?addtodeck=1&deck_id=%s&card_id=%s", URL,
 			deckId.c_str(), cardId.c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
