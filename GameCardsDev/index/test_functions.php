@@ -1887,11 +1887,11 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 	exit;
 }
 
-function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight=0, $jpg=0) {
+function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight=0, $jpg=0, $purchase=0) {
 
   //GET PRODUCT DETAILS
   $aDetails=myqu('SELECT A.product_id, A.description, '
-		.'A.price, lower(P.description) pack_type '
+		.'IFNULL(A.price,0) price, IFNULL(A.premium,0) premium, lower(P.description) pack_type '
 		.'FROM mytcg_product A '
 		.'INNER JOIN mytcg_producttype P '
 		.'ON A.producttype_id=P.producttype_id '
@@ -1901,13 +1901,26 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
   $iReleasedBuffer=1;
   //VALIDATE USER CREDITS
   //User credits
-  $iCreditsQuery=myqu("SELECT credits, freebie FROM mytcg_user WHERE user_id='{$iUserID}'");
+  $iCreditsQuery=myqu("SELECT credits, freebie, premium FROM mytcg_user WHERE user_id='{$iUserID}'");
   $iCredits=$iCreditsQuery[0]['credits'];
-	$hasFreebie=$iCreditsQuery[0]['freebie'];
+  $hasFreebie=$iCreditsQuery[0]['freebie'];
+  $iPremium=$iCreditsQuery[0]['premium'];
   
   //Total order cost
   $itemCost = $aDetails[0]['price'];
-  $bValid = ($iCredits >= $itemCost);
+  $premiumCost = $aDetails[0]['premium'];
+  if ($purchase == 0) {
+	$bValid = (($iCredits >= $itemCost) && ($itemCost > 0));
+  } else if ($purchase == 1) {
+	$bValid = (($iPremium >= $premiumCost) && ($premiumCost > 0));
+	if (!$BValid) {
+		$bValid = (($iPremium >= $itemCost) && ($itemCost > 0));
+	}
+  } else if ($purchased == 2) {
+	$bValid = ((($iPremium + $iCredits) >= $itemCost) && ($itemCost > 0));
+  } else {
+	$bValid = 1 == 2;
+  }
 	
 	$iFreebie = (($iFreebie > 0)&&($hasFreebie==0))?1:0;
   
@@ -1917,10 +1930,35 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
   {
 		if ($iFreebie <= 0) {
 			//PAY FOR PRODUCT
-			$iCreditsAfterPurchase = $iCredits - $itemCost;
-			$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			if ($purchased == 0) {
+				$iCreditsAfterPurchase = $iCredits - $itemCost;
+				$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			} else if ($purchased == 1) {
+				if (($iPremium >= $premiumCost) && ($premiumCost > 0)) {
+					$iCreditsAfterPurchase = $iPremium - $premiumCost;
+					$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+							VALUES ('.$iUserID.', "Spent '.$premiumCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$premiumCost.')');
+				} else if (($iPremium >= $itemCost) && ($itemCost > 0)) {
+					$iCreditsAfterPurchase = $iPremium - $itemCost;
+					$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+							VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+				}
+			} else if ($purchased == 2) {
+				if ($iCredits < $itemCost) {
+					$iCreditsAfterPurchase = $itemCost - $iCredits;
+					if ($iCreditsAfterPurchase > 0) {
+						$ipremiumCreditsAfterPurchase = $iPremium - iCreditsAfterPurchase;
+					}
+				}
+				$aCreditsLeft=myqui("UPDATE mytcg_user SET credits=0 WHERE user_id='{$iUserID}'");
+				$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$ipremiumCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			}
 		} else {
 			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
 		}
@@ -1940,6 +1978,10 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 		);
 		
 		$sOP = '<cards>';
+		$aUserDetails=myqu('SELECT credits, premium 
+		FROM mytcg_user 
+		WHERE user_id='.$iUserID);
+		$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 		foreach ($packCards as $card) {
 		
 			//get the card details
@@ -2027,6 +2069,10 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 		exit;
   }
   $sOP = '<result>Insufficient funds.</result>';
+  $aUserDetails=myqu('SELECT credits, premium 
+	FROM mytcg_user 
+	WHERE user_id='.$iUserID);
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
   header('xml_length: '.strlen($sOP));
   echo $sOP;
   exit;
@@ -2356,7 +2402,7 @@ function getProducts($categoryId, $products, $iFreebie) {
 			ORDER BY P.DESCRIPTION');
 	} else {
 		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
-			P.PRICE,P.PREMIUM,CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			IFNULL(P.PRICE,0) PRICE,IFNULL(P.PREMIUM,0) PREMIUM,CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
 			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
 			FROM mytcg_category C, mytcg_imageserver I, 
 			mytcg_productcategory_x PC, 

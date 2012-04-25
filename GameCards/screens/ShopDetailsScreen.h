@@ -13,20 +13,24 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
 #include "MainScreen.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopDetailsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, HttpConnectionListener, MenuListener {
 public:
 	ShopDetailsScreen(MainScreen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
 	~ShopDetailsScreen();
 	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
+	void purchase();
 	String ShopDetailsScreen::getTime();
 	void refresh();
 
 	void runTimerEvent();
+
+	void menuOptionSelected(int index);
 
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
@@ -41,6 +45,7 @@ private:
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	NativeEditBox *editBidBox;
+	MenuScreen *purchaseMenu;
 
 	bool list,left,right,free,first,busy,bidOrBuy,hasBid,buynow,success,confirmbuynow,expired;
 

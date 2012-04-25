@@ -37,7 +37,7 @@ private:
 	HttpConnection mHttp;
 
 	String parentTag,cardText;
-	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem;
+	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem,productprem;
 	int i,moved;
 	bool list,left,right,emp,free,credits,first;
 

@@ -155,12 +155,25 @@ void ShopProductsScreen::drawList() {
 		String cardText = products[i]->getName();
 		cardText += "\n";
 
-		if (credits)
-			cardText += "Credits: " + products[i]->getPrice();
-		else if (free)
+		if (credits) {
+			if (strcmp(products[i]->getPremium().c_str(), "0")) {
+				cardText += "Premium: " + products[i]->getPremium();
+			} else
+			if (strcmp(products[i]->getPrice().c_str(), "0")) {
+				cardText += "Credits: " + products[i]->getPrice();
+			}
+
+		} else if (free) {
 			cardText += "Credits: Free";
-		else
-			cardText += "Credits: " + products[i]->getPrice();
+		} else {
+			if (strcmp(products[i]->getPremium().c_str(), "0")) {
+				cardText += "Premium: " + products[i]->getPremium();
+			} else
+			if (strcmp(products[i]->getPrice().c_str(), "0")) {
+				cardText += "Credits: " + products[i]->getPrice();
+			}
+
+		}
 
 		cardText += "\n";
 		cardText += "Cards: " + products[i]->getCardsInPack();
@@ -336,6 +349,8 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 			id += data;
 		} else if(!strcmp(parentTag.c_str(), "premium")) {
 			prem += data;
+		} else if(!strcmp(parentTag.c_str(), "productpremium")) {
+			productprem += data;
 		} else if(!strcmp(parentTag.c_str(), "productname")) {
 			productName += data;
 		} else if(!strcmp(parentTag.c_str(), "producttype")) {
@@ -355,16 +370,18 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	{
 		if(!strcmp(name, "payment")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
-					thumb.c_str(), price.c_str(), cardsInPack.c_str());
+					thumb.c_str(), price.c_str(), cardsInPack.c_str(), productprem.c_str());
 			products.add(product);
 
 			id = "";
 			productName = "";
 			productType = "";
+			productprem = "";
 			price = "";
 			thumb = "";
 			cardsInPack = "";
 			credits = "";
+			prem = "";
 		} else if (!strcmp(name, "payments")) {
 			notice->setCaption("");
 			drawList();
@@ -376,12 +393,13 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	{
 		if(!strcmp(name, "productthumb")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
-					thumb.c_str(), price.c_str(), cardsInPack.c_str());
+					thumb.c_str(), price.c_str(), cardsInPack.c_str(), productprem.c_str());
 			products.add(product);
 
 			id = "";
 			productName = "";
 			productType = "";
+			productprem = "";
 			price = "";
 			thumb = "";
 			cardsInPack = "";

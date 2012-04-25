@@ -28,6 +28,7 @@ class MenuScreen : public Screen, WidgetListener
 
 		//An interface to add menu options
 		void addItem(const char* text);
+		String getItem(int index);
 		//Add any widget (e.g. an image) to the menu
 		void addItem(Widget* w);
 

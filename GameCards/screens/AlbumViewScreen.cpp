@@ -63,31 +63,37 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	if (albumType == AT_BUY) {
 		loadImages("");
 		notice->setCaption("Purchasing...");
-		int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 76 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth) + deckId.length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
-				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0);
+		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d&purchase=%s", URL,
+				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0, deckId.c_str());
 		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
 		}
+		lprintfln("-1");
 		mHttp = HttpConnection(this);
+		lprintfln("-2");
 		int res = mHttp.create(url, HTTP_GET);
+		lprintfln("-3");
 		if(res < 0) {
+			lprintfln("-4");
 			busy = false;
 			hasConnection = false;
 			notice->setCaption("");
 		} else {
+			lprintfln("-5");
 			hasConnection = true;
 			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
 			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
 			feed->addHttp();
 			mHttp.finish();
-
 		}
-		delete [] url;
+		lprintfln("-6");
+		delete url;
 		url = NULL;
+		lprintfln("-2");
 	} else if (albumType == AT_PRODUCT) {
 			loadImages("");
 			notice->setCaption("Fetching list...");
@@ -114,7 +120,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 				mHttp.finish();
 
 			}
-			delete [] url;
+			delete url;
 			url = NULL;
 	} else if (albumType == AT_FREE) {
 		albumType = AT_BUY;
@@ -143,7 +149,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.finish();
 
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	} else if (albumType == AT_DECK) {
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
@@ -171,7 +177,7 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			mHttp.finish();
 
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	} else {
 		loadFile();
@@ -197,13 +203,15 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 			feed->addHttp();
 			mHttp.finish();
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	}
 	moved=0;
+	lprintfln("1");
 	if (albumType != AT_COMPARE) {
 		origAlbum = this;
 	}
+	lprintfln("2");
 }
 
 void AlbumViewScreen::refresh() {
@@ -241,6 +249,7 @@ void AlbumViewScreen::refresh() {
 }
 
 void AlbumViewScreen::loadFile() {
+	lprintfln("4");
 	char *file = new char[filename.length()+1];
 	memset(file,'\0',filename.length()+1);
 	sprintf(file, "%s", filename.c_str());
@@ -252,9 +261,11 @@ void AlbumViewScreen::loadFile() {
 	filecards = "";
 	delete file;
 	file = NULL;
+	lprintfln("5");
 }
 
 void AlbumViewScreen::loadImages(const char *text) {
+	lprintfln("6");
 	String all = text;
 	int indexof = 0;
 	String tmp = "";
@@ -276,6 +287,7 @@ void AlbumViewScreen::loadImages(const char *text) {
 	}
 	drawList();
 	tmp = "", all = "";
+	lprintfln("7");
 }
 
 void AlbumViewScreen::pointerPressEvent(MAPoint2d point) {
@@ -357,7 +369,7 @@ void AlbumViewScreen::locateItem(MAPoint2d point) {
 }
 
 void AlbumViewScreen::clearListBox() {
-
+	lprintfln("8");
 	Vector<Widget*> tempWidgets;
 
 	if (!emp) {
@@ -385,9 +397,11 @@ void AlbumViewScreen::clearListBox() {
 		tempWidgets[j] = NULL;
 	}
 	tempWidgets.clear();
+	lprintfln("9");
 }
 
 void AlbumViewScreen::drawList() {
+	lprintfln("10");
 	Layout *feedlayout;
 	int ind = listBox->getSelectedIndex();
 	if (ind < 0) {
@@ -499,6 +513,7 @@ void AlbumViewScreen::drawList() {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	lprintfln("11");
 }
 
 AlbumViewScreen::~AlbumViewScreen() {
@@ -643,7 +658,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				all = "";
 			}
 			if ((albumType == AT_BUY)||(albumType == AT_FREE)) {
-				origMenu->show();
+				origMenu->refresh();
 				break;
 			}
 			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
@@ -768,14 +783,17 @@ void AlbumViewScreen::mtxEncoding(const char* ) {
 }
 
 void AlbumViewScreen::mtxTagStart(const char* name, int len) {
+	lprintfln("12");
 	parentTag = name;
 	if (!strcmp(name, "cardsincategory")) {
 		tmp.clear();
 		clearCardMap();
 	}
+	lprintfln("13");
 }
 
 void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
+	lprintfln("14");
 	if(!strcmp(parentTag.c_str(), "stat")) {
 		if(!strcmp(attrName, "desc")) {
 			statDesc += attrValue;
@@ -801,9 +819,11 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 			selectable = atoi(attrValue);
 		}
 	}
+	lprintfln("15");
 }
 
 void AlbumViewScreen::mtxTagData(const char* data, int len) {
+	lprintfln("16");
 	if(!strcmp(parentTag.c_str(), "cardid")) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
@@ -830,6 +850,10 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		value += data;
 	} else if(!strcmp(parentTag.c_str(), "result")) {
 		error_msg += data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		premium += data;
+	} else if(!strcmp(parentTag.c_str(), "credits")) {
+		credits += data;
 	} else if(!strcmp(parentTag.c_str(), "updated")) {
 		updated += data;
 	} else if(!strcmp(parentTag.c_str(), "stat")) {
@@ -839,6 +863,7 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 	} else if (!strcmp(parentTag.c_str(), "playable")) {
 		playable += data;
 	}
+	lprintfln("17");
 }
 
 
@@ -847,7 +872,13 @@ void AlbumViewScreen::menuOptionSelected(int index) {
 }
 
 void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
+	lprintfln("18");
 	if(!strcmp(name, "card")) {
+		if (AT_BUY) {
+			feed->setCredits(credits.c_str());
+			feed->setPremium(premium.c_str());
+			Util::saveData("fd.sav", feed->getAll().c_str());
+		}
 		Card *newCard = new Card();
 		newCard->setAll((quantity+","+description+","+thumburl+","+fronturl+","+backurl+","+id+","+rate+","+value+","+note+","+ranking+","+rarity+","+frontflipurl+","+backflipurl+",").c_str());
 		newCard->setStats(stats);
@@ -912,6 +943,11 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat = NULL;
 		//delete stat;
 	} else if(!strcmp(name, "result")) {
+		if (AT_BUY) {
+			feed->setCredits(credits.c_str());
+			feed->setPremium(premium.c_str());
+			Util::saveData("fd.sav", feed->getAll().c_str());
+		}
 		notice->setCaption(error_msg.c_str());
 
 		if (!strcmp(error_msg.c_str(), "Insufficient funds.")) {
@@ -921,8 +957,8 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			confirmation->setMarginY(5);
 			confirmation->setDock(MenuScreen::MD_CENTER);
 			confirmation->setListener(this);
-			confirmation->setMenuFontSel(Util::getDefaultFont());
-			confirmation->setMenuFontUnsel(Util::getDefaultFont());
+			confirmation->setMenuFontSel(Util::getFontBlack());
+			confirmation->setMenuFontUnsel(Util::getFontWhite());
 			confirmation->setMenuSkin(Util::getSkinDropDownItem());
 			confirmation->addItem("Ok");
 			confirmation->show();
@@ -955,6 +991,11 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 			((EditDeckScreen*)orig)->show();
 		}
 	} else if (!strcmp(name, "cardsincategory")) {
+		if (AT_BUY) {
+			feed->setCredits(credits.c_str());
+			feed->setPremium(premium.c_str());
+			Util::saveData("fd.sav", feed->getAll().c_str());
+		}
 		notice->setCaption("");
 		clearCardMap();
 		cards = tmp;
@@ -1015,6 +1056,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 	} else {
 		//notice->setCaption("");
 	}
+	lprintfln("19");
 }
 
 String AlbumViewScreen::getAll() {

@@ -16,6 +16,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 	this->feed = feed;
 	next = NULL;
 	buynow = false;
+	purchaseMenu = NULL;
 	success = false;
 	expired = false;
 	credits = "0";
@@ -175,6 +176,29 @@ void ShopDetailsScreen::refresh()
 	show();
 }
 
+void ShopDetailsScreen::menuOptionSelected(int index) {
+
+	String choice = purchaseMenu->getItem(index+1);
+	lprintfln("%s", choice.c_str());
+	if (!strcmp(choice.c_str(), "Cancel")) {
+		show();
+		return;
+	} else if (!strcmp(choice.c_str(), "Credits")) {
+		choice = "1";
+	} else if (!strcmp(choice.c_str(), "Premium")) {
+		choice = "2";
+	} else if (!strcmp(choice.c_str(), "Combo")) {
+		choice = "3";
+	}
+	if (next != NULL) {
+		delete next;
+		feed->remHttp();
+		next = NULL;
+	}
+	next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY, false, NULL, choice);
+	next->show();
+}
+
 void ShopDetailsScreen::runTimerEvent() {
 
 	if (auction != NULL)
@@ -306,6 +330,12 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	temp1 = "";
 	error_msg = "";
 
+
+	if (purchaseMenu != NULL) {
+		delete purchaseMenu;
+	}
+	purchaseMenu = NULL;
+
 }
 
 void ShopDetailsScreen::pointerPressEvent(MAPoint2d point)
@@ -375,6 +405,60 @@ void ShopDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
+void ShopDetailsScreen::purchase() {
+
+	int credits = Convert::toInt(feed->getCredits().c_str());
+	int premium = Convert::toInt(feed->getPremium().c_str());
+	int premiumprice = Convert::toInt(product->getPremium().c_str());
+	int creditprice = Convert::toInt(product->getPrice().c_str());
+
+	if (((credits+premium >= creditprice)&&(creditprice>0))||(premium>=premiumprice&&premiumprice>0)) {
+
+		purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
+		purchaseMenu->setMenuWidth(140);
+		purchaseMenu->setMarginX(5);
+		purchaseMenu->setMarginY(5);
+		purchaseMenu->setDock(MenuScreen::MD_CENTER);
+		purchaseMenu->setMenuFontSel(Util::getFontBlack());
+		purchaseMenu->setMenuFontUnsel(Util::getFontWhite());
+		purchaseMenu->setMenuSkin(Util::getSkinDropDownItem());
+
+		bool b_credits = false;
+		bool b_premium = false;
+		bool b_combo = false;
+
+		if ((credits >= creditprice)&&(creditprice > 0)) {
+			purchaseMenu->addItem("Credits");
+			b_credits = true;
+		}
+		if (((premium >= premiumprice)&&(premiumprice > 0))||(premium >= creditprice)) {
+			purchaseMenu->addItem("Premium");
+			b_premium = true;
+		}
+		if (!b_credits||!b_premium) {
+			if (((premium+credits) >= creditprice)&&(creditprice > 0)) {
+				purchaseMenu->addItem("Combo");
+				b_combo = true;
+			}
+		}
+		purchaseMenu->addItem("Cancel");
+		purchaseMenu->setListener(this);
+		purchaseMenu->show();
+	} else {
+		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
+		purchaseMenu->setMenuWidth(180);
+		purchaseMenu->setMarginX(5);
+		purchaseMenu->setMarginY(5);
+		purchaseMenu->setDock(MenuScreen::MD_CENTER);
+		purchaseMenu->setListener(this);
+		purchaseMenu->setMenuFontSel(Util::getFontBlack());
+		purchaseMenu->setMenuFontUnsel(Util::getFontWhite());
+		purchaseMenu->setMenuSkin(Util::getSkinDropDownItem());
+		purchaseMenu->addItem("Ok");
+		purchaseMenu->show();
+	}
+}
+
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -421,10 +505,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 				case ST_PRODUCT:
 					if (free) {
 						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_FREE);
+						next->show();
 					} else {
-						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY);
+						purchase();
 					}
-					next->show();
 					break;
 			}
 			break;

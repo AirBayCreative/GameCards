@@ -439,7 +439,7 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 					previous->show();
 					break;
 				case ST_PRODUCT:
-					((ShopProductsScreen *)previous)->pop();
+					((ShopProductsScreen *)previous)->refresh();
 					break;
 			}
 			break;

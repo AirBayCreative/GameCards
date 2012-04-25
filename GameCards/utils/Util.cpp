@@ -16,9 +16,9 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-Screen *orig;
-Screen *origAlbum;
-Screen *origMenu;
+MainScreen *orig;
+MainScreen *origAlbum;
+MainScreen *origMenu;
 int scrWidth;
 int scrHeight;
 

@@ -8,6 +8,7 @@
 #include <MAUI/Image.h>
 #include <MAUI/ListBox.h>
 #include <conprint.h>
+#include "../screens/MainScreen.h"
 
 #include "../MAHeaders.h"
 #include "Card.h"
@@ -98,8 +99,8 @@ class Util
 
 extern int scrWidth;
 extern int scrHeight;
-extern Screen *orig;
-extern Screen *origAlbum;
-extern Screen *origMenu;
+extern MainScreen *orig;
+extern MainScreen *origAlbum;
+extern MainScreen *origMenu;
 
 #endif	//_UTIL_H_

@@ -646,9 +646,9 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "credits")) {
 		feed->setCredits(cred.c_str());
 		feed->setPremium(prem.c_str());
+		Util::saveData("fd.sav", feed->getAll().c_str());
 		balanceLabel->setCaption(cred.c_str());
 		premiumLabel->setCaption(prem.c_str());
-		Util::saveData("fd.sav", feed->getAll().c_str());
 		cred = "0";
 		prem = "0";
 	} else if(!strcmp(name, "transactions")) {
