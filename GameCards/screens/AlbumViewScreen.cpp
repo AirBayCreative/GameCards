@@ -63,10 +63,10 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	if (albumType == AT_BUY) {
 		loadImages("");
 		notice->setCaption("Purchasing...");
-		int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+		int urlLength = 71 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
+		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d&jpg=1", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 0);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -90,10 +90,10 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	} else if (albumType == AT_PRODUCT) {
 			loadImages("");
 			notice->setCaption("Fetching list...");
-			int urlLength = 65 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
+			int urlLength = 71 + URLSIZE + category.length() + Util::intlen(scrHeight) + Util::intlen(scrWidth);
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?cardsinbooster=%s&height=%d&width=%d", URL,
+			sprintf(url, "%s?cardsinbooster=%s&height=%d&width=%d&jpg=1", URL,
 					category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
 			if(mHttp.isOpen()){
 				mHttp.close();
