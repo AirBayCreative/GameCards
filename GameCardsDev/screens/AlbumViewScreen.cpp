@@ -10,6 +10,7 @@
 #include "AuctionCreateScreen.h"
 #include "ShopDetailsScreen.h"
 #include "EditDeckScreen.h"
+#include "../UI/Button.h"
 
 AlbumViewScreen::AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType, bool bAction, Card *card, String deckId) : mHttp(this),
 filename(category+"-lst.sav"), category(category), previous(previous), feed(feed),
@@ -18,6 +19,8 @@ cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), d
 	emp = true;
 	adding = false;
 	selectedList = 0;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	lprintfln("AlbumViewScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 
@@ -595,34 +598,101 @@ void AlbumViewScreen::hide() {
 void AlbumViewScreen::keyPressEvent(int keyCode) {
 	int selected = (cardLists[0]->getChildren().size() * selectedList) + cardLists[selectedList]->getSelectedIndex();
 	String all = "";
+	int max = 0;
+	int currentindex = 0;
+	if (emp) {
+		max = midListBox->getChildren().size();
+		currentindex = midListBox->getSelectedIndex();
+	}
+	else {
+		max = cardLists[selectedList]->getChildren().size();
+		currentindex = cardLists[selectedList]->getSelectedIndex();
+	}
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	if (albumType != AT_COMPARE &&
 			albumType != AT_DECK) {
 		orig = this;
 	}
 	switch(keyCode) {
 		case MAK_UP:
-			if (emp) {
-				midListBox->selectPreviousItem();
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				if (emp) {
+					midListBox->getChildren()[max-1]->setSelected(true);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[max-1]->setSelected(true);
+				}
 			}
 			else {
-				cardLists[selectedList]->selectPreviousItem();
+				if (emp) {
+					midListBox->selectPreviousItem();
+				}
+				else {
+					cardLists[selectedList]->selectPreviousItem();
+				}
 			}
 			break;
 		case MAK_DOWN:
-			if (emp) {
-				midListBox->selectNextItem();
-			}
-			else {
-				cardLists[selectedList]->selectNextItem();
+			if (currentindex+1 < max) {
+				if (emp) {
+					midListBox->selectNextItem();
+				}
+				else {
+					cardLists[selectedList]->selectNextItem();
+				}
+			} else {
+				if (emp) {
+					midListBox->getChildren()[currentindex]->setSelected(false);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[currentindex]->setSelected(false);
+				}
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
 			break;
 		case MAK_RIGHT:
-			if (!emp) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!emp) {
 				switchList(1);
 			}
 			break;
 		case MAK_LEFT:
-			if (!emp) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!emp) {
 				switchList(-1);
 			}
 			break;
@@ -644,6 +714,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 			if (albumType == AT_PRODUCT) {
 				break;
 			}

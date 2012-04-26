@@ -51,6 +51,7 @@ private:
 	ListBox *listBox;
 	ListBox *midListBox;
 	Layout *mainLayout;
+	Widget* currentSelectedKey;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -59,7 +60,7 @@ private:
 	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId, playable;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	int size, i, moved, listSizes, xStart;
+	int size, i, moved, listSizes, xStart, currentKeyPosition;
 	bool list, left, right, listLeft, listRight, emp, hasConnection, busy, isAuction, adding;
 
 	Feed *feed;

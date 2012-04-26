@@ -39,9 +39,10 @@ private:
 	Label *lbl, *notice;
 	Screen *menu;
 	Screen *previous;
+	Widget* currentSelectedKey;
 	Card *card;
 	bool list, left, right, connError, busy;
-	int index, screenType;
+	int index, screenType, currentKeyPosition;
 	String parentTag, temp1, temp, error_msg, number, deckId;
 
 	Albums *album;

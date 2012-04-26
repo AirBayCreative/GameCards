@@ -40,6 +40,7 @@ private:
 
 	Screen *previous;
 	Screen *next;
+	Widget* currentSelectedKey;
 
 	HttpConnection mHttp;
 	XmlConnection xmlConn;
@@ -47,7 +48,7 @@ private:
 	Vector<String> path;
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId;
-	int size, i, moved, screenType, xStart;
+	int size, i, moved, screenType, xStart, currentKeyPosition;
 	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction, shown;
 
 	Layout *mainLayout;

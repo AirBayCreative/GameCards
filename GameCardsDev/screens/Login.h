@@ -33,6 +33,7 @@ private:
 	KineticListBox *listBox;
 	Label *label, *notice;
 	Screen * previous;
+	Widget* currentSelectedKey;
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail, *editBoxRefer;
 
 	HttpConnection mHttp;
@@ -41,7 +42,7 @@ private:
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
 	String username,credits,encrypt,error_msg,email,handle, touch, result, freebie, notedate;
 	bool list, left, right, mid, error/*, kbShown*/;
-	int screen, moved;
+	int screen, moved, currentKeyPosition;
 
 	Feed *feed;
 

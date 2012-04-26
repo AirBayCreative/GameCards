@@ -39,7 +39,8 @@ private:
 	ImageCache *imageCache;
 	Layout *mainLayout;
 	ListBox *listBox;
-	int height, flipOrSelect, currentSelectedStat;
+	Widget* currentSelectedKey;
+	int height, flipOrSelect, currentSelectedStat, currentKeyPosition;
 	bool flip, busy;
 	bool left, right, list;
 	String parentTag;
