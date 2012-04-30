@@ -268,6 +268,7 @@ void Login::keyPressEvent(int keyCode) {
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?userdetails=1", URL);
+							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {

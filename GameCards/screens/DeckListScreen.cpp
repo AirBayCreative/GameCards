@@ -41,6 +41,7 @@ DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, int screenType,
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getalldecks=1", URL);
+			lprintfln("%s", url);
 			break;
 		case ST_SELECT:
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
@@ -48,6 +49,7 @@ DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, int screenType,
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getcategorydecks=1&category_id=%s", URL, categoryId.c_str());
+			lprintfln("%s", url);
 			break;
 	}
 
@@ -110,6 +112,7 @@ void DeckListScreen::refresh() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getalldecks=1", URL);
+	lprintfln("%s", url);
 
 	if(mHttp.isOpen()){
 		mHttp.close();

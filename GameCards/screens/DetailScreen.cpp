@@ -136,6 +136,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?profiledetails=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -156,6 +157,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?creditlog=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -177,6 +179,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?leaderboard=%s", URL, category.c_str());
+			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 
 			if(res < 0) {
@@ -198,6 +201,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?leaderboard=%s&friends=1", URL, category.c_str());
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -219,6 +223,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notifications=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -241,6 +246,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?friends=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 
 		if(res < 0) {
@@ -516,6 +522,7 @@ void DetailScreen::saveProfileData() {
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?saveprofiledetail=1&answer_id=%s&answer=%s&answered=%i&creditvalue=%s", URL, URLencode(answers[i]->getAnswerId()).c_str(),URLencode(answers[i]->getEditBoxPointer()->getCaption()).c_str(),answers[i]->getAnswered(),URLencode(answers[i]->getCreditValue()).c_str());
+			lprintfln("%s", url);
 			mHttp = HttpConnection(this);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
@@ -636,12 +643,12 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 		label->setCaption("");
 		isBusy = false;
-	} else if(!strcmp(name, "credits")) {
+	} else if(!strcmp(name, "premium")) {
 		feed->setCredits(cred.c_str());
 		feed->setPremium(prem.c_str());
+		Util::saveData("fd.sav", feed->getAll().c_str());
 		balanceLabel->setCaption(cred.c_str());
 		premiumLabel->setCaption(prem.c_str());
-		Util::saveData("fd.sav", feed->getAll().c_str());
 		cred = "0";
 		prem = "0";
 	} else if(!strcmp(name, "transactions")) {

@@ -66,10 +66,12 @@ AuctionListScreen::AuctionListScreen(MainScreen *previous, Feed *feed, int scree
 		case ST_CATEGORY:
 			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 		case ST_USER:
 			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 	}
 	if(mHttp.isOpen()){
@@ -309,10 +311,12 @@ void AuctionListScreen::refresh()
 		case ST_CATEGORY:
 			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 		case ST_USER:
 			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 	}
 	if(mHttp.isOpen()){
@@ -358,10 +362,12 @@ void AuctionListScreen::updateAuctions()
 		case ST_CATEGORY:
 			sprintf(url, "%s?categoryauction=1&category_id=%s&height=%d&width=%d&jpg=1", URL,
 					categoryId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 		case ST_USER:
 			sprintf(url, "%s?userauction=1&username=%s&height=%d&width=%d&jpg=1", URL,
 					feed->getUsername().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+			lprintfln("%s", url);
 			break;
 	}
 	if(mHttp.isOpen()){

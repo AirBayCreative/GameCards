@@ -123,8 +123,8 @@
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
-#define URL "http://www.mytcg.net/_phone/test_index.php"
-#define URLSIZE 35
+#define URL "http://www.mytcg.net/_phone/"
+#define URLSIZE 42
 
 //we also need to define the x and y coordinates at which to split the images up
 #define EDITBOX_X_LEFT 16

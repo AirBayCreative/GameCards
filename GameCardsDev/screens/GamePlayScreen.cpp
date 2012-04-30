@@ -587,7 +587,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 				case P_CLOSED:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
-					((AlbumLoadScreen *)previous)->refresh();
+					previous->refresh();
 					break;
 				case P_DECLINED:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
@@ -682,7 +682,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case P_RESULTS:
-						origMenu->show();
+						/*origMenu->show();*/
+						previous->pop();
 						break;
 					case P_CONFIRM:
 						notice->setCaption("Confirming...");

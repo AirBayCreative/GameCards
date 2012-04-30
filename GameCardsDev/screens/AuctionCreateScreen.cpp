@@ -29,6 +29,10 @@ AuctionCreateScreen::AuctionCreateScreen(MainScreen *previous, Feed *feed, Card 
 	drawDataInputScreen();
 }
 
+void AuctionCreateScreen::menuOptionSelected(int index) {
+	previous->pop();
+}
+
 AuctionCreateScreen::~AuctionCreateScreen() {
 	lprintfln("~AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
@@ -184,6 +188,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 									memset(url,'\0',urlLength+1);
 									sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
 											openingText.c_str(), buyNowText.c_str(), daysText.c_str());
+									lprintfln("%s", url);
 									if(mHttp.isOpen()){
 										mHttp.close();
 									}
@@ -429,33 +434,17 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	else {
 		result = "Error creating auction.";
 	}
-
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
-	label->setHorizontalAlignment(Label::HA_CENTER);
-	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setDrawBackground(false);
-	label->setMultiLine(true);
-	listBox->add(label);
-
-	Layout *feedlayout;
-
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
-	feedlayout->setSkin(Util::getSkinAlbum());
-	feedlayout->setDrawBackground(false);
-	feedlayout->addWidgetListener(this);
-
-	tempImage = new MobImage(0, 0, 56, 64, feedlayout, false, false, Util::loadImageFromResource(RES_LOADINGTHUMB));
-	Util::retrieveThumb(tempImage, card, mImageCache);
-
-	label = new Label(0,0, scrWidth-86, 120, feedlayout, cardText, 0, Util::getDefaultFont());
-	label->setVerticalAlignment(Label::VA_CENTER);
-	label->setDrawBackground(false);
-	label->setAutoSizeY();
-	label->setMultiLine(true);
-
-	this->setMain(mainLayout);
-
-	this->show();
+	MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());
+	confirmation->setMenuWidth(180);
+	confirmation->setMarginX(5);
+	confirmation->setMarginY(5);
+	confirmation->setDock(MenuScreen::MD_CENTER);
+	confirmation->setListener(this);
+	confirmation->setMenuFontSel(Util::getDefaultFont());
+	confirmation->setMenuFontUnsel(Util::getDefaultFont());
+	confirmation->setMenuSkin(Util::getSkinDropDownItem());
+	confirmation->addItem("Ok");
+	confirmation->show();
 }
 
 void AuctionCreateScreen::drawInvalidInputScreen() {

@@ -23,6 +23,7 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void drawList();
 	void pop();
+	void refresh();
 	void clearListBox();
 
 	void pointerPressEvent(MAPoint2d point);
@@ -37,7 +38,7 @@ private:
 	HttpConnection mHttp;
 
 	String parentTag,cardText;
-	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem;
+	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem,productprem;
 	int i,moved;
 	bool list,left,right,emp,free,credits,first;
 

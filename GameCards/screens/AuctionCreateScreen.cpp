@@ -188,6 +188,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 									memset(url,'\0',urlLength+1);
 									sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
 											openingText.c_str(), buyNowText.c_str(), daysText.c_str());
+									lprintfln("%s", url);
 									if(mHttp.isOpen()){
 										mHttp.close();
 									}

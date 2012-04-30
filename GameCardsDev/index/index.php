@@ -43,7 +43,7 @@ if ($iUserID = $_GET['test']) {
 
 function addCreditsSMS($iUserID,$amount=350){
   if(intval($iUserID) > 0){
-    $sql = "UPDATE mytcg_user SET premium = premium + ".$amount." WHERE user_id = ".$iUserID;
+    $sql = "UPDATE mytcg_user SET premium = IFNULL(premium,0) + ".$amount." WHERE user_id = ".$iUserID;
     myqu($sql);
     $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
 val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
@@ -115,6 +115,7 @@ if ($_GET['registeruser']) {
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	
 	$ip = getip();
 	$sOP = registerUser($username, $password, $email, $referer, $iHeight, $iWidth, $root,$ip,$url);
 	
@@ -157,7 +158,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-//$iUserID = 24;
+/*$iUserID = 89;*/
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -296,10 +297,13 @@ if ($_GET['buyproduct']){
 		$iFreebie = -1;
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
+	}
+	if (!($purchase=$_GET['purchase'])) {
+		$purchase = '1';
 	}
 	$product = $_GET['buyproduct'];
-	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight, $jpg);
+	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight, $jpg, $purchase);
 	exit();
 }
 
@@ -372,6 +376,10 @@ if ($iNote=$_GET['savenote']) {
 //Delete the cards from the user
 //usercardstatus_id = 3 = Deleted
 if ($iCard=$_GET['deletecard']){
+	
+
+	//myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = '.$iCard.' and user_id = '.$iUserID);
+	
 	myqui('UPDATE mytcg_usercard 
 			SET usercardstatus_id = 3
 			WHERE card_id = '.$iCard.' 
@@ -397,6 +405,7 @@ if ($iCard=$_GET['deletecard']){
 //usercardstatus_id = 3 = Deleted
 //usercardstatus_id = 4 = Received
 if ($iCard=$_GET['rejectcard']){
+	//myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = '.$iCard.' and user_id = '.$iUserID);
 	myqui('UPDATE mytcg_usercard 
 			SET usercardstatus_id = 3
 			WHERE card_id = '.$iCard.' 
@@ -420,6 +429,7 @@ if ($iCard=$_GET['rejectcard']){
 
 //usercardstatus_id = 3 = Deleted
 if ($iCard=$_GET['savecard']){
+	myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = '.$iCard.' and user_id = '.$iUserID);
 	myqui('UPDATE mytcg_usercard 
 			SET usercardstatus_id = 1
 			WHERE card_id = '.$iCard.' 
@@ -493,6 +503,7 @@ if ($code=$_GET['redeemcode']) {
 
 	//returns 1 if one card matches the redeem code, or 0 if no cards match
 	if (sizeof($exists) > 0) {
+		myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = (SELECT card_id FROM mytcg_card WHERE redeem_code = '.$code.') and user_id = '.$iUserID);
 		myqui('INSERT INTO mytcg_usercard
 			(user_id, card_id, usercardstatus_id, is_new)
 			SELECT '.$iUserID.', card_id, 4, 1
@@ -538,7 +549,7 @@ if ($boosterid=$_GET['cardsinbooster']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$sOP = getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeight, $jpg);
@@ -562,7 +573,7 @@ if ($iCategory=$_GET['cardsincategory']){
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
@@ -586,7 +597,7 @@ if ($_GET['categoryauction']){
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$categoryId = $_GET['category_id'];
@@ -602,10 +613,10 @@ if ($_GET['categoryauction']){
 	
 	$sOP='<auctionsincategory>'.$sCRLF;
 	
-	$aUserDetails=myqu('SELECT credits 
+	$aUserDetails=myqu('SELECT IFNULL(credits, 0) credits, IFNULL(premium, 0) premium 
 		FROM mytcg_user 
 		WHERE user_id='.$iUserID);
-	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 	
 	$iCount=0;
 	$ext = '.png';
@@ -714,7 +725,7 @@ if ($_GET['userauction']){
 		$iWidth = '250';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
@@ -898,7 +909,7 @@ if ($_GET['loadgame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$sOP = loadGame($gameId, $iUserID, $iHeight, $iWidth, $root, $iBBHeight, $jpg);
@@ -926,7 +937,7 @@ if ($_GET['continuegame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	//continue the game, if needed selecting a stat for the ai
@@ -967,7 +978,7 @@ if ($_GET['selectstat']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 
 	$cardStatId = $_GET['statid'];
@@ -1038,7 +1049,7 @@ if ($_GET['declinegame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$newGame = false;
@@ -1162,7 +1173,7 @@ if ($_GET['confirmgame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	//we are going to need the incomplete status id
@@ -1243,7 +1254,7 @@ if ($_GET['newgame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$gameId = "";
@@ -1476,7 +1487,7 @@ if ($_GET['hostgame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$gameId = "";
@@ -1570,7 +1581,7 @@ if ($_GET['joingame']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	
 	$opponentId = "";
@@ -1828,6 +1839,27 @@ if ($_GET['usercategories']){
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
+	}
+	
+	$aLoad=myqu('SELECT count(*) as loaded 
+		FROM mytcg_card c
+		INNER JOIN mytcg_usercard uc
+		ON uc.card_id = c.card_id
+		INNER JOIN mytcg_category ca
+		ON ca.category_id = c.category_id
+		INNER JOIN mytcg_usercardstatus ucs
+		ON ucs.usercardstatus_id = uc.usercardstatus_id
+		LEFT OUTER JOIN mytcg_category_x cx
+		ON cx.category_child_id = ca.category_id
+		WHERE LOWER(ucs.description) = LOWER("album")
+		AND uc.user_id = '.$iUserID.'
+		AND uc.loaded = 1');
+		
+	if ($aLoad[0]['loaded'] == 0) {
+		$sOP = "<result></result>";
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
 	}
 
 	//this gets the categories that the user has cards in, and their parents
@@ -2128,10 +2160,10 @@ if ($iFreebie = $_GET['categoryproducts']){
 	$sOP='<categoryproducts>'.$sCRLF;
 	
 	
-	$aUserDetails=myqu('SELECT credits 
+	$aUserDetails=myqu('SELECT credits, premium 
 		FROM mytcg_user 
 		WHERE user_id='.$iUserID);
-	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 	
 	$iCount=0;
 	while ($aProduct=$aProducts[$iCount]){
@@ -2141,6 +2173,7 @@ if ($iFreebie = $_GET['categoryproducts']){
 			$sOP.=$sTab.'<productname>'.trim($aProduct['DESCRIPTION']).'</productname>'.$sCRLF;
 			$sOP.=$sTab.'<producttype>'.trim($aProduct['PACK_TYPE']).'</producttype>'.$sCRLF;
 			$sOP.=$sTab.'<productprice>'.trim($aProduct['PRICE']).'</productprice>'.$sCRLF;
+			$sOP.=$sTab.'<productpremium>'.trim($aProduct['PREMIUM']).'</productpremium>'.$sCRLF;
 			$sOP.=$sTab.'<productnumcards>'.trim($aProduct['NO_OF_CARDS']).'</productnumcards>'.$sCRLF;
 			$sOP.=$sTab.'<productthumb>'.trim($aProduct['IMAGEURL']).'</productthumb>'.$sCRLF;
 			$sOP.=$sTab.'</product>'.$sCRLF;
@@ -2162,10 +2195,12 @@ if ($_GET['userdetails']){
 		$iWidth = '250';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
+	
 	global $iUserID;
 	echo userdetails($iUserID,$iHeight,$iWidth,$root,$jpg);
+	
 	exit;
 }
 
@@ -2340,7 +2375,7 @@ if ($iCategory=$_GET['cardsincategorynotdeck']){
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
@@ -2366,7 +2401,7 @@ if ($_GET['getcardsindeck']){
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
@@ -2421,7 +2456,7 @@ if ($searchstring=$_GET['search']) {
 		$iBBHeight = '0';
 	}
 	if (!($jpg=$_GET['jpg'])) {
-		$jpg = '0';
+		$jpg = '1';
 	}
 	$lastCheckSeconds = "";
 	if (!($lastCheckSeconds = $_GET['seconds'])) {

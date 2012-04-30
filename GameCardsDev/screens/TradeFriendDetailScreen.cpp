@@ -460,6 +460,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 							memset(url, '\0', urlLength+1);
 
 							sprintf(url, "%s?friendinvite=1&trademethod=%s&detail=%s", URL,	method.c_str(), friendDetail.c_str());
+							lprintfln("%s", url);
 
 							if(mHttp.isOpen()){
 								mHttp.close();
@@ -494,6 +495,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s", URL, card->getId().c_str(),
 							method.c_str(), friendDetail.c_str());
+					lprintfln("%s", url);
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
 						mHttp.close();

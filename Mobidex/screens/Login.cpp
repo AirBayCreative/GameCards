@@ -298,7 +298,7 @@ Login::Login(Feed *feed, MainScreen *previous, int screen):mHttp(this) {
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	moved = 0;
 	isBusy = false;
-	termsMenu == NULL;
+	termsMenu = NULL;
 
 	response = "";
 	temp = "";

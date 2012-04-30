@@ -18,7 +18,7 @@ function resizeThumbs($root) {
 		$iImage++;
 	}
 }
-function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
+function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=1) {
 
 	//we need to check if the width after scaling would be too wide for the screen.
 	$ext = '.png';
@@ -213,7 +213,7 @@ function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
 	return $iHeight;
 }
 
-function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
+function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=1) {
 	//we need to check if the width after scaling would be too wide for the screen.
 	$ext = '.png';
 	$image_type=IMAGETYPE_PNG;
@@ -318,7 +318,7 @@ function resizeGCCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
 	return $iHeight;
 }
 
-function resizeLoadingCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
+function resizeLoadingCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=1) {
 
 	$ext = '.png';
 	$image_type=IMAGETYPE_PNG;
@@ -462,10 +462,14 @@ function updateAuctions() {
 		
 		//set the cards status back to Album
 		if ($auction['bidder'] == -1) {
+			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
+			
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
 			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
 					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now())');
 		} else {
+			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
+		
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Received'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
 			
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
@@ -793,7 +797,7 @@ function chooseStat($cardId, $difficultyId=1, $showCheat=false) {
 }
 
 //load a game and return relevant xml
-function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0, $jpg=0) {
+function loadGame($gameId, $userId, $iHeight, $iWidth, $root, $iBBHeight=0, $jpg=1) {
 	//get the game phase
 	$gamePhaseQuery = myqu('SELECT g.gamephase_id, g.lobby, lower(gp.description) as description
 		FROM mytcg_game g
@@ -1730,6 +1734,7 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 	}
 	
 
+	myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$iUserCardID);
 	$aUpdate=myqui('UPDATE mytcg_usercard SET usercardstatus_id=(select usercardstatus_id from mytcg_usercardstatus where description = "auction") '
 					.'WHERE usercard_id="'.$iUserCardID.'"');
 	$aInsert=myqui('INSERT INTO mytcg_market '
@@ -1866,6 +1871,7 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 		$description = $result[0]['description'];
 
 		//set the cards status back to Album
+		myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$userCardId);
 		$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$iUserID." where usercard_id = ".$userCardId;
 		myqu($query);
 
@@ -1887,11 +1893,11 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 	exit;
 }
 
-function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight=0, $jpg=0) {
+function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight=0, $jpg=1, $purchase=1) {
 
   //GET PRODUCT DETAILS
   $aDetails=myqu('SELECT A.product_id, A.description, '
-		.'A.price, lower(P.description) pack_type '
+		.'IFNULL(A.price,0) price, IFNULL(A.premium,0) premium, lower(P.description) pack_type '
 		.'FROM mytcg_product A '
 		.'INNER JOIN mytcg_producttype P '
 		.'ON A.producttype_id=P.producttype_id '
@@ -1901,13 +1907,26 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
   $iReleasedBuffer=1;
   //VALIDATE USER CREDITS
   //User credits
-  $iCreditsQuery=myqu("SELECT credits, freebie FROM mytcg_user WHERE user_id='{$iUserID}'");
+  $iCreditsQuery=myqu("SELECT credits, freebie, premium FROM mytcg_user WHERE user_id='{$iUserID}'");
   $iCredits=$iCreditsQuery[0]['credits'];
-	$hasFreebie=$iCreditsQuery[0]['freebie'];
+  $hasFreebie=$iCreditsQuery[0]['freebie'];
+  $iPremium=$iCreditsQuery[0]['premium'];
   
   //Total order cost
   $itemCost = $aDetails[0]['price'];
-  $bValid = ($iCredits >= $itemCost);
+  $premiumCost = $aDetails[0]['premium'];
+  if ($purchase == 1) {
+	$bValid = (($iCredits >= $itemCost) && ($itemCost > 0));
+  } else if ($purchase == 2) {
+	$bValid = (($iPremium >= $premiumCost) && ($premiumCost > 0));
+	if (!$bValid) {
+		$bValid = (($iPremium >= $itemCost) && ($itemCost > 0));
+	}
+  } else if ($purchase == 3) {
+	$bValid = ((($iPremium + $iCredits) >= $itemCost) && ($itemCost > 0));
+  } else {
+	$bValid = 1 == 2;
+  }
 	
 	$iFreebie = (($iFreebie > 0)&&($hasFreebie==0))?1:0;
   
@@ -1917,10 +1936,36 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
   {
 		if ($iFreebie <= 0) {
 			//PAY FOR PRODUCT
-			$iCreditsAfterPurchase = $iCredits - $itemCost;
-			$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			if ($purchase == 1) {
+				$iCreditsAfterPurchase = $iCredits - $itemCost;
+				$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			} else if ($purchase == 2) {
+				if (($iPremium >= $premiumCost) && ($premiumCost > 0)) {
+					$iCreditsAfterPurchase = $iPremium - $premiumCost;
+					$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+							VALUES ('.$iUserID.', "Spent '.$premiumCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$premiumCost.')');
+				} else if (($iPremium >= $itemCost) && ($itemCost > 0)) {
+					$iCreditsAfterPurchase = $iPremium - $itemCost;
+					$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+							VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+				}
+			} else if ($purchase == 3) {
+				if ($iCredits < $itemCost) {
+					$iCreditsAfterPurchase = $itemCost - $iCredits;
+					if ($iCreditsAfterPurchase > 0) {
+						$ipremiumCreditsAfterPurchase = $iPremium - $iCreditsAfterPurchase;
+					}
+				}
+				$query = "UPDATE mytcg_user SET credits=0 WHERE user_id='{$iUserID}'";
+				$aCreditsLeft=myqui($query);
+				$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$ipremiumCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+			}
 		} else {
 			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
 		}
@@ -1940,6 +1985,10 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 		);
 		
 		$sOP = '<cards>';
+		$aUserDetails=myqu('SELECT credits, premium 
+		FROM mytcg_user 
+		WHERE user_id='.$iUserID);
+		$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 		foreach ($packCards as $card) {
 		
 			//get the card details
@@ -2026,7 +2075,12 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 		echo $sOP;
 		exit;
   }
-  $sOP = '<result>Insufficient funds.</result>';
+  
+  $aUserDetails=myqu('SELECT credits, premium 
+	FROM mytcg_user 
+	WHERE user_id='.$iUserID);
+	$sOP=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
+	$sOP.='<result>Insufficient funds.</result>';
   header('xml_length: '.strlen($sOP));
   echo $sOP;
   exit;
@@ -2088,8 +2142,17 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 }
 
 function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar) {
+	$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and user_id = '.$iUserID);
+		
+	if ($aLoad[0]['loaded'] == 0) {
+		$sOP = "<result></result>";
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+		exit;
+	}
+	
 	if ($topcar == -1) {
-		$aCategories=myqu('SELECT DISTINCT a.category_id, a.description, a.hasCards, a.category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
+		$query = 'SELECT DISTINCT a.category_id, a.description, a.hasCards, IFNULL(a.category_parent_id, -1) category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
 							FROM 
 							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 										cx.category_parent_id,
@@ -2121,9 +2184,10 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 										GROUP BY ca.category_id
 										ORDER BY ca.description
 							) b
-							ON a.category_id = b.category_id');
+							ON a.category_id = b.category_id';
+		$aCategories=myqu($query);
 	} else {
-		$aCategories=myqu('SELECT DISTINCT a.category_id, a.description, a.hasCards, a.category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
+		$query = 'SELECT DISTINCT a.category_id, a.description, a.hasCards, a.category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
 							FROM 
 							(SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 										cx.category_parent_id,
@@ -2157,14 +2221,15 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 										GROUP BY ca.category_id
 										ORDER BY ca.description
 							) b
-							ON a.category_id = b.category_id');
+							ON a.category_id = b.category_id';
+		$aCategories=myqu($query);
 	}
+	
 	$subCats = array();
 	$updated = array();
 	//allCats is a list of all the categories we get throughout this function
 	//it will have one entry per category, and each entry will be identified by its id, and will have a children list
 	$allCats = array();
-	
 	$ids = '';
 	foreach ($aCategories as $category) {
 		if ($category['category_parent_id'] == $cat) {
@@ -2195,6 +2260,7 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 			$allCats[$category['category_parent_id']] = $newCat;
 		}
 	}
+	
 	while (sizeof($subCats) == 0) {
 		$aCategories = myqu('SELECT DISTINCT ca.category_id, ca.description, 
 			CASE WHEN count(card_id) > 0 THEN "true" ELSE "false" END hasCards,
@@ -2242,7 +2308,6 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 			}
 		}
 	}
-	
 	//we now have a list of all categories, and all sub categories of the chosen category
 	//if the category only has one child, we want to go deeper, until there are options, or cards
 	while (sizeof($subCats) == 1 && !($subCats[0]['hasCards'] == 'true')) {
@@ -2291,7 +2356,6 @@ function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topca
 	}
 	$sOP.='</usercategories>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
-	//echo $sOP;
 	return $sOP;
 }
 
@@ -2355,7 +2419,7 @@ function getProducts($categoryId, $products, $iFreebie) {
 			ORDER BY P.DESCRIPTION');
 	} else {
 		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
-			P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			IFNULL(P.PRICE,0) PRICE,IFNULL(P.PREMIUM,0) PREMIUM,CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
 			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
 			FROM mytcg_category C, mytcg_imageserver I, 
 			mytcg_productcategory_x PC, 
@@ -2475,14 +2539,15 @@ function friends($iUserID) {
 	exit;
 }
 
-function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0) {
-	$aUserDetails=myqu('SELECT username, email_address, credits, freebie '
+function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=1) {
+	$aUserDetails=myqu('SELECT username, email_address, IFNULL(credits,0) credits, IFNULL(premium, 0) premium, freebie '
 		.'FROM mytcg_user '
 		.'WHERE user_id="'.$iUserID.'"');
 	$sOP='<userdetails>'.$sCRLF;
 	$sOP.=$sTab.'<username>'.trim($aUserDetails[0]['username']).'</username>'.$sCRLF;	
 	$sOP.=$sTab.'<email>'.trim($aUserDetails[0]['email_address']).'</email>'.$sCRLF;
 	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits>'.$sCRLF;
+	$sOP.=$sTab.'<premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
 	$sOP.=$sTab.'<freebie>'.trim($aUserDetails[0]['freebie']).'</freebie>'.$sCRLF;
 	$sOP.=$sTab.'<status></status>'.$sCRLF;
 	
@@ -2501,6 +2566,9 @@ function userdetails($iUserID,$iHeight,$iWidth,$root,$jpg=0) {
 	
 	$sOP.='</userdetails>';
 	header('xml_length: '.strlen($sOP));
+	$query = 'UPDATE mytcg_usercard set loaded = 1 where usercardstatus_id = 1 and user_id = '.$iUserID;
+	myqu($query);
+	
 	return $sOP;
 }
 function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) {
@@ -2562,6 +2630,7 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $messageID) 
 	exit;
 	
   //usercardstatus_id = 4 = Received.
+  myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$aCheckCard[0]['usercard_id']);
   myqui('UPDATE mytcg_usercard SET user_id = '.$aCheckUser[0]['user_id'].', usercardstatus_id = 4 '
 		.' WHERE usercard_id = '.$aCheckCard[0]['usercard_id']);
 		
@@ -2748,7 +2817,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			}
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip) VALUES ('{$username}', '{$email}', 1, now(), 300, 0, '{$ip}')");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip, loaded) VALUES ('{$username}', '{$email}', 1, now(), 300, 0, '{$ip}', 1)");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -2800,13 +2869,13 @@ function creditlog($iUserID) {
 								ORDER BY date DESC
 								LIMIT 0, 10');
 		
-	$aCredits=myqu('SELECT credits 
+	$aCredits=myqu('SELECT IFNULL(credits, 0) credits, IFNULL(premium, 0) premium 
 		FROM mytcg_user  
 		WHERE user_id='.$iUserID);
 		
 	$iCredits = $aCredits[0];
 	$sOP='<transactions>'.$sCRLF;
-	$sOP.='<credits>'.trim($iCredits['credits']).'</credits>'.$sCRLF;
+	$sOP.='<credits>'.trim($iCredits['credits']).'</credits><premium>'.trim($iCredits['premium']).'</premium>'.$sCRLF;
 	$iCount=0;
 	while ($aTransactionDetail=$aTransactionDetails[$iCount]){
 		$sOP.='<transaction>'.$sCRLF;
@@ -2910,6 +2979,7 @@ function openStarter($userID,$packID){
     //$aReleasedLeft=myqui("UPDATE mytcg_card SET released_left={$iReleasedLeft} WHERE card_id={$iCardID}");
             
     //GIVE THE CARD TO THE USER
+	myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = '.$iCardID.' and user_id = '.$userID);
     $aCards=myqui("INSERT INTO mytcg_usercard (user_id, card_id, usercardstatus_id)
 			SELECT {$userID}, {$iCardID}, usercardstatus_id
 			FROM mytcg_usercardstatus
@@ -2984,6 +3054,7 @@ function openBooster($userID,$packID){
 		$iCardID=$aGetCards[$iRandom]['card_id'];
 					
 		//GIVE THE CARD TO THE USER
+		myqui('UPDATE mytcg_usercard set loaded = 1 where card_id = '.$iCardID.' and user_id = '.$userID);
 		$aCards=myqui("INSERT INTO mytcg_usercard (user_id, card_id, usercardstatus_id)
 			SELECT {$userID}, {$iCardID}, usercardstatus_id
 			FROM mytcg_usercardstatus
@@ -3037,7 +3108,7 @@ usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
 //cardsincategory 
-function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=0) {
+function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=1) {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -3056,7 +3127,18 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	
 	// C.usercardstatus_id = 1 = Album
 	// D.usercardnotestatus_id = 1 = Normal
+	
 	if ($iCategory == -1) {
+	
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
+	
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3091,6 +3173,15 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					ORDER BY description');
 	} else if ($iCategory == -2) {
+	
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3114,6 +3205,14 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 4 and user_id = '.$iUserID);
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3137,6 +3236,15 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=4
 					GROUP BY B.card_id ');
 	} else if ($iShowAll == 0){
+	
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory);
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3185,6 +3293,17 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
+		
+		$query = 'select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory;
+		$aLoad=myqu($query);		
+		$sOP.=$query;
+		
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
 		$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3224,12 +3343,12 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu($qu);
 	}
 	
-	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg);
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg, $iUserID);
 	
 	return $sOP;
 }
 
-function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root, $iBBHeight=0, $jpg=0) {
+function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$iUserID,$iDeckID,$root, $iBBHeight=0, $jpg=1) {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -3264,6 +3383,7 @@ function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$i
 				ON A.user_id = D.user_id 
 				AND A.card_id = D.card_id 
 				WHERE A.user_id='.$iUserID.' 
+				AND B.playable = 1 
 				AND (B.category_id='.$iCategory.' OR B.category_id IN (SELECT category_child_id FROM mytcg_category_x WHERE category_parent_id = '.$iCategory.')) 
 				AND C.usercardstatus_id=1 
 				AND B.card_id NOT IN (SELECT card_id FROM mytcg_usercard WHERE deck_id = '.$iDeckID.') 
@@ -3275,7 +3395,7 @@ function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$i
 	return $sOP;
 }
 
-function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0) {
+function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1, $iUserID) {
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 		.'FROM mytcg_imageserver b '
 		.'ORDER BY b.description DESC '
@@ -3288,7 +3408,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 	if ($jpg) {
 		$ext = '.jpg';
 	}
-	
+	$ids = '';
 	while ($aOneCard=$cardList[$iCount]){
 		$sOP.=$sTab.'<card>'.$sCRLF;
 		$sOP.=$sTab.$sTab.'<cardid>'.$aOneCard['card_id'].'</cardid>'.$sCRLF;		
@@ -3301,6 +3421,8 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<value>'.$aOneCard['value'].'</value>'.$sCRLF;
 		$sFound='';
 		$iCountServer=0;
+		$ids.=(($ids=='')?$aOneCard['card_id']:(','.$aOneCard['card_id']));
+		
 		while ((!$sFound)&&($aOneServer=$aServers[$iCountServer])){
 			if ($aOneServer['imageserver_id']==$aOneCard['thumbnail_phone_imageserver_id']){
 				$sFound=$aOneServer['URL'];
@@ -3344,7 +3466,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back'.$ext.'</backurl>'.$sCRLF; 
 		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back_flip'.$ext.'</backflipurl>'.$sCRLF; 
 
-		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
+		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, A.selectable, 
 		A.left, top, width, height, frontorback, 
 		colour_r, colour_g, colour_b 
 		FROM mytcg_cardstat A, mytcg_categorystat B 
@@ -3356,7 +3478,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		While ($aOneStat=$aStats[$iCountStat]) {
 			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
 				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
-				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
+				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'" selectable="'.$aOneStat['selectable'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
 			$iCountStat++;
 		}
 		$sOP.=$sTab.$sTab.'</stats>'.$sCRLF;
@@ -3366,10 +3488,15 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 	}
 	$sOP.='</cardsincategory>'.$sCRLF;
 	
+	
+	$query = 'UPDATE mytcg_usercard set loaded = 0 where user_id = '.$iUserID.' and card_id in ('.$ids.')';
+	myqu($query);
+	$sOP.=$query;
+	
 	return $sOP;
 }
 
-function getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeight=0, $jpg=0) {
+function getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeight=0, $jpg=1) {
 	
 	$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
@@ -3492,7 +3619,7 @@ function getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeig
 		$sOP.=$sTab.$sTab.'<backurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back'.$ext.'</backurl>'.$sCRLF; 
 		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['image'].'_back_flip'.$ext.'</backflipurl>'.$sCRLF; 
 
-		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
+		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, A.selectable,  
 		A.left, top, width, height, frontorback, 
 		colour_r, colour_g, colour_b 
 		FROM mytcg_cardstat A, mytcg_categorystat B 
@@ -3504,7 +3631,7 @@ function getCardsInBooster($boosterid, $iHeight,$iWidth,$root,$iUserID, $iBBHeig
 		While ($aOneStat=$aStats[$iCountStat]) {
 			$sOP.=$sTab.$sTab.$sTab.'<stat desc="'.$aOneStat['val'].'" ival="'.$aOneStat['statvalue'].'"
 				left="'.$aOneStat['left'].'" top="'.$aOneStat['top'].'" width="'.$aOneStat['width'].'" height="'.$aOneStat['height'].'" 
-				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
+				frontorback="'.$aOneStat['frontorback'].'" red="'.$aOneStat['colour_r'].'" green="'.$aOneStat['colour_g'].'" blue="'.$aOneStat['colour_b'].'" selectable="'.$aOneStat['selectable'].'">'.$aOneStat['des'].'</stat>'.$sCRLF;
 			$iCountStat++;
 		}
 		$sOP.=$sTab.$sTab.'</stats>'.$sCRLF;
