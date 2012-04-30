@@ -77,6 +77,10 @@ void MenuScreen::setMenuFontUnsel(Font* font)
 void MenuScreen::setMenuWidth(int w)
 {
 	mOptions->setWidth(w);
+
+	 if (header != NULL) {
+	  header->setWidth(w - 4);
+	 }
 }
 
 void MenuScreen::setListener(MenuListener* listener)

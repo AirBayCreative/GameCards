@@ -609,7 +609,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = "Error creating auction.";
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, 40, NULL, result, 0, Util::getDefaultSelected());
+	/*label = new Label(0,0, scrWidth-PADDING*2, 40, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
@@ -634,7 +634,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	this->setMain(mainLayout);
 
-	this->show();
+	this->show();*/
 
 	MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());
 	confirmation->setMenuWidth(180);

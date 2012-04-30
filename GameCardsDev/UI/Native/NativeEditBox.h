@@ -71,6 +71,8 @@ protected:
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
+	void keyPressEvent(int keyCode, int nativeCode);
+	void keyReleaseEvent(int keyCode, int nativeCode);
 
 	MAUtil::WString mTitleString;
 	wchar_t* mString;
