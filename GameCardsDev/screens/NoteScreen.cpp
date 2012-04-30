@@ -4,9 +4,11 @@
 #include "../utils/Util.h"
 #include "../UI/Button.h"
 
-NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
-feed(feed), card(card), screenType(screenType), detail(detail) {
+NoteScreen::NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this),
+card(card), screenType(screenType), detail(detail) {
 	lprintfln("NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	moved = 0;
 	list = false;
 	left = false;

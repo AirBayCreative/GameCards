@@ -11,13 +11,14 @@
 #include "../utils/Stat.h"
 #include "../utils/ImageCache.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumViewScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumViewScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	AlbumViewScreen(Screen *previous, Feed *feed, String category, int albumType=AT_NORMAL, bool bAction=false, Card *card = NULL, String deckId = "");
+	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=AT_NORMAL, bool bAction=false, Card *card = NULL, String deckId = "");
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -42,28 +43,26 @@ public:
 
 	void setDeckId(String deckId);
 
+	void menuOptionSelected(int index);
+
 	int albumType;
 
 	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK, AT_PRODUCT};
 private:
-	Screen *next, *previous;
-	Label *notice, *label;
-	ListBox *listBox;
 	ListBox *midListBox;
-	Layout *mainLayout;
 	Widget* currentSelectedKey;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 	ImageCache *mImageCache;
 
 	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId, playable;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
-	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
+
+	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, selectable;
 	int size, i, moved, listSizes, xStart, currentKeyPosition;
+
 	bool list, left, right, listLeft, listRight, emp, hasConnection, busy, isAuction, adding;
 
-	Feed *feed;
 	Card *card, *newCard;
 	StringCardMap tmp, cards;
 	StringCardMap::Iterator cardExists;

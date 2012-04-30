@@ -6,8 +6,10 @@
 #include "ShopCategoriesScreen.h"
 #include "../UI/Button.h"
 
-Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
+Login::Login(MainScreen *previous, Feed *feed, int screen) : mHttp(this), screen(screen) {
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	moved = 0;
 	changed = false;
 	isBusy = false;
@@ -47,7 +49,8 @@ Login::~Login() {
 	convertAsterisk="";
 	underscore="";
 	username="";
-	credits="";
+	credits="0";
+	premium="0";
 	encrypt="";
 	error_msg="";
 	email="";
@@ -473,6 +476,8 @@ void Login::mtxTagData(const char* data, int len) {
 		username = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits = data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		premium = data;
 	} else if(!strcmp(parentTag.c_str(), "email")) {
 		email = data;
 	} else if(!strcmp(parentTag.c_str(), "name")) {
@@ -491,6 +496,7 @@ void Login::mtxTagData(const char* data, int len) {
 void Login::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "status")) {
 		feed->setCredits(credits.c_str());
+		feed->setPremium(premium.c_str());
 		feed->setHandle(handle.c_str());
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful("Success");
@@ -553,7 +559,8 @@ void Login::cleanup() {
 	convertAsterisk = "";
 	underscore = "";
 	username = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	encrypt = "";
 	error_msg = "";
 	email = "";

@@ -10,13 +10,14 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class Login : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class Login : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	Login(Screen *previous, Feed *feed, int screen);
+	Login(MainScreen *previous, Feed *feed, int screen);
 	~Login();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -29,24 +30,18 @@ public:
 
 	enum screens {S_LOGIN, S_REGISTER};
 private:
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label, *notice;
-	Screen * previous;
 	Widget* currentSelectedKey;
+
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail, *editBoxRefer;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
-	String username,credits,encrypt,error_msg,email,handle, touch, result, freebie, notedate;
-	bool list, left, right, mid, error/*, kbShown*/;
+
+	String username,credits,encrypt,error_msg,email,handle,touch,result,freebie,notedate,premium;
+	bool list, left, right, mid, error;
 	int screen, moved, currentKeyPosition;
 
-	Feed *feed;
-
-	Screen *next;
 	bool isBusy, changed;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

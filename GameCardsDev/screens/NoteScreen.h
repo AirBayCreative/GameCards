@@ -11,12 +11,13 @@
 #include "../UI/KineticListBox.h"
 #include "../utils/ImageCache.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 
-class NoteScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class NoteScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
+	NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType = ST_CARD_NOTE, String detail = "");
 	~NoteScreen();
 	void keyPressEvent(int keyCode);
 	void clearListBox();
@@ -30,23 +31,17 @@ public:
 	enum screenTypes {ST_CARD_NOTE, ST_SMS};
 private:
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, note, origionalNote, encodedNote, detail, cardText;
 	bool list, left, right, isBusy;
 	int moved, screenType, currentKeyPosition;
 
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *notice, *label;
 	NativeEditBox *editBoxNote;
-	Screen *previous;
+
 	Widget* currentSelectedKey;
 
 	ImageCache *mImageCache;
 	MobImage *tempImage;
-
-	Feed *feed;
 	Card *card;
 
 	void httpFinished(MAUtil::HttpConnection*, int);

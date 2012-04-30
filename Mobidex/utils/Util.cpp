@@ -707,7 +707,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 										"/";
 
 
-	/* Copyright (C) 2004-2008 René Nyffenegger
+	/* Copyright (C) 2004-2008 Renï¿½ Nyffenegger
 
 	   This source code is provided 'as-is', without any express or implied
 	   warranty. In no event will the author be held liable for any damages
@@ -727,7 +727,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 
 	   3. This notice may not be removed or altered from any source distribution.
 
-	   René Nyffenegger rene.nyffenegger@adp-gmbh.ch */
+	   Renï¿½ Nyffenegger rene.nyffenegger@adp-gmbh.ch */
 
 	unsigned char char_array_3[3];
 	unsigned char char_array_4[4];

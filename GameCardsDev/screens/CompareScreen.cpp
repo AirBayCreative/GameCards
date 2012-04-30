@@ -4,9 +4,12 @@
 #include "CompareScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
-CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), previous(previous), img(img), flip(flip), card(card), feed(feed), compare(compare) {
+CompareScreen::CompareScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), img(img), flip(flip), card(card), compare(compare) {
 	lprintfln("CompareScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	busy = false;
 	next = NULL;
 	currentSelectedStat = -1;
@@ -16,11 +19,11 @@ CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool fl
 	currentKeyPosition = -1;
 	if (card != NULL) {
 		mainLayout = Util::createImageLayout("", "Back", "Flip");
-		listBox = (ListBox*) mainLayout->getChildren()[0];
+		listBox = (KineticListBox*) mainLayout->getChildren()[0];
 		height = listBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
-		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
 		height = listBox->getHeight()-70;
 	}
 	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));

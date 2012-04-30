@@ -4,27 +4,32 @@
 #include "DetailScreen.h"
 #include "../UI/Button.h"
 
-TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
+TradeFriendDetailScreen::TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card) :card(card), mHttp(this) {
 	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	sending = false;
 	friendDetail = "";
 	methodLabel = "";
 	method = "";
 	result = "";
 	moved = 0;
+
 	menu = NULL;
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
 
-	layout = Util::createMainLayout("Continue", "Back", "", true);
+	next = NULL;
 
-	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
-	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
+	mainLayout = Util::createMainLayout("Continue", "Back", "", true);
+
+	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	notice = (Label*)mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
 	drawMethodScreen();
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
@@ -37,12 +42,12 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 	temp1="";
 	error_msg="";
 	result="";
-	delete layout;
-	layout = NULL;
-	if (menu != NULL) {
-		delete menu;
+	delete mainLayout;
+	mainLayout = NULL;
+	if (next != NULL) {
+		delete next;
 		feed->remHttp();
-		menu = NULL;
+		next = NULL;
 	}
 
 	cardText="";
@@ -57,9 +62,10 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 	notice->setCaption("");
 	clearListBox();
+
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
-	Util::updateSoftKeyLayout("Continue", "Back", "", layout);
+	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
 	Layout *feedlayout;
 
@@ -178,9 +184,10 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	notice->setCaption("");
 	clearListBox();
+
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
-	Util::updateSoftKeyLayout("Confirm", "Back", "", layout);
+	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
 
 	String confirmLabel = "Send " + card->getText() + " to " + friendDetail + "?";
 
@@ -237,9 +244,10 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	notice->setCaption("");
 	clearListBox();
+
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
-	Util::updateSoftKeyLayout("Confirm", "", "", layout);
+	Util::updateSoftKeyLayout("Confirm", "", "", mainLayout);
 
 	String confirmLabel = result;
 
@@ -411,7 +419,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	left = false;
 	right = false;
 	mid = false;
-	Widget *currentSoftKeys = layout->getChildren()[layout->getChildren().size() - 1];
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 	case MAK_FIRE:
 		if(currentSoftKeys->getChildren()[0]->isSelected()){

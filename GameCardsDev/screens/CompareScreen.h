@@ -10,6 +10,7 @@
 #include "../utils/ImageCache.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 
@@ -17,9 +18,9 @@ using namespace MAUI;
  *  The screen class used for demonstrating how to
  *  use MAUI::Image widgets.
  */
-class CompareScreen : public Screen, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class CompareScreen : public MainScreen, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	CompareScreen(Screen *previous, MAHandle image, Feed *feed, bool flip, Card *card, Card *compare);
+	CompareScreen(MainScreen *previous, MAHandle image, Feed *feed, bool flip, Card *card, Card *compare);
 	~CompareScreen();
 	void keyPressEvent(int keyCode);
 
@@ -30,23 +31,19 @@ public:
 
 	void clearListBox();
 private:
-	Screen *previous, *next;
 	MAHandle img;
 	MAPoint2d pointPressed, pointReleased;
 	Card *card, *compare;
-	Feed *feed;
 	MobImage *imge, *cmpge;
 	ImageCache *imageCache;
-	Layout *mainLayout;
-	ListBox *listBox;
 	Widget* currentSelectedKey;
 	int height, flipOrSelect, currentSelectedStat, currentKeyPosition;
+
 	bool flip, busy;
 	bool left, right, list;
 	String parentTag;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

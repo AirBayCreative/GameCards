@@ -481,8 +481,8 @@ void ImageScreen::selectStat(int upOrDown) {
 void ImageScreen::acceptCard() {
 	//work out how long the url will be
 	int urlLength = 40 + URLSIZE + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?savecard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -497,13 +497,14 @@ void ImageScreen::acceptCard() {
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void ImageScreen::rejectCard() {
 	//work out how long the url will be
 	int urlLength = 42 + URLSIZE + card->getId().length();
-	char *url = new char[urlLength];
-	memset(url,'\0',urlLength);
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?rejectcard=%s", URL_PHONE.c_str(), card->getId().c_str());
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -518,6 +519,7 @@ void ImageScreen::rejectCard() {
 		mHttp.finish();
 	}
 	delete [] url;
+	url = NULL;
 }
 
 void ImageScreen::httpFinished(MAUtil::HttpConnection* http, int result) {

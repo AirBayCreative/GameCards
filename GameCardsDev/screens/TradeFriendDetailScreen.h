@@ -15,13 +15,14 @@
 #include "../UI/Widgets/MobImage.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendDetailScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class TradeFriendDetailScreen : public MainScreen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
 public:
-	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card);
+	TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card);
 	~TradeFriendDetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -34,13 +35,9 @@ private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
 	int phase, moved;
 
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *notice, *label, *label2;
+	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *label2;
 
 	Screen *menu;
-	Screen *previous;
 	Widget* currentSelectedKey;
 
 	Card *card;
@@ -54,7 +51,6 @@ private:
 	MobImage *tempImage;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void drawMethodScreen();
 	void drawConfirmScreen();

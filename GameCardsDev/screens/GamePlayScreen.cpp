@@ -10,10 +10,12 @@
 #include "AlbumLoadScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier,
+GamePlayScreen::GamePlayScreen(MainScreen *previous, Feed *feed, bool newGame, String identifier,
 		String newGameType, bool againstFriend, String deckId, int lobby, String gameid) : mHttp(this),
-		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType), deckId(deckId) {
+		newGame(newGame), newGameType(newGameType), deckId(deckId) {
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	parentTag = "";
 	cardText = "";
 	id = "";

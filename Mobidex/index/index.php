@@ -103,7 +103,7 @@ if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
 
-/*$iUserID = 24;*/
+/*$iUserID = 113;*/
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
 	$sOP='<user>'.$sCRLF;
@@ -200,12 +200,14 @@ if ($cardID = $_GET['tradecard']){
   $sentNote = $_REQUEST['note'];
 	
 	if ($receiveNumber{0} == "0"){
-		$aCountry=myqu('SELECT c.country_name, c.country_code
+	
+	$query = 'SELECT c.country_name, c.country_code
 			FROM mytcg_country c 
 			INNER JOIN mytcg_user u
-			ON u.country = c.country_name
-			WHERE u.user_id = '.$iUserID);
-		
+			ON u.country = c.country_name 
+			WHERE u.user_id = '.$iUserID.' 
+			OR country_name = "South Africa"';
+			$aCountry=myqu($query);
 		if ($aC=$aCountry[0]) {
 			$receiveNumber = ($aC['country_code'].substr($receiveNumber, 1));
 		}

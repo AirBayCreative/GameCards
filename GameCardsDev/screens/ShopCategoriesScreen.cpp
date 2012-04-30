@@ -49,9 +49,11 @@ void ShopCategoriesScreen::refresh() {
 	}
 }
 
-ShopCategoriesScreen::ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType) : mHttp(this), previous(previous), feed(feed), screenType(screenType) {
+ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int screenType) : mHttp(this), screenType(screenType) {
 
 	lprintfln("ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	next = NULL;
 	label = NULL;
 	if (screenType == ST_FREEBIE) {
@@ -229,7 +231,7 @@ void ShopCategoriesScreen::drawList() {
 	}
 
 	if (screenType == ST_FREEBIE)
-		notice->setCaption("Received: 300 credits and a free starter pack.");
+		notice->setCaption("Received: 150 credits and a free starter pack.");
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
