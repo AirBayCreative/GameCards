@@ -463,7 +463,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 								mHttp.close();
 							}
 							mHttp = HttpConnection(this);
-							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
@@ -498,7 +497,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 						mHttp.close();
 					}
 					mHttp = HttpConnection(this);
-					lprintfln("%s", url);
 					int res = mHttp.create(url, HTTP_GET);
 
 					if(res < 0) {
@@ -561,8 +559,8 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			case SP_DETAIL:
 				int ind = listBox->getSelectedIndex();
 				ind -= 2;
-				if (ind == 0) {
-					ind = 6;
+				if (ind <= 0) {
+					ind = listBox->getChildren().size() - 1;
 				}
 				listBox->setSelectedIndex(ind);
 				break;
