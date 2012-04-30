@@ -89,9 +89,9 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 			label = Util::createSubLabel("Notes");
 			label->addWidgetListener(this);
 			listBox->add(label);
-			label = Util::createSubLabel("Share");
-			label->addWidgetListener(this);
-			listBox->add(label);
+			//label = Util::createSubLabel("Share");
+			//label->addWidgetListener(this);
+			//listBox->add(label);
 			label = Util::createSubLabel("Auction");
 			label->addWidgetListener(this);
 			listBox->add(label);
@@ -202,6 +202,7 @@ void OptionsScreen::checkForGames() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getusergames=1", URL);
+	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 
 	if(res < 0) {
@@ -412,7 +413,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						next = new NoteScreen(this, feed, card);
 						next->show();
 					}
-					else if (index == 1) {
+					/*else if (index == 1) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -420,8 +421,8 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						}
 						next = new TradeFriendDetailScreen(this, feed, card);
 						next->show();
-					}
-					else if (index == 2) {
+					}*/
+					else if (index == 1/*2*/) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -430,7 +431,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						next = new AuctionCreateScreen(this, feed, card);
 						next->show();
 					}
-					else if (index == 3) {
+					else if (index == 2/*3*/) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -439,7 +440,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
 						next->show();
 					}
-					else if (index == 4) {
+					else if (index == 3/*4*/) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -589,6 +590,7 @@ void OptionsScreen::acceptCard() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -612,6 +614,7 @@ void OptionsScreen::rejectCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s?rejectcard%s", URL, card->getId().c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}

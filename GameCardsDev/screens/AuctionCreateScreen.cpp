@@ -32,6 +32,10 @@ AuctionCreateScreen::AuctionCreateScreen(MainScreen *previous, Feed *feed, Card 
 	drawDataInputScreen();
 }
 
+void AuctionCreateScreen::menuOptionSelected(int index) {
+	previous->pop();
+}
+
 AuctionCreateScreen::~AuctionCreateScreen() {
 	lprintfln("~AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
@@ -301,6 +305,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 									memset(url,'\0',urlLength+1);
 									sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
 											openingText.c_str(), buyNowText.c_str(), daysText.c_str());
+									lprintfln("%s", url);
 									if(mHttp.isOpen()){
 										mHttp.close();
 									}
@@ -630,6 +635,18 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	this->setMain(mainLayout);
 
 	this->show();
+
+	MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());
+	confirmation->setMenuWidth(180);
+	confirmation->setMarginX(5);
+	confirmation->setMarginY(5);
+	confirmation->setDock(MenuScreen::MD_CENTER);
+	confirmation->setListener(this);
+	confirmation->setMenuFontSel(Util::getDefaultFont());
+	confirmation->setMenuFontUnsel(Util::getDefaultFont());
+	confirmation->setMenuSkin(Util::getSkinDropDownItem());
+	confirmation->addItem("Ok");
+	confirmation->show();
 }
 
 void AuctionCreateScreen::drawInvalidInputScreen() {

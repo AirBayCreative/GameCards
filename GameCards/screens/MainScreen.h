@@ -1,6 +1,6 @@
 #ifndef _MAINSCREEN_H_
 #define _MAINSCREEN_H_
-
+#include <conprint.h>
 #include <MAUI/Screen.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Image.h>
@@ -16,7 +16,14 @@ using namespace MAUI;
 class MainScreen : public Screen  {
 public:
 	MainScreen() {
+		lprintfln("MainScreen::MainScreen");
+		next = NULL;
+		previous = NULL;
 		Screen();
+	}
+	~MainScreen() {
+		next = NULL;
+		previous = NULL;
 	}
 	virtual void pop();
 	virtual void refresh();

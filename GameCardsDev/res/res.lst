@@ -1,443 +1,443 @@
 /* Generic Variables */
 
-.res RES_IMAGE
+.res RES_IMAGE /*1*/
 .ubin
 .image "crosslogo.png"
 
-.res RES_SELECTED_EDITBOX
+.res RES_SELECTED_EDITBOX /*2*/
 .ubin 
 .image "background_editbox_sel.png"
 
-.res RES_UNSELECTED_EDITBOX
+.res RES_UNSELECTED_EDITBOX /*3*/
 .ubin 
 .image "background_editbox_unsel.png"  
 
-.res RES_UNSELECTED_BUTTON
+.res RES_UNSELECTED_BUTTON /*4*/
 .ubin
 .image "background_button_unsel.png"
 
-.res RES_SELECTED_BUTTON
+.res RES_SELECTED_BUTTON /*5*/
 .ubin
 .image "background_button_sel.png"
 
-.res RES_TEXT_BOX
+.res RES_TEXT_BOX /*6*/
 .ubin 
 .image "background_text_sel.png"
 
-.res RES_BACKGROUND
+.res RES_BACKGROUND /*7*/
 .ubin
 .image "background.png"
 
-.res RES_SELECTED_LIST
+.res RES_SELECTED_LIST /*8*/
 .ubin
 .image "background_list_sel.png"  
 
-.res RES_UNSELECTED_LIST
+.res RES_UNSELECTED_LIST /*9*/
 .ubin
 .image "background_list_unsel.png"
 
-.res RES_SELECTED_ALBUM
+.res RES_SELECTED_ALBUM /*10*/
 .ubin
 .image "background_album_sel.png"
 
-.res RES_UNSELECTED_ALBUM
+.res RES_UNSELECTED_ALBUM /*11*/
 .ubin
 .image "background_album_unsel.png"  
 
-.res RESP_DATA
+.res RESP_DATA /*12*/
 .placeholder
 
-.res RESP_IMAGE
+.res RESP_IMAGE /*13*/
 .placeholder
 
-.res RES_TEMPTHUMB
+.res RES_TEMPTHUMB /*14*/
 .ubin
 .include "emptythumb.png"
 
-.res RES_TEMP
+.res RES_TEMP /*15*/
 .ubin
 .include "empty.png"
 
-.res RES_LOADINGTHUMB
+.res RES_LOADINGTHUMB /*16*/
 .ubin
 .include "loadingthumb.png"
 
-.res RES_MISSINGTHUMB
+.res RES_MISSINGTHUMB /*17*/
 .ubin
 .include  "missingcardthumb.png"
 
-.res RES_CHANGE_STAR
+.res RES_CHANGE_STAR /*18*/
 .ubin
 .image "change_star.png"
 
-.res RES_EMPTY_FLIP
+.res RES_EMPTY_FLIP /*19*/
 .ubin
 .include  "empty_flip.png"
 
-.res RES_BOX_SELECTED
+.res RES_BOX_SELECTED /*20*/
 .ubin
 .image "box_selected.png"
 
-.res RES_BOX_UNSELECTED
+.res RES_BOX_UNSELECTED /*21*/
 .ubin
 .image "box_unselected.png"
 
-.res RES_LOADING1
+.res RES_LOADING1 /*22*/
 .ubin
 .include "loading1.png"
 
-.res RES_LOADING2
+.res RES_LOADING2 /*23*/
 .ubin
 .include "loading2.png"
 
-.res RES_LOADING3
+.res RES_LOADING3 /*24*/
 .ubin
 .include "loading3.png"
 
-.res RES_LOADING4
+.res RES_LOADING4 /*25*/
 .ubin
 .include "loading4.png"
 
-.res RES_LOADING5
+.res RES_LOADING5 /*26*/
 .ubin
 .include "loading5.png"
 
-.res RES_LOADING6
+.res RES_LOADING6 /*27*/
 .ubin
 .include "loading6.png"
 
-.res RES_LOADING7
+.res RES_LOADING7 /*28*/
 .ubin
 .include "loading7.png"
 
-.res RES_LOADING8
+.res RES_LOADING8 /*29*/
 .ubin
 .include "loading8.png"
 
-.res RES_LOADING9
+.res RES_LOADING9 /*30*/
 .ubin
 .include "loading9.png"
 
-.res RES_LOADING10
+.res RES_LOADING10 /*31*/
 .ubin
 .include "loading10.png"
 
-.res RES_LOADING11
+.res RES_LOADING11 /*32*/
 .ubin
 .include "loading11.png"
 
-.res RES_LOADING12
+.res RES_LOADING12 /*33*/
 .ubin
 .include "loading12.png"
 
-.res RES_LOADING13
+.res RES_LOADING13 /*34*/
 .ubin
 .include "loading13.png"
 
-.res RES_LOADING14
+.res RES_LOADING14 /*35*/
 .ubin
 .include "loading14.png"
 
-.res RES_LOADING15
+.res RES_LOADING15 /*36*/
 .ubin
 .include "loading15.png"
 
-.res RES_LOADING16
+.res RES_LOADING16 /*37*/
 .ubin
 .include "loading16.png"
 
-.res RES_LOADING17
+.res RES_LOADING17 /*38*/
 .ubin
 .include "loading17.png"
 
-.res RES_LOADING18
+.res RES_LOADING18 /*39*/
 .ubin
 .include "loading18.png"
 
-.res RES_LOADING_FLIP1
+.res RES_LOADING_FLIP1 /*40*/
 .ubin
 .include "loading_flip1.png"
 
-.res RES_LOADING_FLIP2
+.res RES_LOADING_FLIP2 /*41*/
 .ubin
 .include "loading_flip2.png"
 
-.res RES_LOADING_FLIP3
+.res RES_LOADING_FLIP3 /*42*/
 .ubin
 .include "loading_flip3.png"
 
-.res RES_LOADING_FLIP4
+.res RES_LOADING_FLIP4 /*43*/
 .ubin
 .include "loading_flip4.png"
 
-.res RES_LOADING_FLIP5
+.res RES_LOADING_FLIP5 /*44*/
 .ubin
 .include "loading_flip5.png"
 
-.res RES_LOADING_FLIP6
+.res RES_LOADING_FLIP6 /*45*/
 .ubin
 .include "loading_flip6.png"
 
-.res RES_LOADING_FLIP7
+.res RES_LOADING_FLIP7 /*46*/
 .ubin
 .include "loading_flip7.png"
 
-.res RES_LOADING_FLIP8
+.res RES_LOADING_FLIP8 /*47*/
 .ubin
 .include "loading_flip8.png"
 
-.res RES_LOADING_FLIP9
+.res RES_LOADING_FLIP9 /*48*/
 .ubin
 .include "loading_flip9.png"
 
-.res RES_LOADING_FLIP10
+.res RES_LOADING_FLIP10 /*49*/
 .ubin
 .include "loading_flip10.png"
 
-.res RES_LOADING_FLIP11
+.res RES_LOADING_FLIP11 /*50*/
 .ubin
 .include "loading_flip11.png"
 
-.res RES_LOADING_FLIP12
+.res RES_LOADING_FLIP12 /*51*/
 .ubin
 .include "loading_flip12.png"
 
-.res RES_LOADING_FLIP13
+.res RES_LOADING_FLIP13 /*52*/
 .ubin
 .include "loading_flip13.png"
 
-.res RES_LOADING_FLIP14
+.res RES_LOADING_FLIP14 /*53*/
 .ubin
 .include "loading_flip14.png"
 
-.res RES_LOADING_FLIP15
+.res RES_LOADING_FLIP15 /*54*/
 .ubin
 .include "loading_flip15.png"
 
-.res RES_LOADING_FLIP16
+.res RES_LOADING_FLIP16 /*55*/
 .ubin
 .include "loading_flip16.png"
 
-.res RES_LOADING_FLIP17
+.res RES_LOADING_FLIP17 /*56*/
 .ubin
 .include "loading_flip17.png"
 
-.res RES_LOADING_FLIP18
+.res RES_LOADING_FLIP18 /*57*/
 .ubin
 .include "loading_flip18.png"
 
-.res RES_LEFT_ARROW
+.res RES_LEFT_ARROW /*58*/
 .ubin
 .image "leftarrow.png"
 
-.res RES_RIGHT_ARROW
+.res RES_RIGHT_ARROW /*59*/
 .ubin
 .image "rightarrow.png"
 
-.res RES_ALBUM
+.res RES_ALBUM /*60*/
 .ubin
 .image "Album.png"
 
-.res RES_ALBUM_THUMB
+.res RES_ALBUM_THUMB /*61*/
 .ubin
 .image "Album_thumb.png"
 
-.res RES_AUCTIONS
+.res RES_AUCTIONS /*62*/
 .ubin
 .image "Auctions.png"
 
-.res RES_AUCTIONS_THUMB
+.res RES_AUCTIONS_THUMB /*63*/
 .ubin
 .image "Auctions_thumb.png"
 
-.res RES_CREDITS
+.res RES_CREDITS /*64*/
 .ubin
 .image "Credits.png"
 
-.res RES_CREDITS_THUMB
+.res RES_CREDITS_THUMB /*65*/
 .ubin
 .image "Credits_thumb.png"
 
-.res RES_DECKS
+.res RES_DECKS /*66*/
 .ubin
 .image "Decks.png"
 
-.res RES_DECKS_THUMB
+.res RES_DECKS_THUMB /*67*/
 .ubin
 .image "Decks_thumb.png"
 
-.res RES_FRIENDRANKS
+.res RES_FRIENDRANKS /*68*/
 .ubin
 .image "FriendRanks.png"
 
-.res RES_FRIENDRANKS_THUMB
+.res RES_FRIENDRANKS_THUMB /*69*/
 .ubin
 .image "FriendRanks_thumb.png"
 
-.res RES_Friends
+.res RES_FRIENDS /*70*/
 .ubin
 .image "Friends.png"
 
-.res RES_FRIENDS_THUMB
+.res RES_FRIENDS_THUMB /*71*/
 .ubin
 .image "Friends_thumb.png"
 
-.res RES_INVITE
+.res RES_INVITE /*72*/
 .ubin
 .image "Invite.png"
 
-.res RES_INVITE_THUMB
+.res RES_INVITE_THUMB /*73*/
 .ubin
 .image "Invite_thumb.png"
 
-.res RES_LOGOUT
+.res RES_LOGOUT /*74*/
 .ubin
 .image "Logout.png"
 
-.res RES_LOGOUT_THUMB
+.res RES_LOGOUT_THUMB /*75*/
 .ubin
 .image "Logout_thumb.png"
 
-.res RES_NOTIFICATIONS
+.res RES_NOTIFICATIONS /*76*/
 .ubin
 .image "Notifications.png"
 
-.res RES_NOTIFICATIONS_THUMB
+.res RES_NOTIFICATIONS_THUMB /*77*/
 .ubin
 .image "Notifications_thumb.png"
 
-.res RES_PLAY
+.res RES_PLAY /*78*/
 .ubin
 .image "Play.png"
 
-.res RES_PLAY_THUMB
+.res RES_PLAY_THUMB /*79*/
 .ubin
 .image "Play_thumb.png"
 
-.res RES_PROFILE
+.res RES_PROFILE /*80*/
 .ubin
 .image "Profile.png"
 
-.res RES_PROFILE_THUMB
+.res RES_PROFILE_THUMB /*81*/
 .ubin
 .image "Profile_thumb.png"
 
-.res RES_RANKINGS
+.res RES_RANKINGS /*82*/
 .ubin
 .image "Rankings.png"
 
-.res RES_RANKINGS_THUMB
+.res RES_RANKINGS_THUMB /*83*/
 .ubin
 .image "Rankings_thumb.png"
 
-.res RES_REDEEM
+.res RES_REDEEM /*84*/
 .ubin
 .image "Redeem.png"
 
-.res RES_REDEEM_THUMB
+.res RES_REDEEM_THUMB /*85*/
 .ubin
 .image "Redeem_thumb.png"
 
-.res RES_SHOP
+.res RES_SHOP /*86*/
 .ubin
 .image "Shop.png"
 
-.res RES_SHOP_THUMB
+.res RES_SHOP_THUMB /*87*/
 .ubin
 .image "Shop_thumb.png"
 
-.res RES_DESELECTED_LIST_DOT
+.res RES_DESELECTED_LIST_DOT /*88*/
 .ubin
 .image "inactive_dot.png"
 
-.res RES_SELECTED_LIST_DOT
+.res RES_SELECTED_LIST_DOT /*89*/
 .ubin
 .image "active_dot.png"
 
-.res RES_ICONS_BACK
+.res RES_ICONS_BACK /*90*/
 .ubin
 .image "icon_bar.png"
 
-.res RES_SELECT_ICON
+.res RES_SELECT_ICON /*91*/
 .ubin
 .image "select.png"
 
-.res RES_UNSELECT_ICON 
+.res RES_UNSELECT_ICON /*92*/
 .ubin
 .image "unselect.png"
 
-.res RES_HEAD
+.res RES_HEAD /*93*/
 .ubin
 .image "head.png"
 
-.res BLANK
+.res BLANK /*94*/
 .image "blank.png"
 
 /* Custom variables per app */
 
-.res RES_FONT_BLUE
+.res RES_FONT_BLUE /*95*/
 .bin
 .include "arialblue.mof" 
 
-.res RES_FONT_BLACK
+.res RES_FONT_BLACK /*96*/
 .bin
 .include "arialblack.mof"  
 
 /* Tutorial images */
 
-.res RES_TUT_1
+.res RES_TUT_1 /*97*/
 .ubin
 .image "tut_1.png"
 
-.res RES_TUT_2
+.res RES_TUT_2 /*98*/
 .ubin
 .image "tut_2.png"
 
-.res RES_TUT_3
+.res RES_TUT_3 /*99*/
 .ubin
 .image "tut_3.png"
 
-.res RES_TUT_4
+.res RES_TUT_4 /*100*/
 .ubin
 .image "tut_4.png"
 
-.res RES_TUT_5
+.res RES_TUT_5 /*101*/
 .ubin
 .image "tut_5.png"
 
-.res RES_TUT_6
+.res RES_TUT_6 /*102*/
 .ubin
 .image "tut_6.png"
 
-.res RES_TUT_7
+.res RES_TUT_7 /*103*/
 .ubin
 .image "tut_7.png"
 
-.res RES_FONT_GREEN
+.res RES_FONT_GREEN /*104*/
 .bin
 .include "arialgreen.mof"  
 
-.res RES_FONT_GREY
+.res RES_FONT_GREY /*105*/
 .bin
 .include "arialgrey.mof"  
 
-.res RES_DROPDOWNITEM_SEL
+.res RES_DROPDOWNITEM_SEL /*106*/
 .ubin 
 .image "dropdownitem_sel.png" 
 
-.res RES_DROPDOWNITEM_UNSEL
+.res RES_DROPDOWNITEM_UNSEL /*107*/
 .ubin 
 .image "dropdownitem_unsel.png"  
 
-.res RES_DROPDOWN_SEL
+.res RES_DROPDOWN_SEL /*108*/
 .ubin 
-.image "dropdownbox_sel.png" 
+.image "dropdownbox_sel.png"  
 
-.res RES_DROPDOWN_UNSEL
+.res RES_DROPDOWN_UNSEL /*109*/
 .ubin 
 .image "dropdownbox_unsel.png"
 
-.res RES_POPUP_HEADER
+.res RES_POPUP_HEADER /*110*/
 .ubin 
 .image "popup_header.png"
 

@@ -271,6 +271,7 @@ void Login::keyPressEvent(int keyCode) {
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?userdetails=1", URL);
+							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
 
 							if(res < 0) {
@@ -340,7 +341,7 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 80 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
+							int urlLength = 89 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),

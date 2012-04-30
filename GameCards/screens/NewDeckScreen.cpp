@@ -42,6 +42,7 @@ NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed) : mHttp(this) {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?playablecategories=1", URL);
+	lprintfln("%s", url);
 
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -196,6 +197,7 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 						char *url = new char[urlLength+1];
 						memset(url,'\0',urlLength+1);
 						sprintf(url, "%s?createdeck=1&description=%s&category_id=%s", URL, base64DeckName.c_str(), chosenCategory.c_str());
+						lprintfln("%s", url);
 
 						if(mHttp.isOpen()){
 							mHttp.close();

@@ -17,9 +17,9 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-Screen *orig;
-Screen *origAlbum;
-Screen *origMenu;
+MainScreen *orig;
+MainScreen *origAlbum;
+MainScreen *origMenu;
 int scrWidth;
 int scrHeight;
 
@@ -257,9 +257,9 @@ WidgetSkin* Util::getIconSelect() {
 WidgetSkin* Util::getSkinPopupHeader() {
 	static WidgetSkin* gSkinPopupHeader;
 	if (gSkinPopupHeader == NULL) {
-		/*gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
+		gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
 				POPUP_HEADER_X_LEFT, POPUP_HEADER_X_RIGHT, POPUP_HEADER_Y_TOP,
-				POPUP_HEADER_Y_BOTTOM, true, true);*/
+				POPUP_HEADER_Y_BOTTOM, true, true);
 	}
 	return gSkinPopupHeader;
 }
@@ -401,20 +401,20 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	label->setDrawBackground(false);
 	listBox->add(label);
 
-	if (useKinetic) {
+	//if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		mKineticBox->setPaddingLeft(PADDING);
 		mKineticBox->setDrawBackground(false);
 		listBox->add(mKineticBox);
-	}
+	/*}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight),
 				NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		mBox->setDrawBackground(false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
-	}
+	}*/
 
 	imgSize = -1;
 	mainLayout->add(softKeys);

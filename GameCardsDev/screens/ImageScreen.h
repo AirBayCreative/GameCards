@@ -36,7 +36,7 @@ public:
 
 	enum screenTypes {ST_NORMAL, ST_NEW_CARD, ST_DECK};
 
-	bool isAuction;
+	bool isAuction, refresh;
 private:
 	void clearListBox();
 	MAHandle img;
