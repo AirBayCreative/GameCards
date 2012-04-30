@@ -643,7 +643,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 		label->setCaption("");
 		isBusy = false;
-	} else if(!strcmp(name, "credits")) {
+	} else if(!strcmp(name, "premium")) {
 		feed->setCredits(cred.c_str());
 		feed->setPremium(prem.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());

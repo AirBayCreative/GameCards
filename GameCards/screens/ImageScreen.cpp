@@ -53,6 +53,7 @@ ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool fl
 	}
 
 	isAuction = false;
+	refresh = false;
 }
 void ImageScreen::pointerPressEvent(MAPoint2d point)
 {
@@ -322,6 +323,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 					}
 					next = new OptionsScreen(feed,
 							OptionsScreen::ST_CARD_OPTIONS, this, card);
+					refresh = true;
 					next->show();
 				}
 			}
@@ -335,9 +337,14 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			else {
 				if (isAuction)
 					((AuctionListScreen *)previous)->refresh();
-				else
-					previous->refresh();
+				else {
+					if (refresh) {
+						previous->refresh();
+					} else {
+						previous->show();
+					}
 					//((AlbumViewScreen *)previous)->refresh();
+				}
 			}
 			break;
 		case MAK_FIRE:

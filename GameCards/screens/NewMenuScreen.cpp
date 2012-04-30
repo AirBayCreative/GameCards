@@ -358,7 +358,7 @@ void NewMenuScreen::show() {
 			feed->addHttp();
 			mHttp.finish();
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	}
 	versionChecked = 0;

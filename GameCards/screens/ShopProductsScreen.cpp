@@ -5,8 +5,15 @@
 #include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 
-void ShopProductsScreen::pop() {
+void ShopProductsScreen::refresh()
+{
+	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	notice->setCaption(msg.c_str());
 	show();
+}
+
+void ShopProductsScreen::pop() {
+	refresh();
 
 	if (products.size() == 1) {
 		previous->show();

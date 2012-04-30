@@ -55,11 +55,11 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 		listBox->add(label);
 	} else if (screenType != ST_USER) {
 		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
-		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
+		creditlabel = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
-		label->setMultiLine(true);
-		label->setDrawBackground(false);
-		listBox->add(label);
+		creditlabel->setMultiLine(true);
+		creditlabel->setDrawBackground(false);
+		listBox->add(creditlabel);
 	}
 
 	Layout *feedlayout;
@@ -173,14 +173,15 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 
 void ShopDetailsScreen::refresh()
 {
+	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	creditlabel->setCaption(msg.c_str());
 	show();
 }
 
 void ShopDetailsScreen::menuOptionSelected(int index) {
 
 	String choice = purchaseMenu->getItem(index+1);
-	lprintfln("%s", choice.c_str());
-	if (!strcmp(choice.c_str(), "Cancel")) {
+	if ((!strcmp(choice.c_str(), "Cancel"))||(!strcmp(choice.c_str(), "Ok"))) {
 		show();
 		return;
 	} else if (!strcmp(choice.c_str(), "Credits")) {

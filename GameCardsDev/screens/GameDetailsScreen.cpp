@@ -51,6 +51,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?viewgamedetails=1&gameid=%s", URL, gameId.c_str());
+			lprintfln("%s", url);
 			break;
 		case ST_GAME_LOG:
 			notice->setCaption("Loading game logs...");
@@ -60,6 +61,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?viewgamelog=1&gameid=%s", URL, gameId.c_str());
+			lprintfln("%s", url);
 			break;
 	}
 

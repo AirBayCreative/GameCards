@@ -101,6 +101,7 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 		case ST_PLAY:

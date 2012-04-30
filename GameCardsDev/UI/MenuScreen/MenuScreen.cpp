@@ -23,7 +23,7 @@ MenuScreen::MenuScreen(MAHandle blank, const char *headerLabel) : mBlankImage(bl
 	if (strlen(headerLabel) > 0) {
 		header = new Label(0, 0, mOptions->getWidth() - 4, 20, mOptions);
 		header->setMultiLine(true);
-		header->setFont(Util::getFontWhite());
+		header->setFont(Util::getFontBlack());
 		header->setSkin(Util::getSkinPopupHeader());
 		header->setDrawBackground(true);
 		header->setAutoSizeY(true);
@@ -47,6 +47,10 @@ MenuScreen::~MenuScreen()
 void MenuScreen::addItem(const char* text)
 {
 	addItem(createLabel(text));
+}
+
+String MenuScreen::getItem(int index) {
+	return ((Label *)mOptions->getChildren()[index])->getCaption();
 }
 
 void MenuScreen::addItem(Widget* w)

@@ -41,7 +41,7 @@ public:
 
 	Auction *auction;
 private:
-	Label *cardLabel;
+	Label *cardLabel, *creditlabel;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	NativeEditBox *editBidBox;

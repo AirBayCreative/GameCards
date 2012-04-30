@@ -11,11 +11,12 @@
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "MainScreen.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AuctionCreateScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AuctionCreateScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	AuctionCreateScreen(MainScreen *previous, Feed *feed, Card *card);
 	~AuctionCreateScreen();
@@ -26,6 +27,8 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
+
+	void menuOptionSelected(int index);
 
 private:
 	ImageCache *mImageCache;

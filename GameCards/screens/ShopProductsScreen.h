@@ -23,6 +23,7 @@ public:
 	void selectionChanged(Widget *widget, bool selected);
 	void drawList();
 	void pop();
+	void refresh();
 	void clearListBox();
 
 	void pointerPressEvent(MAPoint2d point);

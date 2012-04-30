@@ -118,13 +118,13 @@
 #define RES_DROPDOWNITEM_UNSEL 106
 #define RES_DROPDOWNBOX_SEL 107
 #define RES_DROPDOWNBOX_UNSEL 108
-#define RES_POPUP_HEADER 111
+#define RES_POPUP_HEADER 109
 
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
-#define URL "http://www.mytcg.net/_phone/test_index.php"
-#define URLSIZE 35
+#define URL "http://dev.mytcg.net/_phone/"
+#define URLSIZE 42
 
 //we also need to define the x and y coordinates at which to split the images up
 #define EDITBOX_X_LEFT 16
