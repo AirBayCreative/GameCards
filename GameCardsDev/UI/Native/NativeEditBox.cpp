@@ -29,9 +29,11 @@ mTitleString(titleString),
 mString(NULL),
 mOptions(options), x(x), y(y), width(width), height(height)
 {
+	//setInputMode(EditBox::IM_QWERTY);
 	setMaxSize(maxSize);
 	setCaption(initialText);
 	Environment::getEnvironment().addPointerListener(this);
+	Environment::getEnvironment().addKeyListener(this);
 #if defined(MA_PROF_QWERTY)
 	setInputMode(EditBox::IM_QWERTY);
 #endif
@@ -40,6 +42,7 @@ mOptions(options), x(x), y(y), width(width), height(height)
 
 NativeEditBox::~NativeEditBox() {
 	Environment::getEnvironment().removePointerListener(this);
+	Environment::getEnvironment().removeKeyListener(this);
 	if(mString)
 	{
 		delete mString;
@@ -63,6 +66,17 @@ void NativeEditBox::setMaxSize(int size) {
 }
 
 void NativeEditBox::focusGained() {
+}
+
+void NativeEditBox::keyPressEvent(int keyCode, int nativeCode){
+lprintfln("wawawa %d nanana %d",keyCode, nativeCode);
+	if(nativeCode > 0){
+		setInputMode(EditBox::IM_QWERTY);
+	}
+}
+
+void NativeEditBox::keyReleaseEvent(int keyCode, int nativeCode){
+
 }
 
 bool NativeEditBox::pointerPressed(MAPoint2d p, int id) {

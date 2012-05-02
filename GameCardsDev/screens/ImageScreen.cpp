@@ -5,6 +5,7 @@
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
 #include "AuctionListScreen.h"
+#include "../UI/Button.h"
 
 ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, int screenType, bool hasConnection,
 		bool canAuction) :mHttp(this),img(img), flip(flip), card(card), screenType(screenType), hasConnection(hasConnection), canAuction(canAuction) {
@@ -18,6 +19,8 @@ ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool fl
 	flipOrSelect = 0;
 	imageCacheFront = new ImageCache();
 	imageCacheBack = new ImageCache();
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
@@ -210,41 +213,106 @@ void ImageScreen::clearListBox() {
 }
 
 void ImageScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch (keyCode) {
 		case MAK_LEFT:
-		case MAK_RIGHT:
-			if (screenType == ST_NEW_CARD) {
-				mainLayout =  Util::createImageLayout("Accept", "Reject", "");
-			}
-			else if (screenType == ST_DECK) {
-				mainLayout =  Util::createImageLayout("", "Back" , "Flip");
-			}
-			else {
-				Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-			}
-			imge->refreshWidget();
-			imge->statAdded = false;
-			currentSelectedStat = -1;
-
-			flip=!flip;
-			if (imge->getResource() != NULL) {
-				maDestroyObject(imge->getResource());
-			}
-			imge->setResource(Util::loadImageFromResource(RES_LOADING1));
-			imge->update();
-			imge->requestRepaint();
-			maUpdateScreen();
-			if (flip) {
-				Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
-				Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 			} else {
-				Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
-				Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
+				if (screenType == ST_NEW_CARD) {
+					mainLayout =  Util::createImageLayout("Accept", "Reject", "");
+				}
+				else if (screenType == ST_DECK) {
+					mainLayout =  Util::createImageLayout("", "Back" , "Flip");
+				}
+				else {
+					Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+				}
+				imge->refreshWidget();
+				imge->statAdded = false;
+				currentSelectedStat = -1;
+				flip=!flip;
+				if (imge->getResource() != NULL) {
+					maDestroyObject(imge->getResource());
+				}
+				imge->setResource(Util::loadImageFromResource(RES_LOADING1));
+				imge->update();
+				imge->requestRepaint();
+				maUpdateScreen();
+				if (flip) {
+					Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+					Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
+				} else {
+					Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+					Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
+				}
+				currentSelectedStat = -1;
 			}
-			currentSelectedStat = -1;
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			else{
+				if (screenType == ST_NEW_CARD) {
+					mainLayout =  Util::createImageLayout("Accept", "Reject", "");
+				}
+				else if (screenType == ST_DECK) {
+					mainLayout =  Util::createImageLayout("", "Back" , "Flip");
+				}
+				else {
+					Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+				}
+				imge->refreshWidget();
+				imge->statAdded = false;
+				currentSelectedStat = -1;
+
+				flip=!flip;
+				if (imge->getResource() != NULL) {
+					maDestroyObject(imge->getResource());
+				}
+				imge->setResource(Util::loadImageFromResource(RES_LOADING1));
+				imge->update();
+				imge->requestRepaint();
+				maUpdateScreen();
+				if (flip) {
+					Util::retrieveBack(imge, card, height-PADDING*2, imageCacheBack);
+					Util::retrieveFront(NULL, card, height-PADDING*2, imageCacheFront);
+				} else {
+					Util::retrieveFront(imge, card, height-PADDING*2, imageCacheFront);
+					Util::retrieveBack(NULL, card, height-PADDING*2, imageCacheBack);
+				}
+				currentSelectedStat = -1;
+			}
 			break;
 		case MAK_UP:
-			if (imge->getResource() != RES_TEMP) {
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+			}else if (imge->getResource() != RES_TEMP) {
 				if(card->getStats().size()>0){
 					selectStat(-1);
 					if (currentSelectedStat == -1) {
@@ -273,8 +341,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			if (imge->getResource() != RES_TEMP) {
-				if(card->getStats().size()>0){
+			if(card->getStats().size()>0){
+				if (imge->getResource() != RES_TEMP) {
 					selectStat(1);
 					if (currentSelectedStat == -1) {
 						if (screenType == ST_NEW_CARD) {
@@ -305,6 +373,15 @@ void ImageScreen::keyPressEvent(int keyCode) {
 																card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
 																card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 						}
+					}
+				}
+			} else if(currentSelectedKey==NULL){
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
 					}
 				}
 			}
@@ -348,13 +425,19 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
-			if (screenType != ST_NEW_CARD) {
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}
+			else if (screenType != ST_NEW_CARD) {
 				if (card != NULL) {
 					if(((flipOrSelect && tapped)&&(currentSelectedStat == -1)) ||
 						(!tapped && currentSelectedStat == -1)){
 						flip=!flip;
 						if (screenType != ST_DECK) {
 							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							currentSoftKeys->getChildren()[1]->setSelected(true);
 						}
 						imge->refreshWidget();
 						imge->statAdded = false;
