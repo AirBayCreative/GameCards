@@ -2,6 +2,7 @@
 
 #include "NoteScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
 NoteScreen::NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this),
 card(card), screenType(screenType), detail(detail) {
@@ -18,6 +19,8 @@ card(card), screenType(screenType), detail(detail) {
 	note = "";
 	encodedNote = "";
 	origionalNote = "";
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
@@ -79,8 +82,11 @@ card(card), screenType(screenType), detail(detail) {
 			listBox->add(label);
 		break;
 	}
-
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, Util::getDefaultFont());
+	int height = 48;
+	if((listBox->getHeight()-(feedlayout->getHeight()+48)) > 48){
+		height = (listBox->getHeight()-(feedlayout->getHeight()+48));
+	}
+	label =  new Label(0,0, scrWidth-(PADDING*2), height, NULL, "", 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 
@@ -100,7 +106,7 @@ card(card), screenType(screenType), detail(detail) {
 
 	this->setMain(mainLayout);
 
-	editBoxNote->setSelected(true);
+	label->setSelected(true);
 	listBox->setSelectedIndex(1);
 }
 
@@ -208,6 +214,7 @@ void NoteScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void NoteScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_SOFTLEFT:
 			note = editBoxNote->getCaption();
@@ -258,6 +265,66 @@ void NoteScreen::keyPressEvent(int keyCode) {
 			editBoxNote->disableListener();
 			clearListBox();
 			previous->show();
+			break;
+		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}
+			break;
+		case MAK_UP:
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+			}
+			break;
+		case MAK_DOWN:
+			if(currentSelectedKey==NULL){
+				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
 			break;
 	}
 }

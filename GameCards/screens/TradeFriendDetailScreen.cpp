@@ -2,6 +2,7 @@
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
 #include "DetailScreen.h"
+#include "../UI/Button.h"
 
 TradeFriendDetailScreen::TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card) :card(card), mHttp(this) {
 	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -13,6 +14,11 @@ TradeFriendDetailScreen::TradeFriendDetailScreen(MainScreen *previous, Feed *fee
 	method = "";
 	result = "";
 	moved = 0;
+
+	menu = NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+
 	next = NULL;
 
 	mainLayout = Util::createMainLayout("Continue", "Back", "", true);
@@ -57,6 +63,8 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
 	Layout *feedlayout;
@@ -177,13 +185,16 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	notice->setCaption("");
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
 
 	String confirmLabel = "Send " + card->getText() + " to " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 50, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setDrawBackground(false);
 	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
@@ -223,6 +234,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
+	lbl->setDrawBackground(false);
 }
 
 void TradeFriendDetailScreen::drawCompleteScreen() {
@@ -233,13 +245,16 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	notice->setCaption("");
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "", "", mainLayout);
 
 	String confirmLabel = result;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 50, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setDrawBackground(false);
 	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
 	listBox->add(lbl);
@@ -279,6 +294,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
+	lbl->setDrawBackground(false);
 }
 
 void TradeFriendDetailScreen::clearListBox() {
@@ -393,9 +409,9 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 			widget->getChildren()[0]->setSelected(false);
 		}
 
-		usernameEditBox->setText("");
-		emailEditBox->setText("");
-		phonenumberEditBox->setText("");
+		//usernameEditBox->setText("");
+		//emailEditBox->setText("");
+		//phonenumberEditBox->setText("");
 	}
 }
 
@@ -403,8 +419,14 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	left = false;
 	right = false;
 	mid = false;
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 	case MAK_FIRE:
+		if(currentSoftKeys->getChildren()[0]->isSelected()){
+			keyPressEvent(MAK_SOFTLEFT);
+		}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+			keyPressEvent(MAK_SOFTRIGHT);
+		}
 		/*if (usernameEditBox != NULL) {
 			usernameEditBox->setEnabled(false);
 		}
@@ -535,39 +557,130 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		}
 		break;
 	case MAK_DOWN:
+		int ind = listBox->getSelectedIndex();
+		int max = listBox->getChildren().size();
 		switch(phase) {
 			case SP_METHOD:
-				listBox->selectNextItem();
-				break;
-			case SP_DETAIL:
-				int ind = listBox->getSelectedIndex();
-				int max = listBox->getChildren().size();
-				ind += 2;
-				if (ind == max+1) {
-					if (card != NULL) {
-						ind = 2;
-					} else {
-						ind = 1;
+				lprintfln("zzz1");
+				if (ind+1 < listBox->getChildren().size()) {
+					listBox->selectNextItem();
+				} else {
+					listBox->getChildren()[ind]->setSelected(false);
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
 					}
 				}
-				listBox->setSelectedIndex(ind);
+				break;
+			case SP_DETAIL:
+				//ind += 2;
+				//if (ind == max+1) {
+				//	if (card != NULL) {
+				//		ind = 2;
+				//	} else {
+				//		ind = 1;
+				//	}
+				//}
+				if (ind+2 < listBox->getChildren().size()) {
+					listBox->setSelectedIndex(ind+2);
+				} else {
+					listBox->getChildren()[ind]->setSelected(false);
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+				break;
+			case SP_COMPLETE:
+			case SP_CONFIRM:
+				if(currentSelectedKey==NULL){
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 				break;
 		}
 		break;
 	case MAK_UP:
 		switch(phase) {
 			case SP_METHOD:
-				if (listBox->getSelectedIndex() > 1)
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+					listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				}
+				else if (listBox->getSelectedIndex() > 1)
 					listBox->selectPreviousItem();
 				break;
 			case SP_DETAIL:
-				int ind = listBox->getSelectedIndex();
-				ind -= 2;
-				if (ind <= 0) {
-					ind = listBox->getChildren().size() - 1;
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+					listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				} else{
+					int ind = listBox->getSelectedIndex();
+					ind -= 2;
+					if (ind <= 0) {
+						ind = listBox->getChildren().size() - 1;
+					}
+					listBox->setSelectedIndex(ind);
 				}
-				listBox->setSelectedIndex(ind);
 				break;
+			case SP_COMPLETE:
+			case SP_CONFIRM:
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+				}
+				break;
+		}
+		break;
+	case MAK_LEFT:
+		if(currentSelectedKey!=NULL){
+			if(currentKeyPosition > 0){
+				currentKeyPosition = currentKeyPosition - 1;
+				for(int i = currentKeyPosition; i >= 0;i--){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentSelectedKey->setSelected(false);
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+		}
+		break;
+	case MAK_RIGHT:
+		if(currentSelectedKey!=NULL){
+			if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+				currentKeyPosition = currentKeyPosition + 1;
+				for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentSelectedKey->setSelected(false);
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
 		}
 		break;
 	}

@@ -50,14 +50,18 @@ public:
 	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK, AT_PRODUCT};
 private:
 	ListBox *midListBox;
+	Widget* currentSelectedKey;
 
 	HttpConnection mHttp;
 	ImageCache *mImageCache;
 
 	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId, playable;
+
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated, premium, credits;
+
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, selectable;
-	int size, i, moved, listSizes, xStart;
+	int size, i, moved, listSizes, xStart, currentKeyPosition;
+
 	bool list, left, right, listLeft, listRight, emp, hasConnection, busy, isAuction, adding;
 
 	Card *card, *newCard;

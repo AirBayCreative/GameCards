@@ -34,10 +34,12 @@ public:
 		ST_PLAY_OPTIONS, ST_GAME_OPTIONS, ST_NEW_GAME_OPTIONS, ST_CARD_OPTIONS,
 		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
 private:
+	Screen *menu;
+	Widget* currentSelectedKey;
 
 	Card *card;
 	bool list, left, right, connError, busy;
-	int index, screenType;
+	int index, screenType, currentKeyPosition;
 	String parentTag, temp1, temp, error_msg, number, deckId;
 
 	HttpConnection mHttp;
