@@ -30,14 +30,17 @@ public:
 
 	enum screens {S_LOGIN, S_REGISTER};
 private:
+	Widget* currentSelectedKey;
+
 	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail, *editBoxRefer;
 
 	HttpConnection mHttp;
 
 	String parentTag,conCatenation,value,value1,value2,convertAsterisk,underscore;
+
 	String username,credits,encrypt,error_msg,email,handle,touch,result,freebie,notedate,premium;
 	bool list, left, right, mid, error;
-	int screen, moved;
+	int screen, moved, currentKeyPosition;
 
 	bool isBusy, changed;
 

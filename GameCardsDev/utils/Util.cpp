@@ -6,6 +6,7 @@
 #include "ImageCacheRequest.h"
 #include "../MAHeaders.h"
 #include "Util.h"
+#include "../UI/Button.h"
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)
 #define GREEN(x)                (((x)&0x0000ff00)>>8)
@@ -139,7 +140,7 @@ WidgetSkin* Util::getSkinEditBox() {
 WidgetSkin* Util::getSkinButton() {
 	static WidgetSkin* gSkinButton;
 	if (gSkinButton == NULL) {
-		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON,
+		gSkinButton = new WidgetSkin(RES_SELECTED_BUTTON, RES_UNSELECTED_BUTTON,
 				BUTTON_X_LEFT, BUTTON_X_RIGHT, BUTTON_Y_TOP, BUTTON_Y_BOTTOM, true, true);
 	}
 	return gSkinButton;
@@ -311,7 +312,11 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	layout->setSkin(Util::getIconListBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
+	//Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
+	Button *label = new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(left);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -319,11 +324,16 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
+	//label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
+	label = new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(centre);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -331,10 +341,14 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getButtonFont());
+	label= new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(right);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -342,6 +356,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 

@@ -13,6 +13,7 @@
 #include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
+#include "../UI/Button.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, MainScreen *previous, Card *card, String number, String deckId) :mHttp(this),
 card(card), screenType(screenType), number(number), deckId(deckId) {
@@ -25,6 +26,10 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 
 	connError = false;
 	busy = false;
+
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+	menu = NULL;
 
 	next = NULL;
 	album = NULL;
@@ -273,8 +278,16 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 void OptionsScreen::keyPressEvent(int keyCode) {
 	int ind = listBox->getSelectedIndex();
 	int max = listBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 		case MAK_SOFTLEFT:
 			index = listBox->getSelectedIndex();
 			switch(screenType) {
@@ -502,17 +515,70 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			if (ind == max-1) {
+			if (ind+1 < listBox->getChildren().size()) {
+				listBox->setSelectedIndex(ind+1);
+			} else {
+				listBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			/*if (ind == max-1) {
 				listBox->setSelectedIndex(0);
 			} else {
 				listBox->selectNextItem();
-			}
+			}*/
 			break;
 		case MAK_UP:
-			if (ind == 0) {
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (ind > 0) {
+				listBox->setSelectedIndex(ind-1);
+			}/*if (ind == 0) {
 				listBox->setSelectedIndex(max-1);
 			} else {
 				listBox->selectPreviousItem();
+			}*/
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 			}
 			break;
 	}

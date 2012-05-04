@@ -36,7 +36,9 @@ private:
 	Card *card, *compare;
 	MobImage *imge, *cmpge;
 	ImageCache *imageCache;
-	int height, flipOrSelect, currentSelectedStat;
+	Widget* currentSelectedKey;
+	int height, flipOrSelect, currentSelectedStat, currentKeyPosition;
+
 	bool flip, busy;
 	bool left, right, list;
 	String parentTag;

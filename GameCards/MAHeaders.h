@@ -123,7 +123,7 @@
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
-#define URL "http://www.mytcg.net/_phone/"
+#define URL "http://dev.mytcg.net/_phone/test_index.php"
 #define URLSIZE 42
 
 //we also need to define the x and y coordinates at which to split the images up
@@ -147,8 +147,8 @@
 #define HEAD_Y_TOP 1
 #define HEAD_Y_BOTTOM 43
 
-#define LIST_X_LEFT 19
-#define LIST_X_RIGHT 77
+#define LIST_X_LEFT 22
+#define LIST_X_RIGHT 168
 #define LIST_Y_TOP 16
 #define LIST_Y_BOTTOM 32
 

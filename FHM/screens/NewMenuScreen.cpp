@@ -286,7 +286,6 @@ void NewMenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
-		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
