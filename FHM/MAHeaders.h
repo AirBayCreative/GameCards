@@ -104,7 +104,7 @@
 #define THUMB_HEIGHT 74
 #define ITEM_HEIGHT 48
 
-#define URL "http://www.mytcg.net/_phone/topcar/"
+#define URL "http://dev.mytcg.net/_phone/FHM/"
 #define URLSIZE 35
 
 //we also need to define the x and y coordinates at which to split the images up

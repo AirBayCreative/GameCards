@@ -45,7 +45,8 @@ private:
 	MobImage *imge;
 	ImageCache *imageCacheFront;
 	ImageCache *imageCacheBack;
-	int height, screenType, flipOrSelect, currentSelectedStat;
+	Widget* currentSelectedKey;
+	int height, screenType, flipOrSelect, currentSelectedStat, currentKeyPosition;
 	bool flip, busy, tapped;
 	bool left, right, list, hasConnection, canAuction;
 	String parentTag;

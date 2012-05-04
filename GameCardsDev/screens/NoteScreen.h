@@ -34,9 +34,11 @@ private:
 
 	String parentTag, note, origionalNote, encodedNote, detail, cardText;
 	bool list, left, right, isBusy;
-	int moved, screenType;
+	int moved, screenType, currentKeyPosition;
 
 	NativeEditBox *editBoxNote;
+
+	Widget* currentSelectedKey;
 
 	ImageCache *mImageCache;
 	MobImage *tempImage;
