@@ -119,7 +119,6 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 			kinListBox->add(label);
 			break;
 		case ST_LOGIN_OPTIONS:
-			lprintfln("ffs 1");
 			label = Util::createSubLabel("Log In");
 			label->addWidgetListener(this);
 			kinListBox->add(label);
@@ -129,9 +128,7 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 			break;
 	}
 
-	lprintfln("ffs 2");
 	kinListBox->setSelectedIndex(0);
-	lprintfln("ffs 3");
 
 	this->setMain(mainLayout);
 }
