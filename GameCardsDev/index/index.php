@@ -157,7 +157,6 @@ $sPassword=substr(md5($iUserID),$iMod,10).md5($sPassword);
 if ($sPassword!=$aValidUser[0]['password']){
 	$iUserID=0;
 }
-
 /*$iUserID = 89;*/
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){
@@ -239,14 +238,17 @@ if ($iTestVersion=$_GET['update']){
 	
 	$iUpdate=$aUpdate[0];
 	if ($iUpdate['dif'] >= 1) {
-		
-		myqui('UPDATE mytcg_user SET version_check_date=now() WHERE user_id = '.$iUserID);
+	
+		myqui('UPDATE mytcg_user SET version_check_date=now(), apps_id = (select apps_id from mytcg_apps where apps_key = "'.$appkey.'") WHERE user_id = '.$iUserID);
 		
 		$aVersion=myqu(
-			'SELECT url FROM mytcg_version '
-			.'WHERE os="'.$iOs.'" '
-			.'AND version <> "'.$iTestVersion.'" '
+			'SELECT v.url FROM mytcg_version v, mytcg_apps a '
+			.'WHERE v.os="'.$iOs.'" '
+			.'AND v.apps_id = a.apps_id '
+			.'AND a.apps_key = "'.$appkey.'" '
+			.'AND v.version <> "'.$iTestVersion.'" '
 		);
+		
 		$iUpdate = sizeof($aVersion);
 		$iVersion=$aVersion[0];
 		if ($iUpdate > 0){
@@ -1982,7 +1984,7 @@ if ($_GET['usercategories']){
 	}
 	$sOP.='</usercategories>'.$sCRLF;
 	
-	if ($iCount==1) {
+	if ($iCount==1 && $topCats[0]['hasCards'] != "true") {
 		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $iUserID, $aMine, $aCard, $topcar);
 	}
 	
@@ -2028,7 +2030,7 @@ if ($iFreebie=$_GET['productcategories']) {
 	$aCategories=myqu('SELECT c.category_id, c.description
 		FROM mytcg_category c
 		WHERE c.category_id NOT IN (SELECT DISTINCT category_child_id 
-			FROM mytcg_category_x) '.$productcategories.' ORDER BY c.description');
+			FROM mytcg_category_x WHERE category_parent_id IS NOT NULL) '.$productcategories.' ORDER BY c.description');
 	$sOP='<cardcategories>'.$sCRLF;
 	$iCount=0;
 	while ($aCategory=$aCategories[$iCount]) {
