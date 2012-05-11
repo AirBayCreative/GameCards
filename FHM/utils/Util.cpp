@@ -6,6 +6,7 @@
 #include "ImageCacheRequest.h"
 #include "../MAHeaders.h"
 #include "Util.h"
+#include "../UI/Button.h"
 
 #define RED(x)                  (((x)&0x00ff0000)>>16)
 #define GREEN(x)                (((x)&0x0000ff00)>>8)
@@ -16,9 +17,9 @@
                                                  (((g)&0xff)<<8)| \
                                                  (((b)&0xff)));
 
-Screen *orig;
-Screen *origAlbum;
-Screen *origMenu;
+MainScreen *orig;
+MainScreen *origAlbum;
+MainScreen *origMenu;
 int scrWidth;
 int scrHeight;
 
@@ -85,13 +86,39 @@ Font* Util::getFontRed() {
 	}
 	return red;
 }
+
+Font* Util::getFontGreen() {
+	static Font* green;
+	if (green == NULL) {
+#if defined(RES_FONT_GREEN)
+		green = new MAUI::Font(RES_FONT_GREEN);
+#endif
+	}
+	return green;
+}
+Font* Util::getFontGrey() {
+	static Font* grey;
+	if (grey == NULL) {
+#if defined(RES_FONT_GREY)
+		grey = new MAUI::Font(RES_FONT_GREY);
+#endif
+	}
+	return grey;
+}
+
 Font* Util::getDefaultFont() {
+#if defined(RES_FONT_GREY)
+	return getFontGrey();
+#endif
 #if defined(RES_FONT_WHITE)
 	return getFontWhite();
 #endif
 	return getFontBlack();
 }
 Font* Util::getDefaultSelected() {
+#if defined(RES_FONT_GREEN)
+	return getFontGreen();
+#endif
 #if defined(RES_FONT_RED)
 	return getFontRed();
 #endif
@@ -113,7 +140,7 @@ WidgetSkin* Util::getSkinEditBox() {
 WidgetSkin* Util::getSkinButton() {
 	static WidgetSkin* gSkinButton;
 	if (gSkinButton == NULL) {
-		gSkinButton = new WidgetSkin(RES_UNSELECTED_BUTTON, RES_UNSELECTED_BUTTON,
+		gSkinButton = new WidgetSkin(RES_SELECTED_BUTTON, RES_UNSELECTED_BUTTON,
 				BUTTON_X_LEFT, BUTTON_X_RIGHT, BUTTON_Y_TOP, BUTTON_Y_BOTTOM, true, true);
 	}
 	return gSkinButton;
@@ -179,6 +206,35 @@ WidgetSkin* Util::getSkinText() {
 	}
 	return gSkinText;
 }
+WidgetSkin* Util::getSkinDropDownItem() {
+	static WidgetSkin* gSkinDropDownItem;
+	if (gSkinDropDownItem == NULL) {
+		gSkinDropDownItem = new WidgetSkin(RES_DROPDOWNITEM_SEL, RES_DROPDOWNITEM_UNSEL,
+				DROPDOWNITEM_X_LEFT, DROPDOWNITEM_X_RIGHT, DROPDOWNITEM_Y_TOP,
+				DROPDOWNITEM_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownItem;
+}
+
+WidgetSkin* Util::getSkinDropDownBox() {
+	static WidgetSkin* gSkinDropDownBox;
+	if (gSkinDropDownBox == NULL) {
+		gSkinDropDownBox = new WidgetSkin(RES_DROPDOWNBOX_SEL, RES_DROPDOWNBOX_UNSEL,
+				DROPDOWNBOX_X_LEFT, DROPDOWNBOX_X_RIGHT, DROPDOWNBOX_Y_TOP,
+				DROPDOWNBOX_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBox;
+}
+
+WidgetSkin* Util::getSkinDropDownBack() {
+	static WidgetSkin* gSkinDropDownBack;
+	if (gSkinDropDownBack == NULL) {
+		gSkinDropDownBack = new WidgetSkin(RES_BLANK, RES_BLANK,
+				DROPDOWNBACK_X_LEFT, DROPDOWNBACK_X_RIGHT, DROPDOWNBACK_Y_TOP,
+				DROPDOWNBACK_Y_BOTTOM, true, true);
+	}
+	return gSkinDropDownBack;
+}
 
 WidgetSkin* Util::getIconListBack() {
 	static WidgetSkin* gSkinIconListBack;
@@ -196,6 +252,16 @@ WidgetSkin* Util::getIconSelect() {
 				4, 48, 10, 50, true, true);
 	}
 	return gSkinIconSelect;
+}
+
+WidgetSkin* Util::getSkinPopupHeader() {
+	static WidgetSkin* gSkinPopupHeader;
+	if (gSkinPopupHeader == NULL) {
+		gSkinPopupHeader = new WidgetSkin(RES_POPUP_HEADER, RES_POPUP_HEADER,
+				POPUP_HEADER_X_LEFT, POPUP_HEADER_X_RIGHT, POPUP_HEADER_Y_TOP,
+				POPUP_HEADER_Y_BOTTOM, true, true);
+	}
+	return gSkinPopupHeader;
 }
 
 void Util::setPadding(Widget *w) {
@@ -216,7 +282,12 @@ Label* Util::createEditLabel(String str, int height) {
 	Util::setPadding(label);
 	return label;
 }
-
+Label* Util::createDropDownLabel(String str, int height) {
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	label->setSkin(Util::getSkinDropDownBox());
+	Util::setPadding(label);
+	return label;
+}
 Label* Util::createSubLabel(String str, int height) {
 	Label *label = new Label(0, 0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
@@ -241,7 +312,11 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	layout->setSkin(Util::getIconListBack());
 	layout->setDrawBackground(true);
 
-	Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
+	//Label *label = new Label(0,0, scrWidth/3, height, NULL, left, 0, Util::getButtonFont());
+	Button *label = new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(left);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(left) != 0) {
@@ -249,11 +324,16 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 
 	//the %3 part is to make up for pixels lost due to int dropping fractions
-	label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
+	//label = new Label(0,0, scrWidth/3 + (scrWidth%3), height, NULL, centre, 0, Util::getButtonFont());
+	label = new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(centre);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(centre) != 0) {
@@ -261,10 +341,14 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 
-	label = new Label(0,0, scrWidth/3, height, NULL, right, 0, Util::getButtonFont());
+	label= new Button(0,0, scrWidth/3, height, NULL);
+	label->setCaption(right);
+	label->setBackgroundColor(0);
+	label->setFont(Util::getButtonFont());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	if (strlen(right) != 0) {
@@ -272,6 +356,7 @@ Widget* Util::createSoftKeyBar(int height, const char *left, const char *right, 
 	}
 	else {
 		label->setDrawBackground(false);
+		label->setSelectable(false);
 	}
 	layout->add(label);
 
@@ -316,20 +401,20 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	label->setDrawBackground(false);
 	listBox->add(label);
 
-	if (useKinetic) {
+	//if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		mKineticBox->setPaddingLeft(PADDING);
 		mKineticBox->setDrawBackground(false);
 		listBox->add(mKineticBox);
-	}
+	/*}
 	else {
-		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
+		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight),
 				NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		mBox->setDrawBackground(false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
-	}
+	}*/
 
 	imgSize = -1;
 	mainLayout->add(softKeys);
@@ -753,7 +838,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 										"/";
 
 
-	/* Copyright (C) 2004-2008 René Nyffenegger
+	/* Copyright (C) 2004-2008 Renï¿½ Nyffenegger
 
 	   This source code is provided 'as-is', without any express or implied
 	   warranty. In no event will the author be held liable for any damages
@@ -773,7 +858,7 @@ String Util::base64_encode(unsigned char const* bytes_to_encode, unsigned int in
 
 	   3. This notice may not be removed or altered from any source distribution.
 
-	   René Nyffenegger rene.nyffenegger@adp-gmbh.ch */
+	   Renï¿½ Nyffenegger rene.nyffenegger@adp-gmbh.ch */
 
 	unsigned char char_array_3[3];
 	unsigned char char_array_4[4];

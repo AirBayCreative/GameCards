@@ -2,26 +2,34 @@
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
 #include "DetailScreen.h"
+#include "../UI/Button.h"
 
-TradeFriendDetailScreen::TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card) :previous(previous), feed(feed), card(card), mHttp(this) {
+TradeFriendDetailScreen::TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card) :card(card), mHttp(this) {
 	lprintfln("TradeFriendDetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	sending = false;
 	friendDetail = "";
 	methodLabel = "";
 	method = "";
 	result = "";
 	moved = 0;
+
 	menu = NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
-	layout = Util::createMainLayout("Continue", "Back", "", true);
+	next = NULL;
 
-	listBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
-	notice = (Label*)layout->getChildren()[0]->getChildren()[1];
+	mainLayout = Util::createMainLayout("Continue", "Back", "", true);
+
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	notice = (Label*)mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
 	drawMethodScreen();
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 }
 
 TradeFriendDetailScreen::~TradeFriendDetailScreen() {
@@ -34,12 +42,12 @@ TradeFriendDetailScreen::~TradeFriendDetailScreen() {
 	temp1="";
 	error_msg="";
 	result="";
-	delete layout;
-	layout = NULL;
-	if (menu != NULL) {
-		delete menu;
+	delete mainLayout;
+	mainLayout = NULL;
+	if (next != NULL) {
+		delete next;
 		feed->remHttp();
-		menu = NULL;
+		next = NULL;
 	}
 
 	cardText="";
@@ -55,7 +63,9 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Continue", "Back", "", layout);
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
 	Layout *feedlayout;
 
@@ -72,7 +82,7 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 		cardText += card->getRanking();
 		//cardText += "\nRarity: ";
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(false);
 		//feedlayout->addWidgetListener(this);
@@ -98,72 +108,72 @@ void TradeFriendDetailScreen::drawMethodScreen() {
 
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Username", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Share with Username");
 		usernameEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 
 
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Email", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Share with Email");
 		emailEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Share with Phone Number", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER, label, "", L"Share with Phone Number");
 		phonenumberEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
 		phonenumberEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	} else {
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Username", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		usernameEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Invite By Username");
 		usernameEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Email", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		emailEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Invite By Email");
 		emailEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Invite by Phone Number", 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		phonenumberEditBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_PHONENUMBER, label, "", L"Invite By Phone Number");
 		phonenumberEditBox->setInputMode(NativeEditBox::IM_NUMBERS);
 		phonenumberEditBox->setDrawBackground(false);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 
 	if (card != NULL) {
-		listBox->setSelectedIndex(2);
+		kinListBox->setSelectedIndex(2);
 	} else {
-		listBox->setSelectedIndex(1);
+		kinListBox->setSelectedIndex(1);
 	}
 }
 
@@ -175,16 +185,19 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Confirm", "Back", "", layout);
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
 
 	String confirmLabel = "Send " + card->getText() + " to " + friendDetail + "?";
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 50, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setDrawBackground(false);
 	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	mImageCache = new ImageCache();
 
@@ -200,7 +213,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	//feedlayout->addWidgetListener(this);
@@ -221,6 +234,7 @@ void TradeFriendDetailScreen::drawConfirmScreen() {
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
+	lbl->setDrawBackground(false);
 }
 
 void TradeFriendDetailScreen::drawCompleteScreen() {
@@ -231,16 +245,19 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	notice->setCaption("");
 	clearListBox();
 
-	Util::updateSoftKeyLayout("Confirm", "", "", layout);
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+	Util::updateSoftKeyLayout("Confirm", "", "", mainLayout);
 
 	String confirmLabel = result;
 
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, confirmLabel, 0, Util::getDefaultSelected());
+	lbl = new Label(0,0, scrWidth-PADDING*2, 50, NULL, confirmLabel, 0, Util::getDefaultSelected());
 	lbl->setHorizontalAlignment(Label::HA_CENTER);
 	lbl->setVerticalAlignment(Label::VA_CENTER);
+	lbl->setDrawBackground(false);
 	//lbl->setSkin(Util::getSkinBack());
 	lbl->setMultiLine(true);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	mImageCache = new ImageCache();
 
@@ -256,7 +273,7 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	//feedlayout->addWidgetListener(this);
@@ -277,15 +294,16 @@ void TradeFriendDetailScreen::drawCompleteScreen() {
 	lbl->setAutoSizeY();
 	lbl->setAutoSizeX(true);
 	lbl->setMultiLine(true);
+	lbl->setDrawBackground(false);
 }
 
 void TradeFriendDetailScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -320,7 +338,7 @@ void TradeFriendDetailScreen::pointerReleaseEvent(MAPoint2d point) {
 
 		if (!changed) {
 			/*int yClick = point.y;
-			int index = listBox->getSelectedIndex();*/
+			int index = kinListBox->getSelectedIndex();*/
 		}
 		else {
 			changed = false;
@@ -375,7 +393,7 @@ void TradeFriendDetailScreen::locateItem(MAPoint2d point) {
 	{
 		if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
 		{
-			if (moved <= 1) listBox->setSelectedIndex(i);
+			if (moved <= 1) kinListBox->setSelectedIndex(i);
 			list = true;
 			//return;
 		}
@@ -391,9 +409,9 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 			widget->getChildren()[0]->setSelected(false);
 		}
 
-		usernameEditBox->setText("");
-		emailEditBox->setText("");
-		phonenumberEditBox->setText("");
+		//usernameEditBox->setText("");
+		//emailEditBox->setText("");
+		//phonenumberEditBox->setText("");
 	}
 }
 
@@ -401,8 +419,14 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 	left = false;
 	right = false;
 	mid = false;
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 	case MAK_FIRE:
+		if(currentSoftKeys->getChildren()[0]->isSelected()){
+			keyPressEvent(MAK_SOFTLEFT);
+		}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+			keyPressEvent(MAK_SOFTRIGHT);
+		}
 		/*if (usernameEditBox != NULL) {
 			usernameEditBox->setEnabled(false);
 		}
@@ -458,6 +482,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 							memset(url, '\0', urlLength+1);
 
 							sprintf(url, "%s?friendinvite=1&trademethod=%s&detail=%s", URL,	method.c_str(), friendDetail.c_str());
+							lprintfln("%s", url);
 
 							if(mHttp.isOpen()){
 								mHttp.close();
@@ -492,6 +517,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 
 					sprintf(url, "%s?tradecard=%s&trademethod=%s&detail=%s", URL, card->getId().c_str(),
 							method.c_str(), friendDetail.c_str());
+					lprintfln("%s", url);
 					//url.append("&sms=Yes", 8);
 					if(mHttp.isOpen()){
 						mHttp.close();
@@ -531,39 +557,130 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 		}
 		break;
 	case MAK_DOWN:
+		int ind = kinListBox->getSelectedIndex();
+		int max = kinListBox->getChildren().size();
 		switch(phase) {
 			case SP_METHOD:
-				listBox->selectNextItem();
-				break;
-			case SP_DETAIL:
-				int ind = listBox->getSelectedIndex();
-				int max = listBox->getChildren().size();
-				ind += 2;
-				if (ind == max+1) {
-					if (card != NULL) {
-						ind = 2;
-					} else {
-						ind = 1;
+				lprintfln("zzz1");
+				if (ind+1 < kinListBox->getChildren().size()) {
+					kinListBox->selectNextItem();
+				} else {
+					kinListBox->getChildren()[ind]->setSelected(false);
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
 					}
 				}
-				listBox->setSelectedIndex(ind);
+				break;
+			case SP_DETAIL:
+				//ind += 2;
+				//if (ind == max+1) {
+				//	if (card != NULL) {
+				//		ind = 2;
+				//	} else {
+				//		ind = 1;
+				//	}
+				//}
+				if (ind+2 < kinListBox->getChildren().size()) {
+					kinListBox->setSelectedIndex(ind+2);
+				} else {
+					kinListBox->getChildren()[ind]->setSelected(false);
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+				break;
+			case SP_COMPLETE:
+			case SP_CONFIRM:
+				if(currentSelectedKey==NULL){
+					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 				break;
 		}
 		break;
 	case MAK_UP:
 		switch(phase) {
 			case SP_METHOD:
-				if (listBox->getSelectedIndex() > 1)
-					listBox->selectPreviousItem();
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+					kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+				}
+				else if (kinListBox->getSelectedIndex() > 1)
+					kinListBox->selectPreviousItem();
 				break;
 			case SP_DETAIL:
-				int ind = listBox->getSelectedIndex();
-				ind -= 2;
-				if (ind <= 0) {
-					ind = listBox->getChildren().size() - 1;
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+					kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+				} else{
+					int ind = kinListBox->getSelectedIndex();
+					ind -= 2;
+					if (ind <= 0) {
+						ind = kinListBox->getChildren().size() - 1;
+					}
+					kinListBox->setSelectedIndex(ind);
 				}
-				listBox->setSelectedIndex(ind);
 				break;
+			case SP_COMPLETE:
+			case SP_CONFIRM:
+				if(currentSelectedKey!=NULL){
+					currentSelectedKey->setSelected(false);
+					currentSelectedKey = NULL;
+					currentKeyPosition = -1;
+				}
+				break;
+		}
+		break;
+	case MAK_LEFT:
+		if(currentSelectedKey!=NULL){
+			if(currentKeyPosition > 0){
+				currentKeyPosition = currentKeyPosition - 1;
+				for(int i = currentKeyPosition; i >= 0;i--){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentSelectedKey->setSelected(false);
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+		}
+		break;
+	case MAK_RIGHT:
+		if(currentSelectedKey!=NULL){
+			if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+				currentKeyPosition = currentKeyPosition + 1;
+				for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentSelectedKey->setSelected(false);
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
 		}
 		break;
 	}

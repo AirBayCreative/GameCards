@@ -5,8 +5,12 @@
 #include "AlbumViewScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
+#include "GamePlayScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Album.h"
+#include "DeckListScreen.h"
+#include "../UI/Button.h"
+
 
 void AlbumLoadScreen::refresh() {
 	show();
@@ -30,24 +34,23 @@ void AlbumLoadScreen::refresh() {
 	album->setAll(alb.c_str());
 	alb = "";
 	drawList();
-	notice->setCaption("Checking for new albums...");
-
-	int seconds = maLocalTime();
-	int secondsLength = Util::intlen(seconds);
-	char *secString = new char[secondsLength+1];
-	memset(secString,'\0',secondsLength+1);
-	sprintf(secString, "%d", seconds);
-
-	urlLength = 52+URLSIZE + 36;
-	url = new char[urlLength+1];
-	memset(url,'\0',urlLength+1);
-	sprintf(url, "%s?usercategories=1&seconds=%s", URL, secString);
-
-	delete secString;
-	secString = NULL;
-
-	lprintfln("%s", url);
-	res = mHttp.create(url, HTTP_GET);
+	if(screenType == ST_LOBBY){
+		notice->setCaption("Checking games...");
+		urlLength = 72 + URLSIZE + categoryId.length();
+		url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+		lprintfln("%s", url);
+		res = mHttp.create(url, HTTP_GET);
+	}else{
+		notice->setCaption("Checking for new albums...");
+		urlLength = 52+URLSIZE + feed->getSeconds().length();
+		url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+		lprintfln("%s", url);
+		res = mHttp.create(url, HTTP_GET);
+	}
 	if(res < 0) {
 		hasConnection = false;
 		notice->setCaption("");
@@ -66,11 +69,15 @@ void AlbumLoadScreen::refresh() {
 	}
 }
 
-AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card, String categoryId) : mHttp(this),
-		previous(previous), feed(feed), screenType(screenType), isAuction(auction), card(card), categoryId(categoryId) {
+AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenType, Albums *a, bool auction, Card *card, String categoryId) : mHttp(this),
+		screenType(screenType), isAuction(auction), card(card), categoryId(categoryId) {
+	this->previous = previous;
+	this->feed = feed;
 	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	int res = -1;
 	char *url = NULL;
 	int urlLength = 0;
@@ -97,23 +104,68 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 		case ST_COMPARE:
 		case ST_AUCTION:
 			notice->setCaption("Checking for new albums...");
-
-			int seconds = maLocalTime();
-			int secondsLength = Util::intlen(seconds);
-			char *secString = new char[secondsLength+1];
-			memset(secString,'\0',secondsLength+1);
-			sprintf(secString, "%d", seconds);
-
 			album->setAll(this->feed->getAlbum()->getAll().c_str());
-			urlLength = 60 + URLSIZE + 36;
+			urlLength = 60 + URLSIZE + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usercategories=1&seconds=%s", URL, secString);
+			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
 			lprintfln("%s", url);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_PLAY:
+			notice->setCaption("Checking for new albums...");
 
-			delete secString;
-			secString = NULL;
+			//work out how long the url will be, the 2 is for the & and = symbols
+			urlLength = 60 + URLSIZE + feed->getUsername().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?playablecategories=1&username=%s", URL, feed->getUsername().c_str());
+			lprintfln("%s", url);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_GAMES:
+			listBox->setHeight(listBox->getHeight() - 20);
 
+			if (a != NULL) {
+				notice->setCaption("Please choose a game to continue.");
+				album = a;
+				drawList();
+				this->setMain(mainLayout);
+				orig = this;
+				return;
+			}
+			else {
+				notice->setCaption("Checking games...");
+				//drawList();
+				int urlLength = 60 + URLSIZE;
+				url = new char[urlLength+1];
+				memset(url,'\0',urlLength+1);
+				sprintf(url, "%s?getusergames=1", URL);
+				lprintfln("%s", url);
+				res = mHttp.create(url, HTTP_GET);
+			}
+			break;
+		case ST_LOBBY:
+			listBox->setHeight(listBox->getHeight() - 20);
+			notice->setCaption("Checking games...");
+			Util::updateSoftKeyLayout("Host Game", "Back", "", mainLayout);
+			urlLength = 72 + URLSIZE + categoryId.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?getopengames=1&categoryid=%s", URL, categoryId.c_str());
+			lprintfln("%s", url);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_DECK:
+			path.add(categoryId);
+
+			notice->setCaption("Checking for new albums...");
+			//work out how long the url will be, the 4 is for the & and = symbols
+			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, categoryId.c_str(), feed->getSeconds().c_str());
+			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
 	}
@@ -131,7 +183,9 @@ AlbumLoadScreen::AlbumLoadScreen(Screen *previous, Feed *feed, int screenType, A
 
 	this->setMain(mainLayout);
 
+	lprintfln("1");
 	drawList();
+	lprintfln("2");
 
 	if (url != NULL) {
 		delete url;
@@ -160,7 +214,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	hasCards="";
 	updated="";
 
-	if (screenType == ST_ALBUMS) {
+	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
 			delete album;
 			album = NULL;
@@ -262,6 +316,7 @@ void AlbumLoadScreen::locateItem(MAPoint2d point)
 }
 
 void AlbumLoadScreen::drawList() {
+	lprintfln("dl 1");
 	clearListBox();
 	empt = false;
 	listBox->clear();
@@ -270,6 +325,7 @@ void AlbumLoadScreen::drawList() {
 	Vector<String> display = album->getNames();
 	Layout *listLayout;
 	//check if we need more than 1 page
+	lprintfln("dl 2");
 	if (itemsPerList < display.size()) {
 		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 3, 1);
 		listLayout->setDrawBackground(false);
@@ -297,7 +353,7 @@ void AlbumLoadScreen::drawList() {
 		rightArrow = new Image(0, 0, ARROW_WIDTH, listLayout->getHeight(), NULL, false, false, RES_RIGHT_ARROW);
 		rightArrow->setDrawBackground(false);
 	}
-
+	lprintfln("dl 3");
 	int currentList = -1;
 	ListBox *tempList = NULL;
 	int i = 0;
@@ -325,26 +381,37 @@ void AlbumLoadScreen::drawList() {
 
 		i++;
 	}
+	lprintfln("dl 4");
 	albumname="";
 	display.clear();
+	lprintfln("dl 4.1");
 	if (album->size() >= 1) {
+		lprintfln("dl 4.2");
 		int listIndex = ind / itemsPerList;
 		int listItem = ind % itemsPerList;
+
 		selectedList = listIndex;
+		lprintfln("dl 4.21");
 		midListBox->add(cardLists[listIndex]);
+		lprintfln("dl 4.22");
 		cardLists[listIndex]->setSelectedIndex(listItem);
+		lprintfln("dl 4.23");
 		cardLists[listIndex]->getChildren()[cardLists[listIndex]->getSelectedIndex()]->setSelected(true);
 		/*if (ind < album->size()) {
 			listBox->setSelectedIndex(ind);
 		} else {
 			listBox->setSelectedIndex(0);
 		}*/
+		lprintfln("dl 4.3");
 	} else {
+		lprintfln("dl 4.4");
 		empt = true;
 		midListBox->add(Util::createSubLabel("Empty"));
 		midListBox->setSelectedIndex(0);
 		size++;
+		lprintfln("dl 4.5");
 	}
+	lprintfln("dl 5");
 	int capLength = 6 + Util::intlen((selectedList + 1)) + Util::intlen(cardLists.size());
 	char *cap = new char[capLength+1];
 	memset(cap,'\0',capLength+1);
@@ -353,6 +420,7 @@ void AlbumLoadScreen::drawList() {
 	if (shown) {
 		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 	}
+	lprintfln("dl 6");
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -427,40 +495,142 @@ void AlbumLoadScreen::hide() {
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
 	int selected = (cardLists[0]->getChildren().size() * selectedList) + cardLists[selectedList]->getSelectedIndex();
+	int max = 0;
+	int index = 0;
+	if (empt) {
+		max = midListBox->getChildren().size();
+		index = midListBox->getSelectedIndex();
+	}
+	else {
+		max = cardLists[selectedList]->getChildren().size();
+		index = cardLists[selectedList]->getSelectedIndex();
+	}
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_UP:
-			if (empt) {
-				midListBox->selectPreviousItem();
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				if (empt) {
+					midListBox->getChildren()[max-1]->setSelected(true);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[max-1]->setSelected(true);
+				}
 			}
 			else {
-				cardLists[selectedList]->selectPreviousItem();
+				if (empt) {
+					midListBox->selectPreviousItem();
+				}
+				else {
+					cardLists[selectedList]->selectPreviousItem();
+				}
 			}
+
 			break;
 		case MAK_DOWN:
-			if (empt) {
-				midListBox->selectNextItem();
-			}
-			else {
-				cardLists[selectedList]->selectNextItem();
+			if (index+1 < max) {
+				if (empt) {
+					midListBox->selectNextItem();
+				}
+				else {
+					cardLists[selectedList]->selectNextItem();
+				}
+			} else {
+				if (empt) {
+					midListBox->getChildren()[index]->setSelected(false);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[index]->setSelected(false);
+				}
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
 			break;
 		case MAK_RIGHT:
-			if (!empt) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!empt) {
 				switchList(1);
 			}
 			break;
 		case MAK_LEFT:
-			if (!empt) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!empt) {
 				switchList(-1);
 			}
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			switch(screenType) {
+				case ST_DECK:
+					if (path.size() > 1) {
+						path.remove(path.size()-1);
+						loadCategory();
+					}
+					else {
+						previous->show();
+					}
+					break;
+				default:
+					if (path.size() > 0) {
+						path.remove(path.size()-1);
+						loadCategory();
+					}
+					else {
+						previous->show();
+					}
+					break;
+			}
 			break;
-		case MAK_SOFTLEFT:
+			case MAK_SOFTLEFT:
+				switch(screenType){
+					case ST_LOBBY:
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new GamePlayScreen(this, feed, true, categoryId, "2", false, deckId, 1, "-1");
+						next->show();
+						break;
+				}
 		case MAK_FIRE:
-			if (!empt) {
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}else if (!empt) {
 				Album* val = (album->getAlbum(((Label *)cardLists[selectedList]->getChildren()[cardLists[selectedList]->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
 					delete next;
@@ -503,6 +673,31 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 					case ST_COMPARE:
 						if (val->getHasCards()) {
 							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_PLAY:
+						next = new DeckListScreen(this, feed, DeckListScreen::ST_SELECT, val->getId());
+						next->show();
+						break;
+					case ST_GAMES:
+						next = new GamePlayScreen(this, feed, false, val->getId());
+						next->show();
+						break;
+					case ST_LOBBY:
+						next = new GamePlayScreen(this, feed, true, categoryId, "2", false, deckId, 2, val->getId());
+						next->show();
+						break;
+					case ST_DECK:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_DECK, isAuction, card, deckId);
 							next->show();
 						}
 						else {
@@ -580,35 +775,25 @@ void AlbumLoadScreen::loadCategory() {
 			mHttp.close();
 		}
 		mHttp = HttpConnection(this);
-
-		int seconds = maLocalTime();
-		int secondsLength = Util::intlen(seconds);
-		char *secString = new char[secondsLength+1];
-		memset(secString,'\0',secondsLength+1);
-		sprintf(secString, "%d", seconds);
-
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-
-			urlLength = 60 + URLSIZE + 36;
+			urlLength = 60 + URLSIZE + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usercategories=1&seconds=%s", URL, secString);
+			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = 70 + URLSIZE + path[path.size()-1].length() + 36;
+			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), secString);
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
-		delete secString;
-		secString = NULL;
 
 		if(res < 0) {
 			notice->setCaption("");
@@ -690,13 +875,26 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
-		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), "");
+		album->addAlbum(temp.c_str(), temp1.c_str(), (hasCards=="true"), (updated=="1"));
 		temp = "";
 		hasCards = "";
 		updated = "";
 		temp1 = "";
 	} else if (!strcmp(name, "usercategories") || !strcmp(name, "categories") || !strcmp(name, "games")) {
-		notice->setCaption("");
+		switch (screenType) {
+			case ST_PLAY:
+				notice->setCaption("Choose game cards.");
+				break;
+			case ST_GAMES:
+				notice->setCaption("Please choose a game to continue.");
+				break;
+			case ST_LOBBY:
+				notice->setCaption("Please choose a game to play.");
+				break;
+			default:
+				notice->setCaption("");
+				break;
+		}
 		if (screenType == ST_ALBUMS) {
 			String al = album->getAll();
 			if (path.size() == 0) {
@@ -756,24 +954,32 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 							loadCategory();
 						}
 						break;
+					case ST_PLAY:
+						next = new DeckListScreen(this, feed, DeckListScreen::ST_SELECT, val->getId());
+						next->show();
+						break;
+					case ST_GAMES:
+						next = new GamePlayScreen(this, feed, false, val->getId());
+						next->show();
+						break;
+					}
 				}
 				display.clear();
 			}
-			temp = "";
-			hasCards = "";
-			updated = "";
-			temp1 = "";
-			error_msg = "";
-		} else if(!strcmp(name, "error")) {
-			notice->setCaption(error_msg.c_str());
-			temp = "";
-			hasCards = "";
-			updated = "";
-			temp1 = "";
-			error_msg = "";
-		} else {
-			notice->setCaption("");
-		}
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+	} else if(!strcmp(name, "error")) {
+		notice->setCaption(error_msg.c_str());
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+	} else {
+		notice->setCaption("");
 	}
 }
 

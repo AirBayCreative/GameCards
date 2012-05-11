@@ -1,3 +1,5 @@
+#include <conprint.h>
+
 #include "Product.h"
 #include "Util.h"
 
@@ -21,8 +23,8 @@ Product::~Product() {
 
 Product::Product(const char *id, const char *name,
 			const char *productType, const char *thumb,
-			const char *price, const char *cardsInPack) : id(id), name(name),
-			productType(productType), thumb(thumb), price(price), cardsInPack(cardsInPack) {
+			const char *price, const char *cardsInPack, const char *premium) : id(id), name(name),
+			productType(productType), thumb(thumb), price(price), cardsInPack(cardsInPack), premium(premium) {
 }
 
 String Product::getId() {
@@ -65,6 +67,13 @@ void Product::setPrice(const char *p) {
 	price = p;
 }
 
+String Product::getPremium() {
+	return premium;
+}
+
+void Product::setPremium(const char *p) {
+	premium = p;
+}
 String Product::getCardsInPack() {
 	return cardsInPack;
 }
@@ -80,9 +89,13 @@ String Product::getFormattedPrice() {
 }
 
 String Product::getDetailsString() {
-	String details = "Credits: ";
-
-	details += price;
+	String details = "";
+	if (strcmp(price.c_str(), "0")) {
+		details += "Credits: " + price;
+	}
+	if (strcmp(premium.c_str(), "0")) {
+		details += "\nPremium: " + premium;
+	}
 	details += "\nCards: " + cardsInPack;
 	details += "\nType: " + productType;
 

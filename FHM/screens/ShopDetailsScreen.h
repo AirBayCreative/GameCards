@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Product.h"
@@ -13,20 +12,25 @@
 #include "../UI/Native/NativeEditBox.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopDetailsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopDetailsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, HttpConnectionListener, MenuListener {
 public:
-	ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
+	ShopDetailsScreen(MainScreen *previous, Feed *feed, int screenType, bool free, Product *product = NULL, Auction *auction = NULL, bool first = false);
 	~ShopDetailsScreen();
 	void selectionChanged(Widget *widget, bool selected);
 	void keyPressEvent(int keyCode);
+	void purchase();
 	String ShopDetailsScreen::getTime();
 	void refresh();
 
 	void runTimerEvent();
+
+	void menuOptionSelected(int index);
 
 	void pointerPressEvent(MAPoint2d point);
 	void pointerMoveEvent(MAPoint2d point);
@@ -37,28 +41,24 @@ public:
 
 	Auction *auction;
 private:
-	Screen *next, *previous;
-	Layout *mainLayout;
-	Label *label, *cardLabel, *notice;
-	KineticListBox *listBox;
+	Label *cardLabel, *creditlabel;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	NativeEditBox *editBidBox;
+	MenuScreen *purchaseMenu;
 
-	bool list, left, right, free, first, busy, bidOrBuy, hasBid, buynow, success, confirmbuynow, expired;
+	bool list,left,right,free,first,busy,bidOrBuy,hasBid,buynow,success,confirmbuynow,expired;
 
-	String parentTag, result, credits;
+	String parentTag,result,credits,premium;
 	String temp,temp1,error_msg;
 
-	int moved, screenType;
+	int moved,screenType;
 
-	String nameDesc, fullDesc;
+	String nameDesc,fullDesc;
 
 	Product *product;
-	Feed *feed;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void httpFinished(MAUtil::HttpConnection*, int);
 	void connReadFinished(Connection*, int);

@@ -4,11 +4,16 @@
 #include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../UI/Widgets/MobImage.h"
+#include "../UI/Button.h"
 
-AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *card) : mHttp(this), previous(previous), feed(feed), card(card) {
+AuctionCreateScreen::AuctionCreateScreen(MainScreen *previous, Feed *feed, Card *card) : mHttp(this), card(card) {
 	lprintfln("AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	listBox = NULL;
+	this->previous = previous;
+		this->feed = feed;
+	kinListBox = NULL;
 	mainLayout= NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	mImageCache = new ImageCache();
 
@@ -25,6 +30,10 @@ AuctionCreateScreen::AuctionCreateScreen(Screen *previous, Feed *feed, Card *car
 	busy = false;
 
 	drawDataInputScreen();
+}
+
+void AuctionCreateScreen::menuOptionSelected(int index) {
+	previous->pop();
 }
 
 AuctionCreateScreen::~AuctionCreateScreen() {
@@ -99,10 +108,17 @@ void AuctionCreateScreen::locateItem(MAPoint2d point)
 }
 
 void AuctionCreateScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(screenMode) {
 		case ST_DATA:
 			switch(keyCode) {
 				case MAK_FIRE:
+					if(currentSoftKeys->getChildren()[0]->isSelected()){
+						keyPressEvent(MAK_SOFTLEFT);
+					}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+						keyPressEvent(MAK_SOFTRIGHT);
+					}
+					break;
 				case MAK_SOFTLEFT:
 					openingText = editBoxOpening->getCaption();
 					buyNowText = editBoxBuyNow->getCaption();
@@ -130,21 +146,95 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 					//((AlbumViewScreen *)orig)->refresh();
 					break;
 				case MAK_UP:
-					if (listBox->getSelectedIndex() > 1) {
-						listBox->setSelectedIndex(listBox->getSelectedIndex() - 2);
+					if(currentSelectedKey!=NULL){
+						currentSelectedKey->setSelected(false);
+						currentSelectedKey = NULL;
+						currentKeyPosition = -1;
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+					}
+					else if (kinListBox->getSelectedIndex() > 1) {
+						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() - 2);
 					}
 					//setSelectedEditBox();
 					break;
 				case MAK_DOWN:
-					if (listBox->getSelectedIndex() < 5) {
-						listBox->setSelectedIndex(listBox->getSelectedIndex() + 2);
+					if (kinListBox->getSelectedIndex() < 5) {
+						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() + 2);
+					} else {
+						kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
+						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+								currentKeyPosition=i;
+								currentSelectedKey= currentSoftKeys->getChildren()[i];
+								currentSelectedKey->setSelected(true);
+								break;
+							}
+						}
 					}
 					//setSelectedEditBox();
+					break;
+				case MAK_LEFT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition > 0){
+							currentKeyPosition = currentKeyPosition - 1;
+							for(int i = currentKeyPosition; i >= 0;i--){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
+					}
+					break;
+				case MAK_RIGHT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+							currentKeyPosition = currentKeyPosition + 1;
+							for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
+					}
 					break;
 			}
 			break;
 		case ST_CREATED:
 			switch(keyCode) {
+				case MAK_FIRE:
+					if(currentSoftKeys->getChildren()[0]->isSelected()){
+						keyPressEvent(MAK_SOFTLEFT);
+					}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+						keyPressEvent(MAK_SOFTRIGHT);
+					}
+					break;
+				case MAK_UP:
+					if(currentSelectedKey!=NULL){
+						currentSelectedKey->setSelected(false);
+						currentSelectedKey = NULL;
+						currentKeyPosition = -1;
+					}
+					break;
+				case MAK_DOWN:
+					if(currentSelectedKey==NULL){
+						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+								currentKeyPosition=i;
+								currentSelectedKey= currentSoftKeys->getChildren()[i];
+								currentSelectedKey->setSelected(true);
+								break;
+							}
+						}
+					}
+					break;
 				case MAK_SOFTRIGHT:
 					((AlbumViewScreen *)orig)->refresh();
 					break;
@@ -152,6 +242,32 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			break;
 		case ST_INVALID:
 			switch(keyCode) {
+				case MAK_FIRE:
+					if(currentSoftKeys->getChildren()[0]->isSelected()){
+						keyPressEvent(MAK_SOFTLEFT);
+					}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+						keyPressEvent(MAK_SOFTRIGHT);
+					}
+					break;
+				case MAK_UP:
+					if(currentSelectedKey!=NULL){
+						currentSelectedKey->setSelected(false);
+						currentSelectedKey = NULL;
+						currentKeyPosition = -1;
+					}
+					break;
+				case MAK_DOWN:
+					if(currentSelectedKey==NULL){
+						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+								currentKeyPosition=i;
+								currentSelectedKey= currentSoftKeys->getChildren()[i];
+								currentSelectedKey->setSelected(true);
+								break;
+							}
+						}
+					}
+					break;
 				case MAK_BACK:
 				case MAK_SOFTLEFT:
 					screenMode = ST_DATA;
@@ -161,6 +277,13 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 			break;
 		case ST_CONFIRM:
 					switch(keyCode) {
+						case MAK_FIRE:
+							if(currentSoftKeys->getChildren()[0]->isSelected()){
+								keyPressEvent(MAK_SOFTLEFT);
+							}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+								keyPressEvent(MAK_SOFTRIGHT);
+							}
+							break;
 						case MAK_BACK:
 						case MAK_SOFTRIGHT:
 							screenMode = ST_DATA;
@@ -182,11 +305,11 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 									memset(url,'\0',urlLength+1);
 									sprintf(url, "%s?createauction=1&cardid=%s&bid=%s&buynow=%s&days=%s", URL, card->getId().c_str(),
 											openingText.c_str(), buyNowText.c_str(), daysText.c_str());
+									lprintfln("%s", url);
 									if(mHttp.isOpen()){
 										mHttp.close();
 									}
 									mHttp = HttpConnection(this);
-									lprintfln("%s", url);
 									int res = mHttp.create(url, HTTP_GET);
 
 									if(res < 0) {
@@ -203,6 +326,57 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 								}
 								else {
 									notice->setCaption(errorString);
+								}
+							}
+							break;
+						case MAK_UP:
+							if(currentSelectedKey!=NULL){
+								currentSelectedKey->setSelected(false);
+								currentSelectedKey = NULL;
+								currentKeyPosition = -1;
+							}
+							break;
+						case MAK_DOWN:
+							if(currentSelectedKey==NULL){
+								for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+									if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+										currentKeyPosition=i;
+										currentSelectedKey= currentSoftKeys->getChildren()[i];
+										currentSelectedKey->setSelected(true);
+										break;
+									}
+								}
+							}
+							break;
+						case MAK_LEFT:
+							if(currentSelectedKey!=NULL){
+								if(currentKeyPosition > 0){
+									currentKeyPosition = currentKeyPosition - 1;
+									for(int i = currentKeyPosition; i >= 0;i--){
+										if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+											currentSelectedKey->setSelected(false);
+											currentKeyPosition=i;
+											currentSelectedKey= currentSoftKeys->getChildren()[i];
+											currentSelectedKey->setSelected(true);
+											break;
+										}
+									}
+								}
+							}
+							break;
+							case MAK_RIGHT:
+							if(currentSelectedKey!=NULL){
+								if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+									currentKeyPosition = currentKeyPosition + 1;
+									for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+										if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+											currentSelectedKey->setSelected(false);
+											currentKeyPosition=i;
+											currentSelectedKey= currentSoftKeys->getChildren()[i];
+											currentSelectedKey->setSelected(true);
+											break;
+										}
+									}
 								}
 							}
 							break;
@@ -248,17 +422,19 @@ void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("Auction", "Back", "", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
 		clearListBox();
+		currentSelectedKey = NULL;
+		currentKeyPosition = -1;
 		Util::updateSoftKeyLayout("Auction", "Back", "", mainLayout);
 	}
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -288,18 +464,18 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Opening bid", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
 	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())));
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Buy now price", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
@@ -307,24 +483,24 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	editBoxBuyNow->setCaption(Convert::toString(buynow));
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
 	editBoxDays->setCaption("5");
 	editBoxDays->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
 	moved = 0;
 	editBoxOpening->setSelected(true);
-	listBox->setSelectedIndex(2);
+	kinListBox->setSelectedIndex(2);
 	cardText = "";
 }
 
@@ -350,6 +526,8 @@ void AuctionCreateScreen::drawConfirmScreen() {
 
 	clearListBox();
 	screenMode = ST_CONFIRM;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
 	int cost = Convert::toInt(openingText);
 	int buynow = 0;
@@ -366,19 +544,19 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	}
 	String result = "Are you sure you want to auction " + card->getText() + "? It will cost you " + Convert::toString(cost) + cred;
 
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
+	label = new Label(0,0, scrWidth-PADDING*2, 60, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	result = "";
 	cred = "";
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 120, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -419,6 +597,8 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	clearListBox();
 	screenMode = ST_CREATED;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	String result = "";
@@ -429,7 +609,7 @@ void AuctionCreateScreen::drawCreatedScreen() {
 		result = "Error creating auction.";
 	}
 
-	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, result, 0, Util::getDefaultSelected());
+	/*label = new Label(0,0, scrWidth-PADDING*2, 40, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
@@ -454,7 +634,19 @@ void AuctionCreateScreen::drawCreatedScreen() {
 
 	this->setMain(mainLayout);
 
-	this->show();
+	this->show();*/
+
+	MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());
+	confirmation->setMenuWidth(180);
+	confirmation->setMarginX(5);
+	confirmation->setMarginY(5);
+	confirmation->setDock(MenuScreen::MD_CENTER);
+	confirmation->setListener(this);
+	confirmation->setMenuFontSel(Util::getDefaultFont());
+	confirmation->setMenuFontUnsel(Util::getDefaultFont());
+	confirmation->setMenuSkin(Util::getSkinDropDownItem());
+	confirmation->addItem("Ok");
+	confirmation->show();
 }
 
 void AuctionCreateScreen::drawInvalidInputScreen() {
@@ -463,13 +655,15 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	editBoxDays->setSelected(false);
 
 	clearListBox();
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, scrHeight - DEFAULT_SMALL_LABEL_HEIGHT, NULL, errorString, 0, Util::getDefaultSelected());
 	label->setMultiLine();
 	label->setAutoSizeY();
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
@@ -478,11 +672,11 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 
 void AuctionCreateScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

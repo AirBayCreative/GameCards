@@ -51,9 +51,12 @@ public:
 
 	int getColorBlue();
 	void setColorBlue(int);
+
+	int getSelectable();
+	void setSelectable(int);
 private:
 	String desc, display, iVal, cardStatId, categoryStatId;
-	int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue;
+	int top, left, width, height, frontOrBack, colorRed, colorGreen, colorBlue, selectable;
 };
 
 #endif	//_STAT_H_

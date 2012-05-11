@@ -1,6 +1,7 @@
 #include <conprint.h>
 #include <mastdlib.h>
 
+#include "DeckListScreen.h"
 #include "RedeemScreen.h"
 #include "AlbumLoadScreen.h"
 #include "DetailScreen.h"
@@ -26,8 +27,9 @@ static item menuItems[] =
 	{ RES_LOGOUT_THUMB, RES_LOGOUT_THUMB_SEL, RES_LOGOUT, OP_LOGOUT }
 };
 
-NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(screenType) {
+NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), screenType(screenType) {
 	lprintfln("NewMenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->feed = feed;
 
 	int itemCount = sizeof(menuItems)/sizeof(item);
 
@@ -220,7 +222,7 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				next = new RedeemScreen(feed, this);
 				next->show();
 			} else if (index == OP_LOGOUT) {
-#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+	#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 				/*Albums *albums = feed->getAlbum();
 				Vector<String> tmp = albums->getIDs();
 				for (Vector<String>::iterator itr = tmp.begin(); itr != tmp.end(); itr++) {
@@ -242,12 +244,12 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 					}
 					maExit(0);
 				}
-#endif
+	#endif
 			}
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
+	#if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
 			/*if (next!=NULL) {
 					delete next;
 			}*/
@@ -260,7 +262,7 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 			} else {
 				maExit(0);
 			}
-#endif
+	#endif
 			break;
 	}
 }
@@ -286,6 +288,7 @@ void NewMenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
@@ -294,7 +297,7 @@ void NewMenuScreen::show() {
 			feed->addHttp();
 			mHttp.finish();
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	}
 	versionChecked = 0;
@@ -397,13 +400,13 @@ void NewMenuScreen::xcConnError(int code) {
 			int imei = maGetSystemProperty("mosync.imei", buf, sizeof(buf));
 			memset(buf, 0, 128);
 
-			char *os = new char[strlen(MA_PROF_STRING_PLATFORM)+1];
-			memset(os, 0, strlen(MA_PROF_STRING_PLATFORM)+1);
-			sprintf(os, "%s", MA_PROF_STRING_PLATFORM);
+			char *os = new char[strlen("temp")+1];
+			memset(os, 0, strlen("temp")+1);
+			sprintf(os, "%s", "temp");
 
-			char *make = new char[strlen(MA_PROF_STRING_VENDOR)+1];
-			memset(make, 0, strlen(MA_PROF_STRING_VENDOR)+1);
-			sprintf(make, "%s", MA_PROF_STRING_VENDOR);
+			char *make = new char[strlen("temp")+1];
+			memset(make, 0, strlen("temp")+1);
+			sprintf(make, "%s", "temp");
 
 			//char *model = "temp";//MA_PROF_STRING_DEVICE;
 			char *model = new char[strlen("temp")+1];

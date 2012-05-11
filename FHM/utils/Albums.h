@@ -18,10 +18,8 @@ public:
 	Vector<String> getIDs();
 	Vector<Album*> getAlbums();
 	void setAll(const char*);
-	void addAlbum(const char*, const char *name, bool hasCards=false, const char *seconds="");
+	void addAlbum(const char*, const char *name, bool hasCards=false, bool updated=false);
 	void removeAlbum(const char*);
-	void updateSeconds(const char* seconds, const char* albumid);
-	String getSeconds(const char* albumid);
 	String getAll();
 	bool getLoaded();
 	void setLoaded(bool load);

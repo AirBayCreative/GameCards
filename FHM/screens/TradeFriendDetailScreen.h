@@ -6,7 +6,6 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
-#include <maprofile.h>
 
 #include "../utils/Util.h"
 #include "../utils/Feed.h"
@@ -16,13 +15,14 @@
 #include "../UI/Widgets/MobImage.h"
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendDetailScreen : public Screen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class TradeFriendDetailScreen : public MainScreen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
 public:
-	TradeFriendDetailScreen(Screen *previous, Feed *feed, Card *card);
+	TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card);
 	~TradeFriendDetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -35,15 +35,14 @@ private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
 	int phase, moved;
 
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* listBox;
-	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *notice, *label, *label2;
+	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *label2;
 
 	Screen *menu;
-	Screen *previous;
+	Widget* currentSelectedKey;
+
 	Card *card;
 	bool list, left, right, sending, changed, mid;
+	int currentKeyPosition;
 	String method, methodLabel, friendDetail, parentTag, cardText;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *usernameEditBox, *emailEditBox, *phonenumberEditBox;
@@ -52,7 +51,6 @@ private:
 	MobImage *tempImage;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void drawMethodScreen();
 	void drawConfirmScreen();

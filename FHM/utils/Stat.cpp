@@ -150,3 +150,11 @@ void Stat::setColorBlue(int i) {
 int Stat::getColorBlue() {
 	return colorBlue;
 }
+
+void Stat::setSelectable(int i) {
+	selectable = i;
+}
+
+int Stat::getSelectable() {
+	return selectable;
+}

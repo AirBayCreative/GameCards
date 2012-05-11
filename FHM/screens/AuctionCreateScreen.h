@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
@@ -11,13 +10,15 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "MainScreen.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AuctionCreateScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AuctionCreateScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	AuctionCreateScreen(Screen *previous, Feed *feed, Card *card);
+	AuctionCreateScreen(MainScreen *previous, Feed *feed, Card *card);
 	~AuctionCreateScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -27,24 +28,21 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 
+	void menuOptionSelected(int index);
+
 private:
-	Screen *previous;
-	Layout *mainLayout;
-	Label *label, *notice;
-	KineticListBox *listBox;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
+	Widget* currentSelectedKey;
 	/*Native*/EditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
 
 	bool list, left, right, busy;
 
-	int moved, screenMode;
+	int moved, screenMode, currentKeyPosition;
 
 	Card *card;
-	Feed *feed;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void validateInput();
 
