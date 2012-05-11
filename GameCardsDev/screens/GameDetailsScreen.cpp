@@ -4,6 +4,7 @@
 
 #include "GameDetailsScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
 void GameDetailsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
@@ -28,7 +29,8 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(mainLayout);
-
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	playerDeck = "";
 	opponentDeck = "";
 	error_msg = "";
@@ -178,8 +180,16 @@ void GameDetailsScreen::locateItem(MAPoint2d point)
 }
 
 void GameDetailsScreen::keyPressEvent(int keyCode) {
+	int ind = listBox->getSelectedIndex();
+	int max = listBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}
 			break;
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -188,10 +198,62 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 			orig->show();
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+			}
+			else {
+				listBox->selectPreviousItem();
+			}
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			if (ind+1 < listBox->getChildren().size()) {
+				listBox->setSelectedIndex(ind+1);
+			} else {
+				listBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
 			break;
 	}
 }

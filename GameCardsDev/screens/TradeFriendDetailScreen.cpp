@@ -564,7 +564,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				lprintfln("zzz1");
 				if (ind+1 < listBox->getChildren().size()) {
 					listBox->selectNextItem();
-				} else {
+				} else if(currentSelectedKey==NULL){
 					listBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -587,7 +587,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				//}
 				if (ind+2 < listBox->getChildren().size()) {
 					listBox->setSelectedIndex(ind+2);
-				} else {
+				} else if(currentSelectedKey==NULL){
 					listBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){

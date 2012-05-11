@@ -28,10 +28,11 @@ public:
 
 private:
 	NativeEditBox *editBoxName;
+	Widget* currentSelectedKey;
 
 	bool list, left, right, busy, empty;
 
-	int moved, phase;
+	int moved, phase, currentKeyPosition;
 
 	Album *album;
 	Vector<Album*> albums;

@@ -33,6 +33,7 @@ public:
 private:
 	Vector<Album*> albums;
 	Album *album;
+	Widget* currentSelectedKey;
 
 	bool list, left, right, selecting;
 
@@ -40,7 +41,7 @@ private:
 
 	String parentTag, categoryId;
 	String deckId, description;
-	int moved, screenType;
+	int moved, screenType, currentKeyPosition;
 
 	void clearListBox();
 	void clearAlbums();
