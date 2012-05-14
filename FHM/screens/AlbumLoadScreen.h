@@ -36,7 +36,7 @@ public:
 
 	void setDeckId(String deckId);
 
-	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_LOBBY, ST_COMPARE, ST_AUCTION, ST_DECK};
+	enum screenTypes {ST_ALBUMS, ST_COMPARE, ST_AUCTION};
 private:
 	Widget* currentSelectedKey;
 

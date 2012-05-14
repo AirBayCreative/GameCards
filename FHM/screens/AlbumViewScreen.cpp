@@ -9,7 +9,6 @@
 #include "OptionsScreen.h"
 #include "AuctionCreateScreen.h"
 #include "ShopDetailsScreen.h"
-#include "EditDeckScreen.h"
 #include "../UI/Button.h"
 #include "../UI/MenuScreen/MenuScreen.h"
 
@@ -49,8 +48,6 @@ filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albu
 	next = NULL;
 	if (albumType == AT_COMPARE) {
 		mainLayout = Util::createMainLayout("", "Back" , "");
-	} else if (albumType == AT_DECK) {
-		mainLayout = Util::createMainLayout("View", "Back" , "");
 	} else {
 		mainLayout = Util::createMainLayout("", "Back" , "");
 	}
@@ -126,34 +123,6 @@ filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albu
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?buyproduct=%s&height=%d&width=%d&freebie=%d", URL,
 				category.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), 1);
-		lprintfln("%s", url);
-		if(mHttp.isOpen()){
-			mHttp.close();
-		}
-		mHttp = HttpConnection(this);
-		int res = mHttp.create(url, HTTP_GET);
-		if(res < 0) {
-			busy = false;
-			hasConnection = false;
-			notice->setCaption("");
-		} else {
-			hasConnection = true;
-			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
-			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
-			feed->addHttp();
-			mHttp.finish();
-
-		}
-		delete url;
-		url = NULL;
-	} else if (albumType == AT_DECK) {
-		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 81 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) +
-				Util::intlen(scrWidth) + feed->getSeconds().length() + deckId.length();
-		char *url = new char[urlLength+1];
-		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?cardsincategorynotdeck=%s&seconds=%s&height=%d&width=%d&deck_id=%s&jpg=1", URL, category.c_str(),
-				feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), deckId.c_str());
 		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -612,8 +581,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 		currentindex = cardLists[selectedList]->getSelectedIndex();
 	}
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
-	if (albumType != AT_COMPARE &&
-			albumType != AT_DECK) {
+	if (albumType != AT_COMPARE) {
 		orig = this;
 	}
 	switch(keyCode) {
@@ -740,20 +708,13 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new AuctionCreateScreen(this, feed, cards.find(index[selected])->second);
 					next->show();
 				} else {
-					if (albumType == AT_DECK) {
-						busy = true;
-						adding = true;
-						notice->setCaption("Adding...");
-						addCard(cards.find(index[selected])->second->getId());
-					} else {
-						if (albumType == AT_NEW_CARDS) {
-							next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
-						}
-						else {
-							next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
-						}
-						next->show();
+					if (albumType == AT_NEW_CARDS) {
+						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 					}
+					else {
+						next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
+					}
+					next->show();
 				}
 			}
 			break;
@@ -774,10 +735,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				else if (albumType == AT_NEW_CARDS) {
 					next = new OptionsScreen(feed, OptionsScreen::ST_NEW_CARD,
 							this, cards.find(index[selected])->second);
-				} else if (albumType == AT_DECK) {
-					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_DECK);
-				}
-				else {
+				} else {
 					next = new OptionsScreen(feed, OptionsScreen::ST_CARD_OPTIONS,
 							this, cards.find(index[selected])->second);
 				}
@@ -1035,11 +993,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		updated="";
 		error_msg="";
 		busy = false;
-
-		if (adding) {
-			((EditDeckScreen*)orig)->refresh();
-			((EditDeckScreen*)orig)->show();
-		}
 	} else if (!strcmp(name, "cardsincategory")) {
 		if (AT_BUY) {
 			feed->setCredits(credits.c_str());
