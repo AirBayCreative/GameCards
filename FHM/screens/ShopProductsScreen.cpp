@@ -412,7 +412,7 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 			cardsInPack = "";
 		} else if (!strcmp(name, "categoryproducts")) {
 			if (strcmp(cred.c_str(), "")) {
-				String msg = "Credits: " + cred + " Premium: " + prem;
+				String msg = "Premium Credits: " + prem;
 				feed->setCredits(cred.c_str());
 				feed->setPremium(prem.c_str());
 				if ((first)||(free)) {

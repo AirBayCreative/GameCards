@@ -45,18 +45,8 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setDrawBackground(false);
 			kinListBox->add(label);
 			/*Screen Header*/
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
-			label->setHorizontalAlignment(Label::HA_CENTER);
-			label->setVerticalAlignment(Label::VA_CENTER);
-			label->setSkin(Util::getSkinListNoArrows());
-			label->setMultiLine(true);
-			kinListBox->add(label);
 
-			balanceLabel = Util::createEditLabel(feed->getCredits());
-			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
-			kinListBox->add(balanceLabel);
-
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium", 0, Util::getDefaultFont());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -647,7 +637,6 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setCredits(cred.c_str());
 		feed->setPremium(prem.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
-		balanceLabel->setCaption(cred.c_str());
 		premiumLabel->setCaption(prem.c_str());
 		cred = "0";
 		prem = "0";
@@ -868,7 +857,6 @@ void DetailScreen::refreshData() {
 		case PROFILE:
 			break;
 		case BALANCE:
-			balanceLabel->setCaption(feed->getCredits());
 			premiumLabel->setCaption(feed->getPremium());
 			break;
 	}
