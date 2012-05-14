@@ -824,17 +824,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 
 			if (label != NULL) {
-				if(count >0){
-					char * lbl = new char[44+3+5];
-					memset(lbl, 0, 44+3+5);
-					sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
-					String lab = lbl;
-					label->setCaption(lab);
-					delete lbl;
-					lbl = NULL;
-				} else{
-					label->setCaption("Profile details updated.");
-				}
+				label->setCaption("Profile details updated.");
 			}
 		} else if (screenType == BALANCE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
