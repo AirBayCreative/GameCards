@@ -525,7 +525,6 @@ AlbumViewScreen::~AlbumViewScreen() {
 		Util::saveData(filename.c_str(), all.c_str());
 		all="";
 	}
-
 	/*if (tempImage != NULL) {
 		if (tempImage->getResource() != NULL) {
 			//maDestroyObject(tempImage->getResource());
@@ -534,10 +533,8 @@ AlbumViewScreen::~AlbumViewScreen() {
 	}*/
 	clearCardMap();
 	deleteCards();
-
 	cards = NULL;
 	deleted = NULL;
-
 	index.clear();
 	stats.clear();
 	parentTag="";

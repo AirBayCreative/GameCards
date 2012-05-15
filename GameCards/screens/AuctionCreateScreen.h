@@ -33,11 +33,12 @@ public:
 private:
 	ImageCache *mImageCache;
 	MobImage *tempImage;
+	Widget* currentSelectedKey;
 	/*Native*/EditBox *editBoxOpening, *editBoxBuyNow, *editBoxDays;
 
 	bool list, left, right, busy;
 
-	int moved, screenMode;
+	int moved, screenMode, currentKeyPosition;
 
 	Card *card;
 

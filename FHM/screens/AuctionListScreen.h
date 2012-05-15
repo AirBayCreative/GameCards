@@ -3,7 +3,6 @@
 
 #include <MAUI/Screen.h>
 #include <MAUI/Label.h>
-#include <maprofile.h>
 
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
@@ -11,13 +10,14 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AuctionListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AuctionListScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AuctionListScreen(Screen *previous, Feed *feed, int screenType, String categoryId = NULL);
+	AuctionListScreen(MainScreen *previous, Feed *feed, int screenType, String categoryId = NULL);
 	~AuctionListScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -36,22 +36,16 @@ public:
 
 	enum screenTypes {ST_CATEGORY, ST_USER};
 private:
-	Screen *next, *previous;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
-	Label *notice, *label;
-	KineticListBox *listBox;
-	Layout *mainLayout;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, cardText;
 	String cardId, description, thumburl, fronturl, frontflipurl, backurl, backflipurl, categoryId, error_msg, openingBid, price, userCardId, auctionCardId, username, buyNowPrice, endDate, lastBidUser;
 	int moved, screenType;
 	bool list, left, right, emp, shouldUpdateAuction;
 
-	Feed *feed;
 	AuctionVector auctions;
 	AuctionVector deleted;
 	AuctionVector::iterator auctionIter;

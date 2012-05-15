@@ -4,20 +4,20 @@
 #include <MAUI/Screen.h>
 #include <MAUI/ListBox.h>
 #include <MAUI/Layout.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Card.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class RedeemScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class RedeemScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	RedeemScreen(Feed *feed, Screen *previous);
+	RedeemScreen(Feed *feed, MainScreen *previous);
 	~RedeemScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -31,21 +31,14 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label, *notice;
 	NativeEditBox *editBoxRedeem;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String error_msg, result, parentTag;
 	bool left, right, mid, error;
 	int moved;
 
-	Feed *feed;
-
-	Screen *next, *prev;
 	bool isBusy;
 
 	void redeemCode();

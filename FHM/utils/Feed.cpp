@@ -30,11 +30,13 @@ Feed::Feed() {
 	noSuccess = "";
 	whiteSpace = "";
 	specialCharacters = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	email = "";
 	handle = "";
 	touch = "";
 	gameId = "";
+	seconds = "";
 	album = NULL;
 	touchEnabled = false;
 	loaded = false;
@@ -48,15 +50,13 @@ Feed::~Feed() {
 	noSuccess = "";
 	whiteSpace = "";
 	specialCharacters = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	email = "";
 	handle = "";
 	touch = "";
 	gameId = "";
-	/*if (album != NULL) {
-		delete album;
-	}
-	album = NULL;*/
+	seconds = "";
 	touchEnabled = false;
 	loaded = false;
 	noteLoaded = false;
@@ -81,8 +81,16 @@ void Feed::setCredits(const char *creds) {
 	credits = creds;
 }
 
+void Feed::setPremium(const char *prem) {
+	premium = prem;
+}
+
 MAUtil::String Feed::getCredits() {
 	return credits;
+}
+
+MAUtil::String Feed::getPremium() {
+	return premium;
 }
 
 void Feed::setEmail(const char *eml) {
@@ -105,8 +113,8 @@ void Feed::setUsername(const char *username) {
 	uname = username;
 }
 
-void Feed::setSeconds(const char *sec, const char *albumid) {
-	album->updateSeconds(sec, albumid);
+void Feed::setSeconds(const char *sec) {
+	seconds = sec;
 }
 
 void Feed::setNoteSeconds(const char* sec) {
@@ -210,7 +218,7 @@ MAUtil::String Feed::getReplaceSpecialCharacters() {
 }
 
 MAUtil::String Feed::getAll() {
-	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+freebie+","+noteSeconds+","+registered+",";
+	return uname+","+encrypt+","+noSuccess+","+whiteSpace+","+specialCharacters+","+credits+","+email+","+handle+","+touch+","+seconds+","+freebie+","+noteSeconds+","+registered+","+premium+",";
 }
 
 void Feed::setAll(const char* allch) {
@@ -247,6 +255,9 @@ void Feed::setAll(const char* allch) {
 		setTouch(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
+		setSeconds(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
+		indexof = all.find(",");
 		setFreebie(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		indexof = all.find(",");
@@ -254,6 +265,9 @@ void Feed::setAll(const char* allch) {
 		all=all.substr(indexof);
 		indexof = all.find(",");
 		setRegistered(all.substr(0,indexof++).c_str());
+		all=all.substr(indexof);
+		indexof = all.find(",");
+		setPremium(all.substr(0,indexof++).c_str());
 		all=all.substr(indexof);
 		setLoaded(true);
 		if ((getUsername().length() <= 0)||(getEncrypt().length() <= 0)) {
@@ -269,6 +283,7 @@ void Feed::setAll(const char* allch) {
 		setReplaceWhiteSpaces("");
 		setReplaceSpecialCharacters("");
 		setCredits("");
+		setPremium("");
 		setEmail("");
 		setHandle("");
 		setNoteLoaded(false);
@@ -276,6 +291,7 @@ void Feed::setAll(const char* allch) {
 		setGameId("");
 		setTouch("false");
 		setTouchEnabled(false);
+		setSeconds("");
 		setNoteSeconds("");
 		setFreebie("");
 		setRegistered("0");
@@ -299,8 +315,8 @@ String Feed::getAlbumString() {
 Vector<String> Feed::getAlbumNames() {
 	return album->getNames();
 }
-String Feed::getSeconds(const char* albumid) {
-	return album->getSeconds(albumid);
+String Feed::getSeconds() {
+	return seconds;
 }
 
 String Feed::getNoteSeconds() {

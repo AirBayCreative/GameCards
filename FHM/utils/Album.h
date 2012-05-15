@@ -8,7 +8,7 @@ using namespace MAUtil;
 class Album  {
 public:
 	Album();
-	Album(String id, String desc, bool hasCards=false, String seconds="");
+	Album(String id, String desc, bool hasCards=false, bool updated=false);
 	~Album();
 
 	String getId();
@@ -20,13 +20,12 @@ public:
 	bool getHasCards();
 	void setHasCards(bool hasCards);
 
-	String getSeconds();
-	void setSeconds(const char *seconds);
+	bool getUpdated();
+	void setUpdated(bool updated);
 private:
 	String id;
 	String description;
-	String seconds;
-	bool hasCards;
+	bool hasCards, updated;
 };
 
 #endif	//_ALBUM_H_

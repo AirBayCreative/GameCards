@@ -148,8 +148,8 @@
 #define HEAD_Y_TOP 1
 #define HEAD_Y_BOTTOM 43
 
-#define LIST_X_LEFT 19
-#define LIST_X_RIGHT 77
+#define LIST_X_LEFT 22
+#define LIST_X_RIGHT 168
 #define LIST_Y_TOP 16
 #define LIST_Y_BOTTOM 32
 

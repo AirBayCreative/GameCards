@@ -11,10 +11,13 @@
 #include "CompareScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
+#include "../UI/Button.h"
 
-OptionsScreen::OptionsScreen(Feed *feed, int screenType, Screen *previous, Card *card, String number, String deckId) :mHttp(this),
-previous(previous), feed(feed), card(card), screenType(screenType), number(number), deckId(deckId) {
+OptionsScreen::OptionsScreen(Feed *feed, int screenType, MainScreen *previous, Card *card, String number, String deckId) :mHttp(this),
+card(card), screenType(screenType), number(number), deckId(deckId) {
 	lprintfln("OptionsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	temp = "";
 	temp1 = "";
 	error_msg = "";
@@ -22,84 +25,84 @@ previous(previous), feed(feed), card(card), screenType(screenType), number(numbe
 	connError = false;
 	busy = false;
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	menu = NULL;
+
+	next = NULL;
 	album = NULL;
 	if (screenType == ST_LOGIN_OPTIONS) {
-	#if defined(MA_PROF_STRING_PLATFORM_IPHONEOS)
-		layout = Util::createMainLayout("", "");
-	#else
-		layout = Util::createMainLayout("", "Exit");
-	#endif
+		mainLayout = Util::createMainLayout("", "Exit", "", true);
 	}
 	else {
-		layout = Util::createMainLayout("", "Back");
+		mainLayout = Util::createMainLayout("", "Back", "", true);
 	}
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
-	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
 		case ST_TRADE_OPTIONS:
-			lbl = Util::createSubLabel("Send card to auction");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Send card to friend");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Send card to auction");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Send card to friend");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 		case ST_AUCTION_OPTIONS:
-			lbl = Util::createSubLabel("My Auctions");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Create New Auction");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("My Auctions");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Create New Auction");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 		case ST_CARD_OPTIONS:
-			lbl = Util::createSubLabel("Notes");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Share");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Auction");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Compare");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Details");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Notes");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			//label = Util::createSubLabel("Share");
+			//label->addWidgetListener(this);
+			//kinListBox->add(label);
+			label = Util::createSubLabel("Auction");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Compare");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Details");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 		case ST_NEW_CARD:
-			lbl = Util::createSubLabel("Accept");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Reject");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Accept");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Reject");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 		case ST_NUMBER_OPTIONS:
-			lbl = Util::createSubLabel("Call");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("SMS");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Call");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("SMS");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 		case ST_LOGIN_OPTIONS:
-			lbl = Util::createSubLabel("Log In");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
-			lbl = Util::createSubLabel("Register");
-			lbl->addWidgetListener(this);
-			listBox->add(lbl);
+			label = Util::createSubLabel("Log In");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Register");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
 			break;
 	}
 
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 }
 
 OptionsScreen::~OptionsScreen() {
@@ -111,13 +114,13 @@ OptionsScreen::~OptionsScreen() {
 	deckId = "";
 
 	clearListBox();
-	listBox->clear();
-	delete layout;
-	layout = NULL;
-	if(menu!=NULL){
-		delete menu;
+	kinListBox->clear();
+	delete mainLayout;
+	mainLayout = NULL;
+	if(next!=NULL){
+		delete next;
 		feed->remHttp();
-		menu = NULL;
+		next = NULL;
 	}
 
 	if (album != NULL) {
@@ -128,11 +131,11 @@ OptionsScreen::~OptionsScreen() {
 
 void OptionsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -142,20 +145,48 @@ void OptionsScreen::clearListBox() {
 }
 
 void OptionsScreen::show() {
-	if (listBox->getChildren().size() > listBox->getSelectedIndex()) {
-		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	if (kinListBox->getChildren().size() > kinListBox->getSelectedIndex()) {
+		kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(true);
 	}
 	Screen::show();
 
 	if ((strcmp(feed->getRegistered().c_str(), "1") == 0)&&(screenType == ST_LOGIN_OPTIONS)) {
-		menu = new Login(this, feed, Login::S_LOGIN);
-		menu->show();
+		next = new Login(this, feed, Login::S_LOGIN);
+		next->show();
 	}
 }
 
 void OptionsScreen::hide() {
-    //listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    //kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
+}
+
+void OptionsScreen::checkForGames() {
+	connError = true;
+	album = new Albums();
+
+	notice->setCaption("Checking games...");
+	if(mHttp.isOpen()){
+		mHttp.close();
+	}
+	mHttp = HttpConnection(this);
+	int urlLength = 38 + URLSIZE;
+	char *url = new char[urlLength+1];
+	memset(url,'\0',urlLength+1);
+	sprintf(url, "%s?getusergames=1", URL);
+	lprintfln("%s", url);
+	int res = mHttp.create(url, HTTP_GET);
+
+	if(res < 0) {
+		notice->setCaption("Connection Error");
+	} else {
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
+		mHttp.finish();
+	}
+	delete [] url;
+	url = NULL;
 }
 
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
@@ -191,7 +222,7 @@ void OptionsScreen::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	((ListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
+        	((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;
         }
     }
@@ -217,98 +248,106 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void OptionsScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 		case MAK_SOFTLEFT:
-			index = listBox->getSelectedIndex();
+			index = kinListBox->getSelectedIndex();
 			switch(screenType) {
 				case ST_TRADE_OPTIONS:
 					if(index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new AuctionCreateScreen(this, feed, card);
-						menu->show();
+						next = new AuctionCreateScreen(this, feed, card);
+						next->show();
 					} else if(index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new TradeFriendDetailScreen(this, feed, card);
-						menu->show();
+						next = new TradeFriendDetailScreen(this, feed, card);
+						next->show();
 					}
 					break;
 				case ST_AUCTION_OPTIONS:
 					if(index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
-						menu->show();
+						next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_AUCTIONS);
+						next->show();
 					}
 					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
-						menu->show();
+						next = new AuctionListScreen(this, feed, AuctionListScreen::ST_USER);
+						next->show();
 					}
 					break;
 				case ST_CARD_OPTIONS:
 					if (index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new NoteScreen(this, feed, card);
-						menu->show();
+						next = new NoteScreen(this, feed, card);
+						next->show();
 					}
-					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
+					/*else if (index == 1) {
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new TradeFriendDetailScreen(this, feed, card);
-						menu->show();
+						next = new TradeFriendDetailScreen(this, feed, card);
+						next->show();
+					}*/
+					else if (index == 1/*2*/) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new AuctionCreateScreen(this, feed, card);
+						next->show();
 					}
-					else if (index == 2) {
-						if (menu != NULL) {
-							delete menu;
+					else if (index == 2/*3*/) {
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new AuctionCreateScreen(this, feed, card);
-						menu->show();
+						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
+						next->show();
 					}
-					else if (index == 3) {
-						if (menu != NULL) {
-							delete menu;
+					else if (index == 3/*4*/) {
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_COMPARE, NULL, false, card);
-						menu->show();
-					}
-					else if (index == 4) {
-						if (menu != NULL) {
-							delete menu;
-							feed->remHttp();
-							menu = NULL;
-						}
-						menu = new DetailScreen(this, feed,
+						next = new DetailScreen(this, feed,
 								DetailScreen::CARD, card);
-						menu->show();
+						next->show();
 					}
 					break;
 				case ST_NEW_CARD:
@@ -328,34 +367,34 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						maPlatformRequest(("tel:"+number).c_str());
 					}
 					else if (index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new NoteScreen(this, feed,
+						next = new NoteScreen(this, feed,
 								card, NoteScreen::ST_SMS, number);
-						menu->show();
+						next->show();
 					}
 					break;
 				case ST_LOGIN_OPTIONS:
 					if(index == 0) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new Login(this, feed, Login::S_LOGIN);
-						menu->show();
+						next = new Login(this, feed, Login::S_LOGIN);
+						next->show();
 					}
 					else if(index == 1) {
-						if (menu != NULL) {
-							delete menu;
+						if (next != NULL) {
+							delete next;
 							feed->remHttp();
-							menu = NULL;
+							next = NULL;
 						}
-						menu = new Login(this, feed, Login::S_REGISTER);
-						menu->show();
+						next = new Login(this, feed, Login::S_REGISTER);
+						next->show();
 					}
 					break;
 			}
@@ -375,17 +414,70 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			if (ind == max-1) {
-				listBox->setSelectedIndex(0);
+			if (ind+1 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(ind+1);
 			} else {
-				listBox->selectNextItem();
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
+			/*if (ind == max-1) {
+				kinListBox->setSelectedIndex(0);
+			} else {
+				kinListBox->selectNextItem();
+			}*/
 			break;
 		case MAK_UP:
-			if (ind == 0) {
-				listBox->setSelectedIndex(max-1);
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (ind > 0) {
+				kinListBox->setSelectedIndex(ind-1);
+			}/*if (ind == 0) {
+				kinListBox->setSelectedIndex(max-1);
 			} else {
-				listBox->selectPreviousItem();
+				kinListBox->selectPreviousItem();
+			}*/
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 			}
 			break;
 	}
@@ -397,11 +489,11 @@ void OptionsScreen::acceptCard() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?savecard=%s", URL, card->getId().c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("");
@@ -421,11 +513,11 @@ void OptionsScreen::rejectCard() {
 	char *url = new char[urlLength];
 	memset(url,'\0',urlLength);
 	sprintf(url, "%s?rejectcard%s", URL, card->getId().c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
 	mHttp = HttpConnection(this);
-	lprintfln("%s", url);
 	int res = mHttp.create(url, HTTP_GET);
 	if(res < 0) {
 		notice->setCaption("");
@@ -452,7 +544,7 @@ void OptionsScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 		feed->remHttp();
 		notice->setCaption("Unable to connect, try again later...");
 
-		Util::updateSoftKeyLayout("", "Back", "", layout);
+		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 }
 
@@ -481,7 +573,11 @@ void OptionsScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 }
 
 void OptionsScreen::mtxTagData(const char* data, int len) {
-	if (!strcmp(parentTag.c_str(), "result")) {
+	if(!strcmp(parentTag.c_str(), "gamedescription")) {
+		temp1 += data;
+	} else if(!strcmp(parentTag.c_str(), "gameid")) {
+		temp += data;
+	} else if (!strcmp(parentTag.c_str(), "result")) {
 		temp += data;
 	}
 }

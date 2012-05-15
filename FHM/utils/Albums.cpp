@@ -28,8 +28,6 @@ String Albums::getAll() {
 		all+=itr->second->getId();
 		all+=",";
 		all+=itr->second->getHasCards()?"true":"false";
-		all+=",";
-		all+=itr->second->getSeconds();
 		all+="#";
 	}
 	return all;
@@ -59,7 +57,6 @@ void Albums::setAll(const char* allch) {
 	String tmp = "";
 	String id = "";
 	String name = "";
-	String seconds = "";
 
 	clearAll();
 
@@ -70,32 +67,25 @@ void Albums::setAll(const char* allch) {
 		if ((indentindexof = tmp.find(",")) > -1) {
 			name = tmp.substr(0,indentindexof++);
 			tmp = tmp.substr(indentindexof);
-			if ((indentindexof = tmp.find(",")) > -1) {
-				id = tmp.substr(0,indentindexof++);
-				tmp = tmp.substr(indentindexof);
-			}
-			if ((indentindexof = tmp.find(",")) > -1) {
-				hasCards = tmp.substr(0,indentindexof++)=="true";
-				tmp = tmp.substr(indentindexof);
-			}
-			if ((indentindexof = tmp.find(",")) > -1) {
-				seconds = tmp.substr(0,indentindexof++);
-			}
+
+			indentindexof = tmp.find(",");
+			id = tmp.substr(0,indentindexof++);
+			tmp = tmp.substr(indentindexof);
+
+			indentindexof = tmp.find(",");
+			hasCards = tmp=="true";
 
 			albumnames.insert(name,id);
-			album.insert(id, new Album(id, name, hasCards, seconds));
+			album.insert(id, new Album(id, name, hasCards, false));
+			tmp = "";
+			id = "";
+			name = "";
 		}
-		tmp = "";
-		id = "";
-		name = "";
-		seconds = "";
-
 		all = all.substr(indexof);
 	}
 	tmp = "";
 	id = "";
 	name = "";
-	seconds = "";
 	all = "";
 }
 
@@ -120,23 +110,13 @@ void Albums::clearAll() {
 	loaded = false;
 }
 
-void Albums::addAlbum(const char* id, const char *name, bool hasCards, const char* seconds) {
+void Albums::addAlbum(const char* id, const char *name, bool hasCards, bool updated) {
 	albumnames.insert(name, id);
-	album.insert(id, new Album(id, name, hasCards, seconds));
+	album.insert(id, new Album(id, name, hasCards, updated));
 }
 
 void Albums::removeAlbum(const char* id) {
 	album.erase(id);
-}
-
-void Albums::updateSeconds(const char* seconds, const char* albumid) {
-	Album* alb = album.find(albumid)->second;
-	alb->setSeconds(seconds);
-}
-
-String Albums::getSeconds(const char* albumid) {
-	Album* alb = album.find(albumid)->second;
-	return alb->getSeconds();
 }
 
 Vector<String> Albums::getNames() {

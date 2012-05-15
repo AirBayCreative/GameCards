@@ -5,18 +5,18 @@ Album::Album() {
 	id = "";
 	description = "";
 	hasCards = false;
-	seconds = "";
+	updated = false;
 }
 
-Album::Album(String id, String desc, bool hasCards, String seconds):id(id), description(desc),
-		hasCards(hasCards), seconds(seconds) {
+Album::Album(String id, String desc, bool hasCards, bool updated):id(id), description(desc),
+		hasCards(hasCards), updated(updated) {
 }
 
 Album::~Album() {
 	id = "";
 	description = "";
 	hasCards = false;
-	seconds = "";
+	updated = false;
 }
 
 void Album::setHasCards(bool hc) {
@@ -27,12 +27,12 @@ bool Album::getHasCards() {
 	return hasCards;
 }
 
-String Album::getSeconds() {
-	return seconds;
+bool Album::getUpdated() {
+	return updated;
 }
 
-void Album::setSeconds(const char *d) {
-	seconds = d;
+void Album::setUpdated(bool u) {
+	updated = u;
 }
 
 String Album::getId() {

@@ -37,8 +37,12 @@ private:
 
 	Label *lbl, *lblMethodUserName, *lblMethodEmail, *lblMethodPhonenumber, *label2;
 
+	Screen *menu;
+	Widget* currentSelectedKey;
+
 	Card *card;
 	bool list, left, right, sending, changed, mid;
+	int currentKeyPosition;
 	String method, methodLabel, friendDetail, parentTag, cardText;
 	String temp, temp1, error_msg, result;
 	NativeEditBox *usernameEditBox, *emailEditBox, *phonenumberEditBox;

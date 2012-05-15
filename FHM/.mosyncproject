@@ -2,6 +2,11 @@
 <project supports-build-configs="true" version="1.4">
 <build.cfg id="Debug" types="Debug"/>
 <build.cfg id="Release" types="Release"/>
+<criteria>
+<filter type="com.mobilesorcery.sdk.capabilities.devices.elementfactory">
+<capabilities optional="" required="File\ Storage Internet\ Access"/>
+</filter>
+</criteria>
 <properties>
 <property key="build.prefs:additional.include.paths/Release" value=""/>
 <property key="build.prefs:additional.libraries/Release" value="mastd.lib, MAUI.lib, MAUtil.lib, MTXml.lib"/>
@@ -17,5 +22,7 @@
 <property key="build.prefs:project.type" value=""/>
 <property key="dependency.strategy" value="0"/>
 <property key="excludes/Release" value=""/>
+<property key="profile.mgr.type" value="0"/>
+<property key="winmobilecs:guid" value="19f29d70-7d86-102f-806d-cdf36829a937"/>
 </properties>
 </project>

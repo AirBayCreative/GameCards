@@ -9,6 +9,8 @@
 #include "OptionsScreen.h"
 #include "../utils/Album.h"
 #include "DeckListScreen.h"
+#include "../UI/Button.h"
+
 
 void AlbumLoadScreen::refresh() {
 	show();
@@ -74,6 +76,8 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	lprintfln("AlbumLoadScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	size = 0;
 	moved = 0;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	int res = -1;
 	char *url = NULL;
 	int urlLength = 0;
@@ -475,30 +479,98 @@ void AlbumLoadScreen::hide() {
 
 void AlbumLoadScreen::keyPressEvent(int keyCode) {
 	int selected = (cardLists[0]->getChildren().size() * selectedList) + cardLists[selectedList]->getSelectedIndex();
+	int max = 0;
+	int index = 0;
+	if (empt) {
+		max = midListBox->getChildren().size();
+		index = midListBox->getSelectedIndex();
+	}
+	else {
+		max = cardLists[selectedList]->getChildren().size();
+		index = cardLists[selectedList]->getSelectedIndex();
+	}
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_UP:
-			if (empt) {
-				midListBox->selectPreviousItem();
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				if (empt) {
+					midListBox->getChildren()[max-1]->setSelected(true);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[max-1]->setSelected(true);
+				}
 			}
 			else {
-				cardLists[selectedList]->selectPreviousItem();
+				if (empt) {
+					midListBox->selectPreviousItem();
+				}
+				else {
+					cardLists[selectedList]->selectPreviousItem();
+				}
 			}
+
 			break;
 		case MAK_DOWN:
-			if (empt) {
-				midListBox->selectNextItem();
-			}
-			else {
-				cardLists[selectedList]->selectNextItem();
+			if (index+1 < max) {
+				if (empt) {
+					midListBox->selectNextItem();
+				}
+				else {
+					cardLists[selectedList]->selectNextItem();
+				}
+			} else {
+				if (empt) {
+					midListBox->getChildren()[index]->setSelected(false);
+				}
+				else {
+					cardLists[selectedList]->getChildren()[index]->setSelected(false);
+				}
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
 			break;
 		case MAK_RIGHT:
-			if (!empt) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!empt) {
 				switchList(1);
 			}
 			break;
 		case MAK_LEFT:
-			if (!empt) {
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else if (!empt) {
 				switchList(-1);
 			}
 			break;
@@ -538,7 +610,11 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						break;
 				}
 		case MAK_FIRE:
-			if (!empt) {
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}else if (!empt) {
 				Album* val = (album->getAlbum(((Label *)cardLists[selectedList]->getChildren()[cardLists[selectedList]->getSelectedIndex()])->getCaption()));
 				if (next != NULL) {
 					delete next;

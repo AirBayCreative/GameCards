@@ -12,6 +12,7 @@ public:
 	void setEncrypt(const char*);
 	void setUsername(const char*);
 	void setCredits(const char*);
+	void setPremium(const char*);
 	void setEmail(const char*);
 	void setHandle(const char*);
 	void setUnsuccessful(const char*);
@@ -24,7 +25,7 @@ public:
 	void setGameId(const char*);
 	bool setTouch(const char* touch);
 	bool setTouchEnabled(bool touch);
-	void setSeconds(const char* seconds, const char* albumid);
+	void setSeconds(const char* seconds);
 	void setNoteSeconds(const char* seconds);
 	void setFreebie(const char* freebie);
 	void setRegistered(String reg);
@@ -33,6 +34,7 @@ public:
 	String getEncrypt();
 	String getUsername();
 	String getCredits();
+	String getPremium();
 	String getEmail();
 	String getHandle();
 	String getUnsuccessful();
@@ -40,7 +42,7 @@ public:
 	String getReplaceSpecialCharacters();
 	String getAll();
 	String getGameId();
-	String getSeconds(const char* albumid);
+	String getSeconds();
 	String getFreebie();
 	Vector<String> getAlbumNames();
 	bool getTouchEnabled();
@@ -59,10 +61,12 @@ private:
 	String whiteSpace;
 	String specialCharacters;
 	String credits;
+	String premium;
 	String email;
 	String handle;
 	String touch;
 	String gameId;
+	String seconds;
 	String freebie;
 	String registered;
 	Albums *album;

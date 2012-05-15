@@ -7,4 +7,5 @@ $invite = 1;
 $usercategories = "";
 $productcategories = "";
 $url = "www.mytcg.net";
+$appkey = "GameCards";
 ?>

@@ -6,18 +6,18 @@
 #include <MAUI/Label.h>
 #include <MAUI/Layout.h>
 #include <MAUI/Screen.h>
-#include <maprofile.h>
 
 #include "../utils/Feed.h"
 #include "../utils/Card.h"
 #include "../utils/XmlConnection.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class OptionsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class OptionsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	OptionsScreen(Feed *feed, int screenType, Screen *previous = NULL, Card *card = NULL, String number = "", String deckId = "");
+	OptionsScreen(Feed *feed, int screenType, MainScreen *previous = NULL, Card *card = NULL, String number = "", String deckId = "");
 	~OptionsScreen();
 	void keyPressEvent(int keyCode);
 	void show();
@@ -31,24 +31,17 @@ public:
 	void locateItem(MAPoint2d point);
 
 	enum screenTypes {ST_TRADE_OPTIONS, ST_AUCTION_OPTIONS,
-		ST_CARD_OPTIONS,
-		ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
+		ST_CARD_OPTIONS, ST_NEW_CARD, ST_NUMBER_OPTIONS, ST_LOGIN_OPTIONS};
 private:
-	Feed *feed;
-	Layout *layout;
-	ListBox* listBox;
-	Label *lbl, *notice;
 	Screen *menu;
-	Screen *previous;
+	Widget* currentSelectedKey;
+
 	Card *card;
 	bool list, left, right, connError, busy;
-	int index, screenType;
+	int index, screenType, currentKeyPosition;
 	String parentTag, temp1, temp, error_msg, number, deckId;
 
-	Albums *album;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void acceptCard();
 	void rejectCard();

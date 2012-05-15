@@ -13,6 +13,7 @@
 #include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
+#include "../UI/Button.h"
 
 OptionsScreen::OptionsScreen(Feed *feed, int screenType, MainScreen *previous, Card *card, String number, String deckId) :mHttp(this),
 card(card), screenType(screenType), number(number), deckId(deckId) {
@@ -26,33 +27,37 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 	connError = false;
 	busy = false;
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
+	menu = NULL;
+
 	next = NULL;
 	album = NULL;
 	if (screenType == ST_LOGIN_OPTIONS) {
-		mainLayout = Util::createMainLayout("", "Exit");
+		mainLayout = Util::createMainLayout("", "Exit", "", true);
 	}
 	else {
-		mainLayout = Util::createMainLayout("", "Back");
+		mainLayout = Util::createMainLayout("", "Back", "", true);
 	}
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	switch(screenType) {
 		case ST_TRADE_OPTIONS:
 			label = Util::createSubLabel("Send card to auction");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Send card to friend");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_AUCTION_OPTIONS:
 			label = Util::createSubLabel("My Auctions");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Create New Auction");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_PLAY_OPTIONS:
 			checkForGames();
@@ -61,69 +66,69 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 		case ST_GAME_OPTIONS:
 			label = Util::createSubLabel("Leave Game");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("View Game Log");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_NEW_GAME_OPTIONS:
 			label = Util::createSubLabel("Play versus PC");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Play Quick Match");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Play versus friend");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Game Lobby");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_CARD_OPTIONS:
 			label = Util::createSubLabel("Notes");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			//label = Util::createSubLabel("Share");
 			//label->addWidgetListener(this);
-			//listBox->add(label);
+			//kinListBox->add(label);
 			label = Util::createSubLabel("Auction");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Compare");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Details");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_NEW_CARD:
 			label = Util::createSubLabel("Accept");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Reject");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_NUMBER_OPTIONS:
 			label = Util::createSubLabel("Call");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("SMS");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_LOGIN_OPTIONS:
 			label = Util::createSubLabel("Log In");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Register");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 	}
 
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 
 	this->setMain(mainLayout);
 }
@@ -137,7 +142,7 @@ OptionsScreen::~OptionsScreen() {
 	deckId = "";
 
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if(next!=NULL){
@@ -154,11 +159,11 @@ OptionsScreen::~OptionsScreen() {
 
 void OptionsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -168,8 +173,8 @@ void OptionsScreen::clearListBox() {
 }
 
 void OptionsScreen::show() {
-	if (listBox->getChildren().size() > listBox->getSelectedIndex()) {
-		listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	if (kinListBox->getChildren().size() > kinListBox->getSelectedIndex()) {
+		kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(true);
 	}
 	Screen::show();
 
@@ -180,7 +185,7 @@ void OptionsScreen::show() {
 }
 
 void OptionsScreen::hide() {
-    //listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    //kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 
@@ -271,12 +276,20 @@ void OptionsScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void OptionsScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 		case MAK_SOFTLEFT:
-			index = listBox->getSelectedIndex();
+			index = kinListBox->getSelectedIndex();
 			switch(screenType) {
 				case ST_TRADE_OPTIONS:
 					if(index == 0) {
@@ -502,17 +515,70 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			if (ind == max-1) {
-				listBox->setSelectedIndex(0);
+			if (ind+1 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(ind+1);
 			} else {
-				listBox->selectNextItem();
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
+			/*if (ind == max-1) {
+				kinListBox->setSelectedIndex(0);
+			} else {
+				kinListBox->selectNextItem();
+			}*/
 			break;
 		case MAK_UP:
-			if (ind == 0) {
-				listBox->setSelectedIndex(max-1);
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (ind > 0) {
+				kinListBox->setSelectedIndex(ind-1);
+			}/*if (ind == 0) {
+				kinListBox->setSelectedIndex(max-1);
 			} else {
-				listBox->selectPreviousItem();
+				kinListBox->selectPreviousItem();
+			}*/
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 			}
 			break;
 	}
@@ -627,12 +693,12 @@ void OptionsScreen::mtxTagEnd(const char* name, int len) {
 		if (album->size() > 0) {
 			label = Util::createSubLabel("New Game");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = Util::createSubLabel("Continue Game");
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 
-			listBox->setSelectedIndex(0);
+			kinListBox->setSelectedIndex(0);
 		}
 		else {
 			if (next != NULL) {
