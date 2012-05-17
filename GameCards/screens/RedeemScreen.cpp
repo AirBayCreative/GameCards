@@ -18,31 +18,31 @@ RedeemScreen::RedeemScreen(Feed *feed, MainScreen *previous) : mHttp(this) {
 
 	mainLayout = Util::createMainLayout("Redeem", "Back", "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Redeem code:", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxRedeem = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "",L"Redeem");
 	editBoxRedeem->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	if (feed->getUnsuccessful() != "Success") {
 		label->setCaption(feed->getUnsuccessful());
 	}
 	this->setMain(mainLayout);
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 }
 
 RedeemScreen::~RedeemScreen() {
 	lprintfln("~RedeemScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -56,11 +56,11 @@ RedeemScreen::~RedeemScreen() {
 }
 void RedeemScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -127,12 +127,12 @@ void RedeemScreen::locateItem(MAPoint2d point)
 	}
 }
 void RedeemScreen::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
 
 void RedeemScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 
@@ -166,7 +166,7 @@ void RedeemScreen::redeemCode() {
 
 void RedeemScreen::keyPressEvent(int keyCode) {
 	error = false;
-	//int index = listBox->getSelectedIndex();
+	//int index = kinListBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:

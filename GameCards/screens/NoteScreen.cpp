@@ -31,7 +31,7 @@ card(card), screenType(screenType), detail(detail) {
 		break;
 	}
 
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	Layout *feedlayout;
@@ -50,7 +50,7 @@ card(card), screenType(screenType), detail(detail) {
 			cardText += card->getRanking();
 			//cardText += "\nRarity: ";
 
-			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+			feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 			feedlayout->setSkin(Util::getSkinAlbum());
 			feedlayout->setDrawBackground(false);
 			feedlayout->addWidgetListener(this);
@@ -74,17 +74,17 @@ card(card), screenType(screenType), detail(detail) {
 			label->setMultiLine();
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Note", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_SMS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "SMS", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 		break;
 	}
 	int height = 48;
-	if((listBox->getHeight()-(feedlayout->getHeight()+48)) > 48){
-		height = (listBox->getHeight()-(feedlayout->getHeight()+48));
+	if((kinListBox->getHeight()-(feedlayout->getHeight()+48)) > 48){
+		height = (kinListBox->getHeight()-(feedlayout->getHeight()+48));
 	}
 	label =  new Label(0,0, scrWidth-(PADDING*2), height, NULL, "", 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
@@ -102,18 +102,18 @@ card(card), screenType(screenType), detail(detail) {
 	}
 
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
 	label->setSelected(true);
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 }
 
 NoteScreen::~NoteScreen() {
 	lprintfln("~NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 
@@ -130,11 +130,11 @@ NoteScreen::~NoteScreen() {
 }
 void NoteScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -186,7 +186,7 @@ void NoteScreen::locateItem(MAPoint2d point){
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	if (moved <= 1) listBox->setSelectedIndex(i);
+        	if (moved <= 1) kinListBox->setSelectedIndex(i);
         	list = true;
             return;
         }
@@ -278,12 +278,12 @@ void NoteScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			}
 			break;
 		case MAK_DOWN:
 			if(currentSelectedKey==NULL){
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(false);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 						currentKeyPosition=i;

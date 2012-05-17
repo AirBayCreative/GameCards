@@ -32,14 +32,14 @@ ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool fl
 		else {
 			mainLayout =  Util::createImageLayout((hasConnection&&canAuction)?"Options":"", "Back" , "Flip");
 		}
-		listBox = (KineticListBox*) mainLayout->getChildren()[0];
-		height = listBox->getHeight();
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0];
+		height = kinListBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-		height = listBox->getHeight()-70;
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		height = kinListBox->getHeight()-70;
 	}
-	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, listBox, false, false, img);
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height, kinListBox, false, false, img);
 	this->setMain(mainLayout);
 	if (card != NULL) {
 		if (flip) {
@@ -180,7 +180,7 @@ ImageScreen::~ImageScreen() {
 		}
 	}
 	clearListBox();
-	//listBox->clear();
+	//kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -199,11 +199,11 @@ ImageScreen::~ImageScreen() {
 }
 void ImageScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
