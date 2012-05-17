@@ -65,12 +65,12 @@ ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int
 		mainLayout = Util::createMainLayout("", "Back", true);
 	}
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	notice->setDrawBackground(false);
 
-	listBox->setHeight(listBox->getHeight() - 20);
+	kinListBox->setHeight(kinListBox->getHeight() - 20);
 
 	int res = -1;
 	int urlLength = 100 + URLSIZE;
@@ -122,7 +122,7 @@ ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int
 ShopCategoriesScreen::~ShopCategoriesScreen() {
 	lprintfln("~ShopCategoriesScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -137,11 +137,11 @@ ShopCategoriesScreen::~ShopCategoriesScreen() {
 }
 void ShopCategoriesScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -206,25 +206,25 @@ void ShopCategoriesScreen::locateItem(MAPoint2d point)
 }
 void ShopCategoriesScreen::drawList() {
 	empt = false;
-	listBox->getChildren().clear();
+	kinListBox->getChildren().clear();
 
 	if (screenType == ST_AUCTIONS)
 	{
 		label = Util::createSubLabel("Create New Auction");
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 
 	for(Vector<String>::iterator itr = category.begin(); itr != category.end(); itr++) {
 		label = Util::createSubLabel(itr->c_str());
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 
 	if (categories.size() > 1) {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	} else if (categories.size() == 1) {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 		if ((screenType != ST_AUCTIONS)&&(screenType != ST_RANKING)&&(screenType != ST_FRIEND)) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -232,9 +232,9 @@ void ShopCategoriesScreen::drawList() {
 		label = Util::createSubLabel("Empty");
 		//label->addWidgetListener(this);
 		empt = true;
-		listBox->add(label);
+		kinListBox->add(label);
 
-		//listBox->setSelectedIndex(0);
+		//kinListBox->setSelectedIndex(0);
 	}
 
 	if (screenType == ST_FREEBIE)
@@ -252,10 +252,10 @@ void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
 void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
@@ -270,7 +270,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				case ST_FREEBIE:
 					if (!empt) {
 						orig = this;
-						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
 						String category = categories.find(selectedCaption)->second.c_str();
 						if (next != NULL) {
 							delete next;
@@ -284,7 +284,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				case ST_RANKING:
 					if (!empt) {
 						orig = this;
-						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
 						String category = categories.find(selectedCaption)->second.c_str();
 						if (next != NULL) {
 							delete next;
@@ -298,7 +298,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				case ST_FRIEND:
 					if (!empt) {
 							orig = this;
-							String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+							String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
 							String category = categories.find(selectedCaption)->second.c_str();
 							if (next != NULL) {
 								delete next;
@@ -312,7 +312,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 				case ST_SHOP:
 					if (!empt) {
 						orig = this;
-						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
 						String category = categories.find(selectedCaption)->second.c_str();
 						if (next != NULL) {
 							delete next;
@@ -324,8 +324,8 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 					}
 					break;
 				case ST_AUCTIONS:
-						int i = listBox->getSelectedIndex();
-						String selectedCaption = ((Label*)listBox->getChildren()[listBox->getSelectedIndex()])->getCaption();
+						int i = kinListBox->getSelectedIndex();
+						String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
 						orig = this;
 
 						if (!strcmp(selectedCaption.c_str(), "My Auctions")) {
@@ -352,7 +352,7 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 								next = NULL;
 							}
 							orig = this;
-							String selectedCaption = ((Label*)listBox->getChildren()[i])->getCaption();
+							String selectedCaption = ((Label*)kinListBox->getChildren()[i])->getCaption();
 							String category = categories.find(selectedCaption)->second.c_str();
 
 							next = new AuctionListScreen(this, feed, AuctionListScreen::ST_CATEGORY, category);

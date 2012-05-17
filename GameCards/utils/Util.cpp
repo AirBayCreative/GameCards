@@ -401,20 +401,20 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	label->setDrawBackground(false);
 	listBox->add(label);
 
-	//if (useKinetic) {
+	if (useKinetic) {
 		KineticListBox *mKineticBox = new KineticListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight/*image->getHeight()*/),
 				NULL, KineticListBox::LBO_VERTICAL, KineticListBox::LBA_LINEAR, false);
 		mKineticBox->setPaddingLeft(PADDING);
 		mKineticBox->setDrawBackground(false);
 		listBox->add(mKineticBox);
-	/*}
+	}
 	else {
 		ListBox *mBox = new ListBox(0, 0, scrWidth, scrHeight-(softKeys->getHeight()+imgHeight),
 				NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, false);
 		mBox->setDrawBackground(false);
 		mBox->setPaddingLeft(PADDING);
 		listBox->add(mBox);
-	}*/
+	}
 
 	imgSize = -1;
 	mainLayout->add(softKeys);

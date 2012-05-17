@@ -34,7 +34,8 @@ public:
 	XmlConnection xmlConn;
 
 	Layout *mainLayout;
-	KineticListBox *listBox;
+	KineticListBox *kinListBox;
+	ListBox *listBox;
 
 	Feed *feed;
 	Albums *album;

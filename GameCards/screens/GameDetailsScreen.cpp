@@ -7,11 +7,11 @@
 
 void GameDetailsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -25,7 +25,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	this->feed = feed;
 	mainLayout = Util::createMainLayout("Continue", "", true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(mainLayout);
 
@@ -103,7 +103,7 @@ GameDetailsScreen::~GameDetailsScreen() {
 
 void GameDetailsScreen::drawList() {
 	for(int i = 0; i < logs.size(); i++) {
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -112,14 +112,14 @@ void GameDetailsScreen::drawList() {
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 	if (logs.size() >= 1) {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	} else {
 		label = Util::createSubLabel("Empty");
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 }
 
@@ -188,10 +188,10 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 			orig->show();
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 	}
 }
@@ -260,7 +260,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 
 		label->setCaption(display);
 		notice->setCaption("");
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 	else if (!strcmp(name, "log")) {
 		log = new Log(date.c_str(), description.c_str());
