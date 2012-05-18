@@ -16,25 +16,25 @@ MenuTestScreen::MenuTestScreen(MainScreen *previous) {
 	this->previous = previous;
 	mainLayout = Util::createMainLayout("", "Back", "");
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 
 	Label *label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Gender", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	dropDownGender = Util::createEditLabel("");
 	dropDownGender->addWidgetListener(this);
-	listBox->add(dropDownGender);
+	kinListBox->add(dropDownGender);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Username");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	genderList = new MenuScreen(RES_BLANK);
 	genderList->setMenuWidth(120);
@@ -52,7 +52,7 @@ MenuTestScreen::MenuTestScreen(MainScreen *previous) {
 
 	editBoxLogin->setSelected(true);
 
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 
 	this->setMain(mainLayout);
 }
@@ -62,7 +62,7 @@ MenuTestScreen::~MenuTestScreen() {
 	delete genderList;
 
 	mainLayout = NULL;
-	listBox = NULL;
+	kinListBox = NULL;
 	dropDownGender = NULL;
 	editBoxLogin = NULL;
 }
@@ -102,15 +102,15 @@ void MenuTestScreen::locateItem(MAPoint2d point)
     Point p;
     p.set(point.x, point.y);
 
-    for(int i = 0; i < (listBox->getChildren()).size(); i++)
+    for(int i = 0; i < (kinListBox->getChildren()).size(); i++)
 	{
-		if(listBox->getChildren()[i]->contains(p))
+		if(kinListBox->getChildren()[i]->contains(p))
 		{
-			listBox->getChildren()[i]->setSelected(true);
+			kinListBox->getChildren()[i]->setSelected(true);
 			list = true;
 		}
 		else {
-			listBox->getChildren()[i]->setSelected(false);
+			kinListBox->getChildren()[i]->setSelected(false);
 		}
 	}
 
@@ -163,13 +163,13 @@ void MenuTestScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_UP:
-			if (listBox->getSelectedIndex()-2 > 0) {
-				listBox->setSelectedIndex(listBox->getSelectedIndex()-2);
+			if (kinListBox->getSelectedIndex()-2 > 0) {
+				kinListBox->setSelectedIndex(kinListBox->getSelectedIndex()-2);
 			}
 			break;
 		case MAK_DOWN:
-			if (listBox->getSelectedIndex()+2 < listBox->getChildren().size()) {
-				listBox->setSelectedIndex(listBox->getSelectedIndex()+2);
+			if (kinListBox->getSelectedIndex()+2 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(kinListBox->getSelectedIndex()+2);
 			}
 			break;
 	}

@@ -46,7 +46,7 @@ AuctionListScreen::AuctionListScreen(MainScreen *previous, Feed *feed, int scree
 	mImageCache = new ImageCache();
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Getting auctions...");
 
@@ -158,7 +158,7 @@ void AuctionListScreen::locateItem(MAPoint2d point)
 
 void AuctionListScreen::drawList() {
 	Layout *feedlayout;
-	int ind = listBox->getSelectedIndex();
+	int ind = kinListBox->getSelectedIndex();
 	if (ind < 0) {
 		ind = 0;
 	} else if (ind >= auctions.size()) {
@@ -183,7 +183,7 @@ void AuctionListScreen::drawList() {
 		cardText += "\n";
 		cardText += getTime(auctions[i]->getEndDate());
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT, listBox, 2, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT, kinListBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
@@ -205,21 +205,21 @@ void AuctionListScreen::drawList() {
 
 	if (auctions.size() >= 1) {
 		emp = false;
-		listBox->setSelectedIndex(ind);
+		kinListBox->setSelectedIndex(ind);
 	} else {
 		emp = true;
-		listBox->add(Util::createSubLabel("Empty"));
-		listBox->setSelectedIndex(0);
+		kinListBox->add(Util::createSubLabel("Empty"));
+		kinListBox->setSelectedIndex(0);
 	}
 }
 
 void AuctionListScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -393,7 +393,7 @@ void AuctionListScreen::updateAuctions()
 AuctionListScreen::~AuctionListScreen() {
 	lprintfln("~AuctionListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -433,13 +433,13 @@ void AuctionListScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void AuctionListScreen::keyPressEvent(int keyCode) {
-	int selected = listBox->getSelectedIndex();
+	int selected = kinListBox->getSelectedIndex();
 	switch(keyCode) {
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
@@ -454,9 +454,9 @@ void AuctionListScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				if (screenType == ST_USER) {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_USER, false, NULL, auctions[listBox->getSelectedIndex()], false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_USER, false, NULL, auctions[kinListBox->getSelectedIndex()], false);
 				} else {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[listBox->getSelectedIndex()], false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_AUCTION, false, NULL, auctions[kinListBox->getSelectedIndex()], false);
 				}
 				next->show();
 			}

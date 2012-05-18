@@ -45,26 +45,26 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 		mainLayout = Util::createMainLayout("Purchase", "Back", "Cards", true);
 
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 
 	if ((first)||(free)) {
 		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 150 credits and a free starter pack.", 0, Util::getDefaultSelected());
 		label->setMultiLine(true);
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 	} else if (screenType != ST_USER) {
 		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
 		creditlabel = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		creditlabel->setMultiLine(true);
 		creditlabel->setDrawBackground(false);
-		listBox->add(creditlabel);
+		kinListBox->add(creditlabel);
 	}
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/140, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/140, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->addWidgetListener(this);
 
@@ -142,7 +142,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			label->setMultiLine();
 			label->setAutoSizeY();
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			label = Util::createEditLabel("");
 			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
@@ -160,7 +160,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			editBidBox->setSelected(true);
 			label->setSelected(true);
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 		}
 	}
 
@@ -298,7 +298,7 @@ String ShopDetailsScreen::getTime() {
 ShopDetailsScreen::~ShopDetailsScreen() {
 	lprintfln("~ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if(mImageCache != NULL){
@@ -529,10 +529,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 	}
 }
@@ -710,7 +710,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("", "Back", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
@@ -726,11 +726,11 @@ void ShopDetailsScreen::drawPostBid(String message)
 	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/115, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -807,7 +807,7 @@ void ShopDetailsScreen::drawBuyNow()
 
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("Confirm", "Back", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
@@ -824,11 +824,11 @@ void ShopDetailsScreen::drawBuyNow()
 	//label->setSkin(Util::getSkinBack());
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/115, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -903,11 +903,11 @@ void ShopDetailsScreen::clearListBox() {
 	}
 
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

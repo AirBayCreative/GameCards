@@ -54,7 +54,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 		label->setDrawBackground(false);
 		kinListBox->add(label);
 	} else if (screenType != ST_USER) {
-		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+		String msg = "Premium Credits: " + feed->getPremium();
 		creditlabel = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		creditlabel->setMultiLine(true);
@@ -173,7 +173,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 
 void ShopDetailsScreen::refresh()
 {
-	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	String msg = "Premium Credits: " + feed->getPremium();
 	creditlabel->setCaption(msg.c_str());
 	show();
 }

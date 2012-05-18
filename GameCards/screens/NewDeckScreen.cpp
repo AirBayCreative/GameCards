@@ -7,7 +7,7 @@ NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed) : mHttp(this) {
 	lprintfln("NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
-	listBox = NULL;
+	kinListBox = NULL;
 	mainLayout= NULL;
 
 	deckName = "";
@@ -30,7 +30,7 @@ NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed) : mHttp(this) {
 
 	mainLayout = Util::createMainLayout("", "Back", true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(mainLayout);
 
@@ -149,8 +149,8 @@ void NewDeckScreen::locateItem(MAPoint2d point)
 }
 
 void NewDeckScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -174,7 +174,7 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 					break;
 				case P_CATEGORY:
 					if (!busy) {
-						chosenCategory = albums[listBox->getSelectedIndex()]->getId();
+						chosenCategory = albums[kinListBox->getSelectedIndex()]->getId();
 						phase = P_NAME;
 						drawEnterNameScreen();
 					}
@@ -226,16 +226,16 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_DOWN:
 			if (ind == max-1) {
-				listBox->setSelectedIndex(0);
+				kinListBox->setSelectedIndex(0);
 			} else {
-				listBox->selectNextItem();
+				kinListBox->selectNextItem();
 			}
 			break;
 		case MAK_UP:
 			if (ind == 0) {
-				listBox->setSelectedIndex(max-1);
+				kinListBox->setSelectedIndex(max-1);
 			} else {
-				listBox->selectPreviousItem();
+				kinListBox->selectPreviousItem();
 			}
 			break;
 	}
@@ -268,17 +268,17 @@ void NewDeckScreen::drawSelectCategoryScreen() {
 	for(int i = 0; i < albums.size(); i++) {
 		label = Util::createSubLabel(albums[i]->getDescription());
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 
 	if (albums.size() == 0) {
 		label = Util::createSubLabel("Empty");
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 		empty = true;
 	}
 
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 }
 
 void NewDeckScreen::drawEnterNameScreen() {
@@ -287,24 +287,24 @@ void NewDeckScreen::drawEnterNameScreen() {
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Deck Name", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxName = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Deck Name");
 	editBoxName->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	editBoxName->setSelected(true);
 }
 
 void NewDeckScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
