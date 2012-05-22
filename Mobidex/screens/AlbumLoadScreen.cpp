@@ -47,6 +47,8 @@ AlbumLoadScreen::AlbumLoadScreen(Feed *feed, Albums *al):mHttp(this) {
 	size = 0;
 	moved = 0;
 	collapsed = false;
+	newCards = false;
+	firstCheck = true;
 	int res = -1;
 	char *url = NULL;
 	int urlLength = 0;
@@ -540,6 +542,10 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 		album->clearAll();
 	} else if(!strcmp(parentTag.c_str(), "albumname")) {
 		temp1 += data;
+		if(!strcmp(data, "New Cards")&&firstCheck){
+			firstCheck = false;
+			newCards = true;
+		}
 	} else if(!strcmp(parentTag.c_str(), "albumid")) {
 		temp += data;
 	} else if(!strcmp(parentTag.c_str(), "error")) {
@@ -608,6 +614,16 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			sprintf(file, "%s%s%s", "a", path[path.size()-1].c_str(), ".sav");
 			Util::saveData(file, album->getAll().c_str());
 			delete file;
+		}
+		if(newCards){
+			newCards = false;
+			if (next != NULL) {
+				feed->remHttp();
+				delete next;
+				next = NULL;
+			}
+			next = new AlbumViewScreen(this, feed, "-2", Util::AT_NEW_CARDS);
+			next->show();
 		}
 	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());

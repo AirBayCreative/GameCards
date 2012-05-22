@@ -21,7 +21,7 @@ function resizeThumbs($root) {
 
 function sendMail($to, $subject, $message)
 {
-     $subject = 'Mobidex Registration';
+     //$subject = 'Mobidex Registration';
      $headers = 'MIME-Version: 1.0' . "\r\n";
      $headers.= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
      $headers.= 'From: support@mobidex.biz' . "\r\n";
@@ -711,6 +711,25 @@ function tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $sendNote) {
 			$ret = curl_exec($ch);
 			curl_close($ch);
 	  }*/
+	$query = 'SELECT name, email_adress FROM mytcg_user WHERE user_id = '.$aCheckUser[0]['user_id']; 
+	$aReceivingUser = myqu($query);
+	$name = $aReceivingUser[0]['name'];
+	$email = $aReceivingUser[0]['email_adress'];
+	  	//send the user a welcome email
+     $subject = 'Mobidex Card Received';
+     $message = <<<STR
+
+<p>Hi {$name},</p>
+
+<p>You've just received a new card on your Mobidex!</p>
+
+<p>Kind regards,</p>
+
+<p>Mobidex Support Team</p>
+
+STR;
+
+     sendMail($email, $subject, $message);
   
 	$sOP='<result>Card sent successfully</result>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));

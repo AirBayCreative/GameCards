@@ -39,11 +39,12 @@ private:
 
 	HttpConnection mHttp;
 	ImageCache *mImageCache;
+	Widget* currentSelectedKey;
 
 	String parentTag, statDesc, statIVal, statDisplay, note, deckId, deckCategory;
 	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated;
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue;
-	int size, i, moved, listSizes, screenType;
+	int size, i, moved, listSizes, screenType, currentKeyPosition;
 	bool list, left, right, emp, hasConnection, busy, deleting;
 
 	Card *card;
