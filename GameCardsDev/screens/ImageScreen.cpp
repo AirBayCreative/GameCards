@@ -312,29 +312,21 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-			}else if (imge->getResource() != RES_TEMP) {
-				if(card->getStats().size()>0){
+			}else if(card->getStats().size()>0){
+				if (imge->getResource() != RES_TEMP) {
 					selectStat(-1);
 					if (currentSelectedStat == -1) {
-						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-						}
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
-						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-						}
-						imge->refreshWidget();
 						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
-									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
-									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+							if (imge->getResource() != RES_TEMP) {
+								imge->refreshWidget();
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+											card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+											card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+											card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
+							}
 						}
 					}
 				}
@@ -342,47 +334,22 @@ void ImageScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_DOWN:
 			if(card->getStats().size()>0 && currentSelectedStat < card->getStats().size()-1){
-				lprintfln("gadfgagadfga1");
 				if (imge->getResource() != RES_TEMP) {
 					selectStat(1);
-					lprintfln("gadfgagadfga2");
 					if (currentSelectedStat == -1) {
-						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-						}
 						imge->refreshWidget();
 						imge->statAdded = false;
-						lprintfln("gadfgagadfga3");
 					} else {
-						lprintfln("gadfgagadfga4");
-						if (screenType == ST_NEW_CARD) {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Accept":"", "Reject", "Flip", mainLayout);
-						} else {
-							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
-						}
-						lprintfln("gadfgagadfga5");
-						imge->refreshWidget();
-						lprintfln("gadfgagadfga6");
-						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
-									card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
-									card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-									card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
-							lprintfln("gadfgagadfga7");
-						} else {
-							lprintfln("gadfgagadfga77");
-							while((flip!=card->getStats()[currentSelectedStat]->getFrontOrBack())&&(currentSelectedStat <= card->getStats().size())){
-								selectStat(1);
+						//if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+							if (imge->getResource() != RES_TEMP) {
+								imge->refreshWidget();
+								lprintfln("currentSelectedStat %d",currentSelectedStat);
+								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 							}
-							lprintfln("gadfgagadfga777");
-							imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
-																card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
-																card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
-																card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
-						}
-						lprintfln("gadfgagadfga8");
+						//}
 					}
 				}
 			} else if(currentSelectedKey==NULL){
@@ -446,7 +413,11 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						(!tapped && currentSelectedStat == -1)){
 						flip=!flip;
 						if (screenType != ST_DECK) {
+							currentSelectedKey = NULL;
+							currentKeyPosition = -1;
 							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							currentSelectedKey= currentSoftKeys->getChildren()[1];
+							currentKeyPosition= 1;
 							currentSoftKeys->getChildren()[1]->setSelected(true);
 						}
 						imge->refreshWidget();

@@ -984,7 +984,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setColorBlue(statBlue);
 		stat->setSelectable(selectable);
 		stats.add(stat);
-
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
