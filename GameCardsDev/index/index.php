@@ -46,7 +46,7 @@ function addCreditsSMS($iUserID,$amount=350){
     $sql = "UPDATE mytcg_user SET premium = IFNULL(premium,0) + ".$amount." WHERE user_id = ".$iUserID;
     myqu($sql);
     $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
-val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
+val, transactionlogtype_id) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.", 2)";
     myqu($sql);
     $sql = "INSERT INTO mytcg_notifications (user_id, notification,
 notedate) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now())";
@@ -176,8 +176,8 @@ if ($iUserID == 0){
 	
 	$iUpdate=$aUpdate[0];
 	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-				SELECT '.$iUserID.', descript, now(), val
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				SELECT '.$iUserID.', descript, now(), val, 1
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
 				
@@ -264,7 +264,30 @@ if ($iUserCardID = $_GET['createauction']) {
 	$iBuyNowPrice=$_GET['buynow'];
 	$iDays=$_GET['days'];
 	
-	createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID);
+	if (!($iAuctionType=$_GET['auctiontype'])) {
+	
+		$aCardType=myqu(
+			'select pc.card_id, sum(p.price) as freemium, sum(p.premium) as premium 
+			from mytcg_product p 
+			inner join mytcg_productcard pc 
+			on pc.product_id = p.product_id 
+			where pc.card_id = "'.$iCardId.'" 
+			group by pc.card_id'
+		);
+		
+		if (sizeof($aCardType) > 0) {
+			if ($aCardType[0]['freemium'] > 0 || $aCardType[0]['premium'] == 0) {
+				$iAuctionType = '1';
+			}
+			else if ($aCardType[0]['premium'] > 0) {
+				$iAuctionType = '2';
+			}
+		}
+	
+		//$iAuctionType = '1';
+	}
+	
+	createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID, $iAuctionType);
 	exit;
 }
 
@@ -2162,7 +2185,7 @@ if ($iFreebie = $_GET['categoryproducts']){
 	$sOP='<categoryproducts>'.$sCRLF;
 	
 	
-	$aUserDetails=myqu('SELECT credits, premium 
+	$aUserDetails=myqu('SELECT credits, IFNULL(premium, 0) premium
 		FROM mytcg_user 
 		WHERE user_id='.$iUserID);
 	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
@@ -2243,7 +2266,7 @@ if ($_GET['saveprofiledetail']) {
 
 /** give user transaction log details */
 if ($_GET['creditlog']){
-	creditlog($iUserID);
+	creditlog($iUserID, $transactionlogtypes);
 }
 
 /** give user deck list for a category */

@@ -8,4 +8,5 @@ $usercategories = "";
 $productcategories = "";
 $url = "www.mytcg.net";
 $appkey = "GameCards";
+$transactionlogtypes = "1,2,3";
 ?>
