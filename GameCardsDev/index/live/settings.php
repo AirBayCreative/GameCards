@@ -9,4 +9,5 @@ $productcategories = "";
 $url = "www.mytcg.net";
 $appkey = "GameCards";
 $transactionlogtypes = "1,2,3";
+$notificationtypes = "1,2,3";
 ?>

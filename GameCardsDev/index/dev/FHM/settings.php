@@ -9,4 +9,5 @@ $productcategories = " AND c.category_id = 30 ";
 $url = "dev.mytcg.net";
 $appkey = "FHM";
 $transactionlogtypes = "2";
+$notificationtypes = "1,3";
 ?>
