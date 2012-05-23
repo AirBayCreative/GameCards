@@ -35,7 +35,7 @@ private:
 	String parentTag, notedate;
 	String temp,temp1,error_msg,hasCards,updated;
 	int size, i, moved, first;
-	bool list, left, right, mid, empt, hasConnection, collapsed, shown, owned;
+	bool list, left, right, mid, empt, hasConnection, collapsed, shown, owned, newCards, firstCheck;
 
 	Label *noteLabel;
 	HttpConnection mHttp;
