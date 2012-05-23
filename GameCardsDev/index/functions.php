@@ -2223,16 +2223,17 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 	exit;
 }
 
-function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar) {
-	$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and user_id = '.$iUserID);
-		
-	if ($aLoad[0]['loaded'] == 0) {
-		$sOP = "<result></result>";
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
+function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar, $iFriendID='0') {
+	if($iFriendID=='0'){
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and user_id = '.$iUserID);
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
 	}
-	
 	if ($topcar == -1) {
 		$query = 'SELECT DISTINCT a.category_id, a.description, a.hasCards, IFNULL(a.category_parent_id, -1) category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
 							FROM 
@@ -3191,7 +3192,7 @@ usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
 //cardsincategory 
-function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=1) {
+function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=1, $iFriendID='0') {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -3212,16 +3213,16 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	// D.usercardnotestatus_id = 1 = Normal
 	
 	if ($iCategory == -1) {
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
-			
-		if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+				
+			if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}
 		}
-	
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3256,14 +3257,15 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					ORDER BY description');
 	} else if ($iCategory == -2) {
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
-			
-		if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+				
+			if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}
 		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
@@ -3288,13 +3290,15 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 4 and user_id = '.$iUserID);
-			
-		if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 4 and user_id = '.$iUserID);
+				
+			if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}
 		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
@@ -3319,14 +3323,15 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=4
 					GROUP BY B.card_id ');
 	} else if ($iShowAll == 0){
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory);
-			
-		if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory);
+				
+			if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}
 		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
@@ -3376,16 +3381,17 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
-		
-		$query = 'select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory;
-		$aLoad=myqu($query);		
-		$sOP.=$query;
-		
-		if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
+		if($iFriendID=='0'){
+			$query = 'select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory;
+			$aLoad=myqu($query);		
+			$sOP.=$query;
+			
+			if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}
 		}
 		$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
@@ -3426,7 +3432,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu($qu);
 	}
 	
-	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg, $iUserID);
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg, $iUserID, $iFriendID);
 	
 	return $sOP;
 }
@@ -3478,7 +3484,7 @@ function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$i
 	return $sOP;
 }
 
-function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1, $iUserID) {
+function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1, $iUserID, $iFriendID='0') {
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 		.'FROM mytcg_imageserver b '
 		.'ORDER BY b.description DESC '
@@ -3571,11 +3577,11 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1
 	}
 	$sOP.='</cardsincategory>'.$sCRLF;
 	
-	
-	$query = 'UPDATE mytcg_usercard set loaded = 0 where user_id = '.$iUserID.' and card_id in ('.$ids.')';
-	myqu($query);
-	$sOP.=$query;
-	
+	if($iFriendID =='0'){
+		$query = 'UPDATE mytcg_usercard set loaded = 0 where user_id = '.$iUserID.' and card_id in ('.$ids.')';
+		myqu($query);
+		$sOP.=$query;
+	}
 	return $sOP;
 }
 

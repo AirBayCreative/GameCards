@@ -591,6 +591,9 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
+	}
 	if (!($iShowAll=$_GET['showall'])) {
 		$iShowAll = '1';
 	}
@@ -605,7 +608,7 @@ if ($iCategory=$_GET['cardsincategory']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight, $jpg);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight, $jpg, $iFriendID);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -1865,28 +1868,36 @@ if ($_GET['usercategories']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
-	
-	$aLoad=myqu('SELECT count(*) as loaded 
-		FROM mytcg_card c
-		INNER JOIN mytcg_usercard uc
-		ON uc.card_id = c.card_id
-		INNER JOIN mytcg_category ca
-		ON ca.category_id = c.category_id
-		INNER JOIN mytcg_usercardstatus ucs
-		ON ucs.usercardstatus_id = uc.usercardstatus_id
-		LEFT OUTER JOIN mytcg_category_x cx
-		ON cx.category_child_id = ca.category_id
-		WHERE LOWER(ucs.description) = LOWER("album")
-		AND uc.user_id = '.$iUserID.'
-		AND uc.loaded = 1');
-		
-	if ($aLoad[0]['loaded'] == 0) {
-		$sOP = "<result></result>";
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
 	}
-
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
+	if($iFriendID == '0'){
+		$aLoad=myqu('SELECT count(*) as loaded 
+			FROM mytcg_card c
+			INNER JOIN mytcg_usercard uc
+			ON uc.card_id = c.card_id
+			INNER JOIN mytcg_category ca
+			ON ca.category_id = c.category_id
+			INNER JOIN mytcg_usercardstatus ucs
+			ON ucs.usercardstatus_id = uc.usercardstatus_id
+			LEFT OUTER JOIN mytcg_category_x cx
+			ON cx.category_child_id = ca.category_id
+			WHERE LOWER(ucs.description) = LOWER("album")
+			AND uc.user_id = '.$userId.'
+			AND uc.loaded = 1');
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
+	}
 	//this gets the categories that the user has cards in, and their parents
 	$query = 'SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		CASE WHEN cx.category_parent_id IS NULL THEN "top" ELSE cx.category_parent_id END category_parent_id,
@@ -1902,7 +1913,7 @@ if ($_GET['usercategories']){
 		LEFT OUTER JOIN mytcg_category_x cx
 		ON cx.category_child_id = ca.category_id
 		WHERE LOWER(ucs.description) = LOWER("album")
-		AND uc.user_id = '.$iUserID.$usercategories.' 
+		AND uc.user_id = '.$userId.$usercategories.' 
 		GROUP BY ca.category_id
 		ORDER BY ca.description';
 	/*echo $query;*/
@@ -1959,7 +1970,7 @@ if ($_GET['usercategories']){
 	//select count(*) from mytcg_card where user_id = id;
 	$aMyCards=myqu('SELECT COUNT(*)  as cnt
 			FROM mytcg_card
-			WHERE user_id = '.$iUserID.' ');
+			WHERE user_id = '.$userId.' ');
 	if ($aMine=$aMyCards[0]) {
 		if ($aMine['cnt'] > 0) {
 			$sOP.=$sTab.'<album>'.$sCRLF;
@@ -1970,22 +1981,23 @@ if ($_GET['usercategories']){
 			$sOP.=$sTab.'</album>'.$sCRLF;
 		}
 	}
-	
-	//check for new cards
-	//select count(*) from mytcg_usercard where usercardstatus_id = 4 and user_id = id;
-	$aNewCards=myqu('SELECT COUNT(*) as cnt
-			FROM mytcg_usercard
-			WHERE user_id = '.$iUserID.' 
-			AND usercardstatus_id = 4');
-			
-	if ($aCard=$aNewCards[0]) {
-		if ($aCard['cnt'] > 0) {
-			$sOP.=$sTab.'<album>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
-			$sOP.=$sTab.'</album>'.$sCRLF;
+	if($iFriendID == '0'){
+		//check for new cards
+		//select count(*) from mytcg_usercard where usercardstatus_id = 4 and user_id = id;
+		$aNewCards=myqu('SELECT COUNT(*) as cnt
+				FROM mytcg_usercard
+				WHERE user_id = '.$userId.' 
+				AND usercardstatus_id = 4');
+				
+		if ($aCard=$aNewCards[0]) {
+			if ($aCard['cnt'] > 0) {
+				$sOP.=$sTab.'<album>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
+				$sOP.=$sTab.'</album>'.$sCRLF;
+			}
 		}
 	}
 	$iCount=0;
@@ -2008,7 +2020,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1 && $topCats[0]['hasCards'] != "true") {
-		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $iUserID, $aMine, $aCard, $topcar);
+		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $userId, $aMine, $aCard, $topcar,$iFriendID);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -2023,9 +2035,17 @@ if ($_GET['usersubcategories']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
+	}
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
 	$cat = $_GET['category'];
 	//this gets the categories that the user has cards in, and their parents
-	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '', $topcar);
+	echo subcategories($lastCheckSeconds, $cat, $userId, '', '', $topcar, $iFriendID);
 	exit;
 }
 
