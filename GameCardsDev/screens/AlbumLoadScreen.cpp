@@ -89,6 +89,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	shown = false;
 	temp1 = "";
 	deckId = "";
+	friendId="-1";
 	updated = "0";
 
 	next = NULL;
@@ -109,6 +110,18 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			lprintfln("%s", url);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_FRIENDS:
+			notice->setCaption("Checking for friend albums...");
+			friendId = categoryId;
+			this->categoryId = "";
+			//album->setAll(this->feed->getAlbum()->getAll().c_str());
+			urlLength = 60 + URLSIZE + feed->getSeconds().length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?usercategories=1&seconds=%s&friendid=%s", URL, feed->getSeconds().c_str(), friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
