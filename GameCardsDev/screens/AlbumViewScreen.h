@@ -18,7 +18,7 @@ using namespace MAUtil;
 
 class AlbumViewScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
-	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=AT_NORMAL, bool bAction=false, Card *card = NULL, String deckId = "");
+	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=AT_NORMAL, bool bAction=false, Card *card = NULL, String deckId = "", String friendId = "");
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -47,7 +47,7 @@ public:
 
 	int albumType;
 
-	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK, AT_PRODUCT};
+	enum albumTypes {AT_NORMAL, AT_NEW_CARDS, AT_COMPARE, AT_BUY, AT_FREE, AT_AUCTION, AT_DECK, AT_PRODUCT, AT_FRIENDS};
 private:
 	ListBox *midListBox;
 	Widget* currentSelectedKey;
@@ -57,7 +57,7 @@ private:
 
 	String parentTag, statDesc, statIVal, statDisplay, note, category, deckId, playable;
 
-	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated, premium, credits;
+	String id,description,quantity, thumburl, fronturl, frontflipurl, backurl, backflipurl, filename,error_msg, rate, rarity, ranking, value, updated, premium, credits,friendId;
 
 	int statTop, statLeft, statWidth, statHeight, statFrontOrBack, statRed, statGreen, statBlue, selectable;
 	int size, i, moved, listSizes, xStart, currentKeyPosition;

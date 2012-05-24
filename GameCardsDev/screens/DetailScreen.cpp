@@ -438,6 +438,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				keyPressEvent(MAK_SOFTLEFT);
 			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
 				keyPressEvent(MAK_SOFTRIGHT);
+			}else if(screenType == FRIENDS){
+				keyPressEvent(MAK_SOFTLEFT);
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -480,15 +482,17 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					//next->show();
 					break;
 				case FRIENDS:
-					if(strcmp(friends[ind]->getFriendId().c_str(),"-1")){
-						if (next != NULL) {
-							delete next;
-							feed->remHttp();
-							next = NULL;
+					if(ind > 0){
+						if(strcmp(friends[ind-1]->getFriendId().c_str(),"-1")){
+							if (next != NULL) {
+								delete next;
+								feed->remHttp();
+								next = NULL;
+							}
+							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_FRIENDS,NULL,false,NULL,friends[ind-1]->getFriendId());
+							next->show();
+							break;
 						}
-						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_FRIENDS,NULL,false,NULL,friends[ind]->getFriendId());
-						next->show();
-						break;
 					}
 			}
 			break;

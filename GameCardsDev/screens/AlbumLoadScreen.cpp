@@ -118,7 +118,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			friendId = categoryId;
 			this->categoryId = "";
 			//album->setAll(this->feed->getAlbum()->getAll().c_str());
-			urlLength = 60 + URLSIZE + feed->getSeconds().length();
+			urlLength = 70 + URLSIZE + feed->getSeconds().length() + friendId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s&friendid=%s", URL, feed->getSeconds().c_str(), friendId.c_str());
@@ -667,6 +667,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 							loadCategory();
 						}
 						break;
+					case ST_FRIENDS:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_FRIENDS, isAuction, NULL,"",friendId);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+					break;
 					case ST_COMPARE:
 						if (val->getHasCards()) {
 							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
@@ -775,19 +788,19 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength = 60 + URLSIZE + feed->getSeconds().length();
+			urlLength = 70 + URLSIZE + feed->getSeconds().length() + friendId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			sprintf(url, "%s?usercategories=1&seconds=%s&friendid=%s", URL, feed->getSeconds().c_str(),friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
+			urlLength = 80 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length() + friendId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s&friendid=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str(),friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
