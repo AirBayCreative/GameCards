@@ -24,7 +24,7 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 0;
 
 	mHttp = HttpConnection(this);
-	//delete album;
+
 	if (album == NULL) {
 		album = new Albums();
 	} else {
@@ -97,7 +97,12 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	album = new Albums();
+	if (album == NULL) {
+		lprintfln("album = new Albums()");
+		album = new Albums();
+	} else {
+		album->clearAll();
+	}
 
 	switch(screenType) {
 		case ST_ALBUMS:
@@ -187,6 +192,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 
 	if (url != NULL) {
 		delete url;
+		url = NULL;
 	}
 }
 
@@ -321,7 +327,6 @@ void AlbumLoadScreen::drawList() {
 	int itemsPerList = listBox->getHeight() / ITEM_HEIGHT;
 	Vector<String> display = album->getNames();
 	Layout *listLayout;
-	//check if we need more than 1 page
 	if (itemsPerList < display.size()) {
 		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 3, 1);
 		listLayout->setDrawBackground(false);
@@ -405,6 +410,7 @@ void AlbumLoadScreen::drawList() {
 	if (shown) {
 		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 	}
+	delete cap;
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -462,6 +468,7 @@ void AlbumLoadScreen::show() {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 }
 
 void AlbumLoadScreen::hide() {
@@ -693,7 +700,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 				}
-				//delete val;
 			}
 			break;
 	}
@@ -724,6 +730,7 @@ void AlbumLoadScreen::switchList(int nextOrPrev) {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 
 	currentIndex = 0;
 }

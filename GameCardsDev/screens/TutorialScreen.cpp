@@ -18,7 +18,6 @@ TutorialScreen::TutorialScreen(MainScreen *previous, tutItem *items, int itemCou
 	subLayout->setPaddingLeft(PADDING);
 	subLayout->setPaddingRight(PADDING);
 	subLayout->setDrawBackground(false);
-	/*subLayout->setSkin(Util::getSkinBack());*/
 
 	leftArrow = new Image(0, 0, ARROW_WIDTH, subLayout->getHeight(), subLayout, false, false, RES_UNSELECT_ICON);
 	leftArrow->setDrawBackground(false);
