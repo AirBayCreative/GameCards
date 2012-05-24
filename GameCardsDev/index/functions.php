@@ -466,10 +466,11 @@ function updateAuctions() {
 			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
 			
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now(), 1)');
 		} else {
 			$transactionType = $auction['auctiontype_id']==1?($auction['premium']>0?3:1):2;
+			$notificationType = $auction['auctiontype_id']==1?2:3;
 		
 			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
 		
@@ -478,14 +479,14 @@ function updateAuctions() {
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].', '.$transactionType.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$auction['owner'].', "Auctioned '.$auction['description'].' to '.$auction['username'].' for '.$auction['price'].' credits.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$auction['owner'].', "Auctioned '.$auction['description'].' to '.$auction['username'].' for '.$auction['price'].' credits.", now(), '.$notificationType.')');
 				
 			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].', '.$transactionType.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$auction['bidder'].', "Won auction '.$auction['description'].' from '.$auction['ownername'].' for '.$auction['price'].' credits.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$auction['bidder'].', "Won auction '.$auction['description'].' from '.$auction['ownername'].' for '.$auction['price'].' credits.", now(), , '.$notificationType.')');
 		}
 		
 		myqu($query);
@@ -2784,8 +2785,8 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
 		
-	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now())');
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now(), 1)');
 		
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
@@ -2794,8 +2795,8 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 						from mytcg_user
 						WHERE user_id = '.$iUserID);
 						
-	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now())');
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now(), 1)');
 
   //SMS Notification of Trade completed
   
@@ -2892,11 +2893,11 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 					VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10, 1)');
 					
-				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now(), 1)');
 			} else {
-				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now(), 1)');
 			}
 		}
 		
@@ -2912,14 +2913,14 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$refererid.', '.$iUserID.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$refererid.', "'.$username.' has been added to your friend list.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$refererid.', "'.$username.' has been added to your friend list.", now(), 1)');
 			
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$iUserID.', '.$refererid.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$iUserID.', "'.$aReferer[0]['username'].' has been added to your friend list.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$iUserID.', "'.$aReferer[0]['username'].' has been added to your friend list.", now(), 1)');
 		}
 		
 		//create the empty data fields in mytcg_user_answer
@@ -2936,8 +2937,8 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
 		
 		//return userdetails
 		echo userdetails($iUserID,$iHeight,$iWidth,$root);
@@ -2977,10 +2978,11 @@ function creditlog($iUserID, $transactionlogtypes) {
 	exit;
 }
 
-function notifications($iUserID) {
-	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate
+function notifications($iUserID, $notificationtypes) {
+	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate 
 								FROM mytcg_notifications  
 								WHERE user_id='.$iUserID.'
+								AND notificationtype_id IN ('.$notificationtypes.') 
 								ORDER BY notedate DESC
 								LIMIT 0, 10');
 

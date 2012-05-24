@@ -49,7 +49,7 @@ function addCreditsSMS($iUserID,$amount=350){
 val, transactionlogtype_id) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.", 2)";
     myqu($sql);
     $sql = "INSERT INTO mytcg_notifications (user_id, notification,
-notedate) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now())";
+notedate, notificationtype_id) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now(), 3)";
     myqu($sql);
   }
 }
@@ -183,8 +183,8 @@ if ($iUserID == 0){
 				
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+25) WHERE user_id = '.$iUserID);
 			
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1)');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote, notificationtype_id)
+			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1, 2)');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -364,7 +364,7 @@ if ($_GET['friends']) {
 }
 
 if ($_GET['notifications']) {
-	notifications($iUserID);
+	notifications($iUserID, $notificationtypes);
 	exit;
 }
 //DO TRADE
@@ -1833,9 +1833,10 @@ if ($_GET['getopengames']){
 }
 
 
-/** get the date of the latest notification */
+/** get the date of the latest relevant notification */
 if ($_GET['notedate']){
-	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' AND sysnote = 0 ORDER BY notedate DESC');
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' 
+		AND sysnote = 0 AND notificationtype_id IN ('.$notificationtypes.') ORDER BY notedate DESC');
 	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
