@@ -517,7 +517,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			if (ind+1 < listBox->getChildren().size()) {
 				listBox->setSelectedIndex(ind+1);
-			} else {
+			} else if(currentSelectedKey==NULL){
 				listBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){

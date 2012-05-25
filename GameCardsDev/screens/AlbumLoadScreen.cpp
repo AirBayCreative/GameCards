@@ -89,7 +89,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	shown = false;
 	temp1 = "";
 	deckId = "";
-	friendId="-1";
+	friendId="0";
 	updated = "0";
 
 	next = NULL;
@@ -224,6 +224,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	error_msg="";
 	hasCards="";
 	updated="";
+	friendId="";
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
