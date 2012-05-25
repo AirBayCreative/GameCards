@@ -7,6 +7,7 @@
 #include "../utils/Util.h"
 #include "../utils/Card.h"
 #include "../utils/Answer.h"
+#include "../utils/Friend.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
@@ -43,9 +44,11 @@ private:
 
 	HttpConnection mHttp;
 
-	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val;
+	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val,friendid;
 	Answer *ans;
+	Friend *frien;
 	Vector<Answer*> answers;
+	Vector<Friend*> friends;
 	int i,j,moved,screenType,answered,count,credits, currentKeyPosition;
 
 	Card *card;

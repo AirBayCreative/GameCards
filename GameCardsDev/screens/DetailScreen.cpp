@@ -1,5 +1,6 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
+#include "AlbumLoadScreen.h"
 #include "ShopProductsScreen.h"
 #include "NewMenuScreen.h"
 #include <mastdlib.h>
@@ -330,6 +331,14 @@ DetailScreen::~DetailScreen() {
 	}
 	answers.clear();
 
+	for (int i = 0; i < friends.size(); i++) {
+		if (friends[i] != NULL) {
+			delete friends[i];
+			friends[i] = NULL;
+		}
+	}
+	friends.clear();
+
 }
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
@@ -429,6 +438,8 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				keyPressEvent(MAK_SOFTLEFT);
 			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
 				keyPressEvent(MAK_SOFTRIGHT);
+			}else if(screenType == FRIENDS){
+				keyPressEvent(MAK_SOFTLEFT);
 			}
 			break;
 		case MAK_SOFTLEFT:
@@ -470,6 +481,19 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					maPlatformRequest("http://buy.mytcg.net/");
 					//next->show();
 					break;
+				case FRIENDS:
+					if(ind > 0){
+						if(strcmp(friends[ind-1]->getFriendId().c_str(),"-1")){
+							if (next != NULL) {
+								delete next;
+								feed->remHttp();
+								next = NULL;
+							}
+							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_FRIENDS,NULL,false,NULL,friends[ind-1]->getFriendId());
+							next->show();
+							break;
+						}
+					}
 			}
 			break;
 		case MAK_BACK:
@@ -686,6 +710,8 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		val = data;
 	} else if(!strcmp(parentTag.c_str(), "usr")) {
 		usr = data;
+	} else if(!strcmp(parentTag.c_str(), "user_id")) {
+		friendid = data;
 	}
 }
 
@@ -860,9 +886,15 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->addWidgetListener(this);
 		listBox->add(label);
 
+		frien = new Friend();
+		frien->setFriendId(friendid.c_str());
+		friends.add(frien);
+
+		frien=NULL;
 		usr="";
 		val="";
 		desc="";
+		friendid = "-1";
 	} else if(!strcmp(name, "friends")) {
 		if (count == 0) {
 			label->setCaption("");

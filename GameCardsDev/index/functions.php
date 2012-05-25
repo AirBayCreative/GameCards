@@ -2591,7 +2591,7 @@ function leaderboard($id, $iUserID) {
 	exit;
 }
 function friends($iUserID) {
-	$aFriends=myqu('select a.username, a.credits, b.description
+	$aFriends=myqu('select a.user_id, a.username, a.credits, b.description
 						from
 					(
 										select distinct a.username, a.user_id, a.credits, c.card_id, c.description, max(c.avgranking) avg
@@ -2611,6 +2611,7 @@ function friends($iUserID) {
 	$count = 0;
 	foreach ($aFriends as $friend) {
 		$sOP.=$sTab.'<friend>'.$sCRLF;	
+		$sOP.=$sTab.'<user_id>'.trim($friend['user_id']).'</user_id>'.$sCRLF;
 		$sOP.=$sTab.'<usr>Username : '.trim($friend['username']).'</usr>'.$sCRLF;
 		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</val>'.$sCRLF;
 		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</desc>'.$sCRLF;

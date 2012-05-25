@@ -594,6 +594,11 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($iFriendID=$_GET['friendid'])) {
 		$iFriendID = '0';
 	}
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
 	if (!($iShowAll=$_GET['showall'])) {
 		$iShowAll = '1';
 	}
@@ -608,7 +613,7 @@ if ($iCategory=$_GET['cardsincategory']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight, $jpg, $iFriendID);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$userId, -1,$root, $iBBHeight, $jpg, $iFriendID);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
