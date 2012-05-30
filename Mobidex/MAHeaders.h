@@ -46,7 +46,7 @@
 #define RES_BOX_UNSELECTED 46
 #define RES_POPUP_HEADER 47
 
-#define URLSIZE 28
+#define URLSIZE 42
 #define JPG "jpg=1"
 
 //we also need to define the x and y coordinates at which to split the images up
@@ -132,7 +132,7 @@ using namespace MAUtil;
 static String FILE_PREFIX = "dex_";
 
 static String URL_BASIC = "http://mobidex.biz/";
-static String URL_PHONE = URL_BASIC+"_phone/";
+static String URL_PHONE = URL_BASIC+"_phone/test_index.php";
 static String URL_FORGOTPASSWORD = URL_BASIC+"forgotpassword/";
 static String URL_TERMS = URL_BASIC+"terms/";
 

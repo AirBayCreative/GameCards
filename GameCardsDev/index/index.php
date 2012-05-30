@@ -46,10 +46,10 @@ function addCreditsSMS($iUserID,$amount=350){
     $sql = "UPDATE mytcg_user SET premium = IFNULL(premium,0) + ".$amount." WHERE user_id = ".$iUserID;
     myqu($sql);
     $sql = "INSERT INTO mytcg_transactionlog (user_id, description, date,
-val) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.")";
+val, transactionlogtype_id) VALUES (".$iUserID.", 'Purchased ".$amount." credits via SMS', NOW(),".$amount.", 2)";
     myqu($sql);
     $sql = "INSERT INTO mytcg_notifications (user_id, notification,
-notedate) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now())";
+notedate, notificationtype_id) VALUES (".$iUserID.",'Received ".$amount." credits via SMS purchase',now(), 3)";
     myqu($sql);
   }
 }
@@ -176,15 +176,15 @@ if ($iUserID == 0){
 	
 	$iUpdate=$aUpdate[0];
 	if (($iUpdate['dif'] >= 1) && ($iUpdate['webdif'] >= 1)) {
-		myqui('INSERT mytcg_transactionlog (user_id, description, date, val)
-				SELECT '.$iUserID.', descript, now(), val
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				SELECT '.$iUserID.', descript, now(), val, 1
 				FROM mytcg_transactiondescription
 				WHERE transactionid = 1');
 				
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+25) WHERE user_id = '.$iUserID);
 			
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote)
-			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1)');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote, notificationtype_id)
+			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1, 2)');
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
@@ -264,7 +264,30 @@ if ($iUserCardID = $_GET['createauction']) {
 	$iBuyNowPrice=$_GET['buynow'];
 	$iDays=$_GET['days'];
 	
-	createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID);
+	if (!($iAuctionType=$_GET['auctiontype'])) {
+	
+		$aCardType=myqu(
+			'select pc.card_id, sum(p.price) as freemium, sum(p.premium) as premium 
+			from mytcg_product p 
+			inner join mytcg_productcard pc 
+			on pc.product_id = p.product_id 
+			where pc.card_id = "'.$iCardId.'" 
+			group by pc.card_id'
+		);
+		
+		if (sizeof($aCardType) > 0) {
+			if ($aCardType[0]['freemium'] > 0 || $aCardType[0]['premium'] == 0) {
+				$iAuctionType = '1';
+			}
+			else if ($aCardType[0]['premium'] > 0) {
+				$iAuctionType = '2';
+			}
+		}
+	
+		//$iAuctionType = '1';
+	}
+	
+	createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID, $iAuctionType);
 	exit;
 }
 
@@ -341,7 +364,7 @@ if ($_GET['friends']) {
 }
 
 if ($_GET['notifications']) {
-	notifications($iUserID);
+	notifications($iUserID, $notificationtypes);
 	exit;
 }
 //DO TRADE
@@ -568,6 +591,14 @@ if ($iCategory=$_GET['cardsincategory']){
 	if (!($iWidth=$_GET['width'])) {
 		$iWidth = '250';
 	}
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
+	}
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
 	if (!($iShowAll=$_GET['showall'])) {
 		$iShowAll = '1';
 	}
@@ -582,7 +613,7 @@ if ($iCategory=$_GET['cardsincategory']){
 		$lastCheckSeconds = "0";
 	}
 	
-	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID, -1,$root, $iBBHeight, $jpg);
+	$sOP = cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$userId, -1,$root, $iBBHeight, $jpg, $iFriendID);
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
 	exit;
@@ -1807,9 +1838,10 @@ if ($_GET['getopengames']){
 }
 
 
-/** get the date of the latest notification */
+/** get the date of the latest relevant notification */
 if ($_GET['notedate']){
-	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' AND sysnote = 0 ORDER BY notedate DESC');
+	$notificationsUrlQuery = myqu('SELECT notedate FROM mytcg_notifications WHERE user_id = '.$iUserID.' 
+		AND sysnote = 0 AND notificationtype_id IN ('.$notificationtypes.') ORDER BY notedate DESC');
 	$sOP.='<notedate>'.trim($notificationsUrlQuery[0]['notedate']).'</notedate>'.$sCRLF;
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
@@ -1842,28 +1874,36 @@ if ($_GET['usercategories']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
-	
-	$aLoad=myqu('SELECT count(*) as loaded 
-		FROM mytcg_card c
-		INNER JOIN mytcg_usercard uc
-		ON uc.card_id = c.card_id
-		INNER JOIN mytcg_category ca
-		ON ca.category_id = c.category_id
-		INNER JOIN mytcg_usercardstatus ucs
-		ON ucs.usercardstatus_id = uc.usercardstatus_id
-		LEFT OUTER JOIN mytcg_category_x cx
-		ON cx.category_child_id = ca.category_id
-		WHERE LOWER(ucs.description) = LOWER("album")
-		AND uc.user_id = '.$iUserID.'
-		AND uc.loaded = 1');
-		
-	if ($aLoad[0]['loaded'] == 0) {
-		$sOP = "<result></result>";
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
 	}
-
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
+	if($iFriendID == '0'){
+		$aLoad=myqu('SELECT count(*) as loaded 
+			FROM mytcg_card c
+			INNER JOIN mytcg_usercard uc
+			ON uc.card_id = c.card_id
+			INNER JOIN mytcg_category ca
+			ON ca.category_id = c.category_id
+			INNER JOIN mytcg_usercardstatus ucs
+			ON ucs.usercardstatus_id = uc.usercardstatus_id
+			LEFT OUTER JOIN mytcg_category_x cx
+			ON cx.category_child_id = ca.category_id
+			WHERE LOWER(ucs.description) = LOWER("album")
+			AND uc.user_id = '.$userId.'
+			AND uc.loaded = 1');
+			
+		if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}
+	}
 	//this gets the categories that the user has cards in, and their parents
 	$query = 'SELECT DISTINCT ca.category_id, ca.description, "true" hasCards, 
 		CASE WHEN cx.category_parent_id IS NULL THEN "top" ELSE cx.category_parent_id END category_parent_id,
@@ -1879,7 +1919,7 @@ if ($_GET['usercategories']){
 		LEFT OUTER JOIN mytcg_category_x cx
 		ON cx.category_child_id = ca.category_id
 		WHERE LOWER(ucs.description) = LOWER("album")
-		AND uc.user_id = '.$iUserID.$usercategories.' 
+		AND uc.user_id = '.$userId.$usercategories.' 
 		GROUP BY ca.category_id
 		ORDER BY ca.description';
 	/*echo $query;*/
@@ -1936,7 +1976,7 @@ if ($_GET['usercategories']){
 	//select count(*) from mytcg_card where user_id = id;
 	$aMyCards=myqu('SELECT COUNT(*)  as cnt
 			FROM mytcg_card
-			WHERE user_id = '.$iUserID.' ');
+			WHERE user_id = '.$userId.' ');
 	if ($aMine=$aMyCards[0]) {
 		if ($aMine['cnt'] > 0) {
 			$sOP.=$sTab.'<album>'.$sCRLF;
@@ -1947,22 +1987,23 @@ if ($_GET['usercategories']){
 			$sOP.=$sTab.'</album>'.$sCRLF;
 		}
 	}
-	
-	//check for new cards
-	//select count(*) from mytcg_usercard where usercardstatus_id = 4 and user_id = id;
-	$aNewCards=myqu('SELECT COUNT(*) as cnt
-			FROM mytcg_usercard
-			WHERE user_id = '.$iUserID.' 
-			AND usercardstatus_id = 4');
-			
-	if ($aCard=$aNewCards[0]) {
-		if ($aCard['cnt'] > 0) {
-			$sOP.=$sTab.'<album>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
-			$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
-			$sOP.=$sTab.'</album>'.$sCRLF;
+	if($iFriendID == '0'){
+		//check for new cards
+		//select count(*) from mytcg_usercard where usercardstatus_id = 4 and user_id = id;
+		$aNewCards=myqu('SELECT COUNT(*) as cnt
+				FROM mytcg_usercard
+				WHERE user_id = '.$userId.' 
+				AND usercardstatus_id = 4');
+				
+		if ($aCard=$aNewCards[0]) {
+			if ($aCard['cnt'] > 0) {
+				$sOP.=$sTab.'<album>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<albumid>-3</albumid>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<hascards>true</hascards>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<updated>1</updated>'.$sCRLF;
+				$sOP.=$sTab.$sTab.'<albumname>New Cards</albumname>'.$sCRLF;
+				$sOP.=$sTab.'</album>'.$sCRLF;
+			}
 		}
 	}
 	$iCount=0;
@@ -1985,7 +2026,7 @@ if ($_GET['usercategories']){
 	$sOP.='</usercategories>'.$sCRLF;
 	
 	if ($iCount==1 && $topCats[0]['hasCards'] != "true") {
-		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $iUserID, $aMine, $aCard, $topcar);
+		$sOP = subcategories($lastCheckSeconds, $topCats[0]['category_id'], $userId, $aMine, $aCard, $topcar,$iFriendID);
 	}
 	
 	header('xml_length: '.strlen($sOP));
@@ -2000,9 +2041,17 @@ if ($_GET['usersubcategories']){
 	if (!($lastCheckSeconds = $_GET['seconds'])) {
 		$lastCheckSeconds = "0";
 	}
+	if (!($iFriendID=$_GET['friendid'])) {
+		$iFriendID = '0';
+	}
+	if($iFriendID == '0'){
+		$userId = $iUserID;
+	} else {
+		$userId = $iFriendID;
+	}
 	$cat = $_GET['category'];
 	//this gets the categories that the user has cards in, and their parents
-	echo subcategories($lastCheckSeconds, $cat, $iUserID, '', '', $topcar);
+	echo subcategories($lastCheckSeconds, $cat, $userId, '', '', $topcar, $iFriendID);
 	exit;
 }
 
@@ -2162,7 +2211,7 @@ if ($iFreebie = $_GET['categoryproducts']){
 	$sOP='<categoryproducts>'.$sCRLF;
 	
 	
-	$aUserDetails=myqu('SELECT credits, premium 
+	$aUserDetails=myqu('SELECT credits, IFNULL(premium, 0) premium
 		FROM mytcg_user 
 		WHERE user_id='.$iUserID);
 	$sOP.=$sTab.'<credits>'.trim($aUserDetails[0]['credits']).'</credits><premium>'.trim($aUserDetails[0]['premium']).'</premium>'.$sCRLF;
@@ -2243,7 +2292,7 @@ if ($_GET['saveprofiledetail']) {
 
 /** give user transaction log details */
 if ($_GET['creditlog']){
-	creditlog($iUserID);
+	creditlog($iUserID, $transactionlogtypes);
 }
 
 /** give user deck list for a category */

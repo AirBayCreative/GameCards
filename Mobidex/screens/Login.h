@@ -36,7 +36,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 	void menuOptionSelected(int index);
-	enum screens {S_LOGIN, S_REGISTER};
+	enum screens {S_LOGIN, S_REGISTER, S_VIEWCARDS};
 private:
 	Layout *termsLayout, *numberLayout;
 	Label *termsLink, *countryLabel;
@@ -72,6 +72,7 @@ private:
 
 	void drawLoginScreen();
 	void drawRegisterScreen();
+	void drawViewCardsScreen();
 
 	void disableEditBoxes();
 

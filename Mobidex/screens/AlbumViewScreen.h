@@ -20,7 +20,7 @@ using namespace MAUtil;
 
 class AlbumViewScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=Util::AT_NORMAL, Map<String, Card*> map=NULL);
+	AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType=Util::AT_NORMAL, Map<String, Card*> map=NULL, String cell="");
 	~AlbumViewScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);

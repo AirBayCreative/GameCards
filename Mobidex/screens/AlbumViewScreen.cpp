@@ -8,7 +8,7 @@
 #include "OptionsScreen.h"
 #include "TradeFriendDetailScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map) :
+AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, Map<String, Card*> map, String cell) :
 filename(category+"-lst.sav"), category(category),cardExists(cards.end()), albumType(albumType), mHttp(this) {
 	this->previous = previous;
 	this->feed = feed;
@@ -39,6 +39,9 @@ filename(category+"-lst.sav"), category(category),cardExists(cards.end()), album
 	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
 
 	mImageCache = new ImageCache();
+	int urlLength;
+	char *url;
+	int res;
 	switch (albumType) {
 		case Util::AT_SEARCH:
 			notice->setCaption("Searching...");
@@ -47,12 +50,40 @@ filename(category+"-lst.sav"), category(category),cardExists(cards.end()), album
 			//notice->setCaption("");
 			busy = false;
 			break;
+		case Util::AT_VIEW_CARDS:
+			notice->setCaption("Checking for new cards...");
+			loadFile();
+			//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+			urlLength = 81 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+			url = new char[urlLength];
+			memset(url,'\0',urlLength);
+			sprintf(url, "%s?viewcards=%s&seconds=%s&height=%d&width=%d&%s&cell=%s", URL_PHONE.c_str(), category.c_str(), feed->getSeconds().c_str(),
+					Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG, cell.c_str());
+			lprintfln("url %s", url);
+			if(mHttp.isOpen()){
+				mHttp.close();
+			}
+			mHttp = HttpConnection(this);
+			res = mHttp.create(url, HTTP_GET);
+			if(res < 0) {
+				busy = false;
+				hasConnection = false;
+				notice->setCaption("");
+			} else {
+				hasConnection = true;
+				mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+				mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+				feed->addHttp();
+				mHttp.finish();
+			}
+			delete [] url;
+			break;
 		default:
 			notice->setCaption("Checking for new cards...");
 			loadFile();
 			//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-			int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
-			char *url = new char[urlLength];
+			urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+			url = new char[urlLength];
 			memset(url,'\0',urlLength);
 			sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&%s", URL_PHONE.c_str(), category.c_str(), feed->getSeconds().c_str(),
 					Util::getMaxImageHeight(), Util::getMaxImageWidth(), JPG);
@@ -60,7 +91,7 @@ filename(category+"-lst.sav"), category(category),cardExists(cards.end()), album
 				mHttp.close();
 			}
 			mHttp = HttpConnection(this);
-			int res = mHttp.create(url, HTTP_GET);
+			res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
 				busy = false;
 				hasConnection = false;
@@ -281,8 +312,9 @@ void AlbumViewScreen::drawList() {
 	if (cards.size() >= 1) {
 		emp = false;
 		listBox->setSelectedIndex(0);
-	} else if (loading) {
+	} else if ((loading)||(albumType == Util::AT_VIEW_CARDS)) {
 		emp = true;
+		loading = true;
 		listBox->add(Util::createSubLabel("Empty"));
 		listBox->setSelectedIndex(0);
 	} else if (!loading) {
@@ -424,6 +456,8 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_NEW_CARD);
 				} else if (albumType == Util::AT_SHARE){
 					next = new TradeFriendDetailScreen(this, feed, cards.find(index[selected])->second);
+				} else if (albumType == Util::AT_VIEW_CARDS) {
+					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second, ImageScreen::ST_VIEW_CARD);
 				} else {
 					next = new ImageScreen(this, Util::loadImageFromResource(RES_LOADING1), feed, false, cards.find(index[selected])->second);
 				}
@@ -491,6 +525,7 @@ void AlbumViewScreen::mtxTagAttr(const char* attrName, const char* attrValue) {
 	if(!strcmp(parentTag.c_str(), "stat")) {
 		if(!strcmp(attrName, "desc")) {
 			statDesc += attrValue;
+			lprintfln("statDesc %s", statDesc.c_str());
 		}else if(!strcmp(attrName, "ival")) {
 			statIVal += attrValue;
 		}else if(!strcmp(attrName, "top")) {
@@ -518,6 +553,7 @@ void AlbumViewScreen::mtxTagData(const char* data, int len) {
 		id += data;
 	} else if(!strcmp(parentTag.c_str(), "description")) {
 		description += data;
+		lprintfln("description %s", description.c_str());
 	} else if(!strcmp(parentTag.c_str(), "quantity")) {
 		quantity += data;
 	} else if(!strcmp(parentTag.c_str(), "thumburl")) {

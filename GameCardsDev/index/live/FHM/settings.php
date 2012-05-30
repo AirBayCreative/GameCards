@@ -8,4 +8,6 @@ $usercategories = " AND (cx.category_parent_id = 51 OR (cx.category_child_id = 5
 $productcategories = " AND c.category_id = 51 ";
 $url = "www.mytcg.net";
 $appkey = "FHM";
+$transactionlogtypes = "2";
+$notificationtypes = "1,3";
 ?>

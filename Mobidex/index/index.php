@@ -28,6 +28,35 @@ $sTab=chr(9);
 $sCRLF="";
 $sTab="";
 
+if ($_GET['viewcards']) {
+	if (!($cell=$_GET['cell'])) {
+		$cell = '0';
+	}
+	if (!($iHeight=$_GET['height'])) {
+		$iHeight = '350';
+	}
+	if (!($iWidth=$_GET['width'])) {
+		$iWidth = '250';
+	}
+	if (!($iShowAll=$_GET['showall'])) {
+		$iShowAll = '1';
+	}
+	if (!($iBBHeight=$_GET['bbheight'])) {
+		$iBBHeight = '0';
+	}
+	if (!($jpg=$_GET['jpg'])) {
+		$jpg = '0';
+	}
+	$lastCheckSeconds = "";
+	if (!($lastCheckSeconds = $_GET['seconds'])) {
+		$lastCheckSeconds = "0";
+	}
+	$sOP = viewcards($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$cell,$root, $iBBHeight, $jpg);
+	header('xml_length: '.strlen($sOP));
+	echo $sOP;
+	exit;
+}
+
 if ($_GET['checkcountry']) {
 	echo "This product includes GeoLite data created by MaxMind, available from http://www.maxmind.com/.\n" ;
 	$ip = getip();

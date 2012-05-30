@@ -428,7 +428,8 @@ function resizeLoadingCard($iHeight, $iWidth, $root, $iBBHeight=0, $jpg=1) {
 function updateAuctions() {
 	//Select details of the auction
 	$query = ('SELECT a.market_id, a.marketstatus_id, a.user_id owner, a.usercard_id, x.username ownername,
-						IFNULL(b.price,0) price, IFNULL(b.user_id,-1) bidder, u.username, date_expired, d.description
+						IFNULL(b.price,0) price, IFNULL(b.user_id,-1) bidder, u.username, date_expired, d.description, 
+						a.auctiontype_id, IFNULL(b.premium,0) premium
 						FROM mytcg_market a 
 						LEFT OUTER JOIN mytcg_marketcard b 
 						ON a.market_id = b.market_id 
@@ -457,7 +458,7 @@ function updateAuctions() {
 		myqu($query);
 		
 		//add the credits to the user who was auctioning the card
-		$query = "update mytcg_user set credits = credits + ".$auction['price']." where user_id = ".$auction['owner'];
+		$query = "update mytcg_user set credits = credits + ".$auction['price'].", premium = IFNULL(premium, 0) + ".$auction['premium']." where user_id = ".$auction['owner'];
 		myqu($query);
 		
 		//set the cards status back to Album
@@ -465,24 +466,27 @@ function updateAuctions() {
 			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
 			
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Album'), user_id = ".$auction['owner']." where usercard_id = ".$auction['usercard_id'];
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$auction['owner'].', "Auction ended on '.$auction['description'].' with no highest bidder.", now(), 1)');
 		} else {
+			$transactionType = $auction['auctiontype_id']==1?($auction['premium']>0?3:1):2;
+			$notificationType = $auction['auctiontype_id']==1?2:3;
+		
 			myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$auction['usercard_id']);
 		
 			$query = "update mytcg_usercard set usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = 'Received'), user_id = ".$auction['bidder']." where usercard_id = ".$auction['usercard_id'];
 			
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].')');
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$auction['owner'].', "Received '.$auction['price'].' credits for auctioning '.$auction['description'].' to '.$auction['username'].'.", now(), '.$auction['price'].', '.$transactionType.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$auction['owner'].', "Auctioned '.$auction['description'].' to '.$auction['username'].' for '.$auction['price'].' credits.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$auction['owner'].', "Auctioned '.$auction['description'].' to '.$auction['username'].' for '.$auction['price'].' credits.", now(), '.$notificationType.')');
 				
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].')');
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$auction['bidder'].', "Spent '.$auction['price'].' credits for winning the auction '.$auction['description'].' from '.$auction['ownername'].'.", now(), -'.$auction['price'].', '.$transactionType.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$auction['bidder'].', "Won auction '.$auction['description'].' from '.$auction['ownername'].' for '.$auction['price'].' credits.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$auction['bidder'].', "Won auction '.$auction['description'].' from '.$auction['ownername'].' for '.$auction['price'].' credits.", now(), , '.$notificationType.')');
 		}
 		
 		myqu($query);
@@ -501,7 +505,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 			FROM 
 			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
 					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
-					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					(IFNULL(ab.price, 0) + IFNULL(ab.premium, 0)) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
 					u.username, c.image 
 					FROM mytcg_market ac 
 					INNER JOIN mytcg_usercard uc 
@@ -518,7 +522,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 					AND ac.user_id <> '.$iUserID.' 
 					AND uc.card_id NOT IN (SELECT card_id FROM mytcg_usercard WHERE user_id = '.$iUserID.')
 					AND datediff(now(), ac.date_expired) <= 0 
-					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+					AND (ab.marketcard_id = (select max(marketcard_id) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
 							 OR ISNULL(ab.price)) 
 					GROUP BY ac.market_id) a 
 			LEFT OUTER JOIN 
@@ -536,7 +540,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 			FROM 
 			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
 					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
-					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					(IFNULL(ab.price, 0) + IFNULL(ab.premium, 0)) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
 					u.username, c.image 
 					FROM mytcg_market ac 
 					INNER JOIN mytcg_usercard uc 
@@ -553,7 +557,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 					AND ac.user_id <> '.$iUserID.' 
 					AND ac.minimum_bid < c.value
 					AND datediff(now(), ac.date_expired) <= 0 
-					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+					AND (ab.marketcard_id = (select max(marketcard_id) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
 							 OR ISNULL(ab.price)) 
 					GROUP BY ac.market_id) a 
 			LEFT OUTER JOIN 
@@ -571,7 +575,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 			FROM 
 			(SELECT ac.market_id, uc.usercard_id, c.card_id, c.description, ac.minimum_bid, 
 					ac.price buy_now_price, c.thumbnail_phone_imageserver_id, c.back_phone_imageserver_id, c.front_phone_imageserver_id, 
-					max(ab.price) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
+					(IFNULL(ab.price, 0) + IFNULL(ab.premium, 0)) price, ub.username last_bid_username, date_format(ac.date_expired, "%Y-%m-%d") as end_date, 
 					u.username, c.image 
 					FROM mytcg_market ac 
 					INNER JOIN mytcg_usercard uc 
@@ -588,7 +592,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 					AND c.category_id = '.$categoryId.' 
 					AND ac.user_id <> '.$iUserID.' 
 					AND datediff(now(), ac.date_expired) <= 0 
-					AND (ab.price = (select max(price) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
+					AND (ab.marketcard_id = (select max(marketcard_id) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
 							 OR ISNULL(ab.price)) 
 					GROUP BY ac.market_id) a 
 			LEFT OUTER JOIN 
@@ -1336,8 +1340,8 @@ function selectStat($userId, $oppUserId, $gameId, $statTypeId) {
 			
 				$iUpdate=$aUpdate[0];
 				if ($iUpdate['gameswon'] < 3) {
-					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50)');
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+					VALUES ((SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.'), "Received 50 credits for beating '.$oppPlayerUsername.'", now(), 50, 1)');
 			
 					myqui('UPDATE mytcg_user SET credits = credits + 50, gameswon = (gameswon+1) WHERE user_id =(SELECT user_id from mytcg_gameplayer where gameplayer_id = '.$winnerId.')');
 				} else if ($iUpdate['gameswon'] == 3) {
@@ -1679,7 +1683,7 @@ function getAllUserCatCards($userId,$results,$deckSize){
 	return $results;
 }
 
-function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) {
+function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID, $iAuctionType = '1') {
 	$aCheckCard=myqu('SELECT max(usercard_id) usercard_id '
 					.'FROM mytcg_usercard '
 					.'WHERE usercardstatus_id = (select usercardstatus_id from mytcg_usercardstatus where description = "Album")  '
@@ -1700,7 +1704,6 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 	$aCheckCredits=myqu('SELECT IFNULL(credits,0)+IFNULL(premium,0) credits, IFNULL(credits,0) free, IFNULL(premium,0) premium from mytcg_user
 						WHERE user_id = '.$iUserID);
 	
-	
 	$cost = $iAuctionBid;
 	if ($iAuctionBid < $iBuyNowPrice) {
 		$cost = $iBuyNowPrice;
@@ -1710,38 +1713,61 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 		$cost = 5;
 	}
 	
-	if ($aCheckCredits[0]['credits'] < $cost) {
-		$sOP='<user>'.$sCRLF;
-		$sOP.=$sTab.'<result>Not enough credits to create auction.</result>'.$sCRLF;  
-		$sOP.='</user>'.$sCRLF;
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
-	} else {
-		$getDesc=myqu('SELECT description from mytcg_card
-						WHERE card_id = '.$iCardId);
-		
-		if ($aCheckCredits[0]['free'] < $cost) {
-			$spent = $cost - $aCheckCredits[0]['free'];
-			myqui('UPDATE mytcg_user set credits = credits - '.$aCheckCredits[0]['free'].' WHERE user_id = '.$iUserID);
-			myqui('UPDATE mytcg_user set premium = premium - '.$spent.' WHERE user_id = '.$iUserID);
+	//iAuctionType 1 = freemium, 2 = premium
+	if ($iAuctionType == '2') {
+		if ($aCheckCredits[0]['premium'] < $cost) {
+			$sOP='<user>'.$sCRLF;
+			$sOP.=$sTab.'<result>Not enough credits to create auction.</result>'.$sCRLF;  
+			$sOP.='</user>'.$sCRLF;
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
 		} else {
-			myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
+			$getDesc=myqu('SELECT description from mytcg_card
+							WHERE card_id = '.$iCardId);
+			
+			myqui('UPDATE mytcg_user set premium = premium - '.$cost.' WHERE user_id = '.$iUserID);
+			
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.', 2)');
 		}
-		
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-			VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.')');
 	}
-	
+	else {
+		if ($aCheckCredits[0]['credits'] < $cost) {
+			$sOP='<user>'.$sCRLF;
+			$sOP.=$sTab.'<result>Not enough credits to create auction.</result>'.$sCRLF;  
+			$sOP.='</user>'.$sCRLF;
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		} else {
+			$getDesc=myqu('SELECT description from mytcg_card
+							WHERE card_id = '.$iCardId);
+			
+			if ($aCheckCredits[0]['free'] < $cost) {
+				$spent = $cost - $aCheckCredits[0]['free'];
+				myqui('UPDATE mytcg_user set credits = credits - '.$aCheckCredits[0]['free'].' WHERE user_id = '.$iUserID);
+				myqui('UPDATE mytcg_user set premium = premium - '.$spent.' WHERE user_id = '.$iUserID);
+				
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+					VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.', 3)');
+			} else {
+				myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
+				
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+					VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.'), 1');
+			}
+		}
+	}
 
 	myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$iUserCardID);
 	$aUpdate=myqui('UPDATE mytcg_usercard SET usercardstatus_id=(select usercardstatus_id from mytcg_usercardstatus where description = "auction") '
 					.'WHERE usercard_id="'.$iUserCardID.'"');
 	$aInsert=myqui('INSERT INTO mytcg_market '
 					.'(markettype_id, marketstatus_id, user_id, usercard_id, '
-					.'date_created, date_expired, price, minimum_bid) '
+					.'date_created, date_expired, price, minimum_bid, auctiontype_id) '
 					.'VALUES (1, 1, "'.$iUserID.'", "'.$iUserCardID.'", now(), "'.date('Y-m-d H:i:s',time()+$iDays*24*60*60).'", "'.$iBuyNowPrice.'", '
-					.'"'.$iAuctionBid.'")');
+					.'"'.$iAuctionBid.'", "'.$iAuctionType.'")');
 
 	$sOP=$sTab.'<result><buyNowPrice>'.$iBuyNowPrice.'</buyNowPrice>'.$sCRLF;
 	$sOP.=$sTab.$sTab.'<success>1</success>'.$sCRLF;
@@ -1753,68 +1779,94 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID) 
 
 function auctionBid($bid, $username, $iUserID) {
 
-  //SELECT USERS CURRENT CREDITS
+	//SELECT USERS CURRENT CREDITS
 	$query = "SELECT IFNULL(credits,0)+IFNULL(premium,0) credits, IFNULL(credits,0) free, IFNULL(premium,0) premium from mytcg_user
 						WHERE user_id = ".$iUserID;
-  $result = myqu($query);
-  $credits = $result[0]['credits'];
+	$result = myqu($query);
+	$credits = $result[0]['credits'];
+	$free = $result[0]['free'];
+	$premium = $result[0]['premium'];
+	
+	$auctionCardId = $_GET['auctioncardid'];
+	
+	//Select details of the auction
+	$query = "SELECT price, auctiontype_id, usercard_id FROM mytcg_market WHERE market_id = ".$auctionCardId;
+	$result = myqu($query);
+	$auctionType = $result[0]['auctiontype_id'];
   
-	if ($credits >= $bid) {
-		$auctionCardId = $_GET['auctioncardid'];
-		
-		
+	if (($auctionType == 1 && $credits >= $bid) || ($auctionType == 2 && $premium >= $bid)) {
 		$rest = "SELECT minimum_bid "
-							."from mytcg_market "
-							."where market_id = ".$auctionCardId;
+				."from mytcg_market "
+				."where market_id = ".$auctionCardId;
 		$testresult = myqu($rest);
 		
 		if ($aTest=$testresult[0]) {
 			if ($aTest['minimum_bid'] > $bid) {
-				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
+				echo $sTab.'<result>Placed bid must be higher than the minimum bid.</result>'.$sCRLF;
 				exit;
 			}
 		}
 		
-	
-		//the previous high bidder needs to get their credits back
-		$query = "SELECT max(price) as price, user_id, date_of_transaction "
-							."from mytcg_marketcard "
-							."where market_id = ".$auctionCardId." "
-							."group by price "
-							."ORDER BY date_of_transaction DESC";
-		$result = myqu($query);
+		$rest = "select IFNULL(price,0)+IFNULL(premium,0) credits, IFNULL(price,0) free, IFNULL(premium,0) premium, user_id 
+			from mytcg_marketcard mc
+			inner join (select max(marketcard_id) marketcard_id from mytcg_marketcard where market_id = ".$auctionCardId.") max
+			on max.marketcard_id = mc.marketcard_id";
+		$testresult = myqu($rest);
 		
-		if ($aBid=$result[0]) {
+		if ($aBid=$testresult[0]) {
 			if ($aBid['user_id'] == $iUserID) {
 				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
 				exit;
 			}
 			/*TODO: ANDRE CONTINUE FROM HERE*/
-			if ($aBid['price'] > $bid) {
+			if ($aBid['credits'] > $bid) {
 				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
 				exit;
 			}
 			//if there was a previous bid
-			$prevBid = $aBid['price'];
+			$prevBidFree = $aBid['price'];
+			$prevBidPremium = $aBid['premium'];
 			$prevUserId = $aBid['user_id'];
 			
-			$query = "update mytcg_user set credits = credits + ".$prevBid." where user_id = ".$prevUserId;
+			$query = "update mytcg_user set credits = credits + ".$prevBidFree.", premium = IFNULL(premium,0) + ".$prevBidPremium." where user_id = ".$prevUserId;
 			myqu($query);
 		}
 		
-		$query = "update mytcg_user set credits = credits - ".$bid." where user_id = ".$iUserID;
-		myqu($query);
+		if ($auctionType == 1) {
+			if ($free >= $bid) {
+				$query = "update mytcg_user set credits = credits - ".$bid." where user_id = ".$iUserID;
+				myqu($query);
+				
+				$query = "INSERT INTO mytcg_marketcard (market_id, user_id, price, date_of_transaction) VALUES (".$auctionCardId
+					.", ".$iUserID.", ".$bid.", now())";
+				myqu($query);
+			}
+			else {
+				$cost = $bid - $free;
+				
+				$query = "update mytcg_user set credits = 0, premium = premium - ".$cost." where user_id = ".$iUserID;
+				myqu($query);
+				
+				$query = "INSERT INTO mytcg_marketcard (market_id, user_id, price, date_of_transaction, premium) VALUES (".$auctionCardId
+					.", ".$iUserID.", ".$free.", now(), ".$cost.")";
+				myqu($query);
+			}
+		}
+		else if ($auctionType == 2) {
+			$query = "update mytcg_user set premium = premium - ".$bid." where user_id = ".$iUserID;
+			myqu($query);
+			
+			$query = "INSERT INTO mytcg_marketcard (market_id, user_id, price, date_of_transaction, premium) VALUES (".$auctionCardId
+				.", ".$iUserID.", 0, now(), ".$bid.")";
+			myqu($query);
+		}
 		
-		$query = "INSERT INTO mytcg_marketcard (market_id, user_id, price, date_of_transaction) VALUES (".$auctionCardId
-			.", ".$iUserID.", ".$bid.", now())";
-		myqu($query);
-		
-		$query = "select credits from mytcg_user where user_id = ".$iUserID;
+		$query = "select credits, premium from mytcg_user where user_id = ".$iUserID;
 		$result = myqu($query);
 		$credits = $result[0]['credits'];
+		$premium = $result[0]['premium'];
 		
-		
-		echo $sTab.'<credits>'.$credits.'</credits><result>You are now the highest bidder.</result>'.$sCRLF;
+		echo $sTab.'<premium>'.$premium.'</premium><credits>'.$credits.'</credits><result>You are now the highest bidder.</result>'.$sCRLF;
 	}
 	else {
 		echo $sTab.'<result>You do not have enough credits.</result>'.$sCRLF;
@@ -1825,31 +1877,34 @@ function auctionBid($bid, $username, $iUserID) {
 function buyAuctionNow($auctionCardId, $iUserID) {
 
 	//SELECT USERS CURRENT CREDITS
-	$query = "select credits, username from mytcg_user where user_id = ".$iUserID;
+	$query = "select IFNULL(credits,0)+IFNULL(premium,0) credits, IFNULL(credits,0) free, IFNULL(premium,0) premium, username from mytcg_user where user_id = ".$iUserID;
 	$result = myqu($query);
 	$credits = $result[0]['credits'];
+	$free = $result[0]['free'];
+	$premium = $result[0]['premium'];
 	$username = $result[0]['username'];
 
 	//Select details of the auction
-	$query = "SELECT price, usercard_id FROM mytcg_market WHERE market_id = ".$auctionCardId;
+	$query = "SELECT price, auctiontype_id, usercard_id FROM mytcg_market WHERE market_id = ".$auctionCardId;
 	$result = myqu($query);
 	$buyNowPrice = $result[0]['price'];
 	$userCardId = $result[0]['usercard_id'];
+	$auctionType = $result[0]['auctiontype_id'];
 
-	if (($credits >= $buyNowPrice)&&($buyNowPrice != 0)) {
-		//the previous high bidder needs to get their credits back
-		$query = "SELECT max(price) as price, user_id "
-					."from mytcg_marketcard "
-					."where market_id = ".$auctionCardId." "
-					."group by user_id";
-		$result = myqu($query);
-
-		if ($aBid=$result[0]) {
+	if ((($auctionType == 1 && $credits >= $buyNowPrice) || ($auctionType == 2 && $premium >= $buyNowPrice))&&($buyNowPrice != 0)) {
+		$rest = "select IFNULL(price,0)+IFNULL(premium,0) credits, IFNULL(price,0) free, IFNULL(premium,0) premium, user_id 
+			from mytcg_marketcard mc
+			inner join (select max(marketcard_id) marketcard_id from mytcg_marketcard where market_id = ".$auctionCardId.") max
+			on max.marketcard_id = mc.marketcard_id";
+		$testresult = myqu($rest);
+		
+		if ($aBid=$testresult[0]) {
 			//if there was a previous bid
-			$prevBid = $aBid['price'];
+			$prevBidFree = $aBid['price'];
+			$prevBidPremium = $aBid['premium'];
 			$prevUserId = $aBid['user_id'];
-
-			$query = "update mytcg_user set credits = credits + ".$prevBid." where user_id = ".$prevUserId;
+			
+			$query = "update mytcg_user set credits = credits + ".$prevBidFree.", premium = IFNULL(premium,0) + ".$prevBidPremium." where user_id = ".$prevUserId;
 			myqu($query);
 		}
 
@@ -1857,9 +1912,23 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 		$query = "update mytcg_market set marketstatus_id = '2' where market_id = ".$auctionCardId;
 		myqu($query);
 
+		$cost = 0;
 		//add the credits to the user who was auctioning the card
-		$query = "update mytcg_user set credits = credits + ".$buyNowPrice." where user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
-		myqu($query);
+		if ($auctionType == 1) {
+			if ($free >= $buyNowPrice) {
+				$query = "update mytcg_user set credits = credits + ".$buyNowPrice." where user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
+				myqu($query);
+			}
+			else {
+				$cost = $buyNowPrice - $free;
+				$query = "update mytcg_user set credits = credits + ".$free.", premium = IFNULL(premium, 0) + ".$cost." where user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
+				myqu($query);
+			}
+		}
+		else if ($auctionType == 2) {
+			$query = "update mytcg_user set premium = IFNULL(premium, 0) + ".$buyNowPrice." where user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
+			myqu($query);
+		}
 		
 		$query = "SELECT user_id, username FROM mytcg_user WHERE user_id = (select user_id from mytcg_usercard where usercard_id = ".$userCardId.")";
 		$result = myqu($query);
@@ -1876,14 +1945,28 @@ function buyAuctionNow($auctionCardId, $iUserID) {
 		myqu($query);
 
 		//take the credits from the user buying out the auction
-		$query = "update mytcg_user set credits = credits - ".$buyNowPrice." where user_id = ".$iUserID;
-		myqu($query);
+		if ($auctionType == 1) {
+			if ($cost > 0) {
+				$query = "update mytcg_user set credits = 0, premium = IFNULL(premium, 0) - ".$cost." where user_id = ".$iUserID;
+				myqu($query);
+			}
+			else {
+				$query = "update mytcg_user set credits = credits - ".$buyNowPrice." where user_id = ".$iUserID;
+				myqu($query);
+			}
+		}
+		else if ($auctionType == 2) {
+			$query = "update mytcg_user set premium = IFNULL(premium, 0) - ".$buyNowPrice." where user_id = ".$iUserID;
+			myqu($query);
+		}
 		
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$ownerid.', "'.$username. ' bought '.$description.' for '.$buyNowPrice.' credits.", now(), '.$buyNowPrice.')');
+		$transactionType = $auctionType==1?($cost > 0?3:1):2;
+		
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$ownerid.', "'.$username. ' bought '.$description.' for '.$buyNowPrice.' credits.", now(), '.$buyNowPrice.', '.$transactionType.')');
 				
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$iUserID.', "Bought '.$description.' for '.$buyNowPrice.' credits from '.$owner.'.", now(), -'.$buyNowPrice.')');
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$iUserID.', "Bought '.$description.' for '.$buyNowPrice.' credits from '.$owner.'.", now(), -'.$buyNowPrice.', '.$transactionType.')');
 
 		echo $sTab.'<result>1</result>'.$sCRLF;
 	}
@@ -1939,19 +2022,19 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 			if ($purchase == 1) {
 				$iCreditsAfterPurchase = $iCredits - $itemCost;
 				$aCreditsLeft=myqui("UPDATE mytcg_user SET credits={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.', 1)');
 			} else if ($purchase == 2) {
 				if (($iPremium >= $premiumCost) && ($premiumCost > 0)) {
 					$iCreditsAfterPurchase = $iPremium - $premiumCost;
 					$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-							VALUES ('.$iUserID.', "Spent '.$premiumCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$premiumCost.')');
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+							VALUES ('.$iUserID.', "Spent '.$premiumCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$premiumCost.', 2)');
 				} else if (($iPremium >= $itemCost) && ($itemCost > 0)) {
 					$iCreditsAfterPurchase = $iPremium - $itemCost;
 					$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$iCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-							VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+					myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+							VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.', 2)');
 				}
 			} else if ($purchase == 3) {
 				if ($iCredits < $itemCost) {
@@ -1963,8 +2046,8 @@ function buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product
 				$query = "UPDATE mytcg_user SET credits=0 WHERE user_id='{$iUserID}'";
 				$aCreditsLeft=myqui($query);
 				$aCreditsLeft=myqui("UPDATE mytcg_user SET premium={$ipremiumCreditsAfterPurchase} WHERE user_id='{$iUserID}'");
-				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.')');
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+						VALUES ('.$iUserID.', "Spent '.$itemCost.' credits on '.$aDetails[0]['description'].'.", now(), -'.$itemCost.', 3)');
 			}
 		} else {
 			myqui("UPDATE mytcg_user SET freebie = 1 WHERE user_id='{$iUserID}'");
@@ -2100,8 +2183,8 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 	$aCredit=$aCredits[0];
 	$aAnswer=$aAnswered[0];
 	if ($aAnswer['answered'] == 0) {
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].')');
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].', 1)');
 		
 		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
 				
@@ -2112,8 +2195,8 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 		
 		$iSize = sizeof($aCount);
 		if ($iSize==1){
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					SELECT '.$iUserID.', descript, now(), val
+			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+					SELECT '.$iUserID.', descript, now(), val, 3 
 					FROM mytcg_transactiondescription
 					WHERE transactionid = 5');	
 					
@@ -2141,16 +2224,17 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 	exit;
 }
 
-function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar) {
-	$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and user_id = '.$iUserID);
-		
-	/*if ($aLoad[0]['loaded'] == 0) {
-		$sOP = "<result></result>";
-		header('xml_length: '.strlen($sOP));
-		echo $sOP;
-		exit;
-	}*/
-	
+function subcategories($lastCheckSeconds, $cat, $iUserID, $aMine, $aCard, $topcar, $iFriendID='0') {
+	if($iFriendID=='0'){
+		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and user_id = '.$iUserID);
+			
+		/*if ($aLoad[0]['loaded'] == 0) {
+			$sOP = "<result></result>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			exit;
+		}*/
+	}
 	if ($topcar == -1) {
 		$query = 'SELECT DISTINCT a.category_id, a.description, a.hasCards, IFNULL(a.category_parent_id, -1) category_parent_id, a.updated, a.total, IFNULL(b.collected, 0) collected
 							FROM 
@@ -2507,7 +2591,7 @@ function leaderboard($id, $iUserID) {
 	exit;
 }
 function friends($iUserID) {
-	$aFriends=myqu('select a.username, a.credits, b.description
+	$aFriends=myqu('select a.user_id, a.username, a.credits, b.description
 						from
 					(
 										select distinct a.username, a.user_id, a.credits, c.card_id, c.description, max(c.avgranking) avg
@@ -2527,6 +2611,7 @@ function friends($iUserID) {
 	$count = 0;
 	foreach ($aFriends as $friend) {
 		$sOP.=$sTab.'<friend>'.$sCRLF;	
+		$sOP.=$sTab.'<user_id>'.trim($friend['user_id']).'</user_id>'.$sCRLF;
 		$sOP.=$sTab.'<usr>Username : '.trim($friend['username']).'</usr>'.$sCRLF;
 		$sOP.=$sTab.'<val>Credits : '.trim($friend['credits']).'</val>'.$sCRLF;
 		$sOP.=$sTab.'<desc>Best Card : '.trim($friend['description']).'</desc>'.$sCRLF;
@@ -2701,8 +2786,8 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$iUserID.', '.$aCheckUser[0]['user_id'].')');
 		
-	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now())');
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+		VALUES ('.$iUserID.', "You added '.$aCheckUser[0]['username'].' as a friend.", now(), 1)');
 		
 	myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 		VALUES ('.$aCheckUser[0]['user_id'].', '.$iUserID.')');
@@ -2711,8 +2796,8 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 						from mytcg_user
 						WHERE user_id = '.$iUserID);
 						
-	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now())');
+	myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+		VALUES ('.$aCheckUser[0]['user_id'].', "'.$aCheckCard[0]['username'].' added you as a friend.", now(), 1)');
 
   //SMS Notification of Trade completed
   
@@ -2806,14 +2891,14 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 				$query = "update mytcg_user set credits = credits + 10 where user_id = ".$refererid;
 				myqu($query);
 					
-				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-					VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10)');
+				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+					VALUES ('.$refererid.', "Received 10 credits for referring '.$username.'", now(), 10, 1)');
 					
-				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now(), 1)');
 			} else {
-				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now())');
+				myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$refererid.', "'.$username.' has joined the Game Cards experience from your referral.", now(), 1)');
 			}
 		}
 		
@@ -2829,14 +2914,14 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$refererid.', '.$iUserID.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$refererid.', "'.$username.' has been added to your friend list.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$refererid.', "'.$username.' has been added to your friend list.", now(), 1)');
 			
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 				VALUES ('.$iUserID.', '.$refererid.')');
 				
-			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-				VALUES ('.$iUserID.', "'.$aReferer[0]['username'].' has been added to your friend list.", now())');
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+				VALUES ('.$iUserID.', "'.$aReferer[0]['username'].' has been added to your friend list.", now(), 1)');
 		}
 		
 		//create the empty data fields in mytcg_user_answer
@@ -2845,16 +2930,16 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			SELECT detail_id, {$iUserID}
 			FROM mytcg_user_detail");
 			
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val)
-			SELECT '.$iUserID.', descript, now(), val
+		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+			SELECT '.$iUserID.', descript, now(), val, 1 
 			FROM mytcg_transactiondescription
 			WHERE transactionid = 2');
 			
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');
 		
-		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate)
-			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now())');
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
 		
 		//return userdetails
 		echo userdetails($iUserID,$iHeight,$iWidth,$root);
@@ -2862,10 +2947,11 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 	}
 }
 
-function creditlog($iUserID) {
+function creditlog($iUserID, $transactionlogtypes) {
 	$aTransactionDetails=myqu('SELECT transaction_id, description, date, val 
 								FROM mytcg_transactionlog  
 								WHERE user_id='.$iUserID.'
+								AND transactionlogtype_id IN ('.$transactionlogtypes.')
 								ORDER BY date DESC
 								LIMIT 0, 10');
 		
@@ -2893,10 +2979,11 @@ function creditlog($iUserID) {
 	exit;
 }
 
-function notifications($iUserID) {
-	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate
+function notifications($iUserID, $notificationtypes) {
+	$aTransactionDetails=myqu('SELECT notification_id, notification, notedate 
 								FROM mytcg_notifications  
 								WHERE user_id='.$iUserID.'
+								AND notificationtype_id IN ('.$notificationtypes.') 
 								ORDER BY notedate DESC
 								LIMIT 0, 10');
 
@@ -2918,9 +3005,9 @@ function notifications($iUserID) {
 }
 
 /** for logging credit changes */
-function logtransaction($iDescription, $iValue, $iUserID) {
-	myqui('INSERT INTO mytcg_transactionlog (user_id, description, val, date) 
-			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now())');
+function logtransaction($iDescription, $iValue, $iUserID, $iTransactionTypeId) {
+	myqui('INSERT INTO mytcg_transactionlog (user_id, description, val, date, transactionlogtype_id) 
+			VALUES('.$iUserID.',"'.$iDescription.'",'.$iValue.',now(), '.$iTransactionTypeId.')');
 }
 
 //recurring function to check if a category has children with auctions
@@ -3108,7 +3195,7 @@ usercardstatus = 3: Deleted
 usercardstatus = 4: Newly Received
 */
 //cardsincategory 
-function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=1) {
+function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$iUserID,$iDeckID, $root, $iBBHeight=0, $jpg=1, $iFriendID='0') {
 	if (!($iHeight)) {
 		$iHeight = '350';
 	}
@@ -3129,16 +3216,16 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	// D.usercardnotestatus_id = 1 = Normal
 	
 	if ($iCategory == -1) {
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
-			
-		/*if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		}*/
-	
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+				
+			/*if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}*/
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id, B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3173,15 +3260,16 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					GROUP BY B.card_id 
 					ORDER BY description');
 	} else if ($iCategory == -2) {
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
-			
-		/*if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		}*/
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 1 and user_id = '.$iUserID);
+				
+			/*if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}*/
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3205,14 +3293,16 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 
 					GROUP BY B.card_id ');
 	} else if ($iCategory == -3) {
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 4 and user_id = '.$iUserID);
-			
-		/*if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		}*/
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard where loaded = 1 and usercardstatus_id = 4 and user_id = '.$iUserID);
+				
+			/*if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}*/
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3236,15 +3326,16 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=4
 					GROUP BY B.card_id ');
 	} else if ($iShowAll == 0){
-	
-		$aLoad=myqu('select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory);
-			
-		/*if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		}*/
+		if($iFriendID=='0'){
+			$aLoad=myqu('select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory);
+				
+			/*if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}*/
+		}
 		$aCards=myqu('SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3293,17 +3384,18 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 					AND C.usercardstatus_id=1 	
 					GROUP BY B.card_id ');
 	} else {
-		
-		$query = 'select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory;
-		$aLoad=myqu($query);		
-		$sOP.=$query;
-		
-		/*if ($aLoad[0]['loaded'] == 0) {
-			$sOP = "<result></result>";
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		}*/
+		if($iFriendID=='0'){
+			$query = 'select count(*) loaded from mytcg_usercard a, mytcg_card b where a.card_id = b.card_id and a.usercardstatus_id = 1 and loaded = 1 and a.user_id = '.$iUserID.' and category_id = '.$iCategory;
+			$aLoad=myqu($query);		
+			$sOP.=$query;
+			
+			/*if ($aLoad[0]['loaded'] == 0) {
+				$sOP = "<result></result>";
+				header('xml_length: '.strlen($sOP));
+				echo $sOP;
+				exit;
+			}*/
+		}
 		$qu = 'SELECT A.card_id, count(*) quantity, B.image, A.usercard_id,  B.value, 
 					B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, B.ranking, D.description quality,
 					(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
@@ -3343,7 +3435,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 		$aCards=myqu($qu);
 	}
 	
-	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg, $iUserID);
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg, $iUserID, $iFriendID);
 	
 	return $sOP;
 }
@@ -3395,7 +3487,7 @@ function cardsincategorynotdeck($iCategory,$iHeight,$iWidth,$lastCheckSeconds,$i
 	return $sOP;
 }
 
-function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1, $iUserID) {
+function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1, $iUserID, $iFriendID='0') {
 	$aServers=myqu('SELECT b.imageserver_id, b.description as URL '
 		.'FROM mytcg_imageserver b '
 		.'ORDER BY b.description DESC '
@@ -3488,10 +3580,10 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=1
 	}
 	$sOP.='</cardsincategory>'.$sCRLF;
 	
-	
-	$query = 'UPDATE mytcg_usercard set loaded = 0 where user_id = '.$iUserID.' and card_id in ('.$ids.')';
-	myqu($query);
-	
+	if($iFriendID =='0'){
+		$query = 'UPDATE mytcg_usercard set loaded = 0 where user_id = '.$iUserID.' and card_id in ('.$ids.')';
+		myqu($query);
+	}
 	return $sOP;
 }
 
