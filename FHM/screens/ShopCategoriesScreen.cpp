@@ -21,12 +21,6 @@ void ShopCategoriesScreen::refresh() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch(screenType) {
-		case ST_FREEBIE:
-			notice->setCaption("Checking for shop categories...");
-			sprintf(url, "%s?productcategories=1", URL);
-			lprintfln("%s", url);
-			res = mHttp.create(url, HTTP_GET);
-			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=2", URL);
@@ -59,11 +53,8 @@ ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int
 	this->feed = feed;
 	next = NULL;
 	label = NULL;
-	if (screenType == ST_FREEBIE) {
-		mainLayout = Util::createMainLayout("", "", true);
-	} else {
-		mainLayout = Util::createMainLayout("", "Back", true);
-	}
+
+	mainLayout = Util::createMainLayout("", "Back", true);
 
 	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
@@ -77,12 +68,6 @@ ShopCategoriesScreen::ShopCategoriesScreen(MainScreen *previous, Feed *feed, int
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	switch(screenType) {
-		case ST_FREEBIE:
-			notice->setCaption("Checking for shop categories...");
-			sprintf(url, "%s?productcategories=1", URL);
-			lprintfln("%s", url);
-			res = mHttp.create(url, HTTP_GET);
-			break;
 		case ST_SHOP:
 			notice->setCaption("Checking for shop categories...");
 			sprintf(url, "%s?productcategories=2", URL);
@@ -236,9 +221,6 @@ void ShopCategoriesScreen::drawList() {
 
 		//kinListBox->setSelectedIndex(0);
 	}
-
-	if (screenType == ST_FREEBIE)
-		notice->setCaption("Received: 150 credits and a free starter pack.");
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {
@@ -259,28 +241,12 @@ void ShopCategoriesScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			if (screenType != ST_FREEBIE) {
-				previous->show();
-			}
+			previous->show();
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:
 			orig = this;
 			switch (screenType) {
-				case ST_FREEBIE:
-					if (!empt) {
-						orig = this;
-						String selectedCaption = ((Label*)kinListBox->getChildren()[kinListBox->getSelectedIndex()])->getCaption();
-						String category = categories.find(selectedCaption)->second.c_str();
-						if (next != NULL) {
-							delete next;
-							feed->remHttp();
-							next = NULL;
-						}
-						next = new ShopProductsScreen(this, feed, category, true);
-						next->show();
-					}
-					break;
 				case ST_RANKING:
 					if (!empt) {
 						orig = this;

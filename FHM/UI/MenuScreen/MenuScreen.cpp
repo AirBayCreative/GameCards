@@ -23,7 +23,7 @@ MenuScreen::MenuScreen(MAHandle blank, const char *headerLabel) : mBlankImage(bl
 	if (strlen(headerLabel) > 0) {
 		header = new Label(0, 0, mOptions->getWidth() - 4, 20, mOptions);
 		header->setMultiLine(true);
-		header->setFont(Util::getFontBlack());
+		header->setFont(Util::getFontRed());
 		header->setSkin(Util::getSkinPopupHeader());
 		header->setDrawBackground(true);
 		header->setAutoSizeY(true);

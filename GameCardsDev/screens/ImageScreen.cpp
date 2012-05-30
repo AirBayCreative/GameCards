@@ -312,6 +312,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
+				currentSelectedStat = card->getStats().size();
 			}else if(card->getStats().size()>0){
 				if (imge->getResource() != RES_TEMP) {
 					selectStat(-1);
@@ -340,7 +341,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
-						//if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
 							if (imge->getResource() != RES_TEMP) {
 								imge->refreshWidget();
 								lprintfln("currentSelectedStat %d",currentSelectedStat);
@@ -349,7 +350,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
 										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 							}
-						//}
+						}
 					}
 				}
 			} else if(currentSelectedKey==NULL){

@@ -773,7 +773,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			al = "";
 		}
 		drawList();
-		if ((album->size() == 1)&&(screenType != ST_ALBUMS)) {
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
 			Vector<String> display = album->getNames();
 			Album* val = album->getAlbum(display.begin()->c_str());
 			if (val != NULL) {

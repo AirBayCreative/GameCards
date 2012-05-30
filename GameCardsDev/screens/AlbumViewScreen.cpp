@@ -1079,9 +1079,11 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		cards = tmp;
 		drawList();
 		busy = false;
-		String all = getAll();
-		Util::saveData(filename.c_str(), all.c_str());
-		all = "";
+		if(albumType != AT_FRIENDS){
+			String all = getAll();
+			Util::saveData(filename.c_str(), all.c_str());
+			all = "";
+		}
 		notice->setCaption("");
 		statDesc = "";
 		statDisplay = "";

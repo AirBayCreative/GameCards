@@ -521,13 +521,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setAlbum(albums.c_str());
 		albums = "";
 
-		// Check result
-		if (strcmp("0", freebie.c_str()) == 0) {
-			origMenu = new NewMenuScreen(feed);
-			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
-		} else {
-			next = new NewMenuScreen(feed);
-		}
+		next = new NewMenuScreen(feed);
 		next->show();
 	} else if(!strcmp(name, "error")) {
 		error = true;
