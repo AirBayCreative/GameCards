@@ -446,7 +446,7 @@ void ShopDetailsScreen::purchase() {
 		purchaseMenu->setListener(this);
 		purchaseMenu->show();
 	} else {
-		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
+		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. You can go to Credits to purchase more.");
 		purchaseMenu->setMenuWidth(180);
 		purchaseMenu->setMarginX(5);
 		purchaseMenu->setMarginY(5);

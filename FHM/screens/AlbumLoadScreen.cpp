@@ -742,6 +742,10 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
+void AlbumLoadScreen::menuOptionSelected(int index) {
+	previous->show();
+}
+
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
@@ -773,6 +777,22 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			al = "";
 		}
 		drawList();
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase more.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
 		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
 			Vector<String> display = album->getNames();
 			Album* val = album->getAlbum(display.begin()->c_str());
@@ -831,6 +851,29 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		updated = "";
 		temp1 = "";
 		error_msg = "";
+	} else if(!strcmp(name, "result")) {
+		notice->setCaption("");
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase more.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
 	} else {
 		notice->setCaption("");
 	}

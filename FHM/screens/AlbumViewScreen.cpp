@@ -414,12 +414,8 @@ void AlbumViewScreen::drawList() {
 		index.add(itr->second->getId());
 		String cardText = "";
 		cardText += itr->second->getText();
-		cardText += " (";
+		cardText += "\nOwned: ";
 		cardText += itr->second->getQuantity();
-		cardText += ")\n";
-		cardText += itr->second->getRarity();
-		cardText += "\nRating: ";
-		cardText += itr->second->getRanking();
 
 		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT + ((midListBox->getHeight() % THUMB_HEIGHT) / cardsPerList), tempList, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
@@ -958,7 +954,7 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		notice->setCaption(error_msg.c_str());
 
 		if (!strcmp(error_msg.c_str(), "Insufficient funds.")) {
-			MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
+			MenuScreen *confirmation = new MenuScreen(RES_BLANK, "Insufficient funds. You can go to Credits to purchase more.");
 			confirmation->setMenuWidth(180);
 			confirmation->setMarginX(5);
 			confirmation->setMarginY(5);

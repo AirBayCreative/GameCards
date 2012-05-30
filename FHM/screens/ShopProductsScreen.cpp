@@ -16,7 +16,7 @@ void ShopProductsScreen::pop() {
 	refresh();
 
 	if (products.size() == 1) {
-		previous->show();
+		previous->pop();
 	}
 }
 

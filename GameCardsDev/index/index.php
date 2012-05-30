@@ -2285,6 +2285,7 @@ if ($_GET['profiledetails']){
 	$aProfileDetails=myqu('SELECT d.description, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
 		FROM mytcg_user_answer a, mytcg_user_detail d 
 		WHERE a.detail_id = d.detail_id 
+		AND d.apps_id = (SELECT apps_id FROM mytcg_apps WHERE apps_key = '.$appkey.' )
 		AND a.user_id="'.$iUserID.'"');
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
