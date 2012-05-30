@@ -2130,8 +2130,8 @@ if ($_GET['auctioncategories']) {
 		FROM mytcg_usercard UC 
 		INNER JOIN mytcg_market AC 
 		ON UC.usercard_id=AC.usercard_id 
-		INNER JOIN mytcg_card C 
-		ON UC.card_id=C.card_id 
+		INNER JOIN mytcg_card c 
+		ON UC.card_id=c.card_id 
 		INNER JOIN mytcg_user U 
 		ON UC.user_id=U.user_id 
 		LEFT OUTER JOIN mytcg_marketcard AB 
@@ -2142,7 +2142,6 @@ if ($_GET['auctioncategories']) {
 		AND datediff(now(), AC.date_expired) <= 0 '.$inClause.' 
 		AND U.user_id='.$iUserID;
 	$aAuctionCards=myqu($qu);
-		
 		
 	$sOP='<cardcategories>'.$sCRLF;
 	if ($aMine=$aAuctionCards[0]) {

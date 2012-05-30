@@ -75,6 +75,8 @@ lprintfln("wawawa %d nanana %d",keyCode, nativeCode);
 	} else {
 		//setInputMode(EditBox::IM_STANDARD);
 	}
+
+	EditBox::keyPressEvent(keyCode, nativeCode);
 }
 
 void NativeEditBox::keyReleaseEvent(int keyCode, int nativeCode){
