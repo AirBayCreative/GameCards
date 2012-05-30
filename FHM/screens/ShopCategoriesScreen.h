@@ -28,7 +28,7 @@ public:
 
 	void refresh();
 
-	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_FREEBIE, ST_RANKING, ST_FRIEND};
+	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_RANKING, ST_FRIEND};
 private:
 
 	HttpConnection mHttp;
