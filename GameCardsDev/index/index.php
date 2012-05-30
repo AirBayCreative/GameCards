@@ -2099,8 +2099,33 @@ if ($iFreebie=$_GET['productcategories']) {
 
 /** return a list of categories with auctions in them */
 if ($_GET['auctioncategories']) {
+	
+	$inClause = "";
+	if ($topcar != "-1") {
+		$inClause = " AND c.category_id IN (".$topcar;
 		
+		$currentChildren = $topcar;
+		do {
+			$qu = 'SELECT category_child_id 
+				FROM mytcg_category_x 
+				WHERE category_parent_id IN ('.$currentChildren.')';
+			$childrenQuery=myqu($qu);
+			
+			$currentChildren = '';
+			$iCount=0;
+			
+			while ($child = $childrenQuery[$iCount]) {
+				$iCount++;
+				
+				$inClause.= ','.$child['category_child_id'];
+				
+				$currentChildren.=(strlen($currentChildren)>0?(','.$child['category_child_id']):$child['category_child_id']);
+			}
+		} while ($currentChildren != '');
 		
+		$inClause.=')';
+	}
+	
 	$qu = 'SELECT count(*) as cnt 
 		FROM mytcg_usercard UC 
 		INNER JOIN mytcg_market AC 
@@ -2114,7 +2139,7 @@ if ($_GET['auctioncategories']) {
 		LEFT OUTER JOIN mytcg_user UB 
 		ON AB.user_id=UB.user_id 
 		WHERE AC.marketstatus_id="1" 
-		AND datediff(now(), AC.date_expired) <= 0
+		AND datediff(now(), AC.date_expired) <= 0 '.$inClause.' 
 		AND U.user_id='.$iUserID;
 	$aAuctionCards=myqu($qu);
 		
@@ -2134,7 +2159,7 @@ if ($_GET['auctioncategories']) {
 			WHERE datediff(now(), date_expired) <= 0
 			AND a.usercard_id = b.usercard_id
 			AND b.card_id = c.card_id
-			AND a.user_id <> '.$iUserID.'
+			AND a.user_id <> '.$iUserID.'  '.$inClause.' 
 			AND c.card_id NOT IN (SELECT card_id
 									FROM mytcg_usercard
 									WHERE user_id = '.$iUserID.')';
@@ -2155,7 +2180,7 @@ if ($_GET['auctioncategories']) {
 			AND a.usercard_id = b.usercard_id
 			AND b.card_id = c.card_id
 			AND c.value > a.minimum_bid
-			AND a.marketstatus_id = 1
+			AND a.marketstatus_id = 1  '.$inClause.' 
 			AND a.user_id <> '.$iUserID;
 	$aAuctionCards=myqu($qu);
 		
