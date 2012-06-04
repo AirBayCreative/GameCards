@@ -168,7 +168,7 @@ void AuctionListScreen::drawList() {
 	for(int i = 0; i < auctions.size(); i++) {
 		cardText = auctions[i]->getCard()->getText();
 
-		if (strcmp(auctions[i]->getPrice().c_str(), "0")) {
+		if ((strcmp(auctions[i]->getPrice().c_str(), ""))&&(strcmp(auctions[i]->getPrice().c_str(), "0"))) {
 			cardText += "\nCurrent Bid: ";
 			cardText += auctions[i]->getPrice();
 

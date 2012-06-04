@@ -409,9 +409,9 @@ void TradeFriendDetailScreen::selectionChanged(Widget *widget, bool selected) {
 			widget->getChildren()[0]->setSelected(false);
 		}
 
-		//usernameEditBox->setText("");
-		//emailEditBox->setText("");
-		//phonenumberEditBox->setText("");
+		usernameEditBox->setText("");
+		emailEditBox->setText("");
+		phonenumberEditBox->setText("");
 	}
 }
 
@@ -577,14 +577,6 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				}
 				break;
 			case SP_DETAIL:
-				//ind += 2;
-				//if (ind == max+1) {
-				//	if (card != NULL) {
-				//		ind = 2;
-				//	} else {
-				//		ind = 1;
-				//	}
-				//}
 				if (ind+2 < kinListBox->getChildren().size()) {
 					kinListBox->setSelectedIndex(ind+2);
 				} else {
@@ -721,9 +713,13 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 		result = data;
 		String check = data;
 
+
+
 		if ((strcmp(method.c_str(), "phone_number") == 0)&&(!(check.find("User not found.")))) {
 			maSendTextSMS(friendDetail.c_str(), check.substr(16).c_str());
-			result = "User not found. Invite Sent.";
+			result = "User not found. Sending an invite for them to join...";
+		} else if (usernameEditBox->getText().length() > 0) {
+			result = "User not found. Why not invite them by Email or Phone Number?";
 		} else {
 			result = data;
 		}
@@ -734,8 +730,27 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 	if (card != NULL) {
 		drawCompleteScreen();
 	} else {
-		notice->setCaption(result);
+		notice->setCaption("");
+		MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());//"Insufficient funds. You can go to Credits to purchase more.");
+		confirmation->setMenuWidth(180);
+		confirmation->setMarginX(5);
+		confirmation->setMarginY(5);
+		confirmation->setDock(MenuScreen::MD_CENTER);
+		confirmation->setListener(this);
+		confirmation->setMenuFontSel(Util::getFontBlack());
+		confirmation->setMenuFontUnsel(Util::getFontWhite());
+		confirmation->setMenuSkin(Util::getSkinDropDownItem());
+		confirmation->addItem("Ok");
+		confirmation->show();
+
+		usernameEditBox->deactivate();
+		emailEditBox->deactivate();
+		phonenumberEditBox->deactivate();
 	}
+}
+
+void TradeFriendDetailScreen::menuOptionSelected(int selected) {
+	show();
 }
 
 void TradeFriendDetailScreen::mtxTagEnd(const char* name, int len) {

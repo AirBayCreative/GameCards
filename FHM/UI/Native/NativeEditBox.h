@@ -80,7 +80,7 @@ protected:
 	int mOptions;
 	int x,y,width,height;
 
-	int mStartX, mStartY;
+	int mStartX, mStartY, moved;
 
 	NativeEditBoxListener* mListener;
 };

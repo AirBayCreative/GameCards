@@ -362,6 +362,11 @@ void AlbumViewScreen::drawList() {
 	if (ind < 0) {
 		ind = 0;
 	}
+
+	int midListBoxSel = 0;//
+	if (midListBox != NULL) {
+		midListBox->getSelectedIndex();
+	}
 	clearListBox();
 	index.clear();
 	String cardText = "";
@@ -414,7 +419,11 @@ void AlbumViewScreen::drawList() {
 		index.add(itr->second->getId());
 		String cardText = "";
 		cardText += itr->second->getText();
-		cardText += "\nOwned: ";
+		if (albumType == AT_BUY) {
+			cardText += "\nPurchased: ";
+		} else {
+			cardText += "\nOwned: ";
+		}
 		cardText += itr->second->getQuantity();
 
 		feedlayout = new Layout(0, 0, tempList->getWidth()-(PADDING*2), ALBUM_ITEM_HEIGHT + ((midListBox->getHeight() % THUMB_HEIGHT) / cardsPerList), tempList, 3, 1);
@@ -452,6 +461,9 @@ void AlbumViewScreen::drawList() {
 		int listItem = ind % cardsPerList;
 		selectedList = listIndex;
 		midListBox->add(cardLists[listIndex]);
+		if (midListBoxSel >= 1) {
+			listIndex = midListBoxSel;
+		}
 		cardLists[listIndex]->setSelectedIndex(listItem);
 		cardLists[listIndex]->getChildren()[cardLists[listIndex]->getSelectedIndex()]->setSelected(true);
 	} else {
@@ -677,7 +689,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
 				((AlbumLoadScreen *)previous)->refresh();
 			} else {
-				previous->show();
+				previous->pop();
 			}
 			break;
 		case MAK_FIRE:

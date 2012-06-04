@@ -874,6 +874,57 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 				confirmation->show();
 			}
 		}
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
+			Vector<String> display = album->getNames();
+			Album* val = album->getAlbum(display.begin()->c_str());
+			if (val != NULL) {
+				if (next != NULL) {
+					delete next;
+					feed->remHttp();
+					next = NULL;
+				}
+				switch (screenType) {
+					case ST_ALBUMS:
+						if (val->getHasCards()) {
+							if (strcmp(val->getId().c_str(), "-3") == 0) {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+								next->show();
+							}
+							else {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
+								next->show();
+							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_COMPARE:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					}
+				}
+				display.clear();
+			}
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
 	} else {
 		notice->setCaption("");
 	}

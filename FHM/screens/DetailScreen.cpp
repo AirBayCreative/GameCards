@@ -6,13 +6,14 @@
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
+#include "TradeFriendDetailScreen.h"
 
 DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card, String category, String categoryname) : mHttp(this),
 		screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
-	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":screenType==FRIENDS?"Add Friend":"", "Back", screenType==BALANCE?"""":"", true);
 	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
@@ -25,11 +26,6 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 	prem = "0";
 	switch (screenType) {
 		case PROFILE:
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
-			label->setAutoSizeY();
-			label->setDrawBackground(false);
-			label->setMultiLine(true);
-			kinListBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -449,6 +445,14 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				case BALANCE:
 					maPlatformRequest("http://buy.mytcg.net/");
 					//next->show();
+					break;
+				case FRIENDS:
+					if (next != NULL) {
+						delete next;
+						next = NULL;
+					}
+					next = new TradeFriendDetailScreen(this, feed, NULL);
+					next->show();
 					break;
 			}
 			break;

@@ -117,7 +117,6 @@ void NativeEditBox::pointerPressEvent(MAPoint2d point)
 void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 {
 	moved++;
-	lprintfln("moved %d", moved);
 }
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)

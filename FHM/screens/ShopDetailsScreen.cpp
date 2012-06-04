@@ -97,7 +97,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			nameDesc = auction->getCard()->getText();
 			fullDesc = nameDesc;
 			fullDesc += "\nBid: ";
-			if(!strcmp(auction->getPrice().c_str(), "")) {
+			if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 				fullDesc += auction->getOpeningBid();
 			} else {
 				fullDesc += auction->getPrice();
@@ -147,13 +147,13 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			label = Util::createEditLabel("");
 			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
 			int num;
-			if (!strcmp(auction->getPrice().c_str(), "")) {
+			if ((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 				num = Convert::toInt(auction->getOpeningBid().c_str());
 				num+=1;
 				editBidBox->setText(Convert::toString(num));
 			} else {
 				num = Convert::toInt(auction->getPrice().c_str());
-				num+=10;
+				num+=1;
 				editBidBox->setText(Convert::toString(num));
 			}
 			editBidBox->setDrawBackground(false);
@@ -206,7 +206,7 @@ void ShopDetailsScreen::runTimerEvent() {
 	{
 		String fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if(!strcmp(auction->getPrice().c_str(), "")) {
+		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -415,7 +415,15 @@ void ShopDetailsScreen::purchase() {
 
 	if (((credits+premium >= creditprice)&&(creditprice>0))||(premium>=premiumprice&&premiumprice>0)) {
 
-		purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
+
+		if (next != NULL) {
+			delete next;
+			feed->remHttp();
+			next = NULL;
+		}
+		next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY, false, NULL, "2");
+		next->show();
+		/*purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
 		purchaseMenu->setMenuWidth(140);
 		purchaseMenu->setMarginX(5);
 		purchaseMenu->setMarginY(5);
@@ -444,7 +452,7 @@ void ShopDetailsScreen::purchase() {
 		}
 		purchaseMenu->addItem("Cancel");
 		purchaseMenu->setListener(this);
-		purchaseMenu->show();
+		purchaseMenu->show();*/
 	} else {
 		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. You can go to Credits to purchase more.");
 		purchaseMenu->setMenuWidth(180);
@@ -763,7 +771,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 		nameDesc = auction->getCard()->getText();
 		fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if(!strcmp(auction->getPrice().c_str(), "")) {
+		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -844,7 +852,7 @@ void ShopDetailsScreen::drawBuyNow()
 	nameDesc = auction->getCard()->getText();
 	String fullDesc = nameDesc;
 	fullDesc += "\nBid: ";
-	if(!strcmp(auction->getPrice().c_str(), "")) {
+	if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 		fullDesc += auction->getOpeningBid();
 	} else {
 		fullDesc += auction->getPrice();

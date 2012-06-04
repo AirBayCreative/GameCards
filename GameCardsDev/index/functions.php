@@ -495,7 +495,7 @@ function updateAuctions() {
 	}
 }
 //recurring function to get all cards on auction within a category and its children
-function getAuctionCards($categoryId, $cards, $iUserID) {
+function getAuctionCards($categoryId, $cards, $iUserID, $inClause="") {
 	//Cards not owned
 	if ($categoryId == -3) {
 		$aAuctionCards = myqu('SELECT a.market_id, a.usercard_id, a.card_id, a.description, a.minimum_bid, 
@@ -519,7 +519,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 					LEFT OUTER JOIN mytcg_user ub 
 					ON ub.user_id = ab.user_id 
 					WHERE ac.marketstatus_id = 1 
-					AND ac.user_id <> '.$iUserID.' 
+					AND ac.user_id <> '.$iUserID.'   '.$inClause.' 
 					AND uc.card_id NOT IN (SELECT card_id FROM mytcg_usercard WHERE user_id = '.$iUserID.')
 					AND datediff(now(), ac.date_expired) <= 0 
 					AND (ab.marketcard_id = (select max(marketcard_id) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
@@ -554,7 +554,7 @@ function getAuctionCards($categoryId, $cards, $iUserID) {
 					LEFT OUTER JOIN mytcg_user ub 
 					ON ub.user_id = ab.user_id 
 					WHERE ac.marketstatus_id = 1 
-					AND ac.user_id <> '.$iUserID.' 
+					AND ac.user_id <> '.$iUserID.'    '.$inClause.' 
 					AND ac.minimum_bid < c.value
 					AND datediff(now(), ac.date_expired) <= 0 
 					AND (ab.marketcard_id = (select max(marketcard_id) from mytcg_marketcard a where a.market_id = ac.market_id group by market_id) 
@@ -1690,6 +1690,8 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID, 
 					.'AND card_id = '.$iCardId.' '
 					.'AND user_id = "'.$iUserID.'"');
 
+					
+	echo sizeof($aCheckCard);
 	if (sizeof($aCheckCard) == 0){
 		$sOP='<user>'.$sCRLF;
 		$sOP.=$sTab.'<result>Card not available anymore.</result>'.$sCRLF;  
@@ -2514,7 +2516,7 @@ function getProducts($categoryId, $products, $iFreebie) {
 			AND I.IMAGESERVER_ID = P.THUMBNAIL_IMAGESERVER_ID 
 			AND C.CATEGORY_ID = '.$categoryId.' 
 			GROUP BY P.PRODUCT_ID 
-			ORDER BY P.DESCRIPTION');
+			ORDER BY P.PRICE, P.PREMIUM');
 		}
 	$count = 0;
 	$index = sizeof($products);
@@ -2939,7 +2941,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			VALUES ('.$iUserID.', '.$iUserID.')');
 		
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
-			VALUES ('.$iUserID.', "Welcome and Thank you for joining Mobile Game Cards. Please visit '.$url.' for an even greater Game Cards experience.", now(), 1)');
+			VALUES ('.$iUserID.', "Did you know, you can visit '.$url.' for a web based experience.", now(), 1)');
 		
 		//return userdetails
 		echo userdetails($iUserID,$iHeight,$iWidth,$root);

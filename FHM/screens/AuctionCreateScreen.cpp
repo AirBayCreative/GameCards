@@ -448,13 +448,9 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
 	String cardText = card->getText();
-	cardText += " (";
+	cardText += "\nOwned: ";
 	cardText += card->getQuantity();
-	cardText += ")";
-	cardText += "\nValue: ";
-	cardText += card->getValue();
 	cardText += "\n";
-	cardText += card->getRarity();
 
 	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
