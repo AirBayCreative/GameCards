@@ -17,6 +17,14 @@ only authenticated users may use these
 8. auction=1							-	details of auctions
 */
 
+/*
+the achievement types at present are:
+
+1: Collection
+2: Wealth
+3: Admin
+*/
+
 date_default_timezone_set('Africa/Johannesburg'); 
 
 /*
@@ -188,6 +196,8 @@ if ($iUserID == 0){
 	}
 		
 	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
+	
+	checkAchis($iUserID, 3);
 }
 
 if ($iTestVersion=$_GET['update']){
@@ -329,6 +339,9 @@ if ($_GET['buyproduct']){
 	}
 	$product = $_GET['buyproduct'];
 	buyProduct($timestamp, $iHeight, $iWidth, $iFreebie, $iUserID, $product, $root, $iBBHeight, $jpg, $purchase);
+	
+	checkAchis($iUserID, 1);
+	
 	exit();
 }
 
@@ -344,6 +357,9 @@ if ($_GET['auctionbid']){
 if ($_GET['buyauctionnow']){
 	$auctionCardId = $_GET['auctioncardid'];
 	buyAuctionNow($auctionCardId, $iUserID);
+	
+	checkAchis($iUserID, 1);
+	
 	exit;
 }
 
@@ -377,6 +393,9 @@ if ($cardID = $_GET['tradecard']){
   $sentNote = $_REQUEST['note'];
   
   tradeCard($tradeMethod, $receiveNumber, $iUserID, $cardID, $invite);
+  
+  checkAchis($iUserID, 1);
+  
   exit;
 }
 
@@ -423,6 +442,9 @@ if ($iCard=$_GET['deletecard']){
 	$sOP = "<result>Complete!</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	
+	checkAchis($iUserID, 1);
+	
 	exit;
 }
 
@@ -449,6 +471,9 @@ if ($iCard=$_GET['rejectcard']){
 	$sOP = "<result>Complete!</result>";
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	
+	checkAchis($iUserID, 1);
+	
 	exit;
 }
 
@@ -543,6 +568,9 @@ if ($code=$_GET['redeemcode']) {
 	
 	header('xml_length: '.strlen($sOP));
 	echo $sOP;
+	
+	checkAchis($iUserID, 1);
+	
 	exit;
 }
 

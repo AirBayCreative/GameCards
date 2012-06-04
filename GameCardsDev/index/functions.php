@@ -2,6 +2,9 @@
 include('class.upload.php');
 include('dbconnection.php');
 
+define('ACHI_INC','1'); 
+define('ACHI_TOT','2'); 
+
 //i just made this for convenience
 function resizeThumbs($root) {
 	$iImage = 71;
@@ -2930,6 +2933,12 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			SELECT detail_id, {$iUserID}
 			FROM mytcg_user_detail");
 			
+		//create empty achievements
+		myqu("INSERT INTO mytcg_userachievementlevel 
+			(user_id, achievementlevel_id)
+			SELECT {$iUserID}, id
+			FROM mytcg_achievementlevel");
+			
 		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 			SELECT '.$iUserID.', descript, now(), val, 1 
 			FROM mytcg_transactiondescription
@@ -3749,6 +3758,64 @@ function createDeck($iUserID,$iCategoryID,$iDescription) {
 	$sOP = '<created><deck_id>'.$deckId.'</deck_id><result>Deck Created!</result></created>';
 	
 	return $sOP;
+}
+
+function checkAchis($iUserID, $iAchiTypeId) {
+	$achiQu = ('SELECT ual.id, ual.progress, al.target, a.calc_id, a.reset, a.query, a.name 
+		FROM mytcg_userachievementlevel ual
+		INNER JOIN mytcg_achievementlevel al
+		ON al.id = ual.achievementlevel_id
+		INNER JOIN mytcg_achievement a
+		ON a.id = al.achievement_id
+		WHERE ual.date_completed IS NULL
+		AND ual.user_id = '.$iUserID.' 
+		AND a.type_id = '.$iAchiTypeId);
+	
+	$achiQuery = myqu(achiQu);
+	
+	$count = 0;
+	while ($aOneAchi=$achiQuery[$count]) {
+		$count++;
+		
+		$userAchiId = $aOneAchi['id'];
+		$reset = $aOneAchi['reset'];
+		$target = $aOneAchi['target'];
+		$progress = $aOneAchi['progress'];
+		$query = $aOneAchi['query'];
+		$name = $aOneAchi['name'];
+		$query = str_replace("useridreplac", $iUserID, $query);
+		
+		$valQuery = myqu($query);
+		$val = $valQuery[0]['val'];
+		if ($aOneAchi['calc_id'] == ACHI_INC) {
+			if ($val >= 0) {
+				$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = progress + ".$val." WHERE id = ".$userAchiId;
+				myqu($updateQuery);
+				
+				$progress = $progress + $val;
+			}
+			else if ($reset == 1) {
+				$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = 0 WHERE id = ".$userAchiId;
+				myqu($updateQuery);
+				
+				$progress = 0;
+			}
+		}
+		else if ($aOneAchi['calc_id'] == ACHI_TOT) {
+			$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = ".$val." WHERE id = ".$userAchiId;
+			myqu($updateQuery);
+			
+			$progress = $val;
+		}
+		
+		if ($progress >= $target) {
+			$updateQuery = "UPDATE mytcg_userachievementlevel SET date_completed = now() WHERE id = ".$userAchiId;
+			myqu($updateQuery);
+			
+			myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, notificationtype_id)
+					VALUES ('.$iUserID.', "Achievement earned! ('.$name.') Well Done!", now(), 1)');
+		}
+	}
 }
 
 /** 
