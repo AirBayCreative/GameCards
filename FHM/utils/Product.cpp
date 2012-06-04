@@ -91,10 +91,10 @@ String Product::getFormattedPrice() {
 String Product::getDetailsString() {
 	String details = "";
 	if (strcmp(price.c_str(), "0")) {
-		details += "Credits: " + price;
+		details += "Credits: " + price + "\n";
 	}
 	if (strcmp(premium.c_str(), "0")) {
-		details += "\nPremium: " + premium;
+		details += "Premium: " + premium;
 	}
 	details += "\nCards: " + cardsInPack;
 	details += "\nType: " + productType;

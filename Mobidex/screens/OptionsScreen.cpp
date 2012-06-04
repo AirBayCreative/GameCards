@@ -101,6 +101,10 @@ OptionsScreen::OptionsScreen(Feed *feed, int screenType, MainScreen *previous, C
 			label->setPaddingLeft(5);
 			label->addWidgetListener(this);
 			listBox->add(label);
+			label = Util::createSubLabel("View Cards");
+			label->setPaddingLeft(5);
+			label->addWidgetListener(this);
+			listBox->add(label);
 			break;
 	}
 
@@ -291,6 +295,13 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 							delete next;
 						}
 						next = new Login(feed, this, Login::S_REGISTER);
+						next->show();
+					}
+					else if(index == 2) {
+						if (next != NULL) {
+							delete next;
+						}
+						next = new Login(feed, this, Login::S_VIEWCARDS);
 						next->show();
 					}
 					break;

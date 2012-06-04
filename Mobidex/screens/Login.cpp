@@ -3,6 +3,7 @@
 #include "Login.h"
 #include "../utils/Util.h"
 #include "AlbumLoadScreen.h"
+#include "AlbumViewScreen.h"
 
 static country countries[] =
 {
@@ -319,6 +320,9 @@ Login::Login(Feed *feed, MainScreen *previous, int screen):mHttp(this) {
 		case S_REGISTER:
 			drawRegisterScreen();
 			break;
+		case S_VIEWCARDS:
+			drawViewCardsScreen();
+			break;
 	}
 
 	if (feed->getUnsuccessful() != "Success") {
@@ -459,11 +463,7 @@ void Login::drawRegisterScreen() {
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Cell Number:");
-#if defined(MA_PROF_SUPPORT_STYLUS)
-
-#else
 	editBoxCell->setInputMode(NativeEditBox::IM_NUMBERS);
-#endif
 	editBoxCell->setDrawBackground(false);
 	numberLayout->add(label);
 	numberLayout->addWidgetListener(this);
@@ -555,6 +555,85 @@ void Login::drawRegisterScreen() {
 	delete url;
 }
 
+void Login::drawViewCardsScreen() {
+	isTerms = false;
+	isCountry = false;
+
+	listBox->setYOffset(0);
+	moved = 0;
+	screen = S_VIEWCARDS;
+	clearListBox();
+
+	Util::updateSoftKeyLayout("View", "Back", "", layout);
+	notice->setCaption("");
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "Country:", 0, Util::getDefaultFont());
+	listBox->add(label);
+
+	countryLabel = Util::createDropDownLabel("");
+	countryLabel->addWidgetListener(this);
+	listBox->add(countryLabel);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "International Cell Number", 0, Util::getDefaultFont());
+	listBox->add(label);
+
+	numberLayout = new Layout(0, 0, scrWidth-(PADDING*2), DEFAULT_LABEL_HEIGHT, listBox, 2, 1);
+	numberLayout->setHorizontalAlignment(Layout::HA_CENTER);
+	numberLayout->setVerticalAlignment(Layout::VA_CENTER);
+	numberLayout->setPaddingLeft(PADDING);
+	label = new Label(0,0, 10, 24, NULL, "+", 0, Util::getDefaultFont());
+	numberLayout->add(label);
+	label =  new Label(0,0, scrWidth-(PADDING*3) - 10, DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getFontWhite());
+	label->setSkin(Util::getSkinEditBox());
+	Util::setPadding(label);
+	editBoxCell = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Cell Number:");
+	editBoxCell->setInputMode(NativeEditBox::IM_NUMBERS);
+	editBoxCell->setDrawBackground(false);
+	numberLayout->add(label);
+	numberLayout->addWidgetListener(this);
+
+	listBox->setSelectedIndex(1);
+
+	countryMenu = new MenuScreen(RES_BLANK);
+	countryMenu->setMenuWidth(240<=scrWidth?240:scrWidth);
+	countryMenu->setMarginX(5);
+	countryMenu->setMarginY(5);
+	countryMenu->setDock(MenuScreen::MD_CENTER);
+	countryMenu->setListener(this);
+	countryMenu->setMenuFontSel(Util::getFontBlack());
+	countryMenu->setMenuFontUnsel(Util::getFontWhite());
+	countryMenu->setMenuSkin(Util::getSkinDropDownItem());
+
+	notice->setCaption("Loading countries...");
+
+	String cName = "";
+	int countryCount = sizeof(countries)/sizeof(country);
+	for (int i = 0; i < countryCount; i++) {
+		cName = "+";
+		cName.append(countries[i].code, strlen(countries[i].code));
+		cName.append("  ", 2);
+		cName.append(countries[i].country, strlen(countries[i].country));
+		countryMenu->addItem(cName.c_str());
+	}
+
+	char *url = NULL;
+	//work out how long the url will be, the 10 is for the & and = symbols
+	int urlLength = URL_PHONE.length() + 15;
+	url = new char[urlLength];
+	memset(url,'\0',urlLength);
+	sprintf(url, "%s?checkcountry=1", URL_PHONE.c_str());
+	mHttp = HttpConnection(this);
+	int res = mHttp.create(url, HTTP_GET);
+	if(res < 0) {
+		notice->setCaption("Unable to connect, try again later...");
+	} else {
+		mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+		mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+		feed->addHttp();
+		mHttp.finish();
+	}
+	delete url;
+}
 void Login::clearListBox() {
 	for (int i = 0; i < listBox->getChildren().size(); i++) {
 		tempWidgets.add(listBox->getChildren()[i]);
@@ -573,7 +652,7 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 	if (numberLayout != NULL && widget == numberLayout) {
 		widget = numberLayout->getChildren()[1];
 		widget->setSelected(selected);
-;	}
+	}
 
 	if (widget->getChildren().size() > 0) {
 		if(selected) {
@@ -605,14 +684,14 @@ void Login::pointerMoveEvent(MAPoint2d point)
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
 	if (moved <= 8) {
-		if (screen == S_REGISTER && editBoxEmail->isSelected()) {
-			editBoxEmail->activate();
-		}
-
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
+		} else if (screen == S_VIEWCARDS && editBoxCell->isSelected()) {
+			editBoxCell->activate();
+		} else if (screen == S_REGISTER && editBoxEmail->isSelected()) {
+			editBoxEmail->activate();
 		} else if (list) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -688,6 +767,12 @@ void Login::keyPressEvent(int keyCode) {
 						termsMenu->show();
 					}
 					else if (countryLabel->isSelected()) {
+						isCountry = true;
+						countryMenu->show();
+					}
+					break;
+				case S_VIEWCARDS:
+					if (countryLabel->isSelected()) {
 						isCountry = true;
 						countryMenu->show();
 					}
@@ -803,6 +888,15 @@ void Login::keyPressEvent(int keyCode) {
 							delete url;
 							encodedName = "";
 						}
+						break;
+					case S_VIEWCARDS:
+						if (next != NULL) {
+							feed->remHttp();
+							delete next;
+							next = NULL;
+						}
+						next = new AlbumViewScreen(this, feed, "-2", Util::AT_VIEW_CARDS, NULL, editBoxCell->getText());
+						next->show();
 						break;
 				}
 			}
@@ -1080,7 +1174,6 @@ void Login::menuOptionSelected(int index) {
 }
 
 void Login::setCountry(const char *countryCode) {
-	lprintfln("%s", countryCode);
 	int countryCount = sizeof(countries)/sizeof(country);
 	for (int i = 0; i < countryCount; i++) {
 		if (strcmp(countries[i].countryCode, countryCode) == 0) {

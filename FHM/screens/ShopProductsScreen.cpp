@@ -7,7 +7,7 @@
 
 void ShopProductsScreen::refresh()
 {
-	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	String msg = "Premium Credits: " + feed->getPremium();
 	notice->setCaption(msg.c_str());
 	show();
 }
@@ -16,7 +16,7 @@ void ShopProductsScreen::pop() {
 	refresh();
 
 	if (products.size() == 1) {
-		previous->show();
+		previous->pop();
 	}
 }
 
@@ -278,7 +278,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			previous->pop();
 			break;
 		case MAK_FIRE:
 		case MAK_SOFTLEFT:

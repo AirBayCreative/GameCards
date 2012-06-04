@@ -107,20 +107,24 @@ bool NativeEditBox::pointerReleased(MAPoint2d p, int id) {
 }
 void NativeEditBox::pointerPressEvent(MAPoint2d point)
 {
+	moved = 0;
 }
 
 void NativeEditBox::pointerMoveEvent(MAPoint2d point)
 {
+	moved++;
 }
 
 void NativeEditBox::pointerReleaseEvent(MAPoint2d point)
 {
-	if (point.y < scrHeight-Util::getSoftKeyBarHeight()) {
-		if(this->isActive()&&this->contains(point.x, point.y)) {
-			activate();
-		} else
-		if (isSelected()) {
-			activate();
+	if (moved <= 5) {
+		if (point.y < scrHeight-Util::getSoftKeyBarHeight()) {
+			if(this->isActive()&&this->contains(point.x, point.y)) {
+				activate();
+			} else
+			if (isSelected()) {
+				activate();
+			}
 		}
 	}
 }

@@ -78,7 +78,7 @@ protected:
 	wchar_t* mString;
 	int mMaxSize;
 	int mOptions;
-	int x,y,width,height;
+	int x,y,width,height, moved;
 
 	int mStartX, mStartY;
 

@@ -29,6 +29,8 @@ ImageScreen::ImageScreen(MainScreen *previous, MAHandle img, Feed *feed, bool fl
 	if (card != NULL) {
 		if (screenType == ST_NEW_CARD) {
 			layout =  Util::createImageLayout("Accept", "Reject", "Flip");
+		} else if (screenType == ST_VIEW_CARD) {
+			layout = Util::createImageLayout("", "Back", "Flip");
 		} else if (screenType == Util::AT_SHARE) {
 			layout = Util::createImageLayout("Share", "Back", "Flip");
 		} else {
@@ -316,6 +318,8 @@ void ImageScreen::keyPressEvent(int keyCode) {
 				}
 				next = new TradeFriendDetailScreen(this, feed, card);
 				next->show();
+			} else if (screenType == ST_VIEW_CARD) {
+
 			} else {
 				if (card != NULL && hasConnection && canAuction) {
 					if (next != NULL) {

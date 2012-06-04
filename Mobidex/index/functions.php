@@ -21,7 +21,7 @@ function resizeThumbs($root) {
 
 function sendMail($to, $subject, $message)
 {
-     //$subject = 'Mobidex Registration';
+     $subject = 'Mobidex Registration';
      $headers = 'MIME-Version: 1.0' . "\r\n";
      $headers.= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
      $headers.= 'From: support@mobidex.biz' . "\r\n";
@@ -40,6 +40,30 @@ function sendMail($to, $subject, $message)
      {
            return false;
      }
+}
+function viewcards($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds,$cell,$root,$iBBHeight=0, $jpg=0) {
+	if (!($iHeight)) {
+		$iHeight = '350';
+	}
+	if (!($iWidth)) {
+		$iWidth = '250';
+	}
+	if (!($lastCheckSeconds)) {
+		$lastCheckSeconds = "0";
+	}
+	$aCards=myqu('SELECT A.card_id, count(*) quantity, "" as usercard_id, 
+				B.description, B.thumbnail_phone_imageserver_id, B.front_phone_imageserver_id, B.back_phone_imageserver_id, 
+				(CASE WHEN (B.date_updated > (DATE_ADD("1970-01-01 00:00:00", INTERVAL '.$lastCheckSeconds.' SECOND))) 
+					THEN 1 ELSE 0 END) updated, "" as note, "" as date_updated, B.cardorientation_id 
+				FROM mytcg_card B 
+				INNER JOIN mytcg_tradecard A 
+				ON A.card_id=B.card_id 
+				WHERE A.detail='.$cell.' 
+				GROUP BY B.card_id ');
+				
+	$sOP = buildCardListXML($aCards, $iHeight, $iWidth, $root, $iBBHeight, $jpg);
+	
+	return $sOP;
 }
 
 function resizeCard($iHeight, $iWidth, $iImage, $root, $iBBHeight=0, $jpg=0) {
@@ -1311,6 +1335,7 @@ function cardsincategory($iCategory,$iHeight,$iWidth,$iShowAll,$lastCheckSeconds
 	
 	return $sOP;
 }
+
 function createDeck($iUserID,$iDescription) {
 
 	$deckIdQuery = myqu('SELECT max(deck_id) deck_id 
@@ -1403,7 +1428,7 @@ function buildCardListXML($cardList,$iHeight,$iWidth,$root, $iBBHeight=0, $jpg=0
 		$sOP.=$sTab.$sTab.'<backflipurl>'.$sFound.$iHeight.$dir.$aOneCard['card_id'].'_back_flip'.$ext.'</backflipurl>'.$sCRLF; 
 
 		$aStats=myqu('SELECT A.description as des, B.description as val, statvalue, 
-		(CASE WHEN cardorientation_id = 2 THEN 250-(top+(height*1.5)) ELSE A.left END)-2 as "left", 
+		(CASE WHEN cardorientation_id = 2 THEN 250-(top+(height)) ELSE A.left END)-2 as "left", 
 		(CASE WHEN cardorientation_id = 2 THEN A.left ELSE top END)-2 as "top", 
 		(CASE WHEN cardorientation_id = 2 THEN height ELSE width END)+8 as "width", 
 		(CASE WHEN cardorientation_id = 2 THEN width ELSE height END)+8 as "height", 

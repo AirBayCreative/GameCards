@@ -4,7 +4,6 @@
 #include "utils/Util.h"
 #include "screens/OptionsScreen.h"
 #include "screens/Login.h"
-
 #include "screens/NewMenuScreen.h"
 
 MAUIMoblet *moblet;
@@ -36,7 +35,6 @@ MAUIMoblet::MAUIMoblet() {
 	data = "";
 
 	if (feed.getLoaded()) {
-		//next = new MenuScreen(&feed);
 		next = new NewMenuScreen(&feed);
 		next->show();
 	} else {

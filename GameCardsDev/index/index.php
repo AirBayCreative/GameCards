@@ -670,7 +670,33 @@ if ($_GET['categoryauction']){
 	
 	$auctionCards = array();
 	
-	$auctionCards = getAuctionCards($categoryId, $auctionCards, $iUserID);
+	$inClause = "";
+	if ($topcar != "-1") {
+		$inClause = " AND c.category_id IN (".$topcar;
+		
+		$currentChildren = $topcar;
+		do {
+			$qu = 'SELECT category_child_id 
+				FROM mytcg_category_x 
+				WHERE category_parent_id IN ('.$currentChildren.')';
+			$childrenQuery=myqu($qu);
+			
+			$currentChildren = '';
+			$iCount=0;
+			
+			while ($child = $childrenQuery[$iCount]) {
+				$iCount++;
+				
+				$inClause.= ','.$child['category_child_id'];
+				
+				$currentChildren.=(strlen($currentChildren)>0?(','.$child['category_child_id']):$child['category_child_id']);
+			}
+		} while ($currentChildren != '');
+		
+		$inClause.=')';
+	}
+	
+	$auctionCards = getAuctionCards($categoryId, $auctionCards, $iUserID, $inClause);
 	
 	$sOP='<auctionsincategory>'.$sCRLF;
 	
@@ -2309,10 +2335,12 @@ if ($_GET['userdetails']){
 
 /** give user profile details */
 if ($_GET['profiledetails']){
-	$aProfileDetails=myqu('SELECT d.description, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
+	$q = 'SELECT d.description, d.detail_id, d.credit_value, a.answer_id, a.answered, a.answer 
 		FROM mytcg_user_answer a, mytcg_user_detail d 
 		WHERE a.detail_id = d.detail_id 
-		AND a.user_id="'.$iUserID.'"');
+		AND d.apps_id in ((SELECT apps_id FROM mytcg_apps WHERE apps_key = "'.$appkey.'" ),(SELECT apps_id FROM mytcg_apps WHERE apps_key = "GameCards" ))
+		AND a.user_id="'.$iUserID.'"';
+	$aProfileDetails=myqu($q);
 	$sOP='<profiledetails>'.$sCRLF;
 	$iCount=0;
 	while ($aProfileDetail=$aProfileDetails[$iCount]){
