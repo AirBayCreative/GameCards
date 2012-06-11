@@ -436,7 +436,12 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						(!tapped && currentSelectedStat == -1)){
 						flip=!flip;
 						if (screenType != ST_DECK) {
+							currentSelectedKey = NULL;
+							currentKeyPosition = -1;
 							Util::updateSoftKeyLayout((hasConnection&&canAuction)?"Options":"", "Back", "Flip", mainLayout);
+							currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
+							currentSelectedKey= currentSoftKeys->getChildren()[1];
+							currentKeyPosition= 1;
 							currentSoftKeys->getChildren()[1]->setSelected(true);
 						}
 						imge->refreshWidget();

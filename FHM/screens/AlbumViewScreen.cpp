@@ -363,10 +363,6 @@ void AlbumViewScreen::drawList() {
 		ind = 0;
 	}
 
-	int midListBoxSel = 0;//
-	if (midListBox != NULL) {
-		midListBox->getSelectedIndex();
-	}
 	clearListBox();
 	index.clear();
 	String cardText = "";
@@ -461,9 +457,6 @@ void AlbumViewScreen::drawList() {
 		int listItem = ind % cardsPerList;
 		selectedList = listIndex;
 		midListBox->add(cardLists[listIndex]);
-		if (midListBoxSel >= 1) {
-			listIndex = midListBoxSel;
-		}
 		cardLists[listIndex]->setSelectedIndex(listItem);
 		cardLists[listIndex]->getChildren()[cardLists[listIndex]->getSelectedIndex()]->setSelected(true);
 	} else {
