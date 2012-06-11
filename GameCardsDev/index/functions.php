@@ -3772,7 +3772,7 @@ function checkAchis($iUserID, $iAchiTypeId) {
 		AND ual.user_id = '.$iUserID.' 
 		AND a.type_id = '.$iAchiTypeId);
 	
-	$achiQuery = myqu(achiQu);
+	$achiQuery = myqu($achiQu);
 	
 	$count = 0;
 	while ($aOneAchi=$achiQuery[$count]) {
@@ -3790,20 +3790,20 @@ function checkAchis($iUserID, $iAchiTypeId) {
 		$val = $valQuery[0]['val'];
 		if ($aOneAchi['calc_id'] == ACHI_INC) {
 			if ($val >= 0) {
-				$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = progress + ".$val." WHERE id = ".$userAchiId;
+				$updateQuery = "UPDATE mytcg_userachievementlevel SET date_updated = now(), progress = progress + ".$val." WHERE id = ".$userAchiId;
 				myqu($updateQuery);
 				
 				$progress = $progress + $val;
 			}
 			else if ($reset == 1) {
-				$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = 0 WHERE id = ".$userAchiId;
+				$updateQuery = "UPDATE mytcg_userachievementlevel SET date_updated = now(), progress = 0 WHERE id = ".$userAchiId;
 				myqu($updateQuery);
 				
 				$progress = 0;
 			}
 		}
 		else if ($aOneAchi['calc_id'] == ACHI_TOT) {
-			$updateQuery = "UPDATE mytcg_userachievementlevel SET progress = ".$val." WHERE id = ".$userAchiId;
+			$updateQuery = "UPDATE mytcg_userachievementlevel SET date_updated = now(), progress = ".$val." WHERE id = ".$userAchiId;
 			myqu($updateQuery);
 			
 			$progress = $val;

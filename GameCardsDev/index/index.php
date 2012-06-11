@@ -194,10 +194,10 @@ if ($iUserID == 0){
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote, notificationtype_id)
 			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1, 2)');
 	}
-		
-	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
 	
 	checkAchis($iUserID, 3);
+		
+	myqui('UPDATE mytcg_user SET mobile_date_last_visit=now() WHERE user_id = '.$iUserID);
 }
 
 if ($iTestVersion=$_GET['update']){
