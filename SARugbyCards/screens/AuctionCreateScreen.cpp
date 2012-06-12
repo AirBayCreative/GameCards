@@ -525,20 +525,7 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
-	int cost = Convert::toInt(openingText);
-	int buynow = 0;
-	if (buyNowText.length() > 1) {
-		buynow = Convert::toInt(buyNowText);
-	}
-	if (buynow > cost) {
-		cost = buynow;
-	}
-	String cred = " credits.";
-	cost = cost/10;
-	if (cost <= 5) {
-		cost = 5;
-	}
-	String result = "Are you sure you want to auction " + card->getText() + "? It will cost you " + Convert::toString(cost) + cred;
+	String result = "Are you sure you want to auction " + card->getText() + "?";
 
 	label = new Label(0,0, scrWidth-PADDING*2, 60, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
@@ -548,7 +535,6 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	kinListBox->add(label);
 
 	result = "";
-	cred = "";
 
 	Layout *feedlayout;
 
