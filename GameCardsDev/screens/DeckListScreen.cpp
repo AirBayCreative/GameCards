@@ -18,7 +18,7 @@ DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, int screenType,
 	currentKeyPosition = -1;
 	mainLayout = Util::createMainLayout("", "Back", true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(mainLayout);
 
@@ -148,11 +148,11 @@ void DeckListScreen::clearAlbums() {
 
 void DeckListScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -165,14 +165,14 @@ void DeckListScreen::drawList() {
 	if (screenType == ST_EDIT) {
 		label = Util::createSubLabel("New Deck");
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 	for(int i = 0; i < albums.size(); i++) {
 		label = Util::createSubLabel(albums[i]->getDescription());
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 
 	selecting = false;
 }
@@ -232,8 +232,8 @@ void DeckListScreen::locateItem(MAPoint2d point)
 }
 
 void DeckListScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
@@ -252,7 +252,7 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 			if (!selecting) {
 				switch (screenType) {
 					case ST_EDIT:
-						if (listBox->getSelectedIndex() == 0) {
+						if (kinListBox->getSelectedIndex() == 0) {
 							if (next != NULL) {
 								delete next;
 								feed->remHttp();
@@ -267,13 +267,13 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 								feed->remHttp();
 								 next = NULL;
 							}
-							next = new EditDeckScreen(this, feed, albums[listBox->getSelectedIndex()-1]->getId());
+							next = new EditDeckScreen(this, feed, albums[kinListBox->getSelectedIndex()-1]->getId());
 							next->show();
 						}
 						break;
 					case ST_SELECT:
 						next = new OptionsScreen(feed, OptionsScreen::ST_NEW_GAME_OPTIONS, this, NULL,
-							categoryId, albums[listBox->getSelectedIndex()]->getId());
+							categoryId, albums[kinListBox->getSelectedIndex()]->getId());
 						next->show();
 						break;
 				}
@@ -281,9 +281,9 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_DOWN:
 			if (ind+1 < max) {
-				listBox->setSelectedIndex(ind+1);
+				kinListBox->setSelectedIndex(ind+1);
 			} else {
-				listBox->getChildren()[ind]->setSelected(false);
+				kinListBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 						currentKeyPosition=i;
@@ -299,12 +299,12 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			}
 			else if (ind == 0) {
-				listBox->setSelectedIndex(max-1);
+				kinListBox->setSelectedIndex(max-1);
 			} else {
-				listBox->selectPreviousItem();
+				kinListBox->selectPreviousItem();
 			}
 			break;
 		case MAK_LEFT:

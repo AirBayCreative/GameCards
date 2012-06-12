@@ -55,7 +55,7 @@ filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albu
 		mainLayout = Util::createMainLayout("", "Back" , "");
 	}
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Checking for new cards...");
 

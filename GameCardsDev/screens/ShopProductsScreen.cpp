@@ -38,7 +38,7 @@ ShopProductsScreen::ShopProductsScreen(MainScreen *previous, Feed *feed, String 
 
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(false);
 	notice->setCaption("Checking for products...");
@@ -188,7 +188,7 @@ void ShopProductsScreen::drawList() {
 		cardText += "\n";
 		cardText += "Cards: " + products[i]->getCardsInPack();
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -207,27 +207,27 @@ void ShopProductsScreen::drawList() {
 		emp = false;
 	} else if (products.size() == 1) {
 		/*if (free) {
-			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, true);
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[kinListBox->getSelectedIndex()], NULL, true);
 		} else {
-			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, true);
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[kinListBox->getSelectedIndex()], NULL, true);
 		}
 		next->show();*/
 		emp = false;
 		keyPressEvent(MAK_FIRE);
 	} else {
 		emp = true;
-		listBox->add(Util::createSubLabel("Empty"));
+		kinListBox->add(Util::createSubLabel("Empty"));
 	}
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 }
 
 void ShopProductsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -239,7 +239,7 @@ void ShopProductsScreen::clearListBox() {
 ShopProductsScreen::~ShopProductsScreen() {
 	lprintfln("~ShopProductsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -272,8 +272,8 @@ void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void ShopProductsScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_UP:
@@ -281,16 +281,16 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			} else if (ind > 0) {
-				listBox->setSelectedIndex(ind-1);
+				kinListBox->setSelectedIndex(ind-1);
 			}
 			break;
 		case MAK_DOWN:
-			if (ind+1 < listBox->getChildren().size()) {
-				listBox->setSelectedIndex(ind+1);
+			if (ind+1 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(ind+1);
 			} else {
-				listBox->getChildren()[ind]->setSelected(false);
+				kinListBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 						currentKeyPosition=i;
@@ -321,9 +321,9 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				if (free) {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[kinListBox->getSelectedIndex()], NULL, false);
 				} else {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[kinListBox->getSelectedIndex()], NULL, false);
 				}
 				next->show();
 			}
