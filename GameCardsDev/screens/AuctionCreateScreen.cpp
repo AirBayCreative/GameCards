@@ -10,7 +10,7 @@ AuctionCreateScreen::AuctionCreateScreen(MainScreen *previous, Feed *feed, Card 
 	lprintfln("AuctionCreateScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 		this->feed = feed;
-	listBox = NULL;
+	kinListBox = NULL;
 	mainLayout= NULL;
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
@@ -150,18 +150,18 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 						currentSelectedKey->setSelected(false);
 						currentSelectedKey = NULL;
 						currentKeyPosition = -1;
-						listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 					}
-					else if (listBox->getSelectedIndex() > 1) {
-						listBox->setSelectedIndex(listBox->getSelectedIndex() - 2);
+					else if (kinListBox->getSelectedIndex() > 1) {
+						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() - 2);
 					}
 					//setSelectedEditBox();
 					break;
 				case MAK_DOWN:
-					if (listBox->getSelectedIndex() < 5) {
-						listBox->setSelectedIndex(listBox->getSelectedIndex() + 2);
+					if (kinListBox->getSelectedIndex() < 5) {
+						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() + 2);
 					} else if(currentSelectedKey==NULL){
-						listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+						kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 								currentKeyPosition=i;
@@ -422,7 +422,7 @@ void AuctionCreateScreen::selectionChanged(Widget *widget, bool selected) {
 void AuctionCreateScreen::drawDataInputScreen() {
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("Auction", "Back", "", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
@@ -434,7 +434,7 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -464,18 +464,18 @@ void AuctionCreateScreen::drawDataInputScreen() {
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Opening bid", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxOpening = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Opening bid");
 	editBoxOpening->setCaption(Convert::toString(Convert::toInt(card->getValue().c_str())));
 	editBoxOpening->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Buy now price", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxBuyNow = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Buy now price");
@@ -483,24 +483,24 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	editBoxBuyNow->setCaption(Convert::toString(buynow));
 	editBoxBuyNow->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Auction duration(days)", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxDays = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_NUMERIC, label, "", L"Auction duration(days)");
 	editBoxDays->setCaption("5");
 	editBoxDays->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
 	moved = 0;
 	editBoxOpening->setSelected(true);
-	listBox->setSelectedIndex(2);
+	kinListBox->setSelectedIndex(2);
 	cardText = "";
 }
 
@@ -529,34 +529,20 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
-	int cost = Convert::toInt(openingText);
-	int buynow = 0;
-	if (buyNowText.length() > 1) {
-		buynow = Convert::toInt(buyNowText);
-	}
-	if (buynow > cost) {
-		cost = buynow;
-	}
-	String cred = " credits.";
-	cost = cost/10;
-	if (cost <= 5) {
-		cost = 5;
-	}
-	String result = "Are you sure you want to auction " + card->getText() + "? It will cost you " + Convert::toString(cost) + cred;
+	String result = "Are you sure you want to auction " + card->getText() + "?";
 
 	label = new Label(0,0, scrWidth-PADDING*2, 60, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	result = "";
-	cred = "";
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 120, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -614,11 +600,11 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 120, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -663,7 +649,7 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 	label->setMultiLine();
 	label->setAutoSizeY();
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
@@ -672,11 +658,11 @@ void AuctionCreateScreen::drawInvalidInputScreen() {
 
 void AuctionCreateScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

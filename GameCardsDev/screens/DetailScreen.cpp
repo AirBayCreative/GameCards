@@ -15,7 +15,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 	this->previous = previous;
 	this->feed = feed;
 	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
 	currentSelectedKey = NULL;
@@ -33,62 +33,62 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setAutoSizeY();
 			label->setDrawBackground(false);
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case BALANCE:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
 			label->setMultiLine(true);
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			balanceLabel = Util::createEditLabel(feed->getCredits());
 			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
-			listBox->add(balanceLabel);
+			kinListBox->add(balanceLabel);
 
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			premiumLabel = Util::createEditLabel(feed->getPremium());
 			premiumLabel->setVerticalAlignment(Label::VA_CENTER);
-			listBox->add(premiumLabel);
+			kinListBox->add(premiumLabel);
 
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Last Transactions:", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case CARD:
 			for (int i = 0; i < card->getStats().size(); i++) {
 				label = Util::createSubLabel(card->getStats()[i]->getDesc() + " : " + card->getStats()[i]->getDisplay());
 				label->setPaddingBottom(5);
 				label->addWidgetListener(this);
-				listBox->add(label);
+				kinListBox->add(label);
 			}
 			if (card->getStats().size() == 0) {
 				label = Util::createSubLabel("Empty");
 				label->setPaddingBottom(5);
 				label->addWidgetListener(this);
-				listBox->add(label);
+				kinListBox->add(label);
 			}
 			break;
 		case RANKING:
@@ -99,7 +99,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case NOTIFICATIONS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Notifications", 0, Util::getDefaultFont());
@@ -107,7 +107,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case FRIENDS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Friends", 0, Util::getDefaultFont());
@@ -115,7 +115,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case CONTACTS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Contacts", 0, Util::getDefaultFont());
@@ -123,7 +123,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			PIM *pim = new PIM();
 			pim->addListener(this);
@@ -274,7 +274,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 }
 
 void DetailScreen::contactReceived(Contact& contact) {
-	label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+	label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 			"", 0, Util::getDefaultFont());
 
 	char *buffer = new char[128];
@@ -284,9 +284,9 @@ void DetailScreen::contactReceived(Contact& contact) {
 	label = Util::createSubLabel(buffer);
 	label->setPaddingBottom(5);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 	delete buffer;
 	buffer = NULL;
 
@@ -295,11 +295,11 @@ void DetailScreen::contactReceived(Contact& contact) {
 
 void DetailScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -311,7 +311,7 @@ void DetailScreen::clearListBox() {
 DetailScreen::~DetailScreen() {
 	lprintfln("~DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if(next!=NULL){
@@ -419,18 +419,18 @@ void DetailScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void DetailScreen::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
 
 void DetailScreen::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 
 void DetailScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -445,7 +445,7 @@ void DetailScreen::keyPressEvent(int keyCode) {
 		case MAK_SOFTLEFT:
 			switch (screenType) {
 				case CARD:
-					int index = listBox->getSelectedIndex();
+					int index = kinListBox->getSelectedIndex();
 					if(card->getStats()[index]!=NULL){
 						Stat *stat = card->getStats()[index];
 						if (strcmp(stat->getDesc().c_str(), "Mobile No") == 0) {
@@ -508,25 +508,25 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			} else if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 				if (ind == 0) {
-					listBox->setSelectedIndex(max-1);
+					kinListBox->setSelectedIndex(max-1);
 				} else {
-					listBox->selectPreviousItem();
-					listBox->selectPreviousItem();
+					kinListBox->selectPreviousItem();
+					kinListBox->selectPreviousItem();
 				}
 			} else {
 				if (ind == 0) {
-					listBox->setSelectedIndex(max-1);
+					kinListBox->setSelectedIndex(max-1);
 				} else {
-					listBox->selectPreviousItem();
+					kinListBox->selectPreviousItem();
 				}
 			}
 			break;
 		case MAK_DOWN:
 			if (ind == max-1 && currentSelectedKey==NULL) {
-				listBox->getChildren()[ind]->setSelected(false);
+				kinListBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 						currentKeyPosition=i;
@@ -537,16 +537,16 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				}
 			} else if ((ind == 0)&&(screenType != CARD)) {
 				if ((screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
-					listBox->setSelectedIndex(1);
+					kinListBox->setSelectedIndex(1);
 				} else if ((screenType == RANKING)||(screenType == FRIEND)) {
-					listBox->setSelectedIndex(2);
+					kinListBox->setSelectedIndex(2);
 				} else {
-					listBox->setSelectedIndex(3);
+					kinListBox->setSelectedIndex(3);
 				}
 			} else {
-				listBox->selectNextItem();
+				kinListBox->selectNextItem();
 				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
-					listBox->selectNextItem();
+					kinListBox->selectNextItem();
 				}
 			}
 			break;
@@ -652,10 +652,10 @@ void DetailScreen::httpFinished(MAUtil::HttpConnection* http, int result) {
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
-			listBox->setSelectedIndex(4);
+			kinListBox->setSelectedIndex(4);
 		} else if (screenType == PROFILE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("Unable to connect, try again later...");
@@ -738,15 +738,15 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 		}
-		listBox->setSelectedIndex(3);
+		kinListBox->setSelectedIndex(3);
 		label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 		label->setCaption("");
 	} else if(!strcmp(name, "transaction")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -755,15 +755,15 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 		desc = "";
 		date = "";
 	} else if(!strcmp(name, "detail")) {
 		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, desc, 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
-		Layout *feedlayout = new Layout(0, 0, scrWidth, DEFAULT_LABEL_HEIGHT, listBox, 3, 1);
+		Layout *feedlayout = new Layout(0, 0, scrWidth, DEFAULT_LABEL_HEIGHT, kinListBox, 3, 1);
 		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 
@@ -801,7 +801,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		answer = "";
 		creditvalue = "";
 
-		listBox->setSelectedIndex(1);
+		kinListBox->setSelectedIndex(1);
 
 	} else if(!strcmp(name, "error")) {
 		if (label != NULL) {
@@ -817,20 +817,20 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
 			label->setMultiLine(true);
-			listBox->add(label);
+			kinListBox->add(label);
 
-			listBox->setSelectedIndex(0);
+			kinListBox->setSelectedIndex(0);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		} else {
-			listBox->setSelectedIndex(1);
+			kinListBox->setSelectedIndex(1);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		}
 	} else if(!strcmp(name, "note")) {
 		count++;
 
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(date + ": " + desc);
 		//label->setVerticalAlignment(Label::VA_CENTER);
@@ -839,7 +839,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->setPaddingBottom(PADDING);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 		desc = "";
 		date = "";
 		id = "";
@@ -849,25 +849,25 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->setCaption("");
 		label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, usr, 0, Util::getDefaultFont());
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		label = Util::createEditLabel("");
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, val, L"");
 		editBoxUsername->setDrawBackground(false);
 		//label->addWidgetListener(this);
 
-		listBox->add(label);
+		kinListBox->add(label);
 
 		usr="";
 		val="";
 
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	} else if(!strcmp(name, "leaderboard")) {
 		if (count == 0) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No users found.", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			usr="";
 			val="";
@@ -875,7 +875,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 	} else if(!strcmp(name, "friend")) {
 
 		count++;
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), DEFAULT_DETAILS_ITEM_HEIGHT, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption(usr+"\n"+val+"\n"+desc);
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -884,7 +884,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 
 		frien = new Friend();
 		frien->setFriendId(friendid.c_str());
@@ -900,16 +900,16 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label->setCaption("");
 			label = new Label(0,0, scrWidth-((PADDING*2)), DEFAULT_SMALL_LABEL_HEIGHT, NULL, "No friends found.", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			usr="";
 			val="";
 
-			listBox->setSelectedIndex(0);
+			kinListBox->setSelectedIndex(0);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		} else {
-			listBox->setSelectedIndex(1);
+			kinListBox->setSelectedIndex(1);
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 			label->setCaption("");
 		}

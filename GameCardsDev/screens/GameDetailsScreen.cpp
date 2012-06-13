@@ -8,11 +8,11 @@
 
 void GameDetailsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -26,7 +26,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 	this->feed = feed;
 	mainLayout = Util::createMainLayout("Continue", "", true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	this->setMain(mainLayout);
 	currentSelectedKey = NULL;
@@ -105,7 +105,7 @@ GameDetailsScreen::~GameDetailsScreen() {
 
 void GameDetailsScreen::drawList() {
 	for(int i = 0; i < logs.size(); i++) {
-		label = new Label(0, 0, listBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
 				"", 0, Util::getDefaultFont());
 		label->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
 		label->setVerticalAlignment(Label::VA_CENTER);
@@ -114,14 +114,14 @@ void GameDetailsScreen::drawList() {
 		label->setPaddingBottom(5);
 		label->setPaddingLeft(PADDING);
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 	if (logs.size() >= 1) {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	} else {
 		label = Util::createSubLabel("Empty");
 		label->addWidgetListener(this);
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 }
 
@@ -180,8 +180,8 @@ void GameDetailsScreen::locateItem(MAPoint2d point)
 }
 
 void GameDetailsScreen::keyPressEvent(int keyCode) {
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -202,17 +202,17 @@ void GameDetailsScreen::keyPressEvent(int keyCode) {
 				currentSelectedKey->setSelected(false);
 				currentSelectedKey = NULL;
 				currentKeyPosition = -1;
-				listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			}
 			else {
-				listBox->selectPreviousItem();
+				kinListBox->selectPreviousItem();
 			}
 			break;
 		case MAK_DOWN:
-			if (ind+1 < listBox->getChildren().size()) {
-				listBox->setSelectedIndex(ind+1);
+			if (ind+1 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(ind+1);
 			} else {
-				listBox->getChildren()[ind]->setSelected(false);
+				kinListBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 						currentKeyPosition=i;
@@ -322,7 +322,7 @@ void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 
 		label->setCaption(display);
 		notice->setCaption("");
-		listBox->add(label);
+		kinListBox->add(label);
 	}
 	else if (!strcmp(name, "log")) {
 		log = new Log(date.c_str(), description.c_str());

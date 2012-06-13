@@ -46,8 +46,8 @@ EditDeckScreen::EditDeckScreen(MainScreen *previous, Feed *feed, String deckId) 
 
 	mainLayout = Util::createMainLayout("", "Back" , "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	listBox->setWrapping(true);
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox->setWrapping(true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Getting card list...");
 
@@ -147,7 +147,7 @@ void EditDeckScreen::deleteDeck() {
 }
 
 void EditDeckScreen::removeCard() {
-	int cardIndex = listBox->getSelectedIndex() - 1; //-1 for the "delete deck" option
+	int cardIndex = kinListBox->getSelectedIndex() - 1; //-1 for the "delete deck" option
 	if (cards.size() < 10) {
 		cardIndex -= 1; //if there are less than 10 cards, there is also the "add card" option
 	}
@@ -240,11 +240,11 @@ void EditDeckScreen::locateItem(MAPoint2d point) {
 
 void EditDeckScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -258,13 +258,13 @@ void EditDeckScreen::drawList() {
 
 	Layout *feedlayout;
 
-	int index = listBox->getSelectedIndex();
+	int index = kinListBox->getSelectedIndex();
 	index = index>=0?index:0;
 
 	clearListBox();
 
 	if (cards.size() < 10) {
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 48, kinListBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinList());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -281,7 +281,7 @@ void EditDeckScreen::drawList() {
 		//label->setHorizontalAlignment(Label::HA_CENTER);
 	}
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 48, kinListBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinList());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -308,7 +308,7 @@ void EditDeckScreen::drawList() {
 		cardText += "\nRating: ";
 		cardText += cards[i]->getRanking();
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -334,13 +334,13 @@ void EditDeckScreen::drawList() {
 	}
 
 	if (index < cards.size()) {
-		listBox->setSelectedIndex(index);
+		kinListBox->setSelectedIndex(index);
 	}
 	else if (index > cards.size()) {
-		listBox->setSelectedIndex(index - 1);
+		kinListBox->setSelectedIndex(index - 1);
 	}
 	else {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	}
 }
 
@@ -349,7 +349,7 @@ void EditDeckScreen::drawConfirm() {
 
 	clearListBox();
 
-	label = new Label(0, 0, listBox->getWidth() - 10, 0, listBox, "Are you sure you want to delete this deck?", 0, Util::getDefaultFont());
+	label = new Label(0, 0, kinListBox->getWidth() - 10, 0, kinListBox, "Are you sure you want to delete this deck?", 0, Util::getDefaultFont());
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 	label->setDrawBackground(false);
@@ -410,8 +410,8 @@ void EditDeckScreen::selectionChanged(Widget *widget, bool selected) {
 				((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 			}
 
-			if ((listBox->getSelectedIndex() == 1 && cards.size() < 10) ||
-					(listBox->getSelectedIndex() == 0)) {
+			if ((kinListBox->getSelectedIndex() == 1 && cards.size() < 10) ||
+					(kinListBox->getSelectedIndex() == 0)) {
 				Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 			}
 			else {
@@ -431,8 +431,8 @@ void EditDeckScreen::hide() {
 
 void EditDeckScreen::keyPressEvent(int keyCode) {
 	String all = "";
-	int ind = listBox->getSelectedIndex();
-	int max = listBox->getChildren().size();
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
 	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch (screenType) {
 		case ST_LIST:
@@ -442,19 +442,19 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						currentSelectedKey->setSelected(false);
 						currentSelectedKey = NULL;
 						currentKeyPosition = -1;
-						listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 					}
 					else if (ind == 0) {
-						listBox->setSelectedIndex(max-1);
+						kinListBox->setSelectedIndex(max-1);
 					} else {
-						listBox->selectPreviousItem();
+						kinListBox->selectPreviousItem();
 					}
 					break;
 				case MAK_DOWN:
 					if (ind+1 < max ) {
-						listBox->setSelectedIndex(ind+1);
+						kinListBox->setSelectedIndex(ind+1);
 					} else if(currentSelectedKey==NULL) {
-						listBox->getChildren()[ind]->setSelected(false);
+						kinListBox->getChildren()[ind]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 								currentKeyPosition=i;
@@ -477,7 +477,7 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						keyPressEvent(MAK_SOFTRIGHT);
 						break;
 					}
-					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
+					if (kinListBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -487,13 +487,13 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						((AlbumLoadScreen*)next)->setDeckId(deckId);
 						next->show();
 					}
-					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
-							(listBox->getSelectedIndex() == 1 && cards.size() < 10)) {
+					else if ((kinListBox->getSelectedIndex() == 0 && cards.size() == 10) ||
+							(kinListBox->getSelectedIndex() == 1 && cards.size() < 10)) {
 						drawConfirm();
 					}
 					break;
 				case MAK_SOFTLEFT:
-					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
+					if (kinListBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -503,8 +503,8 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						((AlbumLoadScreen*)next)->setDeckId(deckId);
 						next->show();
 					}
-					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
-							(listBox->getSelectedIndex() == 1 && cards.size() < 10)) {
+					else if ((kinListBox->getSelectedIndex() == 0 && cards.size() == 10) ||
+							(kinListBox->getSelectedIndex() == 1 && cards.size() < 10)) {
 						drawConfirm();
 					}
 					else {
@@ -559,19 +559,19 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						currentSelectedKey->setSelected(false);
 						currentSelectedKey = NULL;
 						currentKeyPosition = -1;
-						listBox->getChildren()[listBox->getChildren().size()-1]->setSelected(true);
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 					}
 					else if (ind == 0) {
-						listBox->setSelectedIndex(max-1);
+						kinListBox->setSelectedIndex(max-1);
 					} else {
-						listBox->selectPreviousItem();
+						kinListBox->selectPreviousItem();
 					}
 					break;
 				case MAK_DOWN:
 					if (ind+1 < max ) {
-						listBox->setSelectedIndex(ind+1);
+						kinListBox->setSelectedIndex(ind+1);
 					} else if(currentSelectedKey==NULL) {
-						listBox->getChildren()[ind]->setSelected(false);
+						kinListBox->getChildren()[ind]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
 								currentKeyPosition=i;
