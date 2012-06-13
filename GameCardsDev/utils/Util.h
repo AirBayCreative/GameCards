@@ -62,6 +62,7 @@ class Util
 		static int getSoftKeyBarHeight();
 		static int getMaxImageHeight();
 		static int getMaxImageWidth();
+		static int getAppHeight();
 		static String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
 		static String base64_decode(String encoded_string);
 		static inline bool is_base64(unsigned char c);
@@ -93,12 +94,14 @@ class Util
 		static WidgetSkin* getIconListBack();
 		static WidgetSkin* getIconSelect();
 
+
 	private:
 
 };
 
 extern int scrWidth;
 extern int scrHeight;
+extern bool portrait;
 extern MainScreen *orig;
 extern MainScreen *origAlbum;
 extern MainScreen *origMenu;
