@@ -214,6 +214,6 @@ using namespace MAUtil;
 #ifndef _MAHeaders_H_
 #define _MAHeaders_H_
 
-static String FILE_PREFIX = "fhm_";
+static String FILE_PREFIX = "saru_";
 
 #endif
