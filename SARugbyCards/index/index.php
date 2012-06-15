@@ -112,9 +112,13 @@ function getip(){
 
 //before checking if the user is logged in,check if they are registering a new user
 if ($_GET['registeruser']) {
-	$username = $_REQUEST['username'];
+	$username = $_REQUEST['email'];
 	$password = $_REQUEST['password'];
 	$email = $_REQUEST['email'];
+	$name = $_REQUEST['name'];
+	$surname = $_REQUEST['surname'];
+	$age = $_REQUEST['age'];
+	$gender = $_REQUEST['gender'];
 	$referer = $_REQUEST['referer'];
 	
 	if (!($iHeight=$_GET['height'])) {
@@ -145,26 +149,38 @@ if(!$sUsername){
 $aUserAuth=myqu('SELECT user_id, password '
 	.'FROM mytcg_user '
 	.'WHERE username="'.$sUsername.'"');
-$aPassword=explode(':',$aUserAuth[0]['password']);
+
+	echo 'Original password'.$sPassword;
+	
+/*$aPassword=explode(':',$aUserAuth[0]['password']);
 $sCrypt=JUserHelper::getCryptedPassword($sPassword, $aPassword[1]);
 $sPasswordCrypted=$sCrypt.':'.$aPassword[1];
-$aTestPassword=explode(':',$sPasswordCrypted);
+$aTestPassword=explode(':',$sPasswordCrypted);*/
 
-if ($aTestPassword[0]==$aPassword[0]){
+echo 'user_id '.$aUserAuth[0]['user_id'];
+$user_id = $aUserAuth[0]['user_id'];
+$iMod=(intval($user_id) % 10)+1;
+
+echo 'md5($user_id) '.md5($user_id);
+echo 'md5($password) '.md5($sPassword);
+echo 'substr '.substr(md5($user_id),$iMod,10);
+
+$sPassword=substr(md5($user_id),$iMod,10).md5($sPassword);
+
+echo 'new password '.$sPassword;
+
+echo '$aPassword[0]: '.$aUserAuth[0]['password'];
+echo '$aPassword[1]: '.$sPassword;
+echo 'SELECT user_id, password '
+	.'FROM mytcg_user '
+	.'WHERE username="'.$sUsername.'"';
+
+if ($aUserAuth[0]['password']==$sPassword){
 	$iUserID=$aUserAuth[0]['user_id'];
-}
-$aValidUser=myqu(
-								"SELECT user_id, username, password, date_last_visit, credits "
-								."FROM mytcg_user "
-								."WHERE username='".$sUsername."' "
-								."AND is_active='1'"
-);
-$iUserID=$aValidUser[0]["user_id"];
-$iMod=(intval($iUserID) % 10)+1;
-$sPassword=substr(md5($iUserID),$iMod,10).md5($sPassword);
-if ($sPassword!=$aValidUser[0]['password']){
+} else {
 	$iUserID=0;
 }
+
 /*$iUserID = 89;*/
 /** exit if user not validated, send bye bye xml to be nice */
 if ($iUserID == 0){

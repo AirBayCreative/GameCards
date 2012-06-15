@@ -344,6 +344,14 @@ if ($iCard=$_GET['savecard']){
 			WHERE card_id = '.$iCard.' 
 			AND usercardstatus_id = 4
 			AND user_id = '.$iUserID.' ');
+			
+	myqui('UPDATE mytcg_tradecard SET 
+			SET status_id = 1
+			WHERE card_id = '.$iCard.'
+			AND status_id = 0
+			AND detail = (SELECT cell FROM mytcg_user where user_id = '.$iUserID.')');
+			
+			/*myqui('UPDATE mytcg_tradecard SET status_id = 1 WHERE detail = "'.$username.'" OR detail = "'.$email.'" OR detail = '.$cell.' AND status_id = 0');*/
 	
 	$sOP = "<result>Complete!</result>";
 	header('xml_length: '.strlen($sOP));

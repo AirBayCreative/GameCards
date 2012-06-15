@@ -132,7 +132,7 @@ using namespace MAUtil;
 static String FILE_PREFIX = "dex_";
 
 static String URL_BASIC = "http://mobidex.biz/";
-static String URL_PHONE = URL_BASIC+"_phone/test_index.php";
+static String URL_PHONE = URL_BASIC+"_phone/";
 static String URL_FORGOTPASSWORD = URL_BASIC+"forgotpassword/";
 static String URL_TERMS = URL_BASIC+"terms/";
 
