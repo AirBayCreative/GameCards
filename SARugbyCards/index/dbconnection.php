@@ -2,7 +2,7 @@
 
 class dbconnection {
 	function _myqu($sQuery){
-		$sMysqlConnectString='dedi94.flk1.host-h.net,sarugmhnuf_1,j2gcuH88,sarugby';
+		$sMysqlConnectString='sarugbycards.com,sarugmhnuf_1,j2gcuH88,sarugmhnuf_db1';
 		$aFileHandle=fopen('/public_html/sqlq.log','a+');
 	//	$sMysqlConnectString='localhost,root,i1m2p#i$(),gamecard';
 	//	$aFileHandle=fopen('/usr/local/www/mytcg/sqlq.log','a+');
@@ -30,7 +30,7 @@ class dbconnection {
 		return $aOutput;
 	}
 	function _myqui($sQuery){
-	  $sMysqlConnectString='dedi94.flk1.host-h.net,sarugmhnuf_1,j2gcuH88,sarugby';
+	  $sMysqlConnectString='sarugbycards.com,sarugmhnuf_1,j2gcuH88,sarugmhnuf_db1';
 	  $aFileHandle=fopen('/public_html/sqlq.log','a+');
 	  $sQueryCut=substr($sQuery,0,1024);
 	  /*fwrite($aFileHandle,date('H:i:s',time()).' '.$_SERVER['REMOTE_ADDR']

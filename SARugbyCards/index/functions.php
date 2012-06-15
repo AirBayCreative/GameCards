@@ -1713,57 +1713,6 @@ function createAuction($iCardId, $iAuctionBid, $iBuyNowPrice, $iDays, $iUserID, 
 	if ($iAuctionBid < $iBuyNowPrice) {
 		$cost = $iBuyNowPrice;
 	}
-	$cost = $cost/10;
-	if ($cost < 5) {
-		$cost = 5;
-	}
-	
-	//iAuctionType 1 = freemium, 2 = premium
-	if ($iAuctionType == '2') {
-		if ($aCheckCredits[0]['premium'] < $cost) {
-			$sOP='<user>'.$sCRLF;
-			$sOP.=$sTab.'<result>Not enough credits to create auction.</result>'.$sCRLF;  
-			$sOP.='</user>'.$sCRLF;
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		} else {
-			$getDesc=myqu('SELECT description from mytcg_card
-							WHERE card_id = '.$iCardId);
-			
-			myqui('UPDATE mytcg_user set premium = premium - '.$cost.' WHERE user_id = '.$iUserID);
-			
-			myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
-				VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.', 2)');
-		}
-	}
-	else {
-		if ($aCheckCredits[0]['credits'] < $cost) {
-			$sOP='<user>'.$sCRLF;
-			$sOP.=$sTab.'<result>Not enough credits to create auction.</result>'.$sCRLF;  
-			$sOP.='</user>'.$sCRLF;
-			header('xml_length: '.strlen($sOP));
-			echo $sOP;
-			exit;
-		} else {
-			$getDesc=myqu('SELECT description from mytcg_card
-							WHERE card_id = '.$iCardId);
-			
-			if ($aCheckCredits[0]['free'] < $cost) {
-				$spent = $cost - $aCheckCredits[0]['free'];
-				myqui('UPDATE mytcg_user set credits = credits - '.$aCheckCredits[0]['free'].' WHERE user_id = '.$iUserID);
-				myqui('UPDATE mytcg_user set premium = premium - '.$spent.' WHERE user_id = '.$iUserID);
-				
-				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
-					VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.', 3)');
-			} else {
-				myqui('UPDATE mytcg_user set credits = credits - '.$cost.' WHERE user_id = '.$iUserID);
-				
-				myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
-					VALUES ('.$iUserID.', "Spent '.$cost.' credits on creating auction for '.$getDesc[0]['description'].'.", now(), -'.$cost.'), 1');
-			}
-		}
-	}
 
 	myqui('UPDATE mytcg_usercard set loaded = 1 where usercard_id = '.$iUserCardID);
 	$aUpdate=myqui('UPDATE mytcg_usercard SET usercardstatus_id=(select usercardstatus_id from mytcg_usercardstatus where description = "auction") '
@@ -1823,7 +1772,6 @@ function auctionBid($bid, $username, $iUserID) {
 				echo $sTab.'<result>You are already the highest bidder.</result>'.$sCRLF;
 				exit;
 			}
-			/*TODO: ANDRE CONTINUE FROM HERE*/
 			if ($aBid['credits'] > $bid) {
 				echo $sTab.'<result>Placed bid must be higher than previous bid.</result>'.$sCRLF;
 				exit;
@@ -1835,6 +1783,13 @@ function auctionBid($bid, $username, $iUserID) {
 			
 			$query = "update mytcg_user set credits = credits + ".$prevBidFree.", premium = IFNULL(premium,0) + ".$prevBidPremium." where user_id = ".$prevUserId;
 			myqu($query);
+			
+			myqu("INSERT INTO mytcg_transactionlog (user_id, description, date, val)
+						VALUES(".$lastBidder['user_id'].", 'Refunded with ".$lastBidder['price']." credits for losing highest bid on ".$carName."', NOW(), ".$lastBidder['price'].")");
+						
+			myqu("INSERT INTO tcg_transaction_log (fk_user, fk_boosterpack, fk_usercard, fk_card, transaction_date, description, tcg_credits, fk_payment_channel, application_channel, mytcg_reference_id, fk_transaction_type)
+					VALUES(".$lastBidder['user_id'].", NULL, (SELECT usercard_id FROM mytcg_market WHERE market_id = ".$market_id."), (SELECT card_id FROM mytcg_usercard a, mytcg_market b WHERE a.usercard_id = b.usercard_id AND market_id = ".$market_id."), 
+					now(), 'Refunded with ".$lastBidder['price']." credits for losing highest bid on ".$carName."', ".$lastBidder['price'].", NULL, 'facebook',  (SELECT max(transaction_id) FROM mytcg_transactionlog WHERE user_id = ".$lastBidder['user_id']."), 8)");
 		}
 		
 		if ($auctionType == 1) {
