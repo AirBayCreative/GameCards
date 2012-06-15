@@ -4,26 +4,30 @@
 #include "CompareScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
-CompareScreen::CompareScreen(Screen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), previous(previous), img(img), flip(flip), card(card), feed(feed), compare(compare) {
+CompareScreen::CompareScreen(MainScreen *previous, MAHandle img, Feed *feed, bool flip, Card *card, Card *compare) :mHttp(this), img(img), flip(flip), card(card), compare(compare) {
 	lprintfln("CompareScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	busy = false;
 	next = NULL;
 	currentSelectedStat = -1;
 	flipOrSelect = 0;
 	imageCache = new ImageCache();
-
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	if (card != NULL) {
 		mainLayout = Util::createImageLayout("", "Back", "Flip");
-		listBox = (ListBox*) mainLayout->getChildren()[0];
-		height = listBox->getHeight();
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0];
+		height = kinListBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
-		listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-		height = listBox->getHeight()-70;
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		height = kinListBox->getHeight()-70;
 	}
-	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
-	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, kinListBox, false, false, Util::loadImageFromResource(img));
+	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, kinListBox, false, false, Util::loadImageFromResource(img));
 	this->setMain(mainLayout);
 	if (card != NULL && compare != NULL) {
 		if (flip) {
@@ -134,7 +138,7 @@ CompareScreen::~CompareScreen() {
 		maDestroyObject(imge->getResource());
 	}
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	img = -1;
@@ -151,11 +155,11 @@ CompareScreen::~CompareScreen() {
 
 void CompareScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -165,43 +169,138 @@ void CompareScreen::clearListBox() {
 }
 
 void CompareScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch (keyCode) {
+		case MAK_FIRE:
+				if(currentSoftKeys->getChildren()[0]->isSelected()){
+					keyPressEvent(MAK_SOFTLEFT);
+					break;
+				}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+					keyPressEvent(MAK_SOFTRIGHT);
+					break;
+				}
+				Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
+				currentSoftKeys->getChildren()[1]->setSelected(true);
+				imge->refreshWidget();
+				imge->statAdded = false;
+				currentSelectedStat = -1;
+
+				flip=!flip;
+				if (imge->getResource() != NULL) {
+					maDestroyObject(imge->getResource());
+				}
+				if (cmpge->getResource() != NULL) {
+					maDestroyObject(cmpge->getResource());
+				}
+				imge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				imge->update();
+				imge->requestRepaint();
+
+				cmpge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				cmpge->update();
+				cmpge->requestRepaint();
+
+				maUpdateScreen();
+				if (flip) {
+					Util::retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
+				} else {
+					Util::retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
+				}
+				currentSelectedStat = -1;
 		case MAK_UP:
 		case MAK_DOWN:
-		case MAK_FIRE:
-			Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
-			imge->refreshWidget();
-			imge->statAdded = false;
-			currentSelectedStat = -1;
 
-			flip=!flip;
-			if (imge->getResource() != NULL) {
-				maDestroyObject(imge->getResource());
-			}
-			if (cmpge->getResource() != NULL) {
-				maDestroyObject(cmpge->getResource());
-			}
-			imge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
-			imge->update();
-			imge->requestRepaint();
-
-			cmpge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
-			cmpge->update();
-			cmpge->requestRepaint();
-
-			maUpdateScreen();
-			if (flip) {
-				Util::retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
-				Util::retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
-			} else {
-				Util::retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
-				Util::retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
-			}
-			currentSelectedStat = -1;
 			break;
 		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else{
+				Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
+				imge->refreshWidget();
+				imge->statAdded = false;
+				currentSelectedStat = -1;
+				flip=!flip;
+				if (imge->getResource() != NULL) {
+					maDestroyObject(imge->getResource());
+				}
+				if (cmpge->getResource() != NULL) {
+					maDestroyObject(cmpge->getResource());
+				}
+				imge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				imge->update();
+				imge->requestRepaint();
+				cmpge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				cmpge->update();
+				cmpge->requestRepaint();
+
+				maUpdateScreen();
+				if (flip) {
+					Util::retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
+				} else {
+					Util::retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
+				}
+				currentSelectedStat = -1;
+			}
 			break;
 		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			} else{
+				Util::updateSoftKeyLayout("", "Back", "Flip", mainLayout);
+				imge->refreshWidget();
+				imge->statAdded = false;
+				currentSelectedStat = -1;
+
+				flip=!flip;
+				if (imge->getResource() != NULL) {
+					maDestroyObject(imge->getResource());
+				}
+				if (cmpge->getResource() != NULL) {
+					maDestroyObject(cmpge->getResource());
+				}
+				imge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				imge->update();
+				imge->requestRepaint();
+
+				cmpge->setResource(Util::loadImageFromResource(RES_LOADING_FLIP1));
+				cmpge->update();
+				cmpge->requestRepaint();
+				maUpdateScreen();
+				if (flip) {
+					Util::retrieveBackFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveBackFlip(cmpge, compare, height-PADDING*2, imageCache);
+				} else {
+					Util::retrieveFrontFlip(imge, card, height-PADDING*2, imageCache);
+					Util::retrieveFrontFlip(cmpge, compare, height-PADDING*2, imageCache);
+				}
+				currentSelectedStat = -1;
+			}
 			break;
 		case MAK_SOFTLEFT:
 			break;

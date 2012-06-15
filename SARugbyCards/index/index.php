@@ -150,14 +150,6 @@ $sCrypt=JUserHelper::getCryptedPassword($sPassword, $aPassword[1]);
 $sPasswordCrypted=$sCrypt.':'.$aPassword[1];
 $aTestPassword=explode(':',$sPasswordCrypted);
 
-echo 'sizeof($aUserAuth): '.sizeof($aUserAuth);
-echo '$aTestPassword[0]: '.$aTestPassword[0];
-echo '$aPassword[0]: '.$aPassword[0];
-echo '$aPassword[0]: '.$aPassword[1];
-echo 'SELECT user_id, password '
-	.'FROM mytcg_user '
-	.'WHERE username="'.$sUsername.'"';
-
 if ($aTestPassword[0]==$aPassword[0]){
 	$iUserID=$aUserAuth[0]['user_id'];
 }

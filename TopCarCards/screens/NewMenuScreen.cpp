@@ -11,6 +11,8 @@
 #include "OptionsScreen.h"
 #include "NewVersionScreen.h"
 #include "TradeFriendDetailScreen.h"
+#include "MenuTestScreen.h"
+#include "TutorialScreen.h"
 #include "../utils/Util.h"
 
 static item menuItems[] =
@@ -31,8 +33,20 @@ static item menuItems[] =
 	{ RES_LOGOUT_THUMB, RES_LOGOUT, OP_LOGOUT }
 };
 
-NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), feed(feed), screenType(screenType) {
+/*static tutItem tutItems[] =
+{
+	{RES_TUT_1, "1", 1},
+	{RES_TUT_2, "2", 2},
+	{RES_TUT_3, "3", 3},
+	{RES_TUT_4, "4", 4},
+	{RES_TUT_5, "5", 5},
+	{RES_TUT_6, "6", 6},
+	{RES_TUT_7, "7", 7}
+};*/
+
+NewMenuScreen::NewMenuScreen(Feed *feed) : mHttp(this), screenType(screenType) {
 	lprintfln("NewMenuScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->feed = feed;
 
 	int itemCount = sizeof(menuItems)/sizeof(item);
 
@@ -328,6 +342,7 @@ void NewMenuScreen::show() {
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?notedate=1", URL);
+		lprintfln("%s", url);
 		int res = mHttp.create(url, HTTP_GET);
 		if(res < 0) {
 		} else {
@@ -336,7 +351,7 @@ void NewMenuScreen::show() {
 			feed->addHttp();
 			mHttp.finish();
 		}
-		delete [] url;
+		delete url;
 		url = NULL;
 	}
 	versionChecked = 0;
@@ -469,6 +484,7 @@ void NewMenuScreen::xcConnError(int code) {
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?update=1.04&imsi=%d&imei=%d&os=%s&make=%s&model=%s&touch=%d&width=%d&height=%d", URL,
 					imsi, imei, os, make, model, touch, scrWidth, scrHeight);
+			lprintfln("%s", url);
 			int res = mHttp.create(url, HTTP_GET);
 			if(res < 0) {
 

@@ -14,13 +14,14 @@
 #include "../utils/Card.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class GameCardScreen : public Screen, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
+class GameCardScreen : public MainScreen, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
 public:
-	GameCardScreen(Screen *previous, Feed *feed, int screenType = -1);
+	GameCardScreen(MainScreen *previous, Feed *feed, int screenType = -1);
 	~GameCardScreen();
 	void clearListBox();
 	void keyPressEvent(int keyCode);
@@ -31,14 +32,6 @@ public:
 	void locateItem(MAPoint2d point);
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
-
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *label;
-	Feed *feed;
-
-	Screen *next, *previous;
 
 	bool list, left, right;
 	int moved;

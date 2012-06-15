@@ -9,13 +9,14 @@
 #include "../utils/XmlConnection.h"
 #include "../utils/Card.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumLoadScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumLoadScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	AlbumLoadScreen(Screen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false, Card *card = NULL, String CategoryId = "");
+	AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false, Card *card = NULL, String CategoryId = "");
 	~AlbumLoadScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -37,26 +38,19 @@ public:
 
 	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_LOBBY, ST_COMPARE, ST_AUCTION, ST_DECK};
 private:
-
-	Screen *previous;
-	Screen *next;
+	Widget* currentSelectedKey;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	Vector<String> path;
 	String parentTag;
 	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId;
-	int size, i, moved, screenType, xStart;
+	int size, i, moved, screenType, xStart, currentKeyPosition;
 	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction, shown;
 
-	Layout *mainLayout;
-	ListBox *midListBox, *listBox;
-	Label *notice, *label;
+	ListBox *midListBox;
 	Image *leftArrow, *rightArrow;
 
-	Feed *feed;
-	Albums *album;
 	Card *card;
 
 	int selectedList;

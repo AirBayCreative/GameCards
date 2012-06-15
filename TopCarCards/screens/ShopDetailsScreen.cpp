@@ -10,12 +10,17 @@
 #include "ImageScreen.h"
 #include "AuctionListScreen.h"
 
-ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : mHttp(this), previous(previous), feed(feed), screenType(screenType), product(product), auction(auction), first(first), free(free) {
+ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : mHttp(this), screenType(screenType), product(product), auction(auction), first(first), free(free) {
 	lprintfln("ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	next = NULL;
 	buynow = false;
+	purchaseMenu = NULL;
 	success = false;
 	expired = false;
+	credits = "0";
+	premium = "0";
 	confirmbuynow = false;
 	if (screenType == ST_AUCTION)
 	{
@@ -40,26 +45,26 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 		mainLayout = Util::createMainLayout("Purchase", "Back", "Cards", true);
 
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next = NULL;
 
 	if ((first)||(free)) {
-		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 300 credits and a free starter pack.", 0, Util::getDefaultSelected());
+		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, "Received: 150 credits and a free starter pack.", 0, Util::getDefaultSelected());
 		label->setMultiLine(true);
 		label->setDrawBackground(false);
-		listBox->add(label);
+		kinListBox->add(label);
 	} else if (screenType != ST_USER) {
-		String msg = "Current credits: " + feed->getCredits();
-		label = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
+		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+		creditlabel = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
-		label->setMultiLine(true);
-		label->setDrawBackground(false);
-		listBox->add(label);
+		creditlabel->setMultiLine(true);
+		creditlabel->setDrawBackground(false);
+		kinListBox->add(creditlabel);
 	}
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/140, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/140, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->addWidgetListener(this);
 
@@ -137,7 +142,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			label->setMultiLine();
 			label->setAutoSizeY();
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 
 			label = Util::createEditLabel("");
 			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
@@ -155,7 +160,7 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 			editBidBox->setSelected(true);
 			label->setSelected(true);
 			label->addWidgetListener(this);
-			listBox->add(label);
+			kinListBox->add(label);
 		}
 	}
 
@@ -168,7 +173,31 @@ ShopDetailsScreen::ShopDetailsScreen(Screen *previous, Feed *feed, int screenTyp
 
 void ShopDetailsScreen::refresh()
 {
+	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	creditlabel->setCaption(msg.c_str());
 	show();
+}
+
+void ShopDetailsScreen::menuOptionSelected(int index) {
+
+	String choice = purchaseMenu->getItem(index+1);
+	if ((!strcmp(choice.c_str(), "Cancel"))||(!strcmp(choice.c_str(), "Ok"))) {
+		show();
+		return;
+	} else if (!strcmp(choice.c_str(), "Credits")) {
+		choice = "1";
+	} else if (!strcmp(choice.c_str(), "Premium")) {
+		choice = "2";
+	} else if (!strcmp(choice.c_str(), "Combo")) {
+		choice = "3";
+	}
+	if (next != NULL) {
+		delete next;
+		feed->remHttp();
+		next = NULL;
+	}
+	next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY, false, NULL, choice);
+	next->show();
 }
 
 void ShopDetailsScreen::runTimerEvent() {
@@ -269,7 +298,7 @@ String ShopDetailsScreen::getTime() {
 ShopDetailsScreen::~ShopDetailsScreen() {
 	lprintfln("~ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if(mImageCache != NULL){
@@ -296,10 +325,17 @@ ShopDetailsScreen::~ShopDetailsScreen() {
 	fullDesc = "";
 	parentTag = "";
 	result = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	temp = "";
 	temp1 = "";
 	error_msg = "";
+
+
+	if (purchaseMenu != NULL) {
+		delete purchaseMenu;
+	}
+	purchaseMenu = NULL;
 
 }
 
@@ -370,6 +406,60 @@ void ShopDetailsScreen::selectionChanged(Widget *widget, bool selected) {
 	}
 }
 
+void ShopDetailsScreen::purchase() {
+
+	int credits = Convert::toInt(feed->getCredits().c_str());
+	int premium = Convert::toInt(feed->getPremium().c_str());
+	int premiumprice = Convert::toInt(product->getPremium().c_str());
+	int creditprice = Convert::toInt(product->getPrice().c_str());
+
+	if (((credits+premium >= creditprice)&&(creditprice>0))||(premium>=premiumprice&&premiumprice>0)) {
+
+		purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
+		purchaseMenu->setMenuWidth(140);
+		purchaseMenu->setMarginX(5);
+		purchaseMenu->setMarginY(5);
+		purchaseMenu->setDock(MenuScreen::MD_CENTER);
+		purchaseMenu->setMenuFontSel(Util::getFontBlack());
+		purchaseMenu->setMenuFontUnsel(Util::getFontWhite());
+		purchaseMenu->setMenuSkin(Util::getSkinDropDownItem());
+
+		bool b_credits = false;
+		bool b_premium = false;
+		bool b_combo = false;
+
+		if ((credits >= creditprice)&&(creditprice > 0)) {
+			purchaseMenu->addItem("Credits");
+			b_credits = true;
+		}
+		if (((premium >= premiumprice)&&(premiumprice > 0))||(premium >= creditprice)) {
+			purchaseMenu->addItem("Premium");
+			b_premium = true;
+		}
+		if (!b_credits||!b_premium) {
+			if (((premium+credits) >= creditprice)&&(creditprice > 0)) {
+				purchaseMenu->addItem("Combo");
+				b_combo = true;
+			}
+		}
+		purchaseMenu->addItem("Cancel");
+		purchaseMenu->setListener(this);
+		purchaseMenu->show();
+	} else {
+		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
+		purchaseMenu->setMenuWidth(180);
+		purchaseMenu->setMarginX(5);
+		purchaseMenu->setMarginY(5);
+		purchaseMenu->setDock(MenuScreen::MD_CENTER);
+		purchaseMenu->setListener(this);
+		purchaseMenu->setMenuFontSel(Util::getFontBlack());
+		purchaseMenu->setMenuFontUnsel(Util::getFontWhite());
+		purchaseMenu->setMenuSkin(Util::getSkinDropDownItem());
+		purchaseMenu->addItem("Ok");
+		purchaseMenu->show();
+	}
+}
+
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_FIRE:
@@ -416,10 +506,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 				case ST_PRODUCT:
 					if (free) {
 						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_FREE);
+						next->show();
 					} else {
-						next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY);
+						purchase();
 					}
-					next->show();
 					break;
 			}
 			break;
@@ -439,10 +529,10 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 	}
 }
@@ -479,12 +569,15 @@ void ShopDetailsScreen::mtxTagData(const char* data, int len) {
 		result = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits = data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		premium = data;
 	}
 }
 
 void ShopDetailsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "credits")) {
 		feed->setCredits(credits.c_str());
+		feed->setPremium(premium.c_str());
 		success = true;
 	}
 	if (bidOrBuy) {
@@ -537,6 +630,7 @@ void ShopDetailsScreen::postBid()
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?auctionbid=1&username=%s&bid=%s&auctioncardid=%s", URL, feed->getUsername().c_str(), editBidBox->getCaption().c_str() , auction->getAuctionCardId().c_str());
+			lprintfln("%s", url);
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -566,10 +660,9 @@ void ShopDetailsScreen::buyNow()
 		bool canPurchase;
 
 		//check that the user can afford the buy out price
-		if (atof(feed->getCredits().c_str()) >= atof(auction->getBuyNowPrice().c_str())) {
+		if ((atof(feed->getCredits().c_str())+atof(feed->getPremium().c_str())) >= atof(auction->getBuyNowPrice().c_str())) {
 			canPurchase = true;
-		}
-		else {
+		} else {
 			canPurchase = false;
 		}
 
@@ -584,6 +677,7 @@ void ShopDetailsScreen::buyNow()
 			char *url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?buyauctionnow=1&auctioncardid=%s", URL, auction->getAuctionCardId().c_str());
+			lprintfln("%s", url);
 
 			if(mHttp.isOpen()){
 				mHttp.close();
@@ -616,7 +710,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("", "Back", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
@@ -632,11 +726,11 @@ void ShopDetailsScreen::drawPostBid(String message)
 	//label->setSkin(Util::getSkinBack());
 	label->setMultiLine(true);
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/115, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -713,7 +807,7 @@ void ShopDetailsScreen::drawBuyNow()
 
 	if (mainLayout == NULL) {
 		mainLayout = Util::createMainLayout("Confirm", "Back", true);
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 		notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	}
 	else {
@@ -730,11 +824,11 @@ void ShopDetailsScreen::drawBuyNow()
 	//label->setSkin(Util::getSkinBack());
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), /*74*/115, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), /*74*/115, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -809,11 +903,11 @@ void ShopDetailsScreen::clearListBox() {
 	}
 
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -834,10 +928,6 @@ String ShopDetailsScreen::validateBid(){
 	if (bid.length() == 0) {
 		errorString = "Please enter a bid.";
 	}
-
-	//else if (atof(bid.c_str()) >= atof(feed->getCredits().c_str())) {
-		//errorString = "You do not have enough credits to make that bid.";
-	//}
 	else if (auction->getPrice().length() > 0 && (atof(auction->getPrice().c_str()) >= atof(bid.c_str()))) {
 		errorString = "Your bid needs to be higher than the current bid.";
 	}

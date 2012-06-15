@@ -6,18 +6,19 @@
 
 #include "GameCardScreen.h"
 
-GameCardScreen::GameCardScreen(Screen *previous, Feed *feed, int screenType)
-	: mHttp(this), previous(previous), feed(feed), screenType(screenType) {
-
+GameCardScreen::GameCardScreen(MainScreen *previous, Feed *feed, int screenType)
+	: mHttp(this), screenType(screenType) {
+	this->previous = previous;
+	this->feed = feed;
 	moved=0;
 }
 void GameCardScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

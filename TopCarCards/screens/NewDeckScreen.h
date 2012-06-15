@@ -9,13 +9,14 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class NewDeckScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class NewDeckScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	NewDeckScreen(Screen *previous, Feed *feed);
+	NewDeckScreen(MainScreen *previous, Feed *feed);
 	~NewDeckScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -26,11 +27,6 @@ public:
 	void locateItem(MAPoint2d point);
 
 private:
-	Screen *previous;
-	Screen *next;
-	Layout *mainLayout;
-	Label *label, *notice;
-	KineticListBox *listBox;
 	NativeEditBox *editBoxName;
 
 	bool list, left, right, busy, empty;
@@ -40,10 +36,7 @@ private:
 	Album *album;
 	Vector<Album*> albums;
 
-	Feed *feed;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	void validateInput();
 

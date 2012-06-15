@@ -11,13 +11,14 @@
 #include "../utils/Feed.h"
 #include "../utils/Album.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DeckListScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class DeckListScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	DeckListScreen(Screen *previous, Feed *feed, int screenType = 0, String categoryId = 0);
+	DeckListScreen(MainScreen *previous, Feed *feed, int screenType = 0, String categoryId = 0);
 	~DeckListScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -30,20 +31,12 @@ public:
 	enum screenTypes {ST_EDIT=0, ST_SELECT};
 	void refresh();
 private:
-	Screen *previous;
-	Screen *next;
-
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* kinListBox;
-	Label *lbl, *notice;
-	Album *album;
 	Vector<Album*> albums;
+	Album *album;
 
 	bool list, left, right, selecting;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, categoryId;
 	String deckId, description;

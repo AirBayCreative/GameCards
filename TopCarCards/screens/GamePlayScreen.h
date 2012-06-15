@@ -12,13 +12,14 @@
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class GamePlayScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
+class GamePlayScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, public MAUtil::TimerListener {
 public:
-	GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false, String deckId="", int lobby=0, String gameid="-1"); //the newGameType should correspond to one of the ng vars in the Util.h
+	GamePlayScreen(MainScreen *previous, Feed *feed, bool newGame, String identifier, String newGameType=0, bool againstFriend=false, String deckId="", int lobby=0, String gameid="-1"); //the newGameType should correspond to one of the ng vars in the Util.h
 	~GamePlayScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -35,19 +36,14 @@ public:
 	typedef Vector<CardStat*> CardStatVector;
 	enum phases {P_CARD_DETAILS = 0, P_RESULTS, P_LOADING, P_OPPMOVE, P_LFM, P_CONFIRM, P_DECLINED, P_CLOSED, P_FRIEND};
 private:
-	Screen *next, *previous;
 	NativeEditBox *editBoxFriend;
 	ImageCache *imageCacheUser, *imageCacheOpp;
 	MobImage *userImage, *oppImage;
-	Label *notice, *label;
-	KineticListBox *listBox;
-	Layout *mainLayout;
 	Layout **feedLayouts;
 	Widget *widImage, *widNotice;
 
 	MAUtil::HttpConnection* tempHttp;
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, cardText, gameId, categoryId, lastMove, deckId;
 	String id, description, gamePlayerCardId, thumburl, fronturl, backurl, error_msg, frontflipurl, backflipurl;
@@ -60,7 +56,6 @@ private:
 	Card *card, *oppCard, *gcCard;
 
 	Stat *newStat;
-	Feed *feed;
 	Vector<Stat*> cardStats;
 	Vector<String> index, stats;
 

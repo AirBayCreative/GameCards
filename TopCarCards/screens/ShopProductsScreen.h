@@ -10,18 +10,20 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopProductsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopProductsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free, bool first=false);
+	ShopProductsScreen(MainScreen *previous, Feed *feed, String category, bool free, bool first=false);
 	~ShopProductsScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
 	void drawList();
 	void pop();
+	void refresh();
 	void clearListBox();
 
 	void pointerPressEvent(MAPoint2d point);
@@ -31,22 +33,15 @@ public:
 
 	typedef Vector<Product*> ProductVector;
 private:
-	Screen *next, *previous;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
-	Label *notice, *label;
-	KineticListBox *listBox;
-	Layout *mainLayout;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag,cardText;
-	String id, productType, productName, price, thumb, cardsInPack, category, cred;
-	int i, moved;
-	bool list, left, right, emp, free, credits, first;
+	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem,productprem;
+	int i,moved;
+	bool list,left,right,emp,free,credits,first;
 
-	Feed *feed;
 	ProductVector products;
 	Product *product;
 

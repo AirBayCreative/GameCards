@@ -2,10 +2,13 @@
 
 #include "NoteScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
-NoteScreen::NoteScreen(Screen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this), previous(previous),
-feed(feed), card(card), screenType(screenType), detail(detail) {
+NoteScreen::NoteScreen(MainScreen *previous, Feed *feed, Card *card, int screenType, String detail) : mHttp(this),
+card(card), screenType(screenType), detail(detail) {
 	lprintfln("NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	moved = 0;
 	list = false;
 	left = false;
@@ -16,6 +19,8 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	note = "";
 	encodedNote = "";
 	origionalNote = "";
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	switch (screenType) {
 		case ST_CARD_NOTE:
@@ -26,7 +31,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 		break;
 	}
 
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
 	Layout *feedlayout;
@@ -45,7 +50,7 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			cardText += card->getRanking();
 			//cardText += "\nRarity: ";
 
-			feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+			feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 			feedlayout->setSkin(Util::getSkinAlbum());
 			feedlayout->setDrawBackground(false);
 			feedlayout->addWidgetListener(this);
@@ -69,16 +74,19 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 			label->setMultiLine();
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Note", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 			break;
 		case ST_SMS:
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "SMS", 0, Util::getDefaultFont());
 			label->setDrawBackground(false);
-			listBox->add(label);
+			kinListBox->add(label);
 		break;
 	}
-
-	label =  new Label(0,0, scrWidth-(PADDING*2), (listBox->getHeight()-(feedlayout->getHeight()+48)), NULL, "", 0, Util::getDefaultFont());
+	int height = 48;
+	if((kinListBox->getHeight()-(feedlayout->getHeight()+48)) > 48){
+		height = (kinListBox->getHeight()-(feedlayout->getHeight()+48));
+	}
+	label =  new Label(0,0, scrWidth-(PADDING*2), height, NULL, "", 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
 	Util::setPadding(label);
 
@@ -94,18 +102,18 @@ feed(feed), card(card), screenType(screenType), detail(detail) {
 	}
 
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 
-	editBoxNote->setSelected(true);
-	listBox->setSelectedIndex(1);
+	label->setSelected(true);
+	kinListBox->setSelectedIndex(1);
 }
 
 NoteScreen::~NoteScreen() {
 	lprintfln("~NoteScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 
@@ -122,11 +130,11 @@ NoteScreen::~NoteScreen() {
 }
 void NoteScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -178,7 +186,7 @@ void NoteScreen::locateItem(MAPoint2d point){
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	if (moved <= 1) listBox->setSelectedIndex(i);
+        	if (moved <= 1) kinListBox->setSelectedIndex(i);
         	list = true;
             return;
         }
@@ -206,6 +214,7 @@ void NoteScreen::selectionChanged(Widget *widget, bool selected) {
 }
 
 void NoteScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_SOFTLEFT:
 			note = editBoxNote->getCaption();
@@ -221,6 +230,7 @@ void NoteScreen::keyPressEvent(int keyCode) {
 							char *url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?savenote=%s&cardid=%s", URL, encodedNote.c_str(), card->getId().c_str());
+							lprintfln("%s", url);
 							if(mHttp.isOpen()){
 								mHttp.close();
 							}
@@ -255,6 +265,66 @@ void NoteScreen::keyPressEvent(int keyCode) {
 			editBoxNote->disableListener();
 			clearListBox();
 			previous->show();
+			break;
+		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}
+			break;
+		case MAK_UP:
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			break;
+		case MAK_DOWN:
+			if(currentSelectedKey==NULL){
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
 			break;
 	}
 }
