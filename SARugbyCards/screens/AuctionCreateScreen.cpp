@@ -160,7 +160,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 				case MAK_DOWN:
 					if (kinListBox->getSelectedIndex() < 5) {
 						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() + 2);
-					} else {
+					} else if(currentSelectedKey==NULL){
 						kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -448,9 +448,13 @@ void AuctionCreateScreen::drawDataInputScreen() {
 	Util::retrieveThumb(tempImage, card, mImageCache);
 
 	String cardText = card->getText();
-	cardText += "\nOwned: ";
+	cardText += " (";
 	cardText += card->getQuantity();
+	cardText += ")";
+	cardText += "\nValue: ";
+	cardText += card->getValue();
 	cardText += "\n";
+	cardText += card->getRarity();
 
 	label = new Label(0,0, scrWidth-86, 74, feedlayout, cardText, 0, Util::getDefaultFont());
 	label->setVerticalAlignment(Label::VA_CENTER);
@@ -596,11 +600,11 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 120, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -701,13 +705,11 @@ void AuctionCreateScreen::mtxTagData(const char* data, int len) {
 }
 
 void AuctionCreateScreen::mtxTagEnd(const char* name, int len) {
-	if (!strcmp(name, "result")) {
-		notice->setCaption("");
-		busy = false;
+	notice->setCaption("");
+	busy = false;
 
-		screenMode = ST_CREATED;
-		drawCreatedScreen();
-	}
+	screenMode = ST_CREATED;
+	drawCreatedScreen();
 }
 
 void AuctionCreateScreen::mtxParseError(int) {

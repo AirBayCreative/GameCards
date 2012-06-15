@@ -9,12 +9,15 @@
 #include "ShopProductsScreen.h"
 #include "ImageScreen.h"
 #include "AuctionListScreen.h"
+#include "../UI/Button.h"
 
 ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int screenType, bool free, Product *product, Auction *auction, bool first) : mHttp(this), screenType(screenType), product(product), auction(auction), first(first), free(free) {
 	lprintfln("ShopDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
 	next = NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	buynow = false;
 	purchaseMenu = NULL;
 	success = false;
@@ -54,7 +57,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 		label->setDrawBackground(false);
 		kinListBox->add(label);
 	} else if (screenType != ST_USER) {
-		String msg = "Premium Credits: " + feed->getPremium();
+		String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
 		creditlabel = new Label(0,0, scrWidth-PADDING*2, 36, NULL, msg.c_str(), 0, Util::getDefaultSelected());
 		msg = "";
 		creditlabel->setMultiLine(true);
@@ -97,7 +100,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			nameDesc = auction->getCard()->getText();
 			fullDesc = nameDesc;
 			fullDesc += "\nBid: ";
-			if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
+			if(!strcmp(auction->getPrice().c_str(), "")) {
 				fullDesc += auction->getOpeningBid();
 			} else {
 				fullDesc += auction->getPrice();
@@ -147,13 +150,13 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			label = Util::createEditLabel("");
 			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
 			int num;
-			if ((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
+			if (!strcmp(auction->getPrice().c_str(), "")) {
 				num = Convert::toInt(auction->getOpeningBid().c_str());
 				num+=1;
 				editBidBox->setText(Convert::toString(num));
 			} else {
 				num = Convert::toInt(auction->getPrice().c_str());
-				num+=1;
+				num+=10;
 				editBidBox->setText(Convert::toString(num));
 			}
 			editBidBox->setDrawBackground(false);
@@ -173,7 +176,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 
 void ShopDetailsScreen::refresh()
 {
-	String msg = "Premium Credits: " + feed->getPremium();
+	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
 	creditlabel->setCaption(msg.c_str());
 	show();
 }
@@ -206,7 +209,7 @@ void ShopDetailsScreen::runTimerEvent() {
 	{
 		String fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
+		if(!strcmp(auction->getPrice().c_str(), "")) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -415,15 +418,7 @@ void ShopDetailsScreen::purchase() {
 
 	if (((credits+premium >= creditprice)&&(creditprice>0))||(premium>=premiumprice&&premiumprice>0)) {
 
-
-		if (next != NULL) {
-			delete next;
-			feed->remHttp();
-			next = NULL;
-		}
-		next = new AlbumViewScreen(this, feed, product->getId(), AlbumViewScreen::AT_BUY, false, NULL, "2");
-		next->show();
-		/*purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
+		purchaseMenu = new MenuScreen(RES_BLANK, "Purchase with:");
 		purchaseMenu->setMenuWidth(140);
 		purchaseMenu->setMarginX(5);
 		purchaseMenu->setMarginY(5);
@@ -452,9 +447,9 @@ void ShopDetailsScreen::purchase() {
 		}
 		purchaseMenu->addItem("Cancel");
 		purchaseMenu->setListener(this);
-		purchaseMenu->show();*/
+		purchaseMenu->show();
 	} else {
-		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. You can go to Credits to purchase more.");
+		purchaseMenu = new MenuScreen(RES_BLANK, "Insufficient funds. Go to Credits screen to get more.");
 		purchaseMenu->setMenuWidth(180);
 		purchaseMenu->setMarginX(5);
 		purchaseMenu->setMarginY(5);
@@ -469,8 +464,18 @@ void ShopDetailsScreen::purchase() {
 }
 
 void ShopDetailsScreen::keyPressEvent(int keyCode) {
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 			if (hasBid)
 				break;
 
@@ -537,10 +542,55 @@ void ShopDetailsScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_UP:
-			kinListBox->selectPreviousItem();
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+			}
 			break;
 		case MAK_DOWN:
-			kinListBox->selectNextItem();
+			if(currentSelectedKey==NULL){
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
 			break;
 	}
 }
@@ -771,7 +821,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 		nameDesc = auction->getCard()->getText();
 		fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
+		if(!strcmp(auction->getPrice().c_str(), "")) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -852,7 +902,7 @@ void ShopDetailsScreen::drawBuyNow()
 	nameDesc = auction->getCard()->getText();
 	String fullDesc = nameDesc;
 	fullDesc += "\nBid: ";
-	if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
+	if(!strcmp(auction->getPrice().c_str(), "")) {
 		fullDesc += auction->getOpeningBid();
 	} else {
 		fullDesc += auction->getPrice();
