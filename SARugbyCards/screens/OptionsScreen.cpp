@@ -5,10 +5,12 @@
 #include "AuctionListScreen.h"
 #include "AlbumLoadScreen.h"
 #include "AlbumViewScreen.h"
+#include "GameDetailsScreen.h"
 #include "NoteScreen.h"
 #include "DetailScreen.h"
 #include "Login.h"
 #include "CompareScreen.h"
+#include "GamePlayScreen.h"
 #include "../utils/Util.h"
 #include "../utils/Albums.h"
 #include "../UI/Button.h"
@@ -54,6 +56,32 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 			label->addWidgetListener(this);
 			kinListBox->add(label);
 			label = Util::createSubLabel("Create New Auction");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			break;
+		case ST_PLAY_OPTIONS:
+			checkForGames();
+			this->setMain(mainLayout);
+			return;
+		case ST_GAME_OPTIONS:
+			label = Util::createSubLabel("Leave Game");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("View Game Log");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			break;
+		case ST_NEW_GAME_OPTIONS:
+			label = Util::createSubLabel("Play versus PC");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Play Quick Match");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Play versus friend");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Game Lobby");
 			label->addWidgetListener(this);
 			kinListBox->add(label);
 			break;
@@ -302,6 +330,79 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 						next->show();
 					}
 					break;
+				case ST_PLAY_OPTIONS:
+					if(index == 0 && !connError) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_PLAY);
+						next->show();
+					}
+					else if (index == 1 && !connError) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_GAMES, album);
+						next->show();
+					}
+					break;
+				case ST_GAME_OPTIONS:
+					if(index == 0) {
+						origMenu->show();
+					}
+					else if (index == 1) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new GameDetailsScreen(feed, GameDetailsScreen::ST_GAME_LOG);
+						next->show();
+					}
+					break;
+				case ST_NEW_GAME_OPTIONS:
+					if (index == 0) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new GamePlayScreen(this, feed, true, number, "1", false, deckId);
+						next->show();
+					}
+					else if (index == 1) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new GamePlayScreen(this, feed, true, number, "2", false, deckId);
+						next->show();
+					}
+					else if (index == 2) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new GamePlayScreen(this, feed, true, number, "2", true, deckId);
+						next->show();
+					}
+					else if (index == 3) {
+						if (next != NULL) {
+							delete next;
+							feed->remHttp();
+							next = NULL;
+						}
+						next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_LOBBY, album,false,NULL,number);
+						((AlbumLoadScreen*)next)->setDeckId(deckId);
+						next->show();
+					}
+					break;
 				case ST_CARD_OPTIONS:
 					if (index == 0) {
 						if (next != NULL) {
@@ -416,7 +517,7 @@ void OptionsScreen::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			if (ind+1 < kinListBox->getChildren().size()) {
 				kinListBox->setSelectedIndex(ind+1);
-			} else {
+			} else if(currentSelectedKey==NULL){
 				kinListBox->getChildren()[ind]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -583,7 +684,32 @@ void OptionsScreen::mtxTagData(const char* data, int len) {
 }
 
 void OptionsScreen::mtxTagEnd(const char* name, int len) {
-	if(!strcmp(name, "result")) {
+	if(!strcmp(name, "game")) {
+		album->addAlbum(temp.c_str(), temp1.c_str());
+		temp1 = "";
+		temp = "";
+	} else if (!strcmp(name, "games")) {
+		notice->setCaption("");
+		if (album->size() > 0) {
+			label = Util::createSubLabel("New Game");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+			label = Util::createSubLabel("Continue Game");
+			label->addWidgetListener(this);
+			kinListBox->add(label);
+
+			kinListBox->setSelectedIndex(0);
+		}
+		else {
+			if (next != NULL) {
+				delete next;
+				feed->remHttp();
+				next = NULL;
+			}
+			next = new AlbumLoadScreen(previous, feed, AlbumLoadScreen::ST_PLAY);
+			next->show();
+		}
+	} else if(!strcmp(name, "result")) {
 		((AlbumViewScreen *)origAlbum)->refresh();
 	}  else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
