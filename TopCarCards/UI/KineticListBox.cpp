@@ -339,17 +339,17 @@ namespace MAUI {
                             MAPoint2d translation = Gfx_getTranslation();
                             if(res)
                             {
-                                    for(i = 0; i < children.size(); i++)
-                                    {
-                                            /**
-                                             * The check wether the child should be drawn or
-                                             * not is done in Widget::draw(), and we postpone
-                                             * the check until then.
-                                             *
-                                             * // Mattias
-                                             */
-                                            children[i]->draw();
-                                    }
+								for(i = 0; i < children.size(); i++)
+								{
+										/**
+										 * The check wether the child should be drawn or
+										 * not is done in Widget::draw(), and we postpone
+										 * the check until then.
+										 *
+										 * // Mattias
+										 */
+										children[i]->draw();
+							}
                             }
                             setDirty(false);
 

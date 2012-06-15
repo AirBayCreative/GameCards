@@ -16,6 +16,10 @@
 .ubin
 .image "background_button_unsel.png"
 
+.res RES_SELECTED_BUTTON
+.ubin
+.image "background_button_sel.png"
+
 .res RES_TEXT_BOX
 .ubin 
 .image "background_text_sel.png"
@@ -270,7 +274,7 @@
 .ubin
 .image "FriendRanks_thumb.png"
 
-.res RES_Friends
+.res RES_FRIENDS
 .ubin
 .image "Friends.png"
 
@@ -366,12 +370,35 @@
 .ubin
 .image "head.png"
 
-/* CUSTOM IMAGES */
+.res BLANK /*94*/
+.image "blank.png"
+
+/* Custom variables per app */
 
 .res RES_FONT_RED
 .bin
 .include "calibrired.mof" 
 
-.res RES_FONT_WHITE
+.res RES_FONT_WHITE /*96*/
 .bin
 .include "calibrigray.mof"  
+
+.res RES_DROPDOWNITEM_SEL /*97*/
+.ubin 
+.image "dropdownitem_sel.png" 
+
+.res RES_DROPDOWNITEM_UNSEL /*98*/
+.ubin 
+.image "dropdownitem_unsel.png"  
+
+.res RES_DROPDOWN_SEL /*99*/
+.ubin 
+.image "dropdownbox_sel.png"  
+
+.res RES_DROPDOWN_UNSEL /*100*/
+.ubin 
+.image "dropdownbox_unsel.png"
+
+.res RES_POPUP_HEADER /*101*/
+.ubin 
+.image "popup_header.png"

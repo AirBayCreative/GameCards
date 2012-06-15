@@ -11,13 +11,14 @@
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Native/NativeEditBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class DetailScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, ContactListener {
+class DetailScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, ContactListener {
 public:
-	DetailScreen(Screen *previous, Feed *feed, int screenType, Card *card=NULL, String category="", String categoryname="");
+	DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card=NULL, String category="", String categoryname="");
 	~DetailScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -33,25 +34,20 @@ public:
 	void contactReceived(Contact& contact);
 	enum screenType {PROFILE, BALANCE, CARD, RANKING, FRIEND, NOTIFICATIONS, CONTACTS, FRIENDS};
 private:
-	Screen *previous, *next;
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
-	Layout *mainLayout;
-	Label *label, *balanceLabel;
-	KineticListBox *listBox;
+	Label *balanceLabel,*premiumLabel;
 	bool list, left, right;
 
 	Vector<Contact *> contacts;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
-	String encrypt, error_msg, parentTag, desc, answer, answerid, creditvalue, id, date, value, cred, usr, val;
+	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val;
 	Answer *ans;
 	Vector<Answer*> answers;
-	int i,j, moved, screenType, answered, count, credits;
+	int i,j,moved,screenType,answered,count,credits;
 
 	Card *card;
-	Feed *feed;
 
 	bool isBusy;
 

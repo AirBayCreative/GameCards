@@ -8,6 +8,7 @@
 #include <MAUI/Image.h>
 #include <MAUI/ListBox.h>
 #include <conprint.h>
+#include "../screens/MainScreen.h"
 
 #include "../MAHeaders.h"
 #include "Card.h"
@@ -30,6 +31,7 @@ class Util
 		static void setPadding(Widget *w);
 		static Label* createLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createEditLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
+		static Label* createDropDownLabel(String str, int height=DEFAULT_DROPDOWN_HEIGHT);
 		static Label* createSubLabel(String str, int height=DEFAULT_LABEL_HEIGHT);
 		static Label* createSubLabel(String str, int width, int height=DEFAULT_LABEL_HEIGHT);
 		static Widget* createSoftKeyBar(int height, const char *left, const char *right);
@@ -63,11 +65,15 @@ class Util
 		static String base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
 		static String base64_decode(String encoded_string);
 		static inline bool is_base64(unsigned char c);
+		static const wchar* getWCharArrayFromBuf(void* buffer, const int arrayIndex);
+		static int findIgnoreCase(String mainString, String searchString);
 
 		static Font* getFontBlue();
 		static Font* getFontBlack();
 		static Font* getFontWhite();
 		static Font* getFontRed();
+		static Font* getFontGreen();
+		static Font* getFontGrey();
 		static Font* getDefaultFont();
 		static Font* getDefaultSelected();
 		static Font* Util::getButtonFont();
@@ -80,6 +86,10 @@ class Util
 		static WidgetSkin* getSkinListNoArrows();
 		static WidgetSkin* getSkinText();
 		static WidgetSkin* getSkinAlbum();
+		static WidgetSkin* getSkinDropDownItem();
+		static WidgetSkin* getSkinDropDownBox();
+		static WidgetSkin* getSkinDropDownBack();
+		static WidgetSkin* getSkinPopupHeader();
 		static WidgetSkin* getIconListBack();
 		static WidgetSkin* getIconSelect();
 
@@ -89,8 +99,8 @@ class Util
 
 extern int scrWidth;
 extern int scrHeight;
-extern Screen *orig;
-extern Screen *origAlbum;
-extern Screen *origMenu;
+extern MainScreen *orig;
+extern MainScreen *origAlbum;
+extern MainScreen *origMenu;
 
 #endif	//_UTIL_H_

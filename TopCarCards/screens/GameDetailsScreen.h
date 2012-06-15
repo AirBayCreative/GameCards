@@ -11,11 +11,12 @@
 #include "../utils/Feed.h"
 #include "../utils/Log.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class GameDetailsScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class GameDetailsScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
 	GameDetailsScreen(Feed *feed, int screenType);
 	~GameDetailsScreen();
@@ -30,17 +31,12 @@ public:
 
 	enum screenTypes {ST_GAME_DETAILS, ST_GAME_LOG};
 private:
-	Feed *feed;
-	Layout *layout;
-	KineticListBox* kinListBox;
-	Label *lbl, *notice;
 	Log *log;
 	Vector<Log*> logs;
 
 	bool list, left, right;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag, gameId;
 	String playerDeck, opponentDeck, error_msg, toPlay, display, date, description;

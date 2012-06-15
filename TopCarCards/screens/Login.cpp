@@ -4,16 +4,21 @@
 #include "../utils/Util.h"
 #include "NewMenuScreen.h"
 #include "ShopCategoriesScreen.h"
+#include "../UI/Button.h"
 
-Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHttp(this), feed(feed), screen(screen) {
+Login::Login(MainScreen *previous, Feed *feed, int screen) : mHttp(this), screen(screen) {
 	lprintfln("Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	moved = 0;
 	changed = false;
 	isBusy = false;
 	result = "";
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	mainLayout = Util::createMainLayout("", "", "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setMultiLine(true);
 
@@ -32,7 +37,7 @@ Login::Login(Screen *previous, Feed *feed, int screen) : previous(previous), mHt
 Login::~Login() {
 	lprintfln("~Login::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	error_msg = "";
@@ -44,7 +49,8 @@ Login::~Login() {
 	convertAsterisk="";
 	underscore="";
 	username="";
-	credits="";
+	credits="0";
+	premium="0";
 	encrypt="";
 	error_msg="";
 	email="";
@@ -71,29 +77,29 @@ void Login::drawLoginScreen() {
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Username");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Password", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 }
 
 void Login::drawRegisterScreen() {
-	listBox->setYOffset(0);
+	kinListBox->setYOffset(0);
 	moved = 0;
 	changed = true;
 	screen = S_REGISTER;
@@ -104,54 +110,54 @@ void Login::drawRegisterScreen() {
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Username");
 	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Password", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Password");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email");
 	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Referrer", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
 	editBoxRefer = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Referrer");
 	editBoxRefer->setDrawBackground(false);
 	label->addWidgetListener(this);
-	listBox->add(label);
+	kinListBox->add(label);
 
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 }
 
 void Login::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -191,7 +197,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 		if (!changed) {
 			/*int yClick = point.y;
-			int index = listBox->getSelectedIndex();*/
+			int index = kinListBox->getSelectedIndex();*/
 		}
 		else {
 			changed = false;
@@ -216,7 +222,7 @@ void Login::locateItem(MAPoint2d point)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
-        	if (moved <= 1) listBox->setSelectedIndex(i);
+        	if (moved <= 1) kinListBox->setSelectedIndex(i);
         	list = true;
             return;
         }
@@ -237,20 +243,28 @@ void Login::locateItem(MAPoint2d point)
 	}
 }
 void Login::show() {
-	listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(true);
+	kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(true);
 	Screen::show();
 }
 
 void Login::hide() {
-    listBox->getChildren()[listBox->getSelectedIndex()]->setSelected(false);
+    kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 	Screen::hide();
 }
 
 void Login::keyPressEvent(int keyCode) {
 	error = false;
-	int index = listBox->getSelectedIndex();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
+	int index = kinListBox->getSelectedIndex();
+
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}
+			break;
 		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				switch (screen) {
@@ -338,11 +352,12 @@ void Login::keyPressEvent(int keyCode) {
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 80 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
+							int urlLength = 89 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
 							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
+							lprintfln("%s", url);
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
 							if(res < 0) {
@@ -370,16 +385,62 @@ void Login::keyPressEvent(int keyCode) {
 
 			break;
 		case MAK_UP:
-			if (index-2 > 0) {
-				listBox->setSelectedIndex(index-2);
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (index-2 > 0) {
+				kinListBox->setSelectedIndex(index-2);
 			}
 			break;
 		case MAK_DOWN:
-			if (index+2 < listBox->getChildren().size()) {
-				listBox->setSelectedIndex(index+2);
+			if (index+2 < kinListBox->getChildren().size()) {
+				kinListBox->setSelectedIndex(index+2);
+			} else {
+				kinListBox->getChildren()[index]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
 			break;
 		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
 			break;
 	}
 }
@@ -417,6 +478,8 @@ void Login::mtxTagData(const char* data, int len) {
 		username = data;
 	} else if(!strcmp(parentTag.c_str(), "credits")) {
 		credits = data;
+	} else if(!strcmp(parentTag.c_str(), "premium")) {
+		premium = data;
 	} else if(!strcmp(parentTag.c_str(), "email")) {
 		email = data;
 	} else if(!strcmp(parentTag.c_str(), "name")) {
@@ -435,6 +498,7 @@ void Login::mtxTagData(const char* data, int len) {
 void Login::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "status")) {
 		feed->setCredits(credits.c_str());
+		feed->setPremium(premium.c_str());
 		feed->setHandle(handle.c_str());
 		feed->setEmail(email.c_str());
 		feed->setUnsuccessful("Success");
@@ -485,7 +549,7 @@ void Login::mtxTagEnd(const char* name, int len) {
 }
 void Login::cleanup() {
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 
@@ -497,7 +561,8 @@ void Login::cleanup() {
 	convertAsterisk = "";
 	underscore = "";
 	username = "";
-	credits = "";
+	credits = "0";
+	premium = "0";
 	encrypt = "";
 	error_msg = "";
 	email = "";
