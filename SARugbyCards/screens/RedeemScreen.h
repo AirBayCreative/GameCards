@@ -32,12 +32,12 @@ public:
 
 private:
 	NativeEditBox *editBoxRedeem;
-
+	Widget* currentSelectedKey;
 	HttpConnection mHttp;
 
 	String error_msg, result, parentTag;
 	bool left, right, mid, error;
-	int moved;
+	int moved, currentKeyPosition;
 
 	bool isBusy;
 

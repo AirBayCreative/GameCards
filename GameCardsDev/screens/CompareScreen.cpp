@@ -19,15 +19,15 @@ CompareScreen::CompareScreen(MainScreen *previous, MAHandle img, Feed *feed, boo
 	currentKeyPosition = -1;
 	if (card != NULL) {
 		mainLayout = Util::createImageLayout("", "Back", "Flip");
-		listBox = (KineticListBox*) mainLayout->getChildren()[0];
-		height = listBox->getHeight();
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0];
+		height = kinListBox->getHeight();
 	}else{
 		mainLayout = Util::createImageLayout("Back");
-		listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
-		height = listBox->getHeight()-70;
+		kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[1];
+		height = kinListBox->getHeight()-70;
 	}
-	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
-	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, listBox, false, false, Util::loadImageFromResource(img));
+	imge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, kinListBox, false, false, Util::loadImageFromResource(img));
+	cmpge = new MobImage(0, 0, scrWidth-PADDING*2, height/2, kinListBox, false, false, Util::loadImageFromResource(img));
 	this->setMain(mainLayout);
 	if (card != NULL && compare != NULL) {
 		if (flip) {
@@ -138,7 +138,7 @@ CompareScreen::~CompareScreen() {
 		maDestroyObject(imge->getResource());
 	}
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	img = -1;
@@ -155,11 +155,11 @@ CompareScreen::~CompareScreen() {
 
 void CompareScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

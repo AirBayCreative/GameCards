@@ -7,6 +7,7 @@
 #include "../utils/Util.h"
 #include "../utils/Card.h"
 #include "../utils/Answer.h"
+#include "../utils/Friend.h"
 #include "../utils/XmlConnection.h"
 #include "../utils/Feed.h"
 #include "../UI/KineticListBox.h"
@@ -36,16 +37,19 @@ public:
 private:
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
 	Label *balanceLabel,*premiumLabel;
+	Widget* currentSelectedKey;
 	bool list, left, right;
 
 	Vector<Contact *> contacts;
 
 	HttpConnection mHttp;
 
-	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val;
+	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val,friendid;
 	Answer *ans;
+	Friend *frien;
 	Vector<Answer*> answers;
-	int i,j,moved,screenType,answered,count,credits;
+	Vector<Friend*> friends;
+	int i,j,moved,screenType,answered,count,credits, currentKeyPosition;
 
 	Card *card;
 

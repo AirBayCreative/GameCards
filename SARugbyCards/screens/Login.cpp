@@ -108,13 +108,13 @@ void Login::drawRegisterScreen() {
 	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email");
-	editBoxEmail->setDrawBackground(false);
+	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Username");
+	editBoxLogin->setDrawBackground(false);
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
@@ -125,6 +125,16 @@ void Login::drawRegisterScreen() {
 	label = Util::createEditLabel("");
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Password");
 	editBoxPass->setDrawBackground(false);
+	label->addWidgetListener(this);
+	kinListBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
+	kinListBox->add(label);
+
+	label = Util::createEditLabel("");
+	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email");
+	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
@@ -297,9 +307,9 @@ void Login::keyPressEvent(int keyCode) {
 						if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
 							notice->setCaption("Already registered for an account with this device.");
 							maVibrate(1000);
-						/*} else if (editBoxLogin->getText().length() < 6) {
+						} else if (editBoxLogin->getText().length() < 6) {
 							notice->setCaption("Your username needs to be at least 6 characters long");
-							maVibrate(1000);*/
+							maVibrate(1000);
 						}
 						else if (editBoxPass->getText().length() < 6) {
 							notice->setCaption("Your password needs to be at least 6 characters long");
@@ -313,10 +323,10 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption("Please enter a valid email address");
 							maVibrate(1000);
 						}
-						/*else if (!Util::validateNoWhiteSpaces(editBoxLogin->getText())) {
+						else if (!Util::validateNoWhiteSpaces(editBoxLogin->getText())) {
 							notice->setCaption("Please enter a username without spaces.");
 							maVibrate(1000);
-						}*/
+						}
 						else if (!Util::validateNoWhiteSpaces(editBoxPass->getText())) {
 							notice->setCaption("Please enter a password without spaces.");
 							maVibrate(1000);
@@ -338,14 +348,14 @@ void Login::keyPressEvent(int keyCode) {
 							conCatenation = editBoxPass->getText().c_str();
 							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
-							feed->setUsername(editBoxEmail->getText().c_str());
+							feed->setUsername(editBoxLogin->getText().c_str());
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 89 + URLSIZE + editBoxEmail->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
+							int urlLength = 89 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxEmail->getText().c_str(),
+							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
 									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
 							lprintfln("%s", url);
 							mHttp = HttpConnection(this);
@@ -388,7 +398,7 @@ void Login::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			if (index+2 < kinListBox->getChildren().size()) {
 				kinListBox->setSelectedIndex(index+2);
-			} else {
+			} else if(currentSelectedKey==NULL){
 				kinListBox->getChildren()[index]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -511,7 +521,13 @@ void Login::mtxTagEnd(const char* name, int len) {
 		feed->setAlbum(albums.c_str());
 		albums = "";
 
-		next = new NewMenuScreen(feed);
+		// Check result
+		if (strcmp("0", freebie.c_str()) == 0) {
+			origMenu = new NewMenuScreen(feed);
+			next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FREEBIE);
+		} else {
+			next = new NewMenuScreen(feed);
+		}
 		next->show();
 	} else if(!strcmp(name, "error")) {
 		error = true;

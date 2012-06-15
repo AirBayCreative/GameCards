@@ -7,7 +7,7 @@ NewVersionScreen::NewVersionScreen(MainScreen *previous, String url, Feed *feed)
 	mainLayout = Util::createMainLayout("Later", "Download");
 	this->previous = previous;
 	this->feed = feed;
-	listBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	String msg = "There is a new version of the app, want to see all the sexy new features? Then download at " + url;
 	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
@@ -15,14 +15,14 @@ NewVersionScreen::NewVersionScreen(MainScreen *previous, String url, Feed *feed)
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setMultiLine(true);
 	label->setDrawBackground(false);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	this->setMain(mainLayout);
 }
 
 NewVersionScreen::~NewVersionScreen() {
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 }
@@ -80,11 +80,11 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 
 void NewVersionScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

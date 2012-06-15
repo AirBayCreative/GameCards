@@ -1,22 +1,25 @@
 #include "DetailScreen.h"
 #include "OptionsScreen.h"
+#include "AlbumLoadScreen.h"
 #include "ShopProductsScreen.h"
 #include "NewMenuScreen.h"
 #include <mastdlib.h>
 #include "../utils/Util.h"
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
-#include "TradeFriendDetailScreen.h"
+#include "../UI/Button.h"
 
 DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card, String category, String categoryname) : mHttp(this),
 		screenType(screenType), card(card) {
 	lprintfln("DetailScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
-	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":screenType==FRIENDS?"Add Friend":"", "Back", screenType==BALANCE?"""":"", true);
+	mainLayout = Util::createMainLayout(screenType==CARD?"":screenType==BALANCE?"Buy":screenType==PROFILE?"Save":"", "Back", screenType==BALANCE?"""":"", true);
 	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	count = 0;
 	isBusy=true;
 	desc = "";
@@ -26,6 +29,11 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 	prem = "0";
 	switch (screenType) {
 		case PROFILE:
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Earn credits by filling in profile details.", 0, Util::getDefaultSelected());
+			label->setAutoSizeY();
+			label->setDrawBackground(false);
+			label->setMultiLine(true);
+			kinListBox->add(label);
 			/*Screen Header*/
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Profile", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
@@ -35,14 +43,24 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			kinListBox->add(label);
 			break;
 		case BALANCE:
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Select Buy to get more credits.", 0, Util::getDefaultSelected());
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_DETAIL_HEADER_HEIGHT, NULL, "Go to www.mytcg.net to find out how to get more credits.", 0, Util::getDefaultSelected());
 			label->setAutoSizeY();
 			label->setMultiLine(true);
 			label->setDrawBackground(false);
 			kinListBox->add(label);
 			/*Screen Header*/
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Credits", 0, Util::getDefaultFont());
+			label->setHorizontalAlignment(Label::HA_CENTER);
+			label->setVerticalAlignment(Label::VA_CENTER);
+			label->setSkin(Util::getSkinListNoArrows());
+			label->setMultiLine(true);
+			kinListBox->add(label);
 
-			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium Credits", 0, Util::getDefaultFont());
+			balanceLabel = Util::createEditLabel(feed->getCredits());
+			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
+			kinListBox->add(balanceLabel);
+
+			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium", 0, Util::getDefaultFont());
 			label->setHorizontalAlignment(Label::HA_CENTER);
 			label->setVerticalAlignment(Label::VA_CENTER);
 			label->setSkin(Util::getSkinListNoArrows());
@@ -313,6 +331,14 @@ DetailScreen::~DetailScreen() {
 	}
 	answers.clear();
 
+	for (int i = 0; i < friends.size(); i++) {
+		if (friends[i] != NULL) {
+			delete friends[i];
+			friends[i] = NULL;
+		}
+	}
+	friends.clear();
+
 }
 
 void DetailScreen::pointerPressEvent(MAPoint2d point)
@@ -403,9 +429,18 @@ void DetailScreen::hide() {
 }
 
 void DetailScreen::keyPressEvent(int keyCode) {
-	int ind, max;
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}else if(screenType == FRIENDS){
+				keyPressEvent(MAK_SOFTLEFT);
+			}
 			break;
 		case MAK_SOFTLEFT:
 			switch (screenType) {
@@ -447,13 +482,18 @@ void DetailScreen::keyPressEvent(int keyCode) {
 					//next->show();
 					break;
 				case FRIENDS:
-					if (next != NULL) {
-						delete next;
-						next = NULL;
+					if(ind > 0){
+						if(strcmp(friends[ind-1]->getFriendId().c_str(),"-1")){
+							if (next != NULL) {
+								delete next;
+								feed->remHttp();
+								next = NULL;
+							}
+							next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_FRIENDS,NULL,false,NULL,friends[ind-1]->getFriendId());
+							next->show();
+							break;
+						}
 					}
-					next = new TradeFriendDetailScreen(this, feed, NULL);
-					next->show();
-					break;
 			}
 			break;
 		case MAK_BACK:
@@ -464,9 +504,12 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_UP:
-			ind = kinListBox->getSelectedIndex();
-			max = kinListBox->getChildren().size();
-			if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			} else if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 				if (ind == 0) {
 					kinListBox->setSelectedIndex(max-1);
 				} else {
@@ -482,10 +525,16 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			ind = kinListBox->getSelectedIndex();
-			max = kinListBox->getChildren().size();
-			if (ind == max-1) {
-				kinListBox->setSelectedIndex(0);
+			if (ind == max-1 && currentSelectedKey==NULL) {
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			} else if ((ind == 0)&&(screenType != CARD)) {
 				if ((screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 					kinListBox->setSelectedIndex(1);
@@ -498,6 +547,38 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				kinListBox->selectNextItem();
 				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 					kinListBox->selectNextItem();
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
 				}
 			}
 			break;
@@ -629,6 +710,8 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		val = data;
 	} else if(!strcmp(parentTag.c_str(), "usr")) {
 		usr = data;
+	} else if(!strcmp(parentTag.c_str(), "user_id")) {
+		friendid = data;
 	}
 }
 
@@ -641,6 +724,7 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feed->setCredits(cred.c_str());
 		feed->setPremium(prem.c_str());
 		Util::saveData("fd.sav", feed->getAll().c_str());
+		balanceLabel->setCaption(cred.c_str());
 		premiumLabel->setCaption(prem.c_str());
 		cred = "0";
 		prem = "0";
@@ -802,9 +886,15 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		label->addWidgetListener(this);
 		kinListBox->add(label);
 
+		frien = new Friend();
+		frien->setFriendId(friendid.c_str());
+		friends.add(frien);
+
+		frien=NULL;
 		usr="";
 		val="";
 		desc="";
+		friendid = "-1";
 	} else if(!strcmp(name, "friends")) {
 		if (count == 0) {
 			label->setCaption("");
@@ -828,7 +918,17 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 
 			if (label != NULL) {
-				label->setCaption("Profile details updated.");
+				if(count >0){
+					char * lbl = new char[44+3+5];
+					memset(lbl, 0, 44+3+5);
+					sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+					String lab = lbl;
+					label->setCaption(lab);
+					delete lbl;
+					lbl = NULL;
+				} else{
+					label->setCaption("Profile details updated.");
+				}
 			}
 		} else if (screenType == BALANCE) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
@@ -851,6 +951,7 @@ void DetailScreen::refreshData() {
 		case PROFILE:
 			break;
 		case BALANCE:
+			balanceLabel->setCaption(feed->getCredits());
 			premiumLabel->setCaption(feed->getPremium());
 			break;
 	}
