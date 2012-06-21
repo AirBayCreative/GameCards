@@ -119,6 +119,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 
 	if (url != NULL) {
 		delete url;
+		url = NULL;
 	}
 }
 
@@ -337,6 +338,7 @@ void AlbumLoadScreen::drawList() {
 	if (shown) {
 		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 	}
+	delete cap;
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -394,6 +396,7 @@ void AlbumLoadScreen::show() {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 }
 
 void AlbumLoadScreen::hide() {
@@ -610,6 +613,7 @@ void AlbumLoadScreen::switchList(int nextOrPrev) {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 
 	currentIndex = 0;
 }
@@ -780,7 +784,7 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		if (album->size() == 0) {
 			lprintfln("album->size() %d", album->size());
 			if (album->size()==0) {
-				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase more.");
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase some.");
 				confirmation->setMenuWidth(180);
 				confirmation->setMarginX(5);
 				confirmation->setMarginY(5);

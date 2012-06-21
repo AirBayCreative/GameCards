@@ -739,7 +739,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
 				((AlbumLoadScreen *)previous)->refresh();
 			} else {
-				previous->show();
+				previous->pop();
 			}
 			break;
 		case MAK_FIRE:

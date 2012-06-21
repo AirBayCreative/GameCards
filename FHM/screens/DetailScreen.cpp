@@ -7,6 +7,7 @@
 #include "../utils/Stat.h"
 #include "../UI/CheckBox.h"
 #include "TradeFriendDetailScreen.h"
+#include "../UI/Button.h"
 
 DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Card *card, String category, String categoryname) : mHttp(this),
 		screenType(screenType), card(card) {
@@ -17,6 +18,8 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	next=NULL;
 	answers=NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	count = 0;
 	isBusy=true;
 	desc = "";
@@ -403,9 +406,18 @@ void DetailScreen::hide() {
 }
 
 void DetailScreen::keyPressEvent(int keyCode) {
-	int ind, max;
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+			}else if(screenType == FRIENDS){
+				keyPressEvent(MAK_SOFTLEFT);
+			}
 			break;
 		case MAK_SOFTLEFT:
 			switch (screenType) {
@@ -464,9 +476,12 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			previous->show();
 			break;
 		case MAK_UP:
-			ind = kinListBox->getSelectedIndex();
-			max = kinListBox->getChildren().size();
-			if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			} else if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 				if (ind == 0) {
 					kinListBox->setSelectedIndex(max-1);
 				} else {
@@ -482,10 +497,16 @@ void DetailScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			ind = kinListBox->getSelectedIndex();
-			max = kinListBox->getChildren().size();
-			if (ind == max-1) {
-				kinListBox->setSelectedIndex(0);
+			if (ind == max-1 && currentSelectedKey==NULL) {
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			} else if ((ind == 0)&&(screenType != CARD)) {
 				if ((screenType == FRIENDS)||(screenType == NOTIFICATIONS)) {
 					kinListBox->setSelectedIndex(1);
@@ -498,6 +519,38 @@ void DetailScreen::keyPressEvent(int keyCode) {
 				kinListBox->selectNextItem();
 				if ((screenType == PROFILE)||(screenType == RANKING)||(screenType == FRIEND)) {
 					kinListBox->selectNextItem();
+				}
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
 				}
 			}
 			break;

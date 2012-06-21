@@ -890,6 +890,10 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
+void AlbumLoadScreen::menuOptionSelected(int index) {
+	previous->show();
+}
+
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
@@ -930,7 +934,23 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			al = "";
 		}
 		drawList();
-		if ((album->size() == 1)&&(screenType != ST_ALBUMS)) {
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase some.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
 			Vector<String> display = album->getNames();
 			Album* val = album->getAlbum(display.begin()->c_str());
 			if (val != NULL) {
@@ -991,6 +1011,80 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		error_msg = "";
 	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+	} else if(!strcmp(name, "result")) {
+		notice->setCaption("");
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase more.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
+			Vector<String> display = album->getNames();
+			Album* val = album->getAlbum(display.begin()->c_str());
+			if (val != NULL) {
+				if (next != NULL) {
+					delete next;
+					feed->remHttp();
+					next = NULL;
+				}
+				switch (screenType) {
+					case ST_ALBUMS:
+						if (val->getHasCards()) {
+							if (strcmp(val->getId().c_str(), "-3") == 0) {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+								next->show();
+							}
+							else {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
+								next->show();
+							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_COMPARE:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					}
+				}
+				display.clear();
+			}
 		temp = "";
 		hasCards = "";
 		updated = "";

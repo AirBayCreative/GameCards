@@ -35,7 +35,7 @@ mOptions(options), x(x), y(y), width(width), height(height)
 	Environment::getEnvironment().addPointerListener(this);
 	Environment::getEnvironment().addKeyListener(this);
 #if defined(MA_PROF_QWERTY)
-	//setInputMode(EditBox::IM_QWERTY);
+	setInputMode(EditBox::IM_QWERTY);
 #endif
 
 }
@@ -69,13 +69,9 @@ void NativeEditBox::focusGained() {
 }
 
 void NativeEditBox::keyPressEvent(int keyCode, int nativeCode){
-lprintfln("wawawa %d nanana %d",keyCode, nativeCode);
 	if(nativeCode > 0){
-		//setInputMode(EditBox::IM_QWERTY);
-	} else {
-		//setInputMode(EditBox::IM_STANDARD);
+		setInputMode(EditBox::IM_QWERTY);
 	}
-
 	EditBox::keyPressEvent(keyCode, nativeCode);
 }
 

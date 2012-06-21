@@ -17,7 +17,7 @@ void ShopProductsScreen::pop() {
 	refresh();
 
 	if (products.size() == 1) {
-		previous->show();
+		previous->pop();
 	}
 }
 
@@ -303,7 +303,7 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
-			previous->show();
+			previous->pop();
 			break;
 		case MAK_FIRE:
 			if(currentSoftKeys->getChildren()[0]->isSelected()){

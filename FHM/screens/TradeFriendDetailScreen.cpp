@@ -564,7 +564,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				lprintfln("zzz1");
 				if (ind+1 < kinListBox->getChildren().size()) {
 					kinListBox->selectNextItem();
-				} else {
+				} else if(currentSelectedKey==NULL) {
 					kinListBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -579,7 +579,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 			case SP_DETAIL:
 				if (ind+2 < kinListBox->getChildren().size()) {
 					kinListBox->setSelectedIndex(ind+2);
-				} else {
+				} else if(currentSelectedKey==NULL) {
 					kinListBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -712,8 +712,6 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 	if (strcmp(parentTag.c_str(), "result") == 0) {
 		result = data;
 		String check = data;
-
-
 
 		if ((strcmp(method.c_str(), "phone_number") == 0)&&(!(check.find("User not found.")))) {
 			maSendTextSMS(friendDetail.c_str(), check.substr(16).c_str());

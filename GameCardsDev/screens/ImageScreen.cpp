@@ -320,7 +320,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 						imge->refreshWidget();
 						imge->statAdded = false;
 					} else {
-						if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
+						//if(flip==card->getStats()[currentSelectedStat]->getFrontOrBack()&&(card->getStats()[currentSelectedStat]->getSelectable())){
 							if (imge->getResource() != RES_TEMP) {
 								imge->refreshWidget();
 								imge->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
@@ -328,7 +328,7 @@ void ImageScreen::keyPressEvent(int keyCode) {
 											card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
 											card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::PORTRAIT);
 							}
-						}
+						//}
 					}
 				}
 			}

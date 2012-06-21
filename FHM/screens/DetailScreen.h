@@ -36,6 +36,7 @@ public:
 private:
 	NativeEditBox *editBox, *editBoxUsername, *editBoxEmail, *editBoxHandle, *editBoxID;
 	Label *balanceLabel,*premiumLabel;
+	Widget* currentSelectedKey;
 	bool list, left, right;
 
 	Vector<Contact *> contacts;
@@ -45,7 +46,7 @@ private:
 	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val;
 	Answer *ans;
 	Vector<Answer*> answers;
-	int i,j,moved,screenType,answered,count,credits;
+	int i,j,moved,screenType,answered,count,credits,currentKeyPosition;
 
 	Card *card;
 

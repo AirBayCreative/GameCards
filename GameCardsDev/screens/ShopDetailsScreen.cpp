@@ -100,7 +100,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			nameDesc = auction->getCard()->getText();
 			fullDesc = nameDesc;
 			fullDesc += "\nBid: ";
-			if(!strcmp(auction->getPrice().c_str(), "")) {
+			if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 				fullDesc += auction->getOpeningBid();
 			} else {
 				fullDesc += auction->getPrice();
@@ -150,7 +150,7 @@ ShopDetailsScreen::ShopDetailsScreen(MainScreen *previous, Feed *feed, int scree
 			label = Util::createEditLabel("");
 			editBidBox = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_NUMERIC, label, "", L"Bid");
 			int num;
-			if (!strcmp(auction->getPrice().c_str(), "")) {
+			if ((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 				num = Convert::toInt(auction->getOpeningBid().c_str());
 				num+=1;
 				editBidBox->setText(Convert::toString(num));
@@ -209,7 +209,7 @@ void ShopDetailsScreen::runTimerEvent() {
 	{
 		String fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if(!strcmp(auction->getPrice().c_str(), "")) {
+		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -821,7 +821,7 @@ void ShopDetailsScreen::drawPostBid(String message)
 		nameDesc = auction->getCard()->getText();
 		fullDesc = nameDesc;
 		fullDesc += "\nBid: ";
-		if(!strcmp(auction->getPrice().c_str(), "")) {
+		if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 			fullDesc += auction->getOpeningBid();
 		} else {
 			fullDesc += auction->getPrice();
@@ -902,7 +902,7 @@ void ShopDetailsScreen::drawBuyNow()
 	nameDesc = auction->getCard()->getText();
 	String fullDesc = nameDesc;
 	fullDesc += "\nBid: ";
-	if(!strcmp(auction->getPrice().c_str(), "")) {
+	if((!strcmp(auction->getPrice().c_str(), ""))||(!strcmp(auction->getPrice().c_str(), "0"))) {
 		fullDesc += auction->getOpeningBid();
 	} else {
 		fullDesc += auction->getPrice();

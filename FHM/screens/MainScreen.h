@@ -19,11 +19,13 @@ public:
 		lprintfln("MainScreen::MainScreen");
 		next = NULL;
 		previous = NULL;
+		album = NULL;
 		Screen();
 	}
 	~MainScreen() {
 		next = NULL;
 		previous = NULL;
+		album = NULL;
 	}
 	virtual void pop();
 	virtual void refresh();

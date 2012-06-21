@@ -160,7 +160,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 				case MAK_DOWN:
 					if (kinListBox->getSelectedIndex() < 5) {
 						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() + 2);
-					} else {
+					} else if(currentSelectedKey==NULL) {
 						kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
