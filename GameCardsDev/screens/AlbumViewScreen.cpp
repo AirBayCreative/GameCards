@@ -203,10 +203,10 @@ filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albu
 	}  else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
-		int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
+		int urlLength = 85 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getAppHeight()) + Util::intlen(Util::getMaxImageWidth()) + feed->getSeconds().length();
 		char *url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
-		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&bbheight=%d&width=%d&jpg=1", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getAppHeight(), Util::getMaxImageWidth());
 		lprintfln("%s", url);
 		if(mHttp.isOpen()){
 			mHttp.close();
@@ -425,6 +425,9 @@ void AlbumViewScreen::drawList() {
 
 	//we need a layout to have arrow images on the sides of the list
 	int cardsPerList = listBox->getHeight() / ALBUM_ITEM_HEIGHT; //74 is the default card display item height
+	if(cardsPerList == 0){
+		cardsPerList = 1;
+	}
 	Layout *listLayout;
 	//check if we need more than 1 page
 	if (cardsPerList < cards.size()) {
