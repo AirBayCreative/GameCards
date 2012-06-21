@@ -8,14 +8,16 @@
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
 
-DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, String categoryId)
-		:mHttp(this), previous(previous), feed(feed), screenType(screenType), categoryId(categoryId) {
+DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, int screenType, String categoryId)
+		:mHttp(this), screenType(screenType), categoryId(categoryId) {
 	lprintfln("DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	layout = Util::createMainLayout("", "Back", true);
-	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
-	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	this->previous = previous;
+	this->feed = feed;
+	mainLayout = Util::createMainLayout("", "Back", true);
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 
 	deckId = "";
 	description = "";
@@ -39,6 +41,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getalldecks=1", URL);
+			lprintfln("%s", url);
 			break;
 		case ST_SELECT:
 			//work out how long the url will be, the 2 is for the & and = symbals, as well as hard coded vars
@@ -46,6 +49,7 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?getcategorydecks=1&category_id=%s", URL, categoryId.c_str());
+			lprintfln("%s", url);
 			break;
 	}
 
@@ -73,8 +77,8 @@ DeckListScreen::DeckListScreen(Screen *previous, Feed *feed, int screenType, Str
 
 DeckListScreen::~DeckListScreen() {
 	lprintfln("~DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	delete layout;
-	layout = NULL;
+	delete mainLayout;
+	mainLayout = NULL;
 
 	parentTag= "";
 	description = "";
@@ -108,6 +112,7 @@ void DeckListScreen::refresh() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getalldecks=1", URL);
+	lprintfln("%s", url);
 
 	if(mHttp.isOpen()){
 		mHttp.close();
@@ -156,14 +161,14 @@ void DeckListScreen::clearListBox() {
 
 void DeckListScreen::drawList() {
 	if (screenType == ST_EDIT) {
-		lbl = Util::createSubLabel("New Deck");
-		lbl->addWidgetListener(this);
-		kinListBox->add(lbl);
+		label = Util::createSubLabel("New Deck");
+		label->addWidgetListener(this);
+		kinListBox->add(label);
 	}
 	for(int i = 0; i < albums.size(); i++) {
-		lbl = Util::createSubLabel(albums[i]->getDescription());
-		lbl->addWidgetListener(this);
-		kinListBox->add(lbl);
+		label = Util::createSubLabel(albums[i]->getDescription());
+		label->addWidgetListener(this);
+		kinListBox->add(label);
 	}
 	kinListBox->setSelectedIndex(0);
 

@@ -10,10 +10,11 @@
 #include "OptionsScreen.h"
 #include "ShopDetailsScreen.h"
 
-EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mHttp(this), deckId(deckId), previous(previous), feed(feed) {
+EditDeckScreen::EditDeckScreen(MainScreen *previous, Feed *feed, String deckId) : mHttp(this), deckId(deckId) {
 	busy = true;
 	emp = true;
-
+	this->previous = previous;
+	this->feed = feed;
 	deleting = false;
 
 	next = NULL;
@@ -42,8 +43,8 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 
 	mainLayout = Util::createMainLayout("", "Back" , "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
-	listBox->setWrapping(true);
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox->setWrapping(true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setCaption("Getting card list...");
 
@@ -53,6 +54,7 @@ EditDeckScreen::EditDeckScreen(Screen *previous, Feed *feed, String deckId) : mH
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -88,6 +90,7 @@ void EditDeckScreen::refresh() {
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?getcardsindeck=1&deck_id=%s&height=%d&width=%d&jpg=1", URL,
 			deckId.c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -118,6 +121,7 @@ void EditDeckScreen::deleteDeck() {
 	char *url = new char[urlLength+1];
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?deletedeck=1&deck_id=%s", URL,	deckId.c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -140,7 +144,7 @@ void EditDeckScreen::deleteDeck() {
 }
 
 void EditDeckScreen::removeCard() {
-	int cardIndex = listBox->getSelectedIndex() - 1; //-1 for the "delete deck" option
+	int cardIndex = kinListBox->getSelectedIndex() - 1; //-1 for the "delete deck" option
 	if (cards.size() < 10) {
 		cardIndex -= 1; //if there are less than 10 cards, there is also the "add card" option
 	}
@@ -151,6 +155,7 @@ void EditDeckScreen::removeCard() {
 	memset(url,'\0',urlLength+1);
 	sprintf(url, "%s?removefromdeck=1&deck_id=%s&card_id=%s", URL,
 			deckId.c_str(), cards[cardIndex]->getId().c_str());
+	lprintfln("%s", url);
 	if(mHttp.isOpen()){
 		mHttp.close();
 	}
@@ -232,11 +237,11 @@ void EditDeckScreen::locateItem(MAPoint2d point) {
 
 void EditDeckScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -250,13 +255,13 @@ void EditDeckScreen::drawList() {
 
 	Layout *feedlayout;
 
-	int index = listBox->getSelectedIndex();
+	int index = kinListBox->getSelectedIndex();
 	index = index>=0?index:0;
 
 	clearListBox();
 
 	if (cards.size() < 10) {
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 48, kinListBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinList());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -273,7 +278,7 @@ void EditDeckScreen::drawList() {
 		//label->setHorizontalAlignment(Label::HA_CENTER);
 	}
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 48, listBox, 3, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 48, kinListBox, 3, 1);
 	feedlayout->setSkin(Util::getSkinList());
 	feedlayout->setDrawBackground(true);
 	feedlayout->addWidgetListener(this);
@@ -300,7 +305,7 @@ void EditDeckScreen::drawList() {
 		cardText += "\nRating: ";
 		cardText += cards[i]->getRanking();
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 3, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 3, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -326,13 +331,13 @@ void EditDeckScreen::drawList() {
 	}
 
 	if (index < cards.size()) {
-		listBox->setSelectedIndex(index);
+		kinListBox->setSelectedIndex(index);
 	}
 	else if (index > cards.size()) {
-		listBox->setSelectedIndex(index - 1);
+		kinListBox->setSelectedIndex(index - 1);
 	}
 	else {
-		listBox->setSelectedIndex(0);
+		kinListBox->setSelectedIndex(0);
 	}
 }
 
@@ -341,7 +346,7 @@ void EditDeckScreen::drawConfirm() {
 
 	clearListBox();
 
-	label = new Label(0, 0, listBox->getWidth() - 10, 0, listBox, "Are you sure you want to delete this deck?", 0, Util::getDefaultFont());
+	label = new Label(0, 0, kinListBox->getWidth() - 10, 0, kinListBox, "Are you sure you want to delete this deck?", 0, Util::getDefaultFont());
 	label->setAutoSizeY();
 	label->setMultiLine(true);
 	label->setDrawBackground(false);
@@ -400,8 +405,8 @@ void EditDeckScreen::selectionChanged(Widget *widget, bool selected) {
 				((Label *)widget->getChildren()[1])->setFont(Util::getDefaultFont());
 			}
 
-			if ((listBox->getSelectedIndex() == 1 && cards.size() < 10) ||
-					(listBox->getSelectedIndex() == 0)) {
+			if ((kinListBox->getSelectedIndex() == 1 && cards.size() < 10) ||
+					(kinListBox->getSelectedIndex() == 0)) {
 				Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 			}
 			else {
@@ -425,17 +430,17 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 		case ST_LIST:
 			switch(keyCode) {
 				case MAK_UP:
-					listBox->selectPreviousItem();
+					kinListBox->selectPreviousItem();
 					break;
 				case MAK_DOWN:
-					listBox->selectNextItem();
+					kinListBox->selectNextItem();
 					break;
 				case MAK_BACK:
 				case MAK_SOFTRIGHT:
 					previous->show();
 					break;
 				case MAK_FIRE:
-					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
+					if (kinListBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -445,13 +450,13 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						((AlbumLoadScreen*)next)->setDeckId(deckId);
 						next->show();
 					}
-					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
-							(listBox->getSelectedIndex() == 1 && cards.size() < 10)) {
+					else if ((kinListBox->getSelectedIndex() == 0 && cards.size() == 10) ||
+							(kinListBox->getSelectedIndex() == 1 && cards.size() < 10)) {
 						drawConfirm();
 					}
 					break;
 				case MAK_SOFTLEFT:
-					if (listBox->getSelectedIndex() == 0 && cards.size() < 10) {
+					if (kinListBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
 							feed->remHttp();
@@ -461,8 +466,8 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						((AlbumLoadScreen*)next)->setDeckId(deckId);
 						next->show();
 					}
-					else if ((listBox->getSelectedIndex() == 0 && cards.size() == 10) ||
-							(listBox->getSelectedIndex() == 1 && cards.size() < 10)) {
+					else if ((kinListBox->getSelectedIndex() == 0 && cards.size() == 10) ||
+							(kinListBox->getSelectedIndex() == 1 && cards.size() < 10)) {
 						drawConfirm();
 					}
 					else {

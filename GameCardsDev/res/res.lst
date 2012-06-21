@@ -377,11 +377,11 @@
 
 .res RES_FONT_BLUE /*95*/
 .bin
-.include "arialblue.mof" 
+.include "arialblue.mof"
 
 .res RES_FONT_BLACK /*96*/
 .bin
-.include "arialblack.mof"  
+.include "arialblack.mof"
 
 /* Tutorial images */
 

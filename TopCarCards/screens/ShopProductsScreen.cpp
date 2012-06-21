@@ -5,25 +5,37 @@
 #include "ShopCategoriesScreen.h"
 #include "../utils/Util.h"
 
-void ShopProductsScreen::pop() {
+void ShopProductsScreen::refresh()
+{
+	String msg = "Credits: " + feed->getCredits() + " Premium: " + feed->getPremium();
+	notice->setCaption(msg.c_str());
 	show();
+}
+
+void ShopProductsScreen::pop() {
+	refresh();
 
 	if (products.size() == 1) {
 		previous->show();
 	}
 }
 
-ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), previous(previous), feed(feed), first(first), free(free) {
+ShopProductsScreen::ShopProductsScreen(MainScreen *previous, Feed *feed, String category, bool free, bool first) : mHttp(this), category(category), first(first), free(free) {
 	next = NULL;
 	lprintfln("ShopProductsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	if (strcmp(category.c_str(), "credits") == 0)
 		credits = true;
 	else
 		credits = false;
 
+	prem = "0";
+	cred = "0";
+
 	mainLayout = Util::createMainLayout("", "Back", "", true);
 
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(false);
 	notice->setCaption("Checking for products...");
@@ -37,6 +49,7 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 		url = new char[urlLength+1];
 		memset(url,'\0',urlLength+1);
 		sprintf(url, "%s?getpayments=1", URL);
+		lprintfln("%s", url);
 	} else
 	{
 		if (!free) {
@@ -44,11 +57,13 @@ ShopProductsScreen::ShopProductsScreen(Screen *previous, Feed *feed, String cate
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?categoryproducts=2&categoryId=%s", URL, category.c_str());
+			lprintfln("%s", url);
 		} else if (free) {
 			urlLength = 60 + URLSIZE + category.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?categoryproducts=1&categoryId=%s", URL, category.c_str());
+			lprintfln("%s", url);
 		}
 	}
 
@@ -147,17 +162,30 @@ void ShopProductsScreen::drawList() {
 		String cardText = products[i]->getName();
 		cardText += "\n";
 
-		if (credits)
-			cardText += "Credits: " + products[i]->getPrice();
-		else if (free)
+		if (credits) {
+			if (strcmp(products[i]->getPremium().c_str(), "0")) {
+				cardText += "Premium: " + products[i]->getPremium();
+			} else
+			if (strcmp(products[i]->getPrice().c_str(), "0")) {
+				cardText += "Credits: " + products[i]->getPrice();
+			}
+
+		} else if (free) {
 			cardText += "Credits: Free";
-		else
-			cardText += "Credits: " + products[i]->getPrice();
+		} else {
+			if (strcmp(products[i]->getPremium().c_str(), "0")) {
+				cardText += "Premium: " + products[i]->getPremium();
+			} else
+			if (strcmp(products[i]->getPrice().c_str(), "0")) {
+				cardText += "Credits: " + products[i]->getPrice();
+			}
+
+		}
 
 		cardText += "\n";
 		cardText += "Cards: " + products[i]->getCardsInPack();
 
-		feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 74, listBox, 2, 1);
+		feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 74, kinListBox, 2, 1);
 		feedlayout->setSkin(Util::getSkinAlbum());
 		feedlayout->setDrawBackground(true);
 		feedlayout->addWidgetListener(this);
@@ -176,27 +204,27 @@ void ShopProductsScreen::drawList() {
 		emp = false;
 	} else if (products.size() == 1) {
 		/*if (free) {
-			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, true);
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[kinListBox->getSelectedIndex()], NULL, true);
 		} else {
-			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, true);
+			next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[kinListBox->getSelectedIndex()], NULL, true);
 		}
 		next->show();*/
 		emp = false;
 		keyPressEvent(MAK_FIRE);
 	} else {
 		emp = true;
-		listBox->add(Util::createSubLabel("Empty"));
+		kinListBox->add(Util::createSubLabel("Empty"));
 	}
-	listBox->setSelectedIndex(0);
+	kinListBox->setSelectedIndex(0);
 }
 
 void ShopProductsScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -208,7 +236,7 @@ void ShopProductsScreen::clearListBox() {
 ShopProductsScreen::~ShopProductsScreen() {
 	lprintfln("~ShopProductsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 	if (next != NULL) {
@@ -243,10 +271,10 @@ void ShopProductsScreen::selectionChanged(Widget *widget, bool selected) {
 void ShopProductsScreen::keyPressEvent(int keyCode) {
 	switch(keyCode) {
 		case MAK_UP:
-			listBox->selectPreviousItem();
+			kinListBox->selectPreviousItem();
 			break;
 		case MAK_DOWN:
-			listBox->selectNextItem();
+			kinListBox->selectNextItem();
 			break;
 		case MAK_BACK:
 		case MAK_SOFTRIGHT:
@@ -261,9 +289,9 @@ void ShopProductsScreen::keyPressEvent(int keyCode) {
 					next = NULL;
 				}
 				if (free) {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[listBox->getSelectedIndex()], NULL, false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, true, products[kinListBox->getSelectedIndex()], NULL, false);
 				} else {
-					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[listBox->getSelectedIndex()], NULL, false);
+					next = new ShopDetailsScreen(this, feed, ShopDetailsScreen::ST_PRODUCT, false, products[kinListBox->getSelectedIndex()], NULL, false);
 				}
 				next->show();
 			}
@@ -326,6 +354,10 @@ void ShopProductsScreen::mtxTagData(const char* data, int len) {
 			cred += data;
 		} else if(!strcmp(parentTag.c_str(), "productid")) {
 			id += data;
+		} else if(!strcmp(parentTag.c_str(), "premium")) {
+			prem += data;
+		} else if(!strcmp(parentTag.c_str(), "productpremium")) {
+			productprem += data;
 		} else if(!strcmp(parentTag.c_str(), "productname")) {
 			productName += data;
 		} else if(!strcmp(parentTag.c_str(), "producttype")) {
@@ -345,16 +377,18 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	{
 		if(!strcmp(name, "payment")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
-					thumb.c_str(), price.c_str(), cardsInPack.c_str());
+					thumb.c_str(), price.c_str(), cardsInPack.c_str(), productprem.c_str());
 			products.add(product);
 
 			id = "";
 			productName = "";
 			productType = "";
+			productprem = "";
 			price = "";
 			thumb = "";
 			cardsInPack = "";
 			credits = "";
+			prem = "";
 		} else if (!strcmp(name, "payments")) {
 			notice->setCaption("");
 			drawList();
@@ -366,21 +400,23 @@ void ShopProductsScreen::mtxTagEnd(const char* name, int len) {
 	{
 		if(!strcmp(name, "productthumb")) {
 			product = new Product(id.c_str(), productName.c_str(), productType.c_str(),
-					thumb.c_str(), price.c_str(), cardsInPack.c_str());
+					thumb.c_str(), price.c_str(), cardsInPack.c_str(), productprem.c_str());
 			products.add(product);
 
 			id = "";
 			productName = "";
 			productType = "";
+			productprem = "";
 			price = "";
 			thumb = "";
 			cardsInPack = "";
 		} else if (!strcmp(name, "categoryproducts")) {
 			if (strcmp(cred.c_str(), "")) {
-				String msg = "Current credits: " + cred;
+				String msg = "Credits: " + cred + " Premium: " + prem;
 				feed->setCredits(cred.c_str());
+				feed->setPremium(prem.c_str());
 				if ((first)||(free)) {
-					msg = "Received: 300 credits and a free starter pack.";
+					msg = "Received: 150 credits and a free starter pack.";
 				}
 				notice->setHeight(36);
 				notice->setAutoSizeY(false);

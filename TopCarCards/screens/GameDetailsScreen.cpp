@@ -20,13 +20,14 @@ void GameDetailsScreen::clearListBox() {
 	tempWidgets.clear();
 }
 GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
-		:mHttp(this), feed(feed), gameId(feed->getGameId()), screenType(screenType) {
+		:mHttp(this), gameId(feed->getGameId()), screenType(screenType) {
 	lprintfln("GameDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	layout = Util::createMainLayout("Continue", "", true);
-	notice = (Label*) layout->getChildren()[0]->getChildren()[1];
-	kinListBox = (KineticListBox*)layout->getChildren()[0]->getChildren()[2];
+	this->feed = feed;
+	mainLayout = Util::createMainLayout("Continue", "", true);
+	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 
 	playerDeck = "";
 	opponentDeck = "";
@@ -50,6 +51,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?viewgamedetails=1&gameid=%s", URL, gameId.c_str());
+			lprintfln("%s", url);
 			break;
 		case ST_GAME_LOG:
 			notice->setCaption("Loading game logs...");
@@ -59,6 +61,7 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?viewgamelog=1&gameid=%s", URL, gameId.c_str());
+			lprintfln("%s", url);
 			break;
 	}
 
@@ -86,8 +89,8 @@ GameDetailsScreen::GameDetailsScreen(Feed *feed, int screenType)
 
 GameDetailsScreen::~GameDetailsScreen() {
 	lprintfln("~GameDetailsScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
-	delete layout;
-	layout = NULL;
+	delete mainLayout;
+	mainLayout = NULL;
 
 	parentTag="";
 	playerDeck="";
@@ -100,23 +103,23 @@ GameDetailsScreen::~GameDetailsScreen() {
 
 void GameDetailsScreen::drawList() {
 	for(int i = 0; i < logs.size(); i++) {
-		lbl = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
+		label = new Label(0, 0, kinListBox->getWidth()-(PADDING*2), 80, NULL,
 				"", 0, Util::getDefaultFont());
-		lbl->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
-		lbl->setVerticalAlignment(Label::VA_CENTER);
-		lbl->setSkin(Util::getSkinListNoArrows());
-		lbl->setMultiLine(true);
-		lbl->setPaddingBottom(5);
-		lbl->setPaddingLeft(PADDING);
-		lbl->addWidgetListener(this);
-		kinListBox->add(lbl);
+		label->setCaption((logs[i]->getDate() + ": " + logs[i]->getDescription()).c_str());
+		label->setVerticalAlignment(Label::VA_CENTER);
+		label->setSkin(Util::getSkinListNoArrows());
+		label->setMultiLine(true);
+		label->setPaddingBottom(5);
+		label->setPaddingLeft(PADDING);
+		label->addWidgetListener(this);
+		kinListBox->add(label);
 	}
 	if (logs.size() >= 1) {
 		kinListBox->setSelectedIndex(0);
 	} else {
-		lbl = Util::createSubLabel("Empty");
-		lbl->addWidgetListener(this);
-		kinListBox->add(lbl);
+		label = Util::createSubLabel("Empty");
+		label->addWidgetListener(this);
+		kinListBox->add(label);
 	}
 }
 
@@ -246,18 +249,18 @@ void GameDetailsScreen::mtxTagData(const char* data, int len) {
 
 void GameDetailsScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "gamedetails")) {
-		lbl = new Label(0, 0, 0, 0, NULL);
-		lbl->setAutoSizeX(true);
-		lbl->setAutoSizeY(true);
-		lbl->setMultiLine(true);
-		lbl->setFont(Util::getDefaultFont());
+		label = new Label(0, 0, 0, 0, NULL);
+		label->setAutoSizeX(true);
+		label->setAutoSizeY(true);
+		label->setMultiLine(true);
+		label->setFont(Util::getDefaultFont());
 
 		display = "To play: " + toPlay;
 		display += "\n\nRemaining Cards:\nYou: "+playerDeck+"\nOpponent: "+opponentDeck;
 
-		lbl->setCaption(display);
+		label->setCaption(display);
 		notice->setCaption("");
-		kinListBox->add(lbl);
+		kinListBox->add(label);
 	}
 	else if (!strcmp(name, "log")) {
 		log = new Log(date.c_str(), description.c_str());

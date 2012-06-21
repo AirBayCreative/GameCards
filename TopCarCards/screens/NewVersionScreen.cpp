@@ -3,27 +3,28 @@
 #include "../utils/Util.h"
 #include "NewVersionScreen.h"
 
-NewVersionScreen::NewVersionScreen(Screen *previous, String url, Feed *feed) : previous(previous), downloadUrl(url), feed(feed) {
-	layout = Util::createMainLayout("Later", "Download");
-
-	listBox = (ListBox*)layout->getChildren()[0]->getChildren()[2];
+NewVersionScreen::NewVersionScreen(MainScreen *previous, String url, Feed *feed) : downloadUrl(url) {
+	mainLayout = Util::createMainLayout("Later", "Download");
+	this->previous = previous;
+	this->feed = feed;
+	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
 
 	String msg = "There is a new version of the app, want to see all the sexy new features? Then download at " + url;
-	lbl = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
-	lbl->setHorizontalAlignment(Label::HA_CENTER);
-	lbl->setVerticalAlignment(Label::VA_CENTER);
-	lbl->setMultiLine(true);
-	lbl->setDrawBackground(false);
-	listBox->add(lbl);
+	label = new Label(0,0, scrWidth-PADDING*2, 100, NULL, msg.c_str(), 0, Util::getDefaultFont());
+	label->setHorizontalAlignment(Label::HA_CENTER);
+	label->setVerticalAlignment(Label::VA_CENTER);
+	label->setMultiLine(true);
+	label->setDrawBackground(false);
+	kinListBox->add(label);
 
-	this->setMain(layout);
+	this->setMain(mainLayout);
 }
 
 NewVersionScreen::~NewVersionScreen() {
 	clearListBox();
-	listBox->clear();
-	delete layout;
-	layout = NULL;
+	kinListBox->clear();
+	delete mainLayout;
+	mainLayout = NULL;
 }
 
 void NewVersionScreen::pointerPressEvent(MAPoint2d point)
@@ -79,11 +80,11 @@ void NewVersionScreen::locateItem(MAPoint2d point)
 
 void NewVersionScreen::clearListBox() {
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];

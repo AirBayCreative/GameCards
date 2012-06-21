@@ -4,8 +4,9 @@
 #include <MAUI/Screen.h>
 
 #include "../UI/Widgets/GCMenu.h"
+#include "MainScreen.h"
 
-class NewMenuScreen : public Screen, public WidgetListener, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
+class NewMenuScreen : public MainScreen, public WidgetListener, public HttpConnectionListener, public XCListener, public Mtx::XmlListener {
 public:
 	NewMenuScreen(Feed *feed);
 	~NewMenuScreen();
@@ -21,10 +22,6 @@ public:
 	void locateItem(MAPoint2d point);
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
-
-	Feed *feed;
-
 	bool list, left, right;
 
 	int screenType;
@@ -34,11 +31,7 @@ private:
 	void show();
 	void hide();
 
-	Layout *mainLayout;
-	Label *label;
 	GCMenu *menu;
-	Screen *next;
-	Label *noteLabel;
 	String parentTag, notedate;
 	int c, versionChecked, first, moved;
 	bool shown;

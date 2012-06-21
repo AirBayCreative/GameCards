@@ -7,13 +7,14 @@
 #include "../utils/Feed.h"
 #include "../utils/XmlConnection.h"
 #include "../UI/KineticListBox.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class ShopCategoriesScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class ShopCategoriesScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	ShopCategoriesScreen(Screen *previous, Feed *feed, int screenType);
+	ShopCategoriesScreen(MainScreen *previous, Feed *feed, int screenType);
 	~ShopCategoriesScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -30,22 +31,13 @@ public:
 	enum screenTypes {ST_AUCTIONS, ST_SHOP, ST_FREEBIE, ST_RANKING, ST_FRIEND};
 private:
 
-	Screen *previous;
-	Screen *next;
-
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 
 	String parentTag;
 	String temp,temp1,error_msg;
 	int i, moved, screenType;
 	bool list, left, right, empt;
 
-	Layout *mainLayout;
-	KineticListBox *listBox;
-	Label *notice, *label;
-
-	Feed *feed;
 	HashMap<String,String> categories;
 	Vector<String> category;
 

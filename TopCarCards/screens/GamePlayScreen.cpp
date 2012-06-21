@@ -10,10 +10,12 @@
 #include "AlbumLoadScreen.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
-GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, String identifier,
+GamePlayScreen::GamePlayScreen(MainScreen *previous, Feed *feed, bool newGame, String identifier,
 		String newGameType, bool againstFriend, String deckId, int lobby, String gameid) : mHttp(this),
-		previous(previous), feed(feed), newGame(newGame), newGameType(newGameType), deckId(deckId) {
+		newGame(newGame), newGameType(newGameType), deckId(deckId) {
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
+	this->previous = previous;
+	this->feed = feed;
 	parentTag = "";
 	cardText = "";
 	id = "";
@@ -70,12 +72,12 @@ GamePlayScreen::GamePlayScreen(Screen *previous, Feed *feed, bool newGame, Strin
 	imageCacheOpp = new ImageCache();
 
 	mainLayout = Util::createMainLayout("", "Back", "", true);
-	listBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
+	kinListBox = (KineticListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	notice->setDrawBackground(false);
 
-	listBox->setHeight(listBox->getHeight() - 20);
-	listBox->setEnabled(false);
+	kinListBox->setHeight(kinListBox->getHeight() - 20);
+	kinListBox->setEnabled(false);
 	storeHeight = mainLayout->getChildren()[0]->getChildren()[0]->getHeight();
 
 	phase = P_LOADING;
@@ -171,11 +173,11 @@ void GamePlayScreen::clearListBox() {
 	imageCacheUser->clearImageCache();
 	imageCacheOpp->clearImageCache();
 	Vector<Widget*> tempWidgets;
-	for (int i = 0; i < listBox->getChildren().size(); i++) {
-		tempWidgets.add(listBox->getChildren()[i]);
+	for (int i = 0; i < kinListBox->getChildren().size(); i++) {
+		tempWidgets.add(kinListBox->getChildren()[i]);
 	}
-	listBox->clear();
-	listBox->getChildren().clear();
+	kinListBox->clear();
+	kinListBox->getChildren().clear();
 
 	for (int j = 0; j < tempWidgets.size(); j++) {
 		delete tempWidgets[j];
@@ -206,7 +208,7 @@ void GamePlayScreen::drawResultsScreen() {
 	lbl->setCaption("Match Results:");
 
 	String display = explanation;
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	lbl = new Label(0, 0, scrWidth-(PADDING*2), 0, NULL);
 	lbl->setDrawBackground(false);
@@ -214,7 +216,7 @@ void GamePlayScreen::drawResultsScreen() {
 	lbl->setAutoSizeY(true);
 	lbl->setMultiLine(true);
 	lbl->setCaption(display);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	explanation = "";
 }
@@ -233,7 +235,7 @@ void GamePlayScreen::drawConfirmScreen() {
 
 	lbl->setCaption(creator + " wants to play against you, do you want to take them on?");
 
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 }
 
 void GamePlayScreen::drawClosedScreen() {
@@ -250,7 +252,7 @@ void GamePlayScreen::drawClosedScreen() {
 
 	lbl->setCaption("The game you are trying to join has already started!");
 
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 }
 
 void GamePlayScreen::drawDeclinedScreen() {
@@ -267,7 +269,7 @@ void GamePlayScreen::drawDeclinedScreen() {
 
 	lbl->setCaption("The person you wanted to play against declined the game.");
 
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 }
 
 void GamePlayScreen::drawFriendNameScreen() {
@@ -282,15 +284,15 @@ void GamePlayScreen::drawFriendNameScreen() {
 
 	lbl->setCaption("Enter the username of the person you want to play against");
 
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
 	lbl = Util::createEditLabel("");
 	editBoxFriend = new NativeEditBox(0, 0, lbl->getWidth()-PADDING*2, lbl->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, lbl, "", L"Friend");
 	editBoxFriend->setDrawBackground(false);
 	lbl->addWidgetListener(this);
-	listBox->add(lbl);
+	kinListBox->add(lbl);
 
-	listBox->setSelectedIndex(1);
+	kinListBox->setSelectedIndex(1);
 	editBoxFriend->setSelected(true);
 }
 
@@ -303,9 +305,9 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	phase = P_CARD_DETAILS;
 
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(0);
-	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
-	listBox->setPosition(0, 0);
-	listBox->setEnabled(false);
+	kinListBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()));
+	kinListBox->setPosition(0, 0);
+	kinListBox->setEnabled(false);
 
 	flip = true;
 
@@ -314,25 +316,25 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 
 	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
-	int height = listBox->getHeight() - (2 * DEFAULT_SMALL_LABEL_HEIGHT);
+	int height = kinListBox->getHeight() - (2 * DEFAULT_SMALL_LABEL_HEIGHT);
 	String lblString = userName + ": ";
 	lblString += userCards;
 	lblString += " cards, ";
 	lblString += active?"Select a stat":"Waiting";
-	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
+	Label *userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, kinListBox, lblString,0,Util::getDefaultFont());
 	userLabel->setDrawBackground(false);
-	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
+	userImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, kinListBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
 
 	Util::retrieveBackFlip(userImage, card, height-PADDING*2, imageCacheUser);
 
 	//if the opponent is active, we can draw the front of their card. If the user is active, we draw a generic card
-	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, listBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
+	oppImage = new MobImage(0, 0, scrWidth-PADDING*2 - 25, height/2, kinListBox, false, false, Util::loadImageFromResource(RES_LOADING_FLIP1));
 
 	lblString = oppName + ": ";
 	lblString += oppCards;
 	lblString += " cards, ";
 	lblString += (!active)?"Selecting stat...":"Waiting";
-	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, listBox, lblString,0,Util::getDefaultFont());
+	userLabel = new Label(0, 0, scrWidth - PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, kinListBox, lblString,0,Util::getDefaultFont());
 	userLabel->setDrawBackground(false);
 	if (!active) {
 		Util::retrieveBackFlip(oppImage, oppCard, height-PADDING*2, imageCacheOpp);
@@ -345,8 +347,8 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 void GamePlayScreen::drawLFMScreen() {
 	if (ticks == 0) {
 		clearListBox();
-		userImage = new MobImage(0, 0, scrWidth-PADDING*2, listBox->getHeight(), listBox, false, false, Util::loadImageFromResource(RES_LOADING1));
-		Util::retrieveBack(userImage, gcCard, listBox->getHeight()-PADDING*2, imageCacheUser);
+		userImage = new MobImage(0, 0, scrWidth-PADDING*2, kinListBox->getHeight(), kinListBox, false, false, Util::loadImageFromResource(RES_LOADING1));
+		Util::retrieveBack(userImage, gcCard, kinListBox->getHeight()-PADDING*2, imageCacheUser);
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -441,7 +443,7 @@ void GamePlayScreen::locateItem(MAPoint2d point) {
 GamePlayScreen::~GamePlayScreen() {
 	lprintfln("~GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	clearListBox();
-	listBox->clear();
+	kinListBox->clear();
 	delete mainLayout;
 	mainLayout = NULL;
 
@@ -506,7 +508,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			switch(phase){
 				case P_CARD_DETAILS:
 					flip = !flip;
-					int height = listBox->getHeight();
+					int height = kinListBox->getHeight();
 					if (userImage->getResource() != NULL) {
 						maDestroyObject(userImage->getResource());
 					}
@@ -585,7 +587,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					break;
 				case P_CLOSED:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
-					((AlbumLoadScreen *)previous)->refresh();
+					previous->refresh();
 					break;
 				case P_DECLINED:
 					MAUtil::Environment::getEnvironment().removeTimer(this);
@@ -633,7 +635,7 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 				case P_CARD_DETAILS:
 					if (flipOrSelect) {
 						flip = !flip;
-						int height = listBox->getHeight();
+						int height = kinListBox->getHeight();
 						if (userImage->getResource() != NULL) {
 							maDestroyObject(userImage->getResource());
 						}
@@ -680,7 +682,8 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 					case P_RESULTS:
-						origMenu->show();
+						/*origMenu->show();*/
+						previous->pop();
 						break;
 					case P_CONFIRM:
 						notice->setCaption("Confirming...");
@@ -766,6 +769,8 @@ void GamePlayScreen::runTimerEvent() {
 		ticks = ticks>3?1:ticks+1;
 		lfmTicks++;
 	}
+	lprintfln("checking: %s", checking?"true":"false");
+	lprintfln("lfmTicks: %d", lfmTicks);
 	if ((!active && phase == P_CARD_DETAILS && !selectingStat) || (!checking && lfmTicks%12 == 0)) {
 		checking = true;
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
@@ -814,7 +819,7 @@ void GamePlayScreen::runTimerEvent() {
 			selected = true;
 		}
 		else {
-			listBox->requestRepaint();
+			kinListBox->requestRepaint();
 			selected = false;
 		}
 
@@ -911,11 +916,11 @@ void GamePlayScreen::runTimerEvent() {
 
 void GamePlayScreen::resetHeights() {
 	mainLayout->getChildren()[0]->getChildren()[0]->setHeight(storeHeight);
-	listBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()+storeHeight + 20));
+	kinListBox->setHeight(scrHeight-(mainLayout->getChildren()[1]->getHeight()+storeHeight + 20));
 }
 
 void GamePlayScreen::animateSelectStat() {
-	int height = listBox->getHeight();
+	int height = kinListBox->getHeight();
 	/** could potentially destroy gcflip **/
 	if (oppImage->getResource() != NULL) {
 		maDestroyObject(oppImage->getResource());
@@ -939,7 +944,7 @@ void GamePlayScreen::selectStat() {
 	int urlLength = 0;
 	int res = 0;
 	//currentSelectedStat = -1;
-	//listBox->setEnabled(true);
+	//kinListBox->setEnabled(true);
 
 	//work out how long the url will be, the 19 is for the & and = symbals, as well as the hard coded params
 	urlLength = 78 + URLSIZE + gameId.length() + card->getStats()[currentSelectedStat]->getCardStatId().length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(Util::getMaxImageWidth());
@@ -1135,7 +1140,7 @@ void GamePlayScreen::mtxTagData(const char* data, int len) {
 	} else if(!strcmp(parentTag.c_str(), "creator")) {
 		creator = data;
 	} else if (!strcmp(parentTag.c_str(), "phase")) {
-		//listBox->setEnabled(true);
+		//kinListBox->setEnabled(true);
 		if (!strcmp(data, "stat")) {
 			phase = P_CARD_DETAILS;
 		}
@@ -1248,7 +1253,7 @@ void GamePlayScreen::mtxTagEnd(const char* name, int len) {
 					break;
 				case P_OPPMOVE:
 					notice->setCaption("");
-					int height = listBox->getHeight();
+					int height = kinListBox->getHeight();
 					Util::retrieveBackFlip(userImage, card, height, imageCacheUser);
 					Util::retrieveBackFlip(oppImage, oppCard, height, imageCacheOpp);
 					for (int i = 0; i < oppCard->getStats().size(); i++) {

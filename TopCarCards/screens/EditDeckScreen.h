@@ -11,13 +11,14 @@
 #include "../utils/ImageCache.h"
 #include "../UI/KineticListBox.h"
 #include "../UI/Widgets/MobImage.h"
+#include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class EditDeckScreen : public Screen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class EditDeckScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
 public:
-	EditDeckScreen(Screen *previous, Feed *feed, String deckId);
+	EditDeckScreen(MainScreen *previous, Feed *feed, String deckId);
 	~EditDeckScreen();
 	void keyPressEvent(int keyCode);
 	void selectionChanged(Widget *widget, bool selected);
@@ -35,13 +36,8 @@ public:
 
 	void refresh();
 private:
-	Screen *next, *previous;
-	Label *notice, *label;
-	KineticListBox *listBox;
-	Layout *mainLayout;
 
 	HttpConnection mHttp;
-	XmlConnection xmlConn;
 	ImageCache *mImageCache;
 
 	String parentTag, statDesc, statIVal, statDisplay, note, deckId, deckCategory;
@@ -50,7 +46,6 @@ private:
 	int size, i, moved, listSizes, screenType;
 	bool list, left, right, emp, hasConnection, busy, deleting;
 
-	Feed *feed;
 	Card *card;
 	Vector<Card *> cards;
 	Vector<Stat*> stats;
