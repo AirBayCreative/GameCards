@@ -2777,7 +2777,7 @@ function invite($tradeMethod, $receiveNumber, $iUserID, $messageID) {
 	exit;
 }
 // register user 
-function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$root,$ip='',$url='www.mytcg.net') {
+function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$root,$ip='',$url='www.mytcg.net', $name, $surname, $age, $gender) {
 	$sOP='';
 	
 	$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
@@ -2862,13 +2862,17 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			}
 		}
 		
-		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip, loaded) VALUES ('{$username}', '{$email}', 1, now(), 300, 0, '{$ip}', 1)");
+		\myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip, loaded, name, surname, mobile_date_last_visit, apps_id, age, gender) VALUES ('{$username}', '{$email}', 1, now(), 0, 0, '{$ip}', 1, '{$name}', '{$surname}', now(), 1, '{$age}', '{$gender}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
 		$iMod=(intval($iUserID) % 10)+1;
 		$crypPass = substr(md5($iUserID),$iMod,10).md5($password);
 		myqu("UPDATE mytcg_user SET password = '{$crypPass}' WHERE user_id = {$iUserID}");
+		
+		myqu("INSERT INTO tcg_user_log (user_id, name, surname, email_address, email_verified, date_register, date_last_visit, msisdn, imsi, imei, version, os, make, model, osver, touch, width, height, facebook_user_id, mobile_date_last_visit, web_date_last_visit, facebook_date_last_visit, last_useragent, ip, apps_id, age, gender, referer_id)
+			SELECT user_id, name, surname, email_address, email_verified, date_register, date_last_visit, msisdn, imsi, imei, version, os, make, model, osver, touch, width, height, facebook_user_id, mobile_date_last_visit, web_date_last_visit, facebook_date_last_visit, last_useragent, ip, apps_id, age, gender, referer_id
+			FROM mytcg_user WHERE user_id=".$iUserID);
 		
 		if (sizeof($aReferer) > 0 && strlen($referer) > 0) {
 			myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
