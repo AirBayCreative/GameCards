@@ -14,7 +14,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class AlbumLoadScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class AlbumLoadScreen : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenType = ST_ALBUMS, Albums *album = NULL, bool auction=false, Card *card = NULL, String CategoryId = "");
 	~AlbumLoadScreen();
@@ -35,8 +35,9 @@ public:
 	void refresh();
 
 	void setDeckId(String deckId);
+	void menuOptionSelected(int index);
 
-	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_LOBBY, ST_COMPARE, ST_AUCTION, ST_DECK};
+	enum screenTypes {ST_ALBUMS, ST_PLAY, ST_GAMES, ST_LOBBY, ST_COMPARE, ST_AUCTION, ST_DECK, ST_FRIENDS};
 private:
 	Widget* currentSelectedKey;
 
@@ -44,7 +45,7 @@ private:
 
 	Vector<String> path;
 	String parentTag;
-	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId;
+	String temp,temp1,error_msg,hasCards,updated,categoryId,deckId,friendId;
 	int size, i, moved, screenType, xStart, currentKeyPosition;
 	bool list, left, right, mid,listLeft, listRight, empt, hasConnection, isAuction, shown;
 

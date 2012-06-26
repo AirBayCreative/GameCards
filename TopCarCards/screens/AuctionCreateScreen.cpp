@@ -160,7 +160,7 @@ void AuctionCreateScreen::keyPressEvent(int keyCode) {
 				case MAK_DOWN:
 					if (kinListBox->getSelectedIndex() < 5) {
 						kinListBox->setSelectedIndex(kinListBox->getSelectedIndex() + 2);
-					} else {
+					} else if(currentSelectedKey==NULL){
 						kinListBox->getChildren()[kinListBox->getSelectedIndex()]->setSelected(false);
 						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -529,20 +529,7 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	currentSelectedKey = NULL;
 	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
-	int cost = Convert::toInt(openingText);
-	int buynow = 0;
-	if (buyNowText.length() > 1) {
-		buynow = Convert::toInt(buyNowText);
-	}
-	if (buynow > cost) {
-		cost = buynow;
-	}
-	String cred = " credits.";
-	cost = cost/10;
-	if (cost <= 5) {
-		cost = 5;
-	}
-	String result = "Are you sure you want to auction " + card->getText() + "? It will cost you " + Convert::toString(cost) + cred;
+	String result = "Are you sure you want to auction " + card->getText() + "?";
 
 	label = new Label(0,0, scrWidth-PADDING*2, 60, NULL, result, 0, Util::getDefaultSelected());
 	label->setHorizontalAlignment(Label::HA_CENTER);
@@ -552,7 +539,6 @@ void AuctionCreateScreen::drawConfirmScreen() {
 	kinListBox->add(label);
 
 	result = "";
-	cred = "";
 
 	Layout *feedlayout;
 
@@ -614,11 +600,11 @@ void AuctionCreateScreen::drawCreatedScreen() {
 	label->setVerticalAlignment(Label::VA_CENTER);
 	label->setDrawBackground(false);
 	label->setMultiLine(true);
-	listBox->add(label);
+	kinListBox->add(label);
 
 	Layout *feedlayout;
 
-	feedlayout = new Layout(0, 0, listBox->getWidth()-(PADDING*2), 120, listBox, 2, 1);
+	feedlayout = new Layout(0, 0, kinListBox->getWidth()-(PADDING*2), 120, kinListBox, 2, 1);
 	feedlayout->setSkin(Util::getSkinAlbum());
 	feedlayout->setDrawBackground(false);
 	feedlayout->addWidgetListener(this);
@@ -719,11 +705,13 @@ void AuctionCreateScreen::mtxTagData(const char* data, int len) {
 }
 
 void AuctionCreateScreen::mtxTagEnd(const char* name, int len) {
-	notice->setCaption("");
-	busy = false;
+	if (!strcmp(name, "result")) {
+		notice->setCaption("");
+		busy = false;
 
-	screenMode = ST_CREATED;
-	drawCreatedScreen();
+		screenMode = ST_CREATED;
+		drawCreatedScreen();
+	}
 }
 
 void AuctionCreateScreen::mtxParseError(int) {

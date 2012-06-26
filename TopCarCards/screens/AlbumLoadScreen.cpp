@@ -24,7 +24,7 @@ void AlbumLoadScreen::refresh() {
 	int urlLength = 0;
 
 	mHttp = HttpConnection(this);
-	//delete album;
+
 	if (album == NULL) {
 		album = new Albums();
 	} else {
@@ -89,6 +89,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	shown = false;
 	temp1 = "";
 	deckId = "";
+	friendId="0";
 	updated = "0";
 
 	next = NULL;
@@ -97,7 +98,12 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 	listBox = (ListBox*) mainLayout->getChildren()[0]->getChildren()[2];
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 
-	album = new Albums();
+	if (album == NULL) {
+		lprintfln("album = new Albums()");
+		album = new Albums();
+	} else {
+		album->clearAll();
+	}
 
 	switch(screenType) {
 		case ST_ALBUMS:
@@ -109,6 +115,18 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
 			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			lprintfln("%s", url);
+			res = mHttp.create(url, HTTP_GET);
+			break;
+		case ST_FRIENDS:
+			notice->setCaption("Checking for friend albums...");
+			friendId = categoryId;
+			this->categoryId = "";
+			//album->setAll(this->feed->getAlbum()->getAll().c_str());
+			urlLength = 70 + URLSIZE + feed->getSeconds().length() + friendId.length();
+			url = new char[urlLength+1];
+			memset(url,'\0',urlLength+1);
+			sprintf(url, "%s?usercategories=1&seconds=%s&friendid=%s", URL, feed->getSeconds().c_str(), friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 			break;
@@ -187,6 +205,7 @@ AlbumLoadScreen::AlbumLoadScreen(MainScreen *previous, Feed *feed, int screenTyp
 
 	if (url != NULL) {
 		delete url;
+		url = NULL;
 	}
 }
 
@@ -211,6 +230,7 @@ AlbumLoadScreen::~AlbumLoadScreen() {
 	error_msg="";
 	hasCards="";
 	updated="";
+	friendId="";
 
 	if (screenType == ST_PLAY || screenType == ST_ALBUMS) {
 		if (album != NULL) {
@@ -321,7 +341,6 @@ void AlbumLoadScreen::drawList() {
 	int itemsPerList = listBox->getHeight() / ITEM_HEIGHT;
 	Vector<String> display = album->getNames();
 	Layout *listLayout;
-	//check if we need more than 1 page
 	if (itemsPerList < display.size()) {
 		listLayout = new Layout(0, 0, listBox->getWidth(), listBox->getHeight(), listBox, 3, 1);
 		listLayout->setDrawBackground(false);
@@ -405,6 +424,7 @@ void AlbumLoadScreen::drawList() {
 	if (shown) {
 		((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
 	}
+	delete cap;
 }
 
 void AlbumLoadScreen::clearListBox() {
@@ -462,6 +482,7 @@ void AlbumLoadScreen::show() {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 }
 
 void AlbumLoadScreen::hide() {
@@ -654,6 +675,19 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 							loadCategory();
 						}
 						break;
+					case ST_FRIENDS:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_FRIENDS, isAuction, NULL,"",friendId);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+					break;
 					case ST_COMPARE:
 						if (val->getHasCards()) {
 							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
@@ -693,7 +727,6 @@ void AlbumLoadScreen::keyPressEvent(int keyCode) {
 						}
 						break;
 				}
-				//delete val;
 			}
 			break;
 	}
@@ -724,6 +757,7 @@ void AlbumLoadScreen::switchList(int nextOrPrev) {
 	memset(cap,'\0',capLength+1);
 	sprintf(cap, "Page %d/%d", (selectedList + 1), cardLists.size());
 	((Label*)this->getMain()->getChildren()[1]->getChildren()[1])->setCaption(cap);
+	delete cap;
 
 	currentIndex = 0;
 }
@@ -762,19 +796,19 @@ void AlbumLoadScreen::loadCategory() {
 		if (path.size() == 0) {
 			//if path is empty, the list is at the top level
 			//work out how long the url will be, the 2 is for the & and = symbols
-			urlLength = 60 + URLSIZE + feed->getSeconds().length();
+			urlLength = 70 + URLSIZE + feed->getSeconds().length() + friendId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usercategories=1&seconds=%s", URL, feed->getSeconds().c_str());
+			sprintf(url, "%s?usercategories=1&seconds=%s&friendid=%s", URL, feed->getSeconds().c_str(),friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
 		else {
 			//work out how long the url will be, the 4 is for the & and = symbols
-			urlLength = 70 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length();
+			urlLength = 80 + URLSIZE + path[path.size()-1].length() + feed->getSeconds().length() + friendId.length();
 			url = new char[urlLength+1];
 			memset(url,'\0',urlLength+1);
-			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str());
+			sprintf(url, "%s?usersubcategories=1&category=%s&seconds=%s&friendid=%s", URL, path[path.size()-1].c_str(), feed->getSeconds().c_str(),friendId.c_str());
 			lprintfln("%s", url);
 			res = mHttp.create(url, HTTP_GET);
 		}
@@ -856,6 +890,10 @@ void AlbumLoadScreen::mtxTagData(const char* data, int len) {
 	}
 }
 
+void AlbumLoadScreen::menuOptionSelected(int index) {
+	previous->show();
+}
+
 void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 	if(!strcmp(name, "album") || !strcmp(name, "categoryname") || !strcmp(name, "gamedescription")) {
 		notice->setCaption("");
@@ -896,7 +934,23 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 			al = "";
 		}
 		drawList();
-		if ((album->size() == 1)&&(screenType != ST_ALBUMS)) {
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase some.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
 			Vector<String> display = album->getNames();
 			Album* val = album->getAlbum(display.begin()->c_str());
 			if (val != NULL) {
@@ -957,6 +1011,80 @@ void AlbumLoadScreen::mtxTagEnd(const char* name, int len) {
 		error_msg = "";
 	} else if(!strcmp(name, "error")) {
 		notice->setCaption(error_msg.c_str());
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+	} else if(!strcmp(name, "result")) {
+		notice->setCaption("");
+		temp = "";
+		hasCards = "";
+		updated = "";
+		temp1 = "";
+		error_msg = "";
+		if (album->size() == 0) {
+			lprintfln("album->size() %d", album->size());
+			if (album->size()==0) {
+				MenuScreen *confirmation = new MenuScreen(RES_BLANK, "We noticed you have not purchased cards yet. You can go to the Shop to purchase more.");
+				confirmation->setMenuWidth(180);
+				confirmation->setMarginX(5);
+				confirmation->setMarginY(5);
+				confirmation->setDock(MenuScreen::MD_CENTER);
+				confirmation->setListener(this);
+				confirmation->setMenuFontSel(Util::getFontBlack());
+				confirmation->setMenuFontUnsel(Util::getFontWhite());
+				confirmation->setMenuSkin(Util::getSkinDropDownItem());
+				confirmation->addItem("Ok");
+				confirmation->show();
+			}
+		}
+		if ((album->size() == 1)/*&&(screenType != ST_ALBUMS)*/) {
+			Vector<String> display = album->getNames();
+			Album* val = album->getAlbum(display.begin()->c_str());
+			if (val != NULL) {
+				if (next != NULL) {
+					delete next;
+					feed->remHttp();
+					next = NULL;
+				}
+				switch (screenType) {
+					case ST_ALBUMS:
+						if (val->getHasCards()) {
+							if (strcmp(val->getId().c_str(), "-3") == 0) {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NEW_CARDS, isAuction);
+								next->show();
+							}
+							else {
+								next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_NORMAL, isAuction);
+								next->show();
+							}
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					case ST_COMPARE:
+						if (val->getHasCards()) {
+							next = new AlbumViewScreen(this, feed, val->getId(), AlbumViewScreen::AT_COMPARE, isAuction, card);
+							next->show();
+						}
+						else {
+							//if a category has no cards, it means it has sub categories.
+							//it is added to the path so we can back track
+							path.add(val->getId());
+							//then it must be loaded
+							loadCategory();
+						}
+						break;
+					}
+				}
+				display.clear();
+			}
 		temp = "";
 		hasCards = "";
 		updated = "";

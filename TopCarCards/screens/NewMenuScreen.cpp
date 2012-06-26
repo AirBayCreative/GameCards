@@ -171,6 +171,13 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				}
 				next = new AlbumLoadScreen(this, feed, AlbumLoadScreen::ST_ALBUMS);
 				next->show();
+				/*if(next!=NULL){
+					delete next;
+					feed->remHttp();
+					next = NULL;
+				}
+				next = new TutorialScreen(this, tutItems, sizeof(tutItems)/sizeof(tutItem));
+				next->show();*/
 			} else if(index == OP_PLAY) {
 				if(next!=NULL){
 					delete next;

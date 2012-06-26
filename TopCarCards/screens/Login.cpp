@@ -398,7 +398,7 @@ void Login::keyPressEvent(int keyCode) {
 		case MAK_DOWN:
 			if (index+2 < kinListBox->getChildren().size()) {
 				kinListBox->setSelectedIndex(index+2);
-			} else {
+			} else if(currentSelectedKey==NULL){
 				kinListBox->getChildren()[index]->setSelected(false);
 				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){

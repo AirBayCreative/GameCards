@@ -564,7 +564,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				lprintfln("zzz1");
 				if (ind+1 < kinListBox->getChildren().size()) {
 					kinListBox->selectNextItem();
-				} else {
+				} else if(currentSelectedKey==NULL) {
 					kinListBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -587,7 +587,7 @@ void TradeFriendDetailScreen::keyPressEvent(int keyCode) {
 				//}
 				if (ind+2 < kinListBox->getChildren().size()) {
 					kinListBox->setSelectedIndex(ind+2);
-				} else {
+				} else if(currentSelectedKey==NULL) {
 					kinListBox->getChildren()[ind]->setSelected(false);
 					for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
 						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
@@ -723,7 +723,9 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 
 		if ((strcmp(method.c_str(), "phone_number") == 0)&&(!(check.find("User not found.")))) {
 			maSendTextSMS(friendDetail.c_str(), check.substr(16).c_str());
-			result = "User not found. Invite Sent.";
+			result = "User not found. Sending an invite for them to join...";
+		} else if (usernameEditBox->getText().length() > 0) {
+			result = "User not found. Why not invite them by Email or Phone Number?";
 		} else {
 			result = data;
 		}
@@ -735,7 +737,26 @@ void TradeFriendDetailScreen::mtxTagData(const char* data, int len) {
 		drawCompleteScreen();
 	} else {
 		notice->setCaption(result);
+		MenuScreen *confirmation = new MenuScreen(RES_BLANK, result.c_str());//"Insufficient funds. You can go to Credits to purchase more.");
+		confirmation->setMenuWidth(180);
+		confirmation->setMarginX(5);
+		confirmation->setMarginY(5);
+		confirmation->setDock(MenuScreen::MD_CENTER);
+		confirmation->setListener(this);
+		confirmation->setMenuFontSel(Util::getFontBlack());
+		confirmation->setMenuFontUnsel(Util::getFontWhite());
+		confirmation->setMenuSkin(Util::getSkinDropDownItem());
+		confirmation->addItem("Ok");
+		confirmation->show();
+
+		usernameEditBox->deactivate();
+		emailEditBox->deactivate();
+		phonenumberEditBox->deactivate();
 	}
+}
+
+void TradeFriendDetailScreen::menuOptionSelected(int selected) {
+	show();
 }
 
 void TradeFriendDetailScreen::mtxTagEnd(const char* name, int len) {

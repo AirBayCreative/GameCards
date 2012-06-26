@@ -33,13 +33,14 @@ public:
 
 	typedef Vector<Product*> ProductVector;
 private:
+	Widget* currentSelectedKey;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
 	HttpConnection mHttp;
 
 	String parentTag,cardText;
 	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem,productprem;
-	int i,moved;
+	int i, moved, currentKeyPosition;
 	bool list,left,right,emp,free,credits,first;
 
 	ProductVector products;

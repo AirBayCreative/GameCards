@@ -20,7 +20,7 @@
 using namespace MAUI;
 using namespace MAUtil;
 
-class TradeFriendDetailScreen : public MainScreen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener {
+class TradeFriendDetailScreen : public MainScreen, WidgetListener, private HttpConnectionListener, private XCListener, Mtx::XmlListener, MenuListener {
 public:
 	TradeFriendDetailScreen(MainScreen *previous, Feed *feed, Card *card);
 	~TradeFriendDetailScreen();
@@ -31,6 +31,7 @@ public:
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
 	void setNum(String number);
+	void menuOptionSelected(int selected);
 private:
 	enum screenPhase {SP_METHOD, SP_DETAIL, SP_CONFIRM, SP_COMPLETE};
 	int phase, moved;

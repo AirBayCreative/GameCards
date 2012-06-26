@@ -2,6 +2,7 @@
 #include "DeckListScreen.h"
 #include "EditDeckScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
 NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed) : mHttp(this) {
 	lprintfln("NewDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -9,6 +10,8 @@ NewDeckScreen::NewDeckScreen(MainScreen *previous, Feed *feed) : mHttp(this) {
 	this->feed = feed;
 	kinListBox = NULL;
 	mainLayout= NULL;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 
 	deckName = "";
 	errorString = "";
@@ -151,6 +154,7 @@ void NewDeckScreen::locateItem(MAPoint2d point)
 void NewDeckScreen::keyPressEvent(int keyCode) {
 	int ind = kinListBox->getSelectedIndex();
 	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
@@ -167,6 +171,13 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 		case MAK_SOFTLEFT:
 			switch (phase) {
 				case P_RESULTS:
@@ -225,17 +236,63 @@ void NewDeckScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-			if (ind == max-1) {
-				kinListBox->setSelectedIndex(0);
-			} else {
-				kinListBox->selectNextItem();
+			if (ind+1 < max ) {
+				kinListBox->setSelectedIndex(ind+1);
+			} else if(currentSelectedKey==NULL) {
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
 			}
 			break;
 		case MAK_UP:
-			if (ind == 0) {
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (ind == 0) {
 				kinListBox->setSelectedIndex(max-1);
 			} else {
 				kinListBox->selectPreviousItem();
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
 			}
 			break;
 	}
@@ -263,6 +320,8 @@ void NewDeckScreen::selectionChanged(Widget *widget, bool selected) {
 
 void NewDeckScreen::drawSelectCategoryScreen() {
 	clearListBox();
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	for(int i = 0; i < albums.size(); i++) {
@@ -283,6 +342,8 @@ void NewDeckScreen::drawSelectCategoryScreen() {
 
 void NewDeckScreen::drawEnterNameScreen() {
 	clearListBox();
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Continue", "Back", "", mainLayout);
 
 	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Deck Name", 0, Util::getDefaultFont());

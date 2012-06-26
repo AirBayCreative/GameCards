@@ -7,12 +7,15 @@
 #include "DeckListScreen.h"
 #include "OptionsScreen.h"
 #include "../utils/Util.h"
+#include "../UI/Button.h"
 
 DeckListScreen::DeckListScreen(MainScreen *previous, Feed *feed, int screenType, String categoryId)
 		:mHttp(this), screenType(screenType), categoryId(categoryId) {
 	lprintfln("DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	mainLayout = Util::createMainLayout("", "Back", true);
 	notice = (Label*) mainLayout->getChildren()[0]->getChildren()[1];
 	kinListBox = (KineticListBox*)mainLayout->getChildren()[0]->getChildren()[2];
@@ -79,7 +82,7 @@ DeckListScreen::~DeckListScreen() {
 	lprintfln("~DeckListScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	delete mainLayout;
 	mainLayout = NULL;
-
+	currentSelectedKey = NULL;
 	parentTag= "";
 	description = "";
 	deckId = "";
@@ -90,7 +93,6 @@ DeckListScreen::~DeckListScreen() {
 		feed->remHttp();
 		next = NULL;
 	}
-
 	for (int i = 0; i < albums.size(); i++) {
 		delete albums[i];
 		albums[i] = NULL;
@@ -232,12 +234,20 @@ void DeckListScreen::locateItem(MAPoint2d point)
 void DeckListScreen::keyPressEvent(int keyCode) {
 	int ind = kinListBox->getSelectedIndex();
 	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_SOFTRIGHT:
 		case MAK_BACK:
 			previous->show();
 			break;
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 		case MAK_SOFTLEFT:
 			if (!selecting) {
 				switch (screenType) {
@@ -270,19 +280,65 @@ void DeckListScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_DOWN:
-		if (ind == max-1) {
-			kinListBox->setSelectedIndex(0);
-		} else {
-			kinListBox->selectNextItem();
-		}
-		break;
-	case MAK_UP:
-		if (ind == 0) {
-			kinListBox->setSelectedIndex(max-1);
-		} else {
-			kinListBox->selectPreviousItem();
-		}
-		break;
+			if (ind+1 < max) {
+				kinListBox->setSelectedIndex(ind+1);
+			} else {
+				kinListBox->getChildren()[ind]->setSelected(false);
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
+		case MAK_UP:
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+			}
+			else if (ind == 0) {
+				kinListBox->setSelectedIndex(max-1);
+			} else {
+				kinListBox->selectPreviousItem();
+			}
+			break;
+		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
+		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+			}
+			break;
 	}
 }
 

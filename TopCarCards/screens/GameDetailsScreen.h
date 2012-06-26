@@ -37,10 +37,11 @@ private:
 	bool list, left, right;
 
 	HttpConnection mHttp;
+	Widget* currentSelectedKey;
 
 	String parentTag, gameId;
 	String playerDeck, opponentDeck, error_msg, toPlay, display, date, description;
-	int moved, screenType;
+	int moved, screenType, currentKeyPosition;
 
 	void drawList();
 

@@ -41,6 +41,7 @@ public:
 
 	Auction *auction;
 private:
+	Widget* currentSelectedKey;
 	Label *cardLabel, *creditlabel;
 	ImageCache *mImageCache;
 	MobImage *tempImage;
@@ -52,7 +53,7 @@ private:
 	String parentTag,result,credits,premium;
 	String temp,temp1,error_msg;
 
-	int moved,screenType;
+	int moved, screenType, currentKeyPosition;
 
 	String nameDesc,fullDesc;
 

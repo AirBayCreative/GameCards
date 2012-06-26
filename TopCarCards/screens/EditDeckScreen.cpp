@@ -9,6 +9,7 @@
 #include "CompareScreen.h"
 #include "OptionsScreen.h"
 #include "ShopDetailsScreen.h"
+#include "../UI/Button.h"
 
 EditDeckScreen::EditDeckScreen(MainScreen *previous, Feed *feed, String deckId) : mHttp(this), deckId(deckId) {
 	busy = true;
@@ -17,6 +18,8 @@ EditDeckScreen::EditDeckScreen(MainScreen *previous, Feed *feed, String deckId) 
 	this->feed = feed;
 	deleting = false;
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	next = NULL;
 
 	lprintfln("EditDeckScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
@@ -354,6 +357,8 @@ void EditDeckScreen::drawConfirm() {
 	label->setPaddingTop(5);
 	label->setPaddingRight(5);
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Confirm", "Back", "", mainLayout);
 }
 
@@ -426,20 +431,52 @@ void EditDeckScreen::hide() {
 
 void EditDeckScreen::keyPressEvent(int keyCode) {
 	String all = "";
+	int ind = kinListBox->getSelectedIndex();
+	int max = kinListBox->getChildren().size();
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch (screenType) {
 		case ST_LIST:
 			switch(keyCode) {
 				case MAK_UP:
-					kinListBox->selectPreviousItem();
+					if(currentSelectedKey!=NULL){
+						currentSelectedKey->setSelected(false);
+						currentSelectedKey = NULL;
+						currentKeyPosition = -1;
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+					}
+					else if (ind == 0) {
+						kinListBox->setSelectedIndex(max-1);
+					} else {
+						kinListBox->selectPreviousItem();
+					}
 					break;
 				case MAK_DOWN:
-					kinListBox->selectNextItem();
+					if (ind+1 < max ) {
+						kinListBox->setSelectedIndex(ind+1);
+					} else if(currentSelectedKey==NULL) {
+						kinListBox->getChildren()[ind]->setSelected(false);
+						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+								currentKeyPosition=i;
+								currentSelectedKey= currentSoftKeys->getChildren()[i];
+								currentSelectedKey->setSelected(true);
+								break;
+							}
+						}
+					}
 					break;
 				case MAK_BACK:
 				case MAK_SOFTRIGHT:
 					previous->show();
 					break;
 				case MAK_FIRE:
+					if(currentSoftKeys->getChildren()[0]->isSelected()){
+						keyPressEvent(MAK_SOFTLEFT);
+						break;
+					}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+						keyPressEvent(MAK_SOFTRIGHT);
+						break;
+					}
 					if (kinListBox->getSelectedIndex() == 0 && cards.size() < 10) {
 						if (next != NULL) {
 							delete next;
@@ -474,10 +511,77 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 						removeCard();
 					}
 					break;
+				case MAK_LEFT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition > 0){
+							currentKeyPosition = currentKeyPosition - 1;
+							for(int i = currentKeyPosition; i >= 0;i--){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
+					}
+					break;
+				case MAK_RIGHT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+							currentKeyPosition = currentKeyPosition + 1;
+							for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
+					}
+					break;
 			}
 			break;
 		case ST_CONFIRM_DELETE:
 			switch(keyCode) {
+				case MAK_FIRE:
+					if(currentSoftKeys->getChildren()[0]->isSelected()){
+						keyPressEvent(MAK_SOFTLEFT);
+					}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+						keyPressEvent(MAK_SOFTRIGHT);
+					}
+					break;
+				case MAK_UP:
+					if(currentSelectedKey!=NULL){
+						currentSelectedKey->setSelected(false);
+						currentSelectedKey = NULL;
+						currentKeyPosition = -1;
+						kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
+					}
+					else if (ind == 0) {
+						kinListBox->setSelectedIndex(max-1);
+					} else {
+						kinListBox->selectPreviousItem();
+					}
+					break;
+				case MAK_DOWN:
+					if (ind+1 < max ) {
+						kinListBox->setSelectedIndex(ind+1);
+					} else if(currentSelectedKey==NULL) {
+						kinListBox->getChildren()[ind]->setSelected(false);
+						for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+							if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+								currentKeyPosition=i;
+								currentSelectedKey= currentSoftKeys->getChildren()[i];
+								currentSelectedKey->setSelected(true);
+								break;
+							}
+						}
+					}
+				break;
 				case MAK_BACK:
 				case MAK_SOFTRIGHT:
 					if (!busy) {
@@ -489,6 +593,38 @@ void EditDeckScreen::keyPressEvent(int keyCode) {
 					if (!busy) {
 						busy = true;
 						deleteDeck();
+					}
+					break;
+				case MAK_LEFT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition > 0){
+							currentKeyPosition = currentKeyPosition - 1;
+							for(int i = currentKeyPosition; i >= 0;i--){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
+					}
+					break;
+				case MAK_RIGHT:
+					if(currentSelectedKey!=NULL){
+						if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+							currentKeyPosition = currentKeyPosition + 1;
+							for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+								if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+									currentSelectedKey->setSelected(false);
+									currentKeyPosition=i;
+									currentSelectedKey= currentSoftKeys->getChildren()[i];
+									currentSelectedKey->setSelected(true);
+									break;
+								}
+							}
+						}
 					}
 					break;
 			}

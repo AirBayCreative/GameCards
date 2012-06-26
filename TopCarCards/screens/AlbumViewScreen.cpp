@@ -13,8 +13,8 @@
 #include "../UI/Button.h"
 #include "../UI/MenuScreen/MenuScreen.h"
 
-AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, bool bAction, Card *card, String deckId) : mHttp(this),
-filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), deckId(deckId) {
+AlbumViewScreen::AlbumViewScreen(MainScreen *previous, Feed *feed, String category, int albumType, bool bAction, Card *card, String deckId, String friendId) : mHttp(this),
+filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albumType(albumType), isAuction(bAction), card(card), deckId(deckId), friendId(friendId) {
 	this->previous = previous;
 	this->feed = feed;
 	busy = true;
@@ -174,7 +174,33 @@ filename(category+"-lst.sav"), category(category), cardExists(cards.end()), albu
 		}
 		delete url;
 		url = NULL;
-	} else {
+	} else if(albumType == AT_FRIENDS){
+		//loadFile();
+		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
+		int urlLength = 85 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length() + friendId.length();
+		char *url = new char[urlLength+1];
+		memset(url,'\0',urlLength+1);
+		sprintf(url, "%s?cardsincategory=%s&seconds=%s&height=%d&width=%d&jpg=1&friendid=%s", URL, category.c_str(), feed->getSeconds().c_str(), Util::getMaxImageHeight(), Util::getMaxImageWidth(), friendId.c_str());
+		lprintfln("%s", url);
+		if(mHttp.isOpen()){
+			mHttp.close();
+		}
+		mHttp = HttpConnection(this);
+		int res = mHttp.create(url, HTTP_GET);
+		if(res < 0) {
+			busy = false;
+			hasConnection = false;
+			notice->setCaption("");
+		} else {
+			hasConnection = true;
+			mHttp.setRequestHeader("AUTH_USER", feed->getUsername().c_str());
+			mHttp.setRequestHeader("AUTH_PW", feed->getEncrypt().c_str());
+			feed->addHttp();
+			mHttp.finish();
+		}
+		delete url;
+		url = NULL;
+	}  else {
 		loadFile();
 		//work out how long the url will be, the 15 is for the & and = symbals, as well as hard coded parameters
 		int urlLength = 75 + URLSIZE + category.length() + Util::intlen(Util::getMaxImageHeight()) + Util::intlen(scrWidth) + feed->getSeconds().length();
@@ -713,7 +739,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
 				((AlbumLoadScreen *)previous)->refresh();
 			} else {
-				previous->show();
+				previous->pop();
 			}
 			break;
 		case MAK_FIRE:
@@ -724,7 +750,7 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				keyPressEvent(MAK_SOFTRIGHT);
 				break;
 			}
-			if (albumType == AT_PRODUCT) {
+			if (albumType == AT_PRODUCT || albumType == AT_FRIENDS) {
 				break;
 			}
 			if (!emp && !busy && strcmp(cards.find(index[selected])->second->getQuantity().c_str(), "0") != 0) {
@@ -758,6 +784,9 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_SOFTLEFT:
+			if(albumType == AT_FRIENDS){
+				break;
+			}
 			if (!emp && !hasConnection) {
 				notice->setCaption("Unable to connect, try again later...");
 				feed->remHttp();
@@ -984,7 +1013,6 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		stat->setColorBlue(statBlue);
 		stat->setSelectable(selectable);
 		stats.add(stat);
-
 		statDesc = "";
 		statDisplay = "";
 		statIVal = "";
@@ -1051,9 +1079,11 @@ void AlbumViewScreen::mtxTagEnd(const char* name, int len) {
 		cards = tmp;
 		drawList();
 		busy = false;
-		String all = getAll();
-		Util::saveData(filename.c_str(), all.c_str());
-		all = "";
+		if(albumType != AT_FRIENDS){
+			String all = getAll();
+			Util::saveData(filename.c_str(), all.c_str());
+			all = "";
+		}
 		notice->setCaption("");
 		statDesc = "";
 		statDisplay = "";

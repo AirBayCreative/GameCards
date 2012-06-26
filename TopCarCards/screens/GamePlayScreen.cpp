@@ -8,6 +8,7 @@
 #include "ImageScreen.h"
 #include "OptionsScreen.h"
 #include "AlbumLoadScreen.h"
+#include "../UI/Button.h"
 
 //in the case of a new game, identifier is the categoryId. For an existing game, it is the gameId.
 GamePlayScreen::GamePlayScreen(MainScreen *previous, Feed *feed, bool newGame, String identifier,
@@ -16,6 +17,8 @@ GamePlayScreen::GamePlayScreen(MainScreen *previous, Feed *feed, bool newGame, S
 	lprintfln("GamePlayScreen::Memory Heap %d, Free Heap %d", heapTotalMemory(), heapFreeMemory());
 	this->previous = previous;
 	this->feed = feed;
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	parentTag = "";
 	cardText = "";
 	id = "";
@@ -196,6 +199,8 @@ void GamePlayScreen::drawResultsScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Continue", "Options", "", mainLayout);
 
 	notice->setCaption("");
@@ -225,6 +230,8 @@ void GamePlayScreen::drawConfirmScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Yes", "No", "", mainLayout);
 
 	notice->setCaption("");
@@ -242,6 +249,8 @@ void GamePlayScreen::drawClosedScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	notice->setCaption("");
@@ -259,6 +268,8 @@ void GamePlayScreen::drawDeclinedScreen() {
 	MAUtil::Environment::getEnvironment().removeTimer(this);
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 
 	notice->setCaption("");
@@ -275,6 +286,8 @@ void GamePlayScreen::drawDeclinedScreen() {
 void GamePlayScreen::drawFriendNameScreen() {
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout("Play", "Back", "", mainLayout);
 
 	notice->setCaption("");
@@ -314,6 +327,8 @@ void GamePlayScreen::drawCardSelectStatScreen() {
 	notice->setCaption("");
 	clearListBox();
 
+	currentSelectedKey = NULL;
+	currentKeyPosition = -1;
 	Util::updateSoftKeyLayout(active?"":"", "Options", "", mainLayout);
 
 	int height = kinListBox->getHeight() - (2 * DEFAULT_SMALL_LABEL_HEIGHT);
@@ -349,6 +364,8 @@ void GamePlayScreen::drawLFMScreen() {
 		clearListBox();
 		userImage = new MobImage(0, 0, scrWidth-PADDING*2, kinListBox->getHeight(), kinListBox, false, false, Util::loadImageFromResource(RES_LOADING1));
 		Util::retrieveBack(userImage, gcCard, kinListBox->getHeight()-PADDING*2, imageCacheUser);
+		currentSelectedKey = NULL;
+		currentKeyPosition = -1;
 		Util::updateSoftKeyLayout("", "Back", "", mainLayout);
 	}
 
@@ -502,10 +519,41 @@ void GamePlayScreen::drawRectangle(int x, int y, int width, int height){
 }
 
 void GamePlayScreen::keyPressEvent(int keyCode) {
+	Widget *currentSoftKeys = mainLayout->getChildren()[mainLayout->getChildren().size() - 1];
 	switch(keyCode) {
 		case MAK_DOWN:
+			if(currentSelectedKey==NULL){
+				for(int i = 0; i < currentSoftKeys->getChildren().size();i++){
+					if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+						currentKeyPosition=i;
+						currentSelectedKey= currentSoftKeys->getChildren()[i];
+						currentSelectedKey->setSelected(true);
+						break;
+					}
+				}
+			}
+			break;
 		case MAK_UP:
-			switch(phase){
+			if(currentSelectedKey!=NULL){
+				currentSelectedKey->setSelected(false);
+				currentSelectedKey = NULL;
+				currentKeyPosition = -1;
+				switch (phase) {
+					case P_CARD_DETAILS:
+						if(currentSelectedStat != -1){
+							if (userImage->getResource() != NULL && active) {
+								userImage->refreshWidget();
+								userImage->selectStat(card->getStats()[currentSelectedStat]->getLeft(),card->getStats()[currentSelectedStat]->getTop(),
+										card->getStats()[currentSelectedStat]->getWidth(),card->getStats()[currentSelectedStat]->getHeight(),
+										card->getStats()[currentSelectedStat]->getColorRed(), card->getStats()[currentSelectedStat]->getColorGreen(),
+										card->getStats()[currentSelectedStat]->getColorBlue(), MobImage::LANDSCAPE);
+							}
+						}
+					break;
+				}
+			}
+			break;
+			/*switch(phase){
 				case P_CARD_DETAILS:
 					flip = !flip;
 					int height = kinListBox->getHeight();
@@ -525,8 +573,23 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 					currentSelectedStat=-1;
 					break;
 			}
-			break;
+			break;*/
 		case MAK_RIGHT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition+1 < currentSelectedKey->getParent()->getChildren().size()){
+					currentKeyPosition = currentKeyPosition + 1;
+					for(int i = currentKeyPosition; i < currentSoftKeys->getChildren().size();i++){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+				break;
+			}
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != NULL && active) {
@@ -548,6 +611,21 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_LEFT:
+			if(currentSelectedKey!=NULL){
+				if(currentKeyPosition > 0){
+					currentKeyPosition = currentKeyPosition - 1;
+					for(int i = currentKeyPosition; i >= 0;i--){
+						if(((Button *)currentSoftKeys->getChildren()[i])->isSelectable()){
+							currentSelectedKey->setSelected(false);
+							currentKeyPosition=i;
+							currentSelectedKey= currentSoftKeys->getChildren()[i];
+							currentSelectedKey->setSelected(true);
+							break;
+						}
+					}
+				}
+				break;
+			}
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (userImage->getResource() != NULL && active) {
@@ -631,6 +709,13 @@ void GamePlayScreen::keyPressEvent(int keyCode) {
 			}
 			break;
 		case MAK_FIRE:
+			if(currentSoftKeys->getChildren()[0]->isSelected()){
+				keyPressEvent(MAK_SOFTLEFT);
+				break;
+			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+				keyPressEvent(MAK_SOFTRIGHT);
+				break;
+			}
 			switch (phase) {
 				case P_CARD_DETAILS:
 					if (flipOrSelect) {
@@ -769,8 +854,6 @@ void GamePlayScreen::runTimerEvent() {
 		ticks = ticks>3?1:ticks+1;
 		lfmTicks++;
 	}
-	lprintfln("checking: %s", checking?"true":"false");
-	lprintfln("lfmTicks: %d", lfmTicks);
 	if ((!active && phase == P_CARD_DETAILS && !selectingStat) || (!checking && lfmTicks%12 == 0)) {
 		checking = true;
 		//work out how long the url will be, the 19 is for the & and = symbals, as well as hard coded vars
