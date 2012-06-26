@@ -15,6 +15,7 @@ Login::Login(MainScreen *previous, Feed *feed, int screen) : mHttp(this), screen
 	isBusy = false;
 	result = "";
 	currentSelectedKey = NULL;
+	genderLabel = NULL;
 	currentKeyPosition = -1;
 	mainLayout = Util::createMainLayout("", "", "", true);
 
@@ -276,6 +277,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 void Login::locateItem(MAPoint2d point)
 {
+	lprintfln("locateItem");
 	list = false;
 	left = false;
 	right = false;
@@ -286,6 +288,9 @@ void Login::locateItem(MAPoint2d point)
     for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size() &&
 		!mainLayout->getChildren()[1]->contains(p); i++)
     {
+    	lprintfln("i: %d", i);
+    	lprintfln("this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p): %s", this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p)?"true":"false");
+    	lprintfln("moved: %d", moved);
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
         	if (moved <= 1) kinListBox->setSelectedIndex(i);
@@ -331,7 +336,7 @@ void Login::keyPressEvent(int keyCode) {
 			else if(currentSoftKeys->getChildren()[2]->isSelected()){
 				keyPressEvent(MAK_SOFTRIGHT);
 			}
-			else if (genderLabel->isSelected()) {
+			else if (genderLabel != NULL && genderLabel->isSelected()) {
 				genderMenu->show();
 			}
 			break;
@@ -354,6 +359,9 @@ void Login::keyPressEvent(int keyCode) {
 							sprintf(url, "%s?userdetails=1", URL);
 							lprintfln("%s", url);
 							int res = mHttp.create(url, HTTP_GET);
+
+							lprintfln("feed->getUsername(): %s", feed->getUsername().c_str());
+							lprintfln("feed->getEncrypt(): %s", feed->getEncrypt().c_str());
 
 							if(res < 0) {
 								notice->setCaption("Unable to connect, try again later...");
@@ -410,7 +418,7 @@ void Login::keyPressEvent(int keyCode) {
 							notice->setCaption("You need to enter your age.");
 							maVibrate(1000);
 						}
-						else if (editBoxGender->getText().length() == 0) {
+						else if (genderLabel->getCaption().length() == 0) {
 							notice->setCaption("You need to select your gender.");
 							maVibrate(1000);
 						}

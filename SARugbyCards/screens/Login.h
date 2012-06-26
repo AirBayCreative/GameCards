@@ -35,7 +35,7 @@ private:
 
 	Label *genderLabel;
 
-	NativeEditBox *editBoxEmail, *editBoxPass, *editBoxName, *editBoxSurname, *editBoxGender, *editBoxAge;
+	NativeEditBox *editBoxEmail, *editBoxPass, *editBoxName, *editBoxSurname, *editBoxAge;
 
 	MenuScreen *genderMenu;
 

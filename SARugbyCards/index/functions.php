@@ -2448,7 +2448,7 @@ function hasProducts($categoryId, $iFreebie) {
 function getProducts($categoryId, $products, $iFreebie) {
 	if ($iFreebie == 1) {
 		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
-			P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			P.PRICE, CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.jpg") IMAGEURL, 
 			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
 			FROM mytcg_category C, mytcg_imageserver I, 
 			mytcg_productcategory_x PC, 
@@ -2463,7 +2463,7 @@ function getProducts($categoryId, $products, $iFreebie) {
 			ORDER BY P.DESCRIPTION');
 	} else {
 		$prodsQuery = myqu('SELECT DISTINCT P.PRODUCT_ID, P.DESCRIPTION, M.DESCRIPTION PACK_TYPE, 
-			IFNULL(P.PRICE,0) PRICE,IFNULL(P.PREMIUM,0) PREMIUM,CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.png") IMAGEURL, 
+			IFNULL(P.PRICE,0) PRICE,IFNULL(P.PREMIUM,0) PREMIUM,CONCAT(I.DESCRIPTION , "products/" , P.IMAGE , "_thumb.jpg") IMAGEURL, 
 			P.NO_OF_CARDS, (CASE WHEN SUM(P.IN_STOCK) IS NULL THEN 0 ELSE SUM(P.IN_STOCK) END) AS IN_STOCK 
 			FROM mytcg_category C, mytcg_imageserver I, 
 			mytcg_productcategory_x PC, 
@@ -2862,7 +2862,7 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			}
 		}
 		
-		\myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip, loaded, name, surname, mobile_date_last_visit, apps_id, age, gender) VALUES ('{$username}', '{$email}', 1, now(), 0, 0, '{$ip}', 1, '{$name}', '{$surname}', now(), 1, '{$age}', '{$gender}')");
+		myqu("INSERT INTO mytcg_user (username, email_address, is_active, date_register, credits, gameswon, ip, loaded, name, surname, mobile_date_last_visit, apps_id, age, gender) VALUES ('{$username}', '{$email}', 1, now(), 0, 0, '{$ip}', 1, '{$name}', '{$surname}', now(), 1, '{$age}', '{$gender}')");
 		
 		$aUserDetails=myqu("SELECT user_id, username FROM mytcg_user WHERE username = '{$username}'");
 		$iUserID = $aUserDetails[0]['user_id'];
@@ -2900,10 +2900,10 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			SELECT {$iUserID}, id
 			FROM mytcg_achievementlevel");
 			
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+		/*myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 			SELECT '.$iUserID.', descript, now(), val, 1 
 			FROM mytcg_transactiondescription
-			WHERE transactionid = 2');
+			WHERE transactionid = 2');*/
 			
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');
