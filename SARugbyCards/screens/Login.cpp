@@ -75,13 +75,13 @@ void Login::drawLoginScreen() {
 
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Username");
-	editBoxLogin->setDrawBackground(false);
+	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, "", L"Email");
+	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
@@ -93,6 +93,13 @@ void Login::drawLoginScreen() {
 	editBoxPass = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_ANY, label, "", L"Password");
 	editBoxPass->setDrawBackground(false);
 	label->addWidgetListener(this);
+	kinListBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
+	kinListBox->add(label);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	kinListBox->setSelectedIndex(1);
@@ -108,13 +115,13 @@ void Login::drawRegisterScreen() {
 	Util::updateSoftKeyLayout("Register", "Back", "", mainLayout);
 	notice->setCaption("");
 
-	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Username", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxLogin = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Username");
-	editBoxLogin->setDrawBackground(false);
+	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email");
+	editBoxEmail->setDrawBackground(false);
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
@@ -128,27 +135,76 @@ void Login::drawRegisterScreen() {
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Email", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Name", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxEmail = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Email");
-	editBoxEmail->setDrawBackground(false);
+	editBoxName = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Name");
+	editBoxName->setDrawBackground(false);
 	label->addWidgetListener(this);
 	kinListBox->add(label);
 
-	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Referrer", 0, Util::getDefaultFont());
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Surname", 0, Util::getDefaultFont());
 	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	label = Util::createEditLabel("");
-	editBoxRefer = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_EMAILADDR, label, "", L"Referrer");
-	editBoxRefer->setDrawBackground(false);
+	editBoxSurname = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Surname");
+	editBoxSurname->setDrawBackground(false);
 	label->addWidgetListener(this);
+	kinListBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Age", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
+	kinListBox->add(label);
+
+	label = Util::createEditLabel("");
+	editBoxAge = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2, 64, MA_TB_TYPE_URL, label, "", L"Age");
+	editBoxAge->setInputMode(NativeEditBox::IM_NUMBERS);
+	editBoxAge->setDrawBackground(false);
+	label->addWidgetListener(this);
+	kinListBox->add(label);
+
+	label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_SMALL_LABEL_HEIGHT, NULL, "Gender", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
+	kinListBox->add(label);
+
+	genderLabel = Util::createDropDownLabel("");
+	genderLabel->addWidgetListener(this);
+	kinListBox->add(genderLabel);
+
+	genderMenu = new MenuScreen(RES_BLANK);
+	genderMenu->setMenuWidth(140);
+	genderMenu->setMarginX(5);
+	genderMenu->setMarginY(5);
+	genderMenu->setDock(MenuScreen::MD_CENTER);
+	genderMenu->setMenuFontSel(Util::getFontGrey());
+	genderMenu->setMenuFontUnsel(Util::getFontWhite());
+	genderMenu->setMenuSkin(Util::getSkinDropDownItem());
+	genderMenu->addItem("Female");
+	genderMenu->addItem("Male");
+	genderMenu->setListener(this);
+
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
+	kinListBox->add(label);
+	label = new Label(0,0, scrWidth-PADDING*2, 24, NULL, "", 0, Util::getDefaultFont());
+	label->setDrawBackground(false);
 	kinListBox->add(label);
 
 	kinListBox->setSelectedIndex(1);
+}
+
+void Login::menuOptionSelected(int index) {
+	if (index == 0) {
+		genderLabel->setCaption("Female");
+	}
+	else if (index == 1) {
+		genderLabel->setCaption("Male");
+	}
+
+	this->show();
 }
 
 void Login::clearListBox() {
@@ -166,10 +222,19 @@ void Login::clearListBox() {
 	tempWidgets.clear();
 }
 void Login::selectionChanged(Widget *widget, bool selected) {
-	if(selected) {
-		widget->getChildren()[0]->setSelected(true);
-	} else {
-		widget->getChildren()[0]->setSelected(false);
+	if (widget->getChildren().size() > 0) {
+		if(selected) {
+			widget->getChildren()[0]->setSelected(true);
+		} else {
+			widget->getChildren()[0]->setSelected(false);
+		}
+	}
+
+	if (genderLabel != NULL && widget == genderLabel) {
+		genderLabel->setFont(selected?Util::getDefaultSelected():Util::getDefaultFont());
+	}
+	else if (genderLabel != NULL && widget == genderLabel) {
+		genderLabel->setFont(selected?Util::getDefaultSelected():Util::getDefaultFont());
 	}
 }
 
@@ -191,7 +256,7 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		} else if (mid) {
+		} else if (mid || list) {
 			keyPressEvent(MAK_FIRE);
 		}
 
@@ -218,7 +283,8 @@ void Login::locateItem(MAPoint2d point)
 
     Point p;
     p.set(point.x, point.y);
-    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
+    for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size() &&
+		!mainLayout->getChildren()[1]->contains(p); i++)
     {
         if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
         {
@@ -261,21 +327,25 @@ void Login::keyPressEvent(int keyCode) {
 		case MAK_FIRE:
 			if(currentSoftKeys->getChildren()[0]->isSelected()){
 				keyPressEvent(MAK_SOFTLEFT);
-			}else if(currentSoftKeys->getChildren()[2]->isSelected()){
+			}
+			else if(currentSoftKeys->getChildren()[2]->isSelected()){
 				keyPressEvent(MAK_SOFTRIGHT);
+			}
+			else if (genderLabel->isSelected()) {
+				genderMenu->show();
 			}
 			break;
 		case MAK_SOFTLEFT:
 			if (!isBusy) {
 				switch (screen) {
 					case S_LOGIN:
-						if (editBoxLogin->getText()!="" & editBoxPass->getText()!="") {
+						if (editBoxEmail->getText()!="" & editBoxPass->getText()!="") {
 							isBusy = true;
 							notice->setCaption("Please wait, logging in...");
 							conCatenation = editBoxPass->getText().c_str();
 							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
-							feed->setUsername(editBoxLogin->getText().c_str());
+							feed->setUsername(editBoxEmail->getText().c_str());
 							feed->setUnsuccessful("true");
 							mHttp = HttpConnection(this);
 							int urlLength = 71 + URLSIZE;
@@ -304,39 +374,44 @@ void Login::keyPressEvent(int keyCode) {
 						break;
 					case S_REGISTER:
 						notice->setCaption("");
-						if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
-							notice->setCaption("Already registered for an account with this device.");
-							maVibrate(1000);
-						} else if (editBoxLogin->getText().length() < 6) {
-							notice->setCaption("Your username needs to be at least 6 characters long");
-							maVibrate(1000);
-						}
-						else if (editBoxPass->getText().length() < 6) {
-							notice->setCaption("Your password needs to be at least 6 characters long");
+						if (!Util::validateEmailAddress(editBoxEmail->getText())) {
+							notice->setCaption("Please enter a valid email address.");
 							maVibrate(1000);
 						}
 						else if (editBoxEmail->getText().length() == 0) {
-							notice->setCaption("You need to enter an email address");
-							maVibrate(1000);
-						}
-						else if (!Util::validateEmailAddress(editBoxEmail->getText())) {
-							notice->setCaption("Please enter a valid email address");
-							maVibrate(1000);
-						}
-						else if (!Util::validateNoWhiteSpaces(editBoxLogin->getText())) {
-							notice->setCaption("Please enter a username without spaces.");
-							maVibrate(1000);
-						}
-						else if (!Util::validateNoWhiteSpaces(editBoxPass->getText())) {
-							notice->setCaption("Please enter a password without spaces.");
+							notice->setCaption("You need to enter an email address.");
 							maVibrate(1000);
 						}
 						else if (!Util::validateNoWhiteSpaces(editBoxEmail->getText())) {
 							notice->setCaption("Please enter a email address without spaces.");
 							maVibrate(1000);
 						}
-						else if (!Util::validateNoWhiteSpaces(editBoxRefer->getText())) {
-							notice->setCaption("Please enter a referer name.");
+						else if ((strcmp(feed->getRegistered().c_str(), "1") == 0)) {
+							notice->setCaption("Already registered for an account with this device.");
+							maVibrate(1000);
+						}
+						else if (editBoxPass->getText().length() < 6) {
+							notice->setCaption("Your password needs to be at least 6 characters long.");
+							maVibrate(1000);
+						}
+						else  if (!Util::validateNoWhiteSpaces(editBoxPass->getText())) {
+							notice->setCaption("Please enter a password without spaces.");
+							maVibrate(1000);
+						}
+						else if (editBoxName->getText().length() == 0) {
+							notice->setCaption("You need to enter your name.");
+							maVibrate(1000);
+						}
+						else if (editBoxSurname->getText().length() == 0) {
+							notice->setCaption("You need to enter your surname.");
+							maVibrate(1000);
+						}
+						else if (editBoxAge->getText().length() == 0) {
+							notice->setCaption("You need to enter your age.");
+							maVibrate(1000);
+						}
+						else if (editBoxGender->getText().length() == 0) {
+							notice->setCaption("You need to select your gender.");
 							maVibrate(1000);
 						}
 						else {
@@ -344,19 +419,20 @@ void Login::keyPressEvent(int keyCode) {
 							isBusy = true;
 							notice->setCaption("Attempting to register user...");
 
-
 							conCatenation = editBoxPass->getText().c_str();
 							value = Util::base64_encode(reinterpret_cast<const unsigned char*>(conCatenation.c_str()),conCatenation.length());
 							feed->setEncrypt(value.c_str());
-							feed->setUsername(editBoxLogin->getText().c_str());
+							feed->setUsername(editBoxEmail->getText().c_str());
 							feed->setUnsuccessful("true");
 							char *url = NULL;
 							//work out how long the url will be, the 2 is for the & and = symbols
-							int urlLength = 89 + URLSIZE + editBoxLogin->getText().length() + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxRefer->getText().length();
+							int urlLength = 89 + URLSIZE + editBoxPass->getText().length() + editBoxEmail->getText().length() + editBoxName->getText().length()
+									+ editBoxSurname->getText().length() + editBoxAge->getText().length();
 							url = new char[urlLength+1];
 							memset(url,'\0',urlLength+1);
-							sprintf(url, "%s?registeruser=1&username=%s&password=%s&email=%s&referer=%s", URL, editBoxLogin->getText().c_str(),
-									editBoxPass->getText().c_str(), editBoxEmail->getText().c_str(), editBoxRefer->getText().c_str());
+							sprintf(url, "%s?registeruser=1&password=%s&email=%s&name=%s&surname=%s&age=%s&gender=%s", URL, editBoxPass->getText().c_str(),
+									editBoxEmail->getText().c_str(), editBoxName->getText().c_str(), editBoxSurname->getText().c_str(),
+									editBoxAge->getText().c_str(), strcmp(genderLabel->getCaption().c_str(), "Male")==0?"0":"1"); //0 for male, 1 for female
 							lprintfln("%s", url);
 							mHttp = HttpConnection(this);
 							int res = mHttp.create(url, HTTP_GET);
@@ -391,8 +467,14 @@ void Login::keyPressEvent(int keyCode) {
 				currentKeyPosition = -1;
 				kinListBox->getChildren()[kinListBox->getChildren().size()-1]->setSelected(true);
 			}
-			else if (index-2 > 0) {
+			else if (index == 3) {
+				kinListBox->setSelectedIndex(0);
+				kinListBox->setSelectedIndex(1);
+			} else if (index-2 > 0) {
 				kinListBox->setSelectedIndex(index-2);
+			} else {
+				kinListBox->setSelectedIndex(kinListBox->getChildren().size()-1);
+				kinListBox->setSelectedIndex(kinListBox->getChildren().size()-3);
 			}
 			break;
 		case MAK_DOWN:

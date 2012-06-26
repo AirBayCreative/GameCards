@@ -40,7 +40,7 @@ private:
 
 	String parentTag,cardText;
 	String id,productType,productName,price,thumb,cardsInPack,category,cred,prem,productprem;
-	int i,moved, currentKeyPosition;
+	int i, moved, currentKeyPosition;
 	bool list,left,right,emp,free,credits,first;
 
 	ProductVector products;

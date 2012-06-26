@@ -116,6 +116,9 @@ Font* Util::getDefaultFont() {
 	return getFontBlack();
 }
 Font* Util::getDefaultSelected() {
+#if defined(RES_FONT_GREY)
+	return getFontGrey();
+#endif
 #if defined(RES_FONT_GREEN)
 	return getFontGreen();
 #endif
@@ -164,7 +167,7 @@ WidgetSkin* Util::getSkinBack() {
 WidgetSkin* Util::getSkinHeader() {
 	static WidgetSkin* gSkinHead;
 	if (gSkinHead == NULL) {
-		gSkinHead = new WidgetSkin(RES_HEAD, RES_HEAD,
+		gSkinHead = new WidgetSkin(RES_IMAGE, RES_IMAGE,
 				HEAD_X_LEFT, HEAD_X_RIGHT, HEAD_Y_TOP, HEAD_Y_BOTTOM, false, false);
 	}
 	return gSkinHead;
@@ -279,13 +282,15 @@ Label* Util::createLabel(String str, int height) {
 Label* Util::createEditLabel(String str, int height) {
 	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
-	Util::setPadding(label);
+	label->setPaddingTop(PADDING*3);
+	label->setPaddingLeft(PADDING*2);
 	return label;
 }
 Label* Util::createDropDownLabel(String str, int height) {
-	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getFontBlack());
+	Label* label = new Label(0,0, scrWidth-(PADDING*2), height, NULL, str, 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinDropDownBox());
-	Util::setPadding(label);
+	label->setPaddingTop(PADDING*2);
+	label->setPaddingLeft(PADDING*2);
 	return label;
 }
 Label* Util::createSubLabel(String str, int height) {
@@ -389,8 +394,8 @@ Layout* Util::createMainLayout(const char *left, const char *right, const char *
 	ListBox *header = new ListBox(0, 0, scrWidth, imgHeight, NULL, ListBox::LBO_VERTICAL, ListBox::LBA_LINEAR, true);
 	header->setSkin(Util::getSkinHeader());
 
-	Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, true, true, RES_IMAGE);
-	header->add(image);
+	//Image *image = new Image(0, 0, scrWidth,  imgHeight, NULL, true, true, RES_IMAGE);
+	//header->add(image);
 
 	listBox->add(header);
 

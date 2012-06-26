@@ -19,14 +19,14 @@ TutorialScreen::TutorialScreen(MainScreen *previous, tutItem *items, int itemCou
 	subLayout->setPaddingRight(PADDING);
 	subLayout->setDrawBackground(false);
 
-	leftArrow = new Image(0, 0, ARROW_WIDTH, subLayout->getHeight(), subLayout, false, false, RES_UNSELECT_ICON);
+	leftArrow = new Image(0, 0, BIG_ARROW_WIDTH, subLayout->getHeight(), subLayout, false, false, RES_UNSELECT_ICON);
 	leftArrow->setDrawBackground(false);
 
-	imge = new TransitionImage(0, 0, scrWidth - (ARROW_WIDTH * 2) - (PADDING*2), subLayout->getHeight(), subLayout, false, false, NULL);
+	imge = new TransitionImage(0, 0, scrWidth - (BIG_ARROW_WIDTH * 2) - (PADDING*2), subLayout->getHeight(), subLayout, false, false, NULL);
 	imge->setDrawBackground(false);
 	imge->setResource(tutItems[0].image);
 
-	rightArrow = new Image(0, 0, ARROW_WIDTH, subLayout->getHeight(), subLayout, false, false, RES_RIGHT_ARROW);
+	rightArrow = new Image(0, 0, BIG_ARROW_WIDTH, subLayout->getHeight(), subLayout, false, false, RES_BIG_RIGHT_ARROW);
 	rightArrow->setDrawBackground(false);
 
 	mainLayout->add(softKeys);
@@ -140,7 +140,7 @@ void TutorialScreen::scrollImage(int move) {
 			leftArrow->setResource(RES_UNSELECT_ICON);
 		}
 		else {
-			leftArrow->setResource(RES_LEFT_ARROW);
+			leftArrow->setResource(RES_BIG_LEFT_ARROW);
 		}
 
 		if (index == itemCount-1) {
@@ -148,7 +148,7 @@ void TutorialScreen::scrollImage(int move) {
 			Util::updateSoftKeyLayout("Continue", "", "", mainLayout);
 		}
 		else {
-			rightArrow->setResource(RES_RIGHT_ARROW);
+			rightArrow->setResource(RES_BIG_RIGHT_ARROW);
 			Util::updateSoftKeyLayout("", "", "", mainLayout);
 		}
 	}

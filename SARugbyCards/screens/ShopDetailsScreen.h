@@ -53,7 +53,7 @@ private:
 	String parentTag,result,credits,premium;
 	String temp,temp1,error_msg;
 
-	int moved,screenType, currentKeyPosition;
+	int moved, screenType, currentKeyPosition;
 
 	String nameDesc,fullDesc;
 

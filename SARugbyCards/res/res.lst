@@ -258,187 +258,107 @@
 .ubin
 .image "Credits_thumb.png"
 
-.res RES_DECKS /*66*/
-.ubin
-.image "Decks.png"
-
-.res RES_DECKS_THUMB /*67*/
-.ubin
-.image "Decks_thumb.png"
-
-.res RES_FRIENDRANKS /*68*/
-.ubin
-.image "FriendRanks.png"
-
-.res RES_FRIENDRANKS_THUMB /*69*/
-.ubin
-.image "FriendRanks_thumb.png"
-
-.res RES_FRIENDS /*70*/
-.ubin
-.image "Friends.png"
-
-.res RES_FRIENDS_THUMB /*71*/
-.ubin
-.image "Friends_thumb.png"
-
-.res RES_INVITE /*72*/
-.ubin
-.image "Invite.png"
-
-.res RES_INVITE_THUMB /*73*/
-.ubin
-.image "Invite_thumb.png"
-
-.res RES_LOGOUT /*74*/
+.res RES_LOGOUT /*66*/
 .ubin
 .image "Logout.png"
 
-.res RES_LOGOUT_THUMB /*75*/
+.res RES_LOGOUT_THUMB /*67*/
 .ubin
 .image "Logout_thumb.png"
 
-.res RES_NOTIFICATIONS /*76*/
+.res RES_NOTIFICATIONS /*68*/
 .ubin
 .image "Notifications.png"
 
-.res RES_NOTIFICATIONS_THUMB /*77*/
+.res RES_NOTIFICATIONS_THUMB /*69*/
 .ubin
 .image "Notifications_thumb.png"
 
-.res RES_PLAY /*78*/
-.ubin
-.image "Play.png"
-
-.res RES_PLAY_THUMB /*79*/
-.ubin
-.image "Play_thumb.png"
-
-.res RES_PROFILE /*80*/
+.res RES_PROFILE /*70*/
 .ubin
 .image "Profile.png"
 
-.res RES_PROFILE_THUMB /*81*/
+.res RES_PROFILE_THUMB /*71*/
 .ubin
 .image "Profile_thumb.png"
 
-.res RES_RANKINGS /*82*/
-.ubin
-.image "Rankings.png"
-
-.res RES_RANKINGS_THUMB /*83*/
-.ubin
-.image "Rankings_thumb.png"
-
-.res RES_REDEEM /*84*/
-.ubin
-.image "Redeem.png"
-
-.res RES_REDEEM_THUMB /*85*/
-.ubin
-.image "Redeem_thumb.png"
-
-.res RES_SHOP /*86*/
+.res RES_SHOP /*72*/
 .ubin
 .image "Shop.png"
 
-.res RES_SHOP_THUMB /*87*/
+.res RES_SHOP_THUMB /*73*/
 .ubin
 .image "Shop_thumb.png"
 
-.res RES_DESELECTED_LIST_DOT /*88*/
+.res RES_DESELECTED_LIST_DOT /*74*/
 .ubin
 .image "inactive_dot.png"
 
-.res RES_SELECTED_LIST_DOT /*89*/
+.res RES_SELECTED_LIST_DOT /*75*/
 .ubin
 .image "active_dot.png"
 
-.res RES_ICONS_BACK /*90*/
+.res RES_ICONS_BACK /*76*/
 .ubin
 .image "icon_bar.png"
 
-.res RES_SELECT_ICON /*91*/
+.res RES_SELECT_ICON /*77*/
 .ubin
 .image "select.png"
 
-.res RES_UNSELECT_ICON /*92*/
+.res RES_UNSELECT_ICON /*78*/
 .ubin
 .image "unselect.png"
 
-.res RES_HEAD /*93*/
+.res RES_HEAD /*79*/
 .ubin
 .image "head.png"
 
-.res BLANK /*94*/
+.res BLANK /*80*/
 .image "blank.png"
 
 /* Custom variables per app */
 
-.res RES_FONT_BLUE /*95*/
+.res RES_FONT_BLACK /*81*/
 .bin
-.include "arialblue.mof" 
+.include "arialblack.mof"
 
-.res RES_FONT_BLACK /*96*/
-.bin
-.include "arialblack.mof"  
-
-/* Tutorial images */
-
-.res RES_TUT_1 /*97*/
-.ubin
-.image "tut_1.png"
-
-.res RES_TUT_2 /*98*/
-.ubin
-.image "tut_2.png"
-
-.res RES_TUT_3 /*99*/
-.ubin
-.image "tut_3.png"
-
-.res RES_TUT_4 /*100*/
-.ubin
-.image "tut_4.png"
-
-.res RES_TUT_5 /*101*/
-.ubin
-.image "tut_5.png"
-
-.res RES_TUT_6 /*102*/
-.ubin
-.image "tut_6.png"
-
-.res RES_TUT_7 /*103*/
-.ubin
-.image "tut_7.png"
-
-.res RES_FONT_GREEN /*104*/
+.res RES_FONT_GREEN /*82*/
 .bin
 .include "arialgreen.mof"  
 
-.res RES_FONT_GREY /*105*/
+.res RES_FONT_GREY /*83*/
 .bin
 .include "arialgrey.mof"  
 
-.res RES_DROPDOWNITEM_SEL /*106*/
+.res RES_FONT_WHITE /*84*/
+.bin
+.include "arialwhite.mof"  
+
+.res RES_DROPDOWNITEM_SEL /*85*/
 .ubin 
 .image "dropdownitem_sel.png" 
 
-.res RES_DROPDOWNITEM_UNSEL /*107*/
+.res RES_DROPDOWNITEM_UNSEL /*86*/
 .ubin 
 .image "dropdownitem_unsel.png"  
 
-.res RES_DROPDOWN_SEL /*108*/
+.res RES_DROPDOWN_SEL /*87*/
 .ubin 
 .image "dropdownbox_sel.png"  
 
-.res RES_DROPDOWN_UNSEL /*109*/
+.res RES_DROPDOWN_UNSEL /*88*/
 .ubin 
 .image "dropdownbox_unsel.png"
 
-.res RES_POPUP_HEADER /*110*/
+.res RES_POPUP_HEADER /*89*/
 .ubin 
 .image "popup_header.png"
 
+.res RES_BIG_LEFT_ARROW /*90*/
+.ubin
+.image "big_arrow_left.png"
 
+.res RES_BIG_RIGHT_ARROW /*91*/
+.ubin
+.image "big_arrow_right.png"

@@ -705,11 +705,13 @@ void AuctionCreateScreen::mtxTagData(const char* data, int len) {
 }
 
 void AuctionCreateScreen::mtxTagEnd(const char* name, int len) {
-	notice->setCaption("");
-	busy = false;
+	if (!strcmp(name, "result")) {
+		notice->setCaption("");
+		busy = false;
 
-	screenMode = ST_CREATED;
-	drawCreatedScreen();
+		screenMode = ST_CREATED;
+		drawCreatedScreen();
+	}
 }
 
 void AuctionCreateScreen::mtxParseError(int) {

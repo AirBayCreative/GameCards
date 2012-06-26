@@ -10,12 +10,13 @@
 #include "../utils/XmlConnection.h"
 #include "../UI/Native/NativeEditBox.h"
 #include "../UI/KineticListBox.h"
+#include "../UI/MenuScreen/MenuScreen.h"
 #include "MainScreen.h"
 
 using namespace MAUI;
 using namespace MAUtil;
 
-class Login : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener {
+class Login : public MainScreen, WidgetListener, private XCListener, Mtx::XmlListener, private HttpConnectionListener, MenuListener {
 public:
 	Login(MainScreen *previous, Feed *feed, int screen);
 	~Login();
@@ -27,12 +28,16 @@ public:
 	void pointerMoveEvent(MAPoint2d point);
 	void pointerReleaseEvent(MAPoint2d point);
 	void locateItem(MAPoint2d point);
-
+	void menuOptionSelected(int index);
 	enum screens {S_LOGIN, S_REGISTER};
 private:
 	Widget* currentSelectedKey;
 
-	NativeEditBox *editBoxLogin, *editBoxPass, *editBoxEmail, *editBoxRefer;
+	Label *genderLabel;
+
+	NativeEditBox *editBoxEmail, *editBoxPass, *editBoxName, *editBoxSurname, *editBoxGender, *editBoxAge;
+
+	MenuScreen *genderMenu;
 
 	HttpConnection mHttp;
 

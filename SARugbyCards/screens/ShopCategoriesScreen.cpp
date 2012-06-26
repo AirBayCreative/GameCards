@@ -8,7 +8,6 @@
 #include "DetailScreen.h"
 #include "../UI/Button.h"
 
-
 void ShopCategoriesScreen::refresh() {
 	show();
 	categories.clear();

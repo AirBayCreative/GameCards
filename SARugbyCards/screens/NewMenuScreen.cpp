@@ -18,18 +18,11 @@
 static item menuItems[] =
 {
 	{ RES_ALBUM_THUMB, RES_ALBUM, OP_ALBUMS },
-	{ RES_PLAY_THUMB, RES_PLAY, OP_PLAY },
-	{ RES_DECKS_THUMB, RES_DECKS, OP_DECKS },
 	{ RES_SHOP_THUMB, RES_SHOP, OP_SHOP },
 	{ RES_AUCTIONS_THUMB, RES_AUCTIONS, OP_AUCTIONS },
 	{ RES_NOTIFICATIONS_THUMB, RES_NOTIFICATIONS, OP_NOTIFICATIONS },
 	{ RES_CREDITS_THUMB, RES_CREDITS, OP_CREDITS },
 	{ RES_PROFILE_THUMB, RES_PROFILE, OP_PROFILE },
-	{ RES_RANKINGS_THUMB, RES_RANKINGS, OP_RANKINGS },
-	{ RES_FRIENDRANKS_THUMB, RES_FRIENDRANKS, OP_FRIENDRANKS },
-	{ RES_FRIENDS_THUMB, RES_FRIENDS, OP_FRIENDS },
-	{ RES_INVITE_THUMB, RES_INVITE, OP_INVITEFRIENDS },
-	{ RES_REDEEM_THUMB, RES_REDEEM, OP_REDEEM },
 	{ RES_LOGOUT_THUMB, RES_LOGOUT, OP_LOGOUT }
 };
 
@@ -178,22 +171,6 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				}
 				next = new TutorialScreen(this, tutItems, sizeof(tutItems)/sizeof(tutItem));
 				next->show();*/
-			} else if(index == OP_PLAY) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				next = new OptionsScreen(feed, OptionsScreen::ST_PLAY_OPTIONS, this);
-				next->show();
-			} else if(index == OP_DECKS) {//decks
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				next = new DeckListScreen(this, feed);
-				next->show();
 			} else if(index == OP_SHOP) {
 				if(next!=NULL){
 					delete next;
@@ -234,48 +211,6 @@ void NewMenuScreen::keyPressEvent(int keyCode) {
 				}
 				/* Notifications */
 				next = new DetailScreen(this, feed, DetailScreen::NOTIFICATIONS, NULL);
-				next->show();
-			} else if(index == OP_RANKINGS) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_RANKING);
-				next->show();
-			} else if(index == OP_FRIENDRANKS) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				next = new ShopCategoriesScreen(this, feed, ShopCategoriesScreen::ST_FRIEND);
-				next->show();
-			} else if(index == OP_FRIENDS) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				/* Notifications */
-				next = new DetailScreen(this, feed, DetailScreen::FRIENDS, NULL);
-				next->show();
-			} else if(index == OP_INVITEFRIENDS) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				/*Invite Friend */
-				next = new TradeFriendDetailScreen(this, feed, NULL);
-				next->show();
-			} else if(index == OP_REDEEM) {
-				if(next!=NULL){
-					delete next;
-					feed->remHttp();
-					next = NULL;
-				}
-				next = new RedeemScreen(feed, this);
 				next->show();
 			} else if (index == OP_LOGOUT) {
 #if not defined(MA_PROF_STRING_PLATFORM_IPHONEOS)

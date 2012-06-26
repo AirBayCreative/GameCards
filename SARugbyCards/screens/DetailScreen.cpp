@@ -767,11 +767,13 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getDefaultFont());
+		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getFontWhite());
 		label->setSkin(Util::getSkinEditBox());
-		Util::setPadding(label);
+		label->setPaddingTop(15);
+		label->setPaddingLeft(10);
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Answer");
 		editBoxUsername->setDrawBackground(false);
+		editBoxUsername->setFont(Util::getFontWhite());
 		label->addWidgetListener(this);
 		feedlayout->add(label);
 
