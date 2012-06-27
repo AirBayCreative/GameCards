@@ -732,11 +732,11 @@ void AlbumViewScreen::keyPressEvent(int keyCode) {
 				Util::saveData(filename.c_str(), all.c_str());
 				all = "";
 			}
-			if ((albumType == AT_BUY)||(albumType == AT_FREE)) {
+			if (albumType == AT_FREE) {
+				origMenu->show();
+			} else if (albumType == AT_BUY) {
 				previous->refresh();
-				break;
-			}
-			if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
+			} else if ((albumType == AT_NEW_CARDS) || (albumType == AT_AUCTION)) {
 				((AlbumLoadScreen *)previous)->refresh();
 			} else {
 				previous->pop();
