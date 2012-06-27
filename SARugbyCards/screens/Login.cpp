@@ -283,15 +283,13 @@ void Login::locateItem(MAPoint2d point)
 	right = false;
 	mid = false;
 
-    Point p;
+    Point listP, p;
     p.set(point.x, point.y);
+    listP.set(point.x, point.y - (kinListBox->getYOffset()>>16));
     for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size() &&
 		!mainLayout->getChildren()[1]->contains(p); i++)
     {
-    	lprintfln("i: %d", i);
-    	lprintfln("this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p): %s", this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p)?"true":"false");
-    	lprintfln("moved: %d", moved);
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(listP))
         {
         	if (moved <= 1) kinListBox->setSelectedIndex(i);
         	list = true;
