@@ -192,7 +192,7 @@ if ($iUserID == 0){
 		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+25) WHERE user_id = '.$iUserID);
 			
 		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote, notificationtype_id)
-			VALUES ('.$iUserID.', "Recieved 25 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1, 2)');
+			VALUES ('.$iUserID.', "Recieved 25 credits for logging in.", now(), 1, 2)');
 	}
 	
 	checkAchis($iUserID, 3);
