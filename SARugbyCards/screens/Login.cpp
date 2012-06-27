@@ -234,9 +234,6 @@ void Login::selectionChanged(Widget *widget, bool selected) {
 	if (genderLabel != NULL && widget == genderLabel) {
 		genderLabel->setFont(selected?Util::getDefaultSelected():Util::getDefaultFont());
 	}
-	else if (genderLabel != NULL && widget == genderLabel) {
-		genderLabel->setFont(selected?Util::getDefaultSelected():Util::getDefaultFont());
-	}
 }
 
 void Login::pointerPressEvent(MAPoint2d point)
@@ -252,11 +249,13 @@ void Login::pointerMoveEvent(MAPoint2d point)
 
 void Login::pointerReleaseEvent(MAPoint2d point)
 {
-	if (moved <= 8) {
+	if (moved <= 9) {
 		if (right) {
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
+		} else if (screen == S_REGISTER && editBoxAge->isSelected()) {
+			editBoxAge->activate();
 		} else if (mid || list) {
 			keyPressEvent(MAK_FIRE);
 		}
@@ -277,7 +276,6 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 
 void Login::locateItem(MAPoint2d point)
 {
-	lprintfln("locateItem");
 	list = false;
 	left = false;
 	right = false;
