@@ -24,6 +24,8 @@ card(card), screenType(screenType), number(number), deckId(deckId) {
 	temp1 = "";
 	error_msg = "";
 
+	moved = 0;
+
 	connError = false;
 	busy = false;
 
@@ -220,22 +222,27 @@ void OptionsScreen::checkForGames() {
 void OptionsScreen::pointerPressEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved = 0;
 }
 
 void OptionsScreen::pointerMoveEvent(MAPoint2d point)
 {
     locateItem(point);
+    moved++;
 }
 
 void OptionsScreen::pointerReleaseEvent(MAPoint2d point)
 {
-	if (right) {
-		keyPressEvent(MAK_SOFTRIGHT);
-	} else if (left) {
-		keyPressEvent(MAK_SOFTLEFT);
-	} else if (list) {
-		keyPressEvent(MAK_FIRE);
+	if (moved <= 9) {
+		if (right) {
+			keyPressEvent(MAK_SOFTRIGHT);
+		} else if (left) {
+			keyPressEvent(MAK_SOFTLEFT);
+		} else if (list) {
+			keyPressEvent(MAK_FIRE);
+		}
 	}
+	moved = 0;
 }
 
 void OptionsScreen::locateItem(MAPoint2d point)
@@ -244,11 +251,12 @@ void OptionsScreen::locateItem(MAPoint2d point)
 	left = false;
 	right = false;
 
-    Point p;
-    p.set(point.x, point.y);
+	Point listP, p;
+	p.set(point.x, point.y);
+	listP.set(point.x, point.y - (kinListBox->getYOffset()>>16));
     for(int i = 0; i < (this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()).size(); i++)
     {
-        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(p))
+        if(this->getMain()->getChildren()[0]->getChildren()[2]->getChildren()[i]->contains(listP))
         {
         	((KineticListBox *)this->getMain()->getChildren()[0]->getChildren()[2])->setSelectedIndex(i);
         	list = true;

@@ -88,7 +88,9 @@ card(card), screenType(screenType), detail(detail) {
 	}
 	label =  new Label(0,0, scrWidth-(PADDING*2), height, NULL, "", 0, Util::getDefaultFont());
 	label->setSkin(Util::getSkinEditBox());
-	Util::setPadding(label);
+	//Util::setPadding(label);
+	label->setPaddingTop(PADDING*3);
+	label->setPaddingLeft(PADDING*2);
 
 	editBoxNote = new NativeEditBox(0, 0, label->getWidth()-PADDING*2, label->getHeight()-PADDING*2,140, MA_TB_TYPE_ANY, label, "",L"Note");
 	editBoxNote->setDrawBackground(false);

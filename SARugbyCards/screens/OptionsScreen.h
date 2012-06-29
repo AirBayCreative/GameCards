@@ -39,7 +39,7 @@ private:
 
 	Card *card;
 	bool list, left, right, connError, busy;
-	int index, screenType, currentKeyPosition;
+	int index, screenType, currentKeyPosition, moved;
 	String parentTag, temp1, temp, error_msg, number, deckId;
 
 	HttpConnection mHttp;

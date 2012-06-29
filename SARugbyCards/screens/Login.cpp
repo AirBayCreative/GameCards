@@ -254,8 +254,6 @@ void Login::pointerReleaseEvent(MAPoint2d point)
 			keyPressEvent(MAK_SOFTRIGHT);
 		} else if (left) {
 			keyPressEvent(MAK_SOFTLEFT);
-		} else if (screen == S_REGISTER && editBoxAge->isSelected()) {
-			editBoxAge->activate();
 		} else if (mid || list) {
 			keyPressEvent(MAK_FIRE);
 		}

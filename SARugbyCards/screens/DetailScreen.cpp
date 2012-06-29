@@ -58,7 +58,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			kinListBox->add(label);
 
 			balanceLabel = Util::createEditLabel(feed->getCredits());
-			balanceLabel->setVerticalAlignment(Label::VA_CENTER);
+			//balanceLabel->setVerticalAlignment(Label::VA_CENTER);
 			kinListBox->add(balanceLabel);
 
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Premium", 0, Util::getDefaultFont());
@@ -69,7 +69,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 			kinListBox->add(label);
 
 			premiumLabel = Util::createEditLabel(feed->getPremium());
-			premiumLabel->setVerticalAlignment(Label::VA_CENTER);
+			//premiumLabel->setVerticalAlignment(Label::VA_CENTER);
 			kinListBox->add(premiumLabel);
 
 			label = new Label(0,0, scrWidth-PADDING*2, DEFAULT_LABEL_HEIGHT, NULL, "Last Transactions:", 0, Util::getDefaultFont());

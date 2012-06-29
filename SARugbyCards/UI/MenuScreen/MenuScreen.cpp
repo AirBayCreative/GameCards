@@ -35,8 +35,6 @@ MenuScreen::MenuScreen(MAHandle blank, const char *headerLabel) : mBlankImage(bl
 		header->setPaddingRight(5);
 		header->setCaption(headerLabel);
 	}
-
-	setMain(mBlank);
 }
 
 MenuScreen::~MenuScreen()
@@ -106,6 +104,8 @@ void MenuScreen::setDock(MenuDock dock)
 
 void MenuScreen::show()
 {
+	setMain(mBlank);
+
 	if(mIsDirty)
 		update();
 
