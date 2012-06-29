@@ -25,6 +25,7 @@ DetailScreen::DetailScreen(MainScreen *previous, Feed *feed, int screenType, Car
 	desc = "";
 	date = "";
 	id = "";
+	rewardCredits = "";
 	cred = "0";
 	prem = "0";
 	switch (screenType) {
@@ -322,6 +323,7 @@ DetailScreen::~DetailScreen() {
 	encrypt = "";
 	error_msg = "";
 	parentTag = "";
+	rewardCredits = "";
 
 	for (int i = 0; i < answers.size(); i++) {
 		if (answers[i] != NULL) {
@@ -589,6 +591,7 @@ void DetailScreen::saveProfileData() {
 	label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 	credits = 0;
 	count = 0;
+	rewardCredits = "";
 	bool saving = false;
 	for (int i = 0; i < answers.size(); i++) {
 		if(answers[i]->getAnswer() != answers[i]->getEditBoxPointer()->getCaption()){
@@ -712,6 +715,8 @@ void DetailScreen::mtxTagData(const char* data, int len) {
 		usr = data;
 	} else if(!strcmp(parentTag.c_str(), "user_id")) {
 		friendid = data;
+	} else if(!strcmp(parentTag.c_str(), "rewardCredits")) {
+		rewardCredits = data;
 	}
 }
 
@@ -767,13 +772,13 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 		feedlayout->setDrawBackground(false);
 		feedlayout->addWidgetListener(this);
 
-		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getFontWhite());
+		label = new Label(0,0, scrWidth-(PADDING+40), DEFAULT_LABEL_HEIGHT, NULL, "", 0, Util::getDefaultFont());
 		label->setSkin(Util::getSkinEditBox());
-		label->setPaddingTop(15);
-		label->setPaddingLeft(10);
+		label->setPaddingTop(PADDING*3);
+		label->setPaddingLeft(PADDING*2);
 		editBoxUsername = new NativeEditBox(0, 0, label->getWidth()-(PADDING*2), label->getHeight()-PADDING*2,64,MA_TB_TYPE_ANY, label, answer, L"Answer");
 		editBoxUsername->setDrawBackground(false);
-		editBoxUsername->setFont(Util::getFontWhite());
+		editBoxUsername->setFont(Util::getDefaultFont());
 		label->addWidgetListener(this);
 		feedlayout->add(label);
 
@@ -920,14 +925,15 @@ void DetailScreen::mtxTagEnd(const char* name, int len) {
 			label = (Label *) mainLayout->getChildren()[0]->getChildren()[1];
 
 			if (label != NULL) {
-				if(count >0){
-					char * lbl = new char[44+3+5];
+				if(rewardCredits.length() > 0){
+					char * lbl = new char[36 + rewardCredits.length()];
 					memset(lbl, 0, 44+3+5);
-					sprintf(lbl,"%i extra field(s) filled in. You got %i Credits.",count,credits);
+					sprintf(lbl,"Profile completed! You got %s Credits.", rewardCredits.c_str());
 					String lab = lbl;
 					label->setCaption(lab);
 					delete lbl;
 					lbl = NULL;
+					lab = "";
 				} else{
 					label->setCaption("Profile details updated.");
 				}

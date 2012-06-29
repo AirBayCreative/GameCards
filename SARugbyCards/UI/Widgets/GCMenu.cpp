@@ -21,15 +21,15 @@ GCMenu::GCMenu(item items[], int numItems, int x, int y, int width, int height,
 	listBox->setSkin(Util::getSkinBack());
 
 	subLayout = new Layout(0, 0, width, imageHeight, listBox, 3, 1);
-	subLayout->setPaddingLeft(5);
-	subLayout->setPaddingRight(5);
+	//subLayout->setPaddingLeft(5);
+	//subLayout->setPaddingRight(5);
 	subLayout->setDrawBackground(false);
 	/*subLayout->setSkin(Util::getSkinBack());*/
 
 	leftArrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_LEFT_ARROW);
 	leftArrow->setDrawBackground(false);
 
-	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2) - 10, imageHeight, subLayout, false, false, NULL);
+	mainImage = new TransitionImage(0, 0, width - (ARROW_WIDTH * 2), imageHeight, subLayout, false, false, NULL);
 	mainImage->setDrawBackground(false);
 
 	rightArrow = new Image(0, 0, ARROW_WIDTH, imageHeight, subLayout, false, false, RES_RIGHT_ARROW);

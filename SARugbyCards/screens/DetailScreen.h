@@ -44,7 +44,7 @@ private:
 
 	HttpConnection mHttp;
 
-	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val,friendid;
+	String encrypt,error_msg,parentTag,desc,answer,answerid,creditvalue,id,date,value,cred,prem,usr,val,friendid,rewardCredits;
 	Answer *ans;
 	Friend *frien;
 	Vector<Answer*> answers;

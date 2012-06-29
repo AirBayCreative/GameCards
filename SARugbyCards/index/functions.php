@@ -2135,18 +2135,19 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 					FROM mytcg_user_answer 
 					WHERE answer_id='.$iAnswerID);
 										
-	$aCredits=myqu('SELECT credit_value, description
+	/*$aCredits=myqu('SELECT credit_value, description
 					FROM mytcg_user_detail 
 					WHERE detail_id = (SELECT detail_id
 										FROM mytcg_user_answer
-										WHERE answer_id='.$iAnswerID.')');
-	$aCredit=$aCredits[0];
+										WHERE answer_id='.$iAnswerID.')');*/
+	//$aCredit=$aCredits[0];
 	$aAnswer=$aAnswered[0];
+	$echoed = false;
 	if ($aAnswer['answered'] == 0) {
-		myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+		/*myqui('INSERT INTO mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
 				VALUES ('.$iUserID.', "Received '.$aCredit['credit_value'].' credits for answering '.$aCredit['description'].'", now(), '.$aCredit['credit_value'].', 1)');
 		
-		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);
+		myqui('UPDATE mytcg_user SET credits = credits + '.$aCredit['credit_value'].' WHERE user_id ='.$iUserID);*/
 				
 		$aCount=myqu('SELECT answer_id
 					FROM mytcg_user_answer 
@@ -2161,6 +2162,11 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 					WHERE transactionid = 5');	
 					
 			myqui('UPDATE mytcg_user SET credits = credits + IFNULL((SELECT val FROM mytcg_transactiondescription WHERE transactionid = 5),0) WHERE user_id ='.$iUserID);
+			
+			$sOP = "<rewardCredits>60</rewardCredits>";
+			header('xml_length: '.strlen($sOP));
+			echo $sOP;
+			$echoed = true;
 		}
 	}
 	
@@ -2178,9 +2184,12 @@ function saveProfileDetail($iAnswerID, $iAnswer, $iUserID) {
 																AND answered = 0)), 0)
 			where user_id = '.$iUserID);
 	
-	$sOP = "<result>1</result>";
-	header('xml_length: '.strlen($sOP));
-	echo $sOP;
+	if (!$echoed) {
+		$sOP = "<result>1</result>";
+		header('xml_length: '.strlen($sOP));
+		echo $sOP;
+	}
+	
 	exit;
 }
 
@@ -2904,6 +2913,16 @@ function registerUser ($username, $password, $email, $referer,$iHeight,$iWidth,$
 			SELECT '.$iUserID.', descript, now(), val, 1 
 			FROM mytcg_transactiondescription
 			WHERE transactionid = 2');*/
+			
+		myqui('INSERT mytcg_transactionlog (user_id, description, date, val, transactionlogtype_id)
+				SELECT '.$iUserID.', descript, now(), val, 1
+				FROM mytcg_transactiondescription
+				WHERE transactionid = 1');
+				
+		myqui('INSERT INTO mytcg_notifications (user_id, notification, notedate, sysnote, notificationtype_id)
+			VALUES ('.$iUserID.', "Recieved 20 credits for logging in. Want more? Go to the Credits Screen to find out...", now(), 1, 2)');
+			
+		myqui('UPDATE mytcg_user SET gameswon=0, credits=(credits+20) WHERE user_id = '.$iUserID);
 			
 		myqui('INSERT INTO mytcg_frienddetail (user_id, friend_id)
 			VALUES ('.$iUserID.', '.$iUserID.')');

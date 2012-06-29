@@ -240,7 +240,7 @@ void ShopCategoriesScreen::drawList() {
 	}
 
 	if (screenType == ST_FREEBIE)
-		notice->setCaption("Received: 150 credits and a free starter pack.");
+		notice->setCaption("Received: a free booster pack.");
 }
 
 void ShopCategoriesScreen::selectionChanged(Widget *widget, bool selected) {

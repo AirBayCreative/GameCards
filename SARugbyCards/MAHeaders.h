@@ -177,7 +177,7 @@
 #define PADDING 5
 #define ICON_HEIGHT 69
 #define DOT_HEIGHT 16
-#define ARROW_WIDTH 40
+#define ARROW_WIDTH 35
 #define BIG_ARROW_WIDTH 31
 #define MIN_MENU_ICON_WIDTH 64
 
